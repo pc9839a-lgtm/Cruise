@@ -177,7 +177,7 @@
 
         window.setTimeout(function () {
           if (formResult.classList.contains('is-pending')) {
-            updateFormResult('문의 접수는 진행 중입니다. 시트 반영까지 잠시 시간이 걸릴 수 있습니다.', 'pending');
+            updateFormResult('문의 접수는 진행 중입니다. 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
       });
@@ -308,7 +308,7 @@
 		 --------------------------------------------------------- */
 	  setText(
 		'heroSubtitle',
-		settings.hero_subtitle || '마음에 드는 일정이 있으면 바로 상세 항해 일정과 항해 루트를 확인하고 문의할 수 있게 구성했습니다.'
+		settings.hero_subtitle || '마음에 드는 일정이 있으면 확인 후 바로 문의해주세요.'
 	  );
 
 	  /* ---------------------------------------------------------
@@ -544,29 +544,31 @@
     ].join('');
   }
 
-  function buildItineraryRow(day) {
-    const dayLabel = 'Day ' + (day.day_no || '');
-    const dateLabel = formatDayDate(day.date || '');
-    const portName = escapeHtml(day.port_name || day.city || '-');
-    const portEn = escapeHtml(day.port_name_en || day.country || '');
-    const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
-    const departure = normalizeTimeCell(day.departure_time, 'departure');
-    const highlight = isHighlightDay(day) ? ' is-highlight' : '';
-    const overnight = /overnight|정박/i.test(String(day.description || '')) ? '<span class="overnight-badge">정박 (Overnight)</span>' : '';
-
-    return [
-      '<tr class="' + highlight.trim() + '">',
-        '<td class="day-cell">' + dayLabel + '</td>',
-        '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
-        '<td>',
-          '<span class="port-name-kr">' + portName + overnight + '</span>',
-          '<span class="port-name-en">' + (portEn || '-') + '</span>',
-        '</td>',
-        arrival,
-        departure,
-      '</tr>'
-    ].join('');
-  }
+	function buildItineraryRow(day) {
+	  const dayLabel = 'Day ' + (day.day_no || '');
+	  const dateLabel = formatDayDate(day.date || '');
+	  const portName = escapeHtml(day.port_name || day.city || '-');
+	  const portEn = escapeHtml(day.port_name_en || day.country || '');
+	  const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
+	  const departure = normalizeTimeCell(day.departure_time, 'departure');
+	  const highlight = isHighlightDay(day) ? ' is-highlight' : '';
+	  const overnight = /overnight|정박/i.test(String(day.description || ''))
+	    ? '<span class="overnight-badge">정박 (Overnight)</span>'
+	    : '';
+	
+	  return [
+	    '<tr class="' + highlight.trim() + '">',
+	      '<td class="day-cell">' + dayLabel + '</td>',
+	      '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
+	      '<td>',
+	        '<span class="port-name-kr">' + portName + overnight + '</span>',
+	        portEn ? '<span class="port-name-en">' + portEn + '</span>' : '',
+	      '</td>',
+	      arrival,
+	      departure,
+	    '</tr>'
+	  ].join('');
+	}
 
   function isHighlightDay(day) {
     const text = String(day.description || '').toLowerCase();
