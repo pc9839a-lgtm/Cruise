@@ -439,7 +439,16 @@
 	    '</article>'
 	  ].join('');
 	}
-
+	function getMonthLabel(dateValue) {
+	  const text = String(dateValue || '').trim();
+	  const match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+	  if (!match) return '';
+	  return String(Number(match[2])) + '월';
+	}
+	
+	function highlightMonthText(text) {
+	  return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
+	}
   function renderReviews() {
     if (!reviewGrid) return;
     const reviews = state.bootstrap.reviews || [];
