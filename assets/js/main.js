@@ -411,41 +411,32 @@
 	function buildScheduleCard(schedule) {
 	  const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
 	  const homePort = getHomePort(schedule.schedule_id);
-
+	  const monthLabel = getMonthLabel(schedule.departure_date);
+	
 	  return [
-		'<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-		  '<div class="schedule-visual">',
-			imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-			'<div class="schedule-visual-inner">',
-
-			  /* 상단 지역 배지 */
-			  '<div class="schedule-badges">',
-				'<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
-			  '</div>',
-
-			  /* 출발일 강조 */
-			  '<div class="schedule-departure-highlight">',
-				'<span class="schedule-departure-label">출발일</span>',
-				'<strong class="schedule-departure-date">', escapeHtml(formatDate(schedule.departure_date)), '</strong>',
-			  '</div>',
-
-			  /* 일정 제목 */
-			  '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
-			'</div>',
-		  '</div>',
-
-		  '<div class="schedule-content">',
-			'<div class="schedule-meta">',
-			  metaItem('선박', schedule.ship_name || '-'),
-			  metaItem('모항지', homePort || '-'),
-			  metaItem('출발', formatDate(schedule.departure_date), ' is-primary'),
-			  metaItem('도착', formatDate(schedule.return_date)),
-			'</div>',
-			'<div class="schedule-actions">',
-			  '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-			'</div>',
-		  '</div>',
-		'</article>'
+	    '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
+	      '<div class="schedule-visual">',
+	        imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
+	        '<div class="schedule-visual-inner">',
+	          '<div class="schedule-badges">',
+	            '<span class="schedule-badge">', escapeHtml(schedule.region || '크루즈'), '</span>',
+	            '<span class="schedule-badge schedule-badge-month">', escapeHtml(monthLabel), ' 출발</span>',
+	          '</div>',
+	          '<h3 class="schedule-title">', highlightMonthText(schedule.title || '크루즈 일정'), '</h3>',
+	        '</div>',
+	      '</div>',
+	      '<div class="schedule-content">',
+	        '<div class="schedule-meta">',
+	          metaItem('선박', schedule.ship_name || '-'),
+	          metaItem('모항지', homePort || '-'),
+	          metaItem('출발', formatDate(schedule.departure_date)),
+	          metaItem('도착', formatDate(schedule.return_date)),
+	        '</div>',
+	        '<div class="schedule-actions">',
+	          '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
+	        '</div>',
+	      '</div>',
+	    '</article>'
 	  ].join('');
 	}
 
