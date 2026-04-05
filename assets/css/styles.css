@@ -742,6 +742,53 @@ button {
   text-align: center;
 }
 
+/* =========================================================
+   일정 카드 하단 메타박스 중 "출발"만 강조
+   - 현재 순서:
+     1) 선박
+     2) 모항지
+     3) 출발
+     4) 도착
+   - 그래서 3번째 박스만 따로 강조
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) {
+  background: #edf4ff;                 /* 다른 박스보다 살짝 더 밝은 파란 배경 */
+  border: 1px solid #bcd3ff;           /* 파란 계열 테두리 */
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.08);
+  transform: translateY(-1px);         /* 아주 살짝만 떠 보이게 */
+}
+
+/* =========================================================
+   출발 박스의 라벨 텍스트
+   - "출발" 글자를 더 또렷하게
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   출발 박스의 날짜 텍스트
+   - 날짜를 더 크고 진하게
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) strong {
+  color: #143878;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* =========================================================
+   모바일에서도 출발 날짜가 너무 크지 않게 보정
+   ========================================================= */
+@media (max-width: 768px) {
+  .schedule-meta .schedule-meta-item:nth-child(3) strong {
+    font-size: 18px;
+  }
+}
+
 .schedule-meta-item span {
   color: #6b7280;
   font-size: 13px;
