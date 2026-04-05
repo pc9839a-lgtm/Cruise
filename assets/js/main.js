@@ -243,36 +243,134 @@
     return safe;
   }
 
-  function renderSettings() {
-    const settings = state.bootstrap.settings || {};
-    const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
-    const heroImage = settings.hero_image || settings.hero_bg || '';
+	function renderSettings() {
+	  /* ---------------------------------------------------------
+		 settings 객체
+		 - Apps Script / mock-data 에서 내려온 설정값을 담는 객체
+		 - 값이 없으면 아래 기본값으로 대체됨
+		 --------------------------------------------------------- */
+	  const settings = state.bootstrap.settings || {};
 
-    setText('siteName', siteName);
-    setText('footerSiteName', siteName);
-    setText('siteNameInput', siteName, 'value');
-    setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
-    setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
-    setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
-    setHtml('heroTitle', convertLineBreaks(escapeHtml(settings.hero_title || '크루즈 여행,\n패키지 말고 직구하세요.')));
-    setText('heroSubtitle', settings.hero_subtitle || '마음에 드는 일정이 있으면 바로 상세 항해 일정과 항해 루트를 확인하고 문의할 수 있게 구성했습니다.');
-    setText('heroBottomText', settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.');
-    setHtml('identityTitle', (function () {
-      const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
-      const parts = String(text).split('\n');
-      if (parts.length > 1) {
-        return escapeHtml(parts[0]) + '<br><span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>';
-      }
-      return '<span>' + escapeHtml(text) + '</span>';
-    })());
-    setHtml('identityDesc', convertLineBreaks(escapeHtml(settings.identity_desc || '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.')));
-    setText('footerDescription', settings.footer_description || '항해 루트와 상세 항해일정을 확인하고 바로 문의까지 연결되는 크루즈 랜딩페이지');
+	  /* ---------------------------------------------------------
+		 사이트명 기본값
+		 - 원래는 시트의 site_title / site_name 값을 우선 사용
+		 - 여기서는 푸터만 따로 고정할 거라 siteName 계산은 유지
+		 --------------------------------------------------------- */
+	  const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
 
-    const heroBg = document.getElementById('heroBg');
-    if (heroBg && heroImage) {
-      heroBg.style.backgroundImage = 'linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("' + heroImage.replace(/"/g, '\\"') + '")';
-    }
-  }
+	  /* ---------------------------------------------------------
+		 히어로 배경 이미지
+		 - 설정에 hero_image 또는 hero_bg가 있으면 사용
+		 --------------------------------------------------------- */
+	  const heroImage = settings.hero_image || settings.hero_bg || '';
+
+	  /* ---------------------------------------------------------
+		 상단 로고/사이트명
+		 - 헤더 좌측 브랜드명
+		 --------------------------------------------------------- */
+	  setText('siteName', siteName);
+
+	  /* ---------------------------------------------------------
+		 푸터 사이트명
+		 - 기존: 시트 값(siteName)으로 자동 반영
+		 - 변경: 푸터에는 무조건 WAYZI 고정 출력
+		 --------------------------------------------------------- */
+	  setText('footerSiteName', 'WAYZI');
+
+	  /* ---------------------------------------------------------
+		 hidden input 에 들어가는 사이트명
+		 - 문의폼 전송 시 같이 넘어가는 값
+		 - 이건 기존처럼 siteName 유지
+		 --------------------------------------------------------- */
+	  setText('siteNameInput', siteName, 'value');
+
+	  /* ---------------------------------------------------------
+		 히어로 상단 태그 3개
+		 --------------------------------------------------------- */
+	  setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
+	  setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
+	  setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
+
+	  /* ---------------------------------------------------------
+		 히어로 메인 타이틀
+		 - 줄바꿈 허용
+		 - XSS 방지를 위해 escapeHtml 후 <br> 변환
+		 --------------------------------------------------------- */
+	  setHtml(
+		'heroTitle',
+		convertLineBreaks(
+		  escapeHtml(settings.hero_title || '크루즈 여행,\n패키지 말고 직구하세요.')
+		)
+	  );
+
+	  /* ---------------------------------------------------------
+		 히어로 서브타이틀
+		 --------------------------------------------------------- */
+	  setText(
+		'heroSubtitle',
+		settings.hero_subtitle || '마음에 드는 일정이 있으면 바로 상세 항해 일정과 항해 루트를 확인하고 문의할 수 있게 구성했습니다.'
+	  );
+
+	  /* ---------------------------------------------------------
+		 히어로 하단 보조 문구
+		 --------------------------------------------------------- */
+	  setText(
+		'heroBottomText',
+		settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.'
+	  );
+
+	  /* ---------------------------------------------------------
+		 브랜드 소개 타이틀
+		 - 줄바꿈 기준으로 2줄 처리
+		 - 두 번째 줄은 <span>으로 감싸서 스타일 강조
+		 --------------------------------------------------------- */
+	  setHtml('identityTitle', (function () {
+		const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
+		const parts = String(text).split('\n');
+
+		if (parts.length > 1) {
+		  return escapeHtml(parts[0]) + '<br><span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>';
+		}
+
+		return '<span>' + escapeHtml(text) + '</span>';
+	  })());
+
+	  /* ---------------------------------------------------------
+		 브랜드 소개 설명문
+		 - 줄바꿈 허용
+		 --------------------------------------------------------- */
+	  setHtml(
+		'identityDesc',
+		convertLineBreaks(
+		  escapeHtml(
+			settings.identity_desc ||
+			'쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.'
+		  )
+		)
+	  );
+
+	  /* ---------------------------------------------------------
+		 푸터 설명문
+		 - 기존: settings.footer_description 값 사용
+		 - 변경: 사업자 정보 문구로 고정 출력
+		 --------------------------------------------------------- */
+	  setText(
+		'footerDescription',
+		'대표 김도윤 · 사업자번호 538-42-01450'
+	  );
+
+	  /* ---------------------------------------------------------
+		 히어로 배경 이미지 적용
+		 - 이미지가 있을 때만 background-image 설정
+		 --------------------------------------------------------- */
+	  const heroBg = document.getElementById('heroBg');
+	  if (heroBg && heroImage) {
+		heroBg.style.backgroundImage =
+		  'linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("' +
+		  heroImage.replace(/"/g, '\\"') +
+		  '")';
+	  }
+	}
 
   function getRegions() {
     return ['ALL'].concat(Array.from(new Set(state.bootstrap.schedules.map(function (item) {
@@ -310,35 +408,46 @@
     scheduleGrid.innerHTML = schedules.map(buildScheduleCard).join('');
   }
 
-  function buildScheduleCard(schedule) {
-    const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
-    const homePort = getHomePort(schedule.schedule_id);
-    return [
-      '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-        '<div class="schedule-visual">',
-          imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-          '<div class="schedule-visual-inner">',
-            '<div class="schedule-badges">',
-              '<span class="schedule-badge">', escapeHtml(schedule.region || '크루즈'), '</span>',
-              '<span class="schedule-badge">', escapeHtml(formatDate(schedule.departure_date)), '</span>',
-            '</div>',
-            '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
-          '</div>',
-        '</div>',
-        '<div class="schedule-content">',
-          '<div class="schedule-meta">',
-            metaItem('선박', schedule.ship_name || '-'),
-            metaItem('모항지', homePort || '-'),
-            metaItem('출발', formatDate(schedule.departure_date)),
-            metaItem('도착', formatDate(schedule.return_date)),
-          '</div>',
-          '<div class="schedule-actions">',
-            '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-          '</div>',
-        '</div>',
-      '</article>'
-    ].join('');
-  }
+	function buildScheduleCard(schedule) {
+	  const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
+	  const homePort = getHomePort(schedule.schedule_id);
+
+	  return [
+		'<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
+		  '<div class="schedule-visual">',
+			imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
+			'<div class="schedule-visual-inner">',
+
+			  /* 상단 지역 배지 */
+			  '<div class="schedule-badges">',
+				'<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
+			  '</div>',
+
+			  /* 출발일 강조 */
+			  '<div class="schedule-departure-highlight">',
+				'<span class="schedule-departure-label">출발일</span>',
+				'<strong class="schedule-departure-date">', escapeHtml(formatDate(schedule.departure_date)), '</strong>',
+			  '</div>',
+
+			  /* 일정 제목 */
+			  '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
+			'</div>',
+		  '</div>',
+
+		  '<div class="schedule-content">',
+			'<div class="schedule-meta">',
+			  metaItem('선박', schedule.ship_name || '-'),
+			  metaItem('모항지', homePort || '-'),
+			  metaItem('출발', formatDate(schedule.departure_date), ' is-primary'),
+			  metaItem('도착', formatDate(schedule.return_date)),
+			'</div>',
+			'<div class="schedule-actions">',
+			  '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
+			'</div>',
+		  '</div>',
+		'</article>'
+	  ].join('');
+	}
 
   function renderReviews() {
     if (!reviewGrid) return;

@@ -648,6 +648,70 @@ button {
   color: #fff;
 }
 
+/* =========================================================
+   출발일 강조 영역
+   - 카드 상단 이미지 위에서 가장 먼저 보이게
+   ========================================================= */
+.schedule-departure-highlight {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.schedule-departure-label {
+  display: inline-flex;
+  height: 26px;
+  padding: 0 10px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 214, 10, 0.18);
+  border: 1px solid rgba(255, 214, 10, 0.32);
+  color: #ffe27a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.schedule-departure-date {
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+   지역 배지는 보조 정보로 한 단계 낮춤
+   ========================================================= */
+.schedule-badge-region {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* =========================================================
+   메타 박스 중 출발만 강조
+   ========================================================= */
+.schedule-meta-item.is-primary {
+  background: #eef4ff;
+  border-color: #bfd3ff;
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
+}
+
+.schedule-meta-item.is-primary span {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.schedule-meta-item.is-primary strong {
+  color: #143878;
+  font-size: 18px;
+  font-weight: 900;
+}
+
 
 /* =========================================================
    일정 카드 하단 내용
@@ -1312,7 +1376,6 @@ button {
     padding: 0 14px;
   }
 }
-
 
 /* =========================================================
    일정 상세 모달
