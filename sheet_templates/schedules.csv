@@ -1,0 +1,4 @@
+schedule_id,title,region,departure_date,return_date,ship_name,departure_airport,summary,hero_image_url,schedule_image_url,detail_description,month_label,status,sort_order
+SCH-001,동부 지중해 8박 10일,지중해,2026-06-22,2026-07-01,Enchanted Princess,인천,로마 산토리니 쿠사다시를 한 번에 경험하는 대표 지중해 일정입니다.,,,지중해 첫 크루즈로 많이 찾는 일정입니다.,2026-06,public,1
+SCH-002,오키나와 4박 5일,일본,2026-08-29,2026-09-02,Costa Serena,인천,짧은 일정으로 첫 크루즈를 가볍게 경험하기 좋은 일본 노선입니다.,,,부담 없는 기간과 이동 동선으로 가족 친구 여행에 잘 맞습니다.,2026-08,public,2
+SCH-003,싱가포르 동남아 5박 6일,동남아,2026-11-14,2026-11-19,Royal Caribbean,인천,도시 감성과 휴양 감성을 함께 느끼는 동남아 크루즈 일정입니다.,,,도심 여행과 선상 휴식을 함께 즐기고 싶은 분께 적합합니다.,2026-11,public,3

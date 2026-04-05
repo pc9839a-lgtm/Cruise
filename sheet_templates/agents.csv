@@ -1,0 +1,4 @@
+agent_code,agent_name,email,phone,use_yn
+kim01,김도윤,agent1@example.com,010-1111-1111,Y
+lee02,이영업,agent2@example.com,010-2222-2222,Y
+park03,박상담,agent3@example.com,010-3333-3333,N
