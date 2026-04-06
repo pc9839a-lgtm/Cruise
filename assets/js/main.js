@@ -583,105 +583,105 @@
   function ensureExtraSectionsScaffold() {
     if (!mainContent) return;
 
-    const blocks = [
-      {
-        id: 'basicInfoSection',
-        html: `
-          <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
-            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
-              <div class="section-head center compact-head">
-                <span class="section-label">기초안내</span>
-                <h2 class="section-title">크루즈는 어렵지 않아요</h2>
-              </div>
-              <div class="sheet-basic-slider" id="basicInfoSlider">
-                <div class="sheet-basic-slider-viewport">
-                  <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
-                </div>
-                <div class="sheet-basic-slider-controls" id="basicInfoControls">
-                  <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
-                  <div class="sheet-basic-dots" id="basicInfoDots"></div>
-                  <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
-                </div>
-              </div>
+    const scheduleSection = scheduleGrid ? scheduleGrid.closest('section') : null;
+    const reviewSection = reviewGrid ? reviewGrid.closest('section') : null;
+    const contactSection = form ? form.closest('section') : null;
+    const debugPanel = document.getElementById('sheetDebugPanel');
+
+    const createSectionHtml = (id, label, title, gridId, gridClass, narrow = false, extraClass = '') => `
+      <section class="sheet-extra-section ${extraClass}" id="${id}">
+        <div class="${narrow ? 'sheet-extra-wrap sheet-extra-wrap-narrow' : 'sheet-extra-wrap'}">
+          <div class="section-head center compact-head">
+            <span class="section-label">${label}</span>
+            <h2 class="section-title">${title}</h2>
+          </div>
+          <div id="${gridId}" class="${gridClass}"></div>
+        </div>
+      </section>`;
+
+    const createBasicHtml = () => `
+      <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
+        <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+          <div class="section-head center compact-head">
+            <span class="section-label">기초안내</span>
+            <h2 class="section-title">크루즈는 어렵지 않아요</h2>
+          </div>
+          <div class="sheet-basic-slider" id="basicInfoSlider">
+            <div class="sheet-basic-slider-viewport">
+              <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
             </div>
-          </section>`
-      },
-      {
-        id: 'targetsSection',
-        html: `
-          <section class="sheet-extra-section" id="targetsSection">
-            <div class="sheet-extra-wrap">
-              <div class="section-head center compact-head">
-                <span class="section-label">이용대상자</span>
-                <h2 class="section-title">이런 분들께 잘 맞아요</h2>
-              </div>
-              <div id="targetsGrid" class="sheet-extra-grid"></div>
+            <div class="sheet-basic-slider-controls" id="basicInfoControls">
+              <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
+              <div class="sheet-basic-dots" id="basicInfoDots"></div>
+              <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
             </div>
-          </section>`
-      },
-      {
-        id: 'processSection',
-        html: `
-          <section class="sheet-extra-section" id="processSection">
-            <div class="sheet-extra-wrap">
-              <div class="section-head center compact-head">
-                <span class="section-label">예약과정</span>
-                <h2 class="section-title">상담부터 탑승까지</h2>
-              </div>
-              <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
-            </div>
-          </section>`
-      },
-      {
-        id: 'cabinsSection',
-        html: `
-          <section class="sheet-extra-section" id="cabinsSection">
-            <div class="sheet-extra-wrap">
-              <div class="section-head center compact-head">
-                <span class="section-label">선실비교</span>
-                <h2 class="section-title">선실 타입 비교</h2>
-              </div>
-              <div id="cabinsGrid" class="sheet-extra-grid"></div>
-            </div>
-          </section>`
-      },
-      {
-        id: 'faqSection',
-        html: `
-          <section class="sheet-extra-section" id="faqSection">
-            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
-              <div class="section-head center compact-head">
-                <span class="section-label">FAQ</span>
-                <h2 class="section-title">자주 묻는 질문</h2>
-              </div>
-              <div id="faqList" class="sheet-extra-faq-list"></div>
-            </div>
-          </section>`
-      },
-      {
-        id: 'contentSection',
-        html: `
-          <section class="sheet-extra-section" id="contentSection">
-            <div class="sheet-extra-wrap">
-              <div class="section-head center compact-head">
-                <span class="section-label">콘텐츠연결</span>
-                <h2 class="section-title">함께 보면 좋은 정보</h2>
-              </div>
-              <div id="contentGrid" class="sheet-extra-grid"></div>
-            </div>
-          </section>`
+          </div>
+        </div>
+      </section>`;
+
+    // 1) 기초안내: 추천 일정 위
+    if (!document.getElementById('basicInfoSection')) {
+      const html = createBasicHtml();
+      if (scheduleSection) {
+        scheduleSection.insertAdjacentHTML('beforebegin', html);
+      } else if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', html);
+      } else {
+        mainContent.insertAdjacentHTML('beforeend', html);
       }
+    }
+
+    // 2) 여행후기 아래: 이용대상자 → 선실비교 → 예약과정 → FAQ
+    const afterReview = [
+      ['targetsSection', '이용대상자', '이런 분들께 잘 맞아요', 'targetsGrid', 'sheet-extra-grid', false],
+      ['cabinsSection', '선실비교', '선실 타입 비교', 'cabinsGrid', 'sheet-extra-grid', false],
+      ['processSection', '예약과정', '상담부터 탑승까지', 'processGrid', 'sheet-extra-grid sheet-extra-grid-steps', false],
+      ['faqSection', 'FAQ', '자주 묻는 질문', 'faqList', 'sheet-extra-faq-list', true]
     ];
 
-    blocks.forEach((block) => {
-      if (document.getElementById(block.id)) return;
-      const debugPanel = document.getElementById('sheetDebugPanel');
-      if (debugPanel && debugPanel.parentNode === mainContent) {
-        debugPanel.insertAdjacentHTML('beforebegin', block.html);
+    let anchor = reviewSection;
+    afterReview.forEach(([id, label, title, gridId, gridClass, narrow]) => {
+      if (document.getElementById(id)) {
+        anchor = document.getElementById(id);
+        return;
+      }
+
+      const html = createSectionHtml(id, label, title, gridId, gridClass, narrow);
+
+      if (anchor) {
+        anchor.insertAdjacentHTML('afterend', html);
+        anchor = document.getElementById(id);
+      } else if (contactSection) {
+        contactSection.insertAdjacentHTML('beforebegin', html);
+        anchor = document.getElementById(id);
+      } else if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', html);
+        anchor = document.getElementById(id);
       } else {
-        mainContent.insertAdjacentHTML('beforeend', block.html);
+        mainContent.insertAdjacentHTML('beforeend', html);
+        anchor = document.getElementById(id);
       }
     });
+
+    // 3) 콘텐츠연결: 가격 문의하기 아래
+    if (!document.getElementById('contentSection')) {
+      const html = createSectionHtml(
+        'contentSection',
+        '콘텐츠연결',
+        '함께 보면 좋은 정보',
+        'contentGrid',
+        'sheet-extra-grid',
+        false
+      );
+
+      if (contactSection) {
+        contactSection.insertAdjacentHTML('afterend', html);
+      } else if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', html);
+      } else {
+        mainContent.insertAdjacentHTML('beforeend', html);
+      }
+    }
   }
 
   function renderBasicInfo() {
