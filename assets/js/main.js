@@ -517,7 +517,7 @@
       reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) => 
         `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
       ).join('');
-    }
+  }
 
     startReviewAuto(total);
   }
@@ -574,12 +574,10 @@
     ensureExtraSectionsScaffold();
     renderBasicInfo();
     renderTargets();
-    renderProcessSteps();
     renderCabins();
-    renderTrustPoints();
+    renderProcessSteps();
     renderFaqs();
     renderContentLinks();
-    reorderLayout(); 
   }
 
   function ensureExtraSectionsScaffold() {
@@ -622,19 +620,6 @@
           </section>`
       },
       {
-        id: 'processSection',
-        html: `
-          <section class="sheet-extra-section" id="processSection">
-            <div class="sheet-extra-wrap">
-              <div class="section-head center compact-head">
-                <span class="section-label">예약과정</span>
-                <h2 class="section-title">상담부터 탑승까지</h2>
-              </div>
-              <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
-            </div>
-          </section>`
-      },
-      {
         id: 'cabinsSection',
         html: `
           <section class="sheet-extra-section" id="cabinsSection">
@@ -644,6 +629,19 @@
                 <h2 class="section-title">선실 타입 비교</h2>
               </div>
               <div id="cabinsGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'processSection',
+        html: `
+          <section class="sheet-extra-section" id="processSection">
+            <div class="sheet-extra-wrap">
+              <div class="section-head center compact-head">
+                <span class="section-label">예약과정</span>
+                <h2 class="section-title">상담부터 탑승까지</h2>
+              </div>
+              <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
             </div>
           </section>`
       },
@@ -911,30 +909,6 @@
         </div>
       </article>
     `).join('');
-  }
-
-  function reorderLayout() {
-    if (!mainContent) return;
-
-    const sections = [
-      document.getElementById('basicInfoSection'),
-      scheduleGrid ? scheduleGrid.closest('section') : null,
-      document.getElementById('trustSection'),
-      reviewGrid ? reviewGrid.closest('section') : null,
-      document.getElementById('targetsSection'),
-      document.getElementById('cabinsSection'),
-      document.getElementById('processSection'),
-      document.getElementById('faqSection'),
-      form ? form.closest('section') : document.getElementById('contact'),
-      document.getElementById('contentSection')
-    ];
-
-    sections.forEach(section => {
-      if (section) mainContent.appendChild(section);
-    });
-
-    const debugPanel = document.getElementById('sheetDebugPanel');
-    if (debugPanel) mainContent.appendChild(debugPanel);
   }
 
   function ensureDebugPanel() {
