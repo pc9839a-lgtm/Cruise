@@ -1,4 +1,3 @@
-
 (function () {
   const config = window.APP_CONFIG || {};
   const modal = document.getElementById('scheduleModal');
@@ -17,35 +16,26 @@
 
   const state = {
     bootstrap: {
-      settings: {},
-      schedules: [],
-      schedule_days: [],
-      reviews: [],
-      targets: [],
-      basic_info: [],
-      process_steps: [],
-      cabins: [],
-      faqs: [],
-      trust_points: [],
-      content_links: []
+      settings: {}, schedules: [], schedule_days: [], reviews: [],
+      targets: [], basic_info: [], process_steps: [], cabins: [],
+      faqs: [], trust_points: [], content_links: []
     },
     activeRegion: 'ALL',
     reviewPage: 0,
+    basicInfoPage: 0,
     debugLogs: []
   };
 
   let reviewAutoTimer = null;
-  window.__CRUISE_DEBUG_STATE = state;
+  let basicInfoAutoTimer = null;
 
   init();
 
   async function init() {
-    ensureAddonStyles();
     bindStaticEvents();
     setTrackingFields();
     initGlobalDebugHandlers();
     ensureDebugPanel();
-    logDebug('init.start', { apiUrl: config.apiUrl || '', useMockOnly: !!config.useMockOnly });
 
     const payload = config.useMockOnly
       ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
@@ -56,12 +46,10 @@
 
   function bindStaticEvents() {
     if (mobileMenuToggle && mainNav) {
-      mobileMenuToggle.addEventListener('click', function () {
-        mainNav.classList.toggle('is-open');
-      });
+      mobileMenuToggle.addEventListener('click', () => mainNav.classList.toggle('is-open'));
     }
 
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', (event) => {
       const target = event.target;
 
       const filterButton = target.closest('[data-region]');
@@ -75,12 +63,11 @@
 
       const selectButton = target.closest('[data-select-schedule]');
       if (selectButton) {
-        event.preventDefault();
         event.stopPropagation();
-        const scheduleId = selectButton.getAttribute('data-select-schedule') || '';
+        const scheduleId = selectButton.getAttribute('data-select-schedule');
         const scheduleSelect = document.getElementById('interestScheduleSelect');
-        if (scheduleSelect) scheduleSelect.value = scheduleId;
-        logDebug('schedule.select', { scheduleId: scheduleId });
+        if (scheduleSelect) scheduleSelect.value = scheduleId || '';
+        logDebug('schedule.select', { scheduleId: scheduleId || '' });
         scrollToSection('contact');
         closeModal();
         return;
@@ -99,96 +86,99 @@
         return;
       }
 
+      const basicNav = target.closest('[data-basic-nav]');
+      if (basicNav) {
+        moveBasicInfo(basicNav.getAttribute('data-basic-nav'));
+        return;
+      }
+
+      const basicDot = target.closest('[data-basic-dot]');
+      if (basicDot) {
+        state.basicInfoPage = Number(basicDot.getAttribute('data-basic-dot') || 0);
+        setupBasicInfoSlider();
+        restartBasicInfoAuto();
+        return;
+      }
+
       const openCard = target.closest('[data-open-schedule]');
       if (openCard) {
         openSchedule(openCard.getAttribute('data-open-schedule'));
         return;
       }
 
-      if (target.closest('[data-close-modal]') || target.classList.contains('schedule-modal-backdrop')) {
+      if (target.closest('[data-close-modal]')) {
         closeModal();
         return;
       }
     });
 
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', () => {
       setupReviewSlider((state.bootstrap.reviews || []).length);
+      setupBasicInfoSlider();
     });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
-      reviewViewport.addEventListener('mouseleave', function () {
-        setupReviewSlider((state.bootstrap.reviews || []).length);
-      });
+      reviewViewport.addEventListener('mouseleave', () => setupReviewSlider((state.bootstrap.reviews || []).length));
       reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
-      reviewViewport.addEventListener('touchend', function () {
-        setupReviewSlider((state.bootstrap.reviews || []).length);
-      }, { passive: true });
+      reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
     }
 
     if (phoneInput) {
-      phoneInput.addEventListener('input', function () {
+      phoneInput.addEventListener('input', () => {
         phoneInput.value = String(phoneInput.value || '').replace(/\D+/g, '').slice(0, 11);
       });
     }
 
+    // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
     if (form) {
-      form.addEventListener('submit', async function (event) {
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const formData = new FormData(form);
-        const name = String(formData.get('name') || '').trim();
-        const phone = String(formData.get('phone') || '').replace(/\D+/g, '').trim();
-        const scheduleId = String(formData.get('interest_schedule_id') || '').trim();
-        const peopleCount = String(formData.get('people_count') || '').trim();
 
-        if (!name) return updateFormResult('성함을 입력해주세요.', 'error');
+        if (!formData.get('name')?.trim()) return updateFormResult('성함을 입력해주세요.', 'error');
+        
+        const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
-        if (!scheduleId) return updateFormResult('관심 일정을 선택해주세요.', 'error');
-        if (!peopleCount) return updateFormResult('인원수를 선택해주세요.', 'error');
-
+        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
+        if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
+        
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
-        if (privacyAgreeInput && !privacyAgreeInput.checked) {
-          return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
-        }
+        if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
 
         if (phoneInput) phoneInput.value = phone;
 
-        const regionDetail = String(formData.get('region_detail') || '').trim();
-        const travelReadyStatus = String(formData.get('travel_ready_status') || '').trim();
-        const originalMessage = String(formData.get('message') || '').trim();
+        const regionDetail = formData.get('region_detail')?.trim();
+        const travelReadyStatus = formData.get('travel_ready_status')?.trim();
+        const originalMessage = formData.get('message')?.trim();
 
         const extraLines = [];
-        if (regionDetail) extraLines.push('거주지역: ' + regionDetail);
-        if (travelReadyStatus) extraLines.push('여권/카드 소지 여부: ' + travelReadyStatus);
-        if (originalMessage) extraLines.push('문의내용: ' + originalMessage);
+        if (regionDetail) extraLines.push(`거주지역: ${regionDetail}`);
+        if (travelReadyStatus) extraLines.push(`여권/카드 소지 여부: ${travelReadyStatus}`);
+        if (originalMessage) extraLines.push(`문의내용: ${originalMessage}`);
 
         const messageInput = document.getElementById('messageInput');
         if (messageInput) messageInput.value = extraLines.join('\n');
 
         setSubmitState(true);
         updateFormResult('문의 내용을 접수하고 있습니다...', 'pending');
-        logDebug('form.submit', { schedule_id: scheduleId });
+        logDebug('form.submit', { schedule_id: formData.get('interest_schedule_id') });
 
         try {
-          const response = await fetch(config.apiUrl, {
-            method: 'POST',
-            body: formData
-          });
-
+          const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
           const data = await response.json();
-          if (data && data.success) {
+          
+          if (data.success) {
             updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
             form.reset();
             setTrackingFields();
-            logDebug('form.success', { message: data.data || data.message || '' });
           } else {
-            updateFormResult((data && data.message) || '오류가 발생했습니다.', 'error');
-            logDebug('form.fail', { message: (data && data.message) || 'unknown' });
+            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
           }
         } catch (error) {
           updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
-          logDebug('form.error', { message: error && error.message ? error.message : 'unknown' });
+          logDebug('form.result.error', { error: error.message });
         } finally {
           setSubmitState(false);
         }
@@ -197,127 +187,29 @@
   }
 
   function initGlobalDebugHandlers() {
-    window.addEventListener('error', function (event) {
-      logDebug('window.error', { message: event && event.message ? event.message : '' });
-    });
-
-    window.addEventListener('unhandledrejection', function (event) {
-      const reason = event && event.reason;
-      logDebug('window.unhandledrejection', {
-        message: reason && reason.message ? reason.message : String(reason || 'Unknown')
-      });
-    });
+    window.addEventListener('error', (event) => logDebug('window.error', { message: event?.message }));
+    window.addEventListener('unhandledrejection', (event) => logDebug('window.unhandledrejection', { reason: event?.reason?.message || 'Unknown' }));
   }
 
   async function getBootstrapWithFallback() {
-    if (!config.apiUrl) {
-      logDebug('bootstrap.noApiUrl', {});
+    try {
+      // 💡 JSONP 방식 제거, 모던 Fetch API 적용
+      const url = new URL(config.apiUrl);
+      url.searchParams.set('action', 'bootstrap');
+      logDebug('bootstrap.request', { url: url.toString() });
+
+      const response = await fetch(url.toString());
+      if (!response.ok) throw new Error('API 응답이 올바르지 않습니다.');
+      
+      const data = await response.json();
+      const payload = data.data || data; // GAS 응답 구조 대응
+      
+      logDebug('bootstrap.success', getBootstrapDebugSummary(payload));
+      return normalizeData(payload);
+    } catch (error) {
+      logDebug('bootstrap.fallback', { reason: error.message });
       return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
-
-    try {
-      const fetchPayload = await loadBootstrapViaFetch();
-      logDebug('bootstrap.fetch.success', getBootstrapDebugSummary(fetchPayload));
-      return normalizeData(fetchPayload);
-    } catch (error) {
-      logDebug('bootstrap.fetch.fail', { message: error && error.message ? error.message : 'unknown' });
-    }
-
-    try {
-      const jsonpPayload = await loadBootstrapViaJsonp();
-      logDebug('bootstrap.jsonp.success', getBootstrapDebugSummary(jsonpPayload));
-      return normalizeData(jsonpPayload);
-    } catch (error) {
-      logDebug('bootstrap.jsonp.fail', { message: error && error.message ? error.message : 'unknown' });
-    }
-
-    logDebug('bootstrap.mock.fallback', {});
-    return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
-  }
-
-  async function loadBootstrapViaFetch() {
-    const url = new URL(config.apiUrl);
-    url.searchParams.set('action', 'bootstrap');
-    logDebug('bootstrap.fetch.start', { url: url.toString() });
-
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      credentials: 'omit',
-      mode: 'cors'
-    });
-
-    if (!response.ok) {
-      throw new Error('HTTP ' + response.status);
-    }
-
-    const data = await response.json();
-    const payload = data && typeof data === 'object' && 'data' in data ? data.data : data;
-    if (!payload || typeof payload !== 'object') {
-      throw new Error('invalid payload');
-    }
-    return payload;
-  }
-
-  function loadBootstrapViaJsonp() {
-    return new Promise(function (resolve, reject) {
-      const callbackName = '__cruiseJsonpCallback_' + Date.now();
-      const params = new URLSearchParams();
-      params.set('action', 'bootstrap');
-      params.set('callback', callbackName);
-
-      const script = document.createElement('script');
-      const timeoutMs = 10000;
-      let finished = false;
-      let timer = null;
-
-      function cleanup(success) {
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        }
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-        if (success) {
-          window[callbackName] = function () {};
-          setTimeout(function () {
-            try { delete window[callbackName]; } catch (e) {}
-          }, 30000);
-        } else {
-          try { delete window[callbackName]; } catch (e) {}
-        }
-      }
-
-      window[callbackName] = function (payload) {
-        if (finished) return;
-        finished = true;
-        cleanup(true);
-        if (!payload || typeof payload !== 'object') {
-          reject(new Error('invalid jsonp payload'));
-          return;
-        }
-        resolve(payload.data || payload);
-      };
-
-      script.onerror = function () {
-        if (finished) return;
-        finished = true;
-        cleanup(false);
-        reject(new Error('jsonp script load failed'));
-      };
-
-      timer = setTimeout(function () {
-        if (finished) return;
-        finished = true;
-        cleanup(false);
-        reject(new Error('jsonp timeout'));
-      }, timeoutMs);
-
-      script.src = config.apiUrl + (config.apiUrl.indexOf('?') >= 0 ? '&' : '?') + params.toString();
-      script.async = true;
-      logDebug('bootstrap.jsonp.start', { url: script.src });
-      document.body.appendChild(script);
-    });
   }
 
   function hydrate(data) {
@@ -356,20 +248,10 @@
   }
 
   function getBootstrapDebugSummary(payload) {
-    const obj = payload || {};
-    return {
-      settings: obj.settings ? 1 : 0,
-      schedules: Array.isArray(obj.schedules) ? obj.schedules.length : 0,
-      schedule_days: Array.isArray(obj.schedule_days) ? obj.schedule_days.length : 0,
-      reviews: Array.isArray(obj.reviews) ? obj.reviews.length : 0,
-      basic_info: Array.isArray(obj.basic_info) ? obj.basic_info.length : 0,
-      targets: Array.isArray(obj.targets) ? obj.targets.length : 0,
-      process_steps: Array.isArray(obj.process_steps) ? obj.process_steps.length : 0,
-      cabins: Array.isArray(obj.cabins) ? obj.cabins.length : 0,
-      faqs: Array.isArray(obj.faqs) ? obj.faqs.length : 0,
-      trust_points: Array.isArray(obj.trust_points) ? obj.trust_points.length : 0,
-      content_links: Array.isArray(obj.content_links) ? obj.content_links.length : 0
-    };
+    return Object.keys(payload || {}).reduce((acc, key) => {
+      acc[key] = Array.isArray(payload[key]) ? payload[key].length : 0;
+      return acc;
+    }, {});
   }
 
   function renderSettings() {
@@ -388,12 +270,10 @@
     setText('heroSubtitle', settings.hero_subtitle || '마음에 드는 일정이 있으면 확인 후 바로 문의해주세요.');
     setText('heroBottomText', settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.');
 
-    setHtml('identityTitle', (function () {
+    setHtml('identityTitle', (() => {
       const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
       const parts = text.split('\n');
-      return parts.length > 1
-        ? escapeHtml(parts[0]) + '<br><span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>'
-        : '<span>' + escapeHtml(text) + '</span>';
+      return parts.length > 1 ? `${escapeHtml(parts[0])}<br><span>${escapeHtml(parts.slice(1).join(' '))}</span>` : `<span>${escapeHtml(text)}</span>`;
     })());
 
     setHtml('identityDesc', convertLineBreaks(escapeHtml(settings.identity_desc || '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.')));
@@ -401,75 +281,69 @@
 
     const heroBg = document.getElementById('heroBg');
     if (heroBg && heroImage) {
-      heroBg.style.backgroundImage = 'linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("' + String(heroImage).replace(/"/g, '\\"') + '")';
+      heroBg.style.backgroundImage = `linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("${heroImage.replace(/"/g, '\\"')}")`;
     }
   }
 
   function startHeroMotion() {
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) heroContent.classList.add('is-live');
+    document.querySelector('.hero-content')?.classList.add('is-live');
   }
 
   function renderFilters() {
     if (!scheduleFilters) return;
-    const regions = ['ALL'].concat(Array.from(new Set((state.bootstrap.schedules || []).map(function (item) {
-      return item.region;
-    }).filter(Boolean))));
-
-    scheduleFilters.innerHTML = regions.map(function (region) {
+    const regions = ['ALL', ...new Set(state.bootstrap.schedules.map(item => item.region).filter(Boolean))];
+    
+    // 💡 템플릿 리터럴 적용
+    scheduleFilters.innerHTML = regions.map(region => {
       const isActive = state.activeRegion === region ? ' is-active' : '';
       const label = region === 'ALL' ? '전체 일정' : region;
-      return '<button type="button" class="filter-chip' + isActive + '" data-region="' + escapeAttribute(region) + '">' + escapeHtml(label) + '</button>';
+      return `<button type="button" class="filter-chip${isActive}" data-region="${escapeAttribute(region)}">${escapeHtml(label)}</button>`;
     }).join('');
   }
 
   function renderSchedules() {
     if (!scheduleGrid) return;
-
-    const schedules = (state.bootstrap.schedules || []).filter(function (item) {
-      return state.activeRegion === 'ALL' || item.region === state.activeRegion;
-    }).slice(0, 6);
-
-    logDebug('renderSchedules', { items: schedules.length, activeRegion: state.activeRegion });
+    const schedules = state.bootstrap.schedules.filter(item => state.activeRegion === 'ALL' || item.region === state.activeRegion).slice(0, 6);
 
     if (!schedules.length) {
-      scheduleGrid.innerHTML = '<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>';
+      scheduleGrid.innerHTML = `<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>`;
       return;
     }
-
-    scheduleGrid.innerHTML = schedules.map(function (schedule) {
+    
+    // 💡 템플릿 리터럴 적용으로 가독성 향상
+    scheduleGrid.innerHTML = schedules.map(schedule => {
       const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
-      return [
-        '<article class="schedule-card" data-open-schedule="' + escapeAttribute(schedule.schedule_id) + '">',
-          '<div class="schedule-visual">',
-            imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-            '<div class="schedule-visual-inner">',
-              '<div class="schedule-badges">',
-                '<span class="schedule-badge schedule-badge-region">' + escapeHtml(schedule.region || '크루즈') + '</span>',
-                '<span class="schedule-badge schedule-badge-month">' + escapeHtml(getMonthLabel(schedule.departure_date)) + ' 출발</span>',
-              '</div>',
-              '<h3 class="schedule-title">' + highlightMonthText(schedule.title || '크루즈 일정') + '</h3>',
-            '</div>',
-          '</div>',
-          '<div class="schedule-content">',
-            '<div class="schedule-meta">',
-              metaItem('선박', schedule.ship_name),
-              metaItem('모항지', getHomePort(schedule.schedule_id)),
-              metaItem('출발', formatDate(schedule.departure_date)),
-              metaItem('도착', formatDate(schedule.return_date)),
-            '</div>',
-            '<div class="schedule-actions">',
-              '<a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(schedule.schedule_id) + '">가격문의</a>',
-            '</div>',
-          '</div>',
-        '</article>'
-      ].join('');
+      return `
+        <article class="schedule-card" data-open-schedule="${escapeAttribute(schedule.schedule_id)}">
+          <div class="schedule-visual">
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(schedule.title || '')}" />` : ''}
+            <div class="schedule-visual-inner">
+              <div class="schedule-badges">
+                <span class="schedule-badge">${escapeHtml(schedule.region || '크루즈')}</span>
+                <span class="schedule-badge schedule-badge-month">${escapeHtml(getMonthLabel(schedule.departure_date))} 출발</span>
+              </div>
+              <h3 class="schedule-title">${highlightMonthText(schedule.title || '크루즈 일정')}</h3>
+            </div>
+          </div>
+          <div class="schedule-content">
+            <div class="schedule-meta">
+              ${metaItem('선박', schedule.ship_name)}
+              ${metaItem('모항지', getHomePort(schedule.schedule_id))}
+              ${metaItem('출발', formatDate(schedule.departure_date))}
+              ${metaItem('도착', formatDate(schedule.return_date))}
+            </div>
+            <div class="schedule-actions">
+              <a href="#contact" class="btn" data-select-schedule="${escapeAttribute(schedule.schedule_id)}">가격문의</a>
+            </div>
+          </div>
+        </article>
+      `;
     }).join('');
   }
 
   function getMonthLabel(dateValue) {
     const match = String(dateValue || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    return match ? (Number(match[2]) + '월') : '';
+    return match ? `${Number(match[2])}월` : '';
   }
 
   function highlightMonthText(text) {
@@ -479,124 +353,119 @@
   function renderReviews() {
     if (!reviewGrid) return;
     const reviews = state.bootstrap.reviews || [];
-    logDebug('renderReviews', { items: reviews.length });
-
     if (!reviews.length) {
-      reviewGrid.innerHTML = '<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>';
+      reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
       if (reviewDots) reviewDots.innerHTML = '';
       return;
     }
 
-    reviewGrid.innerHTML = reviews.map(function (review) {
+    reviewGrid.innerHTML = reviews.map(review => {
       const imageUrl = review.thumbnail_url || '';
-      return [
-        '<article class="review-card">',
-          '<div class="review-thumb">',
-            imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(review.title || '') + '" />' : '',
-          '</div>',
-          '<div class="review-body">',
-            review.region ? '<span class="review-region">' + escapeHtml(review.region) + '</span>' : '',
-            '<h3>' + escapeHtml(review.title || '크루즈 후기') + '</h3>',
-            '<p>' + escapeHtml(review.summary || review.content || '') + '</p>',
-          '</div>',
-        '</article>'
-      ].join('');
+      return `
+        <article class="review-card">
+          <div class="review-thumb">
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
+          </div>
+          <div class="review-body">
+            ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
+            <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
+            <p>${escapeHtml(review.summary || review.content || '')}</p>
+          </div>
+        </article>
+      `;
     }).join('');
 
     setupReviewSlider(reviews.length);
   }
 
   function openSchedule(scheduleId) {
-    const schedule = (state.bootstrap.schedules || []).find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    });
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim());
+    if (!schedule) return;
 
-    if (!schedule || !modalBody) return;
-
-    const days = (state.bootstrap.schedule_days || [])
-      .filter(function (item) { return String(item.schedule_id).trim() === String(scheduleId).trim(); })
-      .sort(function (a, b) { return Number(a.day_no || 0) - Number(b.day_no || 0); });
+    const days = state.bootstrap.schedule_days
+      .filter(item => String(item.schedule_id).trim() === String(scheduleId).trim())
+      .sort((a, b) => Number(a.day_no || 0) - Number(b.day_no || 0));
 
     const routeStops = getRouteStops(scheduleId, days);
     const imageUrl = schedule.schedule_image_url || schedule.thumbnail_url || '';
 
-    modalBody.innerHTML = [
-      '<section class="modal-hero-card">',
-        '<div class="modal-badge-row">',
-          '<span class="modal-badge">' + escapeHtml(schedule.region || '크루즈') + '</span>',
-          '<span class="modal-badge">' + escapeHtml(formatDate(schedule.departure_date)) + ' 출발</span>',
-        '</div>',
-        '<div class="modal-summary-grid">',
-          '<div>',
-            '<h3 class="modal-hero-title">' + escapeHtml(schedule.title || '크루즈 일정') + '</h3>',
-            '<div class="modal-action">',
-              '<a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(schedule.schedule_id) + '" data-close-modal>가격문의</a>',
-            '</div>',
-          '</div>',
-          '<div class="modal-meta-grid">',
-            metaBox('선박', schedule.ship_name),
-            metaBox('모항지', getHomePort(schedule.schedule_id)),
-            metaBox('출발', formatDate(schedule.departure_date)),
-            metaBox('도착', formatDate(schedule.return_date)),
-          '</div>',
-        '</div>',
-      '</section>',
-      '<section class="modal-route-card">',
-        '<div class="modal-card-head"><h4>항해 루트</h4><p>한눈에 보이는 선형 타임라인으로 정리했습니다.</p></div>',
-        '<div class="route-track">' + buildRouteTrack(routeStops) + '</div>',
-      '</section>',
-      '<section class="modal-table-card">',
-        '<div class="modal-card-head"><h4>상세 항해 일정</h4><p>일차 · 날짜 · 기항지 · 입항 · 출항을 표로 바로 확인할 수 있습니다.</p></div>',
-        '<div class="table-scroll">' + buildItineraryTable(days) + '</div>',
-        '<p class="modal-table-note">* 현지 사정 및 기상 상황에 의해 기항지 및 입출항 시간은 변경될 수 있습니다.</p>',
-      '</section>',
-      imageUrl ? '<section class="modal-image-card"><div class="modal-card-head"><h4>일정표 이미지</h4><p>시트에 등록된 일정표 이미지를 함께 보여줍니다.</p></div><div class="schedule-image-frame"><img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" /></div></section>' : ''
-    ].join('');
+    modalBody.innerHTML = `
+      <section class="modal-hero-card">
+        <div class="modal-badge-row">
+          <span class="modal-badge">${escapeHtml(schedule.region || '크루즈')}</span>
+          <span class="modal-badge">${escapeHtml(formatDate(schedule.departure_date))} 출발</span>
+        </div>
+        <div class="modal-summary-grid">
+          <div>
+            <h3 class="modal-hero-title">${escapeHtml(schedule.title || '크루즈 일정')}</h3>
+            <div class="modal-action">
+              <a href="#contact" class="btn" data-select-schedule="${escapeAttribute(schedule.schedule_id)}" data-close-modal>가격문의</a>
+            </div>
+          </div>
+          <div class="modal-meta-grid">
+            ${metaBox('선박', schedule.ship_name)}
+            ${metaBox('모항지', getHomePort(schedule.schedule_id))}
+            ${metaBox('출발', formatDate(schedule.departure_date))}
+            ${metaBox('도착', formatDate(schedule.return_date))}
+          </div>
+        </div>
+      </section>
+      <section class="modal-route-card">
+        <div class="modal-card-head"><h4>항해 루트</h4><p>한눈에 보이는 선형 타임라인으로 정리했습니다.</p></div>
+        <div class="route-track">${buildRouteTrack(routeStops)}</div>
+      </section>
+      <section class="modal-table-card">
+        <div class="modal-card-head"><h4>상세 항해 일정</h4><p>일차 · 날짜 · 기항지 · 입항 · 출항을 표로 바로 확인할 수 있습니다.</p></div>
+        <div class="table-scroll">${buildItineraryTable(days)}</div>
+        <p class="modal-table-note">* 현지 사정 및 기상 상황에 의해 기항지 및 입출항 시간은 변경될 수 있습니다.</p>
+      </section>
+      ${imageUrl ? `
+        <section class="modal-image-card">
+          <div class="modal-card-head"><h4>일정표 이미지</h4><p>시트에 등록된 일정표 이미지를 함께 보여줍니다.</p></div>
+          <div class="schedule-image-frame"><img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(schedule.title || '')}" /></div>
+        </section>` : ''}
+    `;
 
     if (modal) modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    logDebug('modal.open', { scheduleId: scheduleId, days: days.length, routeStops: routeStops.length });
   }
 
   function buildRouteTrack(stops) {
-    if (!stops.length) return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
-    return stops.map(function (stop, index) {
-      const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : 'STOP ' + index);
-      return [
-        '<div class="route-stop">',
-          '<div class="route-pill"><small>' + label + '</small><strong>' + escapeHtml(stop) + '</strong></div>',
-          index < stops.length - 1 ? '<div class="route-line">→</div>' : '',
-        '</div>'
-      ].join('');
+    if (!stops.length) return `<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>`;
+    return stops.map((stop, index) => {
+      const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : `STOP ${index}`);
+      return `
+        <div class="route-stop">
+          <div class="route-pill"><small>${label}</small><strong>${escapeHtml(stop)}</strong></div>
+          ${index < stops.length - 1 ? `<div class="route-line">→</div>` : ''}
+        </div>`;
     }).join('');
   }
 
   function buildItineraryTable(days) {
-    if (!days.length) return '<div class="schedule-empty" style="margin:18px;">상세 항해일정이 아직 등록되지 않았습니다.</div>';
-    return [
-      '<table class="itinerary-table">',
-        '<thead><tr><th>일차</th><th>날짜</th><th>기항지 (PORT)</th><th>입항</th><th>출항</th></tr></thead>',
-        '<tbody>',
-          days.map(buildItineraryRow).join(''),
-        '</tbody>',
-      '</table>'
-    ].join('');
+    if (!days.length) return `<div class="schedule-empty" style="margin:18px;">상세 항해일정이 아직 등록되지 않았습니다.</div>`;
+    return `
+      <table class="itinerary-table">
+        <thead><tr><th>일차</th><th>날짜</th><th>기항지 (PORT)</th><th>입항</th><th>출항</th></tr></thead>
+        <tbody>
+          ${days.map(buildItineraryRow).join('')}
+        </tbody>
+      </table>`;
   }
 
   function buildItineraryRow(day) {
-    const overnight = /overnight|정박/i.test(String(day.description || '')) ? '<span class="overnight-badge">정박 (Overnight)</span>' : '';
-    return [
-      '<tr class="' + (isHighlightDay(day) ? 'is-highlight' : '') + '">',
-        '<td class="day-cell">Day ' + escapeHtml(day.day_no || '') + '</td>',
-        '<td class="date-cell">' + escapeHtml(formatDayDate(day.date)) + '</td>',
-        '<td>',
-          '<span class="port-name-kr">' + escapeHtml(day.port_name || day.city || '-') + overnight + '</span>',
-          (day.port_name_en || day.country) ? '<span class="port-name-en">' + escapeHtml(day.port_name_en || day.country) + '</span>' : '',
-        '</td>',
-        normalizeTimeCell(day.arrival_time, 'arrival'),
-        normalizeTimeCell(day.departure_time, 'departure'),
-      '</tr>'
-    ].join('');
+    const overnight = /overnight|정박/i.test(String(day.description || '')) ? `<span class="overnight-badge">정박 (Overnight)</span>` : '';
+    return `
+      <tr class="${isHighlightDay(day) ? 'is-highlight' : ''}">
+        <td class="day-cell">Day ${day.day_no || ''}</td>
+        <td class="date-cell">${escapeHtml(formatDayDate(day.date))}</td>
+        <td>
+          <span class="port-name-kr">${escapeHtml(day.port_name || day.city || '-')}${overnight}</span>
+          ${day.port_name_en || day.country ? `<span class="port-name-en">${escapeHtml(day.port_name_en || day.country)}</span>` : ''}
+        </td>
+        ${normalizeTimeCell(day.arrival_time, 'arrival')}
+        ${normalizeTimeCell(day.departure_time, 'departure')}
+      </tr>`;
   }
 
   function isHighlightDay(day) {
@@ -605,9 +474,9 @@
 
   function normalizeTimeCell(value, kind) {
     const text = String(value || '').trim();
-    if (!text || text === '-' || text === '—') return '<td class="time-cell muted">-</td>';
-    if (kind === 'departure' && /(도착|arrival)/i.test(text)) return '<td class="time-cell arrival">' + escapeHtml(text) + '</td>';
-    return '<td class="time-cell">' + escapeHtml(text) + '</td>';
+    if (!text || text === '-' || text === '—') return `<td class="time-cell muted">-</td>`;
+    if (kind === 'departure' && /(도착|arrival)/i.test(text)) return `<td class="time-cell arrival">${escapeHtml(text)}</td>`;
+    return `<td class="time-cell">${escapeHtml(text)}</td>`;
   }
 
   function formatDayDate(value) {
@@ -615,12 +484,10 @@
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    return pad(date.getMonth() + 1) + '.' + pad(date.getDate()) + ' (' + weekdays[date.getDay()] + ')';
+    return `${pad(date.getMonth() + 1)}.${pad(date.getDate())} (${weekdays[date.getDay()]})`;
   }
 
-  function getReviewPerView() {
-    return window.innerWidth <= 560 ? 1 : 2;
-  }
+  function getReviewPerView() { return window.innerWidth <= 720 ? 1 : 2; }
 
   function setupReviewSlider(total) {
     if (!reviewGrid) return;
@@ -633,29 +500,26 @@
 
     if (total <= perView) {
       reviewGrid.style.transform = '';
-      if (prev) prev.classList.add('is-hidden');
-      if (next) next.classList.add('is-hidden');
-      if (reviewDots) {
-        reviewDots.className = 'review-dots is-hidden';
-        reviewDots.innerHTML = '';
-      }
+      prev?.classList.add('is-hidden');
+      next?.classList.add('is-hidden');
+      if (reviewDots) { reviewDots.className = 'review-dots is-hidden'; reviewDots.innerHTML = ''; }
       stopReviewAuto();
       return;
     }
 
-    if (prev) prev.classList.remove('is-hidden');
-    if (next) next.classList.remove('is-hidden');
+    prev?.classList.remove('is-hidden');
+    next?.classList.remove('is-hidden');
     if (reviewDots) reviewDots.className = 'review-dots';
 
     const gap = 22;
     const viewportWidth = reviewViewport ? reviewViewport.clientWidth : 0;
-    const cardWidth = perView ? (viewportWidth - gap) / perView : 0;
-    reviewGrid.style.transform = 'translateX(-' + (state.reviewPage * (cardWidth + gap)) + 'px)';
+    const cardWidth = (viewportWidth - gap) / perView;
+    reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
 
     if (reviewDots) {
-      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map(function (_, idx) {
-        return '<button type="button" class="review-dot ' + (idx === state.reviewPage ? 'is-active' : '') + '" data-review-dot="' + idx + '" aria-label="후기 ' + (idx + 1) + '"></button>';
-      }).join('');
+      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) => 
+        `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+      ).join('');
     }
 
     startReviewAuto(total);
@@ -664,30 +528,23 @@
   function moveReviews(direction) {
     const total = (state.bootstrap.reviews || []).length;
     const maxPage = Math.max(0, total - getReviewPerView());
-    state.reviewPage = direction === 'prev'
-      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+    state.reviewPage = direction === 'prev' 
+      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1) 
       : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
     setupReviewSlider(total);
   }
 
   function startReviewAuto(total) {
     stopReviewAuto();
-    if (total > getReviewPerView()) {
-      reviewAutoTimer = window.setInterval(function () { moveReviews('next'); }, 3600);
-    }
+    if (total > getReviewPerView()) reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
   }
 
   function stopReviewAuto() {
-    if (reviewAutoTimer) {
-      clearInterval(reviewAutoTimer);
-      reviewAutoTimer = null;
-    }
+    if (reviewAutoTimer) { window.clearInterval(reviewAutoTimer); reviewAutoTimer = null; }
   }
 
   function getHomePort(scheduleId) {
-    const schedule = (state.bootstrap.schedules || []).find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    }) || {};
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
     if (schedule.home_port) return String(schedule.home_port).trim();
     const stops = getRouteStops(scheduleId);
     return stops.length ? stops[0] : '';
@@ -696,38 +553,19 @@
   function populateFormSelects() {
     const scheduleSelect = document.getElementById('interestScheduleSelect');
     if (!scheduleSelect) return;
-    scheduleSelect.innerHTML = '<option value="">선택해주세요</option>' +
-      (state.bootstrap.schedules || []).map(function (s) {
-        return '<option value="' + escapeAttribute(s.schedule_id) + '">' + escapeHtml(s.title || s.schedule_id) + '</option>';
-      }).join('');
+    scheduleSelect.innerHTML = `<option value="">선택해주세요</option>` + 
+      state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
   }
 
   function getRouteStops(scheduleId, preloadedDays) {
-    const schedule = (state.bootstrap.schedules || []).find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    }) || {};
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
+    if (schedule.route_ports) return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
 
-    if (schedule.route_ports) {
-      return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
-    }
-
-    const days = Array.isArray(preloadedDays)
-      ? preloadedDays
-      : (state.bootstrap.schedule_days || []).filter(function (item) {
-          return String(item.schedule_id).trim() === String(scheduleId).trim();
-        });
-
-    const stops = days
-      .map(function (day) { return cleanStop(day.port_name || day.city || ''); })
+    const days = Array.isArray(preloadedDays) ? preloadedDays : state.bootstrap.schedule_days.filter(item => String(item.schedule_id).trim() === String(scheduleId).trim());
+    const stops = days.map(day => cleanStop(day.port_name || day.city || ''))
       .filter(Boolean)
-      .filter(function (stop) {
-        const lower = String(stop).toLowerCase();
-        return lower !== '해상일' &&
-               lower !== 'sea day' &&
-               lower !== '인천 출발' &&
-               lower !== '부산 출발';
-      });
-
+      .filter(stop => !['해상일', 'sea day', '인천 출발', '부산 출발'].includes(stop.toLowerCase()));
+    
     return Array.from(new Set(stops));
   }
 
@@ -737,116 +575,272 @@
 
   function renderExtraSections() {
     ensureExtraSectionsScaffold();
-
-    safeSectionRender('basic_info', renderBasicInfo);
-    safeSectionRender('targets', renderTargets);
-    safeSectionRender('process_steps', renderProcessSteps);
-    safeSectionRender('cabins', renderCabins);
-    safeSectionRender('faqs', renderFaqs);
-    safeSectionRender('trust_points', renderTrustPoints);
-    safeSectionRender('content_links', renderContentLinks);
-  }
-
-  function safeSectionRender(key, fn) {
-    try {
-      fn();
-      logDebug('section.render.ok', { key: key, count: Array.isArray(state.bootstrap[key]) ? state.bootstrap[key].length : 0 });
-    } catch (error) {
-      logDebug('section.render.error', { key: key, message: error && error.message ? error.message : 'unknown' });
-    }
+    renderBasicInfo();
+    renderTargets();
+    renderProcessSteps();
+    renderCabins();
+    renderFaqs();
+    renderContentLinks();
   }
 
   function ensureExtraSectionsScaffold() {
     if (!mainContent) return;
 
-    const sections = [
-      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', gridId: 'basicInfoGrid', gridClass: 'sheet-extra-basic-grid' },
-      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
-      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
-      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
+    const blocks = [
+      {
+        id: 'basicInfoSection',
+        html: `
+          <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
+            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">기초안내</span>
+                <h2 class="sheet-extra-title">크루즈는 어렵지 않아요</h2>
+              </div>
+
+              <div class="sheet-basic-slider" id="basicInfoSlider">
+                <div class="sheet-basic-slider-viewport">
+                  <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
+                </div>
+
+                <div class="sheet-basic-slider-controls" id="basicInfoControls">
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
+                  <div class="sheet-basic-dots" id="basicInfoDots"></div>
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        `
+      },
+      {
+        id: 'targetsSection',
+        html: `
+          <section class="sheet-extra-section" id="targetsSection">
+            <div class="sheet-extra-wrap">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">이용대상자</span>
+                <h2 class="sheet-extra-title">이런 분들께 잘 맞아요</h2>
+              </div>
+              <div id="targetsGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>
+        `
+      },
+      {
+        id: 'processSection',
+        html: `
+          <section class="sheet-extra-section" id="processSection">
+            <div class="sheet-extra-wrap">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">예약과정</span>
+                <h2 class="sheet-extra-title">상담부터 탑승까지</h2>
+              </div>
+              <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
+            </div>
+          </section>
+        `
+      },
+      {
+        id: 'cabinsSection',
+        html: `
+          <section class="sheet-extra-section" id="cabinsSection">
+            <div class="sheet-extra-wrap">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">선실비교</span>
+                <h2 class="sheet-extra-title">선실 타입 비교</h2>
+              </div>
+              <div id="cabinsGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>
+        `
+      },
+      {
+        id: 'faqSection',
+        html: `
+          <section class="sheet-extra-section" id="faqSection">
+            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">FAQ</span>
+                <h2 class="sheet-extra-title">자주 묻는 질문</h2>
+              </div>
+              <div id="faqList" class="sheet-extra-faq-list"></div>
+            </div>
+          </section>
+        `
+      },
+      {
+        id: 'contentSection',
+        html: `
+          <section class="sheet-extra-section" id="contentSection">
+            <div class="sheet-extra-wrap">
+              <div class="sheet-extra-head sheet-extra-head-center">
+                <span class="sheet-extra-label">콘텐츠연결</span>
+                <h2 class="sheet-extra-title">함께 보면 좋은 정보</h2>
+              </div>
+              <div id="contentGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>
+        `
+      }
     ];
 
-    sections.forEach(function (sectionInfo) {
-      if (document.getElementById(sectionInfo.id)) return;
-
-      const html = [
-        '<section class="sheet-extra-section" id="' + sectionInfo.id + '">',
-          '<div class="sheet-extra-wrap">',
-            '<div class="sheet-extra-head">',
-              '<span class="sheet-extra-label">' + escapeHtml(sectionInfo.label) + '</span>',
-              '<h2 class="sheet-extra-title">' + escapeHtml(sectionInfo.title) + '</h2>',
-            '</div>',
-            '<div id="' + sectionInfo.gridId + '" class="' + escapeAttribute(sectionInfo.gridClass) + '"></div>',
-          '</div>',
-        '</section>'
-      ].join('');
+    blocks.forEach((block) => {
+      if (document.getElementById(block.id)) return;
 
       const debugPanel = document.getElementById('sheetDebugPanel');
       if (debugPanel && debugPanel.parentNode === mainContent) {
-        debugPanel.insertAdjacentHTML('beforebegin', html);
+        debugPanel.insertAdjacentHTML('beforebegin', block.html);
       } else {
-        mainContent.insertAdjacentHTML('beforeend', html);
+        mainContent.insertAdjacentHTML('beforeend', block.html);
       }
     });
-
-    logDebug('extra.scaffold.ready', { sections: sections.length });
   }
 
   function renderBasicInfo() {
     const section = document.getElementById('basicInfoSection');
-    const grid = document.getElementById('basicInfoGrid');
+    const track = document.getElementById('basicInfoGrid');
     const items = state.bootstrap.basic_info || [];
-    if (!section || !grid) return;
+
+    if (!section || !track) return;
+
     if (!items.length) {
       section.style.display = 'none';
+      stopBasicInfoAuto();
       return;
     }
+
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item) {
+    track.innerHTML = items.map((item) => {
       const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-      return [
-        '<article class="sheet-extra-card sheet-extra-card-basic">',
-          '<div class="sheet-extra-card-copy">',
-            item.title ? '<h3>' + escapeHtml(item.title) + '</h3>' : '',
-            item.subtitle ? '<p class="sheet-extra-muted">' + escapeHtml(item.subtitle) + '</p>' : '',
-            item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
-            points.length ? '<ul class="sheet-extra-points">' + points.map(function (point) {
-              return '<li>' + escapeHtml(point) + '</li>';
-            }).join('') + '</ul>' : '',
-          '</div>',
-          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-        '</article>'
-      ].join('');
+
+      return `
+        <article class="sheet-basic-slide">
+          <div class="sheet-basic-slide-copy">
+            ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+            ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+            ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+            ${points.length ? `
+              <ul class="sheet-extra-points">
+                ${points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}
+              </ul>
+            ` : ''}
+          </div>
+
+          ${item.image_url ? `
+            <div class="sheet-basic-slide-media">
+              <img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" />
+            </div>
+          ` : ''}
+        </article>
+      `;
     }).join('');
+
+    const slider = document.getElementById('basicInfoSlider');
+    if (slider && !slider.dataset.bound) {
+      slider.addEventListener('mouseenter', stopBasicInfoAuto);
+      slider.addEventListener('mouseleave', restartBasicInfoAuto);
+      slider.dataset.bound = 'true';
+    }
+
+    setupBasicInfoSlider();
+    restartBasicInfoAuto();
   }
+
+  function setupBasicInfoSlider() {
+    const track = document.getElementById('basicInfoGrid');
+    const viewport = document.querySelector('.sheet-basic-slider-viewport');
+    const dots = document.getElementById('basicInfoDots');
+    const controls = document.getElementById('basicInfoControls');
+
+    if (!track || !viewport || !dots || !controls) return;
+
+    const total = track.children.length;
+    if (!total) return;
+
+    const maxPage = total - 1;
+    state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
+
+    const width = viewport.clientWidth || 0;
+    track.style.transform = `translateX(-${state.basicInfoPage * width}px)`;
+
+    if (total <= 1) {
+      controls.classList.add('is-hidden');
+      dots.innerHTML = '';
+      stopBasicInfoAuto();
+      return;
+    }
+
+    controls.classList.remove('is-hidden');
+
+    dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
+      <button
+        type="button"
+        class="sheet-basic-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
+        data-basic-dot="${idx}"
+        aria-label="기초안내 ${idx + 1}"
+      ></button>
+    `).join('');
+  }
+
+  function moveBasicInfo(direction) {
+    const track = document.getElementById('basicInfoGrid');
+    if (!track) return;
+
+    const total = track.children.length;
+    if (!total) return;
+
+    const maxPage = total - 1;
+
+    state.basicInfoPage = direction === 'prev'
+      ? (state.basicInfoPage <= 0 ? maxPage : state.basicInfoPage - 1)
+      : (state.basicInfoPage >= maxPage ? 0 : state.basicInfoPage + 1);
+
+    setupBasicInfoSlider();
+    restartBasicInfoAuto();
+  }
+
+  function restartBasicInfoAuto() {
+    stopBasicInfoAuto();
+
+    const track = document.getElementById('basicInfoGrid');
+    if (!track) return;
+
+    const total = track.children.length;
+    if (total <= 1) return;
+
+    basicInfoAutoTimer = window.setInterval(() => {
+      moveBasicInfo('next');
+    }, 4200);
+  }
+
+  function stopBasicInfoAuto() {
+    if (basicInfoAutoTimer) {
+      window.clearInterval(basicInfoAutoTimer);
+      basicInfoAutoTimer = null;
+    }
+  }
+
 
   function renderTargets() {
     const section = document.getElementById('targetsSection');
     const grid = document.getElementById('targetsGrid');
     const items = state.bootstrap.targets || [];
     if (!section || !grid) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item) {
-      return [
-        '<article class="sheet-extra-card">',
-          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-          '<h3>' + escapeHtml(item.title || '') + '</h3>',
-          item.subtitle ? '<p class="sheet-extra-muted">' + escapeHtml(item.subtitle) + '</p>' : '',
-          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
-          [item.point_1, item.point_2].filter(Boolean).length ? '<ul class="sheet-extra-points">' + [item.point_1, item.point_2].filter(Boolean).map(function (p) { return '<li>' + escapeHtml(p) + '</li>'; }).join('') + '</ul>' : '',
-          item.linked_schedule_id ? '<div class="sheet-extra-action"><a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(item.linked_schedule_id) + '">' + escapeHtml(item.cta_text || '상담 요청') + '</a></div>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+        ${[item.point_1, item.point_2].filter(Boolean).length ? `<ul class="sheet-extra-points">${[item.point_1, item.point_2].filter(Boolean).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+        ${item.linked_schedule_id ? `<div class="sheet-extra-action"><a href="#contact" class="btn" data-select-schedule="${escapeAttribute(item.linked_schedule_id)}">${escapeHtml(item.cta_text || '상담 요청')}</a></div>` : ''}
+      </article>
+    `).join('');
   }
 
   function renderProcessSteps() {
@@ -854,22 +848,18 @@
     const grid = document.getElementById('processGrid');
     const items = state.bootstrap.process_steps || [];
     if (!section || !grid) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item, index) {
-      return [
-        '<article class="sheet-extra-card sheet-extra-step-card">',
-          '<span class="sheet-extra-step-no">STEP ' + (index + 1) + '</span>',
-          '<h3>' + escapeHtml(item.step_title || '') + '</h3>',
-          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
-          item.highlight_text ? '<div class="sheet-extra-highlight">' + escapeHtml(item.highlight_text) + '</div>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
+    grid.innerHTML = items.map((item, index) => `
+      <article class="sheet-extra-card sheet-extra-step-card">
+        <span class="sheet-extra-step-no">STEP ${index + 1}</span>
+        <h3>${escapeHtml(item.step_title || '')}</h3>
+        ${item.step_desc ? `<p>${escapeHtml(item.step_desc)}</p>` : ''}
+        ${item.highlight_text ? `<div class="sheet-extra-highlight">${escapeHtml(item.highlight_text)}</div>` : ''}
+      </article>
+    `).join('');
   }
 
   function renderCabins() {
@@ -877,24 +867,20 @@
     const grid = document.getElementById('cabinsGrid');
     const items = state.bootstrap.cabins || [];
     if (!section || !grid) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item) {
-      return [
-        '<article class="sheet-extra-card">',
-          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-          item.cabin_type ? '<div class="sheet-extra-chip">' + escapeHtml(item.cabin_type) + '</div>' : '',
-          '<h3>' + escapeHtml(item.title || '') + '</h3>',
-          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
-          [item.best_for, item.point_1, item.point_2].filter(Boolean).length ? '<ul class="sheet-extra-points">' + [item.best_for, item.point_1, item.point_2].filter(Boolean).map(function (p) { return '<li>' + escapeHtml(p) + '</li>'; }).join('') + '</ul>' : '',
-          (item.badge_1 || item.badge_2) ? '<div class="sheet-extra-tags">' + [item.badge_1, item.badge_2].filter(Boolean).map(function (b) { return '<span>' + escapeHtml(b) + '</span>'; }).join('') + '</div>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        ${item.cabin_type ? `<div class="sheet-extra-chip">${escapeHtml(item.cabin_type)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
+        ${[item.best_for, item.point_1, item.point_2].filter(Boolean).length ? `<ul class="sheet-extra-points">${[item.best_for, item.point_1, item.point_2].filter(Boolean).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+        ${(item.badge_1 || item.badge_2) ? `<div class="sheet-extra-tags">${[item.badge_1, item.badge_2].filter(Boolean).map(b => `<span>${escapeHtml(b)}</span>`).join('')}</div>` : ''}
+      </article>
+    `).join('');
   }
 
   function renderTrustPoints() {
@@ -902,21 +888,17 @@
     const grid = document.getElementById('trustGrid');
     const items = state.bootstrap.trust_points || [];
     if (!section || !grid) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item) {
-      return [
-        '<article class="sheet-extra-card">',
-          item.badge_text ? '<div class="sheet-extra-chip">' + escapeHtml(item.badge_text) + '</div>' : '',
-          '<h3>' + escapeHtml(item.title || '') + '</h3>',
-          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.badge_text ? `<div class="sheet-extra-chip">${escapeHtml(item.badge_text)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+      </article>
+    `).join('');
   }
 
   function renderFaqs() {
@@ -924,23 +906,19 @@
     const list = document.getElementById('faqList');
     const items = state.bootstrap.faqs || [];
     if (!section || !list) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    list.innerHTML = items.map(function (item) {
-      return [
-        '<details class="sheet-extra-faq">',
-          '<summary>' + escapeHtml(item.question || '') + '</summary>',
-          '<div class="sheet-extra-faq-body">',
-            item.category ? '<div class="sheet-extra-chip">' + escapeHtml(item.category) + '</div>' : '',
-            '<p>' + escapeHtml(item.answer || '') + '</p>',
-          '</div>',
-        '</details>'
-      ].join('');
-    }).join('');
+    list.innerHTML = items.map(item => `
+      <details class="sheet-extra-faq">
+        <summary>${escapeHtml(item.question || '')}</summary>
+        <div class="sheet-extra-faq-body">
+          ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
+          <p>${escapeHtml(item.answer || '')}</p>
+        </div>
+      </details>
+    `).join('');
   }
 
   function renderContentLinks() {
@@ -948,105 +926,41 @@
     const grid = document.getElementById('contentGrid');
     const items = state.bootstrap.content_links || [];
     if (!section || !grid) return;
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
+    
+    if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
-    grid.innerHTML = items.map(function (item) {
-      const linkUrl = String(item.link_url || '').trim();
-      return [
-        '<article class="sheet-extra-card">',
-          item.thumbnail_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.thumbnail_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-          item.category ? '<div class="sheet-extra-chip">' + escapeHtml(item.category) + '</div>' : '',
-          '<h3>' + escapeHtml(item.title || '') + '</h3>',
-          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
-          '<div class="sheet-extra-action">',
-            item.tag_text ? '<span class="sheet-extra-inline-tag">' + escapeHtml(item.tag_text) + '</span>' : '<span></span>',
-            linkUrl ? '<a href="' + escapeAttribute(linkUrl) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '',
-          '</div>',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
-
-  function ensureAddonStyles() {
-    if (document.getElementById('sheetAddonStyle')) return;
-
-    const style = document.createElement('style');
-    style.id = 'sheetAddonStyle';
-    style.textContent = [
-      '.schedule-month-accent{color:#2f6df6;font-weight:800;}',
-      '.schedule-badge-month{font-weight:800;}',
-      '.sheet-extra-section{padding:40px 0 10px;}',
-      '.sheet-extra-wrap{width:min(1200px,calc(100% - 40px));margin:0 auto;}',
-      '.sheet-extra-head{margin:0 0 18px;}',
-      '.sheet-extra-label{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;background:#eef4ff;color:#2f6df6;font-weight:800;font-size:12px;letter-spacing:.02em;}',
-      '.sheet-extra-title{margin:14px 0 0;font-size:34px;line-height:1.2;color:#0e1b39;}',
-      '.sheet-extra-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}',
-      '.sheet-extra-grid-steps{grid-template-columns:repeat(4,minmax(0,1fr));}',
-      '.sheet-extra-basic-grid{display:grid;grid-template-columns:1fr;gap:22px;}',
-      '.sheet-extra-card{background:#fff;border:1px solid #e8edf6;border-radius:28px;padding:24px;box-shadow:0 10px 30px rgba(17,34,68,.05);}',
-      '.sheet-extra-card-basic{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:24px;align-items:center;}',
-      '.sheet-extra-card h3{margin:0 0 10px;font-size:24px;line-height:1.35;color:#0e1b39;}',
-      '.sheet-extra-card p{margin:0;color:#5a6a85;line-height:1.7;}',
-      '.sheet-extra-muted{margin-bottom:10px !important;}',
-      '.sheet-extra-media{overflow:hidden;border-radius:22px;background:#f4f7fb;}',
-      '.sheet-extra-media img{display:block;width:100%;height:auto;}',
-      '.sheet-extra-points{margin:14px 0 0;padding-left:18px;color:#2d3d58;line-height:1.7;}',
-      '.sheet-extra-points li+li{margin-top:6px;}',
-      '.sheet-extra-action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap;}',
-      '.sheet-extra-chip{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f1f5ff;color:#2f6df6;font-weight:800;font-size:12px;margin-bottom:10px;}',
-      '.sheet-extra-inline-tag{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f6f7fb;color:#55637e;font-weight:700;font-size:12px;}',
-      '.sheet-extra-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}',
-      '.sheet-extra-tags span{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f6f7fb;color:#55637e;font-weight:700;font-size:12px;}',
-      '.sheet-extra-step-no{display:inline-flex;margin-bottom:10px;font-size:12px;font-weight:800;color:#2f6df6;}',
-      '.sheet-extra-highlight{margin-top:12px;color:#2f6df6;font-weight:800;}',
-      '.sheet-extra-faq-list{display:grid;gap:14px;}',
-      '.sheet-extra-faq{background:#fff;border:1px solid #e8edf6;border-radius:24px;overflow:hidden;}',
-      '.sheet-extra-faq summary{cursor:pointer;list-style:none;padding:20px 22px;font-size:18px;font-weight:800;color:#0e1b39;}',
-      '.sheet-extra-faq summary::-webkit-details-marker{display:none;}',
-      '.sheet-extra-faq-body{padding:0 22px 20px;}',
-      '.sheet-debug-panel{width:min(1200px,calc(100% - 40px));margin:28px auto 40px;background:#0f172a;color:#d7e3ff;border-radius:20px;padding:18px 20px;box-sizing:border-box;}',
-      '.sheet-debug-title{font-size:14px;font-weight:800;margin:0 0 10px;color:#fff;}',
-      '.sheet-debug-list{display:grid;gap:8px;max-height:280px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;}',
-      '.sheet-debug-item{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.06);word-break:break-word;}',
-      '@media (max-width:960px){.sheet-extra-grid,.sheet-extra-grid-steps{grid-template-columns:repeat(2,minmax(0,1fr));}.sheet-extra-card-basic{grid-template-columns:1fr;}}',
-      '@media (max-width:720px){.sheet-extra-wrap,.sheet-debug-panel{width:min(100%,calc(100% - 24px));}.sheet-extra-title{font-size:28px;}.sheet-extra-grid,.sheet-extra-grid-steps{grid-template-columns:1fr;}.sheet-extra-card{padding:20px;}}'
-    ].join('');
-    document.head.appendChild(style);
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.thumbnail_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
+        <div class="sheet-extra-action">
+          <span class="${item.tag_text ? 'sheet-extra-inline-tag' : ''}">${escapeHtml(item.tag_text || '')}</span>
+          ${item.link_url ? `<a href="${escapeAttribute(item.link_url)}" class="btn" target="_blank" rel="noopener">자세히 보기</a>` : ''}
+        </div>
+      </article>
+    `).join('');
   }
 
   function ensureDebugPanel() {
     if (document.getElementById('sheetDebugPanel')) return;
-    const panelHtml = '<section class="sheet-debug-panel" id="sheetDebugPanel"><h3 class="sheet-debug-title">DEBUG</h3><div class="sheet-debug-list" id="sheetDebugList"></div></section>';
+    const panelHtml = `<section class="sheet-debug-panel" id="sheetDebugPanel"><h3 class="sheet-debug-title">DEBUG</h3><div class="sheet-debug-list" id="sheetDebugList"></div></section>`;
     if (mainContent) mainContent.insertAdjacentHTML('beforeend', panelHtml);
     else document.body.insertAdjacentHTML('beforeend', panelHtml);
-    renderDebugPanel();
   }
 
   function logDebug(label, payload) {
-    state.debugLogs.unshift({
-      time: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
-      label: label,
-      payload: payload || {}
-    });
-    if (state.debugLogs.length > 50) state.debugLogs = state.debugLogs.slice(0, 50);
-
-    try {
-      console.log('[CRUISE_DEBUG]', label, payload || {});
-    } catch (e) {}
-
+    state.debugLogs.unshift({ time: new Date().toLocaleTimeString('ko-KR', { hour12: false }), label, payload: payload || {} });
+    if (state.debugLogs.length > 30) state.debugLogs = state.debugLogs.slice(0, 30);
+    try { console.debug('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
     renderDebugPanel();
   }
 
   function renderDebugPanel() {
     const list = document.getElementById('sheetDebugList');
-    if (!list) return;
-    list.innerHTML = state.debugLogs.map(function (item) {
-      return '<div class="sheet-debug-item">[' + escapeHtml(item.time) + '] ' + escapeHtml(item.label) + ' ' + escapeHtml(JSON.stringify(item.payload || {})) + '</div>';
-    }).join('');
+    if (list) list.innerHTML = state.debugLogs.map(item => `<div class="sheet-debug-item">[${escapeHtml(item.time)}] ${escapeHtml(item.label)} ${escapeHtml(JSON.stringify(item.payload || {}))}</div>`).join('');
   }
 
   function setTrackingFields() {
@@ -1062,74 +976,61 @@
   function updateFormResult(message, type) {
     if (!formResult) return;
     formResult.textContent = message;
-    formResult.className = 'form-result';
-    if (type) formResult.classList.add('is-' + type);
+    formResult.className = `form-result${type ? ` is-${type}` : ''}`;
   }
 
   function setSubmitState(isSubmitting) {
-    const button = document.getElementById('formSubmitButton') || document.getElementById('contactSubmitButton');
+    const button = document.getElementById('formSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
     button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
   }
 
   function closeModal() {
-    if (!modal) return;
-    modal.setAttribute('aria-hidden', 'true');
+    modal?.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
   function scrollToSection(id) {
-    const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function setText(id, value, mode) {
-    const element = document.getElementById(id);
-    if (!element || value == null) return;
-    if (mode === 'value') element.value = value;
-    else element.textContent = value;
+    const el = document.getElementById(id);
+    if (!el || value == null) return;
+    mode === 'value' ? el.value = value : el.textContent = value;
   }
 
   function setHtml(id, html) {
-    const element = document.getElementById(id);
-    if (element) element.innerHTML = html;
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
   }
 
   function setInputValue(id, value) {
-    const element = document.getElementById(id);
-    if (element) element.value = value;
+    const el = document.getElementById(id);
+    if (el) el.value = value;
   }
 
   function metaItem(label, value) {
-    return '<div class="schedule-meta-item"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
+    return `<div class="schedule-meta-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || '-')}</strong></div>`;
   }
 
   function metaBox(label, value) {
-    return '<div class="modal-meta-box"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
+    return `<div class="modal-meta-box"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || '-')}</strong></div>`;
   }
 
   function formatDate(value) {
     if (!value) return '';
     const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? String(value) : (date.getFullYear() + '.' + pad(date.getMonth() + 1) + '.' + pad(date.getDate()));
+    return Number.isNaN(date.getTime()) ? String(value) : `${date.getFullYear()}.${pad(date.getMonth() + 1)}.${pad(date.getDate())}`;
   }
 
-  function pad(num) {
-    return String(num).padStart(2, '0');
-  }
-
-  function convertLineBreaks(value) {
-    return String(value || '').replace(/\n/g, '<br>');
-  }
-
+  function pad(num) { return String(num).padStart(2, '0'); }
+  function convertLineBreaks(value) { return String(value || '').replace(/\n/g, '<br>'); }
+  
   function escapeHtml(value) {
-    return String(value == null ? '' : value).replace(/[&<>"']/g, function (match) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
-    });
+    return String(value == null ? '' : value).replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[match]);
   }
-
-  function escapeAttribute(value) {
-    return escapeHtml(value);
-  }
+  
+  function escapeAttribute(value) { return escapeHtml(value); }
 })();
