@@ -2009,7 +2009,11 @@ button {
   .hero-title {
     font-size: 42px;
   }
-
+  .sheet-extra-nav {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+  }
   .hero-subtitle {
     font-size: 16px;
   }
@@ -2141,6 +2145,81 @@ button {
   letter-spacing: -0.04em;
   line-height: 1.15;
   color: #091a3b;
+}
+
+/* =========================================================
+   기초안내 전용 슬라이더
+   - PC / MO 모두 1장씩만 노출
+   ========================================================= */
+.sheet-extra-slider {
+  position: relative;
+  margin-top: 6px;
+}
+
+.sheet-extra-slider-viewport {
+  overflow: hidden;
+  border-radius: 28px;
+}
+
+.sheet-extra-basic-track {
+  display: flex;
+  gap: 0;
+  transition: transform 0.32s ease;
+  will-change: transform;
+}
+
+.sheet-extra-basic-track .sheet-extra-card {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.sheet-extra-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sheet-extra-dot {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: #cbd5e1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sheet-extra-dot.is-active {
+  background: var(--blue);
+}
+
+.sheet-extra-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(8, 22, 47, 0.88);
+  color: #fff;
+  font-size: 28px;
+  z-index: 2;
+  box-shadow: var(--shadow-soft);
+}
+
+.sheet-extra-nav.prev {
+  left: -10px;
+}
+
+.sheet-extra-nav.next {
+  right: -10px;
+}
+
+.sheet-extra-nav.is-hidden,
+.sheet-extra-dots.is-hidden {
+  display: none;
 }
 
 /* =========================================================
@@ -2423,7 +2502,19 @@ button {
   .sheet-extra-section {
     padding: 56px 0 8px;
   }
+  .sheet-extra-nav {
+    width: 42px;
+    height: 42px;
+    font-size: 24px;
+  }
 
+  .sheet-extra-nav.prev {
+    left: -6px;
+  }
+
+  .sheet-extra-nav.next {
+    right: -6px;
+  }
   .sheet-extra-wrap,
   .sheet-debug-panel {
     width: min(100%, calc(100% - 24px));
