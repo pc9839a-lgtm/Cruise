@@ -1101,5 +1101,5 @@
   function escapeAttribute(value) {
     return escapeHtml(value);
   }
-	
+
 })();
