@@ -105,7 +105,7 @@
       if (data.type !== 'CRUISE_FORM_RESULT') return;
       if (data.success) {
         updateFormResult(data.message || '문의가 정상 접수되었습니다.', 'success');
-        if (form) form.reset();
+        form.reset();
         setTrackingFields();
       } else {
         updateFormResult(data.message || '문의 접수 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
@@ -176,7 +176,7 @@
         form.submit();
 
         window.setTimeout(function () {
-          if (formResult && formResult.classList.contains('is-pending')) {
+          if (formResult.classList.contains('is-pending')) {
             updateFormResult('문의 접수는 진행 중입니다. 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
@@ -201,70 +201,29 @@
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
-      const requestUrl = config.apiUrl + '?' + params.toString();
-      let finished = false;
-      let timeoutId = null;
-
-      console.debug('[main.js] bootstrap request start:', requestUrl);
+      script.src = config.apiUrl + '?' + params.toString();
+      script.async = true;
 
       window[callbackName] = function (payload) {
-        if (finished) return;
-        finished = true;
-        console.debug('[main.js] bootstrap success:', payload);
-        cleanup(true);
+        cleanup();
         resolve(payload);
       };
 
-      script.onerror = function (error) {
-        if (finished) return;
-        finished = true;
-        console.debug('[main.js] bootstrap script error:', error);
-        cleanup(false);
+      script.onerror = function () {
+        cleanup();
         reject(new Error('bootstrap-load-failed'));
       };
 
-      timeoutId = window.setTimeout(function () {
-        if (finished) return;
-        finished = true;
-        console.debug('[main.js] bootstrap timeout');
-        cleanup(false);
-        reject(new Error('bootstrap-timeout'));
-      }, 8000);
-
-      function cleanup(success) {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-          timeoutId = null;
-        }
-
+      function cleanup() {
+        delete window[callbackName];
         if (script.parentNode) script.parentNode.removeChild(script);
-
-        if (success) {
-          window[callbackName] = function () {
-            console.debug('[main.js] late jsonp callback ignored:', callbackName);
-          };
-          setTimeout(function () {
-            try { delete window[callbackName]; } catch (e) {}
-          }, 30000);
-        } else {
-          try { delete window[callbackName]; } catch (e) {}
-        }
       }
 
-      script.src = requestUrl;
-      script.async = true;
       document.body.appendChild(script);
     });
   }
 
   function hydrate(data) {
-    console.debug('[main.js] hydrate payload:', {
-      hasSettings: !!(data && data.settings),
-      schedules: data && Array.isArray(data.schedules) ? data.schedules.length : 0,
-      schedule_days: data && Array.isArray(data.schedule_days) ? data.schedule_days.length : 0,
-      reviews: data && Array.isArray(data.reviews) ? data.reviews.length : 0
-    });
-
     state.bootstrap = normalizeData(data);
     renderSettings();
     renderFilters();
@@ -384,8 +343,8 @@
       'identityDesc',
       convertLineBreaks(
         escapeHtml(
-         settings.identity_desc ||
-         '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.'
+          settings.identity_desc ||
+          '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.'
         )
       )
      );
@@ -487,13 +446,7 @@
      return String(Number(match[2])) + '월';
    }
    
- 
-  function getMonthLabel_(dateValue) {
-    console.debug('[main.js] alias getMonthLabel_ called:', dateValue);
-    return getMonthLabel(dateValue);
-  }
-
-  function highlightMonthText(text) {
+   function highlightMonthText(text) {
      return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
    }
   function renderReviews() {
@@ -573,13 +526,7 @@
   }
 
   function buildRouteTrack(stops) {
-    console.debug('[main.js] buildRouteTrack input:', stops);
-
-    if (!Array.isArray(stops) || !stops.length) {
-      console.debug('[main.js] buildRouteTrack empty');
-      return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
-    }
-
+    if (!stops.length) return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
     return stops.map(function (stop, index) {
       const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : 'STOP ' + index);
       return '<div class="route-stop"><div class="route-pill"><small>' + label + '</small><strong>' + escapeHtml(stop) + '</strong></div>' + (index < stops.length - 1 ? '<div class="route-line">→</div>' : '') + '</div>';
@@ -741,16 +688,12 @@
   }
 
   function getRouteStops(scheduleId, preloadedDays) {
-    console.debug('[main.js] getRouteStops scheduleId:', scheduleId);
-
     const schedule = state.bootstrap.schedules.find(function (item) {
       return String(item.schedule_id).trim() === String(scheduleId).trim();
     }) || {};
 
     if (schedule.route_ports) {
-      const routePorts = String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
-      console.debug('[main.js] getRouteStops from route_ports:', routePorts);
-      return routePorts;
+      return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
     }
 
     const days = Array.isArray(preloadedDays) ? preloadedDays : state.bootstrap.schedule_days.filter(function (item) {
@@ -760,14 +703,11 @@
     const stops = days.map(function (day) {
       return cleanStop(day.port_name || day.city || '');
     }).filter(Boolean).filter(function (stop) {
-      const lower = String(stop).toLowerCase();
+      const lower = stop.toLowerCase();
       return lower !== '해상일' && lower !== 'sea day' && lower !== '인천 출발' && lower !== '부산 출발';
     });
 
-    const uniqueStops = Array.from(new Set(stops));
-    console.debug('[main.js] getRouteStops from days:', uniqueStops);
-
-    return uniqueStops;
+    return Array.from(new Set(stops));
   }
 
   function cleanStop(value) {
@@ -861,36 +801,715 @@
   function escapeAttribute(value) {
     return escapeHtml(value);
   }
-
-  if (typeof setupDynamicSlider_ !== 'function') {
-    function setupDynamicSlider_(sliderKey) {
-      console.debug('[main.js] setupDynamicSlider_ skipped:', sliderKey);
-    }
-  }
-
-  if (typeof moveDynamicSlider_ !== 'function') {
-    function moveDynamicSlider_(sliderKey, direction) {
-      console.debug('[main.js] moveDynamicSlider_ skipped:', sliderKey, direction);
-    }
-  }
-
-  if (typeof setDynamicSliderState_ !== 'function') {
-    function setDynamicSliderState_(sliderKey, page) {
-      console.debug('[main.js] setDynamicSliderState_ skipped:', sliderKey, page);
-    }
-  }
-
-  if (typeof alignContentButtons_ !== 'function') {
-    function alignContentButtons_() {
-      console.debug('[main.js] alignContentButtons_ skipped');
-    }
-  }
-
-  if (typeof buildSafeImageHtml_ !== 'function') {
-    function buildSafeImageHtml_() {
-      console.debug('[main.js] buildSafeImageHtml_ skipped');
-      return '';
-    }
-  }
-
 })();
+
+const SHEET_NAMES = {
+  settings: '설정',
+  agents: '영업자',
+  schedules: '일정목록',
+  scheduleDays: '일정상세',
+  reviews: '후기',
+  inquiries: '상담문의',
+  mailLogs: '알림로그',
+
+  // 신규 섹션 시트
+  targets: '이용대상자',
+  basicInfo: '기초안내',
+  processSteps: '예약과정',
+  cabins: '선실비교',
+  faqs: 'FAQ',
+  trustPoints: '신뢰요소',
+  contentLinks: '콘텐츠연결'
+};
+
+/* =========================
+ * GET : bootstrap
+ * ========================= */
+function doGet(e) {
+  try {
+    const params = (e && e.parameter) ? e.parameter : {};
+    const action = toText_(params.action);
+
+    if (action === 'bootstrap') {
+      const payload = {
+        settings: getSettingsObject_(),
+        schedules: getSchedules_(),
+        schedule_days: getScheduleDays_(),
+        reviews: getReviews_(),
+
+        // 신규 섹션 데이터
+        targets: getTargets_(),
+        basic_info: getBasicInfo_(),
+        process_steps: getProcessSteps_(),
+        cabins: getCabins_(),
+        faqs: getFaqs_(),
+        trust_points: getTrustPoints_(),
+        content_links: getContentLinks_()
+      };
+
+      return createJsonOrJsonpOutput_(payload, params.callback);
+    }
+
+    return createJsonOrJsonpOutput_({
+      success: false,
+      message: '지원하지 않는 요청입니다.'
+    }, params.callback);
+  } catch (error) {
+    return createJsonOrJsonpOutput_({
+      success: false,
+      message: String(error && error.message ? error.message : error)
+    }, (e && e.parameter) ? e.parameter.callback : '');
+  }
+}
+
+/* =========================
+ * POST : inquiry submit
+ * ========================= */
+function doPost(e) {
+  try {
+    const params = (e && e.parameter) ? e.parameter : {};
+    validateInquiry_(params);
+
+    const settings = getSettingsObject_();
+    const defaultEmail = toText_(settings.default_email);
+    if (!defaultEmail) {
+      throw new Error('설정 시트의 default_email 값이 비어 있습니다.');
+    }
+
+    const agents = getActiveAgents_();
+    const agentCode = toText_(params.agent_code);
+    const matchedAgent = findAgent_(agents, agentCode);
+
+    // 메인 링크면 default_email
+    // 영업자 링크면 해당 영업자 email
+    // 영업자 코드가 틀리면 default_email fallback
+    const assignedEmailRaw = matchedAgent && toText_(matchedAgent.email)
+      ? toText_(matchedAgent.email)
+      : defaultEmail;
+
+    const normalizedRecipients = normalizeEmailList_(assignedEmailRaw);
+    const assignedEmail = normalizedRecipients.join(',');
+
+    const createdAt = Utilities.formatDate(
+      new Date(),
+      Session.getScriptTimeZone() || 'Asia/Seoul',
+      'yyyy-MM-dd HH:mm:ss'
+    );
+
+    const inquiryData = {
+      created_at: createdAt,
+      name: toText_(params.name),
+      phone: toText_(params.phone).replace(/\D+/g, ''),
+      interest_schedule_id: firstNonEmpty_(params.interest_schedule_id, params.schedule_id),
+      people_count: toText_(params.people_count),
+      region_detail: toText_(params.region_detail),
+      travel_ready_status: toText_(params.travel_ready_status),
+      message: firstNonEmpty_(params.message, params.memo),
+      agent_code: agentCode,
+      utm_source: toText_(params.utm_source),
+      utm_medium: toText_(params.utm_medium),
+      utm_campaign: toText_(params.utm_campaign),
+      page_url: firstNonEmpty_(params.page_url, params.landing_page),
+      referrer: toText_(params.referrer),
+      assigned_email: assignedEmail,
+      mail_sent: 'N',
+      status: '신규'
+    };
+
+    const mailResult = sendInquiryEmail_({
+      createdAt: createdAt,
+      params: inquiryData,
+      receiverEmail: assignedEmail,
+      siteTitle: firstNonEmpty_(settings.site_title, settings.site_name, '크루즈 일정 문의'),
+      agentName: matchedAgent ? firstNonEmpty_(matchedAgent.agent_name, matchedAgent.name, matchedAgent.agent_code) : ''
+    });
+
+    inquiryData.mail_sent = mailResult.success ? 'Y' : 'N';
+
+    appendByHeader_(SHEET_NAMES.inquiries, inquiryData);
+
+    appendByHeader_(SHEET_NAMES.mailLogs, {
+      sent_at: createdAt,
+      name: inquiryData.name,
+      phone: inquiryData.phone,
+      agent_code: inquiryData.agent_code,
+      receiver_email: assignedEmail,
+      result: mailResult.success ? 'SUCCESS' : 'FAIL',
+      error_message: mailResult.success ? '' : mailResult.message
+    });
+
+    return createPostMessageHtml_(true, '문의가 정상 접수되었습니다.');
+  } catch (error) {
+    console.error(error);
+    return createPostMessageHtml_(false, String(error && error.message ? error.message : error));
+  }
+}
+
+/* =========================
+ * Settings
+ * ========================= */
+function getSettingsObject_() {
+  const sheet = getSheetOrThrow_(SHEET_NAMES.settings);
+  const values = sheet.getDataRange().getValues();
+  const result = {};
+
+  for (let i = 1; i < values.length; i += 1) {
+    const key = toText_(values[i][0]);
+    const value = toText_(values[i][1]);
+    if (key) result[key] = value;
+  }
+
+  return result;
+}
+
+/* =========================
+ * Agents
+ * ========================= */
+function getActiveAgents_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.agents);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+  return rows
+    .map(function (row) {
+      return {
+        agent_code: firstNonEmpty_(row.agent_code, row.code),
+        agent_name: firstNonEmpty_(row.agent_name, row.name),
+        email: firstNonEmpty_(row.email, row.receiver_email),
+        is_active: firstNonEmpty_(row.is_active, row.display_yn, row.active, 'Y')
+      };
+    })
+    .filter(function (item) {
+      return toText_(item.agent_code) && toText_(item.email) && isDisplayOn_(item.is_active);
+    });
+}
+
+function findAgent_(agents, agentCode) {
+  const code = toText_(agentCode);
+  if (!code) return null;
+
+  for (let i = 0; i < agents.length; i += 1) {
+    if (toText_(agents[i].agent_code) === code) {
+      return agents[i];
+    }
+  }
+  return null;
+}
+
+/* =========================
+ * Schedule list
+ * ========================= */
+function getSchedules_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.schedules);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.schedule_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.display_yn, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_no, b.sort_no, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        schedule_id: toText_(row.schedule_id),
+        title: toText_(row.title),
+        region: toText_(row.region),
+        ship_name: toText_(row.ship_name),
+        departure_date: formatDateCell_(row.departure_date),
+        return_date: formatDateCell_(row.return_date),
+        departure_airport: toText_(row.departure_airport),
+        summary: toText_(row.summary),
+        thumbnail_url: toText_(row.thumbnail_url),
+        schedule_image_url: toText_(row.schedule_image_url),
+        detail_intro: toText_(row.detail_intro),
+        route_ports: toText_(row.route_ports)
+      };
+    });
+}
+
+/* =========================
+ * Schedule days
+ * ========================= */
+function getScheduleDays_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.scheduleDays);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.schedule_id) && String(firstNonEmpty_(row.day_no, '')).trim();
+    })
+    .sort(function (a, b) {
+      const scheduleCompare = toText_(a.schedule_id).localeCompare(toText_(b.schedule_id), 'ko');
+      if (scheduleCompare !== 0) return scheduleCompare;
+      return Number(firstNonEmpty_(a.day_no, 0)) - Number(firstNonEmpty_(b.day_no, 0));
+    })
+    .map(function (row) {
+      return {
+        schedule_id: toText_(row.schedule_id),
+        day_no: String(firstNonEmpty_(row.day_no, '')),
+        date: formatDateCell_(row.date),
+        port_name: toText_(row.port_name),
+        arrival_time: normalizeTimeCell_(row.arrival_time),
+        departure_time: normalizeTimeCell_(row.departure_time),
+        description: toText_(row.description),
+        image_url: toText_(row.image_url)
+      };
+    });
+}
+
+/* =========================
+ * Reviews
+ * ========================= */
+function getReviews_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.reviews);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.review_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.display_yn, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_no, b.sort_no, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        review_id: toText_(row.review_id),
+        title: toText_(row.title),
+        region: toText_(row.region),
+        summary: toText_(row.summary),
+        thumbnail_url: toText_(row.thumbnail_url),
+        content: toText_(row.content)
+      };
+    });
+}
+
+/* =========================
+ * 신규 섹션 데이터
+ * ========================= */
+function getTargets_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.targets);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.target_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        target_id: toText_(row.target_id),
+        title: toText_(row.title),
+        subtitle: toText_(row.subtitle),
+        description: toText_(row.description),
+        point_1: toText_(row.point_1),
+        point_2: toText_(row.point_2),
+        image_url: toText_(row.image_url),
+        cta_text: toText_(row.cta_text),
+        linked_schedule_id: toText_(row.linked_schedule_id)
+      };
+    });
+}
+
+function getBasicInfo_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.basicInfo);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.section_key) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .map(function (row) {
+      return {
+        section_key: toText_(row.section_key),
+        title: toText_(row.title),
+        subtitle: toText_(row.subtitle),
+        body: toText_(row.body),
+        point_1: toText_(row.point_1),
+        point_2: toText_(row.point_2),
+        point_3: toText_(row.point_3),
+        image_url: toText_(row.image_url)
+      };
+    });
+}
+
+function getProcessSteps_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.processSteps);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.step_id) && toText_(row.step_title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.step_title, b.step_title);
+    })
+    .map(function (row) {
+      return {
+        step_id: toText_(row.step_id),
+        step_title: toText_(row.step_title),
+        step_desc: toText_(row.step_desc),
+        step_icon: toText_(row.step_icon),
+        highlight_text: toText_(row.highlight_text)
+      };
+    });
+}
+
+function getCabins_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.cabins);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.cabin_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        cabin_id: toText_(row.cabin_id),
+        cabin_type: toText_(row.cabin_type),
+        title: toText_(row.title),
+        summary: toText_(row.summary),
+        best_for: toText_(row.best_for),
+        point_1: toText_(row.point_1),
+        point_2: toText_(row.point_2),
+        badge_1: toText_(row.badge_1),
+        badge_2: toText_(row.badge_2),
+        image_url: toText_(row.image_url)
+      };
+    });
+}
+
+function getFaqs_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.faqs);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.faq_id) && toText_(row.question) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.question, b.question);
+    })
+    .map(function (row) {
+      return {
+        faq_id: toText_(row.faq_id),
+        category: toText_(row.category),
+        question: toText_(row.question),
+        answer: toText_(row.answer),
+        is_featured: toText_(row.is_featured)
+      };
+    });
+}
+
+function getTrustPoints_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.trustPoints);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.trust_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        trust_id: toText_(row.trust_id),
+        title: toText_(row.title),
+        description: toText_(row.description),
+        icon: toText_(row.icon),
+        badge_text: toText_(row.badge_text)
+      };
+    });
+}
+
+function getContentLinks_() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.contentLinks);
+  if (!sheet) return [];
+
+  const rows = getRowsByHeader_(sheet);
+
+  return rows
+    .filter(function (row) {
+      return toText_(row.content_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
+    })
+    .sort(function (a, b) {
+      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
+    })
+    .map(function (row) {
+      return {
+        content_id: toText_(row.content_id),
+        category: toText_(row.category),
+        title: toText_(row.title),
+        summary: toText_(row.summary),
+        thumbnail_url: toText_(row.thumbnail_url),
+        link_url: toText_(row.link_url),
+        tag_text: toText_(row.tag_text)
+      };
+    });
+}
+
+/* =========================
+ * Mail
+ * ========================= */
+function sendInquiryEmail_(context) {
+  try {
+    const recipients = normalizeEmailList_(context.receiverEmail);
+
+    if (!recipients.length) {
+      throw new Error('발송 대상 이메일이 없습니다.');
+    }
+
+    const subject = '[' + firstNonEmpty_(context.siteTitle, '크루즈 일정 문의') + '] 신규 상담문의 - ' + firstNonEmpty_(context.params.name, '이름없음');
+
+    const lines = [
+      '신규 상담문의가 접수되었습니다.',
+      '',
+      '접수시간: ' + firstNonEmpty_(context.createdAt),
+      '담당자: ' + firstNonEmpty_(context.agentName, context.params.agent_code, '메인 문의'),
+      '이름: ' + firstNonEmpty_(context.params.name),
+      '연락처: ' + firstNonEmpty_(context.params.phone),
+      '관심 일정: ' + firstNonEmpty_(context.params.interest_schedule_id),
+      '인원수: ' + firstNonEmpty_(context.params.people_count),
+      '거주지역: ' + firstNonEmpty_(context.params.region_detail),
+      '여권/해외결제카드 소지 여부: ' + firstNonEmpty_(context.params.travel_ready_status),
+      '문의 내용: ' + firstNonEmpty_(context.params.message),
+      '',
+      'agent_code: ' + firstNonEmpty_(context.params.agent_code),
+      'utm_source: ' + firstNonEmpty_(context.params.utm_source),
+      'utm_medium: ' + firstNonEmpty_(context.params.utm_medium),
+      'utm_campaign: ' + firstNonEmpty_(context.params.utm_campaign),
+      'page_url: ' + firstNonEmpty_(context.params.page_url),
+      'referrer: ' + firstNonEmpty_(context.params.referrer)
+    ];
+
+    MailApp.sendEmail({
+      to: recipients.join(','),
+      subject: subject,
+      body: lines.join('\n')
+    });
+
+    return { success: true, message: '' };
+  } catch (error) {
+    return { success: false, message: String(error && error.message ? error.message : error) };
+  }
+}
+
+/* =========================
+ * Validation
+ * ========================= */
+function validateInquiry_(params) {
+  if (!toText_(params.name)) {
+    throw new Error('이름이 없습니다.');
+  }
+
+  if (!toText_(params.phone).replace(/\D+/g, '')) {
+    throw new Error('연락처가 없습니다.');
+  }
+
+  if (!firstNonEmpty_(params.interest_schedule_id, params.schedule_id)) {
+    throw new Error('관심 일정이 없습니다.');
+  }
+
+  if (!toText_(params.people_count)) {
+    throw new Error('인원수가 없습니다.');
+  }
+}
+
+/* =========================
+ * Sheet append by header
+ * ========================= */
+function appendByHeader_(sheetName, data) {
+  const sheet = getSheetOrThrow_(sheetName);
+  const headers = getHeaderRow_(sheet);
+
+  if (!headers.length) {
+    throw new Error(sheetName + ' 시트의 헤더가 없습니다.');
+  }
+
+  const row = headers.map(function (header) {
+    return Object.prototype.hasOwnProperty.call(data, header) ? data[header] : '';
+  });
+
+  sheet.appendRow(row);
+}
+
+/* =========================
+ * Output helpers
+ * ========================= */
+function createJsonOrJsonpOutput_(payload, callback) {
+  const safeCallback = toText_(callback);
+
+  if (safeCallback) {
+    if (!/^[a-zA-Z0-9_.$]+$/.test(safeCallback)) {
+      throw new Error('callback 형식이 올바르지 않습니다.');
+    }
+
+    return ContentService
+      .createTextOutput(safeCallback + '(' + JSON.stringify(payload) + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function createPostMessageHtml_(success, message) {
+  const payload = JSON.stringify({
+    type: 'CRUISE_FORM_RESULT',
+    success: !!success,
+    message: String(message || '')
+  });
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <script>
+          window.top.postMessage(${payload}, "*");
+        </script>
+      </body>
+    </html>
+  `;
+
+  return HtmlService
+    .createHtmlOutput(html)
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+/* =========================
+ * Generic sheet helpers
+ * ========================= */
+function getSheetOrThrow_(sheetName) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+  if (!sheet) {
+    throw new Error(sheetName + ' 시트를 찾을 수 없습니다.');
+  }
+  return sheet;
+}
+
+function getHeaderRow_(sheet) {
+  const lastColumn = sheet.getLastColumn();
+  if (lastColumn < 1) return [];
+  return sheet.getRange(1, 1, 1, lastColumn).getValues()[0].map(function (header) {
+    return toText_(header);
+  });
+}
+
+function getRowsByHeader_(sheet) {
+  const values = sheet.getDataRange().getValues();
+  if (values.length < 2) return [];
+
+  const headers = values[0].map(function (header) {
+    return toText_(header);
+  });
+
+  return values.slice(1).map(function (row) {
+    const item = {};
+    headers.forEach(function (header, idx) {
+      item[header] = row[idx];
+    });
+    return item;
+  });
+}
+
+/* =========================
+ * Value helpers
+ * ========================= */
+function toText_(value) {
+  if (value === null || value === undefined) return '';
+  return String(value).trim();
+}
+
+function firstNonEmpty_() {
+  for (var i = 0; i < arguments.length; i += 1) {
+    var value = toText_(arguments[i]);
+    if (value) return value;
+  }
+  return '';
+}
+
+function isDisplayOn_(value) {
+  const text = toText_(value).toUpperCase();
+  if (!text) return true;
+  return !['N', 'NO', 'FALSE', '0', 'HIDE', 'HIDDEN'].includes(text);
+}
+
+function compareSort_(aSort, bSort, aTitle, bTitle) {
+  const a = parseSortNo_(aSort);
+  const b = parseSortNo_(bSort);
+
+  if (a !== b) return a - b;
+  return toText_(aTitle).localeCompare(toText_(bTitle), 'ko');
+}
+
+function parseSortNo_(value) {
+  const num = Number(value);
+  return isNaN(num) ? 999999 : num;
+}
+
+function formatDateCell_(value) {
+  if (!value && value !== 0) return '';
+
+  if (Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime())) {
+    return Utilities.formatDate(value, Session.getScriptTimeZone() || 'Asia/Seoul', 'yyyy-MM-dd');
+  }
+
+  const text = toText_(value);
+  if (!text) return '';
+
+  const parsed = new Date(text);
+  if (!isNaN(parsed.getTime()) && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}/.test(text)) {
+    return Utilities.formatDate(parsed, Session.getScriptTimeZone() || 'Asia/Seoul', 'yyyy-MM-dd');
+  }
+
+  return text;
+}
+
+function normalizeTimeCell_(value) {
+  if (value === null || value === undefined) return '';
+
+  if (Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime())) {
+    return Utilities.formatDate(value, Session.getScriptTimeZone() || 'Asia/Seoul', 'H:mm');
+  }
+
+  return toText_(value);
+}
+
+function normalizeEmailList_(value) {
+  return String(value || '')
+    .split(',')
+    .map(function (email) {
+      return String(email || '').trim();
+    })
+    .filter(function (email) {
+      return !!email;
+    })
+    .filter(function (email, index, arr) {
+      return arr.indexOf(email) === index;
+    });
+}
