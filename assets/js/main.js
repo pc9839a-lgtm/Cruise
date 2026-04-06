@@ -1,18 +1,19 @@
 (function () {
   const config = window.APP_CONFIG || {};
-  const modal = document.getElementById('scheduleModal');
-  const modalBody = document.getElementById('scheduleModalBody');
-  const scheduleGrid = document.getElementById('scheduleGrid');
-  const scheduleFilters = document.getElementById('scheduleFilters');
-  const reviewGrid = document.getElementById('reviewGrid');
-  const reviewDots = document.getElementById('reviewDots');
-  const reviewViewport = document.getElementById('reviewViewport');
-  const form = document.getElementById('contactForm');
-  const formResult = document.getElementById('formResult');
-  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-  const mainNav = document.getElementById('mainNav');
-  const phoneInput = document.getElementById('phoneInput');
-  const mainContent = document.querySelector('main');
+
+  let modal = null;
+  let modalBody = null;
+  let scheduleGrid = null;
+  let scheduleFilters = null;
+  let reviewGrid = null;
+  let reviewDots = null;
+  let reviewViewport = null;
+  let form = null;
+  let formResult = null;
+  let mobileMenuToggle = null;
+  let mainNav = null;
+  let phoneInput = null;
+  let mainContent = null;
 
   const state = {
     bootstrap: {
@@ -34,7 +35,39 @@
 
   let reviewAutoTimer = null;
 
-  init();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      boot().catch(handleBootError_);
+    }, { once: true });
+  } else {
+    boot().catch(handleBootError_);
+  }
+
+  async function boot() {
+    cacheDom_();
+    await init();
+  }
+
+  function cacheDom_() {
+    modal = document.getElementById('scheduleModal');
+    modalBody = document.getElementById('scheduleModalBody');
+    scheduleGrid = document.getElementById('scheduleGrid');
+    scheduleFilters = document.getElementById('scheduleFilters');
+    reviewGrid = document.getElementById('reviewGrid');
+    reviewDots = document.getElementById('reviewDots');
+    reviewViewport = document.getElementById('reviewViewport');
+    form = document.getElementById('contactForm');
+    formResult = document.getElementById('formResult');
+    mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    mainNav = document.getElementById('mainNav');
+    phoneInput = document.getElementById('phoneInput');
+    mainContent = document.querySelector('main');
+  }
+
+  function handleBootError_(error) {
+    console.error('main-init-failed:', error);
+    showBootstrapError_(error);
+  }
 
   async function init() {
     bindStaticEvents();
@@ -139,7 +172,7 @@
       if (data.type !== 'CRUISE_FORM_RESULT') return;
       if (data.success) {
         updateFormResult(data.message || '문의가 정상 접수되었습니다.', 'success');
-        form.reset();
+        if (form) form.reset();
         setTrackingFields();
       } else {
         updateFormResult(data.message || '문의 접수 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
@@ -210,7 +243,7 @@
         form.submit();
 
         window.setTimeout(function () {
-          if (formResult.classList.contains('is-pending')) {
+          if (formResult && formResult.classList.contains('is-pending')) {
             updateFormResult('문의 접수는 진행 중입니다. 시트 반영까지 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
@@ -221,34 +254,72 @@
   async function getBootstrapWithFallback() {
     try {
       const apiPayload = await loadBootstrapFromApi();
+      validateBootstrapPayload_(apiPayload);
       return normalizeData(apiPayload);
     } catch (error) {
-      console.error('bootstrap-fallback:', error);
-      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+      console.error('bootstrap-failed:', error);
+      showBootstrapError_(error);
+
+      if (window.MOCK_BOOTSTRAP_DATA) {
+        console.warn('mock-bootstrap-used');
+        return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+      }
+
+      throw error;
+    }
+  }
+
+  function validateBootstrapPayload_(payload) {
+    if (!payload || typeof payload !== 'object') {
+      throw new Error('bootstrap-invalid-payload');
+    }
+
+    if (payload.success === false) {
+      throw new Error(payload.message || 'bootstrap-api-error');
+    }
+
+    const hasBootstrapKeys =
+      !!payload.settings ||
+      Array.isArray(payload.schedules) ||
+      Array.isArray(payload.schedule_days) ||
+      Array.isArray(payload.reviews);
+
+    if (!hasBootstrapKeys) {
+      throw new Error('bootstrap-empty-payload');
     }
   }
 
   function loadBootstrapFromApi() {
     return new Promise(function (resolve, reject) {
-      if (!config.apiUrl) {
+      const baseUrl = String(config.apiUrl || '').trim();
+
+      if (!baseUrl) {
         reject(new Error('apiUrl-missing'));
         return;
       }
 
       const callbackName = '__cruiseJsonpCallback_' + Date.now();
       const params = new URLSearchParams(window.location.search);
+
       params.set('action', 'bootstrap');
       params.set('callback', callbackName);
+      params.set('_ts', String(Date.now()));
 
       const script = document.createElement('script');
-      const timeoutMs = 8000;
+      const timeoutMs = Number(config.bootstrapTimeout || 12000);
       let finished = false;
       let timer = null;
 
       function cleanup() {
         if (timer) window.clearTimeout(timer);
-        delete window[callbackName];
-        if (script.parentNode) script.parentNode.removeChild(script);
+        try {
+          delete window[callbackName];
+        } catch (_) {
+          window[callbackName] = undefined;
+        }
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
       }
 
       window[callbackName] = function (payload) {
@@ -278,393 +349,586 @@
         reject(new Error('bootstrap-timeout'));
       }, timeoutMs);
 
-      script.src = config.apiUrl + '?' + params.toString();
+      const joiner = baseUrl.indexOf('?') >= 0 ? '&' : '?';
+      script.src = baseUrl + joiner + params.toString();
       script.async = true;
-      document.body.appendChild(script);
+
+      const mountTarget = document.body || document.head || document.documentElement;
+      mountTarget.appendChild(script);
     });
   }
 
-  function hydrate(data) {
-    state.bootstrap = normalizeData(data);
+  function showBootstrapError_(error) {
+    const message = String(error && error.message ? error.message : error || '알 수 없는 오류');
 
-    renderSettings();
+    if (scheduleGrid) {
+      scheduleGrid.innerHTML =
+        '<div class="schedule-empty">일정 데이터를 불러오지 못했습니다. 원인: ' +
+        escapeHtml(message) +
+        '</div>';
+    }
+
+    if (reviewGrid) {
+      reviewGrid.innerHTML =
+        '<div class="schedule-empty">후기 데이터를 불러오지 못했습니다.</div>';
+    }
+
+    updateFormResult('데이터 로딩 실패: ' + message, 'error');
+  }
+
+  function hydrate(payload) {
+    state.bootstrap = payload;
+
+    document.body.classList.add('is-ready');
+
+    applySeo(payload.settings || {});
+    applySettings(payload.settings || {});
+    renderHeroStats(payload.settings || {});
+    renderJourneyIntro_(payload.settings || {});
+    renderRealtimeSummary_(payload.settings || {});
+    renderCabins(payload.cabins || []);
+    renderTargets(payload.targets || []);
+    renderBasicInfoSection_(payload.basic_info || []);
+    renderProcess(payload.process_steps || []);
+    renderFaqs(payload.faqs || []);
+    renderTrustPoints(payload.trust_points || []);
+    renderContentLinks(payload.content_links || []);
     renderFilters();
-    startHeroMotion();
     renderSchedules();
-    renderReviews();
-    populateFormSelects();
-
-    try {
-      ensureDynamicSectionsStyle_();
-      ensureDynamicSectionsScaffold_();
-      renderBasicInfo_();
-      renderTargets_();
-      renderProcessSteps_();
-      renderCabins_();
-      renderFaqs_();
-      renderContentLinks_();
-      setupBasicInfoSlider_();
-      alignContentButtons_();
-      initRevealAnimations_();
-    } catch (error) {
-      console.error('extended-sections-failed:', error);
-    }
+    renderReviews(payload.reviews || []);
+    renderReviewSummary_(payload.reviews || []);
+    setupReviewSlider((payload.reviews || []).length);
+    startReviewAuto((payload.reviews || []).length);
+    fillScheduleSelect(payload.schedules || []);
+    highlightExternalLinks();
+    alignContentButtons_();
   }
 
-  function normalizeData(data) {
-    const safe = data || {};
-    const fallback = window.MOCK_BOOTSTRAP_DATA || {};
+  function normalizeData(raw) {
+    const settingsSource = raw.settings || {};
+    const settings = Array.isArray(settingsSource)
+      ? settingsSource.reduce(function (acc, item) {
+          const key = normalizeKey_(item && (item.key || item.setting_key || item.name));
+          const value = item ? (item.value || item.setting_value || item.content || '') : '';
+          if (key) acc[key] = value;
+          return acc;
+        }, {})
+      : Object.keys(settingsSource || {}).reduce(function (acc, key) {
+          acc[normalizeKey_(key)] = settingsSource[key];
+          return acc;
+        }, {});
 
-    safe.settings = safe.settings || fallback.settings || {};
-    safe.schedules = Array.isArray(safe.schedules) && safe.schedules.length ? safe.schedules : (Array.isArray(fallback.schedules) ? fallback.schedules : []);
-    safe.schedule_days = Array.isArray(safe.schedule_days) && safe.schedule_days.length ? safe.schedule_days : (Array.isArray(fallback.schedule_days) ? fallback.schedule_days : []);
-    safe.reviews = Array.isArray(safe.reviews) && safe.reviews.length ? safe.reviews : (Array.isArray(fallback.reviews) ? fallback.reviews : []);
+    const schedules = arrayify(raw.schedules).map(function (item, index) {
+      const id = String(item.schedule_id || item.id || item.code || index + 1);
+      const cruise = item.cruise_name || item.title || item.product_name || '추천 크루즈';
+      const nights = Number(item.nights || item.duration || item.night_count || 0);
+      const departureDate = item.departure_date || item.start_date || item.date || '';
+      const returnDate = item.return_date || item.end_date || '';
+      const embarkPort = item.embark_port || item.departure_port || item.start_port || '';
+      const disembarkPort = item.disembark_port || item.arrival_port || item.end_port || '';
+      const boardingTime = item.boarding_time || item.departure_time || '';
+      const itineraryText = item.itinerary || item.route || '';
+      const routePorts = splitDelimited_(item.route_ports || item.route_port || itineraryText);
+      const highlights = splitDelimited_(item.highlights || item.features || item.summary || '');
+      const departures = splitDelimited_(item.departure_options || item.departures || '');
+      const regions = splitDelimited_(item.region || item.category || '');
+      const pricing = {
+        inside: toPrice_(item.inside_price || item.price_inside || item.price1 || item.price),
+        oceanview: toPrice_(item.oceanview_price || item.ocean_view_price || item.price_oceanview || item.price2),
+        balcony: toPrice_(item.balcony_price || item.price_balcony || item.price3),
+        suite: toPrice_(item.suite_price || item.price_suite || item.price4)
+      };
+      const status = String(item.status || item.badge || '').trim();
+      const image = item.image || item.thumbnail || item.thumb || '';
+      const details = splitDelimited_(item.details || item.description || item.note || '');
+      return {
+        id: id,
+        cruise: cruise,
+        nights: nights,
+        departureDate: departureDate,
+        returnDate: returnDate,
+        embarkPort: embarkPort,
+        disembarkPort: disembarkPort,
+        boardingTime: boardingTime,
+        itineraryText: itineraryText,
+        routePorts: routePorts,
+        highlights: highlights,
+        departures: departures,
+        regions: regions,
+        pricing: pricing,
+        status: status,
+        image: image,
+        details: details,
+        raw: item
+      };
+    });
 
-    safe.targets = Array.isArray(safe.targets) ? safe.targets : (Array.isArray(fallback.targets) ? fallback.targets : []);
-    safe.basic_info = Array.isArray(safe.basic_info) ? safe.basic_info : (Array.isArray(fallback.basic_info) ? fallback.basic_info : []);
-    safe.process_steps = Array.isArray(safe.process_steps) ? safe.process_steps : (Array.isArray(fallback.process_steps) ? fallback.process_steps : []);
-    safe.cabins = Array.isArray(safe.cabins) ? safe.cabins : (Array.isArray(fallback.cabins) ? fallback.cabins : []);
-    safe.faqs = Array.isArray(safe.faqs) ? safe.faqs : (Array.isArray(fallback.faqs) ? fallback.faqs : []);
-    safe.content_links = Array.isArray(safe.content_links) ? safe.content_links : (Array.isArray(fallback.content_links) ? fallback.content_links : []);
+    const reviews = arrayify(raw.reviews).map(function (item, index) {
+      return {
+        id: String(item.review_id || item.id || index + 1),
+        name: item.name || item.author || '고객 후기',
+        age: item.age || item.age_group || '',
+        region: item.region || item.location || '',
+        title: item.title || item.headline || '',
+        body: item.body || item.content || item.review || '',
+        rating: Number(item.rating || item.score || 5),
+        image: item.image || item.thumbnail || '',
+        raw: item
+      };
+    });
 
-    return safe;
+    const targets = arrayify(raw.targets).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        body: item.body || item.description || item.content || '',
+        icon: item.icon || '',
+        raw: item
+      };
+    });
+
+    const basicInfo = arrayify(raw.basic_info).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        body: item.body || item.description || item.content || '',
+        image: item.image || item.thumbnail || '',
+        raw: item
+      };
+    });
+
+    const processSteps = arrayify(raw.process_steps).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        body: item.body || item.description || item.content || '',
+        raw: item
+      };
+    });
+
+    const cabins = arrayify(raw.cabins).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        price: toPrice_(item.price || item.amount || ''),
+        body: item.body || item.description || item.content || '',
+        image: item.image || item.thumbnail || '',
+        raw: item
+      };
+    });
+
+    const faqs = arrayify(raw.faqs).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        question: item.question || item.title || '',
+        answer: item.answer || item.body || item.content || '',
+        raw: item
+      };
+    });
+
+    const trustPoints = arrayify(raw.trust_points).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        body: item.body || item.description || item.content || '',
+        raw: item
+      };
+    });
+
+    const contentLinks = arrayify(raw.content_links).map(function (item, index) {
+      return {
+        id: String(item.id || index + 1),
+        title: item.title || item.name || '',
+        url: item.url || item.link || '#',
+        body: item.body || item.description || item.content || '',
+        raw: item
+      };
+    });
+
+    return {
+      settings: settings,
+      schedules: schedules,
+      schedule_days: arrayify(raw.schedule_days),
+      reviews: reviews,
+      targets: targets,
+      basic_info: basicInfo,
+      process_steps: processSteps,
+      cabins: cabins,
+      faqs: faqs,
+      trust_points: trustPoints,
+      content_links: contentLinks
+    };
   }
 
-  function renderSettings() {
-    const settings = state.bootstrap.settings || {};
-    const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
-    const heroImage = settings.hero_image || settings.hero_bg || '';
-
-    setText('siteName', siteName);
-    setText('footerSiteName', 'WAYZI');
-    setText('siteNameInput', siteName, 'value');
-
-    setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
-    setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
-    setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
-
-    setHtml(
-      'heroTitle',
-      convertLineBreaks(
-        escapeHtml(settings.hero_title || '크루즈 여행,\n패키지 말고 직구하세요.')
-      )
-    );
-
-    setText(
-      'heroSubtitle',
-      settings.hero_subtitle || '마음에 드는 일정이 있으면 바로 상세 항해 일정과 항해 루트를 확인하고 문의할 수 있게 구성했습니다.'
-    );
-
-    setText(
-      'heroBottomText',
-      settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.'
-    );
-
-    setHtml('identityTitle', (function () {
-      const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
-      const parts = String(text).split('\n');
-
-      if (parts.length > 1) {
-        return escapeHtml(parts[0]) + '<br><span>' + escapeHtml(parts.slice(1).join(' ')) + '</span>';
-      }
-
-      return '<span>' + escapeHtml(text) + '</span>';
-    })());
-
-    setHtml(
-      'identityDesc',
-      convertLineBreaks(
-        escapeHtml(
-          settings.identity_desc ||
-          '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.'
-        )
-      )
-    );
-
-    setText(
-      'footerDescription',
-      '대표 김도윤 · 사업자번호 538-42-01450'
-    );
-
-    const heroBg = document.getElementById('heroBg');
-    if (heroBg && heroImage) {
-      heroBg.style.backgroundImage =
-        'linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("' +
-        heroImage.replace(/"/g, '\\"') +
-        '")';
-    }
+  function applySeo(settings) {
+    const title = settings.page_title || settings.site_title || document.title || '';
+    const description = settings.meta_description || settings.site_description || '';
+    if (title) document.title = title;
+    updateMetaByName_('description', description);
+    updateMetaByProperty_('og:title', settings.og_title || title);
+    updateMetaByProperty_('og:description', settings.og_description || description);
+    updateMetaByProperty_('og:image', settings.og_image || settings.hero_image || '');
   }
 
-  function getRegions() {
-    return ['ALL'].concat(Array.from(new Set(state.bootstrap.schedules.map(function (item) {
-      return item.region;
-    }).filter(Boolean))));
+  function applySettings(settings) {
+    setTextById_('heroEyebrow', settings.hero_eyebrow || settings.hero_badge || '');
+    setHtmlById_('heroTitle', lineBreakHtml_(settings.hero_title || '')); 
+    setHtmlById_('heroDescription', lineBreakHtml_(settings.hero_description || ''));
+    setTextById_('heroPrimaryCta', settings.hero_primary_cta || '일정 확인하기');
+    setTextById_('heroSecondaryCta', settings.hero_secondary_cta || '상담 문의하기');
+    setTextById_('journeyIntroTitle', settings.journey_intro_title || '크루즈 여행, 이렇게 진행됩니다');
+    setHtmlById_('journeyIntroBody', lineBreakHtml_(settings.journey_intro_body || ''));
+    setTextById_('cabinSectionTitle', settings.cabin_section_title || '객실 타입 안내');
+    setTextById_('targetSectionTitle', settings.target_section_title || '이런 분들께 추천해요');
+    setTextById_('scheduleSectionTitle', settings.schedule_section_title || '추천 일정');
+    setTextById_('reviewSectionTitle', settings.review_section_title || '실제 후기');
+    setTextById_('faqSectionTitle', settings.faq_section_title || '자주 묻는 질문');
+    setTextById_('contactSectionTitle', settings.contact_section_title || '상담 문의');
+    setTextById_('footerCompany', settings.footer_company || '');
+    setTextById_('footerContact', settings.footer_contact || '');
+    setTextById_('footerAddress', settings.footer_address || '');
   }
 
-  function startHeroMotion() {
-    const hero = document.querySelector('.hero-content');
-    if (!hero) return;
-    hero.classList.add('is-live');
-  }
+  function renderHeroStats(settings) {
+    const container = document.getElementById('heroStats');
+    if (!container) return;
 
-  function renderFilters() {
-    if (!scheduleFilters) return;
-    const regions = getRegions();
-    scheduleFilters.innerHTML = regions.map(function (region) {
-      const isActive = state.activeRegion === region ? ' is-active' : '';
-      const label = region === 'ALL' ? '전체 일정' : region;
-      return '<button type="button" class="filter-chip' + isActive + '" data-region="' + escapeAttribute(region) + '">' + escapeHtml(label) + '</button>';
+    const items = [
+      { label: settings.hero_stat1_label || '추천 일정', value: settings.hero_stat1_value || String((state.bootstrap.schedules || []).length || '-') },
+      { label: settings.hero_stat2_label || '실제 후기', value: settings.hero_stat2_value || String((state.bootstrap.reviews || []).length || '-') },
+      { label: settings.hero_stat3_label || '상담 진행', value: settings.hero_stat3_value || '1:1 안내' }
+    ].filter(function (item) { return item.label || item.value; });
+
+    container.innerHTML = items.map(function (item) {
+      return [
+        '<div class="hero-stat">',
+        '  <strong>' + escapeHtml(item.value) + '</strong>',
+        '  <span>' + escapeHtml(item.label) + '</span>',
+        '</div>'
+      ].join('');
     }).join('');
   }
 
-  function renderSchedules() {
-    if (!scheduleGrid) return;
-    const schedules = state.bootstrap.schedules.filter(function (item) {
-      return state.activeRegion === 'ALL' ? true : item.region === state.activeRegion;
-    }).slice(0, 6);
+  function renderJourneyIntro_(settings) {
+    const container = document.getElementById('journeyIntroCards');
+    if (!container) return;
 
-    if (!schedules.length) {
-      scheduleGrid.innerHTML = '<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>';
-      return;
-    }
+    const cards = [
+      { title: settings.journey_card1_title || '상담', body: settings.journey_card1_body || '희망 일정과 예산, 인원 기준으로 안내해드립니다.' },
+      { title: settings.journey_card2_title || '선택', body: settings.journey_card2_body || '추천 일정 중 맞는 상품을 빠르게 비교합니다.' },
+      { title: settings.journey_card3_title || '출발', body: settings.journey_card3_body || '확정 후 필요한 준비사항까지 함께 체크합니다.' }
+    ];
 
-    scheduleGrid.innerHTML = schedules.map(buildScheduleCard).join('');
-  }
-
-  function buildScheduleCard(schedule) {
-    const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
-    const homePort = getHomePort(schedule.schedule_id);
-    const monthLabel = getMonthLabel_(schedule.departure_date);
-
-    return [
-      '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-        '<div class="schedule-visual">',
-          imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-          '<div class="schedule-visual-inner">',
-            '<div class="schedule-badges">',
-              '<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
-              monthLabel ? '<span class="schedule-badge schedule-badge-month">' + escapeHtml(monthLabel) + '</span>' : '',
-            '</div>',
-            '<div class="schedule-title-row">',
-              '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
-              monthLabel ? '<span class="schedule-month-emphasis">' + escapeHtml(monthLabel) + ' 출발</span>' : '',
-            '</div>',
-          '</div>',
-        '</div>',
-        '<div class="schedule-content">',
-          '<div class="schedule-meta">',
-            metaItem('선박', schedule.ship_name || '-'),
-            metaItem('모항지', homePort || '-'),
-            metaItem('출발', formatDate(schedule.departure_date)),
-            metaItem('도착', formatDate(schedule.return_date)),
-          '</div>',
-          '<div class="schedule-actions">',
-            '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-          '</div>',
-        '</div>',
-      '</article>'
-    ].join('');
-  }
-
-  function renderReviews() {
-    if (!reviewGrid) return;
-    const reviews = state.bootstrap.reviews || [];
-    if (!reviews.length) {
-      reviewGrid.innerHTML = '<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>';
-      if (reviewDots) reviewDots.innerHTML = '';
-      return;
-    }
-
-    reviewGrid.innerHTML = reviews.map(function (review) {
-      const imageUrl = review.thumbnail_url || '';
+    container.innerHTML = cards.map(function (card) {
       return [
-        '<article class="review-card">',
-          '<div class="review-thumb">', imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(review.title || '') + '" />' : '', '</div>',
-          '<div class="review-body">',
-            review.region ? '<span class="review-region">' + escapeHtml(review.region) + '</span>' : '',
-            '<h3>' + escapeHtml(review.title || '크루즈 후기') + '</h3>',
-            '<p>' + escapeHtml(review.summary || review.content || '') + '</p>',
-          '</div>',
+        '<article class="journey-card">',
+        '  <h3>' + escapeHtml(card.title) + '</h3>',
+        '  <p>' + escapeHtml(card.body) + '</p>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderRealtimeSummary_(settings) {
+    const container = document.getElementById('realtimeSummary');
+    if (!container) return;
+
+    const lines = splitDelimited_(settings.realtime_summary || settings.summary_notice || '');
+    if (!lines.length) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = lines.map(function (line) {
+      return '<li>' + escapeHtml(line) + '</li>';
+    }).join('');
+  }
+
+  function renderCabins(cabins) {
+    const container = document.getElementById('cabinGrid');
+    if (!container) return;
+
+    if (!cabins.length) {
+      container.innerHTML = '<div class="schedule-empty">등록된 객실 정보가 없습니다.</div>';
+      return;
+    }
+
+    container.innerHTML = cabins.map(function (item) {
+      return [
+        '<article class="cabin-card">',
+        item.image ? '<div class="cabin-card__image"><img src="' + escapeAttribute(item.image) + '" alt="' + escapeAttribute(item.title) + '"></div>' : '',
+        '  <div class="cabin-card__body">',
+        '    <h3>' + escapeHtml(item.title) + '</h3>',
+        item.price ? '    <strong>' + formatPrice_(item.price) + '</strong>' : '',
+        item.body ? '    <p>' + escapeHtml(item.body) + '</p>' : '',
+        '  </div>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderTargets(targets) {
+    const container = document.getElementById('targetGrid');
+    if (!container) return;
+
+    if (!targets.length) {
+      container.innerHTML = '<div class="schedule-empty">추천 대상 정보가 없습니다.</div>';
+      return;
+    }
+
+    container.innerHTML = targets.map(function (item) {
+      return [
+        '<article class="target-card">',
+        '  <h3>' + escapeHtml(item.title) + '</h3>',
+        '  <p>' + escapeHtml(item.body) + '</p>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderBasicInfoSection_(items) {
+    const viewport = document.getElementById('basicInfoViewport');
+    const dots = document.getElementById('basicInfoDots');
+    if (!viewport || !dots) return;
+
+    if (!items.length) {
+      viewport.innerHTML = '<div class="schedule-empty">안내 정보가 없습니다.</div>';
+      dots.innerHTML = '';
+      return;
+    }
+
+    viewport.innerHTML = items.map(function (item) {
+      return [
+        '<article class="basicinfo-card">',
+        item.image ? '<div class="basicinfo-card__image"><img src="' + escapeAttribute(item.image) + '" alt="' + escapeAttribute(item.title) + '"></div>' : '',
+        '  <div class="basicinfo-card__body">',
+        '    <h3>' + escapeHtml(item.title) + '</h3>',
+        '    <p>' + escapeHtml(item.body) + '</p>',
+        '  </div>',
         '</article>'
       ].join('');
     }).join('');
 
-    setupReviewSlider(reviews.length);
-  }
-
-  function openSchedule(scheduleId) {
-    const schedule = state.bootstrap.schedules.find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    });
-    if (!schedule) return;
-
-    const days = state.bootstrap.schedule_days.filter(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    }).sort(function (a, b) {
-      return Number(a.day_no || 0) - Number(b.day_no || 0);
-    });
-
-    const routeStops = getRouteStops(scheduleId, days);
-    const imageUrl = schedule.schedule_image_url || schedule.thumbnail_url || '';
-
-    modalBody.innerHTML = [
-      '<section class="modal-hero-card">',
-        '<div class="modal-badge-row">',
-          '<span class="modal-badge">' + escapeHtml(schedule.region || '크루즈') + '</span>',
-          '<span class="modal-badge">' + escapeHtml(formatDate(schedule.departure_date)) + ' 출발</span>',
-        '</div>',
-        '<div class="modal-summary-grid">',
-          '<div>',
-            '<h3 class="modal-hero-title">' + escapeHtml(schedule.title || '크루즈 일정') + '</h3>',
-            '<div class="modal-action"><a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(schedule.schedule_id) + '" data-close-modal>가격문의</a></div>',
-          '</div>',
-          '<div class="modal-meta-grid">',
-            metaBox('선박', schedule.ship_name || '-'),
-            metaBox('모항지', getHomePort(schedule.schedule_id) || '-'),
-            metaBox('출발', formatDate(schedule.departure_date)),
-            metaBox('도착', formatDate(schedule.return_date)),
-          '</div>',
-        '</div>',
-      '</section>',
-      '<section class="modal-route-card">',
-        '<div class="modal-card-head"><h4>항해 루트</h4><p>한눈에 보이는 선형 타임라인으로 정리했습니다.</p></div>',
-        '<div class="route-track">' + buildRouteTrack(routeStops) + '</div>',
-      '</section>',
-      '<section class="modal-table-card">',
-        '<div class="modal-card-head"><h4>상세 항해 일정</h4><p>일차 · 날짜 · 기항지 · 입항 · 출항을 표로 바로 확인할 수 있습니다.</p></div>',
-        '<div class="table-scroll">' + buildItineraryTable(days) + '</div>',
-        '<p class="modal-table-note">* 현지 사정 및 기상 상황에 의해 기항지 및 입출항 시간은 변경될 수 있습니다.</p>',
-      '</section>',
-      imageUrl ? '<section class="modal-image-card"><div class="modal-card-head"><h4>일정표 이미지</h4><p>시트에 등록된 일정표 이미지를 함께 보여줍니다.</p></div><div class="schedule-image-frame"><img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" /></div></section>' : ''
-    ].join('');
-
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function buildRouteTrack(stops) {
-    if (!stops.length) return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
-    return stops.map(function (stop, index) {
-      const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : 'STOP ' + index);
-      return '<div class="route-stop"><div class="route-pill"><small>' + label + '</small><strong>' + escapeHtml(stop) + '</strong></div>' + (index < stops.length - 1 ? '<div class="route-line">→</div>' : '') + '</div>';
+    dots.innerHTML = items.map(function (_, index) {
+      return '<button type="button" class="slider-dot" data-basicinfo-dot="' + index + '"></button>';
     }).join('');
+
+    setBasicInfoSliderState_(0);
+    setupBasicInfoSlider_();
   }
 
-  function buildItineraryTable(days) {
-    if (!days.length) return '<div class="schedule-empty" style="margin:18px;">상세 항해일정이 아직 등록되지 않았습니다.</div>';
-    return [
-      '<table class="itinerary-table">',
-      '<thead><tr><th>일차</th><th>날짜</th><th>기항지 (PORT)</th><th>입항</th><th>출항</th></tr></thead>',
-      '<tbody>',
-      days.map(buildItineraryRow).join(''),
-      '</tbody></table>'
-    ].join('');
-  }
+  function renderProcess(steps) {
+    const container = document.getElementById('processGrid');
+    if (!container) return;
 
-  function buildItineraryRow(day) {
-    const dayLabel = 'Day ' + (day.day_no || '');
-    const dateLabel = formatDayDate(day.date || '');
-    const portName = escapeHtml(day.port_name || day.city || '-');
-    const portEn = escapeHtml(day.port_name_en || day.country || '');
-    const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
-    const departure = normalizeTimeCell(day.departure_time, 'departure');
-    const highlight = isHighlightDay(day) ? ' is-highlight' : '';
-    const overnight = /overnight|정박/i.test(String(day.description || '')) ? '<span class="overnight-badge">정박 (Overnight)</span>' : '';
-
-    return [
-      '<tr class="' + highlight.trim() + '">',
-        '<td class="day-cell">' + dayLabel + '</td>',
-        '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
-        '<td>',
-          '<span class="port-name-kr">' + portName + overnight + '</span>',
-          portEn ? '<span class="port-name-en">' + portEn + '</span>' : '',
-        '</td>',
-        arrival,
-        departure,
-      '</tr>'
-    ].join('');
-  }
-
-  function isHighlightDay(day) {
-    const text = String(day.description || '').toLowerCase();
-    return text.includes('overnight') || text.includes('정박');
-  }
-
-  function normalizeTimeCell(value, kind) {
-    const text = String(value || '').trim();
-    if (!text || text === '-' || text === '—') return '<td class="time-cell muted">-</td>';
-    if (kind === 'departure' && /(도착|arrival)/i.test(text)) return '<td class="time-cell arrival">' + escapeHtml(text) + '</td>';
-    return '<td class="time-cell">' + escapeHtml(text) + '</td>';
-  }
-
-  function formatDayDate(value) {
-    if (!value) return '-';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return String(value);
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    return pad(date.getMonth() + 1) + '.' + pad(date.getDate()) + ' (' + weekdays[date.getDay()] + ')';
-  }
-
-  function getReviewPerView() {
-    return window.innerWidth <= 720 ? 1 : 2;
-  }
-
-  function setupReviewSlider(total) {
-    if (!reviewGrid) return;
-    const perView = getReviewPerView();
-    const maxPage = Math.max(0, total - perView);
-    state.reviewPage = Math.min(state.reviewPage, maxPage);
-
-    const prev = document.querySelector('[data-review-nav="prev"]');
-    const next = document.querySelector('[data-review-nav="next"]');
-
-    if (total <= perView) {
-      reviewGrid.style.transform = '';
-      if (prev) prev.classList.add('is-hidden');
-      if (next) next.classList.add('is-hidden');
-      if (reviewDots) {
-        reviewDots.className = 'review-dots is-hidden';
-        reviewDots.innerHTML = '';
-      }
-      stopReviewAuto();
+    if (!steps.length) {
+      container.innerHTML = '<div class="schedule-empty">진행 단계 정보가 없습니다.</div>';
       return;
     }
 
-    if (prev) prev.classList.remove('is-hidden');
-    if (next) next.classList.remove('is-hidden');
-    if (reviewDots) reviewDots.className = 'review-dots';
+    container.innerHTML = steps.map(function (item, index) {
+      return [
+        '<article class="process-card">',
+        '  <span class="process-card__index">STEP ' + String(index + 1) + '</span>',
+        '  <h3>' + escapeHtml(item.title) + '</h3>',
+        '  <p>' + escapeHtml(item.body) + '</p>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
 
-    const gap = 22;
-    const viewportWidth = reviewViewport ? reviewViewport.clientWidth : 0;
-    const cardWidth = (viewportWidth - gap) / perView;
-    const offset = state.reviewPage * (cardWidth + gap);
-    reviewGrid.style.transform = 'translateX(-' + offset + 'px)';
+  function renderFilters() {
+    if (!scheduleFilters) return;
 
-    if (reviewDots) {
-      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map(function (_, idx) {
-        return '<button type="button" class="review-dot ' + (idx === state.reviewPage ? 'is-active' : '') + '" data-review-dot="' + idx + '" aria-label="후기 ' + (idx + 1) + '"></button>';
-      }).join('');
+    const allSchedules = state.bootstrap.schedules || [];
+    const regions = dedupe_(allSchedules.reduce(function (acc, item) {
+      return acc.concat(item.regions || []);
+    }, [])).filter(Boolean);
+
+    const buttons = [{ key: 'ALL', label: '전체' }].concat(regions.map(function (region) {
+      return { key: region, label: region };
+    }));
+
+    scheduleFilters.innerHTML = buttons.map(function (item) {
+      const active = item.key === state.activeRegion ? ' is-active' : '';
+      return '<button type="button" class="filter-chip' + active + '" data-region="' + escapeAttribute(item.key) + '">' + escapeHtml(item.label) + '</button>';
+    }).join('');
+  }
+
+  function getFilteredSchedules_() {
+    const allSchedules = state.bootstrap.schedules || [];
+    if (state.activeRegion === 'ALL') return allSchedules;
+    return allSchedules.filter(function (item) {
+      return (item.regions || []).indexOf(state.activeRegion) >= 0;
+    });
+  }
+
+  function renderSchedules() {
+    if (!scheduleGrid) return;
+
+    const schedules = getFilteredSchedules_();
+    if (!schedules.length) {
+      scheduleGrid.innerHTML = '<div class="schedule-empty">표시할 일정이 없습니다.</div>';
+      return;
     }
 
-    startReviewAuto(total);
+    scheduleGrid.innerHTML = schedules.map(function (item) {
+      return buildScheduleCard_(item);
+    }).join('');
+  }
+
+  function buildScheduleCard_(item) {
+    const departureLabel = formatDateLabel_(item.departureDate);
+    const returnLabel = formatDateLabel_(item.returnDate);
+    const routeLabel = buildRouteLabel_(item);
+    const priceLabel = firstAvailablePriceLabel_(item.pricing);
+
+    return [
+      '<article class="schedule-card" data-open-schedule="' + escapeAttribute(item.id) + '">',
+      item.image ? '<div class="schedule-card__image"><img src="' + escapeAttribute(item.image) + '" alt="' + escapeAttribute(item.cruise) + '"></div>' : '',
+      '  <div class="schedule-card__body">',
+      item.status ? '    <span class="schedule-card__badge">' + escapeHtml(item.status) + '</span>' : '',
+      '    <h3>' + escapeHtml(item.cruise) + '</h3>',
+      departureLabel ? '    <p class="schedule-card__date">출발 ' + escapeHtml(departureLabel) + (returnLabel ? ' · 도착 ' + escapeHtml(returnLabel) : '') + '</p>' : '',
+      routeLabel ? '    <p class="schedule-card__route">' + escapeHtml(routeLabel) + '</p>' : '',
+      item.nights ? '    <p class="schedule-card__meta">' + escapeHtml(String(item.nights)) + '박</p>' : '',
+      priceLabel ? '    <strong class="schedule-card__price">' + escapeHtml(priceLabel) + '</strong>' : '',
+      '    <button type="button" class="button button--ghost" data-select-schedule="' + escapeAttribute(item.id) + '">이 일정 문의하기</button>',
+      '  </div>',
+      '</article>'
+    ].join('');
+  }
+
+  function openSchedule(scheduleId) {
+    const schedule = (state.bootstrap.schedules || []).find(function (item) {
+      return String(item.id) === String(scheduleId);
+    });
+
+    if (!schedule || !modal || !modalBody) return;
+
+    modalBody.innerHTML = buildScheduleModal_(schedule);
+    modal.classList.add('is-open');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    document.body.classList.remove('modal-open');
+  }
+
+  function buildScheduleModal_(item) {
+    const sections = [];
+    if (item.highlights && item.highlights.length) {
+      sections.push('<div class="schedule-detail__block"><h4>핵심 포인트</h4><ul>' + item.highlights.map(function (text) {
+        return '<li>' + escapeHtml(text) + '</li>';
+      }).join('') + '</ul></div>');
+    }
+
+    if (item.routePorts && item.routePorts.length) {
+      sections.push('<div class="schedule-detail__block"><h4>일정</h4><ul>' + item.routePorts.map(function (text) {
+        return '<li>' + escapeHtml(text) + '</li>';
+      }).join('') + '</ul></div>');
+    }
+
+    if (item.details && item.details.length) {
+      sections.push('<div class="schedule-detail__block"><h4>상세 안내</h4><ul>' + item.details.map(function (text) {
+        return '<li>' + escapeHtml(text) + '</li>';
+      }).join('') + '</ul></div>');
+    }
+
+    return [
+      '<div class="schedule-detail">',
+      '  <div class="schedule-detail__header">',
+      '    <button type="button" class="modal-close" data-close-modal>닫기</button>',
+      '    <h3>' + escapeHtml(item.cruise) + '</h3>',
+      '    <p>' + escapeHtml(buildRouteLabel_(item)) + '</p>',
+      '  </div>',
+      '  <div class="schedule-detail__meta">',
+      item.departureDate ? '<span>출발 ' + escapeHtml(formatDateLabel_(item.departureDate)) + '</span>' : '',
+      item.returnDate ? '<span>도착 ' + escapeHtml(formatDateLabel_(item.returnDate)) + '</span>' : '',
+      item.nights ? '<span>' + escapeHtml(String(item.nights)) + '박</span>' : '',
+      '  </div>',
+      sections.join(''),
+      '  <div class="schedule-detail__footer">',
+      '    <button type="button" class="button" data-select-schedule="' + escapeAttribute(item.id) + '">이 일정 바로 문의</button>',
+      '  </div>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderReviews(reviews) {
+    if (!reviewGrid || !reviewDots) return;
+
+    if (!reviews.length) {
+      reviewGrid.innerHTML = '<div class="schedule-empty">등록된 후기가 없습니다.</div>';
+      reviewDots.innerHTML = '';
+      return;
+    }
+
+    reviewGrid.innerHTML = reviews.map(function (item) {
+      return [
+        '<article class="review-card">',
+        '  <div class="review-card__stars">' + '★'.repeat(Math.max(1, Math.min(5, Number(item.rating || 5)))) + '</div>',
+        item.title ? '  <h3>' + escapeHtml(item.title) + '</h3>' : '',
+        '  <p>' + escapeHtml(item.body) + '</p>',
+        '  <footer>' + escapeHtml([item.name, item.age, item.region].filter(Boolean).join(' · ')) + '</footer>',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    reviewDots.innerHTML = reviews.map(function (_, index) {
+      return '<button type="button" class="slider-dot" data-review-dot="' + index + '"></button>';
+    }).join('');
+  }
+
+  function renderReviewSummary_(reviews) {
+    const el = document.getElementById('reviewSummary');
+    if (!el) return;
+    el.textContent = reviews.length ? ('실제 후기 ' + reviews.length + '건') : '';
+  }
+
+  function setupReviewSlider(total) {
+    if (!reviewGrid || !reviewDots) return;
+    const items = reviewGrid.querySelectorAll('.review-card');
+    if (!items.length) return;
+
+    const width = reviewViewport ? reviewViewport.clientWidth : 0;
+    const perPage = width > 1024 ? 3 : width > 640 ? 2 : 1;
+    const maxPage = Math.max(0, Math.ceil(total / perPage) - 1);
+    state.reviewPage = Math.max(0, Math.min(state.reviewPage, maxPage));
+
+    const offset = state.reviewPage * (100 / perPage);
+    reviewGrid.style.transform = 'translateX(-' + offset + '%)';
+
+    Array.prototype.forEach.call(reviewDots.querySelectorAll('[data-review-dot]'), function (button, index) {
+      button.classList.toggle('is-active', index === state.reviewPage);
+      button.hidden = index > maxPage;
+    });
   }
 
   function moveReviews(direction) {
-    const total = (state.bootstrap.reviews || []).length;
-    const perView = getReviewPerView();
-    const maxPage = Math.max(0, total - perView);
-    if (direction === 'prev') state.reviewPage = state.reviewPage <= 0 ? maxPage : state.reviewPage - 1;
-    else state.reviewPage = state.reviewPage >= maxPage ? 0 : state.reviewPage + 1;
-    setupReviewSlider(total);
+    const reviews = state.bootstrap.reviews || [];
+    if (!reviews.length) return;
+
+    const width = reviewViewport ? reviewViewport.clientWidth : 0;
+    const perPage = width > 1024 ? 3 : width > 640 ? 2 : 1;
+    const maxPage = Math.max(0, Math.ceil(reviews.length / perPage) - 1);
+
+    if (direction === 'next') {
+      state.reviewPage = state.reviewPage >= maxPage ? 0 : state.reviewPage + 1;
+    } else {
+      state.reviewPage = state.reviewPage <= 0 ? maxPage : state.reviewPage - 1;
+    }
+    setupReviewSlider(reviews.length);
   }
 
   function startReviewAuto(total) {
     stopReviewAuto();
-    const perView = getReviewPerView();
-    if (total <= perView) return;
+    if (!total || total <= 1) return;
     reviewAutoTimer = window.setInterval(function () {
       moveReviews('next');
-    }, 3600);
+    }, Number(config.reviewAutoInterval || 5000));
   }
 
   function stopReviewAuto() {
@@ -674,143 +938,273 @@
     }
   }
 
-  function getHomePort(scheduleId) {
-    const schedule = state.bootstrap.schedules.find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    }) || {};
-    if (schedule.home_port) return String(schedule.home_port).trim();
-    const stops = getRouteStops(scheduleId);
-    return stops.length ? stops[0] : '';
+  function fillScheduleSelect(schedules) {
+    const select = document.getElementById('interestScheduleSelect');
+    if (!select) return;
+
+    const current = select.value;
+    const options = ['<option value="">관심 일정을 선택해주세요</option>'].concat(schedules.map(function (item) {
+      const label = [item.cruise, formatDateLabel_(item.departureDate)].filter(Boolean).join(' / ');
+      return '<option value="' + escapeAttribute(item.id) + '">' + escapeHtml(label) + '</option>';
+    }));
+
+    select.innerHTML = options.join('');
+    if (current) select.value = current;
   }
 
-  function populateFormSelects() {
-    const scheduleSelect = document.getElementById('interestScheduleSelect');
-    if (!scheduleSelect) return;
+  function renderFaqs(faqs) {
+    const container = document.getElementById('faqList');
+    if (!container) return;
 
-    scheduleSelect.innerHTML =
-      '<option value="">선택해주세요</option>' +
-      state.bootstrap.schedules.map(function (schedule) {
-        return (
-          '<option value="' +
-          escapeAttribute(schedule.schedule_id) +
-          '">' +
-          escapeHtml(schedule.title || schedule.schedule_id) +
-          '</option>'
-        );
-      }).join('');
-  }
-
-  function getRouteStops(scheduleId, preloadedDays) {
-    const schedule = state.bootstrap.schedules.find(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    }) || {};
-
-    if (schedule.route_ports) {
-      return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
+    if (!faqs.length) {
+      container.innerHTML = '<div class="schedule-empty">FAQ 정보가 없습니다.</div>';
+      return;
     }
 
-    const days = Array.isArray(preloadedDays) ? preloadedDays : state.bootstrap.schedule_days.filter(function (item) {
-      return String(item.schedule_id).trim() === String(scheduleId).trim();
-    });
-
-    const stops = days.map(function (day) {
-      return cleanStop(day.port_name || day.city || '');
-    }).filter(Boolean).filter(function (stop) {
-      const lower = stop.toLowerCase();
-      return lower !== '해상일' && lower !== 'sea day' && lower !== '인천 출발' && lower !== '부산 출발';
-    });
-
-    return Array.from(new Set(stops));
+    container.innerHTML = faqs.map(function (item) {
+      return [
+        '<details class="faq-item">',
+        '  <summary>' + escapeHtml(item.question) + '</summary>',
+        '  <p>' + escapeHtml(item.answer) + '</p>',
+        '</details>'
+      ].join('');
+    }).join('');
   }
 
-  function cleanStop(value) {
-    return String(value || '').replace(/\s+/g, ' ').replace(/\(.*?\)/g, '').trim();
+  function renderTrustPoints(items) {
+    const container = document.getElementById('trustPointGrid');
+    if (!container) return;
+
+    if (!items.length) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = items.map(function (item) {
+      return [
+        '<article class="trust-card">',
+        '  <h3>' + escapeHtml(item.title) + '</h3>',
+        '  <p>' + escapeHtml(item.body) + '</p>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderContentLinks(items) {
+    const container = document.getElementById('contentLinkGrid');
+    if (!container) return;
+
+    if (!items.length) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = items.map(function (item) {
+      return [
+        '<a class="content-link-card" href="' + escapeAttribute(item.url || '#') + '" target="_blank" rel="noopener noreferrer">',
+        '  <h3>' + escapeHtml(item.title) + '</h3>',
+        item.body ? '  <p>' + escapeHtml(item.body) + '</p>' : '',
+        '</a>'
+      ].join('');
+    }).join('');
+  }
+
+  function highlightExternalLinks() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="http"]'), function (link) {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+    });
   }
 
   function setTrackingFields() {
-    const params = new URLSearchParams(window.location.search);
-    setInputValue('agentCodeInput', params.get('agent') || '');
-    setInputValue('utmSourceInput', params.get('utm_source') || '');
-    setInputValue('utmMediumInput', params.get('utm_medium') || '');
-    setInputValue('utmCampaignInput', params.get('utm_campaign') || '');
-    setInputValue('landingPageInput', window.location.href);
-    setInputValue('referrerInput', document.referrer || '');
+    setHiddenInputValue_('utmSourceInput', getQueryParam_('utm_source'));
+    setHiddenInputValue_('utmMediumInput', getQueryParam_('utm_medium'));
+    setHiddenInputValue_('utmCampaignInput', getQueryParam_('utm_campaign'));
+    setHiddenInputValue_('referrerInput', document.referrer || '');
+    setHiddenInputValue_('pageUrlInput', window.location.href || '');
+  }
+
+  function setSubmitState(isSubmitting) {
+    const submitButton = document.getElementById('contactSubmitButton');
+    if (!submitButton) return;
+    submitButton.disabled = !!isSubmitting;
+    submitButton.classList.toggle('is-loading', !!isSubmitting);
   }
 
   function updateFormResult(message, type) {
     if (!formResult) return;
-    formResult.textContent = message;
+    formResult.textContent = message || '';
     formResult.className = 'form-result';
     if (type) formResult.classList.add('is-' + type);
   }
 
-  function setSubmitState(isSubmitting) {
-    const button = document.getElementById('formSubmitButton');
-    if (!button) return;
-    button.disabled = isSubmitting;
-    button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
-  }
-
-  function closeModal() {
-    if (!modal) return;
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
   function scrollToSection(id) {
-    const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function setText(id, value, mode) {
-    const element = document.getElementById(id);
-    if (!element || typeof value === 'undefined' || value === null) return;
-    if (mode === 'value') element.value = value;
-    else element.textContent = value;
+  function moveBasicInfoSlider_(direction) {
+    const items = state.bootstrap.basic_info || [];
+    if (!items.length) return;
+    const current = Number(document.body.getAttribute('data-basicinfo-page') || 0);
+    const max = Math.max(0, items.length - 1);
+    const next = direction === 'next'
+      ? (current >= max ? 0 : current + 1)
+      : (current <= 0 ? max : current - 1);
+    setBasicInfoSliderState_(next);
+    setupBasicInfoSlider_();
   }
 
-  function setHtml(id, html) {
-    const element = document.getElementById(id);
-    if (element) element.innerHTML = html;
+  function setBasicInfoSliderState_(page) {
+    document.body.setAttribute('data-basicinfo-page', String(page || 0));
+    const dots = document.getElementById('basicInfoDots');
+    if (!dots) return;
+    Array.prototype.forEach.call(dots.querySelectorAll('[data-basicinfo-dot]'), function (button, index) {
+      button.classList.toggle('is-active', index === Number(page || 0));
+    });
   }
 
-  function setInputValue(id, value) {
+  function setupBasicInfoSlider_() {
+    const viewport = document.getElementById('basicInfoViewport');
+    if (!viewport) return;
+    const page = Number(document.body.getAttribute('data-basicinfo-page') || 0);
+    viewport.style.transform = 'translateX(-' + (page * 100) + '%)';
+  }
+
+  function alignContentButtons_() {
+    const buttons = document.querySelectorAll('.content-link-card');
+    if (!buttons.length) return;
+    let maxHeight = 0;
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.style.minHeight = '0px';
+    });
+    Array.prototype.forEach.call(buttons, function (button) {
+      maxHeight = Math.max(maxHeight, button.offsetHeight || 0);
+    });
+    if (!maxHeight) return;
+    Array.prototype.forEach.call(buttons, function (button) {
+      button.style.minHeight = maxHeight + 'px';
+    });
+  }
+
+  function firstAvailablePriceLabel_(pricing) {
+    if (!pricing) return '';
+    if (pricing.inside) return '인사이드 ' + formatPrice_(pricing.inside) + '부터';
+    if (pricing.oceanview) return '오션뷰 ' + formatPrice_(pricing.oceanview) + '부터';
+    if (pricing.balcony) return '발코니 ' + formatPrice_(pricing.balcony) + '부터';
+    if (pricing.suite) return '스위트 ' + formatPrice_(pricing.suite) + '부터';
+    return '';
+  }
+
+  function buildRouteLabel_(item) {
+    const route = item.routePorts && item.routePorts.length
+      ? item.routePorts.join(' · ')
+      : item.itineraryText || [item.embarkPort, item.disembarkPort].filter(Boolean).join(' → ');
+    return route;
+  }
+
+  function formatDateLabel_(value) {
+    if (!value) return '';
+    const str = String(value).trim();
+    if (!str) return '';
+    const date = new Date(str);
+    if (!isNaN(date.getTime())) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return year + '.' + month + '.' + day;
+    }
+    return str;
+  }
+
+  function toPrice_(value) {
+    if (value === null || value === undefined || value === '') return 0;
+    const numeric = Number(String(value).replace(/[^\d.-]/g, ''));
+    return isNaN(numeric) ? 0 : numeric;
+  }
+
+  function formatPrice_(value) {
+    const number = Number(value || 0);
+    if (!number) return '';
+    return number.toLocaleString('ko-KR') + '원';
+  }
+
+  function lineBreakHtml_(value) {
+    return escapeHtml(String(value || '')).replace(/\n/g, '<br>');
+  }
+
+  function splitDelimited_(value) {
+    return String(value || '')
+      .split(/\r?\n|\||,|·/)
+      .map(function (item) { return String(item || '').trim(); })
+      .filter(Boolean);
+  }
+
+  function dedupe_(list) {
+    return Array.from(new Set(arrayify(list)));
+  }
+
+  function arrayify(value) {
+    if (Array.isArray(value)) return value;
+    if (!value) return [];
+    return [value];
+  }
+
+  function normalizeKey_(value) {
+    return String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '_');
+  }
+
+  function getQueryParam_(key) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(key) || '';
+  }
+
+  function setHiddenInputValue_(id, value) {
     const input = document.getElementById(id);
-    if (input) input.value = value;
+    if (!input) return;
+    input.value = value || '';
   }
 
-  function metaItem(label, value) {
-    return '<div class="schedule-meta-item"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
+  function setTextById_(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value || '';
   }
 
-  function metaBox(label, value) {
-    return '<div class="modal-meta-box"><span>' + escapeHtml(label) + '</span><strong>' + escapeHtml(value || '-') + '</strong></div>';
+  function setHtmlById_(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = value || '';
   }
 
-  function formatDate(value) {
-    if (!value) return '';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return String(value);
-    return date.getFullYear() + '.' + pad(date.getMonth() + 1) + '.' + pad(date.getDate());
+  function updateMetaByName_(name, content) {
+    if (!content) return;
+    let tag = document.querySelector('meta[name="' + name + '"]');
+    if (!tag) {
+      tag = document.createElement('meta');
+      tag.setAttribute('name', name);
+      document.head.appendChild(tag);
+    }
+    tag.setAttribute('content', content);
   }
 
-  function getMonthLabel_(value) {
-    if (!value) return '';
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return '';
-    return String(date.getMonth() + 1) + '월';
-  }
-
-  function pad(num) {
-    return String(num).padStart(2, '0');
-  }
-
-  function convertLineBreaks(value) {
-    return String(value || '').replace(/\n/g, '<br>');
+  function updateMetaByProperty_(property, content) {
+    if (!content) return;
+    let tag = document.querySelector('meta[property="' + property + '"]');
+    if (!tag) {
+      tag = document.createElement('meta');
+      tag.setAttribute('property', property);
+      document.head.appendChild(tag);
+    }
+    tag.setAttribute('content', content);
   }
 
   function escapeHtml(value) {
-    return String(value)
+    return String(value || '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -818,474 +1212,7 @@
       .replace(/'/g, '&#39;');
   }
 
-  function buildBasicInfoSliderShell_() {
-    return [
-      '<div class="wrap">',
-        '<div class="section-head center compact-head">',
-          '<span class="section-label">CRUISE INTRO</span>',
-          '<h2 class="section-title center-title">크루즈 여행이란?</h2>',
-          '<p class="section-description">처음 보는 분도 부담 없이 이해할 수 있게 핵심만 정리해드립니다.</p>',
-        '</div>',
-        '<div class="dynamic-slider" id="basicInfoSliderWrap">',
-          '<div class="dynamic-slider-viewport">',
-            '<div class="dynamic-slider-track" id="basicInfoTrack"></div>',
-          '</div>',
-          '<div class="basicinfo-slider-controls">',
-            '<button type="button" class="basicinfo-slider-nav" data-basicinfo-nav="prev" aria-label="이전">‹</button>',
-            '<div class="basicinfo-slider-dots" id="basicInfoDots"></div>',
-            '<button type="button" class="basicinfo-slider-nav" data-basicinfo-nav="next" aria-label="다음">›</button>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join('');
-  }
-
-  function buildSafeImageHtml_(url, alt) {
-    if (!url) return '';
-    return '<div class="dynamic-media"><img src="' + escapeAttribute(url) + '" alt="' + escapeAttribute(alt || '') + '" loading="lazy" onerror="this.parentNode.style.display=\'none\'" /></div>';
-  }
-
-  function ensureDynamicSectionsStyle_() {
-    if (document.getElementById('dynamicSectionsStyle')) return;
-
-    const style = document.createElement('style');
-    style.id = 'dynamicSectionsStyle';
-    style.textContent = [
-      '.schedule-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;}',
-      '.schedule-month-emphasis{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:10px 14px;border-radius:999px;background:rgba(255,214,10,.18);border:1px solid rgba(255,214,10,.34);color:#ffe27a;font-size:14px;font-weight:900;box-shadow:0 12px 24px rgba(0,0,0,.16);}',
-      '.schedule-badge-month{background:rgba(255,214,10,.20);border-color:rgba(255,214,10,.34);color:#ffe27a;}',
-      '.dynamic-section{padding:88px 0;}',
-      '.dynamic-section.is-soft{background:linear-gradient(180deg,#f6f9ff 0%,#ffffff 100%);}',
-      '.dynamic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}',
-      '.dynamic-grid.is-two{grid-template-columns:repeat(2,minmax(0,1fr));}',
-      '.process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;counter-reset:processStep;}',
-      '.dynamic-slider{position:relative;}',
-      '.dynamic-slider-viewport{overflow:hidden;}',
-      '.dynamic-slider-track{display:flex;transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform;}',
-      '.dynamic-slide{flex:0 0 100%;min-width:100%;padding:6px;}',
-      '.dynamic-card{position:relative;padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(11,47,108,.08);box-shadow:0 18px 44px rgba(16,36,74,.08);overflow:hidden;display:flex;flex-direction:column;min-height:100%;transition:transform .28s ease, box-shadow .28s ease;}',
-      '.dynamic-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(16,36,74,.12);}',
-      '.dynamic-card.is-dark{background:linear-gradient(135deg,#0f2552 0%,#18396f 100%);color:#fff;border-color:rgba(255,255,255,.08);}',
-      '.dynamic-card.is-accent{background:linear-gradient(135deg,#f7fbff 0%,#edf4ff 100%);}',
-      '.dynamic-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(24,57,111,.08);color:#173865;font-size:12px;font-weight:700;letter-spacing:-.02em;}',
-      '.dynamic-card.is-dark .dynamic-chip{background:rgba(255,255,255,.14);color:#fff;}',
-      '.dynamic-card h3{margin:14px 0 10px;font-size:26px;line-height:1.28;letter-spacing:-.03em;}',
-      '.dynamic-card h4{margin:0 0 8px;font-size:22px;line-height:1.34;letter-spacing:-.03em;}',
-      '.dynamic-card p{margin:0;color:#51607a;line-height:1.75;font-size:15px;letter-spacing:-.01em;}',
-      '.dynamic-card.is-dark p{color:rgba(255,255,255,.84);}',
-      '.dynamic-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px;}',
-      '.dynamic-points li{position:relative;padding-left:14px;font-size:14px;line-height:1.7;color:#33415a;}',
-      '.dynamic-card.is-dark .dynamic-points li{color:rgba(255,255,255,.9);}',
-      '.dynamic-points li:before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:#2e6bff;}',
-      '.dynamic-media{margin-top:18px;border-radius:22px;overflow:hidden;aspect-ratio:16/10;background:#edf3fb;}',
-      '.dynamic-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}',
-      '.dynamic-card:hover .dynamic-media img{transform:scale(1.04);}',
-      '.target-cta-row{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}',
-      '.content-link-row{margin-top:auto;padding-top:20px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;justify-content:space-between;}',
-      '.content-card .dynamic-media{aspect-ratio:16/9;}',
-      '.content-card h3{font-size:22px;}',
-      '.content-card .btn{min-width:136px;}',
-      '.content-summary{margin-bottom:0;}',
-      '.process-card{position:relative;padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 16px 34px rgba(16,36,74,.08);counter-increment:processStep;display:flex;flex-direction:column;min-height:100%;transition:transform .28s ease, box-shadow .28s ease;}',
-      '.process-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(16,36,74,.12);}',
-      '.process-card:before{content:counter(processStep, decimal-leading-zero);display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:14px;background:#173865;color:#fff;font-size:15px;font-weight:800;}',
-      '.process-card h3{margin:16px 0 8px;font-size:22px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
-      '.process-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
-      '.process-highlight{margin-top:16px;display:inline-flex;padding:9px 12px;border-radius:999px;background:#edf4ff;color:#173865;font-size:13px;font-weight:700;}',
-      '.cabin-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;}',
-      '.cabin-badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
-      '.faq-list{display:grid;gap:14px;}',
-      '.faq-item{border:1px solid rgba(16,36,74,.08);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,36,74,.06);overflow:hidden;transition:transform .28s ease, box-shadow .28s ease;}',
-      '.faq-item:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(16,36,74,.10);}',
-      '.faq-item summary{list-style:none;cursor:pointer;padding:22px 24px;font-size:18px;font-weight:700;color:#14284a;display:flex;align-items:center;justify-content:space-between;gap:16px;}',
-      '.faq-item summary::-webkit-details-marker{display:none;}',
-      '.faq-item summary:after{content:"+";font-size:26px;line-height:1;color:#173865;flex:none;}',
-      '.faq-item[open] summary:after{content:"−";}',
-      '.faq-answer{padding:0 24px 22px;color:#51607a;font-size:15px;line-height:1.8;}',
-      '.content-meta{margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}',
-      '.content-tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
-      '.basicinfo-slider-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;}',
-      '.basicinfo-slider-nav{width:44px;height:44px;border-radius:999px;border:0;background:#10284e;color:#fff;font-size:24px;box-shadow:0 12px 24px rgba(16,36,74,.18);cursor:pointer;}',
-      '.basicinfo-slider-dots{display:flex;align-items:center;justify-content:center;gap:8px;}',
-      '.basicinfo-slider-dot{width:9px;height:9px;border-radius:999px;border:0;background:#cbd5e1;padding:0;cursor:pointer;}',
-      '.basicinfo-slider-dot.is-active{background:#2563eb;transform:scale(1.1);}',
-      '.reveal-on-scroll{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1);}',
-      '.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0);}',
-      '@media (max-width: 1024px){.dynamic-grid,.dynamic-grid.is-two,.process-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}',
-      '@media (max-width: 768px){.dynamic-section{padding:72px 0;}.dynamic-grid,.dynamic-grid.is-two,.process-grid{grid-template-columns:1fr;gap:16px;}.dynamic-card,.process-card{padding:22px;}.dynamic-card h3,.process-card h3{font-size:22px;}.faq-item summary{padding:18px 18px;font-size:16px;}.faq-answer{padding:0 18px 18px;}.basicinfo-slider-controls{margin-top:14px;}.basicinfo-slider-nav{width:40px;height:40px;font-size:22px;}.schedule-title-row{align-items:flex-start;flex-direction:column;}.schedule-month-emphasis{padding:8px 12px;font-size:13px;}}'
-    ].join('');
-
-    document.head.appendChild(style);
-  }
-
-  function ensureDynamicSectionsScaffold_() {
-    if (!mainContent) return;
-
-    const identitySection = document.getElementById('identity');
-    const scheduleSection = document.getElementById('schedule');
-    const contactSection = document.getElementById('contact');
-
-    ensureExtendedSection_({
-      id: 'basicInfoSection',
-      after: identitySection,
-      className: 'dynamic-section is-soft reveal-on-scroll',
-      html: buildBasicInfoSliderShell_()
-    });
-
-    ensureExtendedSection_({
-      id: 'targetsSection',
-      after: document.getElementById('basicInfoSection'),
-      className: 'dynamic-section reveal-on-scroll',
-      html: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">WHO IT\\'S FOR</span><h2 class="section-title center-title">이런 분들께 잘 맞아요</h2><p class="section-description">누구를 위한 여행인지 먼저 보면 상담이 훨씬 쉬워집니다.</p></div><div class="dynamic-grid" id="targetsGrid"></div></div>'
-    });
-
-    ensureExtendedSection_({
-      id: 'processSection',
-      after: document.getElementById('targetsSection'),
-      className: 'dynamic-section is-soft reveal-on-scroll',
-      html: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">HOW IT WORKS</span><h2 class="section-title center-title">예약 진행 과정</h2><p class="section-description">문의만 남기면 어떤 순서로 진행되는지 한눈에 볼 수 있게 정리했습니다.</p></div><div class="process-grid" id="processGrid"></div></div>'
-    });
-
-    ensureExtendedSection_({
-      id: 'cabinsSection',
-      before: scheduleSection,
-      className: 'dynamic-section reveal-on-scroll',
-      html: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">CABIN GUIDE</span><h2 class="section-title center-title">선실 타입 간단 비교</h2><p class="section-description">가성비부터 만족도까지, 어떤 객실이 내 여행 스타일에 맞는지 쉽게 비교해보세요.</p></div><div class="dynamic-grid" id="cabinsGrid"></div></div>'
-    });
-
-    const trustSection = document.getElementById('trustSection');
-    if (trustSection && trustSection.parentNode) {
-      trustSection.parentNode.removeChild(trustSection);
-    }
-
-    ensureExtendedSection_({
-      id: 'faqSection',
-      before: contactSection,
-      className: 'dynamic-section reveal-on-scroll',
-      html: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">FAQ</span><h2 class="section-title center-title">자주 묻는 질문</h2><p class="section-description">상담 전에 가장 많이 궁금해하는 내용을 먼저 확인해보세요.</p></div><div class="faq-list" id="faqList"></div></div>'
-    });
-
-    ensureExtendedSection_({
-      id: 'contentSection',
-      before: contactSection,
-      className: 'dynamic-section is-soft reveal-on-scroll',
-      html: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">CONTENT HUB</span><h2 class="section-title center-title">더 알아보면 좋은 콘텐츠</h2><p class="section-description">준비물, 입문 가이드, 비용 이해 같은 확장 콘텐츠를 연결할 수 있게 준비했습니다.</p></div><div class="dynamic-grid" id="contentGrid"></div></div>'
-    });
-  }
-
-  function ensureExtendedSection_(options) {
-    let section = document.getElementById(options.id);
-    if (!section) {
-      section = document.createElement('section');
-      section.id = options.id;
-      section.className = options.className || 'dynamic-section';
-      section.innerHTML = options.html || '';
-
-      if (options.before && options.before.parentNode) {
-        options.before.parentNode.insertBefore(section, options.before);
-      } else if (options.after && options.after.parentNode) {
-        options.after.parentNode.insertBefore(section, options.after.nextSibling);
-      } else if (mainContent) {
-        mainContent.appendChild(section);
-      }
-    }
-    return section;
-  }
-
-  function renderBasicInfo_() {
-    const track = document.getElementById('basicInfoTrack');
-    const section = document.getElementById('basicInfoSection');
-    if (!track || !section) return;
-
-    const items = state.bootstrap.basic_info || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    track.innerHTML = items.map(function (item, idx) {
-      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-      const titleHtml = idx === 0
-        ? '<h3>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h3>'
-        : '<h4>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h4>';
-
-      return [
-        '<div class="dynamic-slide reveal-on-scroll">',
-          '<article class="dynamic-card ' + (idx === 0 ? 'is-dark' : 'is-accent') + '">',
-            item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
-            titleHtml,
-            item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
-            points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
-            buildSafeImageHtml_(item.image_url, item.title || ''),
-          '</article>',
-        '</div>'
-      ].join('');
-    }).join('');
-  }
-
-  function renderTargets_() {
-    const grid = document.getElementById('targetsGrid');
-    const section = document.getElementById('targetsSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.targets || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      const points = [item.point_1, item.point_2].filter(Boolean);
-      return [
-        '<article class="dynamic-card reveal-on-scroll">',
-          item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
-          '<h4>' + escapeHtml(item.title || '추천 대상') + '</h4>',
-          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
-          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
-          buildSafeImageHtml_(item.image_url, item.title || ''),
-          '<div class="target-cta-row">',
-            item.cta_text && item.linked_schedule_id ? '<a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(item.linked_schedule_id) + '">' + escapeHtml(item.cta_text) + '</a>' : '',
-            item.linked_schedule_id ? '<span class="dynamic-chip">연결 일정 ' + escapeHtml(item.linked_schedule_id) + '</span>' : '',
-          '</div>',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
-
-  function renderProcessSteps_() {
-    const grid = document.getElementById('processGrid');
-    const section = document.getElementById('processSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.process_steps || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      return [
-        '<article class="process-card reveal-on-scroll">',
-          '<h3>' + escapeHtml(item.step_title || '진행 단계') + '</h3>',
-          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
-          item.highlight_text ? '<span class="process-highlight">' + escapeHtml(item.highlight_text) + '</span>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
-
-  function renderCabins_() {
-    const grid = document.getElementById('cabinsGrid');
-    const section = document.getElementById('cabinsSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.cabins || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      const points = [item.best_for, item.point_1, item.point_2].filter(Boolean);
-      const badges = [item.badge_1, item.badge_2].filter(Boolean);
-
-      return [
-        '<article class="dynamic-card reveal-on-scroll">',
-          item.cabin_type ? '<span class="dynamic-chip">' + escapeHtml(item.cabin_type) + '</span>' : '',
-          '<h4>' + escapeHtml(item.title || '선실 안내') + '</h4>',
-          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
-          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
-          badges.length ? '<div class="cabin-badges">' + badges.map(function (badge) { return '<span class="cabin-badge">' + escapeHtml(badge) + '</span>'; }).join('') + '</div>' : '',
-          buildSafeImageHtml_(item.image_url, item.title || ''),
-        '</article>'
-      ].join('');
-    }).join('');
-  }
-
-  function renderFaqs_() {
-    const list = document.getElementById('faqList');
-    const section = document.getElementById('faqSection');
-    if (!list || !section) return;
-
-    const items = state.bootstrap.faqs || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    list.innerHTML = items.map(function (item, idx) {
-      return [
-        '<details class="faq-item reveal-on-scroll" ' + (idx === 0 ? 'open' : '') + '>',
-          '<summary><span>' + escapeHtml(item.question || '자주 묻는 질문') + '</span></summary>',
-          '<div class="faq-answer">',
-            item.category ? '<div class="content-meta"><span class="content-tag">' + escapeHtml(item.category) + '</span></div>' : '',
-            '<div>' + escapeHtml(item.answer || '') + '</div>',
-          '</div>',
-        '</details>'
-      ].join('');
-    }).join('');
-  }
-
-  function renderContentLinks_() {
-    const grid = document.getElementById('contentGrid');
-    const section = document.getElementById('contentSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.content_links || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      const contentUrl = String(item.link_url || '').trim() || ('content.html?id=' + encodeURIComponent(item.content_id || ''));
-
-      return [
-        '<article class="dynamic-card content-card reveal-on-scroll">',
-          item.category ? '<span class="dynamic-chip">' + escapeHtml(item.category) + '</span>' : '',
-          '<h3>' + escapeHtml(item.title || '추천 콘텐츠') + '</h3>',
-          item.summary ? '<p class="content-summary">' + escapeHtml(item.summary) + '</p>' : '',
-          buildSafeImageHtml_(item.thumbnail_url, item.title || ''),
-          '<div class="content-link-row">',
-            item.tag_text ? '<span class="content-tag">' + escapeHtml(item.tag_text) + '</span>' : '<span></span>',
-            contentUrl ? '<a href="' + escapeAttribute(contentUrl) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '',
-          '</div>',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
-
-  function setBasicInfoSliderState_(value) {
-    window.__CRUISE_BASICINFO_SLIDER__ = Number(value || 0);
-  }
-
-  function getBasicInfoSliderState_() {
-    return Number(window.__CRUISE_BASICINFO_SLIDER__ || 0);
-  }
-
-  function setupBasicInfoSlider_() {
-    const track = document.getElementById('basicInfoTrack');
-    const dots = document.getElementById('basicInfoDots');
-    const wrap = document.getElementById('basicInfoSliderWrap');
-    if (!track || !dots || !wrap) return;
-
-    const total = track.children.length || 0;
-    if (!total) return;
-
-    const maxPage = Math.max(0, total - 1);
-    const current = Math.min(getBasicInfoSliderState_(), maxPage);
-    setBasicInfoSliderState_(current);
-
-    const viewport = wrap.querySelector('.dynamic-slider-viewport');
-    const width = viewport ? viewport.clientWidth : 0;
-    track.style.transform = 'translateX(-' + (current * width) + 'px)';
-
-    dots.innerHTML = Array.from({ length: maxPage + 1 }).map(function (_, idx) {
-      return '<button type="button" class="basicinfo-slider-dot ' + (idx === current ? 'is-active' : '') + '" data-basicinfo-dot="' + idx + '" aria-label="슬라이드 ' + (idx + 1) + '"></button>';
-    }).join('');
-
-    const prev = wrap.querySelector('[data-basicinfo-nav="prev"]');
-    const next = wrap.querySelector('[data-basicinfo-nav="next"]');
-    const hide = total <= 1;
-
-    if (prev) prev.style.display = hide ? 'none' : '';
-    if (next) next.style.display = hide ? 'none' : '';
-    if (dots) dots.style.display = hide ? 'none' : '';
-
-    startBasicInfoSliderAuto_();
-  }
-
-  function moveBasicInfoSlider_(direction) {
-    const track = document.getElementById('basicInfoTrack');
-    if (!track) return;
-
-    const total = track.children.length || 0;
-    if (!total) return;
-
-    const maxPage = Math.max(0, total - 1);
-    const current = getBasicInfoSliderState_();
-
-    if (direction === 'prev') {
-      setBasicInfoSliderState_(current <= 0 ? maxPage : current - 1);
-    } else {
-      setBasicInfoSliderState_(current >= maxPage ? 0 : current + 1);
-    }
-
-    setupBasicInfoSlider_();
-  }
-
-  function startBasicInfoSliderAuto_() {
-    window.__CRUISE_BASICINFO_TIMER__ = window.__CRUISE_BASICINFO_TIMER__ || null;
-
-    if (window.__CRUISE_BASICINFO_TIMER__) {
-      clearInterval(window.__CRUISE_BASICINFO_TIMER__);
-      window.__CRUISE_BASICINFO_TIMER__ = null;
-    }
-
-    const track = document.getElementById('basicInfoTrack');
-    const total = track ? (track.children.length || 0) : 0;
-    if (total <= 1) return;
-
-    window.__CRUISE_BASICINFO_TIMER__ = setInterval(function () {
-      moveBasicInfoSlider_('next');
-    }, 4200);
-  }
-
-  function alignContentButtons_() {
-    const cards = Array.from(document.querySelectorAll('.content-card'));
-    if (!cards.length) return;
-
-    cards.forEach(function (card) {
-      const summary = card.querySelector('.content-summary');
-      if (summary) summary.style.minHeight = '';
-    });
-
-    let maxSummaryHeight = 0;
-    cards.forEach(function (card) {
-      const summary = card.querySelector('.content-summary');
-      if (summary) maxSummaryHeight = Math.max(maxSummaryHeight, summary.offsetHeight || 0);
-    });
-
-    cards.forEach(function (card) {
-      const summary = card.querySelector('.content-summary');
-      if (summary) summary.style.minHeight = maxSummaryHeight + 'px';
-    });
-  }
-
-  function initRevealAnimations_() {
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
-        el.classList.add('is-visible');
-      });
-      return;
-    }
-
-    if (!window.__CRUISE_REVEAL_OBSERVER__) {
-      window.__CRUISE_REVEAL_OBSERVER__ = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            window.__CRUISE_REVEAL_OBSERVER__.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
-      });
-    }
-
-    document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
-      window.__CRUISE_REVEAL_OBSERVER__.observe(el);
-    });
-  }
-
   function escapeAttribute(value) {
-    return escapeHtml(value);
+    return escapeHtml(value).replace(/`/g, '&#96;');
   }
 })();
