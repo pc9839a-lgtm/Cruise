@@ -574,40 +574,112 @@
     ensureExtraSectionsScaffold();
     renderBasicInfo();
     renderTargets();
-    renderCabins();
     renderProcessSteps();
+    renderCabins();
     renderFaqs();
     renderContentLinks();
   }
 
   function ensureExtraSectionsScaffold() {
     if (!mainContent) return;
-    const sections = [
-      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', gridId: 'basicInfoGrid', gridClass: 'sheet-extra-basic-grid' },
-      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
-      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
-      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
+
+    const blocks = [
+      {
+        id: 'basicInfoSection',
+        html: `
+          <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
+            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+              <div class="section-head center compact-head">
+                <span class="section-label">기초안내</span>
+                <h2 class="section-title">크루즈는 어렵지 않아요</h2>
+              </div>
+              <div class="sheet-basic-slider" id="basicInfoSlider">
+                <div class="sheet-basic-slider-viewport">
+                  <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
+                </div>
+                <div class="sheet-basic-slider-controls" id="basicInfoControls">
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
+                  <div class="sheet-basic-dots" id="basicInfoDots"></div>
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
+                </div>
+              </div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'targetsSection',
+        html: `
+          <section class="sheet-extra-section" id="targetsSection">
+            <div class="sheet-extra-wrap">
+              <div class="section-head center compact-head">
+                <span class="section-label">이용대상자</span>
+                <h2 class="section-title">이런 분들께 잘 맞아요</h2>
+              </div>
+              <div id="targetsGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'processSection',
+        html: `
+          <section class="sheet-extra-section" id="processSection">
+            <div class="sheet-extra-wrap">
+              <div class="section-head center compact-head">
+                <span class="section-label">예약과정</span>
+                <h2 class="section-title">상담부터 탑승까지</h2>
+              </div>
+              <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'cabinsSection',
+        html: `
+          <section class="sheet-extra-section" id="cabinsSection">
+            <div class="sheet-extra-wrap">
+              <div class="section-head center compact-head">
+                <span class="section-label">선실비교</span>
+                <h2 class="section-title">선실 타입 비교</h2>
+              </div>
+              <div id="cabinsGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'faqSection',
+        html: `
+          <section class="sheet-extra-section" id="faqSection">
+            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+              <div class="section-head center compact-head">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-title">자주 묻는 질문</h2>
+              </div>
+              <div id="faqList" class="sheet-extra-faq-list"></div>
+            </div>
+          </section>`
+      },
+      {
+        id: 'contentSection',
+        html: `
+          <section class="sheet-extra-section" id="contentSection">
+            <div class="sheet-extra-wrap">
+              <div class="section-head center compact-head">
+                <span class="section-label">콘텐츠연결</span>
+                <h2 class="section-title">함께 보면 좋은 정보</h2>
+              </div>
+              <div id="contentGrid" class="sheet-extra-grid"></div>
+            </div>
+          </section>`
+      }
     ];
 
-    sections.forEach(({ id, title, label, gridId, gridClass }) => {
-      if (!document.getElementById(id)) {
-        const html = `
-          <section class="sheet-extra-section" id="${id}">
-            <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head">
-                <span class="sheet-extra-label">${label}</span>
-                <h2 class="sheet-extra-title">${title}</h2>
-              </div>
-              <div id="${gridId}" class="${gridClass}"></div>
-            </div>
-          </section>`;
-        
-        const debugPanel = document.getElementById('sheetDebugPanel');
-        if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
-        else mainContent.insertAdjacentHTML('beforeend', html);
+    blocks.forEach((block) => {
+      if (document.getElementById(block.id)) return;
+      const debugPanel = document.getElementById('sheetDebugPanel');
+      if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', block.html);
+      } else {
+        mainContent.insertAdjacentHTML('beforeend', block.html);
       }
     });
   }
@@ -698,8 +770,12 @@
 
   function restartBasicInfoAuto() {
     stopBasicInfoAuto();
+
     const track = document.getElementById('basicInfoGrid');
-    if (!track || track.children.length <= 1) return;
+    if (!track) return;
+
+    const total = track.children.length;
+    if (total <= 1) return;
 
     basicInfoAutoTimer = window.setInterval(() => {
       moveBasicInfo('next');
