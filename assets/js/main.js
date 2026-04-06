@@ -1,3 +1,4 @@
+
 (function () {
   const config = window.APP_CONFIG || {};
   const modal = document.getElementById('scheduleModal');
@@ -12,11 +13,25 @@
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const mainNav = document.getElementById('mainNav');
   const phoneInput = document.getElementById('phoneInput');
+  const mainContent = document.querySelector('main');
 
   const state = {
-    bootstrap: { settings: {}, schedules: [], schedule_days: [], reviews: [] },
+    bootstrap: {
+      settings: {},
+      schedules: [],
+      schedule_days: [],
+      reviews: [],
+      targets: [],
+      basic_info: [],
+      process_steps: [],
+      cabins: [],
+      faqs: [],
+      trust_points: [],
+      content_links: []
+    },
     activeRegion: 'ALL',
-    reviewPage: 0
+    reviewPage: 0,
+    debugLogs: []
   };
 
   init();
@@ -24,6 +39,9 @@
   async function init() {
     bindStaticEvents();
     setTrackingFields();
+    initGlobalDebugHandlers_();
+    ensureAddonStyles_();
+    ensureDebugPanel_();
 
     const payload = config.useMockOnly
       ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
@@ -43,6 +61,7 @@
       const filterButton = event.target.closest('[data-region]');
       if (filterButton) {
         state.activeRegion = filterButton.getAttribute('data-region') || 'ALL';
+        logDebug_('filter.click', { region: state.activeRegion });
         renderFilters();
         renderSchedules();
         return;
@@ -54,6 +73,7 @@
         const scheduleId = selectButton.getAttribute('data-select-schedule');
         const scheduleSelect = document.getElementById('interestScheduleSelect');
         if (scheduleSelect) scheduleSelect.value = scheduleId || '';
+        logDebug_('schedule.select', { scheduleId: scheduleId || '' });
         scrollToSection('contact');
         closeModal();
         return;
@@ -76,6 +96,11 @@
       if (openCard) {
         const scheduleId = openCard.getAttribute('data-open-schedule');
         openSchedule(scheduleId);
+        return;
+      }
+
+      const faqSummary = event.target.closest('.sheet-extra-faq summary');
+      if (faqSummary) {
         return;
       }
 
@@ -105,10 +130,12 @@
       if (data.type !== 'CRUISE_FORM_RESULT') return;
       if (data.success) {
         updateFormResult(data.message || '문의가 정상 접수되었습니다.', 'success');
-        form.reset();
+        if (form) form.reset();
         setTrackingFields();
+        logDebug_('form.result.success', { message: data.message || '' });
       } else {
         updateFormResult(data.message || '문의 접수 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
+        logDebug_('form.result.error', { message: data.message || '' });
       }
       setSubmitState(false);
     });
@@ -173,10 +200,16 @@
         form.action = config.apiUrl;
         setSubmitState(true);
         updateFormResult('문의 내용을 접수하고 있습니다...', 'pending');
+        logDebug_('form.submit', {
+          schedule_id: String(formData.get('interest_schedule_id') || ''),
+          people_count: String(formData.get('people_count') || ''),
+          has_region_detail: !!regionDetail,
+          has_travel_ready_status: !!travelReadyStatus
+        });
         form.submit();
 
         window.setTimeout(function () {
-          if (formResult.classList.contains('is-pending')) {
+          if (formResult && formResult.classList.contains('is-pending')) {
             updateFormResult('문의 접수는 진행 중입니다. 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
@@ -184,11 +217,32 @@
     }
   }
 
+  function initGlobalDebugHandlers_() {
+    window.addEventListener('error', function (event) {
+      logDebug_('window.error', {
+        message: event && event.message ? event.message : '',
+        source: event && event.filename ? event.filename : '',
+        line: event && event.lineno ? event.lineno : '',
+        col: event && event.colno ? event.colno : ''
+      });
+    });
+
+    window.addEventListener('unhandledrejection', function (event) {
+      const reason = event ? event.reason : '';
+      logDebug_('window.unhandledrejection', {
+        reason: reason && reason.message ? reason.message : String(reason || '')
+      });
+    });
+  }
+
   async function getBootstrapWithFallback() {
     try {
       const apiPayload = await loadBootstrapFromApi();
       return normalizeData(apiPayload);
     } catch (error) {
+      logDebug_('bootstrap.fallback', {
+        reason: error && error.message ? error.message : String(error || '')
+      });
       return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
   }
@@ -201,130 +255,148 @@
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
-      script.src = config.apiUrl + '?' + params.toString();
-      script.async = true;
+      const requestUrl = config.apiUrl + '?' + params.toString();
+      let finished = false;
+      let timeoutId = null;
+
+      logDebug_('bootstrap.request', { url: requestUrl });
 
       window[callbackName] = function (payload) {
-        cleanup();
+        if (finished) return;
+        finished = true;
+        cleanup(true);
+        logDebug_('bootstrap.success', getBootstrapDebugSummary_(payload));
         resolve(payload);
       };
 
       script.onerror = function () {
-        cleanup();
+        if (finished) return;
+        finished = true;
+        cleanup(false);
+        logDebug_('bootstrap.error', { url: requestUrl });
         reject(new Error('bootstrap-load-failed'));
       };
 
-      function cleanup() {
-        delete window[callbackName];
-        if (script.parentNode) script.parentNode.removeChild(script);
+      timeoutId = window.setTimeout(function () {
+        if (finished) return;
+        finished = true;
+        cleanup(false);
+        logDebug_('bootstrap.timeout', { url: requestUrl });
+        reject(new Error('bootstrap-timeout'));
+      }, 8000);
+
+      function cleanup(success) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        if (success) {
+          window[callbackName] = function () {
+            logDebug_('bootstrap.late_callback', { callback: callbackName });
+          };
+          setTimeout(function () {
+            try { delete window[callbackName]; } catch (e) {}
+          }, 30000);
+        } else {
+          try { delete window[callbackName]; } catch (e) {}
+        }
       }
 
+      script.src = requestUrl;
+      script.async = true;
       document.body.appendChild(script);
     });
   }
 
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
+    logDebug_('hydrate.start', getBootstrapDebugSummary_(state.bootstrap));
     renderSettings();
     renderFilters();
     startHeroMotion();
     renderSchedules();
     renderReviews();
     populateFormSelects();
+    renderExtraSections_();
+    logDebug_('hydrate.done', { ok: true });
   }
 
   function normalizeData(data) {
     const safe = data || {};
     const fallback = window.MOCK_BOOTSTRAP_DATA || {};
+
     safe.settings = safe.settings || fallback.settings || {};
-    safe.schedules = Array.isArray(safe.schedules) && safe.schedules.length ? safe.schedules : (Array.isArray(fallback.schedules) ? fallback.schedules : []);
-    safe.schedule_days = Array.isArray(safe.schedule_days) && safe.schedule_days.length ? safe.schedule_days : (Array.isArray(fallback.schedule_days) ? fallback.schedule_days : []);
-    safe.reviews = Array.isArray(safe.reviews) && safe.reviews.length ? safe.reviews : (Array.isArray(fallback.reviews) ? fallback.reviews : []);
+    safe.schedules = ensureArray_(safe.schedules, fallback.schedules);
+    safe.schedule_days = ensureArray_(safe.schedule_days, fallback.schedule_days);
+    safe.reviews = ensureArray_(safe.reviews, fallback.reviews);
+    safe.targets = ensureArray_(safe.targets, fallback.targets);
+    safe.basic_info = ensureArray_(safe.basic_info, fallback.basic_info);
+    safe.process_steps = ensureArray_(safe.process_steps, fallback.process_steps);
+    safe.cabins = ensureArray_(safe.cabins, fallback.cabins);
+    safe.faqs = ensureArray_(safe.faqs, fallback.faqs);
+    safe.trust_points = ensureArray_(safe.trust_points, fallback.trust_points);
+    safe.content_links = ensureArray_(safe.content_links, fallback.content_links);
+
     return safe;
   }
 
-   function renderSettings() {
-     /* ---------------------------------------------------------
-       settings 객체
-       - Apps Script / mock-data 에서 내려온 설정값을 담는 객체
-       - 값이 없으면 아래 기본값으로 대체됨
-       --------------------------------------------------------- */
-     const settings = state.bootstrap.settings || {};
+  function ensureArray_(primary, fallback) {
+    if (Array.isArray(primary)) return primary;
+    if (Array.isArray(fallback)) return fallback;
+    return [];
+  }
 
-     /* ---------------------------------------------------------
-       사이트명 기본값
-       - 원래는 시트의 site_title / site_name 값을 우선 사용
-       - 여기서는 푸터만 따로 고정할 거라 siteName 계산은 유지
-       --------------------------------------------------------- */
-     const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
+  function getBootstrapDebugSummary_(payload) {
+    const safe = payload || {};
+    return {
+      schedules: Array.isArray(safe.schedules) ? safe.schedules.length : 0,
+      schedule_days: Array.isArray(safe.schedule_days) ? safe.schedule_days.length : 0,
+      reviews: Array.isArray(safe.reviews) ? safe.reviews.length : 0,
+      targets: Array.isArray(safe.targets) ? safe.targets.length : 0,
+      basic_info: Array.isArray(safe.basic_info) ? safe.basic_info.length : 0,
+      process_steps: Array.isArray(safe.process_steps) ? safe.process_steps.length : 0,
+      cabins: Array.isArray(safe.cabins) ? safe.cabins.length : 0,
+      faqs: Array.isArray(safe.faqs) ? safe.faqs.length : 0,
+      trust_points: Array.isArray(safe.trust_points) ? safe.trust_points.length : 0,
+      content_links: Array.isArray(safe.content_links) ? safe.content_links.length : 0
+    };
+  }
 
-     /* ---------------------------------------------------------
-       히어로 배경 이미지
-       - 설정에 hero_image 또는 hero_bg가 있으면 사용
-       --------------------------------------------------------- */
-     const heroImage = settings.hero_image || settings.hero_bg || '';
+  function renderSettings() {
+    const settings = state.bootstrap.settings || {};
+    const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
+    const heroImage = settings.hero_image || settings.hero_bg || '';
 
-     /* ---------------------------------------------------------
-       상단 로고/사이트명
-       - 헤더 좌측 브랜드명
-       --------------------------------------------------------- */
-     setText('siteName', siteName);
+    setText('siteName', siteName);
+    setText('footerSiteName', 'WAYZI');
+    setText('siteNameInput', siteName, 'value');
+    setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
+    setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
+    setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
 
-     /* ---------------------------------------------------------
-       푸터 사이트명
-       - 기존: 시트 값(siteName)으로 자동 반영
-       - 변경: 푸터에는 무조건 WAYZI 고정 출력
-       --------------------------------------------------------- */
-     setText('footerSiteName', 'WAYZI');
-
-     /* ---------------------------------------------------------
-       hidden input 에 들어가는 사이트명
-       - 문의폼 전송 시 같이 넘어가는 값
-       - 이건 기존처럼 siteName 유지
-       --------------------------------------------------------- */
-     setText('siteNameInput', siteName, 'value');
-
-     /* ---------------------------------------------------------
-       히어로 상단 태그 3개
-       --------------------------------------------------------- */
-     setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
-     setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
-     setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
-
-     /* ---------------------------------------------------------
-       히어로 메인 타이틀
-       - 줄바꿈 허용
-       - XSS 방지를 위해 escapeHtml 후 <br> 변환
-       --------------------------------------------------------- */
-     setHtml(
+    setHtml(
       'heroTitle',
       convertLineBreaks(
         escapeHtml(settings.hero_title || '크루즈 여행,\n패키지 말고 직구하세요.')
       )
-     );
+    );
 
-     /* ---------------------------------------------------------
-       히어로 서브타이틀
-       --------------------------------------------------------- */
-     setText(
+    setText(
       'heroSubtitle',
       settings.hero_subtitle || '마음에 드는 일정이 있으면 확인 후 바로 문의해주세요.'
-     );
+    );
 
-     /* ---------------------------------------------------------
-       히어로 하단 보조 문구
-       --------------------------------------------------------- */
-     setText(
+    setText(
       'heroBottomText',
       settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.'
-     );
+    );
 
-     /* ---------------------------------------------------------
-       브랜드 소개 타이틀
-       - 줄바꿈 기준으로 2줄 처리
-       - 두 번째 줄은 <span>으로 감싸서 스타일 강조
-       --------------------------------------------------------- */
-     setHtml('identityTitle', (function () {
+    setHtml('identityTitle', (function () {
       const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
       const parts = String(text).split('\n');
 
@@ -333,13 +405,9 @@
       }
 
       return '<span>' + escapeHtml(text) + '</span>';
-     })());
+    })());
 
-     /* ---------------------------------------------------------
-       브랜드 소개 설명문
-       - 줄바꿈 허용
-       --------------------------------------------------------- */
-     setHtml(
+    setHtml(
       'identityDesc',
       convertLineBreaks(
         escapeHtml(
@@ -347,30 +415,21 @@
           '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.'
         )
       )
-     );
+    );
 
-     /* ---------------------------------------------------------
-       푸터 설명문
-       - 기존: settings.footer_description 값 사용
-       - 변경: 사업자 정보 문구로 고정 출력
-       --------------------------------------------------------- */
-     setText(
+    setText(
       'footerDescription',
       '대표 김도윤 · 사업자번호 538-42-01450'
-     );
+    );
 
-     /* ---------------------------------------------------------
-       히어로 배경 이미지 적용
-       - 이미지가 있을 때만 background-image 설정
-       --------------------------------------------------------- */
-     const heroBg = document.getElementById('heroBg');
-     if (heroBg && heroImage) {
+    const heroBg = document.getElementById('heroBg');
+    if (heroBg && heroImage) {
       heroBg.style.backgroundImage =
         'linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("' +
         heroImage.replace(/"/g, '\\"') +
         '")';
-     }
-   }
+    }
+  }
 
   function getRegions() {
     return ['ALL'].concat(Array.from(new Set(state.bootstrap.schedules.map(function (item) {
@@ -400,6 +459,11 @@
       return state.activeRegion === 'ALL' ? true : item.region === state.activeRegion;
     }).slice(0, 6);
 
+    logDebug_('renderSchedules', {
+      activeRegion: state.activeRegion,
+      visibleSchedules: schedules.length
+    });
+
     if (!schedules.length) {
       scheduleGrid.innerHTML = '<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>';
       return;
@@ -408,53 +472,56 @@
     scheduleGrid.innerHTML = schedules.map(buildScheduleCard).join('');
   }
 
-   function buildScheduleCard(schedule) {
-     const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
-     const homePort = getHomePort(schedule.schedule_id);
-     const monthLabel = getMonthLabel(schedule.departure_date);
-   
-     return [
-       '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-         '<div class="schedule-visual">',
-           imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-           '<div class="schedule-visual-inner">',
-             '<div class="schedule-badges">',
-               '<span class="schedule-badge">', escapeHtml(schedule.region || '크루즈'), '</span>',
-               '<span class="schedule-badge schedule-badge-month">', escapeHtml(monthLabel), ' 출발</span>',
-             '</div>',
-             '<h3 class="schedule-title">', highlightMonthText(schedule.title || '크루즈 일정'), '</h3>',
-           '</div>',
-         '</div>',
-         '<div class="schedule-content">',
-           '<div class="schedule-meta">',
-             metaItem('선박', schedule.ship_name || '-'),
-             metaItem('모항지', homePort || '-'),
-             metaItem('출발', formatDate(schedule.departure_date)),
-             metaItem('도착', formatDate(schedule.return_date)),
-           '</div>',
-           '<div class="schedule-actions">',
-             '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-           '</div>',
-         '</div>',
-       '</article>'
-     ].join('');
-   }
-   function getMonthLabel(dateValue) {
-     const text = String(dateValue || '').trim();
-     const match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-     if (!match) return '';
-     return String(Number(match[2])) + '월';
-   }
-   
-   function highlightMonthText(text) {
-     return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
-   }
+  function buildScheduleCard(schedule) {
+    const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
+    const homePort = getHomePort(schedule.schedule_id);
+    const monthLabel = getMonthLabel(schedule.departure_date);
+
+    return [
+      '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
+        '<div class="schedule-visual">',
+          imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
+          '<div class="schedule-visual-inner">',
+            '<div class="schedule-badges">',
+              '<span class="schedule-badge">', escapeHtml(schedule.region || '크루즈'), '</span>',
+              '<span class="schedule-badge schedule-badge-month">', escapeHtml(monthLabel), ' 출발</span>',
+            '</div>',
+            '<h3 class="schedule-title">', highlightMonthText(schedule.title || '크루즈 일정'), '</h3>',
+          '</div>',
+        '</div>',
+        '<div class="schedule-content">',
+          '<div class="schedule-meta">',
+            metaItem('선박', schedule.ship_name || '-'),
+            metaItem('모항지', homePort || '-'),
+            metaItem('출발', formatDate(schedule.departure_date)),
+            metaItem('도착', formatDate(schedule.return_date)),
+          '</div>',
+          '<div class="schedule-actions">',
+            '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
+          '</div>',
+        '</div>',
+      '</article>'
+    ].join('');
+  }
+
+  function getMonthLabel(dateValue) {
+    const text = String(dateValue || '').trim();
+    const match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return '';
+    return String(Number(match[2])) + '월';
+  }
+
+  function highlightMonthText(text) {
+    return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
+  }
+
   function renderReviews() {
     if (!reviewGrid) return;
     const reviews = state.bootstrap.reviews || [];
     if (!reviews.length) {
       reviewGrid.innerHTML = '<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>';
       if (reviewDots) reviewDots.innerHTML = '';
+      logDebug_('renderReviews', { reviews: 0 });
       return;
     }
 
@@ -472,6 +539,7 @@
       ].join('');
     }).join('');
 
+    logDebug_('renderReviews', { reviews: reviews.length });
     setupReviewSlider(reviews.length);
   }
 
@@ -489,6 +557,12 @@
 
     const routeStops = getRouteStops(scheduleId, days);
     const imageUrl = schedule.schedule_image_url || schedule.thumbnail_url || '';
+
+    logDebug_('openSchedule', {
+      scheduleId: scheduleId,
+      days: days.length,
+      routeStops: routeStops.length
+    });
 
     modalBody.innerHTML = [
       '<section class="modal-hero-card">',
@@ -521,7 +595,7 @@
       imageUrl ? '<section class="modal-image-card"><div class="modal-card-head"><h4>일정표 이미지</h4><p>시트에 등록된 일정표 이미지를 함께 보여줍니다.</p></div><div class="schedule-image-frame"><img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" /></div></section>' : ''
     ].join('');
 
-    modal.setAttribute('aria-hidden', 'false');
+    if (modal) modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
@@ -544,31 +618,31 @@
     ].join('');
   }
 
-   function buildItineraryRow(day) {
-     const dayLabel = 'Day ' + (day.day_no || '');
-     const dateLabel = formatDayDate(day.date || '');
-     const portName = escapeHtml(day.port_name || day.city || '-');
-     const portEn = escapeHtml(day.port_name_en || day.country || '');
-     const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
-     const departure = normalizeTimeCell(day.departure_time, 'departure');
-     const highlight = isHighlightDay(day) ? ' is-highlight' : '';
-     const overnight = /overnight|정박/i.test(String(day.description || ''))
-       ? '<span class="overnight-badge">정박 (Overnight)</span>'
-       : '';
-   
-     return [
-       '<tr class="' + highlight.trim() + '">',
-         '<td class="day-cell">' + dayLabel + '</td>',
-         '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
-         '<td>',
-           '<span class="port-name-kr">' + portName + overnight + '</span>',
-           portEn ? '<span class="port-name-en">' + portEn + '</span>' : '',
-         '</td>',
-         arrival,
-         departure,
-       '</tr>'
-     ].join('');
-   }
+  function buildItineraryRow(day) {
+    const dayLabel = 'Day ' + (day.day_no || '');
+    const dateLabel = formatDayDate(day.date || '');
+    const portName = escapeHtml(day.port_name || day.city || '-');
+    const portEn = escapeHtml(day.port_name_en || day.country || '');
+    const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
+    const departure = normalizeTimeCell(day.departure_time, 'departure');
+    const highlight = isHighlightDay(day) ? ' is-highlight' : '';
+    const overnight = /overnight|정박/i.test(String(day.description || ''))
+      ? '<span class="overnight-badge">정박 (Overnight)</span>'
+      : '';
+
+    return [
+      '<tr class="' + highlight.trim() + '">',
+        '<td class="day-cell">' + dayLabel + '</td>',
+        '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
+        '<td>',
+          '<span class="port-name-kr">' + portName + overnight + '</span>',
+          portEn ? '<span class="port-name-en">' + portEn + '</span>' : '',
+        '</td>',
+        arrival,
+        departure,
+      '</tr>'
+    ].join('');
+  }
 
   function isHighlightDay(day) {
     const text = String(day.description || '').toLowerCase();
@@ -703,7 +777,7 @@
     const stops = days.map(function (day) {
       return cleanStop(day.port_name || day.city || '');
     }).filter(Boolean).filter(function (stop) {
-      const lower = stop.toLowerCase();
+      const lower = String(stop).toLowerCase();
       return lower !== '해상일' && lower !== 'sea day' && lower !== '인천 출발' && lower !== '부산 출발';
     });
 
@@ -712,6 +786,410 @@
 
   function cleanStop(value) {
     return String(value || '').replace(/\s+/g, ' ').replace(/\(.*?\)/g, '').trim();
+  }
+
+  function renderExtraSections_() {
+    ensureExtraSectionsScaffold_();
+    renderBasicInfo_();
+    renderTargets_();
+    renderProcessSteps_();
+    renderCabins_();
+    renderFaqs_();
+    renderTrustPoints_();
+    renderContentLinks_();
+  }
+
+  function ensureExtraSectionsScaffold_() {
+    if (!mainContent) return;
+
+    ensureSection_('basicInfoSection', [
+      '<section class="sheet-extra-section" id="basicInfoSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">기초안내</span>',
+            '<h2 class="sheet-extra-title">크루즈는 어렵지 않아요</h2>',
+          '</div>',
+          '<div id="basicInfoGrid" class="sheet-extra-basic-grid"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('targetsSection', [
+      '<section class="sheet-extra-section" id="targetsSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">이용대상자</span>',
+            '<h2 class="sheet-extra-title">이런 분들께 잘 맞아요</h2>',
+          '</div>',
+          '<div id="targetsGrid" class="sheet-extra-grid"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('processSection', [
+      '<section class="sheet-extra-section" id="processSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">예약과정</span>',
+            '<h2 class="sheet-extra-title">상담부터 탑승까지</h2>',
+          '</div>',
+          '<div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('cabinsSection', [
+      '<section class="sheet-extra-section" id="cabinsSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">선실비교</span>',
+            '<h2 class="sheet-extra-title">선실 타입 비교</h2>',
+          '</div>',
+          '<div id="cabinsGrid" class="sheet-extra-grid"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('trustSection', [
+      '<section class="sheet-extra-section" id="trustSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">신뢰요소</span>',
+            '<h2 class="sheet-extra-title">왜 이 구조가 편한지</h2>',
+          '</div>',
+          '<div id="trustGrid" class="sheet-extra-grid"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('faqSection', [
+      '<section class="sheet-extra-section" id="faqSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">FAQ</span>',
+            '<h2 class="sheet-extra-title">자주 묻는 질문</h2>',
+          '</div>',
+          '<div id="faqList" class="sheet-extra-faq-list"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+
+    ensureSection_('contentSection', [
+      '<section class="sheet-extra-section" id="contentSection">',
+        '<div class="sheet-extra-wrap">',
+          '<div class="sheet-extra-head">',
+            '<span class="sheet-extra-label">콘텐츠연결</span>',
+            '<h2 class="sheet-extra-title">함께 보면 좋은 정보</h2>',
+          '</div>',
+          '<div id="contentGrid" class="sheet-extra-grid"></div>',
+        '</div>',
+      '</section>'
+    ].join(''));
+  }
+
+  function ensureSection_(id, html) {
+    if (!mainContent) return;
+    if (document.getElementById(id)) return;
+    const debugPanel = document.getElementById('sheetDebugPanel');
+    if (debugPanel && debugPanel.parentNode === mainContent) {
+      debugPanel.insertAdjacentHTML('beforebegin', html);
+    } else {
+      mainContent.insertAdjacentHTML('beforeend', html);
+    }
+  }
+
+  function renderBasicInfo_() {
+    const section = document.getElementById('basicInfoSection');
+    const grid = document.getElementById('basicInfoGrid');
+    const items = state.bootstrap.basic_info || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderBasicInfo', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+      return [
+        '<article class="sheet-extra-card sheet-extra-card-basic">',
+          '<div class="sheet-extra-card-copy">',
+            item.title ? '<h3>' + escapeHtml(item.title) + '</h3>' : '',
+            item.subtitle ? '<p class="sheet-extra-muted">' + escapeHtml(item.subtitle) + '</p>' : '',
+            item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
+            points.length ? '<ul class="sheet-extra-points">' + points.map(function (point) {
+              return '<li>' + escapeHtml(point) + '</li>';
+            }).join('') + '</ul>' : '',
+          '</div>',
+          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderBasicInfo', { items: items.length });
+  }
+
+  function renderTargets_() {
+    const section = document.getElementById('targetsSection');
+    const grid = document.getElementById('targetsGrid');
+    const items = state.bootstrap.targets || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderTargets', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      return [
+        '<article class="sheet-extra-card">',
+          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+          '<h3>' + escapeHtml(item.title || '') + '</h3>',
+          item.subtitle ? '<p class="sheet-extra-muted">' + escapeHtml(item.subtitle) + '</p>' : '',
+          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
+          [item.point_1, item.point_2].filter(Boolean).length ? '<ul class="sheet-extra-points">' + [item.point_1, item.point_2].filter(Boolean).map(function (point) {
+            return '<li>' + escapeHtml(point) + '</li>';
+          }).join('') + '</ul>' : '',
+          item.linked_schedule_id ? '<div class="sheet-extra-action"><a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(item.linked_schedule_id) + '">' + escapeHtml(item.cta_text || '상담 요청') + '</a></div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderTargets', { items: items.length });
+  }
+
+  function renderProcessSteps_() {
+    const section = document.getElementById('processSection');
+    const grid = document.getElementById('processGrid');
+    const items = state.bootstrap.process_steps || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderProcessSteps', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item, index) {
+      return [
+        '<article class="sheet-extra-card sheet-extra-step-card">',
+          '<span class="sheet-extra-step-no">STEP ' + (index + 1) + '</span>',
+          '<h3>' + escapeHtml(item.step_title || '') + '</h3>',
+          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
+          item.highlight_text ? '<div class="sheet-extra-highlight">' + escapeHtml(item.highlight_text) + '</div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderProcessSteps', { items: items.length });
+  }
+
+  function renderCabins_() {
+    const section = document.getElementById('cabinsSection');
+    const grid = document.getElementById('cabinsGrid');
+    const items = state.bootstrap.cabins || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderCabins', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      return [
+        '<article class="sheet-extra-card">',
+          item.image_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+          item.cabin_type ? '<div class="sheet-extra-chip">' + escapeHtml(item.cabin_type) + '</div>' : '',
+          '<h3>' + escapeHtml(item.title || '') + '</h3>',
+          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
+          [item.best_for, item.point_1, item.point_2].filter(Boolean).length ? '<ul class="sheet-extra-points">' + [item.best_for, item.point_1, item.point_2].filter(Boolean).map(function (point) {
+            return '<li>' + escapeHtml(point) + '</li>';
+          }).join('') + '</ul>' : '',
+          (item.badge_1 || item.badge_2) ? '<div class="sheet-extra-tags">' + [item.badge_1, item.badge_2].filter(Boolean).map(function (badge) {
+            return '<span>' + escapeHtml(badge) + '</span>';
+          }).join('') + '</div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderCabins', { items: items.length });
+  }
+
+  function renderTrustPoints_() {
+    const section = document.getElementById('trustSection');
+    const grid = document.getElementById('trustGrid');
+    const items = state.bootstrap.trust_points || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderTrustPoints', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      return [
+        '<article class="sheet-extra-card">',
+          item.badge_text ? '<div class="sheet-extra-chip">' + escapeHtml(item.badge_text) + '</div>' : '',
+          '<h3>' + escapeHtml(item.title || '') + '</h3>',
+          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderTrustPoints', { items: items.length });
+  }
+
+  function renderFaqs_() {
+    const section = document.getElementById('faqSection');
+    const list = document.getElementById('faqList');
+    const items = state.bootstrap.faqs || [];
+    if (!section || !list) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderFaqs', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    list.innerHTML = items.map(function (item) {
+      return [
+        '<details class="sheet-extra-faq">',
+          '<summary>' + escapeHtml(item.question || '') + '</summary>',
+          '<div class="sheet-extra-faq-body">',
+            item.category ? '<div class="sheet-extra-chip">' + escapeHtml(item.category) + '</div>' : '',
+            '<p>' + escapeHtml(item.answer || '') + '</p>',
+          '</div>',
+        '</details>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderFaqs', { items: items.length });
+  }
+
+  function renderContentLinks_() {
+    const section = document.getElementById('contentSection');
+    const grid = document.getElementById('contentGrid');
+    const items = state.bootstrap.content_links || [];
+    if (!section || !grid) return;
+    if (!items.length) {
+      section.style.display = 'none';
+      logDebug_('renderContentLinks', { items: 0 });
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      const linkUrl = String(item.link_url || '').trim();
+      return [
+        '<article class="sheet-extra-card">',
+          item.thumbnail_url ? '<div class="sheet-extra-media"><img src="' + escapeAttribute(item.thumbnail_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+          item.category ? '<div class="sheet-extra-chip">' + escapeHtml(item.category) + '</div>' : '',
+          '<h3>' + escapeHtml(item.title || '') + '</h3>',
+          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
+          '<div class="sheet-extra-action">',
+            item.tag_text ? '<span class="sheet-extra-inline-tag">' + escapeHtml(item.tag_text) + '</span>' : '<span></span>',
+            linkUrl ? '<a href="' + escapeAttribute(linkUrl) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '',
+          '</div>',
+        '</article>'
+      ].join('');
+    }).join('');
+
+    logDebug_('renderContentLinks', { items: items.length });
+  }
+
+  function ensureAddonStyles_() {
+    if (document.getElementById('sheetAddonStyle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'sheetAddonStyle';
+    style.textContent = [
+      '.schedule-month-accent{color:#2f6df6;font-weight:800;}',
+      '.schedule-badge-month{font-weight:800;}',
+      '.sheet-extra-section{padding:40px 0 10px;}',
+      '.sheet-extra-wrap{width:min(1200px,calc(100% - 40px));margin:0 auto;}',
+      '.sheet-extra-head{margin:0 0 18px;}',
+      '.sheet-extra-label{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;background:#eef4ff;color:#2f6df6;font-weight:800;font-size:12px;letter-spacing:.02em;}',
+      '.sheet-extra-title{margin:14px 0 0;font-size:34px;line-height:1.2;color:#0e1b39;}',
+      '.sheet-extra-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}',
+      '.sheet-extra-grid-steps{grid-template-columns:repeat(4,minmax(0,1fr));}',
+      '.sheet-extra-basic-grid{display:grid;grid-template-columns:1fr;gap:22px;}',
+      '.sheet-extra-card{background:#fff;border:1px solid #e8edf6;border-radius:28px;padding:24px;box-shadow:0 10px 30px rgba(17,34,68,.05);}',
+      '.sheet-extra-card-basic{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:24px;align-items:center;}',
+      '.sheet-extra-card h3{margin:0 0 10px;font-size:24px;line-height:1.35;color:#0e1b39;}',
+      '.sheet-extra-card p{margin:0;color:#5a6a85;line-height:1.7;}',
+      '.sheet-extra-muted{margin-bottom:10px !important;}',
+      '.sheet-extra-media{overflow:hidden;border-radius:22px;background:#f4f7fb;}',
+      '.sheet-extra-media img{display:block;width:100%;height:auto;}',
+      '.sheet-extra-points{margin:14px 0 0;padding-left:18px;color:#2d3d58;line-height:1.7;}',
+      '.sheet-extra-points li+li{margin-top:6px;}',
+      '.sheet-extra-action{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;flex-wrap:wrap;}',
+      '.sheet-extra-chip{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f1f5ff;color:#2f6df6;font-weight:800;font-size:12px;margin-bottom:10px;}',
+      '.sheet-extra-inline-tag{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f6f7fb;color:#55637e;font-weight:700;font-size:12px;}',
+      '.sheet-extra-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}',
+      '.sheet-extra-tags span{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#f6f7fb;color:#55637e;font-weight:700;font-size:12px;}',
+      '.sheet-extra-step-no{display:inline-flex;margin-bottom:10px;font-size:12px;font-weight:800;color:#2f6df6;}',
+      '.sheet-extra-highlight{margin-top:12px;color:#2f6df6;font-weight:800;}',
+      '.sheet-extra-faq-list{display:grid;gap:14px;}',
+      '.sheet-extra-faq{background:#fff;border:1px solid #e8edf6;border-radius:24px;overflow:hidden;}',
+      '.sheet-extra-faq summary{cursor:pointer;list-style:none;padding:20px 22px;font-size:18px;font-weight:800;color:#0e1b39;}',
+      '.sheet-extra-faq summary::-webkit-details-marker{display:none;}',
+      '.sheet-extra-faq-body{padding:0 22px 20px;}',
+      '.sheet-debug-panel{width:min(1200px,calc(100% - 40px));margin:28px auto 40px;background:#0f172a;color:#d7e3ff;border-radius:20px;padding:18px 20px;box-sizing:border-box;}',
+      '.sheet-debug-title{font-size:14px;font-weight:800;margin:0 0 10px;color:#fff;}',
+      '.sheet-debug-list{display:grid;gap:8px;max-height:280px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;}',
+      '.sheet-debug-item{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.06);word-break:break-word;}',
+      '@media (max-width:960px){.sheet-extra-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.sheet-extra-grid-steps{grid-template-columns:repeat(2,minmax(0,1fr));}.sheet-extra-card-basic{grid-template-columns:1fr;}}',
+      '@media (max-width:720px){.sheet-extra-wrap,.sheet-debug-panel{width:min(100%,calc(100% - 24px));}.sheet-extra-title{font-size:28px;}.sheet-extra-grid,.sheet-extra-grid-steps{grid-template-columns:1fr;}.sheet-extra-card{padding:20px;}}'
+    ].join('');
+    document.head.appendChild(style);
+  }
+
+  function ensureDebugPanel_() {
+    if (document.getElementById('sheetDebugPanel')) return;
+
+    const panelHtml = [
+      '<section class="sheet-debug-panel" id="sheetDebugPanel">',
+        '<h3 class="sheet-debug-title">DEBUG</h3>',
+        '<div class="sheet-debug-list" id="sheetDebugList"></div>',
+      '</section>'
+    ].join('');
+
+    if (mainContent) {
+      mainContent.insertAdjacentHTML('beforeend', panelHtml);
+    } else {
+      document.body.insertAdjacentHTML('beforeend', panelHtml);
+    }
+  }
+
+  function logDebug_(label, payload) {
+    const line = {
+      time: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
+      label: label,
+      payload: payload || {}
+    };
+
+    state.debugLogs.unshift(line);
+    if (state.debugLogs.length > 30) {
+      state.debugLogs = state.debugLogs.slice(0, 30);
+    }
+
+    try {
+      console.debug('[CRUISE_DEBUG]', label, payload || {});
+    } catch (e) {}
+
+    renderDebugPanel_();
+  }
+
+  function renderDebugPanel_() {
+    const list = document.getElementById('sheetDebugList');
+    if (!list) return;
+    list.innerHTML = state.debugLogs.map(function (item) {
+      return '<div class="sheet-debug-item">[' + escapeHtml(item.time) + '] ' + escapeHtml(item.label) + ' ' + escapeHtml(JSON.stringify(item.payload || {})) + '</div>';
+    }).join('');
   }
 
   function setTrackingFields() {
@@ -790,7 +1268,7 @@
   }
 
   function escapeHtml(value) {
-    return String(value)
+    return String(value == null ? '' : value)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -802,714 +1280,3 @@
     return escapeHtml(value);
   }
 })();
-
-const SHEET_NAMES = {
-  settings: '설정',
-  agents: '영업자',
-  schedules: '일정목록',
-  scheduleDays: '일정상세',
-  reviews: '후기',
-  inquiries: '상담문의',
-  mailLogs: '알림로그',
-
-  // 신규 섹션 시트
-  targets: '이용대상자',
-  basicInfo: '기초안내',
-  processSteps: '예약과정',
-  cabins: '선실비교',
-  faqs: 'FAQ',
-  trustPoints: '신뢰요소',
-  contentLinks: '콘텐츠연결'
-};
-
-/* =========================
- * GET : bootstrap
- * ========================= */
-function doGet(e) {
-  try {
-    const params = (e && e.parameter) ? e.parameter : {};
-    const action = toText_(params.action);
-
-    if (action === 'bootstrap') {
-      const payload = {
-        settings: getSettingsObject_(),
-        schedules: getSchedules_(),
-        schedule_days: getScheduleDays_(),
-        reviews: getReviews_(),
-
-        // 신규 섹션 데이터
-        targets: getTargets_(),
-        basic_info: getBasicInfo_(),
-        process_steps: getProcessSteps_(),
-        cabins: getCabins_(),
-        faqs: getFaqs_(),
-        trust_points: getTrustPoints_(),
-        content_links: getContentLinks_()
-      };
-
-      return createJsonOrJsonpOutput_(payload, params.callback);
-    }
-
-    return createJsonOrJsonpOutput_({
-      success: false,
-      message: '지원하지 않는 요청입니다.'
-    }, params.callback);
-  } catch (error) {
-    return createJsonOrJsonpOutput_({
-      success: false,
-      message: String(error && error.message ? error.message : error)
-    }, (e && e.parameter) ? e.parameter.callback : '');
-  }
-}
-
-/* =========================
- * POST : inquiry submit
- * ========================= */
-function doPost(e) {
-  try {
-    const params = (e && e.parameter) ? e.parameter : {};
-    validateInquiry_(params);
-
-    const settings = getSettingsObject_();
-    const defaultEmail = toText_(settings.default_email);
-    if (!defaultEmail) {
-      throw new Error('설정 시트의 default_email 값이 비어 있습니다.');
-    }
-
-    const agents = getActiveAgents_();
-    const agentCode = toText_(params.agent_code);
-    const matchedAgent = findAgent_(agents, agentCode);
-
-    // 메인 링크면 default_email
-    // 영업자 링크면 해당 영업자 email
-    // 영업자 코드가 틀리면 default_email fallback
-    const assignedEmailRaw = matchedAgent && toText_(matchedAgent.email)
-      ? toText_(matchedAgent.email)
-      : defaultEmail;
-
-    const normalizedRecipients = normalizeEmailList_(assignedEmailRaw);
-    const assignedEmail = normalizedRecipients.join(',');
-
-    const createdAt = Utilities.formatDate(
-      new Date(),
-      Session.getScriptTimeZone() || 'Asia/Seoul',
-      'yyyy-MM-dd HH:mm:ss'
-    );
-
-    const inquiryData = {
-      created_at: createdAt,
-      name: toText_(params.name),
-      phone: toText_(params.phone).replace(/\D+/g, ''),
-      interest_schedule_id: firstNonEmpty_(params.interest_schedule_id, params.schedule_id),
-      people_count: toText_(params.people_count),
-      region_detail: toText_(params.region_detail),
-      travel_ready_status: toText_(params.travel_ready_status),
-      message: firstNonEmpty_(params.message, params.memo),
-      agent_code: agentCode,
-      utm_source: toText_(params.utm_source),
-      utm_medium: toText_(params.utm_medium),
-      utm_campaign: toText_(params.utm_campaign),
-      page_url: firstNonEmpty_(params.page_url, params.landing_page),
-      referrer: toText_(params.referrer),
-      assigned_email: assignedEmail,
-      mail_sent: 'N',
-      status: '신규'
-    };
-
-    const mailResult = sendInquiryEmail_({
-      createdAt: createdAt,
-      params: inquiryData,
-      receiverEmail: assignedEmail,
-      siteTitle: firstNonEmpty_(settings.site_title, settings.site_name, '크루즈 일정 문의'),
-      agentName: matchedAgent ? firstNonEmpty_(matchedAgent.agent_name, matchedAgent.name, matchedAgent.agent_code) : ''
-    });
-
-    inquiryData.mail_sent = mailResult.success ? 'Y' : 'N';
-
-    appendByHeader_(SHEET_NAMES.inquiries, inquiryData);
-
-    appendByHeader_(SHEET_NAMES.mailLogs, {
-      sent_at: createdAt,
-      name: inquiryData.name,
-      phone: inquiryData.phone,
-      agent_code: inquiryData.agent_code,
-      receiver_email: assignedEmail,
-      result: mailResult.success ? 'SUCCESS' : 'FAIL',
-      error_message: mailResult.success ? '' : mailResult.message
-    });
-
-    return createPostMessageHtml_(true, '문의가 정상 접수되었습니다.');
-  } catch (error) {
-    console.error(error);
-    return createPostMessageHtml_(false, String(error && error.message ? error.message : error));
-  }
-}
-
-/* =========================
- * Settings
- * ========================= */
-function getSettingsObject_() {
-  const sheet = getSheetOrThrow_(SHEET_NAMES.settings);
-  const values = sheet.getDataRange().getValues();
-  const result = {};
-
-  for (let i = 1; i < values.length; i += 1) {
-    const key = toText_(values[i][0]);
-    const value = toText_(values[i][1]);
-    if (key) result[key] = value;
-  }
-
-  return result;
-}
-
-/* =========================
- * Agents
- * ========================= */
-function getActiveAgents_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.agents);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-  return rows
-    .map(function (row) {
-      return {
-        agent_code: firstNonEmpty_(row.agent_code, row.code),
-        agent_name: firstNonEmpty_(row.agent_name, row.name),
-        email: firstNonEmpty_(row.email, row.receiver_email),
-        is_active: firstNonEmpty_(row.is_active, row.display_yn, row.active, 'Y')
-      };
-    })
-    .filter(function (item) {
-      return toText_(item.agent_code) && toText_(item.email) && isDisplayOn_(item.is_active);
-    });
-}
-
-function findAgent_(agents, agentCode) {
-  const code = toText_(agentCode);
-  if (!code) return null;
-
-  for (let i = 0; i < agents.length; i += 1) {
-    if (toText_(agents[i].agent_code) === code) {
-      return agents[i];
-    }
-  }
-  return null;
-}
-
-/* =========================
- * Schedule list
- * ========================= */
-function getSchedules_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.schedules);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.schedule_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.display_yn, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_no, b.sort_no, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        schedule_id: toText_(row.schedule_id),
-        title: toText_(row.title),
-        region: toText_(row.region),
-        ship_name: toText_(row.ship_name),
-        departure_date: formatDateCell_(row.departure_date),
-        return_date: formatDateCell_(row.return_date),
-        departure_airport: toText_(row.departure_airport),
-        summary: toText_(row.summary),
-        thumbnail_url: toText_(row.thumbnail_url),
-        schedule_image_url: toText_(row.schedule_image_url),
-        detail_intro: toText_(row.detail_intro),
-        route_ports: toText_(row.route_ports)
-      };
-    });
-}
-
-/* =========================
- * Schedule days
- * ========================= */
-function getScheduleDays_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.scheduleDays);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.schedule_id) && String(firstNonEmpty_(row.day_no, '')).trim();
-    })
-    .sort(function (a, b) {
-      const scheduleCompare = toText_(a.schedule_id).localeCompare(toText_(b.schedule_id), 'ko');
-      if (scheduleCompare !== 0) return scheduleCompare;
-      return Number(firstNonEmpty_(a.day_no, 0)) - Number(firstNonEmpty_(b.day_no, 0));
-    })
-    .map(function (row) {
-      return {
-        schedule_id: toText_(row.schedule_id),
-        day_no: String(firstNonEmpty_(row.day_no, '')),
-        date: formatDateCell_(row.date),
-        port_name: toText_(row.port_name),
-        arrival_time: normalizeTimeCell_(row.arrival_time),
-        departure_time: normalizeTimeCell_(row.departure_time),
-        description: toText_(row.description),
-        image_url: toText_(row.image_url)
-      };
-    });
-}
-
-/* =========================
- * Reviews
- * ========================= */
-function getReviews_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.reviews);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.review_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.display_yn, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_no, b.sort_no, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        review_id: toText_(row.review_id),
-        title: toText_(row.title),
-        region: toText_(row.region),
-        summary: toText_(row.summary),
-        thumbnail_url: toText_(row.thumbnail_url),
-        content: toText_(row.content)
-      };
-    });
-}
-
-/* =========================
- * 신규 섹션 데이터
- * ========================= */
-function getTargets_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.targets);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.target_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        target_id: toText_(row.target_id),
-        title: toText_(row.title),
-        subtitle: toText_(row.subtitle),
-        description: toText_(row.description),
-        point_1: toText_(row.point_1),
-        point_2: toText_(row.point_2),
-        image_url: toText_(row.image_url),
-        cta_text: toText_(row.cta_text),
-        linked_schedule_id: toText_(row.linked_schedule_id)
-      };
-    });
-}
-
-function getBasicInfo_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.basicInfo);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.section_key) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .map(function (row) {
-      return {
-        section_key: toText_(row.section_key),
-        title: toText_(row.title),
-        subtitle: toText_(row.subtitle),
-        body: toText_(row.body),
-        point_1: toText_(row.point_1),
-        point_2: toText_(row.point_2),
-        point_3: toText_(row.point_3),
-        image_url: toText_(row.image_url)
-      };
-    });
-}
-
-function getProcessSteps_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.processSteps);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.step_id) && toText_(row.step_title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.step_title, b.step_title);
-    })
-    .map(function (row) {
-      return {
-        step_id: toText_(row.step_id),
-        step_title: toText_(row.step_title),
-        step_desc: toText_(row.step_desc),
-        step_icon: toText_(row.step_icon),
-        highlight_text: toText_(row.highlight_text)
-      };
-    });
-}
-
-function getCabins_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.cabins);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.cabin_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        cabin_id: toText_(row.cabin_id),
-        cabin_type: toText_(row.cabin_type),
-        title: toText_(row.title),
-        summary: toText_(row.summary),
-        best_for: toText_(row.best_for),
-        point_1: toText_(row.point_1),
-        point_2: toText_(row.point_2),
-        badge_1: toText_(row.badge_1),
-        badge_2: toText_(row.badge_2),
-        image_url: toText_(row.image_url)
-      };
-    });
-}
-
-function getFaqs_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.faqs);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.faq_id) && toText_(row.question) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.question, b.question);
-    })
-    .map(function (row) {
-      return {
-        faq_id: toText_(row.faq_id),
-        category: toText_(row.category),
-        question: toText_(row.question),
-        answer: toText_(row.answer),
-        is_featured: toText_(row.is_featured)
-      };
-    });
-}
-
-function getTrustPoints_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.trustPoints);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.trust_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        trust_id: toText_(row.trust_id),
-        title: toText_(row.title),
-        description: toText_(row.description),
-        icon: toText_(row.icon),
-        badge_text: toText_(row.badge_text)
-      };
-    });
-}
-
-function getContentLinks_() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.contentLinks);
-  if (!sheet) return [];
-
-  const rows = getRowsByHeader_(sheet);
-
-  return rows
-    .filter(function (row) {
-      return toText_(row.content_id) && toText_(row.title) && isDisplayOn_(firstNonEmpty_(row.is_active, 'Y'));
-    })
-    .sort(function (a, b) {
-      return compareSort_(a.sort_order, b.sort_order, a.title, b.title);
-    })
-    .map(function (row) {
-      return {
-        content_id: toText_(row.content_id),
-        category: toText_(row.category),
-        title: toText_(row.title),
-        summary: toText_(row.summary),
-        thumbnail_url: toText_(row.thumbnail_url),
-        link_url: toText_(row.link_url),
-        tag_text: toText_(row.tag_text)
-      };
-    });
-}
-
-/* =========================
- * Mail
- * ========================= */
-function sendInquiryEmail_(context) {
-  try {
-    const recipients = normalizeEmailList_(context.receiverEmail);
-
-    if (!recipients.length) {
-      throw new Error('발송 대상 이메일이 없습니다.');
-    }
-
-    const subject = '[' + firstNonEmpty_(context.siteTitle, '크루즈 일정 문의') + '] 신규 상담문의 - ' + firstNonEmpty_(context.params.name, '이름없음');
-
-    const lines = [
-      '신규 상담문의가 접수되었습니다.',
-      '',
-      '접수시간: ' + firstNonEmpty_(context.createdAt),
-      '담당자: ' + firstNonEmpty_(context.agentName, context.params.agent_code, '메인 문의'),
-      '이름: ' + firstNonEmpty_(context.params.name),
-      '연락처: ' + firstNonEmpty_(context.params.phone),
-      '관심 일정: ' + firstNonEmpty_(context.params.interest_schedule_id),
-      '인원수: ' + firstNonEmpty_(context.params.people_count),
-      '거주지역: ' + firstNonEmpty_(context.params.region_detail),
-      '여권/해외결제카드 소지 여부: ' + firstNonEmpty_(context.params.travel_ready_status),
-      '문의 내용: ' + firstNonEmpty_(context.params.message),
-      '',
-      'agent_code: ' + firstNonEmpty_(context.params.agent_code),
-      'utm_source: ' + firstNonEmpty_(context.params.utm_source),
-      'utm_medium: ' + firstNonEmpty_(context.params.utm_medium),
-      'utm_campaign: ' + firstNonEmpty_(context.params.utm_campaign),
-      'page_url: ' + firstNonEmpty_(context.params.page_url),
-      'referrer: ' + firstNonEmpty_(context.params.referrer)
-    ];
-
-    MailApp.sendEmail({
-      to: recipients.join(','),
-      subject: subject,
-      body: lines.join('\n')
-    });
-
-    return { success: true, message: '' };
-  } catch (error) {
-    return { success: false, message: String(error && error.message ? error.message : error) };
-  }
-}
-
-/* =========================
- * Validation
- * ========================= */
-function validateInquiry_(params) {
-  if (!toText_(params.name)) {
-    throw new Error('이름이 없습니다.');
-  }
-
-  if (!toText_(params.phone).replace(/\D+/g, '')) {
-    throw new Error('연락처가 없습니다.');
-  }
-
-  if (!firstNonEmpty_(params.interest_schedule_id, params.schedule_id)) {
-    throw new Error('관심 일정이 없습니다.');
-  }
-
-  if (!toText_(params.people_count)) {
-    throw new Error('인원수가 없습니다.');
-  }
-}
-
-/* =========================
- * Sheet append by header
- * ========================= */
-function appendByHeader_(sheetName, data) {
-  const sheet = getSheetOrThrow_(sheetName);
-  const headers = getHeaderRow_(sheet);
-
-  if (!headers.length) {
-    throw new Error(sheetName + ' 시트의 헤더가 없습니다.');
-  }
-
-  const row = headers.map(function (header) {
-    return Object.prototype.hasOwnProperty.call(data, header) ? data[header] : '';
-  });
-
-  sheet.appendRow(row);
-}
-
-/* =========================
- * Output helpers
- * ========================= */
-function createJsonOrJsonpOutput_(payload, callback) {
-  const safeCallback = toText_(callback);
-
-  if (safeCallback) {
-    if (!/^[a-zA-Z0-9_.$]+$/.test(safeCallback)) {
-      throw new Error('callback 형식이 올바르지 않습니다.');
-    }
-
-    return ContentService
-      .createTextOutput(safeCallback + '(' + JSON.stringify(payload) + ');')
-      .setMimeType(ContentService.MimeType.JAVASCRIPT);
-  }
-
-  return ContentService
-    .createTextOutput(JSON.stringify(payload))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function createPostMessageHtml_(success, message) {
-  const payload = JSON.stringify({
-    type: 'CRUISE_FORM_RESULT',
-    success: !!success,
-    message: String(message || '')
-  });
-
-  const html = `
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <script>
-          window.top.postMessage(${payload}, "*");
-        </script>
-      </body>
-    </html>
-  `;
-
-  return HtmlService
-    .createHtmlOutput(html)
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-/* =========================
- * Generic sheet helpers
- * ========================= */
-function getSheetOrThrow_(sheetName) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
-  if (!sheet) {
-    throw new Error(sheetName + ' 시트를 찾을 수 없습니다.');
-  }
-  return sheet;
-}
-
-function getHeaderRow_(sheet) {
-  const lastColumn = sheet.getLastColumn();
-  if (lastColumn < 1) return [];
-  return sheet.getRange(1, 1, 1, lastColumn).getValues()[0].map(function (header) {
-    return toText_(header);
-  });
-}
-
-function getRowsByHeader_(sheet) {
-  const values = sheet.getDataRange().getValues();
-  if (values.length < 2) return [];
-
-  const headers = values[0].map(function (header) {
-    return toText_(header);
-  });
-
-  return values.slice(1).map(function (row) {
-    const item = {};
-    headers.forEach(function (header, idx) {
-      item[header] = row[idx];
-    });
-    return item;
-  });
-}
-
-/* =========================
- * Value helpers
- * ========================= */
-function toText_(value) {
-  if (value === null || value === undefined) return '';
-  return String(value).trim();
-}
-
-function firstNonEmpty_() {
-  for (var i = 0; i < arguments.length; i += 1) {
-    var value = toText_(arguments[i]);
-    if (value) return value;
-  }
-  return '';
-}
-
-function isDisplayOn_(value) {
-  const text = toText_(value).toUpperCase();
-  if (!text) return true;
-  return !['N', 'NO', 'FALSE', '0', 'HIDE', 'HIDDEN'].includes(text);
-}
-
-function compareSort_(aSort, bSort, aTitle, bTitle) {
-  const a = parseSortNo_(aSort);
-  const b = parseSortNo_(bSort);
-
-  if (a !== b) return a - b;
-  return toText_(aTitle).localeCompare(toText_(bTitle), 'ko');
-}
-
-function parseSortNo_(value) {
-  const num = Number(value);
-  return isNaN(num) ? 999999 : num;
-}
-
-function formatDateCell_(value) {
-  if (!value && value !== 0) return '';
-
-  if (Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime())) {
-    return Utilities.formatDate(value, Session.getScriptTimeZone() || 'Asia/Seoul', 'yyyy-MM-dd');
-  }
-
-  const text = toText_(value);
-  if (!text) return '';
-
-  const parsed = new Date(text);
-  if (!isNaN(parsed.getTime()) && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}/.test(text)) {
-    return Utilities.formatDate(parsed, Session.getScriptTimeZone() || 'Asia/Seoul', 'yyyy-MM-dd');
-  }
-
-  return text;
-}
-
-function normalizeTimeCell_(value) {
-  if (value === null || value === undefined) return '';
-
-  if (Object.prototype.toString.call(value) === '[object Date]' && !isNaN(value.getTime())) {
-    return Utilities.formatDate(value, Session.getScriptTimeZone() || 'Asia/Seoul', 'H:mm');
-  }
-
-  return toText_(value);
-}
-
-function normalizeEmailList_(value) {
-  return String(value || '')
-    .split(',')
-    .map(function (email) {
-      return String(email || '').trim();
-    })
-    .filter(function (email) {
-      return !!email;
-    })
-    .filter(function (email, index, arr) {
-      return arr.indexOf(email) === index;
-    });
-}
