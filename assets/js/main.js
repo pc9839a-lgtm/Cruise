@@ -32,6 +32,12 @@
   init();
 
   async function init() {
+    /* ---------------------------------------------------------
+       기초안내 섹션 전용 디자인 패치 스타일 주입
+       - 다른 섹션 스타일은 건드리지 않음
+       --------------------------------------------------------- */
+    ensureBasicInfoPatchStyle();
+
     bindStaticEvents();
     setTrackingFields();
     initGlobalDebugHandlers();
@@ -86,6 +92,9 @@
         return;
       }
 
+      /* -------------------------------------------------------
+         기초안내 슬라이더 좌우 버튼 / 도트
+         ------------------------------------------------------- */
       const basicNav = target.closest('[data-basic-nav]');
       if (basicNav) {
         moveBasicInfo(basicNav.getAttribute('data-basic-nav'));
@@ -112,7 +121,10 @@
       }
     });
 
-    window.addEventListener('resize', () => { setupReviewSlider((state.bootstrap.reviews || []).length); setupBasicInfoSlider(); });
+    window.addEventListener('resize', () => {
+      setupReviewSlider((state.bootstrap.reviews || []).length);
+      setupBasicInfoSlider();
+    });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -577,118 +589,79 @@
     renderProcessSteps();
     renderCabins();
     renderFaqs();
+    renderTrustPoints();
     renderContentLinks();
   }
 
   function ensureExtraSectionsScaffold() {
     if (!mainContent) return;
-
-    const scheduleSection = scheduleGrid ? scheduleGrid.closest('section') : null;
-    const reviewSection = reviewGrid ? reviewGrid.closest('section') : null;
-    const contactSection = form ? form.closest('section') : null;
-    const debugPanel = document.getElementById('sheetDebugPanel');
-
-    const createSectionHtml = (id, label, title, gridId, gridClass, narrow = false, extraClass = '') => `
-      <section class="sheet-extra-section ${extraClass}" id="${id}">
-        <div class="${narrow ? 'sheet-extra-wrap sheet-extra-wrap-narrow' : 'sheet-extra-wrap'}">
-          <div class="section-head center compact-head">
-            <span class="section-label">${label}</span>
-            <h2 class="section-title">${title}</h2>
-          </div>
-          <div id="${gridId}" class="${gridClass}"></div>
-        </div>
-      </section>`;
-
-    const createBasicHtml = () => `
-      <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
-        <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
-          <div class="section-head center compact-head">
-            <span class="section-label">기초안내</span>
-            <h2 class="section-title">크루즈는 어렵지 않아요</h2>
-          </div>
-          <div class="sheet-basic-slider" id="basicInfoSlider">
-            <div class="sheet-basic-slider-viewport">
-              <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
-            </div>
-            <div class="sheet-basic-slider-controls" id="basicInfoControls">
-              <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
-              <div class="sheet-basic-dots" id="basicInfoDots"></div>
-              <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
-            </div>
-          </div>
-        </div>
-      </section>`;
-
-    // 1) 기초안내: 추천 일정 위
-    if (!document.getElementById('basicInfoSection')) {
-      const html = createBasicHtml();
-      if (scheduleSection) {
-        scheduleSection.insertAdjacentHTML('beforebegin', html);
-      } else if (debugPanel && debugPanel.parentNode === mainContent) {
-        debugPanel.insertAdjacentHTML('beforebegin', html);
-      } else {
-        mainContent.insertAdjacentHTML('beforeend', html);
-      }
-    }
-
-    // 2) 여행후기 아래: 이용대상자 → 선실비교 → 예약과정 → FAQ
-    const afterReview = [
-      ['targetsSection', '이용대상자', '이런 분들께 잘 맞아요', 'targetsGrid', 'sheet-extra-grid', false],
-      ['cabinsSection', '선실비교', '선실 타입 비교', 'cabinsGrid', 'sheet-extra-grid', false],
-      ['processSection', '예약과정', '상담부터 탑승까지', 'processGrid', 'sheet-extra-grid sheet-extra-grid-steps', false],
-      ['faqSection', 'FAQ', '자주 묻는 질문', 'faqList', 'sheet-extra-faq-list', true]
+    const sections = [
+      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', gridId: 'basicInfoGrid', gridClass: 'sheet-basic-slider-track' },
+      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
+      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
+      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
     ];
 
-    let anchor = reviewSection;
-    afterReview.forEach(([id, label, title, gridId, gridClass, narrow]) => {
-      if (document.getElementById(id)) {
-        anchor = document.getElementById(id);
+    sections.forEach(({ id, title, label, gridId, gridClass }) => {
+      if (document.getElementById(id)) return;
+
+      /* -------------------------------------------------------
+         기초안내 섹션만 별도 구조 사용
+         - 제목 굵기 / 가운데 정렬을 기존 섹션 스타일과 맞춤
+         - 카드 1장씩 보이도록 슬라이더 셸 구성
+         ------------------------------------------------------- */
+      if (id === 'basicInfoSection') {
+        const html = `
+          <section class="sheet-extra-section" id="basicInfoSection">
+            <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
+              <div class="section-head center compact-head">
+                <span class="section-label">기초안내</span>
+                <h2 class="section-title">크루즈는 어렵지 않아요</h2>
+              </div>
+              <div class="sheet-basic-slider" id="basicInfoSlider">
+                <div class="sheet-basic-slider-viewport">
+                  <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
+                </div>
+                <div class="sheet-basic-slider-controls" id="basicInfoControls">
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
+                  <div class="sheet-basic-dots" id="basicInfoDots"></div>
+                  <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
+                </div>
+              </div>
+            </div>
+          </section>`;
+
+        const debugPanel = document.getElementById('sheetDebugPanel');
+        if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
+        else mainContent.insertAdjacentHTML('beforeend', html);
         return;
       }
 
-      const html = createSectionHtml(id, label, title, gridId, gridClass, narrow);
+      const html = `
+        <section class="sheet-extra-section" id="${id}">
+          <div class="sheet-extra-wrap">
+            <div class="sheet-extra-head">
+              <span class="sheet-extra-label">${label}</span>
+              <h2 class="sheet-extra-title">${title}</h2>
+            </div>
+            <div id="${gridId}" class="${gridClass}"></div>
+          </div>
+        </section>`;
 
-      if (anchor) {
-        anchor.insertAdjacentHTML('afterend', html);
-        anchor = document.getElementById(id);
-      } else if (contactSection) {
-        contactSection.insertAdjacentHTML('beforebegin', html);
-        anchor = document.getElementById(id);
-      } else if (debugPanel && debugPanel.parentNode === mainContent) {
-        debugPanel.insertAdjacentHTML('beforebegin', html);
-        anchor = document.getElementById(id);
-      } else {
-        mainContent.insertAdjacentHTML('beforeend', html);
-        anchor = document.getElementById(id);
-      }
+      const debugPanel = document.getElementById('sheetDebugPanel');
+      if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
+      else mainContent.insertAdjacentHTML('beforeend', html);
     });
-
-    // 3) 콘텐츠연결: 가격 문의하기 아래
-    if (!document.getElementById('contentSection')) {
-      const html = createSectionHtml(
-        'contentSection',
-        '콘텐츠연결',
-        '함께 보면 좋은 정보',
-        'contentGrid',
-        'sheet-extra-grid',
-        false
-      );
-
-      if (contactSection) {
-        contactSection.insertAdjacentHTML('afterend', html);
-      } else if (debugPanel && debugPanel.parentNode === mainContent) {
-        debugPanel.insertAdjacentHTML('beforebegin', html);
-      } else {
-        mainContent.insertAdjacentHTML('beforeend', html);
-      }
-    }
   }
 
   function renderBasicInfo() {
     const section = document.getElementById('basicInfoSection');
-    const track = document.getElementById('basicInfoGrid');
+    const grid = document.getElementById('basicInfoGrid');
     const items = state.bootstrap.basic_info || [];
-    if (!section || !track) return;
+    if (!section || !grid) return;
 
     if (!items.length) {
       section.style.display = 'none';
@@ -697,17 +670,22 @@
     }
 
     section.style.display = '';
-    track.innerHTML = items.map((item) => {
+
+    /* -------------------------------------------------------
+       기초안내 카드 1장씩 렌더
+       - 이미지가 깨지면 해당 영역 숨김
+       ------------------------------------------------------- */
+    grid.innerHTML = items.map(item => {
       const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
       return `
         <article class="sheet-basic-slide">
           <div class="sheet-basic-slide-copy">
             ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
-            ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
-            ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-            ${points.length ? `<ul class="sheet-extra-points">${points.map((p) => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+            ${item.subtitle ? `<p class="sheet-basic-slide-subtitle">${escapeHtml(item.subtitle)}</p>` : ''}
+            ${item.body ? `<p class="sheet-basic-slide-body">${escapeHtml(item.body)}</p>` : ''}
+            ${points.length ? `<ul class="sheet-basic-slide-points">${points.map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul>` : ''}
           </div>
-          ${item.image_url ? `<div class="sheet-basic-slide-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+          ${item.image_url ? `<div class="sheet-basic-slide-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" onerror="this.closest('.sheet-basic-slide-media').style.display='none'" /></div>` : ''}
         </article>`;
     }).join('');
 
@@ -722,6 +700,9 @@
     restartBasicInfoAuto();
   }
 
+  /* ---------------------------------------------------------
+     기초안내 슬라이더 동작
+     --------------------------------------------------------- */
   function setupBasicInfoSlider() {
     const track = document.getElementById('basicInfoGrid');
     const viewport = document.querySelector('.sheet-basic-slider-viewport');
@@ -733,9 +714,7 @@
     const total = track.children.length;
     if (!total) return;
 
-    const maxPage = total - 1;
-    state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
-
+    state.basicInfoPage = Math.min(state.basicInfoPage, Math.max(0, total - 1));
     const width = viewport.clientWidth || 0;
     track.style.transform = `translateX(-${state.basicInfoPage * width}px)`;
 
@@ -772,10 +751,7 @@
     stopBasicInfoAuto();
 
     const track = document.getElementById('basicInfoGrid');
-    if (!track) return;
-
-    const total = track.children.length;
-    if (total <= 1) return;
+    if (!track || track.children.length <= 1) return;
 
     basicInfoAutoTimer = window.setInterval(() => {
       moveBasicInfo('next');
@@ -784,7 +760,7 @@
 
   function stopBasicInfoAuto() {
     if (basicInfoAutoTimer) {
-      window.clearInterval(basicInfoAutoTimer);
+      clearInterval(basicInfoAutoTimer);
       basicInfoAutoTimer = null;
     }
   }
@@ -921,13 +897,181 @@
   function logDebug(label, payload) {
     state.debugLogs.unshift({ time: new Date().toLocaleTimeString('ko-KR', { hour12: false }), label, payload: payload || {} });
     if (state.debugLogs.length > 30) state.debugLogs = state.debugLogs.slice(0, 30);
-    try { console.log('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
+    try { console.debug('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
     renderDebugPanel();
   }
 
   function renderDebugPanel() {
     const list = document.getElementById('sheetDebugList');
     if (list) list.innerHTML = state.debugLogs.map(item => `<div class="sheet-debug-item">[${escapeHtml(item.time)}] ${escapeHtml(item.label)} ${escapeHtml(JSON.stringify(item.payload || {}))}</div>`).join('');
+  }
+
+  /* ---------------------------------------------------------
+     기초안내 섹션 전용 디자인 패치 스타일
+     - 다른 섹션은 건드리지 않음
+     --------------------------------------------------------- */
+  function ensureBasicInfoPatchStyle() {
+    if (document.getElementById('basicInfoPatchStyle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'basicInfoPatchStyle';
+    style.textContent = `
+      .sheet-extra-wrap-narrow {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .sheet-basic-slider {
+        position: relative;
+      }
+
+      .sheet-basic-slider-viewport {
+        overflow: hidden;
+      }
+
+      .sheet-basic-slider-track {
+        display: flex;
+        transition: transform .45s ease;
+        will-change: transform;
+      }
+
+      .sheet-basic-slide {
+        min-width: 100%;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        box-shadow: var(--shadow-soft);
+        padding: 30px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(260px, .92fr);
+        gap: 24px;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+      .sheet-basic-slide-copy h3 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 3vw, 34px);
+        line-height: 1.22;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        color: var(--text);
+      }
+
+      .sheet-basic-slide-subtitle {
+        margin: 0 0 12px;
+        font-size: 22px;
+        line-height: 1.4;
+        font-weight: 800;
+        color: var(--text);
+      }
+
+      .sheet-basic-slide-body {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 17px;
+        line-height: 1.82;
+      }
+
+      .sheet-basic-slide-points {
+        margin: 18px 0 0;
+        padding-left: 20px;
+        color: var(--text);
+        line-height: 1.9;
+      }
+
+      .sheet-basic-slide-points li + li {
+        margin-top: 8px;
+      }
+
+      .sheet-basic-slide-media {
+        overflow: hidden;
+        border-radius: 22px;
+        background: #f4f7fb;
+        min-height: 280px;
+        border: 1px solid var(--line);
+      }
+
+      .sheet-basic-slide-media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sheet-basic-slider-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .sheet-basic-slider-controls.is-hidden {
+        display: none;
+      }
+
+      .sheet-basic-nav {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+        font-size: 28px;
+        line-height: 1;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .sheet-basic-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .sheet-basic-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 0;
+        padding: 0;
+        background: #cdd8ea;
+      }
+
+      .sheet-basic-dot.is-active {
+        width: 28px;
+        background: var(--blue);
+      }
+
+      @media (max-width: 768px) {
+        .sheet-extra-wrap-narrow {
+          width: min(100%, calc(100% - 24px));
+        }
+
+        .sheet-basic-slide {
+          grid-template-columns: 1fr;
+          padding: 22px;
+          gap: 18px;
+        }
+
+        .sheet-basic-slide-copy h3 {
+          font-size: 24px;
+        }
+
+        .sheet-basic-slide-subtitle {
+          font-size: 18px;
+        }
+
+        .sheet-basic-slide-body {
+          font-size: 16px;
+        }
+
+        .sheet-basic-slide-media {
+          min-height: 200px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   function setTrackingFields() {
@@ -947,7 +1091,7 @@
   }
 
   function setSubmitState(isSubmitting) {
-    const button = document.getElementById('formSubmitButton') || document.getElementById('contactSubmitButton');
+    const button = document.getElementById('formSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
     button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
