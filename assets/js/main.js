@@ -224,24 +224,30 @@
     });
   }
 
-  function hydrate(data) {
-    state.bootstrap = normalizeData(data);
-    renderSettings();
-    ensureDynamicSectionsStyle();
-    ensureDynamicSectionsScaffold();
-    renderFilters();
-    startHeroMotion();
-    renderBasicInfo();
-    renderTargets();
-    renderProcessSteps();
-    renderCabins();
-    renderSchedules();
-    renderReviews();
-    renderTrustPoints();
-    renderFaqs();
-    renderContentLinks();
-    populateFormSelects();
-  }
+	function hydrate(data) {
+	  state.bootstrap = normalizeData(data);
+	  renderSettings();
+	  ensureDynamicSectionsStyle();
+	  ensureDynamicSectionsScaffold();
+	  renderFilters();
+	  startHeroMotion();
+	
+	  renderBasicInfo();
+	  renderTargets();
+	  renderProcessSteps();
+	  renderCabins();
+	
+	  renderSchedules();
+	  renderReviews();
+	
+	  renderFaqs();
+	  renderContentLinks();
+	  populateFormSelects();
+	
+	  setupAllDynamicSliders_();
+	  alignContentButtons_();
+	  initRevealAnimations_();
+	}
 
   function normalizeData(data) {
     const safe = data || {};
@@ -428,41 +434,43 @@
 	function buildScheduleCard(schedule) {
 	  const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
 	  const homePort = getHomePort(schedule.schedule_id);
-
+	  const monthLabel = getMonthLabel_(schedule.departure_date);
+	
 	  return [
-		'<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-		  '<div class="schedule-visual">',
-			imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-			'<div class="schedule-visual-inner">',
-
-			  /* 상단 지역 배지 */
-			  '<div class="schedule-badges">',
-				'<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
-			  '</div>',
-
-			  /* 출발일 강조 */
-			  '<div class="schedule-departure-highlight">',
-				'<span class="schedule-departure-label">출발일</span>',
-				'<strong class="schedule-departure-date">', escapeHtml(formatDate(schedule.departure_date)), '</strong>',
-			  '</div>',
-
-			  /* 일정 제목 */
-			  '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
-			'</div>',
-		  '</div>',
-
-		  '<div class="schedule-content">',
-			'<div class="schedule-meta">',
-			  metaItem('선박', schedule.ship_name || '-'),
-			  metaItem('모항지', homePort || '-'),
-			  metaItem('출발', formatDate(schedule.departure_date), ' is-primary'),
-			  metaItem('도착', formatDate(schedule.return_date)),
-			'</div>',
-			'<div class="schedule-actions">',
-			  '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-			'</div>',
-		  '</div>',
-		'</article>'
+	    '<article class="schedule-card reveal-on-scroll" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
+	      '<div class="schedule-visual">',
+	        imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
+	        '<div class="schedule-visual-inner">',
+	
+	          '<div class="schedule-badges">',
+	            '<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
+	            monthLabel ? '<span class="schedule-badge schedule-badge-month">', escapeHtml(monthLabel), '</span>' : '',
+	          '</div>',
+	
+	          '<div class="schedule-departure-highlight">',
+	            '<span class="schedule-departure-label">출발일</span>',
+	            '<strong class="schedule-departure-date">', escapeHtml(formatDate(schedule.departure_date)), '</strong>',
+	          '</div>',
+	
+	          '<div class="schedule-title-row">',
+	            '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
+	            monthLabel ? '<span class="schedule-month-emphasis">', escapeHtml(monthLabel), ' 출발</span>' : '',
+	          '</div>',
+	        '</div>',
+	      '</div>',
+	
+	      '<div class="schedule-content">',
+	        '<div class="schedule-meta">',
+	          metaItem('선박', schedule.ship_name || '-'),
+	          metaItem('모항지', homePort || '-'),
+	          metaItem('출발', formatDate(schedule.departure_date), ' is-primary'),
+	          metaItem('도착', formatDate(schedule.return_date)),
+	        '</div>',
+	        '<div class="schedule-actions">',
+	          '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
+	        '</div>',
+	      '</div>',
+	    '</article>'
 	  ].join('');
 	}
 
@@ -478,7 +486,7 @@
     reviewGrid.innerHTML = reviews.map(function (review) {
       const imageUrl = review.thumbnail_url || '';
       return [
-        '<article class="review-card">',
+        '<article class="review-card reveal-on-scroll">',
           '<div class="review-thumb">', imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(review.title || '') + '" />' : '', '</div>',
           '<div class="review-body">',
             review.region ? '<span class="review-region">' + escapeHtml(review.region) + '</span>' : '',
@@ -493,63 +501,88 @@
   }
 
   function ensureDynamicSectionsStyle() {
-    if (document.getElementById('dynamicSectionsStyle')) return;
+  if (document.getElementById('dynamicSectionsStyle')) return;
 
-    const style = document.createElement('style');
-    style.id = 'dynamicSectionsStyle';
-    style.textContent = [
-      '.dynamic-section{padding:88px 0;}',
-      '.dynamic-section.is-soft{background:linear-gradient(180deg,#f6f9ff 0%,#ffffff 100%);}',
-      '.dynamic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}',
-      '.dynamic-grid.is-two{grid-template-columns:repeat(2,minmax(0,1fr));}',
-      '.dynamic-card{position:relative;padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(11,47,108,.08);box-shadow:0 18px 44px rgba(16,36,74,.08);overflow:hidden;}',
-      '.dynamic-card.is-dark{background:linear-gradient(135deg,#0f2552 0%,#18396f 100%);color:#fff;border-color:rgba(255,255,255,.08);}',
-      '.dynamic-card.is-accent{background:linear-gradient(135deg,#f7fbff 0%,#edf4ff 100%);}',
-      '.dynamic-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(24,57,111,.08);color:#173865;font-size:12px;font-weight:700;letter-spacing:-.02em;}',
-      '.dynamic-card.is-dark .dynamic-chip{background:rgba(255,255,255,.14);color:#fff;}',
-      '.dynamic-card h3{margin:14px 0 10px;font-size:26px;line-height:1.28;letter-spacing:-.03em;}',
-      '.dynamic-card h4{margin:0 0 8px;font-size:22px;line-height:1.34;letter-spacing:-.03em;}',
-      '.dynamic-card p{margin:0;color:#51607a;line-height:1.75;font-size:15px;letter-spacing:-.01em;}',
-      '.dynamic-card.is-dark p{color:rgba(255,255,255,.84);}',
-      '.dynamic-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px;}',
-      '.dynamic-points li{position:relative;padding-left:14px;font-size:14px;line-height:1.7;color:#33415a;}',
-      '.dynamic-card.is-dark .dynamic-points li{color:rgba(255,255,255,.9);}',
-      '.dynamic-points li:before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:#2e6bff;}',
-      '.dynamic-media{margin-top:18px;border-radius:22px;overflow:hidden;aspect-ratio:16/10;background:#edf3fb;}',
-      '.dynamic-media img{width:100%;height:100%;object-fit:cover;display:block;}',
-      '.target-cta-row,.content-link-row{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}',
-      '.process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;counter-reset:processStep;}',
-      '.process-card{position:relative;padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 16px 34px rgba(16,36,74,.08);counter-increment:processStep;}',
-      '.process-card:before{content:counter(processStep, decimal-leading-zero);display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:14px;background:#173865;color:#fff;font-size:15px;font-weight:800;}',
-      '.process-card h3{margin:16px 0 8px;font-size:22px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
-      '.process-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
-      '.process-highlight{margin-top:16px;display:inline-flex;padding:9px 12px;border-radius:999px;background:#edf4ff;color:#173865;font-size:13px;font-weight:700;}',
-      '.cabin-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;}',
-      '.cabin-badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
-      '.faq-list{display:grid;gap:14px;}',
-      '.faq-item{border:1px solid rgba(16,36,74,.08);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,36,74,.06);overflow:hidden;}',
-      '.faq-item summary{list-style:none;cursor:pointer;padding:22px 24px;font-size:18px;font-weight:700;color:#14284a;display:flex;align-items:center;justify-content:space-between;gap:16px;}',
-      '.faq-item summary::-webkit-details-marker{display:none;}',
-      '.faq-item summary:after{content:"+";font-size:26px;line-height:1;color:#173865;flex:none;}',
-      '.faq-item[open] summary:after{content:"−";}',
-      '.faq-answer{padding:0 24px 22px;color:#51607a;font-size:15px;line-height:1.8;}',
-      '.trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}',
-      '.trust-card{padding:24px;border-radius:24px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 14px 28px rgba(16,36,74,.06);}',
-      '.trust-icon{display:inline-flex;width:46px;height:46px;align-items:center;justify-content:center;border-radius:16px;background:#edf4ff;color:#173865;font-size:20px;font-weight:800;}',
-      '.trust-card h3{margin:16px 0 8px;font-size:20px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
-      '.trust-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
-      '.trust-badge{margin-top:14px;display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f8ff;color:#173865;font-size:12px;font-weight:700;}',
-      '.content-card .dynamic-media{aspect-ratio:16/9;}',
-      '.content-card h3{font-size:22px;}',
-      '.content-meta{margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}',
-      '.content-tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
-      '.section-stack{display:grid;gap:18px;}',
-      '@media (max-width: 1024px){.dynamic-grid,.dynamic-grid.is-two,.process-grid,.trust-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}',
-      '@media (max-width: 768px){.dynamic-section{padding:72px 0;}.dynamic-grid,.dynamic-grid.is-two,.process-grid,.trust-grid{grid-template-columns:1fr;gap:16px;}.dynamic-card,.process-card,.trust-card{padding:22px;}.dynamic-card h3,.process-card h3{font-size:22px;}.faq-item summary{padding:18px 18px;font-size:16px;}.faq-answer{padding:0 18px 18px;}}'
-    ].join('');
+  const style = document.createElement('style');
+  style.id = 'dynamicSectionsStyle';
+  style.textContent = [
+    '.schedule-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;}',
+    '.schedule-month-emphasis{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:10px 14px;border-radius:999px;background:rgba(255,214,10,.18);border:1px solid rgba(255,214,10,.34);color:#ffe27a;font-size:14px;font-weight:900;box-shadow:0 12px 24px rgba(0,0,0,.16);}',
+    '.schedule-badge-month{background:rgba(255,214,10,.20);border-color:rgba(255,214,10,.34);color:#ffe27a;}',
 
-    document.head.appendChild(style);
-  }
+    '.dynamic-section{padding:88px 0;}',
+    '.dynamic-section.is-soft{background:linear-gradient(180deg,#f6f9ff 0%,#ffffff 100%);}',
+
+    '.dynamic-slider{position:relative;}',
+    '.dynamic-slider-viewport{overflow:hidden;}',
+    '.dynamic-slider-track{display:flex;transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform;}',
+    '.dynamic-slide{flex:0 0 100%;min-width:100%;padding:6px;}',
+
+    '.dynamic-card{position:relative;padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(11,47,108,.08);box-shadow:0 18px 44px rgba(16,36,74,.08);overflow:hidden;display:flex;flex-direction:column;min-height:100%;transition:transform .28s ease, box-shadow .28s ease;}',
+    '.dynamic-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(16,36,74,.12);}',
+    '.dynamic-card.is-dark{background:linear-gradient(135deg,#0f2552 0%,#18396f 100%);color:#fff;border-color:rgba(255,255,255,.08);}',
+    '.dynamic-card.is-accent{background:linear-gradient(135deg,#f7fbff 0%,#edf4ff 100%);}',
+
+    '.dynamic-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(24,57,111,.08);color:#173865;font-size:12px;font-weight:700;letter-spacing:-.02em;}',
+    '.dynamic-card.is-dark .dynamic-chip{background:rgba(255,255,255,.14);color:#fff;}',
+
+    '.dynamic-card h3{margin:14px 0 10px;font-size:26px;line-height:1.28;letter-spacing:-.03em;}',
+    '.dynamic-card h4{margin:0 0 8px;font-size:22px;line-height:1.34;letter-spacing:-.03em;}',
+    '.dynamic-card p{margin:0;color:#51607a;line-height:1.75;font-size:15px;letter-spacing:-.01em;}',
+    '.dynamic-card.is-dark p{color:rgba(255,255,255,.84);}',
+
+    '.dynamic-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px;}',
+    '.dynamic-points li{position:relative;padding-left:14px;font-size:14px;line-height:1.7;color:#33415a;}',
+    '.dynamic-card.is-dark .dynamic-points li{color:rgba(255,255,255,.9);}',
+    '.dynamic-points li:before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:#2e6bff;}',
+
+    '.dynamic-media{margin-top:18px;border-radius:22px;overflow:hidden;aspect-ratio:16/10;background:#edf3fb;}',
+    '.dynamic-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}',
+    '.dynamic-card:hover .dynamic-media img{transform:scale(1.04);}',
+
+    '.target-cta-row{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}',
+    '.content-link-row{margin-top:auto;padding-top:20px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;justify-content:space-between;}',
+    '.content-card .dynamic-media{aspect-ratio:16/9;}',
+    '.content-card h3{font-size:22px;}',
+    '.content-card .btn{min-width:136px;}',
+    '.content-summary{margin-bottom:0;}',
+
+    '.process-card{position:relative;padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 16px 34px rgba(16,36,74,.08);counter-increment:processStep;display:flex;flex-direction:column;min-height:100%;transition:transform .28s ease, box-shadow .28s ease;}',
+    '.process-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(16,36,74,.12);}',
+    '.process-card:before{content:counter(processStep, decimal-leading-zero);display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:14px;background:#173865;color:#fff;font-size:15px;font-weight:800;}',
+    '.process-card h3{margin:16px 0 8px;font-size:22px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
+    '.process-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
+    '.process-highlight{margin-top:16px;display:inline-flex;padding:9px 12px;border-radius:999px;background:#edf4ff;color:#173865;font-size:13px;font-weight:700;}',
+
+    '.cabin-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;}',
+    '.cabin-badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
+
+    '.faq-list{display:grid;gap:14px;}',
+    '.faq-item{border:1px solid rgba(16,36,74,.08);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,36,74,.06);overflow:hidden;transition:transform .28s ease, box-shadow .28s ease;}',
+    '.faq-item:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(16,36,74,.10);}',
+    '.faq-item summary{list-style:none;cursor:pointer;padding:22px 24px;font-size:18px;font-weight:700;color:#14284a;display:flex;align-items:center;justify-content:space-between;gap:16px;}',
+    '.faq-item summary::-webkit-details-marker{display:none;}',
+    '.faq-item summary:after{content:"+";font-size:26px;line-height:1;color:#173865;flex:none;}',
+    '.faq-item[open] summary:after{content:"−";}',
+    '.faq-answer{padding:0 24px 22px;color:#51607a;font-size:15px;line-height:1.8;}',
+
+    '.content-meta{margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}',
+    '.content-tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
+
+    '.dynamic-slider-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;}',
+    '.dynamic-slider-nav{width:44px;height:44px;border-radius:999px;border:0;background:#10284e;color:#fff;font-size:24px;box-shadow:0 12px 24px rgba(16,36,74,.18);cursor:pointer;}',
+    '.dynamic-slider-dots{display:flex;align-items:center;justify-content:center;gap:8px;}',
+    '.dynamic-slider-dot{width:9px;height:9px;border-radius:999px;border:0;background:#cbd5e1;padding:0;cursor:pointer;}',
+    '.dynamic-slider-dot.is-active{background:#2563eb;transform:scale(1.1);}',
+
+    '.reveal-on-scroll{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1);}',
+    '.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0);}',
+
+    '@media (max-width: 768px){.dynamic-section{padding:72px 0;}.dynamic-card,.process-card{padding:22px;}.dynamic-card h3,.process-card h3{font-size:22px;}.faq-item summary{padding:18px 18px;font-size:16px;}.faq-answer{padding:0 18px 18px;}.dynamic-slider-controls{margin-top:14px;}.dynamic-slider-nav{width:40px;height:40px;font-size:22px;}.schedule-title-row{align-items:flex-start;flex-direction:column;}.schedule-month-emphasis{padding:8px 12px;font-size:13px;}}'
+  ].join('');
+
+  document.head.appendChild(style);
+}
 
   function ensureDynamicSectionsScaffold() {
     if (!mainContent) return;
