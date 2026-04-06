@@ -2094,164 +2094,171 @@ button {
 }
 
 /* =========================================================
-   추가 시트 연동 섹션 공통
-   - JS에서 주입하는 기초안내 / 이용대상자 / 예약과정
-   - 선실비교 / FAQ / 콘텐츠연결 공통 스타일
+   하단 추가 섹션 공통 래퍼
+   - 이용대상자 / 예약과정 / 선실비교 / FAQ / 콘텐츠연결
+   - 섹션 전체 폭과 상하 간격 정리
    ========================================================= */
-.schedule-month-accent {
-  color: #2f6df6;
-  font-weight: 800;
-}
-
-.schedule-badge-month {
-  font-weight: 800;
-}
-
 .sheet-extra-section {
-  padding: 40px 0 10px;
+  padding: 72px 0 12px;
 }
 
 .sheet-extra-wrap {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
 }
 
+/* =========================================================
+   하단 추가 섹션 헤더
+   - 섹션 라벨 + 제목을 가운데 정렬
+   - 기존 페이지 섹션 타이포 결에 맞춤
+   ========================================================= */
 .sheet-extra-head {
-  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 30px;
 }
 
 .sheet-extra-label {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 14px;
   border-radius: 999px;
-  background: #eef4ff;
-  color: #2f6df6;
-  font-weight: 800;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
   font-size: 12px;
-  letter-spacing: .02em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .sheet-extra-title {
-  margin: 14px 0 0;
-  font-size: 34px;
-  line-height: 1.2;
-  color: #0e1b39;
-}
-
-.sheet-extra-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.sheet-extra-grid-steps {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.sheet-extra-basic-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
+  margin: 12px 0 0;
+  font-size: clamp(32px, 3vw, 42px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  color: #091a3b;
 }
 
 /* =========================================================
-   추가 시트 카드 공통
+   하단 추가 섹션 카드 그리드
+   - 카드 간격 / 높이 정리
    ========================================================= */
-.sheet-extra-card {
-  background: #fff;
-  border: 1px solid #e8edf6;
-  border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(17, 34, 68, .05);
+.sheet-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
 }
 
-.sheet-extra-card-basic {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
-  gap: 24px;
-  align-items: center;
+.sheet-extra-grid-steps {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* =========================================================
+   하단 추가 섹션 카드 공통
+   - 카드 배경 / 테두리 / 그림자 / 내부 여백
+   ========================================================= */
+.sheet-extra-card {
+  background: #ffffff;
+  border: 1px solid #e6ebf2;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .sheet-extra-card h3 {
-  margin: 0 0 10px;
-  font-size: 24px;
-  line-height: 1.35;
-  color: #0e1b39;
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: #091a3b;
 }
 
 .sheet-extra-card p {
   margin: 0;
-  color: #5a6a85;
-  line-height: 1.7;
+  color: #667085;
+  line-height: 1.75;
 }
 
 .sheet-extra-muted {
   margin-bottom: 10px !important;
 }
 
+.sheet-extra-points {
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: #334155;
+  line-height: 1.75;
+}
+
+.sheet-extra-points li + li {
+  margin-top: 8px;
+}
+
+/* =========================================================
+   이용대상자 / 콘텐츠연결 이미지 영역
+   - 이미지가 있을 때만 자연스럽게 보이게
+   - 깨진 이미지 공간도 어색하지 않게 유지
+   ========================================================= */
 .sheet-extra-media {
   overflow: hidden;
-  border-radius: 22px;
-  background: #f4f7fb;
+  border-radius: 18px;
+  background: #f3f6fb;
+  margin-bottom: 18px;
+  min-height: 18px;
 }
 
 .sheet-extra-media img {
   display: block;
   width: 100%;
   height: auto;
+  font-size: 0;
+  color: transparent;
 }
 
-.sheet-extra-points {
-  margin: 14px 0 0;
-  padding-left: 18px;
-  color: #2d3d58;
-  line-height: 1.7;
-}
-
-.sheet-extra-points li + li {
-  margin-top: 6px;
-}
-
-.sheet-extra-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-}
-
+/* =========================================================
+   카드 내부 보조 태그
+   ========================================================= */
 .sheet-extra-chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
   padding: 6px 12px;
   border-radius: 999px;
   background: #f1f5ff;
-  color: #2f6df6;
-  font-weight: 800;
+  color: #2563eb;
   font-size: 12px;
-  margin-bottom: 10px;
+  font-weight: 800;
+  margin-bottom: 12px;
 }
 
 .sheet-extra-inline-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
   padding: 6px 12px;
   border-radius: 999px;
   background: #f6f7fb;
   color: #55637e;
-  font-weight: 700;
   font-size: 12px;
+  font-weight: 700;
 }
 
 .sheet-extra-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .sheet-extra-tags span {
@@ -2262,46 +2269,87 @@ button {
   border-radius: 999px;
   background: #f6f7fb;
   color: #55637e;
-  font-weight: 700;
   font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   카드 하단 액션
+   - 버튼이 카드 아래쪽에 정렬되게
+   ========================================================= */
+.sheet-extra-action {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   예약과정 카드 전용
+   - 지금 가장 밋밋한 부분이라 별도 강조
+   - STEP 배지 / 카드 높이 / 상단 포인트 라인 추가
+   ========================================================= */
+.sheet-extra-step-card {
+  position: relative;
+  padding-top: 30px;
+}
+
+.sheet-extra-step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb, #7fb0ff);
 }
 
 .sheet-extra-step-no {
   display: inline-flex;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   font-size: 12px;
-  font-weight: 800;
-  color: #2f6df6;
+  font-weight: 900;
+  color: #2563eb;
+  letter-spacing: 0.06em;
 }
 
 .sheet-extra-highlight {
-  margin-top: 12px;
-  color: #2f6df6;
+  margin-top: auto;
+  padding-top: 18px;
+  color: #2563eb;
   font-weight: 800;
+  line-height: 1.6;
 }
 
 /* =========================================================
-   FAQ / 디버그 패널
+   FAQ
+   - 질문 카드 폭 / 여백 / 타이포 정리
    ========================================================= */
 .sheet-extra-faq-list {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .sheet-extra-faq {
-  background: #fff;
-  border: 1px solid #e8edf6;
+  background: #ffffff;
+  border: 1px solid #e6ebf2;
   border-radius: 24px;
   overflow: hidden;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.04);
 }
 
 .sheet-extra-faq summary {
   cursor: pointer;
   list-style: none;
-  padding: 20px 22px;
+  padding: 22px 24px;
   font-size: 18px;
-  font-weight: 800;
-  color: #0e1b39;
+  font-weight: 900;
+  line-height: 1.45;
+  color: #091a3b;
 }
 
 .sheet-extra-faq summary::-webkit-details-marker {
@@ -2309,11 +2357,15 @@ button {
 }
 
 .sheet-extra-faq-body {
-  padding: 0 22px 20px;
+  padding: 0 24px 22px;
 }
 
+/* =========================================================
+   DEBUG 패널
+   - 최하단 디버그 영역
+   ========================================================= */
 .sheet-debug-panel {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1180px, calc(100% - 32px));
   margin: 28px auto 40px;
   background: #0f172a;
   color: #d7e3ff;
@@ -2326,7 +2378,7 @@ button {
   font-size: 14px;
   font-weight: 800;
   margin: 0 0 10px;
-  color: #fff;
+  color: #ffffff;
 }
 
 .sheet-debug-list {
@@ -2342,32 +2394,43 @@ button {
 .sheet-debug-item {
   padding: 8px 10px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, 0.06);
   word-break: break-word;
 }
 
 /* =========================================================
-   추가 시트 연동 섹션 반응형
+   신뢰요소 숨김
+   - 이 섹션은 현재 제외 처리
    ========================================================= */
-@media (max-width: 960px) {
+#trustSection {
+  display: none !important;
+}
+
+/* =========================================================
+   태블릿
+   ========================================================= */
+@media (max-width: 1080px) {
   .sheet-extra-grid,
   .sheet-extra-grid-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .sheet-extra-card-basic {
-    grid-template-columns: 1fr;
-  }
 }
 
+/* =========================================================
+   모바일
+   ========================================================= */
 @media (max-width: 720px) {
+  .sheet-extra-section {
+    padding: 56px 0 8px;
+  }
+
   .sheet-extra-wrap,
   .sheet-debug-panel {
     width: min(100%, calc(100% - 24px));
   }
 
   .sheet-extra-title {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .sheet-extra-grid,
@@ -2376,6 +2439,12 @@ button {
   }
 
   .sheet-extra-card {
-    padding: 20px;
+    padding: 22px;
+  }
+
+  .sheet-extra-step-card::before {
+    left: 22px;
+    right: 22px;
   }
 }
+
