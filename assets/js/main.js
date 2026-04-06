@@ -1,2478 +1,871 @@
-/* =========================================================
-   전역 변수
-   - 사이트 전체 색상 / 그림자 / 라운드 값
-   - 가장 먼저 여기서 톤 조정
-   ========================================================= */
-:root {
-  --bg: #f5f7fb;
-  --surface: #ffffff;
-  --surface-soft: #f7f9fc;
-  --text: #111827;
-  --text-soft: #667085;
-  --line: #e6ebf2;
-  --blue: #2563eb;
-  --blue-deep: #143878;
-  --navy: #091a3b;
-  --navy-soft: #183a76;
-  --yellow: #f5cd11;
-  --shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
-  --shadow-soft: 0 12px 36px rgba(15, 23, 42, 0.06);
-  --radius-xl: 30px;
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-sm: 12px;
-}
-
-
-/* =========================================================
-   기본 리셋
-   - 전체 공통 기본값
-   ========================================================= */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  overflow-x: hidden;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-
-/* =========================================================
-   공통 레이아웃 박스
-   - wrap: 전체 섹션 기본 폭
-   - narrow-block: 좁은 중앙 정렬 텍스트 블록
-   - hidden-frame: 폼 제출용 숨김 iframe
-   ========================================================= */
-.wrap {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-}
-
-.narrow-block {
-  width: min(820px, calc(100% - 32px));
-  margin: 0 auto;
-  text-align: center;
-}
-
-.hidden-frame {
-  width: 0;
-  height: 0;
-  border: 0;
-  position: absolute;
-  left: -9999px;
-}
-
-
-/* =========================================================
-   상단바
-   - 로고 / 메뉴 / 모바일 햄버거
-   ========================================================= */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(17, 24, 39, 0.06);
-}
-
-.topbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 76px;
-  gap: 16px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.brand-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), #66a3ff);
-  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  color: #374151;
-}
-
-.nav a {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.nav-highlight {
-  color: var(--blue);
-}
-
-.mobile-menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  padding: 0;
-  width: 42px;
-  height: 42px;
-}
-
-.mobile-menu-toggle span {
-  display: block;
-  height: 2px;
-  background: #0f172a;
-  margin: 7px 0;
-}
-
-
-/* =========================================================
-   메인 히어로 섹션
-   - 상단 첫 화면 비주얼
-   ========================================================= */
-.hero-section {
-  position: relative;
-  overflow: hidden;
-  min-height: 92svh;
-  display: flex;
-  align-items: center;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(9, 19, 43, 0.12), rgba(9, 19, 43, 0.48)),
-    url('https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=1800&q=80') center / cover no-repeat;
-  transform: scale(1.04);
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(5, 15, 35, 0.18), rgba(5, 15, 35, 0.62));
-}
-
-.hero-wrap {
-  position: relative;
-  z-index: 1;
-  padding: 96px 0 124px;
-}
-
-.hero-content {
-  max-width: 920px;
-  margin: 0 auto;
-  color: #fff;
-  text-align: center;
-}
-
-
-/* =========================================================
-   히어로 애니메이션
-   ========================================================= */
-.hero-animate {
-  animation: heroUp 0.9s cubic-bezier(.16, 1, .3, 1) both;
-}
-
-.hero-animate-delay {
-  animation: heroUp 0.9s cubic-bezier(.16, 1, .3, 1) 0.18s both;
-}
-
-@keyframes heroUp {
-  from {
-    opacity: 0;
-    transform: translateY(26px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/* =========================================================
-   히어로 상단 태그
-   ========================================================= */
-.hero-tag-group {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 26px;
-}
-
-.hero-tag {
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  font-size: 14px;
-  font-weight: 700;
-  backdrop-filter: blur(10px);
-}
-
-
-/* =========================================================
-   히어로 제목 / 부제목
-   ========================================================= */
-.hero-title {
-  margin: 0;
-  font-size: clamp(42px, 6vw, 68px);
-  line-height: 1.08;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.26);
-}
-
-.hero-subtitle {
-  margin: 22px auto 0;
-  max-width: 700px;
-  font-size: clamp(17px, 2vw, 22px);
-  line-height: 1.72;
-  color: rgba(255, 255, 255, 0.94);
-}
-
-
-/* =========================================================
-   히어로 떠다니는 카드
-   ========================================================= */
-.hero-intro-motion {
-  position: relative;
-  width: min(760px, 100%);
-  height: 188px;
-  margin: 42px auto 0;
-}
-
-.hero-float-card {
-  position: absolute;
-  min-width: 220px;
-  padding: 18px 20px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  box-shadow: 0 18px 60px rgba(4, 12, 28, 0.26);
-  backdrop-filter: blur(18px);
-  text-align: left;
-  animation: floatHero 5.6s ease-in-out infinite;
-}
-
-.hero-float-card span {
-  display: block;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.76);
-  margin-bottom: 8px;
-}
-
-.hero-float-card strong {
-  display: block;
-  font-size: 22px;
-  line-height: 1.25;
-  color: #fff;
-  letter-spacing: -0.03em;
-}
-
-.hero-float-card-a {
-  left: 0;
-  top: 18px;
-  animation-delay: 0s;
-}
-
-.hero-float-card-b {
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  animation-delay: 0.7s;
-}
-
-.hero-float-card-c {
-  right: 0;
-  bottom: 18px;
-  animation-delay: 1.4s;
-}
-
-@keyframes floatHero {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.hero-float-card-b {
-  animation-name: floatHeroCenter;
-}
-
-@keyframes floatHeroCenter {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0px);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-12px);
-  }
-}
-
-
-/* =========================================================
-   히어로 스크롤 안내
-   ========================================================= */
-.hero-scroll-cue {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.74);
-}
-
-.hero-scroll-cue em {
-  width: 2px;
-  height: 42px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.12));
-  animation: scrollCue 1.8s ease-in-out infinite;
-}
-
-.hero-scroll-cue small {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  font-weight: 800;
-}
-
-@keyframes scrollCue {
-  0% {
-    opacity: 0.45;
-    transform: translateY(-6px);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(4px);
-  }
-  100% {
-    opacity: 0.45;
-    transform: translateY(-6px);
-  }
-}
-
-
-/* =========================================================
-   공통 섹션 여백
-   ========================================================= */
-.identity-section,
-.review-section,
-.contact-section {
-  padding: 108px 0;
-}
-
-.schedule-section,
-.price-guarantee-section {
-  padding: 94px 0;
-}
-
-.identity-section {
-  background: var(--surface);
-}
-
-.review-section {
-  background: #f8fafc;
-}
-
-.contact-section {
-  background: var(--surface);
-}
-
-
-/* =========================================================
-   공통 섹션 라벨 / 큰 제목 / 설명
-   ========================================================= */
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.08);
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.identity-title {
-  margin: 20px 0 0;
-  font-size: clamp(36px, 4vw, 54px);
-  line-height: 1.2;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.identity-title span {
-  position: relative;
-  display: inline-block;
-}
-
-.identity-title span::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 8px;
-  height: 14px;
-  background: rgba(37, 99, 235, 0.18);
-  z-index: -1;
-  border-radius: 999px;
-}
-
-.title-divider {
-  width: 1px;
-  height: 56px;
-  background: #d5dbe5;
-  margin: 30px auto;
-}
-
-.identity-desc {
-  margin: 0;
-  color: var(--text-soft);
-  font-size: 19px;
-  line-height: 1.9;
-}
-
-.identity-desc strong {
-  color: var(--text);
-}
-
-.section-topline,
-.section-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.section-head.center {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.compact-head {
-  margin-bottom: 28px;
-}
-
-.section-title {
-  margin: 0;
-  font-size: clamp(32px, 3vw, 42px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.section-mini-copy,
-.section-description {
-  margin: 12px 0 0;
-  color: var(--text-soft);
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.section-more-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  color: var(--blue-deep);
-}
-
-.section-more-link span {
-  transition: transform 0.2s ease;
-}
-
-.section-more-link:hover span {
-  transform: translateX(3px);
-}
-
-
-/* =========================================================
-   일정 필터칩
-   ========================================================= */
-.schedule-filter-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 30px 0 28px;
-}
-
-.filter-chip {
-  height: 46px;
-  padding: 0 22px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: #1f2937;
-  font-weight: 700;
-}
-
-.filter-chip.is-active {
-  background: var(--blue-deep);
-  border-color: var(--blue-deep);
-  color: #fff;
-}
-
-
-/* =========================================================
-   일정 카드 그리드
-   ========================================================= */
-.schedule-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.schedule-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  overflow: hidden;
-  box-shadow: var(--shadow-soft);
-  cursor: pointer;
-  transition: transform 0.24s ease, box-shadow 0.24s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.schedule-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow);
-}
-
-
-/* =========================================================
-   일정 카드 상단 비주얼
-   ========================================================= */
-.schedule-visual {
-  position: relative;
-  min-height: 240px;
-  background: linear-gradient(180deg, #d9e6f8 0%, #12284b 100%);
-}
-
-.schedule-visual img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.schedule-visual::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(10, 20, 40, 0.08), rgba(10, 20, 40, 0.82));
-}
-
-.schedule-visual-inner {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 1;
-  padding: 28px 24px 24px;
-  color: #fff;
-}
-
-.schedule-badges {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
-.schedule-badge {
-  display: inline-flex;
-  height: 32px;
-  padding: 0 14px;
-  align-items: center;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 13px;
-  font-weight: 800;
-  backdrop-filter: blur(12px);
-}
-
-.schedule-card .schedule-title {
-  margin: 0;
-  font-size: 34px;
-  line-height: 1.15;
-  color: #fff;
-}
-
-/* =========================================================
-   출발일 강조 영역
-   - 카드 상단 이미지 위에서 가장 먼저 보이게
-   ========================================================= */
-.schedule-departure-highlight {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-.schedule-departure-label {
-  display: inline-flex;
-  height: 26px;
-  padding: 0 10px;
-  align-items: center;
-  border-radius: 999px;
-  background: rgba(255, 214, 10, 0.18);
-  border: 1px solid rgba(255, 214, 10, 0.32);
-  color: #ffe27a;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-
-.schedule-departure-date {
-  font-size: 28px;
-  line-height: 1.05;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.03em;
-  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-}
-
-/* =========================================================
-   지역 배지는 보조 정보로 한 단계 낮춤
-   ========================================================= */
-.schedule-badge-region {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.92);
-}
-
-/* =========================================================
-   메타 박스 중 출발만 강조
-   ========================================================= */
-.schedule-meta-item.is-primary {
-  background: #eef4ff;
-  border-color: #bfd3ff;
-  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
-}
-
-.schedule-meta-item.is-primary span {
-  color: #2563eb;
-  font-weight: 800;
-}
-
-.schedule-meta-item.is-primary strong {
-  color: #143878;
-  font-size: 18px;
-  font-weight: 900;
-}
-
-
-/* =========================================================
-   일정 카드 하단 내용
-   ========================================================= */
-.schedule-content {
-  padding: 22px 24px 26px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.schedule-meta {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.schedule-meta-item {
-  min-height: 86px;
-  padding: 16px 14px;
-  border-radius: 18px;
-  background: var(--surface-soft);
-  border: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-}
-
-/* =========================================================
-   일정 카드 하단 메타박스 중 "출발"만 강조
-   - 현재 순서:
-     1) 선박
-     2) 모항지
-     3) 출발
-     4) 도착
-   - 그래서 3번째 박스만 따로 강조
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) {
-  background: #edf4ff;                 /* 다른 박스보다 살짝 더 밝은 파란 배경 */
-  border: 1px solid #bcd3ff;           /* 파란 계열 테두리 */
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.08);
-  transform: translateY(-1px);         /* 아주 살짝만 떠 보이게 */
-}
-
-/* =========================================================
-   출발 박스의 라벨 텍스트
-   - "출발" 글자를 더 또렷하게
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) span {
-  color: #2563eb;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-/* =========================================================
-   출발 박스의 날짜 텍스트
-   - 날짜를 더 크고 진하게
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) strong {
-  color: #143878;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-/* =========================================================
-   모바일에서도 출발 날짜가 너무 크지 않게 보정
-   ========================================================= */
-@media (max-width: 768px) {
-  .schedule-meta .schedule-meta-item:nth-child(3) strong {
-    font-size: 18px;
-  }
-}
-
-.schedule-meta-item span {
-  color: #6b7280;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.schedule-meta-item strong {
-  font-size: 16px;
-  line-height: 1.45;
-}
-
-.schedule-actions {
-  margin-top: auto;
-  padding-top: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-/* =========================================================
-   공통 버튼
-   - 일정 버튼 / 문의 버튼 공용
-   ========================================================= */
-.btn,
-.contact-submit {
-  height: 56px;
-  padding: 0 28px;
-  border-radius: 18px;
-  border: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--blue), #2d7eff);
-  color: #fff;
-  box-shadow: 0 16px 38px rgba(37, 99, 235, 0.22);
-}
-
-.schedule-empty {
-  width: 100%;
-  padding: 28px;
-  border-radius: 22px;
-  border: 1px dashed #c9d3e0;
-  text-align: center;
-  color: #64748b;
-  background: rgba(255, 255, 255, 0.84);
-}
-
-
-/* =========================================================
-   가격 보장 섹션
-   ========================================================= */
-.price-guarantee-card {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 24px;
-  padding: 56px 58px;
-  border-radius: 0;
-  background: linear-gradient(90deg, #07122a 0%, #0d2248 45%, #142f5f 100%);
-  color: #fff;
-  box-shadow: var(--shadow);
-}
-
-.price-guarantee-label {
-  display: inline-block;
-  color: #67a7ff;
-  font-size: 16px;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
-
-.price-guarantee-copy h2 {
-  margin: 0;
-  font-size: clamp(42px, 5vw, 64px);
-  line-height: 1.06;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-}
-
-.price-guarantee-copy p {
-  margin: 28px 0 0;
-  max-width: 720px;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 18px;
-  line-height: 1.72;
-}
-
-.price-guarantee-side {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 10px;
-}
-
-.price-guarantee-icon {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 48px;
-  font-weight: 900;
-  color: #67a7ff;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.price-guarantee-side strong {
-  font-size: 26px;
-  font-weight: 900;
-}
-
-.price-guarantee-side span {
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-
-/* =========================================================
-   후기 슬라이더
-   ========================================================= */
-.review-slider {
-  position: relative;
-  margin-top: 24px;
-}
-
-.review-viewport {
-  overflow: hidden;
-}
-
-.review-track {
-  display: flex;
-  gap: 22px;
-  transition: transform 0.32s ease;
-  will-change: transform;
-}
-
-.review-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.review-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #cbd5e1;
-}
-
-.review-dot.is-active {
-  background: var(--blue);
-}
-
-.review-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(8, 22, 47, 0.88);
-  color: #fff;
-  font-size: 28px;
-  z-index: 2;
-  box-shadow: var(--shadow-soft);
-}
-
-.review-nav.prev {
-  left: -10px;
-}
-
-.review-nav.next {
-  right: -10px;
-}
-
-.review-nav.is-hidden,
-.review-dots.is-hidden {
-  display: none;
-}
-
-
-/* =========================================================
-   후기 카드
-   ========================================================= */
-.review-card {
-  background: #fff;
-  border-radius: 26px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-soft);
-  flex: 0 0 calc((100% - 22px) / 2);
-}
-
-.review-thumb {
-  aspect-ratio: 4 / 3;
-  background: linear-gradient(180deg, #e5eefb, #c9d7ea);
-  overflow: hidden;
-}
-
-.review-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.review-body {
-  padding: 22px;
-}
-
-.review-region {
-  display: inline-flex;
-  padding: 0 12px;
-  height: 30px;
-  border-radius: 999px;
-  align-items: center;
-  background: rgba(37, 99, 235, 0.08);
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.review-body h3 {
-  margin: 14px 0 10px;
-  font-size: 24px;
-  line-height: 1.28;
-}
-
-.review-body p {
-  margin: 0;
-  color: var(--text-soft);
-  line-height: 1.75;
-}
-
-
-/* =========================================================
-   문의폼 전체 카드 영역
-   - 이번에 패치한 핵심 구간
-   - 체크박스 / 버튼 / 결과메시지 정렬 수정 완료
-   ========================================================= */
-.contact-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 30px;
-  padding: 34px;
-  box-shadow: var(--shadow-soft);
-}
-
-
-/* =========================================================
-   문의폼 그리드
-   - PC 2열
-   - 모바일은 아래 media에서 1열
-   ========================================================= */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-
-/* =========================================================
-   각 항목 wrapper
-   - label 안에 제목 + 입력창 세로 배치
-   ========================================================= */
-.form-grid label {
-  display: grid;
-  gap: 10px;
-}
-
-
-/* =========================================================
-   전체폭 항목
-   - textarea / 개인정보 동의 줄
-   ========================================================= */
-.form-grid label.full {
-  grid-column: 1 / -1;
-}
-
-
-/* =========================================================
-   입력 제목
-   - 예: 성함, 연락처, 관심 일정
-   ========================================================= */
-.form-grid span {
-  font-size: 14px;
-  font-weight: 800;
-  color: #374151;
-}
-
-
-/* =========================================================
-   입력창 공통 스타일
-   - input / select / textarea
-   ========================================================= */
-.form-grid input,
-.form-grid select,
-.form-grid textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #f8fafc;
-  padding: 16px 18px;
-  outline: none;
-  font: inherit;
-  color: #111827;
-}
-
-
-/* =========================================================
-   placeholder 글자색
-   ========================================================= */
-.form-grid input::placeholder,
-.form-grid textarea::placeholder {
-  color: #94a3b8;
-}
-
-
-/* =========================================================
-   포커스 상태
-   - 클릭 시 하이라이트
-   ========================================================= */
-.form-grid input:focus,
-.form-grid select:focus,
-.form-grid textarea:focus {
-  border-color: #9dbfff;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-}
-
-
-/* =========================================================
-   문의내용 textarea
-   ========================================================= */
-.form-grid textarea {
-  min-height: 138px;
-  resize: vertical;
-}
-
-
-/* =========================================================
-   개인정보 동의 줄
-   - 체크박스 + 문구를 가운데 정렬
-   - 깨져보이던 부분 수정
-   ========================================================= */
-.form-grid label.full.consent-check {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 4px;
-  text-align: center;
-}
-
-
-/* =========================================================
-   개인정보 동의 체크박스
-   ========================================================= */
-.form-grid label.full.consent-check input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  padding: 0;
-  flex: 0 0 18px;
-  accent-color: #2563eb;
-}
-
-
-/* =========================================================
-   개인정보 동의 문구
-   ========================================================= */
-.form-grid label.full.consent-check span {
-  margin: 0;
-  line-height: 1.5;
-}
-
-
-/* =========================================================
-   문의폼 하단 액션 영역
-   - 버튼 + 메시지를 세로배치
-   - 가운데 정렬
-   ========================================================= */
-.contact-actions {
-  margin-top: 22px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  text-align: center;
-}
-
-
-/* =========================================================
-   문의 제출 버튼
-   - 가운데 정렬
-   - 최소 너비 확보
-   ========================================================= */
-.contact-submit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 220px;
-  height: 56px;
-  margin: 0 auto;
-  padding: 0 28px;
-}
-
-
-/* =========================================================
-   폼 결과 메시지
-   ========================================================= */
-.form-result {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: #64748b;
-}
-
-.form-result.is-pending {
-  color: #0f4fa8;
-}
-
-.form-result.is-success {
-  color: #166534;
-}
-
-.form-result.is-error {
-  color: #b42318;
-}
-
-
-/* =========================================================
-   푸터
-   ========================================================= */
-.footer {
-  padding: 42px 0 110px;
-  background: #111827;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.footer-inner strong {
-  display: block;
-  font-size: 18px;
-  color: #fff;
-}
-
-.footer-inner p {
-  margin: 12px 0 0;
-  line-height: 1.7;
-}
-
-
-/* =========================================================
-   sticky inquiry bar
-   - 하단 고정 바 전체
-   ========================================================= */
-.sticky-inquiry-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 140;
-  background: rgba(9, 20, 44, 0.96);
-  backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 -8px 34px rgba(2, 6, 23, 0.28);
-  padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
-  transform: translateY(110%);
-  animation: slideUpBar 0.7s cubic-bezier(.16, 1, .3, 1) 0.15s forwards, bannerPulse 3.2s ease-in-out infinite;
-}
-
-@keyframes slideUpBar {
-  from { transform: translateY(110%); }
-  to { transform: translateY(0); }
-}
-
-@keyframes bannerPulse {
-  0%, 100% { box-shadow: 0 -8px 34px rgba(2, 6, 23, 0.24); }
-  50% { box-shadow: 0 -12px 42px rgba(37, 99, 235, 0.18); }
-}
-
-
-/* =========================================================
-   sticky bar 내부 정렬
-   ========================================================= */
-.sib-content {
-  max-width: 1180px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-  text-align: center;
-}
-
-.sib-text-group {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-
-/* =========================================================
-   왼쪽 마감임박 배지
-   - 더 강한 깜빡임/발광 효과
-   ========================================================= */
-.sib-badge {
-  background: #ef4444;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 6px 12px;
-  border-radius: 999px;
-  box-shadow: 0 0 14px rgba(239, 68, 68, 0.38);
-}
-
-.sib-badge-blink {
-  animation: badgeBlinkStrong 1.2s ease-in-out infinite;
-}
-
-@keyframes badgeBlinkStrong {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.35);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(1.08);
-    box-shadow: 0 0 24px rgba(239, 68, 68, 0.7);
-  }
-}
-
-.sib-title {
-  margin: 0;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 800;
-}
-
-.sib-sub {
-  color: rgba(255, 255, 255, 0.74);
-  font-size: 14px;
-}
-
-
-/* =========================================================
-   버튼 영역
-   - 버튼 1개일 때 넓게 채우기
-   ========================================================= */
-.sib-btn-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
-.sib-btn-group-full {
-  min-width: 260px;
-}
-
-.sib-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  min-width: 132px;
-  padding: 0 24px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 800;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.btn-inquiry {
-  background: linear-gradient(135deg, var(--blue), #2d7eff);
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
-}
-
-.sib-btn-wide {
-  min-width: 220px;
-}
-
-.sib-btn:hover {
-  transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   모바일 sticky bar
-   ========================================================= */
-@media (max-width: 768px) {
-  .sib-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-text-group {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-btn-group {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .sib-btn-group-full {
-    min-width: 0;
-    width: 100%;
-  }
-
-  .sib-btn,
-  .sib-btn-wide {
-    width: 100%;
-    min-width: 0;
-    padding: 0 14px;
-  }
-}
-
-/* =========================================================
-   일정 상세 모달
-   ========================================================= */
-.schedule-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 160;
-  display: none;
-}
-
-.schedule-modal[aria-hidden='false'] {
-  display: block;
-}
-
-.schedule-modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 18, 39, 0.56);
-  backdrop-filter: blur(6px);
-}
-
-.schedule-modal-panel {
-  position: relative;
-  z-index: 1;
-  width: min(1040px, calc(100% - 24px));
-  max-height: min(88svh, 920px);
-  margin: 4svh auto;
-  border-radius: 28px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 40px 120px rgba(15, 23, 42, 0.24);
-}
-
-.schedule-modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 5;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 0;
-  background: rgba(10, 20, 40, 0.74);
-  color: #fff;
-  font-size: 28px;
-  line-height: 1;
-}
-
-.schedule-modal-body {
-  max-height: inherit;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 24px;
-  display: grid;
-  gap: 16px;
-  background: linear-gradient(180deg, #f8fbff, #ffffff 220px);
-}
-
-
-/* =========================================================
-   모달 공통 카드
-   ========================================================= */
-.modal-hero-card,
-.modal-route-card,
-.modal-table-card,
-.modal-image-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  box-shadow: var(--shadow-soft);
-}
-
-.modal-hero-card {
-  padding: 22px 24px;
-}
-
-.modal-badge-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-
-.modal-badge {
-  display: inline-flex;
-  align-items: center;
-  height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.08);
-  color: var(--blue-deep);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.modal-summary-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 18px;
-  align-items: start;
-}
-
-.modal-hero-title {
-  margin: 0;
-  font-size: clamp(32px, 4vw, 54px);
-  line-height: 1.08;
-  letter-spacing: -0.05em;
-}
-
-.modal-action {
-  margin-top: 18px;
-}
-
-.modal-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.modal-meta-box {
-  min-height: 92px;
-  padding: 16px;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: #f8fafc;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-}
-
-.modal-meta-box span {
-  color: #667085;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.modal-meta-box strong {
-  font-size: 17px;
-  line-height: 1.4;
-}
-
-.modal-card-head {
-  padding: 20px 22px 0;
-}
-
-.modal-card-head h4 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.modal-card-head p {
-  margin: 8px 0 0;
-  color: var(--text-soft);
-  font-size: 14px;
-}
-
-
-/* =========================================================
-   모달 경로 카드
-   ========================================================= */
-.modal-route-card {
-  padding: 0 22px 22px;
-}
-
-.route-track {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-  padding-top: 16px;
-}
-
-.route-stop {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 10px;
-}
-
-.route-stop:last-child {
-  grid-template-columns: 1fr;
-}
-
-.route-pill {
-  min-height: 80px;
-  padding: 12px 14px;
-  border-radius: 18px;
-  background: #f8fafc;
-  border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-  gap: 6px;
-  text-align: center;
-}
-
-.route-pill small {
-  font-size: 11px;
-  color: var(--blue);
-  font-weight: 800;
-  letter-spacing: 0.06em;
-}
-
-.route-pill strong {
-  font-size: 16px;
-  line-height: 1.3;
-}
-
-.route-line {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #9aa8bc;
-  font-size: 18px;
-  font-weight: 900;
-}
-
-
-/* =========================================================
-   모달 일정표 테이블
-   ========================================================= */
-.modal-table-card {
-  overflow: hidden;
-}
-
-.table-scroll {
-  overflow-x: visible;
-}
-
-.itinerary-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.itinerary-table thead th {
-  background: #f8fafc;
-  color: #475467;
-  font-size: 13px;
-  font-weight: 800;
-  text-align: left;
-  padding: 16px 14px;
-  border-bottom: 1px solid var(--line);
-}
-
-.itinerary-table tbody td {
-  padding: 16px 14px;
-  border-bottom: 1px solid var(--line);
-  vertical-align: middle;
-  font-size: 14px;
-}
-
-.itinerary-table thead th:nth-child(1),
-.itinerary-table tbody td:nth-child(1) {
-  width: 90px;
-}
-
-.itinerary-table thead th:nth-child(2),
-.itinerary-table tbody td:nth-child(2) {
-  width: 120px;
-}
-
-.itinerary-table thead th:nth-child(4),
-.itinerary-table tbody td:nth-child(4),
-.itinerary-table thead th:nth-child(5),
-.itinerary-table tbody td:nth-child(5) {
-  width: 110px;
-}
-
-.itinerary-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.itinerary-table tbody tr.is-highlight {
-  background: #fff9e8;
-}
-
-.day-cell {
-  font-weight: 800;
-  color: #0f172a;
-  white-space: nowrap;
-}
-
-.date-cell {
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.port-name-kr {
-  display: block;
-  font-size: 16px;
-  font-weight: 800;
-  color: #111827;
-}
-
-.port-name-en {
-  display: block;
-  margin-top: 6px;
-  color: #667085;
-  font-size: 12px;
-}
-
-.overnight-badge {
-  display: inline-flex;
-  margin-left: 8px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: #ffe8a8;
-  color: #8a5a00;
-  font-size: 11px;
-  font-weight: 800;
-  vertical-align: middle;
-}
-
-.time-cell {
-  white-space: nowrap;
-  font-weight: 700;
-  color: #111827;
-}
-
-.time-cell.muted {
-  color: #98a2b3;
-  font-weight: 600;
-}
-
-.time-cell.arrival {
-  color: #2563eb;
-}
-
-.modal-table-note {
-  margin: 0;
-  padding: 0 22px 16px;
-  text-align: right;
-  font-size: 12px;
-  color: #98a2b3;
-}
-
-
-/* =========================================================
-   모달 이미지 카드
-   ========================================================= */
-.modal-image-card {
-  padding: 16px;
-}
-
-.schedule-image-frame {
-  border-radius: 18px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #ebf2fb, #d9e5f5);
-  border: 1px solid var(--line);
-}
-
-.schedule-image-frame img {
-  width: 100%;
-  max-height: 380px;
-  object-fit: contain;
-  background: #f8fafc;
-}
-
-
-/* =========================================================
-   태블릿 대응
-   ========================================================= */
-@media (max-width: 1080px) {
-  .schedule-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .price-guarantee-card,
-  .modal-summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .price-guarantee-side {
-    padding-top: 16px;
-  }
-}
-
-
-/* =========================================================
-   모바일 대응
-   ========================================================= */
-@media (max-width: 768px) {
-  .wrap {
-    width: min(100% - 24px, 1180px);
-  }
-
-  .topbar-inner {
-    min-height: 68px;
-  }
-
-  .mobile-menu-toggle {
-    display: block;
-  }
-
-  .nav {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 16px;
-    right: 16px;
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    box-shadow: var(--shadow-soft);
-    padding: 14px;
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .nav.is-open {
-    display: flex;
-  }
-
-  .hero-section {
-    min-height: 82svh;
-  }
-
-  .hero-wrap {
-    padding: 82px 0 100px;
-  }
-
-  .hero-tag {
-    font-size: 12px;
-  }
-
-  .hero-subtitle br {
-    display: none;
-  }
-
-  .hero-intro-motion {
-    height: 214px;
-    margin-top: 34px;
-  }
-
-  .hero-float-card {
-    min-width: auto;
-    width: min(100%, 320px);
-  }
-
-  .hero-float-card-a {
-    left: 0;
-    top: 14px;
-  }
-
-  .hero-float-card-b {
-    top: 72px;
-  }
-
-  .hero-float-card-c {
-    right: 0;
-    bottom: 20px;
-  }
-
-  .schedule-grid,
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .schedule-card .schedule-title {
-    font-size: 28px;
-  }
-
-  .price-guarantee-card {
-    padding: 34px 24px;
-  }
-
-  .price-guarantee-copy h2 {
-    font-size: 42px;
-  }
-
-  .price-guarantee-copy p {
-    font-size: 16px;
-  }
-
-  .review-card {
-    flex: 0 0 calc((100% - 22px) / 2);
-  }
-
-  .review-nav.prev {
-    left: -6px;
-  }
-
-  .review-nav.next {
-    right: -6px;
-  }
-
-  .sib-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-text-group {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-btn-group {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .sib-btn {
-    flex: 1;
-    padding: 0 14px;
-  }
-
-  .schedule-modal-panel {
-    width: calc(100% - 12px);
-    margin: 2svh auto;
-    max-height: 96svh;
-    border-radius: 22px;
-  }
-
-  .schedule-modal-body {
-    padding: 16px;
-  }
-
-  .modal-hero-card,
-  .modal-route-card,
-  .modal-image-card {
-    padding: 18px;
-  }
-
-  .modal-table-card {
-    padding-bottom: 0;
-  }
-
-  .modal-meta-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .modal-summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .route-track {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .route-stop {
-    grid-template-columns: 1fr;
-  }
-
-  .route-line {
-    display: none;
-  }
-
-  .table-scroll {
-    overflow-x: auto;
-  }
-
-  .itinerary-table {
-    min-width: 620px;
-    table-layout: auto;
-  }
-
-  /* ---------------------------------------------------------
-     문의폼 모바일 보정
-     - 동의줄 간격 축소
-     - 제출버튼 전체폭
-     --------------------------------------------------------- */
-  .form-grid label.full.consent-check {
-    gap: 8px;
-  }
-
-  .contact-submit {
-    width: 100%;
-    min-width: 0;
-  }
-}
-
-
-/* =========================================================
-   작은 모바일 대응
-   ========================================================= */
-@media (max-width: 560px) {
-  .hero-title {
-    font-size: 42px;
-  }
-
-  .hero-subtitle {
-    font-size: 16px;
-  }
-
-  .hero-intro-motion {
-    height: 268px;
-  }
-
-  .hero-float-card {
-    width: 100%;
-    left: 0 !important;
-    right: 0 !important;
-    transform: none !important;
-  }
-
-  .hero-float-card-a {
-    top: 0;
-  }
-
-  .hero-float-card-b {
-    top: 78px;
-  }
-
-  .hero-float-card-c {
-    top: 156px;
-    bottom: auto;
-  }
-
-  .hero-scroll-cue {
-    display: none;
-  }
-
-  .btn,
-  .contact-submit {
-    width: 100%;
-  }
-
-  .review-card {
-    flex: 0 0 100%;
-  }
-
-  .review-nav {
-    display: none;
-  }
-
-  .modal-meta-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .route-track {
-    grid-template-columns: 1fr;
-  }
-
-  .footer {
-    padding-bottom: 132px;
-  }
-
-  .sib-title {
-    font-size: 15px;
-  }
-
-  .sib-sub {
-    display: none;
-  }
-
-  .sib-btn-group {
-    flex-direction: column;
-  }
-
-  .btn-phone {
-    display: none;
-  }
-}
-
-
-/* =========================================================
-   숨김 처리용
-   ========================================================= */
-.hero-quick-box {
-  display: none !important;
-}
-
-/* =========================================================
-   추가 시트 연동 섹션
-   - 기존 section-title / section-label 스타일 그대로 사용
-   - 추가 섹션만 가운데 정렬
-   - 기초안내 1장 자동 전환
-   - 신뢰요소는 main.js에서 scaffold 제외
-   ========================================================= */
-.schedule-month-accent {
-  color: #2f6df6;
-  font-weight: 800;
-}
-
-.schedule-badge-month {
-  font-weight: 800;
-}
-
-.sheet-extra-section {
-  padding: 72px 0 10px;
-}
-
-.sheet-extra-section-basic {
-  padding-top: 84px;
-}
-
-.sheet-extra-wrap {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-}
-
-.sheet-extra-wrap-narrow {
-  width: min(980px, calc(100% - 32px));
-  margin: 0 auto;
-}
-
-.sheet-extra-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  align-items: stretch;
-}
-
-.sheet-extra-grid-steps {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.sheet-extra-card {
-  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
-  border: 1px solid #e6edf8;
-  border-radius: 30px;
-  padding: 28px;
-  box-shadow: 0 18px 40px rgba(16, 33, 68, 0.07);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  height: 100%;
-}
-
-.sheet-extra-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 26px 60px rgba(16, 33, 68, 0.11);
-  border-color: #d9e6ff;
-}
-
-.sheet-extra-card h3 {
-  margin: 0 0 12px;
-  font-size: 24px;
-  line-height: 1.35;
-  color: #0e1b39;
-  letter-spacing: -0.02em;
-}
-
-.sheet-extra-card p {
-  margin: 0;
-  color: #5a6a85;
-  line-height: 1.78;
-}
-
-.sheet-extra-muted {
-  margin-bottom: 10px !important;
-}
-
-.sheet-extra-media {
-  overflow: hidden;
-  border-radius: 24px;
-  background: #f4f7fb;
-  margin-bottom: 18px;
-}
-
-.sheet-extra-media img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.sheet-extra-points {
-  margin: 16px 0 0;
-  padding-left: 18px;
-  color: #2d3d58;
-  line-height: 1.72;
-}
-
-.sheet-extra-points li + li {
-  margin-top: 8px;
-}
-
-.sheet-extra-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.sheet-extra-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: #f1f5ff;
-  color: #2f6df6;
-  font-weight: 800;
-  font-size: 12px;
-  margin-bottom: 12px;
-}
-
-.sheet-extra-inline-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: #f6f7fb;
-  color: #55637e;
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.sheet-extra-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.sheet-extra-tags span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: #f6f7fb;
-  color: #55637e;
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.sheet-extra-step-no {
-  display: inline-flex;
-  margin-bottom: 12px;
-  font-size: 12px;
-  font-weight: 800;
-  color: #2f6df6;
-}
-
-.sheet-extra-highlight {
-  margin-top: 14px;
-  color: #2f6df6;
-  font-weight: 800;
-}
-
-.sheet-extra-faq-list {
-  display: grid;
-  gap: 16px;
-}
-
-.sheet-extra-faq {
-  background: #fff;
-  border: 1px solid #e8edf6;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 12px 28px rgba(16, 33, 68, 0.05);
-}
-
-.sheet-extra-faq summary {
-  cursor: pointer;
-  list-style: none;
-  padding: 22px 24px;
-  font-size: 18px;
-  font-weight: 800;
-  color: #0e1b39;
-}
-
-.sheet-extra-faq summary::-webkit-details-marker {
-  display: none;
-}
-
-.sheet-extra-faq-body {
-  padding: 0 24px 22px;
-}
-
-/* 기초안내 슬라이더 */
-.sheet-basic-slider {
-  position: relative;
-}
-
-.sheet-basic-slider-viewport {
-  overflow: hidden;
-}
-
-.sheet-basic-slider-track {
-  display: flex;
-  transition: transform .45s ease;
-  will-change: transform;
-}
-
-.sheet-basic-slide {
-  min-width: 100%;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  border: 1px solid #e6edf8;
-  border-radius: 34px;
-  padding: 34px;
-  box-shadow: 0 22px 56px rgba(16, 33, 68, 0.08);
-  display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(260px, .92fr);
-  gap: 28px;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.sheet-basic-slide-copy h3 {
-  margin: 0 0 14px;
-  font-size: 30px;
-  line-height: 1.25;
-  color: #0e1b39;
-  letter-spacing: -0.03em;
-}
-
-.sheet-basic-slide-copy p {
-  margin: 0;
-  color: #5a6a85;
-  line-height: 1.82;
-}
-
-.sheet-basic-slide-media {
-  overflow: hidden;
-  border-radius: 28px;
-  background: #f4f7fb;
-  min-height: 260px;
-}
-
-.sheet-basic-slide-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.sheet-basic-slider-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-top: 20px;
-}
-
-.sheet-basic-slider-controls.is-hidden {
-  display: none;
-}
-
-.sheet-basic-nav {
-  width: 44px;
-  height: 44px;
-  border: 1px solid #dbe6fb;
-  border-radius: 999px;
-  background: #fff;
-  color: #16397a;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(16, 33, 68, 0.08);
-}
-
-.sheet-basic-dots {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sheet-basic-dot {
-  width: 10px;
-  height: 10px;
-  border: 0;
-  border-radius: 999px;
-  background: #c9d6ef;
-  cursor: pointer;
-  padding: 0;
-}
-
-.sheet-basic-dot.is-active {
-  width: 28px;
-  background: #2f6df6;
-}
-
-/* 디버그 */
-.sheet-debug-panel {
-  width: min(1180px, calc(100% - 32px));
-  margin: 28px auto 40px;
-  background: #0f172a;
-  color: #d7e3ff;
-  border-radius: 20px;
-  padding: 18px 20px;
-  box-sizing: border-box;
-}
-
-.sheet-debug-title {
-  font-size: 14px;
-  font-weight: 800;
-  margin: 0 0 10px;
-  color: #fff;
-}
-
-.sheet-debug-list {
-  display: grid;
-  gap: 8px;
-  max-height: 280px;
-  overflow: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.sheet-debug-item {
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .06);
-  word-break: break-word;
-}
-
-@media (max-width: 1100px) {
-  .sheet-extra-grid,
-  .sheet-extra-grid-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .sheet-basic-slide {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .sheet-extra-wrap,
-  .sheet-extra-wrap-narrow,
-  .sheet-debug-panel {
-    width: min(100%, calc(100% - 24px));
-  }
-
-  .sheet-extra-section {
-    padding: 56px 0 6px;
-  }
-
-  .sheet-extra-grid,
-  .sheet-extra-grid-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .sheet-extra-card {
-    padding: 22px;
-  }
-
-  .sheet-basic-slide {
-    padding: 22px;
-    border-radius: 26px;
-    gap: 18px;
-  }
-
-  .sheet-basic-slide-copy h3 {
-    font-size: 24px;
-  }
-
-  .sheet-basic-slide-media {
-    min-height: 200px;
-  }
-}
-
+(function () {
+  const config = window.APP_CONFIG || {};
+  const modal = document.getElementById('scheduleModal');
+  const modalBody = document.getElementById('scheduleModalBody');
+  const scheduleGrid = document.getElementById('scheduleGrid');
+  const scheduleFilters = document.getElementById('scheduleFilters');
+  const reviewGrid = document.getElementById('reviewGrid');
+  const reviewDots = document.getElementById('reviewDots');
+  const reviewViewport = document.getElementById('reviewViewport');
+  const form = document.getElementById('contactForm');
+  const formResult = document.getElementById('formResult');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mainNav = document.getElementById('mainNav');
+  const phoneInput = document.getElementById('phoneInput');
+  const mainContent = document.querySelector('main');
+
+  const state = {
+    bootstrap: {
+      settings: {}, schedules: [], schedule_days: [], reviews: [],
+      targets: [], basic_info: [], process_steps: [], cabins: [],
+      faqs: [], trust_points: [], content_links: []
+    },
+    activeRegion: 'ALL',
+    reviewPage: 0,
+  };
+
+  let reviewAutoTimer = null;
+
+  init();
+
+  async function init() {
+    bindStaticEvents();
+    setTrackingFields();
+
+    const payload = config.useMockOnly
+      ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
+      : await getBootstrapWithFallback();
+
+    hydrate(payload);
+  }
+
+  function bindStaticEvents() {
+    if (mobileMenuToggle && mainNav) {
+      mobileMenuToggle.addEventListener('click', () => mainNav.classList.toggle('is-open'));
+    }
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+
+      const filterButton = target.closest('[data-region]');
+      if (filterButton) {
+        state.activeRegion = filterButton.getAttribute('data-region') || 'ALL';
+        logDebug('filter.click', { region: state.activeRegion });
+        renderFilters();
+        renderSchedules();
+        return;
+      }
+
+      const selectButton = target.closest('[data-select-schedule]');
+      if (selectButton) {
+        event.stopPropagation();
+        const scheduleId = selectButton.getAttribute('data-select-schedule');
+        const scheduleSelect = document.getElementById('interestScheduleSelect');
+        if (scheduleSelect) scheduleSelect.value = scheduleId || '';
+        logDebug('schedule.select', { scheduleId: scheduleId || '' });
+        scrollToSection('contact');
+        closeModal();
+        return;
+      }
+
+      const reviewNav = target.closest('[data-review-nav]');
+      if (reviewNav) {
+        moveReviews(reviewNav.getAttribute('data-review-nav'));
+        return;
+      }
+
+      const reviewDot = target.closest('[data-review-dot]');
+      if (reviewDot) {
+        state.reviewPage = Number(reviewDot.getAttribute('data-review-dot') || 0);
+        setupReviewSlider((state.bootstrap.reviews || []).length);
+        return;
+      }
+
+      const openCard = target.closest('[data-open-schedule]');
+      if (openCard) {
+        openSchedule(openCard.getAttribute('data-open-schedule'));
+        return;
+      }
+
+      if (target.closest('[data-close-modal]')) {
+        closeModal();
+        return;
+      }
+    });
+
+    window.addEventListener('resize', () => setupReviewSlider((state.bootstrap.reviews || []).length));
+
+    if (reviewViewport) {
+      reviewViewport.addEventListener('mouseenter', stopReviewAuto);
+      reviewViewport.addEventListener('mouseleave', () => setupReviewSlider((state.bootstrap.reviews || []).length));
+      reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
+      reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
+    }
+
+    if (phoneInput) {
+      phoneInput.addEventListener('input', () => {
+        phoneInput.value = String(phoneInput.value || '').replace(/\D+/g, '').slice(0, 11);
+      });
+    }
+
+    // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        if (!formData.get('name')?.trim()) return updateFormResult('성함을 입력해주세요.', 'error');
+        
+        const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
+        if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
+        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
+        if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
+        
+        const privacyAgreeInput = document.getElementById('privacyAgreeInput');
+        if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
+
+        if (phoneInput) phoneInput.value = phone;
+
+        const regionDetail = formData.get('region_detail')?.trim();
+        const travelReadyStatus = formData.get('travel_ready_status')?.trim();
+        const originalMessage = formData.get('message')?.trim();
+
+        const extraLines = [];
+        if (regionDetail) extraLines.push(`거주지역: ${regionDetail}`);
+        if (travelReadyStatus) extraLines.push(`여권/카드 소지 여부: ${travelReadyStatus}`);
+        if (originalMessage) extraLines.push(`문의내용: ${originalMessage}`);
+
+        const messageInput = document.getElementById('messageInput');
+        if (messageInput) messageInput.value = extraLines.join('\n');
+
+        setSubmitState(true);
+        updateFormResult('문의 내용을 접수하고 있습니다...', 'pending');
+        logDebug('form.submit', { schedule_id: formData.get('interest_schedule_id') });
+
+        try {
+          const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
+          const data = await response.json();
+          
+          if (data.success) {
+            updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
+            form.reset();
+            setTrackingFields();
+          } else {
+            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
+          }
+        } catch (error) {
+          updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
+          logDebug('form.result.error', { error: error.message });
+        } finally {
+          setSubmitState(false);
+        }
+      });
+    }
+  }
+
+  function initGlobalDebugHandlers() {
+    return;
+  }
+
+  async function getBootstrapWithFallback() {
+    try {
+      const apiPayload = await loadBootstrapFromApi();
+      return normalizeData(apiPayload);
+    } catch (error) {
+      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+    }
+  }
+
+  function loadBootstrapFromApi() {
+    return new Promise(function (resolve, reject) {
+      const callbackName = '__cruiseJsonpCallback_' + Date.now();
+      const params = new URLSearchParams(window.location.search);
+      params.set('action', 'bootstrap');
+      params.set('callback', callbackName);
+
+      const script = document.createElement('script');
+      const requestUrl = config.apiUrl + '?' + params.toString();
+      let finished = false;
+      let timeoutId = null;
+
+      window[callbackName] = function (payload) {
+        if (finished) return;
+        finished = true;
+        cleanup(true);
+        resolve(payload && payload.data ? payload.data : payload);
+      };
+
+      script.onerror = function () {
+        if (finished) return;
+        finished = true;
+        cleanup(false);
+        reject(new Error('bootstrap-load-failed'));
+      };
+
+      timeoutId = window.setTimeout(function () {
+        if (finished) return;
+        finished = true;
+        cleanup(false);
+        reject(new Error('bootstrap-timeout'));
+      }, 8000);
+
+      function cleanup(success) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        if (success) {
+          window[callbackName] = function () {};
+          setTimeout(function () {
+            try { delete window[callbackName]; } catch (e) {}
+          }, 30000);
+        } else {
+          try { delete window[callbackName]; } catch (e) {}
+        }
+      }
+
+      script.src = requestUrl;
+      script.async = true;
+      document.body.appendChild(script);
+    });
+  }
+
+  function hydrate(data) {
+    state.bootstrap = normalizeData(data);
+    logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
+    renderSettings();
+    renderFilters();
+    startHeroMotion();
+    renderSchedules();
+    renderReviews();
+    populateFormSelects();
+    renderExtraSections();
+    logDebug('hydrate.done', { ok: true });
+  }
+
+  function normalizeData(data) {
+    const safe = data || {};
+    const fb = window.MOCK_BOOTSTRAP_DATA || {};
+    return {
+      settings: safe.settings || fb.settings || {},
+      schedules: ensureArray(safe.schedules, fb.schedules),
+      schedule_days: ensureArray(safe.schedule_days, fb.schedule_days),
+      reviews: ensureArray(safe.reviews, fb.reviews),
+      targets: ensureArray(safe.targets, fb.targets),
+      basic_info: ensureArray(safe.basic_info, fb.basic_info),
+      process_steps: ensureArray(safe.process_steps, fb.process_steps),
+      cabins: ensureArray(safe.cabins, fb.cabins),
+      faqs: ensureArray(safe.faqs, fb.faqs),
+      trust_points: ensureArray(safe.trust_points, fb.trust_points),
+      content_links: ensureArray(safe.content_links, fb.content_links)
+    };
+  }
+
+  function ensureArray(primary, fallback) {
+    return Array.isArray(primary) ? primary : (Array.isArray(fallback) ? fallback : []);
+  }
+
+  function getBootstrapDebugSummary(payload) {
+    return Object.keys(payload || {}).reduce((acc, key) => {
+      acc[key] = Array.isArray(payload[key]) ? payload[key].length : 0;
+      return acc;
+    }, {});
+  }
+
+  function renderSettings() {
+    const settings = state.bootstrap.settings || {};
+    const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
+    const heroImage = settings.hero_image || settings.hero_bg || '';
+
+    setText('siteName', siteName);
+    setText('footerSiteName', 'WAYZI');
+    setText('siteNameInput', siteName, 'value');
+    setText('heroTag1', settings.hero_tag_1 || '최저가 보장제');
+    setText('heroTag2', settings.hero_tag_2 || 'NO 쇼핑·옵션');
+    setText('heroTag3', settings.hero_tag_3 || '100% 출발확정');
+
+    setHtml('heroTitle', convertLineBreaks(escapeHtml(settings.hero_title || '크루즈 여행,\n패키지 말고 직구하세요.')));
+    setText('heroSubtitle', settings.hero_subtitle || '마음에 드는 일정이 있으면 확인 후 바로 문의해주세요.');
+    setText('heroBottomText', settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.');
+
+    setHtml('identityTitle', (() => {
+      const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
+      const parts = text.split('\n');
+      return parts.length > 1 ? `${escapeHtml(parts[0])}<br><span>${escapeHtml(parts.slice(1).join(' '))}</span>` : `<span>${escapeHtml(text)}</span>`;
+    })());
+
+    setHtml('identityDesc', convertLineBreaks(escapeHtml(settings.identity_desc || '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 일정과 항해 루트를 투명하게 비교하고 선택하는\n자유여행 중심 안내 플랫폼입니다.')));
+    setText('footerDescription', '대표 김도윤 · 사업자번호 538-42-01450');
+
+    const heroBg = document.getElementById('heroBg');
+    if (heroBg && heroImage) {
+      heroBg.style.backgroundImage = `linear-gradient(180deg, rgba(7, 25, 57, 0.12), rgba(7, 25, 57, 0.4)), url("${heroImage.replace(/"/g, '\\"')}")`;
+    }
+  }
+
+  function startHeroMotion() {
+    document.querySelector('.hero-content')?.classList.add('is-live');
+  }
+
+  function renderFilters() {
+    if (!scheduleFilters) return;
+    const regions = ['ALL', ...new Set(state.bootstrap.schedules.map(item => item.region).filter(Boolean))];
+    
+    // 💡 템플릿 리터럴 적용
+    scheduleFilters.innerHTML = regions.map(region => {
+      const isActive = state.activeRegion === region ? ' is-active' : '';
+      const label = region === 'ALL' ? '전체 일정' : region;
+      return `<button type="button" class="filter-chip${isActive}" data-region="${escapeAttribute(region)}">${escapeHtml(label)}</button>`;
+    }).join('');
+  }
+
+  function renderSchedules() {
+    if (!scheduleGrid) return;
+    const schedules = state.bootstrap.schedules.filter(item => state.activeRegion === 'ALL' || item.region === state.activeRegion).slice(0, 6);
+
+    if (!schedules.length) {
+      scheduleGrid.innerHTML = `<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>`;
+      return;
+    }
+    
+    // 💡 템플릿 리터럴 적용으로 가독성 향상
+    scheduleGrid.innerHTML = schedules.map(schedule => {
+      const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
+      return `
+        <article class="schedule-card" data-open-schedule="${escapeAttribute(schedule.schedule_id)}">
+          <div class="schedule-visual">
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(schedule.title || '')}" />` : ''}
+            <div class="schedule-visual-inner">
+              <div class="schedule-badges">
+                <span class="schedule-badge">${escapeHtml(schedule.region || '크루즈')}</span>
+                <span class="schedule-badge schedule-badge-month">${escapeHtml(getMonthLabel(schedule.departure_date))} 출발</span>
+              </div>
+              <h3 class="schedule-title">${highlightMonthText(schedule.title || '크루즈 일정')}</h3>
+            </div>
+          </div>
+          <div class="schedule-content">
+            <div class="schedule-meta">
+              ${metaItem('선박', schedule.ship_name)}
+              ${metaItem('모항지', getHomePort(schedule.schedule_id))}
+              ${metaItem('출발', formatDate(schedule.departure_date))}
+              ${metaItem('도착', formatDate(schedule.return_date))}
+            </div>
+            <div class="schedule-actions">
+              <a href="#contact" class="btn" data-select-schedule="${escapeAttribute(schedule.schedule_id)}">가격문의</a>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function getMonthLabel(dateValue) {
+    const match = String(dateValue || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return match ? `${Number(match[2])}월` : '';
+  }
+
+  function highlightMonthText(text) {
+    return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
+  }
+
+  function renderReviews() {
+    if (!reviewGrid) return;
+    const reviews = state.bootstrap.reviews || [];
+    if (!reviews.length) {
+      reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
+      if (reviewDots) reviewDots.innerHTML = '';
+      return;
+    }
+
+    reviewGrid.innerHTML = reviews.map(review => {
+      const imageUrl = review.thumbnail_url || '';
+      return `
+        <article class="review-card">
+          <div class="review-thumb">
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
+          </div>
+          <div class="review-body">
+            ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
+            <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
+            <p>${escapeHtml(review.summary || review.content || '')}</p>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    setupReviewSlider(reviews.length);
+  }
+
+  function openSchedule(scheduleId) {
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim());
+    if (!schedule) return;
+
+    const days = state.bootstrap.schedule_days
+      .filter(item => String(item.schedule_id).trim() === String(scheduleId).trim())
+      .sort((a, b) => Number(a.day_no || 0) - Number(b.day_no || 0));
+
+    const routeStops = getRouteStops(scheduleId, days);
+    const imageUrl = schedule.schedule_image_url || schedule.thumbnail_url || '';
+
+    modalBody.innerHTML = `
+      <section class="modal-hero-card">
+        <div class="modal-badge-row">
+          <span class="modal-badge">${escapeHtml(schedule.region || '크루즈')}</span>
+          <span class="modal-badge">${escapeHtml(formatDate(schedule.departure_date))} 출발</span>
+        </div>
+        <div class="modal-summary-grid">
+          <div>
+            <h3 class="modal-hero-title">${escapeHtml(schedule.title || '크루즈 일정')}</h3>
+            <div class="modal-action">
+              <a href="#contact" class="btn" data-select-schedule="${escapeAttribute(schedule.schedule_id)}" data-close-modal>가격문의</a>
+            </div>
+          </div>
+          <div class="modal-meta-grid">
+            ${metaBox('선박', schedule.ship_name)}
+            ${metaBox('모항지', getHomePort(schedule.schedule_id))}
+            ${metaBox('출발', formatDate(schedule.departure_date))}
+            ${metaBox('도착', formatDate(schedule.return_date))}
+          </div>
+        </div>
+      </section>
+      <section class="modal-route-card">
+        <div class="modal-card-head"><h4>항해 루트</h4><p>한눈에 보이는 선형 타임라인으로 정리했습니다.</p></div>
+        <div class="route-track">${buildRouteTrack(routeStops)}</div>
+      </section>
+      <section class="modal-table-card">
+        <div class="modal-card-head"><h4>상세 항해 일정</h4><p>일차 · 날짜 · 기항지 · 입항 · 출항을 표로 바로 확인할 수 있습니다.</p></div>
+        <div class="table-scroll">${buildItineraryTable(days)}</div>
+        <p class="modal-table-note">* 현지 사정 및 기상 상황에 의해 기항지 및 입출항 시간은 변경될 수 있습니다.</p>
+      </section>
+      ${imageUrl ? `
+        <section class="modal-image-card">
+          <div class="modal-card-head"><h4>일정표 이미지</h4><p>시트에 등록된 일정표 이미지를 함께 보여줍니다.</p></div>
+          <div class="schedule-image-frame"><img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(schedule.title || '')}" /></div>
+        </section>` : ''}
+    `;
+
+    if (modal) modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function buildRouteTrack(stops) {
+    if (!stops.length) return `<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>`;
+    return stops.map((stop, index) => {
+      const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : `STOP ${index}`);
+      return `
+        <div class="route-stop">
+          <div class="route-pill"><small>${label}</small><strong>${escapeHtml(stop)}</strong></div>
+          ${index < stops.length - 1 ? `<div class="route-line">→</div>` : ''}
+        </div>`;
+    }).join('');
+  }
+
+  function buildItineraryTable(days) {
+    if (!days.length) return `<div class="schedule-empty" style="margin:18px;">상세 항해일정이 아직 등록되지 않았습니다.</div>`;
+    return `
+      <table class="itinerary-table">
+        <thead><tr><th>일차</th><th>날짜</th><th>기항지 (PORT)</th><th>입항</th><th>출항</th></tr></thead>
+        <tbody>
+          ${days.map(buildItineraryRow).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  function buildItineraryRow(day) {
+    const overnight = /overnight|정박/i.test(String(day.description || '')) ? `<span class="overnight-badge">정박 (Overnight)</span>` : '';
+    return `
+      <tr class="${isHighlightDay(day) ? 'is-highlight' : ''}">
+        <td class="day-cell">Day ${day.day_no || ''}</td>
+        <td class="date-cell">${escapeHtml(formatDayDate(day.date))}</td>
+        <td>
+          <span class="port-name-kr">${escapeHtml(day.port_name || day.city || '-')}${overnight}</span>
+          ${day.port_name_en || day.country ? `<span class="port-name-en">${escapeHtml(day.port_name_en || day.country)}</span>` : ''}
+        </td>
+        ${normalizeTimeCell(day.arrival_time, 'arrival')}
+        ${normalizeTimeCell(day.departure_time, 'departure')}
+      </tr>`;
+  }
+
+  function isHighlightDay(day) {
+    return /overnight|정박/i.test(String(day.description || ''));
+  }
+
+  function normalizeTimeCell(value, kind) {
+    const text = String(value || '').trim();
+    if (!text || text === '-' || text === '—') return `<td class="time-cell muted">-</td>`;
+    if (kind === 'departure' && /(도착|arrival)/i.test(text)) return `<td class="time-cell arrival">${escapeHtml(text)}</td>`;
+    return `<td class="time-cell">${escapeHtml(text)}</td>`;
+  }
+
+  function formatDayDate(value) {
+    if (!value) return '-';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    return `${pad(date.getMonth() + 1)}.${pad(date.getDate())} (${weekdays[date.getDay()]})`;
+  }
+
+  function getReviewPerView() { return window.innerWidth <= 720 ? 1 : 2; }
+
+  function setupReviewSlider(total) {
+    if (!reviewGrid) return;
+    const perView = getReviewPerView();
+    const maxPage = Math.max(0, total - perView);
+    state.reviewPage = Math.min(state.reviewPage, maxPage);
+
+    const prev = document.querySelector('[data-review-nav="prev"]');
+    const next = document.querySelector('[data-review-nav="next"]');
+
+    if (total <= perView) {
+      reviewGrid.style.transform = '';
+      prev?.classList.add('is-hidden');
+      next?.classList.add('is-hidden');
+      if (reviewDots) { reviewDots.className = 'review-dots is-hidden'; reviewDots.innerHTML = ''; }
+      stopReviewAuto();
+      return;
+    }
+
+    prev?.classList.remove('is-hidden');
+    next?.classList.remove('is-hidden');
+    if (reviewDots) reviewDots.className = 'review-dots';
+
+    const gap = 22;
+    const viewportWidth = reviewViewport ? reviewViewport.clientWidth : 0;
+    const cardWidth = (viewportWidth - gap) / perView;
+    reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
+
+    if (reviewDots) {
+      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) => 
+        `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+      ).join('');
+    }
+
+    startReviewAuto(total);
+  }
+
+  function moveReviews(direction) {
+    const total = (state.bootstrap.reviews || []).length;
+    const maxPage = Math.max(0, total - getReviewPerView());
+    state.reviewPage = direction === 'prev' 
+      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1) 
+      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+    setupReviewSlider(total);
+  }
+
+  function startReviewAuto(total) {
+    stopReviewAuto();
+    if (total > getReviewPerView()) reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
+  }
+
+  function stopReviewAuto() {
+    if (reviewAutoTimer) { window.clearInterval(reviewAutoTimer); reviewAutoTimer = null; }
+  }
+
+  function getHomePort(scheduleId) {
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
+    if (schedule.home_port) return String(schedule.home_port).trim();
+    const stops = getRouteStops(scheduleId);
+    return stops.length ? stops[0] : '';
+  }
+
+  function populateFormSelects() {
+    const scheduleSelect = document.getElementById('interestScheduleSelect');
+    if (!scheduleSelect) return;
+    scheduleSelect.innerHTML = `<option value="">선택해주세요</option>` + 
+      state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
+  }
+
+  function getRouteStops(scheduleId, preloadedDays) {
+    const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
+    if (schedule.route_ports) return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
+
+    const days = Array.isArray(preloadedDays) ? preloadedDays : state.bootstrap.schedule_days.filter(item => String(item.schedule_id).trim() === String(scheduleId).trim());
+    const stops = days.map(day => cleanStop(day.port_name || day.city || ''))
+      .filter(Boolean)
+      .filter(stop => !['해상일', 'sea day', '인천 출발', '부산 출발'].includes(stop.toLowerCase()));
+    
+    return Array.from(new Set(stops));
+  }
+
+  function cleanStop(value) {
+    return String(value || '').replace(/\s+/g, ' ').replace(/\(.*?\)/g, '').trim();
+  }
+
+  function renderExtraSections() {
+    ensureExtraSectionsScaffold();
+    renderBasicInfo();
+    renderTargets();
+    renderProcessSteps();
+    renderCabins();
+    renderFaqs();
+    renderTrustPoints();
+    renderContentLinks();
+  }
+
+  function ensureExtraSectionsScaffold() {
+    if (!mainContent) return;
+    const sections = [
+      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', gridId: 'basicInfoGrid', gridClass: 'sheet-extra-basic-grid' },
+      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
+      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
+      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
+    ];
+
+    sections.forEach(({ id, title, label, gridId, gridClass }) => {
+      if (!document.getElementById(id)) {
+        const html = `
+          <section class="sheet-extra-section" id="${id}">
+            <div class="sheet-extra-wrap">
+              <div class="sheet-extra-head">
+                <span class="sheet-extra-label">${label}</span>
+                <h2 class="sheet-extra-title">${title}</h2>
+              </div>
+              <div id="${gridId}" class="${gridClass}"></div>
+            </div>
+          </section>`;
+        
+        const debugPanel = document.getElementById('sheetDebugPanel');
+        if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
+        else mainContent.insertAdjacentHTML('beforeend', html);
+      }
+    });
+  }
+
+  function renderBasicInfo() {
+    const section = document.getElementById('basicInfoSection');
+    const grid = document.getElementById('basicInfoGrid');
+    const items = state.bootstrap.basic_info || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map(item => {
+      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+      return `
+        <article class="sheet-extra-card sheet-extra-card-basic">
+          <div class="sheet-extra-card-copy">
+            ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+            ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+            ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+            ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+          </div>
+          ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        </article>`;
+    }).join('');
+  }
+
+  function renderTargets() {
+    const section = document.getElementById('targetsSection');
+    const grid = document.getElementById('targetsGrid');
+    const items = state.bootstrap.targets || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+        ${[item.point_1, item.point_2].filter(Boolean).length ? `<ul class="sheet-extra-points">${[item.point_1, item.point_2].filter(Boolean).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+        ${item.linked_schedule_id ? `<div class="sheet-extra-action"><a href="#contact" class="btn" data-select-schedule="${escapeAttribute(item.linked_schedule_id)}">${escapeHtml(item.cta_text || '상담 요청')}</a></div>` : ''}
+      </article>
+    `).join('');
+  }
+
+  function renderProcessSteps() {
+    const section = document.getElementById('processSection');
+    const grid = document.getElementById('processGrid');
+    const items = state.bootstrap.process_steps || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map((item, index) => `
+      <article class="sheet-extra-card sheet-extra-step-card">
+        <span class="sheet-extra-step-no">STEP ${index + 1}</span>
+        <h3>${escapeHtml(item.step_title || '')}</h3>
+        ${item.step_desc ? `<p>${escapeHtml(item.step_desc)}</p>` : ''}
+        ${item.highlight_text ? `<div class="sheet-extra-highlight">${escapeHtml(item.highlight_text)}</div>` : ''}
+      </article>
+    `).join('');
+  }
+
+  function renderCabins() {
+    const section = document.getElementById('cabinsSection');
+    const grid = document.getElementById('cabinsGrid');
+    const items = state.bootstrap.cabins || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        ${item.cabin_type ? `<div class="sheet-extra-chip">${escapeHtml(item.cabin_type)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
+        ${[item.best_for, item.point_1, item.point_2].filter(Boolean).length ? `<ul class="sheet-extra-points">${[item.best_for, item.point_1, item.point_2].filter(Boolean).map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+        ${(item.badge_1 || item.badge_2) ? `<div class="sheet-extra-tags">${[item.badge_1, item.badge_2].filter(Boolean).map(b => `<span>${escapeHtml(b)}</span>`).join('')}</div>` : ''}
+      </article>
+    `).join('');
+  }
+
+  function renderTrustPoints() {
+    const section = document.getElementById('trustSection');
+    const grid = document.getElementById('trustGrid');
+    const items = state.bootstrap.trust_points || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.badge_text ? `<div class="sheet-extra-chip">${escapeHtml(item.badge_text)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+      </article>
+    `).join('');
+  }
+
+  function renderFaqs() {
+    const section = document.getElementById('faqSection');
+    const list = document.getElementById('faqList');
+    const items = state.bootstrap.faqs || [];
+    if (!section || !list) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    list.innerHTML = items.map(item => `
+      <details class="sheet-extra-faq">
+        <summary>${escapeHtml(item.question || '')}</summary>
+        <div class="sheet-extra-faq-body">
+          ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
+          <p>${escapeHtml(item.answer || '')}</p>
+        </div>
+      </details>
+    `).join('');
+  }
+
+  function renderContentLinks() {
+    const section = document.getElementById('contentSection');
+    const grid = document.getElementById('contentGrid');
+    const items = state.bootstrap.content_links || [];
+    if (!section || !grid) return;
+    
+    if (!items.length) return section.style.display = 'none';
+    section.style.display = '';
+
+    grid.innerHTML = items.map(item => `
+      <article class="sheet-extra-card">
+        ${item.thumbnail_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
+        <h3>${escapeHtml(item.title || '')}</h3>
+        ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
+        <div class="sheet-extra-action">
+          <span class="${item.tag_text ? 'sheet-extra-inline-tag' : ''}">${escapeHtml(item.tag_text || '')}</span>
+          ${item.link_url ? `<a href="${escapeAttribute(item.link_url)}" class="btn" target="_blank" rel="noopener">자세히 보기</a>` : ''}
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function ensureDebugPanel() {
+    return;
+  }
+
+  function logDebug() {
+    return;
+  }
+
+  function renderDebugPanel() {
+    return;
+  }
+
+  function setTrackingFields() {
+    const params = new URLSearchParams(window.location.search);
+    setInputValue('agentCodeInput', params.get('agent') || '');
+    setInputValue('utmSourceInput', params.get('utm_source') || '');
+    setInputValue('utmMediumInput', params.get('utm_medium') || '');
+    setInputValue('utmCampaignInput', params.get('utm_campaign') || '');
+    setInputValue('landingPageInput', window.location.href);
+    setInputValue('referrerInput', document.referrer || '');
+  }
+
+  function updateFormResult(message, type) {
+    if (!formResult) return;
+    formResult.textContent = message;
+    formResult.className = `form-result${type ? ` is-${type}` : ''}`;
+  }
+
+  function setSubmitState(isSubmitting) {
+    const button = document.getElementById('formSubmitButton');
+    if (!button) return;
+    button.disabled = isSubmitting;
+    button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
+  }
+
+  function closeModal() {
+    modal?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function scrollToSection(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function setText(id, value, mode) {
+    const el = document.getElementById(id);
+    if (!el || value == null) return;
+    mode === 'value' ? el.value = value : el.textContent = value;
+  }
+
+  function setHtml(id, html) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  }
+
+  function setInputValue(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.value = value;
+  }
+
+  function metaItem(label, value) {
+    return `<div class="schedule-meta-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || '-')}</strong></div>`;
+  }
+
+  function metaBox(label, value) {
+    return `<div class="modal-meta-box"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || '-')}</strong></div>`;
+  }
+
+  function formatDate(value) {
+    if (!value) return '';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? String(value) : `${date.getFullYear()}.${pad(date.getMonth() + 1)}.${pad(date.getDate())}`;
+  }
+
+  function pad(num) { return String(num).padStart(2, '0'); }
+  function convertLineBreaks(value) { return String(value || '').replace(/\n/g, '<br>'); }
+  
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[match]);
+  }
+  
+  function escapeAttribute(value) { return escapeHtml(value); }
+})();
