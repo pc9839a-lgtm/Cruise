@@ -834,13 +834,13 @@
 
 		return `
 		  <article class="sheet-extra-card sheet-extra-card-basic">
-			<div class="sheet-extra-card-copy">
-			  ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
-			  ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
-			  ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-			  ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
-			</div>
-			${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+		    ${item.image_url ? `<div class="sheet-extra-media sheet-extra-basic-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+		    <div class="sheet-extra-card-copy">
+		      ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+		      ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+		      ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+		      ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+		    </div>
 		  </article>
 		`;
 	  }).join('');
