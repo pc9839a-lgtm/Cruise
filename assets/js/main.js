@@ -112,10 +112,7 @@
       }
     });
 
-    window.addEventListener('resize', () => {
-      setupReviewSlider((state.bootstrap.reviews || []).length);
-      setupBasicInfoSlider();
-    });
+    window.addEventListener('resize', () => { setupReviewSlider((state.bootstrap.reviews || []).length); setupBasicInfoSlider(); });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -592,16 +589,14 @@
         html: `
           <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
             <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">기초안내</span>
-                <h2 class="sheet-extra-title">크루즈는 어렵지 않아요</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">기초안내</span>
+                <h2 class="section-title">크루즈는 어렵지 않아요</h2>
               </div>
-
               <div class="sheet-basic-slider" id="basicInfoSlider">
                 <div class="sheet-basic-slider-viewport">
                   <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
                 </div>
-
                 <div class="sheet-basic-slider-controls" id="basicInfoControls">
                   <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
                   <div class="sheet-basic-dots" id="basicInfoDots"></div>
@@ -609,84 +604,77 @@
                 </div>
               </div>
             </div>
-          </section>
-        `
+          </section>`
       },
       {
         id: 'targetsSection',
         html: `
           <section class="sheet-extra-section" id="targetsSection">
             <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">이용대상자</span>
-                <h2 class="sheet-extra-title">이런 분들께 잘 맞아요</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">이용대상자</span>
+                <h2 class="section-title">이런 분들께 잘 맞아요</h2>
               </div>
               <div id="targetsGrid" class="sheet-extra-grid"></div>
             </div>
-          </section>
-        `
+          </section>`
       },
       {
         id: 'processSection',
         html: `
           <section class="sheet-extra-section" id="processSection">
             <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">예약과정</span>
-                <h2 class="sheet-extra-title">상담부터 탑승까지</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">예약과정</span>
+                <h2 class="section-title">상담부터 탑승까지</h2>
               </div>
               <div id="processGrid" class="sheet-extra-grid sheet-extra-grid-steps"></div>
             </div>
-          </section>
-        `
+          </section>`
       },
       {
         id: 'cabinsSection',
         html: `
           <section class="sheet-extra-section" id="cabinsSection">
             <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">선실비교</span>
-                <h2 class="sheet-extra-title">선실 타입 비교</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">선실비교</span>
+                <h2 class="section-title">선실 타입 비교</h2>
               </div>
               <div id="cabinsGrid" class="sheet-extra-grid"></div>
             </div>
-          </section>
-        `
+          </section>`
       },
       {
         id: 'faqSection',
         html: `
           <section class="sheet-extra-section" id="faqSection">
             <div class="sheet-extra-wrap sheet-extra-wrap-narrow">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">FAQ</span>
-                <h2 class="sheet-extra-title">자주 묻는 질문</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-title">자주 묻는 질문</h2>
               </div>
               <div id="faqList" class="sheet-extra-faq-list"></div>
             </div>
-          </section>
-        `
+          </section>`
       },
       {
         id: 'contentSection',
         html: `
           <section class="sheet-extra-section" id="contentSection">
             <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head sheet-extra-head-center">
-                <span class="sheet-extra-label">콘텐츠연결</span>
-                <h2 class="sheet-extra-title">함께 보면 좋은 정보</h2>
+              <div class="section-head center compact-head">
+                <span class="section-label">콘텐츠연결</span>
+                <h2 class="section-title">함께 보면 좋은 정보</h2>
               </div>
               <div id="contentGrid" class="sheet-extra-grid"></div>
             </div>
-          </section>
-        `
+          </section>`
       }
     ];
 
     blocks.forEach((block) => {
       if (document.getElementById(block.id)) return;
-
       const debugPanel = document.getElementById('sheetDebugPanel');
       if (debugPanel && debugPanel.parentNode === mainContent) {
         debugPanel.insertAdjacentHTML('beforebegin', block.html);
@@ -700,7 +688,6 @@
     const section = document.getElementById('basicInfoSection');
     const track = document.getElementById('basicInfoGrid');
     const items = state.bootstrap.basic_info || [];
-
     if (!section || !track) return;
 
     if (!items.length) {
@@ -710,30 +697,18 @@
     }
 
     section.style.display = '';
-
     track.innerHTML = items.map((item) => {
       const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-
       return `
         <article class="sheet-basic-slide">
           <div class="sheet-basic-slide-copy">
             ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
             ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
             ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-            ${points.length ? `
-              <ul class="sheet-extra-points">
-                ${points.map((point) => `<li>${escapeHtml(point)}</li>`).join('')}
-              </ul>
-            ` : ''}
+            ${points.length ? `<ul class="sheet-extra-points">${points.map((p) => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
           </div>
-
-          ${item.image_url ? `
-            <div class="sheet-basic-slide-media">
-              <img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" />
-            </div>
-          ` : ''}
-        </article>
-      `;
+          ${item.image_url ? `<div class="sheet-basic-slide-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        </article>`;
     }).join('');
 
     const slider = document.getElementById('basicInfoSlider');
@@ -772,15 +747,9 @@
     }
 
     controls.classList.remove('is-hidden');
-
-    dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
-      <button
-        type="button"
-        class="sheet-basic-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
-        data-basic-dot="${idx}"
-        aria-label="기초안내 ${idx + 1}"
-      ></button>
-    `).join('');
+    dots.innerHTML = Array.from({ length: total }).map((_, idx) =>
+      `<button type="button" class="sheet-basic-dot ${idx === state.basicInfoPage ? 'is-active' : ''}" data-basic-dot="${idx}" aria-label="기초안내 ${idx + 1}"></button>`
+    ).join('');
   }
 
   function moveBasicInfo(direction) {
@@ -791,7 +760,6 @@
     if (!total) return;
 
     const maxPage = total - 1;
-
     state.basicInfoPage = direction === 'prev'
       ? (state.basicInfoPage <= 0 ? maxPage : state.basicInfoPage - 1)
       : (state.basicInfoPage >= maxPage ? 0 : state.basicInfoPage + 1);
@@ -820,7 +788,6 @@
       basicInfoAutoTimer = null;
     }
   }
-
 
   function renderTargets() {
     const section = document.getElementById('targetsSection');
@@ -954,7 +921,7 @@
   function logDebug(label, payload) {
     state.debugLogs.unshift({ time: new Date().toLocaleTimeString('ko-KR', { hour12: false }), label, payload: payload || {} });
     if (state.debugLogs.length > 30) state.debugLogs = state.debugLogs.slice(0, 30);
-    try { console.debug('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
+    try { console.log('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
     renderDebugPanel();
   }
 
@@ -980,7 +947,7 @@
   }
 
   function setSubmitState(isSubmitting) {
-    const button = document.getElementById('formSubmitButton');
+    const button = document.getElementById('formSubmitButton') || document.getElementById('contactSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
     button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
