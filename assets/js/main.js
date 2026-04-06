@@ -14,6 +14,39 @@
   const phoneInput = document.getElementById('phoneInput');
   const mainContent = document.querySelector('main');
 
+  /* ---------------------------------------------------------
+     페이지 섹션 순서 설정
+     - 숫자만 바꾸면 순서가 바뀝니다.
+     - 현재 요청 순서:
+       1 소개문구(히어로 아래)
+       2 기초안내
+       3 추천 일정
+       4 최저가가 아니라면 할인해드립니다.
+       5 여행후기
+       6 이용대상자
+       7 선실비교
+       8 예약과정
+       9 FAQ
+       10 가격 문의하기
+       11 콘텐츠연결
+       99 DEBUG
+     --------------------------------------------------------- */
+  const SECTION_SEQUENCE = [
+    { order: 1, key: 'identitySection' },
+    { order: 2, key: 'basicInfoSection' },
+    { order: 3, key: 'scheduleSection' },
+    { order: 4, key: 'priceGuaranteeSection' },
+    { order: 5, key: 'reviewSection' },
+    { order: 6, key: 'targetsSection' },
+    { order: 7, key: 'cabinsSection' },
+    { order: 8, key: 'processSection' },
+    { order: 9, key: 'faqSection' },
+    { order: 10, key: 'contactSection' },
+    { order: 11, key: 'contentSection' },
+    { order: 99, key: 'sheetDebugPanel' }
+  ];
+
+
   const state = {
     bootstrap: {
       settings: {}, schedules: [], schedule_days: [], reviews: [],
@@ -231,6 +264,7 @@
     renderReviews();
     populateFormSelects();
     renderExtraSections();
+    reorderPageSections();
     logDebug('hydrate.done', { ok: true });
   }
 
@@ -580,6 +614,54 @@
 
   function cleanStop(value) {
     return String(value || '').replace(/\s+/g, ' ').replace(/\(.*?\)/g, '').trim();
+  }
+
+
+  /* ---------------------------------------------------------
+     섹션 DOM 찾기
+     - 기존 구조를 그대로 쓰면서 위치만 재정렬
+     --------------------------------------------------------- */
+  function getSectionNodeByKey(key) {
+    const map = {
+      identitySection: document.querySelector('.identity-section'),
+      scheduleSection: scheduleGrid ? scheduleGrid.closest('section') : document.querySelector('.schedule-section'),
+      priceGuaranteeSection: document.querySelector('.price-guarantee-section'),
+      reviewSection: reviewGrid ? reviewGrid.closest('section') : document.querySelector('.review-section'),
+      contactSection: form ? form.closest('section') : document.querySelector('.contact-section'),
+      basicInfoSection: document.getElementById('basicInfoSection'),
+      targetsSection: document.getElementById('targetsSection'),
+      cabinsSection: document.getElementById('cabinsSection'),
+      processSection: document.getElementById('processSection'),
+      faqSection: document.getElementById('faqSection'),
+      contentSection: document.getElementById('contentSection'),
+      trustSection: document.getElementById('trustSection'),
+      sheetDebugPanel: document.getElementById('sheetDebugPanel')
+    };
+    return map[key] || null;
+  }
+
+  /* ---------------------------------------------------------
+     페이지 섹션 순서 재정렬
+     - 디자인 / 스타일 / 데이터 로딩 안 건드림
+     - main 바로 아래 섹션 순서만 다시 붙임
+     --------------------------------------------------------- */
+  function reorderPageSections() {
+    if (!mainContent) return;
+
+    const trustSection = document.getElementById('trustSection');
+    if (trustSection) {
+      trustSection.style.display = 'none';
+    }
+
+    const orderedNodes = SECTION_SEQUENCE
+      .slice()
+      .sort((a, b) => a.order - b.order)
+      .map((item) => getSectionNodeByKey(item.key))
+      .filter((node) => node && node.parentNode === mainContent);
+
+    orderedNodes.forEach((node) => {
+      mainContent.appendChild(node);
+    });
   }
 
   function renderExtraSections() {
