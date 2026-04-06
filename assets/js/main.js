@@ -45,15 +45,16 @@
   ];
 
 
-  const state = {
-    bootstrap: {
-      settings: {}, schedules: [], schedule_days: [], reviews: [],
-      targets: [], basic_info: [], process_steps: [], cabins: [],
-      faqs: [], trust_points: [], content_links: []
-    },
-    activeRegion: 'ALL',
-    reviewPage: 0,
-  };
+	const state = {
+	  bootstrap: {
+		settings: {}, schedules: [], schedule_days: [], reviews: [],
+		targets: [], basic_info: [], process_steps: [], cabins: [],
+		faqs: [], trust_points: [], content_links: []
+	  },
+	  activeRegion: 'ALL',
+	  reviewPage: 0,
+	  basicInfoPage: 0,
+	};
 
   let reviewAutoTimer = null;
 
@@ -112,6 +113,19 @@
         return;
       }
 
+      const basicInfoNav = target.closest('[data-basic-info-nav]');
+      if (basicInfoNav) {
+        moveBasicInfo(basicInfoNav.getAttribute('data-basic-info-nav'));
+        return;
+      }
+
+      const basicInfoDot = target.closest('[data-basic-info-dot]');
+      if (basicInfoDot) {
+        state.basicInfoPage = Number(basicInfoDot.getAttribute('data-basic-info-dot') || 0);
+        setupBasicInfoSlider();
+        return;
+      }
+
       const openCard = target.closest('[data-open-schedule]');
       if (openCard) {
         openSchedule(openCard.getAttribute('data-open-schedule'));
@@ -124,7 +138,10 @@
       }
     });
 
-    window.addEventListener('resize', () => setupReviewSlider((state.bootstrap.reviews || []).length));
+    window.addEventListener('resize', () => {
+      setupReviewSlider((state.bootstrap.reviews || []).length);
+      setupBasicInfoSlider();
+    });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -599,6 +616,66 @@
     if (reviewAutoTimer) { window.clearInterval(reviewAutoTimer); reviewAutoTimer = null; }
   }
 
+	function setupBasicInfoSlider() {
+	  const track = document.getElementById('basicInfoGrid');
+	  const viewport = document.getElementById('basicInfoViewport');
+	  const dots = document.getElementById('basicInfoDots');
+	  const prev = document.querySelector('[data-basic-info-nav="prev"]');
+	  const next = document.querySelector('[data-basic-info-nav="next"]');
+	  const total = (state.bootstrap.basic_info || []).length;
+
+	  if (!track || !viewport) return;
+
+	  if (total <= 1) {
+		state.basicInfoPage = 0;
+		track.style.transform = 'translateX(0)';
+		prev?.classList.add('is-hidden');
+		next?.classList.add('is-hidden');
+
+		if (dots) {
+		  dots.className = 'sheet-extra-dots is-hidden';
+		  dots.innerHTML = '';
+		}
+		return;
+	  }
+
+	  const maxPage = total - 1;
+	  state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
+
+	  const viewportWidth = viewport.clientWidth;
+	  track.style.transform = `translateX(-${state.basicInfoPage * viewportWidth}px)`;
+
+	  prev?.classList.remove('is-hidden');
+	  next?.classList.remove('is-hidden');
+
+	  if (dots) {
+		dots.className = 'sheet-extra-dots';
+		dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
+		  <button
+			type="button"
+			class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
+			data-basic-info-dot="${idx}"
+			aria-label="기초안내 ${idx + 1}"
+		  ></button>
+		`).join('');
+	  }
+	}
+
+	function moveBasicInfo(direction) {
+	  const total = (state.bootstrap.basic_info || []).length;
+	  if (total <= 1) return;
+
+	  const maxPage = total - 1;
+
+	  if (direction === 'prev') {
+		state.basicInfoPage = state.basicInfoPage <= 0 ? maxPage : state.basicInfoPage - 1;
+	  } else {
+		state.basicInfoPage = state.basicInfoPage >= maxPage ? 0 : state.basicInfoPage + 1;
+	  }
+
+	  setupBasicInfoSlider();
+	}
+
   function getHomePort(scheduleId) {
     const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
     if (schedule.home_port) return String(schedule.home_port).trim();
@@ -687,61 +764,90 @@
     renderContentLinks();
   }
 
-  function ensureExtraSectionsScaffold() {
-    if (!mainContent) return;
-    const sections = [
-      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', gridId: 'basicInfoGrid', gridClass: 'sheet-extra-basic-grid' },
-      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
-      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
-      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
-      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
-    ];
+	function ensureExtraSectionsScaffold() {
+	  if (!mainContent) return;
 
-    sections.forEach(({ id, title, label, gridId, gridClass }) => {
-      if (!document.getElementById(id)) {
-        const html = `
-          <section class="sheet-extra-section" id="${id}">
-            <div class="sheet-extra-wrap">
-              <div class="sheet-extra-head">
-                <span class="sheet-extra-label">${label}</span>
-                <h2 class="sheet-extra-title">${title}</h2>
-              </div>
-              <div id="${gridId}" class="${gridClass}"></div>
-            </div>
-          </section>`;
-        
-        const debugPanel = document.getElementById('sheetDebugPanel');
-        if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
-        else mainContent.insertAdjacentHTML('beforeend', html);
-      }
-    });
-  }
+	  const sections = [
+		{ id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', type: 'basicInfo' },
+		{ id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
+		{ id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
+		{ id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
+		{ id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
+		{ id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
+		{ id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
+	  ];
 
-  function renderBasicInfo() {
-    const section = document.getElementById('basicInfoSection');
-    const grid = document.getElementById('basicInfoGrid');
-    const items = state.bootstrap.basic_info || [];
-    if (!section || !grid) return;
-    
-    if (!items.length) return section.style.display = 'none';
-    section.style.display = '';
+	  sections.forEach((sectionInfo) => {
+		const { id, title, label, gridId, gridClass, type } = sectionInfo;
+		if (document.getElementById(id)) return;
 
-    grid.innerHTML = items.map(item => {
-      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-      return `
-        <article class="sheet-extra-card sheet-extra-card-basic">
-          <div class="sheet-extra-card-copy">
-            ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
-            ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
-            ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-            ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
-          </div>
-          ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
-        </article>`;
-    }).join('');
-  }
+		const bodyHtml = type === 'basicInfo'
+		  ? `
+			<div class="sheet-extra-slider" id="basicInfoSlider">
+			  <button type="button" class="sheet-extra-nav prev" data-basic-info-nav="prev" aria-label="이전 기초안내">‹</button>
+			  <div class="sheet-extra-slider-viewport" id="basicInfoViewport">
+				<div id="basicInfoGrid" class="sheet-extra-basic-track"></div>
+			  </div>
+			  <button type="button" class="sheet-extra-nav next" data-basic-info-nav="next" aria-label="다음 기초안내">›</button>
+			</div>
+			<div class="sheet-extra-dots" id="basicInfoDots"></div>
+		  `
+		  : `<div id="${gridId}" class="${gridClass}"></div>`;
+
+		const html = `
+		  <section class="sheet-extra-section" id="${id}">
+			<div class="sheet-extra-wrap">
+			  <div class="sheet-extra-head">
+				<span class="sheet-extra-label">${label}</span>
+				<h2 class="sheet-extra-title">${title}</h2>
+			  </div>
+			  ${bodyHtml}
+			</div>
+		  </section>
+		`;
+
+		const debugPanel = document.getElementById('sheetDebugPanel');
+		if (debugPanel && debugPanel.parentNode === mainContent) {
+		  debugPanel.insertAdjacentHTML('beforebegin', html);
+		} else {
+		  mainContent.insertAdjacentHTML('beforeend', html);
+		}
+	  });
+	}
+
+	function renderBasicInfo() {
+	  const section = document.getElementById('basicInfoSection');
+	  const grid = document.getElementById('basicInfoGrid');
+	  const items = state.bootstrap.basic_info || [];
+
+	  if (!section || !grid) return;
+
+	  if (!items.length) {
+		section.style.display = 'none';
+		return;
+	  }
+
+	  section.style.display = '';
+
+	  grid.innerHTML = items.map(item => {
+		const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+
+		return `
+		  <article class="sheet-extra-card sheet-extra-card-basic">
+			<div class="sheet-extra-card-copy">
+			  ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+			  ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+			  ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+			  ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+			</div>
+			${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+		  </article>
+		`;
+	  }).join('');
+
+	  setupBasicInfoSlider();
+	  
+	}
 
   function renderTargets() {
     const section = document.getElementById('targetsSection');
