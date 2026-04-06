@@ -12,9 +12,10 @@
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const mainNav = document.getElementById('mainNav');
   const phoneInput = document.getElementById('phoneInput');
+  const mainContent = document.querySelector('main');
 
   const state = {
-    bootstrap: { settings: {}, schedules: [], schedule_days: [], reviews: [] },
+    bootstrap: { settings: {}, schedules: [], schedule_days: [], reviews: [], targets: [], basic_info: [], process_steps: [], cabins: [], faqs: [], trust_points: [], content_links: [] },
     activeRegion: 'ALL',
     reviewPage: 0
   };
@@ -177,7 +178,7 @@
 
         window.setTimeout(function () {
           if (formResult.classList.contains('is-pending')) {
-            updateFormResult('문의 접수는 진행 중입니다. 잠시 시간이 걸릴 수 있습니다.', 'pending');
+            updateFormResult('문의 접수는 진행 중입니다. 시트 반영까지 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
       });
@@ -226,10 +227,19 @@
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
     renderSettings();
+    ensureDynamicSectionsStyle();
+    ensureDynamicSectionsScaffold();
     renderFilters();
     startHeroMotion();
+    renderBasicInfo();
+    renderTargets();
+    renderProcessSteps();
+    renderCabins();
     renderSchedules();
     renderReviews();
+    renderTrustPoints();
+    renderFaqs();
+    renderContentLinks();
     populateFormSelects();
   }
 
@@ -240,6 +250,13 @@
     safe.schedules = Array.isArray(safe.schedules) && safe.schedules.length ? safe.schedules : (Array.isArray(fallback.schedules) ? fallback.schedules : []);
     safe.schedule_days = Array.isArray(safe.schedule_days) && safe.schedule_days.length ? safe.schedule_days : (Array.isArray(fallback.schedule_days) ? fallback.schedule_days : []);
     safe.reviews = Array.isArray(safe.reviews) && safe.reviews.length ? safe.reviews : (Array.isArray(fallback.reviews) ? fallback.reviews : []);
+    safe.targets = Array.isArray(safe.targets) ? safe.targets : (Array.isArray(fallback.targets) ? fallback.targets : []);
+    safe.basic_info = Array.isArray(safe.basic_info) ? safe.basic_info : (Array.isArray(fallback.basic_info) ? fallback.basic_info : []);
+    safe.process_steps = Array.isArray(safe.process_steps) ? safe.process_steps : (Array.isArray(fallback.process_steps) ? fallback.process_steps : []);
+    safe.cabins = Array.isArray(safe.cabins) ? safe.cabins : (Array.isArray(fallback.cabins) ? fallback.cabins : []);
+    safe.faqs = Array.isArray(safe.faqs) ? safe.faqs : (Array.isArray(fallback.faqs) ? fallback.faqs : []);
+    safe.trust_points = Array.isArray(safe.trust_points) ? safe.trust_points : (Array.isArray(fallback.trust_points) ? fallback.trust_points : []);
+    safe.content_links = Array.isArray(safe.content_links) ? safe.content_links : (Array.isArray(fallback.content_links) ? fallback.content_links : []);
     return safe;
   }
 
@@ -308,7 +325,7 @@
 		 --------------------------------------------------------- */
 	  setText(
 		'heroSubtitle',
-		settings.hero_subtitle || '마음에 드는 일정이 있으면 확인 후 바로 문의해주세요.'
+		settings.hero_subtitle || '마음에 드는 일정이 있으면 바로 상세 항해 일정과 항해 루트를 확인하고 문의할 수 있게 구성했습니다.'
 	  );
 
 	  /* ---------------------------------------------------------
@@ -411,44 +428,44 @@
 	function buildScheduleCard(schedule) {
 	  const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
 	  const homePort = getHomePort(schedule.schedule_id);
-	  const monthLabel = getMonthLabel(schedule.departure_date);
-	
+
 	  return [
-	    '<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
-	      '<div class="schedule-visual">',
-	        imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
-	        '<div class="schedule-visual-inner">',
-	          '<div class="schedule-badges">',
-	            '<span class="schedule-badge">', escapeHtml(schedule.region || '크루즈'), '</span>',
-	            '<span class="schedule-badge schedule-badge-month">', escapeHtml(monthLabel), ' 출발</span>',
-	          '</div>',
-	          '<h3 class="schedule-title">', highlightMonthText(schedule.title || '크루즈 일정'), '</h3>',
-	        '</div>',
-	      '</div>',
-	      '<div class="schedule-content">',
-	        '<div class="schedule-meta">',
-	          metaItem('선박', schedule.ship_name || '-'),
-	          metaItem('모항지', homePort || '-'),
-	          metaItem('출발', formatDate(schedule.departure_date)),
-	          metaItem('도착', formatDate(schedule.return_date)),
-	        '</div>',
-	        '<div class="schedule-actions">',
-	          '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
-	        '</div>',
-	      '</div>',
-	    '</article>'
+		'<article class="schedule-card" data-open-schedule="', escapeAttribute(schedule.schedule_id), '">',
+		  '<div class="schedule-visual">',
+			imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(schedule.title || '') + '" />' : '',
+			'<div class="schedule-visual-inner">',
+
+			  /* 상단 지역 배지 */
+			  '<div class="schedule-badges">',
+				'<span class="schedule-badge schedule-badge-region">', escapeHtml(schedule.region || '크루즈'), '</span>',
+			  '</div>',
+
+			  /* 출발일 강조 */
+			  '<div class="schedule-departure-highlight">',
+				'<span class="schedule-departure-label">출발일</span>',
+				'<strong class="schedule-departure-date">', escapeHtml(formatDate(schedule.departure_date)), '</strong>',
+			  '</div>',
+
+			  /* 일정 제목 */
+			  '<h3 class="schedule-title">', escapeHtml(schedule.title || '크루즈 일정'), '</h3>',
+			'</div>',
+		  '</div>',
+
+		  '<div class="schedule-content">',
+			'<div class="schedule-meta">',
+			  metaItem('선박', schedule.ship_name || '-'),
+			  metaItem('모항지', homePort || '-'),
+			  metaItem('출발', formatDate(schedule.departure_date), ' is-primary'),
+			  metaItem('도착', formatDate(schedule.return_date)),
+			'</div>',
+			'<div class="schedule-actions">',
+			  '<a href="#contact" class="btn" data-select-schedule="', escapeAttribute(schedule.schedule_id), '">가격문의</a>',
+			'</div>',
+		  '</div>',
+		'</article>'
 	  ].join('');
 	}
-	function getMonthLabel(dateValue) {
-	  const text = String(dateValue || '').trim();
-	  const match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-	  if (!match) return '';
-	  return String(Number(match[2])) + '월';
-	}
-	
-	function highlightMonthText(text) {
-	  return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
-	}
+
   function renderReviews() {
     if (!reviewGrid) return;
     const reviews = state.bootstrap.reviews || [];
@@ -473,6 +490,338 @@
     }).join('');
 
     setupReviewSlider(reviews.length);
+  }
+
+  function ensureDynamicSectionsStyle() {
+    if (document.getElementById('dynamicSectionsStyle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'dynamicSectionsStyle';
+    style.textContent = [
+      '.dynamic-section{padding:88px 0;}',
+      '.dynamic-section.is-soft{background:linear-gradient(180deg,#f6f9ff 0%,#ffffff 100%);}',
+      '.dynamic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}',
+      '.dynamic-grid.is-two{grid-template-columns:repeat(2,minmax(0,1fr));}',
+      '.dynamic-card{position:relative;padding:28px;border-radius:28px;background:#fff;border:1px solid rgba(11,47,108,.08);box-shadow:0 18px 44px rgba(16,36,74,.08);overflow:hidden;}',
+      '.dynamic-card.is-dark{background:linear-gradient(135deg,#0f2552 0%,#18396f 100%);color:#fff;border-color:rgba(255,255,255,.08);}',
+      '.dynamic-card.is-accent{background:linear-gradient(135deg,#f7fbff 0%,#edf4ff 100%);}',
+      '.dynamic-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(24,57,111,.08);color:#173865;font-size:12px;font-weight:700;letter-spacing:-.02em;}',
+      '.dynamic-card.is-dark .dynamic-chip{background:rgba(255,255,255,.14);color:#fff;}',
+      '.dynamic-card h3{margin:14px 0 10px;font-size:26px;line-height:1.28;letter-spacing:-.03em;}',
+      '.dynamic-card h4{margin:0 0 8px;font-size:22px;line-height:1.34;letter-spacing:-.03em;}',
+      '.dynamic-card p{margin:0;color:#51607a;line-height:1.75;font-size:15px;letter-spacing:-.01em;}',
+      '.dynamic-card.is-dark p{color:rgba(255,255,255,.84);}',
+      '.dynamic-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px;}',
+      '.dynamic-points li{position:relative;padding-left:14px;font-size:14px;line-height:1.7;color:#33415a;}',
+      '.dynamic-card.is-dark .dynamic-points li{color:rgba(255,255,255,.9);}',
+      '.dynamic-points li:before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:#2e6bff;}',
+      '.dynamic-media{margin-top:18px;border-radius:22px;overflow:hidden;aspect-ratio:16/10;background:#edf3fb;}',
+      '.dynamic-media img{width:100%;height:100%;object-fit:cover;display:block;}',
+      '.target-cta-row,.content-link-row{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}',
+      '.process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;counter-reset:processStep;}',
+      '.process-card{position:relative;padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 16px 34px rgba(16,36,74,.08);counter-increment:processStep;}',
+      '.process-card:before{content:counter(processStep, decimal-leading-zero);display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:14px;background:#173865;color:#fff;font-size:15px;font-weight:800;}',
+      '.process-card h3{margin:16px 0 8px;font-size:22px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
+      '.process-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
+      '.process-highlight{margin-top:16px;display:inline-flex;padding:9px 12px;border-radius:999px;background:#edf4ff;color:#173865;font-size:13px;font-weight:700;}',
+      '.cabin-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;}',
+      '.cabin-badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
+      '.faq-list{display:grid;gap:14px;}',
+      '.faq-item{border:1px solid rgba(16,36,74,.08);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,36,74,.06);overflow:hidden;}',
+      '.faq-item summary{list-style:none;cursor:pointer;padding:22px 24px;font-size:18px;font-weight:700;color:#14284a;display:flex;align-items:center;justify-content:space-between;gap:16px;}',
+      '.faq-item summary::-webkit-details-marker{display:none;}',
+      '.faq-item summary:after{content:"+";font-size:26px;line-height:1;color:#173865;flex:none;}',
+      '.faq-item[open] summary:after{content:"−";}',
+      '.faq-answer{padding:0 24px 22px;color:#51607a;font-size:15px;line-height:1.8;}',
+      '.trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}',
+      '.trust-card{padding:24px;border-radius:24px;background:#fff;border:1px solid rgba(16,36,74,.08);box-shadow:0 14px 28px rgba(16,36,74,.06);}',
+      '.trust-icon{display:inline-flex;width:46px;height:46px;align-items:center;justify-content:center;border-radius:16px;background:#edf4ff;color:#173865;font-size:20px;font-weight:800;}',
+      '.trust-card h3{margin:16px 0 8px;font-size:20px;line-height:1.35;letter-spacing:-.03em;color:#14284a;}',
+      '.trust-card p{margin:0;color:#51607a;font-size:15px;line-height:1.75;}',
+      '.trust-badge{margin-top:14px;display:inline-flex;padding:8px 12px;border-radius:999px;background:#f4f8ff;color:#173865;font-size:12px;font-weight:700;}',
+      '.content-card .dynamic-media{aspect-ratio:16/9;}',
+      '.content-card h3{font-size:22px;}',
+      '.content-meta{margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}',
+      '.content-tag{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef4ff;color:#173865;font-size:12px;font-weight:700;}',
+      '.section-stack{display:grid;gap:18px;}',
+      '@media (max-width: 1024px){.dynamic-grid,.dynamic-grid.is-two,.process-grid,.trust-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}',
+      '@media (max-width: 768px){.dynamic-section{padding:72px 0;}.dynamic-grid,.dynamic-grid.is-two,.process-grid,.trust-grid{grid-template-columns:1fr;gap:16px;}.dynamic-card,.process-card,.trust-card{padding:22px;}.dynamic-card h3,.process-card h3{font-size:22px;}.faq-item summary{padding:18px 18px;font-size:16px;}.faq-answer{padding:0 18px 18px;}}'
+    ].join('');
+
+    document.head.appendChild(style);
+  }
+
+  function ensureDynamicSectionsScaffold() {
+    if (!mainContent) return;
+
+    const identitySection = document.getElementById('identity');
+    const scheduleSection = document.getElementById('schedule');
+    const reviewSection = document.getElementById('reviews');
+    const contactSection = document.getElementById('contact');
+
+    ensureDynamicSection_({
+      id: 'basicInfoSection',
+      after: identitySection,
+      className: 'dynamic-section is-soft',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">CRUISE INTRO</span><h2 class="section-title center-title">크루즈 여행이란?</h2><p class="section-description">처음 보는 분도 부담 없이 이해할 수 있게 핵심만 정리해드립니다.</p></div><div class="dynamic-grid is-two" id="basicInfoGrid"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'targetsSection',
+      after: document.getElementById('basicInfoSection'),
+      className: 'dynamic-section',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">WHO IT\'S FOR</span><h2 class="section-title center-title">이런 분들께 잘 맞아요</h2><p class="section-description">누구를 위한 여행인지 먼저 보면 상담이 훨씬 쉬워집니다.</p></div><div class="dynamic-grid" id="targetsGrid"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'processSection',
+      after: document.getElementById('targetsSection'),
+      className: 'dynamic-section is-soft',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">HOW IT WORKS</span><h2 class="section-title center-title">예약 진행 과정</h2><p class="section-description">문의만 남기면 어떤 순서로 진행되는지 한눈에 볼 수 있게 정리했습니다.</p></div><div class="process-grid" id="processGrid"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'cabinsSection',
+      before: scheduleSection,
+      className: 'dynamic-section',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">CABIN GUIDE</span><h2 class="section-title center-title">선실 타입 간단 비교</h2><p class="section-description">가성비부터 만족도까지, 어떤 객실이 내 여행 스타일에 맞는지 쉽게 비교해보세요.</p></div><div class="dynamic-grid" id="cabinsGrid"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'trustSection',
+      before: reviewSection,
+      className: 'dynamic-section is-soft',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">WHY TRUST US</span><h2 class="section-title center-title">신뢰 요소 정리</h2><p class="section-description">처음 문의하시는 분들이 가장 중요하게 보는 기준만 뽑아 담았습니다.</p></div><div class="trust-grid" id="trustGrid"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'faqSection',
+      before: contactSection,
+      className: 'dynamic-section',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">FAQ</span><h2 class="section-title center-title">자주 묻는 질문</h2><p class="section-description">상담 전에 가장 많이 궁금해하는 내용을 먼저 확인해보세요.</p></div><div class="faq-list" id="faqList"></div></div>'
+    });
+
+    ensureDynamicSection_({
+      id: 'contentSection',
+      before: contactSection,
+      className: 'dynamic-section is-soft',
+      inner: '<div class="wrap"><div class="section-head center compact-head"><span class="section-label">CONTENT HUB</span><h2 class="section-title center-title">더 알아보면 좋은 콘텐츠</h2><p class="section-description">준비물, 입문 가이드, 비용 이해 같은 확장 콘텐츠를 연결할 수 있게 준비했습니다.</p></div><div class="dynamic-grid" id="contentGrid"></div></div>'
+    });
+  }
+
+  function ensureDynamicSection_(options) {
+    var section = document.getElementById(options.id);
+    if (!section) {
+      section = document.createElement('section');
+      section.id = options.id;
+      section.className = options.className || 'dynamic-section';
+      section.innerHTML = options.inner || '';
+
+      if (options.before && options.before.parentNode) options.before.parentNode.insertBefore(section, options.before);
+      else if (options.after && options.after.parentNode) options.after.parentNode.insertBefore(section, options.after.nextSibling);
+      else if (mainContent) mainContent.appendChild(section);
+    } else if (!section.innerHTML.trim()) {
+      section.className = options.className || section.className;
+      section.innerHTML = options.inner || '';
+    }
+    return section;
+  }
+
+  function renderBasicInfo() {
+    const grid = document.getElementById('basicInfoGrid');
+    const section = document.getElementById('basicInfoSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.basic_info || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item, idx) {
+      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+      const titleHtml = idx === 0 ? '<h3>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h3>' : '<h4>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h4>';
+      return [
+        '<article class="dynamic-card ' + (idx === 0 ? 'is-dark' : 'is-accent') + '">',
+          item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
+          titleHtml,
+          item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
+          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
+          item.image_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderTargets() {
+    const grid = document.getElementById('targetsGrid');
+    const section = document.getElementById('targetsSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.targets || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      const points = [item.point_1, item.point_2].filter(Boolean);
+      return [
+        '<article class="dynamic-card">',
+          item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
+          '<h4>' + escapeHtml(item.title || '추천 대상') + '</h4>',
+          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
+          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
+          item.image_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+          '<div class="target-cta-row">',
+            item.cta_text && item.linked_schedule_id ? '<a href="#contact" class="btn" data-select-schedule="' + escapeAttribute(item.linked_schedule_id) + '">' + escapeHtml(item.cta_text) + '</a>' : '',
+            item.linked_schedule_id ? '<span class="dynamic-chip">연결 일정 ' + escapeHtml(item.linked_schedule_id) + '</span>' : '',
+          '</div>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderProcessSteps() {
+    const grid = document.getElementById('processGrid');
+    const section = document.getElementById('processSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.process_steps || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      return [
+        '<article class="process-card">',
+          '<h3>' + escapeHtml(item.step_title || '진행 단계') + '</h3>',
+          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
+          item.highlight_text ? '<span class="process-highlight">' + escapeHtml(item.highlight_text) + '</span>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderCabins() {
+    const grid = document.getElementById('cabinsGrid');
+    const section = document.getElementById('cabinsSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.cabins || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      const points = [item.best_for, item.point_1, item.point_2].filter(Boolean);
+      const badges = [item.badge_1, item.badge_2].filter(Boolean);
+      return [
+        '<article class="dynamic-card">',
+          item.cabin_type ? '<span class="dynamic-chip">' + escapeHtml(item.cabin_type) + '</span>' : '',
+          '<h4>' + escapeHtml(item.title || '선실 안내') + '</h4>',
+          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
+          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
+          badges.length ? '<div class="cabin-badges">' + badges.map(function (badge) { return '<span class="cabin-badge">' + escapeHtml(badge) + '</span>'; }).join('') + '</div>' : '',
+          item.image_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderFaqs() {
+    const list = document.getElementById('faqList');
+    const section = document.getElementById('faqSection');
+    if (!list || !section) return;
+
+    const items = state.bootstrap.faqs || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    list.innerHTML = items.map(function (item, idx) {
+      return [
+        '<details class="faq-item" ' + (idx === 0 ? 'open' : '') + '>',
+          '<summary>',
+            '<span>' + escapeHtml(item.question || '자주 묻는 질문') + '</span>',
+          '</summary>',
+          '<div class="faq-answer">',
+            item.category ? '<div class="content-meta"><span class="content-tag">' + escapeHtml(item.category) + '</span></div>' : '',
+            '<div>' + escapeHtml(item.answer || '') + '</div>',
+          '</div>',
+        '</details>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderTrustPoints() {
+    const grid = document.getElementById('trustGrid');
+    const section = document.getElementById('trustSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.trust_points || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      return [
+        '<article class="trust-card">',
+          '<span class="trust-icon">' + escapeHtml(getTrustIcon_(item.icon)) + '</span>',
+          '<h3>' + escapeHtml(item.title || '신뢰 요소') + '</h3>',
+          item.description ? '<p>' + escapeHtml(item.description) + '</p>' : '',
+          item.badge_text ? '<span class="trust-badge">' + escapeHtml(item.badge_text) + '</span>' : '',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderContentLinks() {
+    const grid = document.getElementById('contentGrid');
+    const section = document.getElementById('contentSection');
+    if (!grid || !section) return;
+
+    const items = state.bootstrap.content_links || [];
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    grid.innerHTML = items.map(function (item) {
+      const linkHtml = item.link_url ? '<a href="' + escapeAttribute(item.link_url) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '';
+      return [
+        '<article class="dynamic-card content-card">',
+          item.category ? '<span class="dynamic-chip">' + escapeHtml(item.category) + '</span>' : '',
+          '<h3>' + escapeHtml(item.title || '추천 콘텐츠') + '</h3>',
+          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
+          item.thumbnail_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.thumbnail_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
+          '<div class="content-link-row">',
+            item.tag_text ? '<span class="content-tag">' + escapeHtml(item.tag_text) + '</span>' : '',
+            linkHtml,
+          '</div>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function getTrustIcon_(icon) {
+    const key = String(icon || '').toLowerCase();
+    if (key.indexOf('compare') > -1) return '⇄';
+    if (key.indexOf('flash') > -1 || key.indexOf('quick') > -1) return '⚡';
+    if (key.indexOf('shield') > -1) return '✓';
+    if (key.indexOf('guide') > -1) return '◎';
+    return '•';
   }
 
   function openSchedule(scheduleId) {
@@ -544,31 +893,29 @@
     ].join('');
   }
 
-	function buildItineraryRow(day) {
-	  const dayLabel = 'Day ' + (day.day_no || '');
-	  const dateLabel = formatDayDate(day.date || '');
-	  const portName = escapeHtml(day.port_name || day.city || '-');
-	  const portEn = escapeHtml(day.port_name_en || day.country || '');
-	  const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
-	  const departure = normalizeTimeCell(day.departure_time, 'departure');
-	  const highlight = isHighlightDay(day) ? ' is-highlight' : '';
-	  const overnight = /overnight|정박/i.test(String(day.description || ''))
-	    ? '<span class="overnight-badge">정박 (Overnight)</span>'
-	    : '';
-	
-	  return [
-	    '<tr class="' + highlight.trim() + '">',
-	      '<td class="day-cell">' + dayLabel + '</td>',
-	      '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
-	      '<td>',
-	        '<span class="port-name-kr">' + portName + overnight + '</span>',
-	        portEn ? '<span class="port-name-en">' + portEn + '</span>' : '',
-	      '</td>',
-	      arrival,
-	      departure,
-	    '</tr>'
-	  ].join('');
-	}
+  function buildItineraryRow(day) {
+    const dayLabel = 'Day ' + (day.day_no || '');
+    const dateLabel = formatDayDate(day.date || '');
+    const portName = escapeHtml(day.port_name || day.city || '-');
+    const portEn = escapeHtml(day.port_name_en || day.country || '');
+    const arrival = normalizeTimeCell(day.arrival_time, 'arrival');
+    const departure = normalizeTimeCell(day.departure_time, 'departure');
+    const highlight = isHighlightDay(day) ? ' is-highlight' : '';
+    const overnight = /overnight|정박/i.test(String(day.description || '')) ? '<span class="overnight-badge">정박 (Overnight)</span>' : '';
+
+    return [
+      '<tr class="' + highlight.trim() + '">',
+        '<td class="day-cell">' + dayLabel + '</td>',
+        '<td class="date-cell">' + escapeHtml(dateLabel) + '</td>',
+        '<td>',
+          '<span class="port-name-kr">' + portName + overnight + '</span>',
+          '<span class="port-name-en">' + (portEn || '-') + '</span>',
+        '</td>',
+        arrival,
+        departure,
+      '</tr>'
+    ].join('');
+  }
 
   function isHighlightDay(day) {
     const text = String(day.description || '').toLowerCase();
