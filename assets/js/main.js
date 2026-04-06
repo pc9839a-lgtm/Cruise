@@ -474,31 +474,31 @@
 	  ].join('');
 	}
 
-  function renderReviews() {
-    if (!reviewGrid) return;
-    const reviews = state.bootstrap.reviews || [];
-    if (!reviews.length) {
-      reviewGrid.innerHTML = '<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>';
-      if (reviewDots) reviewDots.innerHTML = '';
-      return;
-    }
-
-    reviewGrid.innerHTML = reviews.map(function (review) {
-      const imageUrl = review.thumbnail_url || '';
-      return [
-        '<article class="review-card reveal-on-scroll">',
-          '<div class="review-thumb">', imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(review.title || '') + '" />' : '', '</div>',
-          '<div class="review-body">',
-            review.region ? '<span class="review-region">' + escapeHtml(review.region) + '</span>' : '',
-            '<h3>' + escapeHtml(review.title || '크루즈 후기') + '</h3>',
-            '<p>' + escapeHtml(review.summary || review.content || '') + '</p>',
-          '</div>',
-        '</article>'
-      ].join('');
-    }).join('');
-
-    setupReviewSlider(reviews.length);
-  }
+	function renderReviews() {
+	  if (!reviewGrid) return;
+	  const reviews = state.bootstrap.reviews || [];
+	  if (!reviews.length) {
+	    reviewGrid.innerHTML = '<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>';
+	    if (reviewDots) reviewDots.innerHTML = '';
+	    return;
+	  }
+	
+	  reviewGrid.innerHTML = reviews.map(function (review) {
+	    const imageUrl = review.thumbnail_url || '';
+	    return [
+	      '<article class="review-card reveal-on-scroll">',
+	        '<div class="review-thumb">', imageUrl ? '<img src="' + escapeAttribute(imageUrl) + '" alt="' + escapeAttribute(review.title || '') + '" />' : '', '</div>',
+	        '<div class="review-body">',
+	          review.region ? '<span class="review-region">' + escapeHtml(review.region) + '</span>' : '',
+	          '<h3>' + escapeHtml(review.title || '크루즈 후기') + '</h3>',
+	          '<p>' + escapeHtml(review.summary || review.content || '') + '</p>',
+	        '</div>',
+	      '</article>'
+	    ].join('');
+	  }).join('');
+	
+	  setupReviewSlider(reviews.length);
+	}
 
   function ensureDynamicSectionsStyle() {
   if (document.getElementById('dynamicSectionsStyle')) return;
@@ -660,32 +660,34 @@
     return section;
   }
 
-  function renderBasicInfo() {
-    const grid = document.getElementById('basicInfoGrid');
-    const section = document.getElementById('basicInfoSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.basic_info || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item, idx) {
-      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-      const titleHtml = idx === 0 ? '<h3>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h3>' : '<h4>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h4>';
-      return [
-        '<article class="dynamic-card ' + (idx === 0 ? 'is-dark' : 'is-accent') + '">',
-          item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
-          titleHtml,
-          item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
-          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
-          item.image_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.image_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
+	function renderBasicInfo() {
+	  const track = document.getElementById('basicInfoTrack');
+	  const section = document.getElementById('basicInfoSection');
+	  if (!track || !section) return;
+	
+	  const items = state.bootstrap.basic_info || [];
+	  if (!items.length) {
+	    section.style.display = 'none';
+	    return;
+	  }
+	
+	  section.style.display = '';
+	  track.innerHTML = items.map(function (item, idx) {
+	    const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+	    const titleHtml = idx === 0 ? '<h3>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h3>' : '<h4>' + escapeHtml(item.title || '크루즈 여행 안내') + '</h4>';
+	    return [
+	      '<div class="dynamic-slide reveal-on-scroll">',
+	        '<article class="dynamic-card ' + (idx === 0 ? 'is-dark' : 'is-accent') + '">',
+	          item.subtitle ? '<span class="dynamic-chip">' + escapeHtml(item.subtitle) + '</span>' : '',
+	          titleHtml,
+	          item.body ? '<p>' + escapeHtml(item.body) + '</p>' : '',
+	          points.length ? '<ul class="dynamic-points">' + points.map(function (point) { return '<li>' + escapeHtml(point) + '</li>'; }).join('') + '</ul>' : '',
+	          buildSafeImageHtml_(item.image_url, item.title || ''),
+	        '</article>',
+	      '</div>'
+	    ].join('');
+	  }).join('');
+	}
 
   function renderTargets() {
     const grid = document.getElementById('targetsGrid');
@@ -717,28 +719,30 @@
     }).join('');
   }
 
-  function renderProcessSteps() {
-    const grid = document.getElementById('processGrid');
-    const section = document.getElementById('processSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.process_steps || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      return [
-        '<article class="process-card">',
-          '<h3>' + escapeHtml(item.step_title || '진행 단계') + '</h3>',
-          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
-          item.highlight_text ? '<span class="process-highlight">' + escapeHtml(item.highlight_text) + '</span>' : '',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
+	function renderProcessSteps() {
+	  const track = document.getElementById('processTrack');
+	  const section = document.getElementById('processSection');
+	  if (!track || !section) return;
+	
+	  const items = state.bootstrap.process_steps || [];
+	  if (!items.length) {
+	    section.style.display = 'none';
+	    return;
+	  }
+	
+	  section.style.display = '';
+	  track.innerHTML = items.map(function (item) {
+	    return [
+	      '<div class="dynamic-slide reveal-on-scroll">',
+	        '<article class="process-card">',
+	          '<h3>' + escapeHtml(item.step_title || '진행 단계') + '</h3>',
+	          item.step_desc ? '<p>' + escapeHtml(item.step_desc) + '</p>' : '',
+	          item.highlight_text ? '<span class="process-highlight">' + escapeHtml(item.highlight_text) + '</span>' : '',
+	        '</article>',
+	      '</div>'
+	    ].join('');
+	  }).join('');
+	}
 
   function renderCabins() {
     const grid = document.getElementById('cabinsGrid');
@@ -768,32 +772,32 @@
     }).join('');
   }
 
-  function renderFaqs() {
-    const list = document.getElementById('faqList');
-    const section = document.getElementById('faqSection');
-    if (!list || !section) return;
-
-    const items = state.bootstrap.faqs || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    list.innerHTML = items.map(function (item, idx) {
-      return [
-        '<details class="faq-item" ' + (idx === 0 ? 'open' : '') + '>',
-          '<summary>',
-            '<span>' + escapeHtml(item.question || '자주 묻는 질문') + '</span>',
-          '</summary>',
-          '<div class="faq-answer">',
-            item.category ? '<div class="content-meta"><span class="content-tag">' + escapeHtml(item.category) + '</span></div>' : '',
-            '<div>' + escapeHtml(item.answer || '') + '</div>',
-          '</div>',
-        '</details>'
-      ].join('');
-    }).join('');
-  }
+	function renderFaqs() {
+	  const list = document.getElementById('faqList');
+	  const section = document.getElementById('faqSection');
+	  if (!list || !section) return;
+	
+	  const items = state.bootstrap.faqs || [];
+	  if (!items.length) {
+	    section.style.display = 'none';
+	    return;
+	  }
+	
+	  section.style.display = '';
+	  list.innerHTML = items.map(function (item, idx) {
+	    return [
+	      '<details class="faq-item reveal-on-scroll" ' + (idx === 0 ? 'open' : '') + '>',
+	        '<summary>',
+	          '<span>' + escapeHtml(item.question || '자주 묻는 질문') + '</span>',
+	        '</summary>',
+	        '<div class="faq-answer">',
+	          item.category ? '<div class="content-meta"><span class="content-tag">' + escapeHtml(item.category) + '</span></div>' : '',
+	          '<div>' + escapeHtml(item.answer || '') + '</div>',
+	        '</div>',
+	      '</details>'
+	    ].join('');
+	  }).join('');
+	}
 
   function renderTrustPoints() {
     const grid = document.getElementById('trustGrid');
@@ -819,34 +823,36 @@
     }).join('');
   }
 
-  function renderContentLinks() {
-    const grid = document.getElementById('contentGrid');
-    const section = document.getElementById('contentSection');
-    if (!grid || !section) return;
-
-    const items = state.bootstrap.content_links || [];
-    if (!items.length) {
-      section.style.display = 'none';
-      return;
-    }
-
-    section.style.display = '';
-    grid.innerHTML = items.map(function (item) {
-      const linkHtml = item.link_url ? '<a href="' + escapeAttribute(item.link_url) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '';
-      return [
-        '<article class="dynamic-card content-card">',
-          item.category ? '<span class="dynamic-chip">' + escapeHtml(item.category) + '</span>' : '',
-          '<h3>' + escapeHtml(item.title || '추천 콘텐츠') + '</h3>',
-          item.summary ? '<p>' + escapeHtml(item.summary) + '</p>' : '',
-          item.thumbnail_url ? '<div class="dynamic-media"><img src="' + escapeAttribute(item.thumbnail_url) + '" alt="' + escapeAttribute(item.title || '') + '" /></div>' : '',
-          '<div class="content-link-row">',
-            item.tag_text ? '<span class="content-tag">' + escapeHtml(item.tag_text) + '</span>' : '',
-            linkHtml,
-          '</div>',
-        '</article>'
-      ].join('');
-    }).join('');
-  }
+	function renderContentLinks() {
+	  const track = document.getElementById('contentTrack');
+	  const section = document.getElementById('contentSection');
+	  if (!track || !section) return;
+	
+	  const items = state.bootstrap.content_links || [];
+	  if (!items.length) {
+	    section.style.display = 'none';
+	    return;
+	  }
+	
+	  section.style.display = '';
+	  track.innerHTML = items.map(function (item) {
+	    const contentUrl = String(item.link_url || '').trim() || ('content.html?id=' + encodeURIComponent(item.content_id || ''));
+	    return [
+	      '<div class="dynamic-slide reveal-on-scroll">',
+	        '<article class="dynamic-card content-card">',
+	          item.category ? '<span class="dynamic-chip">' + escapeHtml(item.category) + '</span>' : '',
+	          '<h3>' + escapeHtml(item.title || '추천 콘텐츠') + '</h3>',
+	          item.summary ? '<p class="content-summary">' + escapeHtml(item.summary) + '</p>' : '',
+	          buildSafeImageHtml_(item.thumbnail_url, item.title || ''),
+	          '<div class="content-link-row">',
+	            item.tag_text ? '<span class="content-tag">' + escapeHtml(item.tag_text) + '</span>' : '<span></span>',
+	            contentUrl ? '<a href="' + escapeAttribute(contentUrl) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '',
+	          '</div>',
+	        '</article>',
+	      '</div>'
+	    ].join('');
+	  }).join('');
+	}
 
   function getTrustIcon_(icon) {
     const key = String(icon || '').toLowerCase();
@@ -1181,4 +1187,34 @@
   function escapeAttribute(value) {
     return escapeHtml(value);
   }
+	function renderContentLinks() {
+	  const track = document.getElementById('contentTrack');
+	  const section = document.getElementById('contentSection');
+	  if (!track || !section) return;
+	
+	  const items = state.bootstrap.content_links || [];
+	  if (!items.length) {
+	    section.style.display = 'none';
+	    return;
+	  }
+	
+	  section.style.display = '';
+	  track.innerHTML = items.map(function (item) {
+	    const contentUrl = String(item.link_url || '').trim() || ('content.html?id=' + encodeURIComponent(item.content_id || ''));
+	    return [
+	      '<div class="dynamic-slide reveal-on-scroll">',
+	        '<article class="dynamic-card content-card">',
+	          item.category ? '<span class="dynamic-chip">' + escapeHtml(item.category) + '</span>' : '',
+	          '<h3>' + escapeHtml(item.title || '추천 콘텐츠') + '</h3>',
+	          item.summary ? '<p class="content-summary">' + escapeHtml(item.summary) + '</p>' : '',
+	          buildSafeImageHtml_(item.thumbnail_url, item.title || ''),
+	          '<div class="content-link-row">',
+	            item.tag_text ? '<span class="content-tag">' + escapeHtml(item.tag_text) + '</span>' : '<span></span>',
+	            contentUrl ? '<a href="' + escapeAttribute(contentUrl) + '" class="btn" target="_blank" rel="noopener">자세히 보기</a>' : '',
+	          '</div>',
+	        '</article>',
+	      '</div>'
+	    ].join('');
+	  }).join('');
+	}	
 })();
