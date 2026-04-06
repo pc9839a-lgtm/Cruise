@@ -640,14 +640,32 @@ button {
   font-weight: 800;
   backdrop-filter: blur(12px);
 }
+.schedule-badge-month {
+  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 55%, #ffd36a 100%);
+  border: 1px solid rgba(255, 186, 73, 0.72);
+  color: #fff7e8;
+  box-shadow: 0 10px 24px rgba(255, 138, 0, 0.28);
+}
 
+.schedule-badge-month .month-unit {
+  color: #fff;
+  font-weight: 900;
+}
 .schedule-card .schedule-title {
   margin: 0;
   font-size: 34px;
   line-height: 1.15;
   color: #fff;
 }
-
+.schedule-month-accent {
+  display: inline-block;
+  padding: 0 8px 2px;
+  margin-right: 4px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 55%, #ffd36a 100%);
+  color: #fffdf8;
+  box-shadow: 0 8px 20px rgba(255, 138, 0, 0.26);
+}
 /* =========================================================
    출발일 강조 영역
    - 카드 상단 이미지 위에서 가장 먼저 보이게
