@@ -2094,11 +2094,10 @@ button {
 
 /* =========================================================
    추가 시트 연동 섹션
-   - 가운데 정렬
-   - 섹션 순서 재구성
-   - 카드 디자인 정리
-   - 기초안내 1장 슬라이더
-   - 신뢰요소 제거
+   - 기존 section-title / section-label 스타일 그대로 사용
+   - 추가 섹션만 가운데 정렬
+   - 기초안내 1장 자동 전환
+   - 신뢰요소는 main.js에서 scaffold 제외
    ========================================================= */
 .schedule-month-accent {
   color: #2f6df6;
@@ -2110,7 +2109,7 @@ button {
 }
 
 .sheet-extra-section {
-  padding: 72px 0 8px;
+  padding: 72px 0 10px;
 }
 
 .sheet-extra-section-basic {
@@ -2118,45 +2117,13 @@ button {
 }
 
 .sheet-extra-wrap {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
 }
 
 .sheet-extra-wrap-narrow {
-  width: min(980px, calc(100% - 40px));
+  width: min(980px, calc(100% - 32px));
   margin: 0 auto;
-}
-
-.sheet-extra-head {
-  margin: 0 0 26px;
-}
-
-.sheet-extra-head-center {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sheet-extra-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: #eef4ff;
-  color: #2f6df6;
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: .02em;
-}
-
-.sheet-extra-title {
-  margin: 16px 0 0;
-  font-size: 36px;
-  line-height: 1.22;
-  color: #0e1b39;
-  letter-spacing: -0.02em;
 }
 
 .sheet-extra-grid {
@@ -2430,7 +2397,7 @@ button {
 
 /* 디버그 */
 .sheet-debug-panel {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1180px, calc(100% - 32px));
   margin: 28px auto 40px;
   background: #0f172a;
   color: #d7e3ff;
@@ -2463,11 +2430,6 @@ button {
   word-break: break-word;
 }
 
-/* 신뢰요소 완전 숨김 */
-#trustSection {
-  display: none !important;
-}
-
 @media (max-width: 1100px) {
   .sheet-extra-grid,
   .sheet-extra-grid-steps {
@@ -2488,10 +2450,6 @@ button {
 
   .sheet-extra-section {
     padding: 56px 0 6px;
-  }
-
-  .sheet-extra-title {
-    font-size: 28px;
   }
 
   .sheet-extra-grid,
@@ -2517,3 +2475,4 @@ button {
     min-height: 200px;
   }
 }
+
