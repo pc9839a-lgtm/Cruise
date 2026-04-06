@@ -105,7 +105,7 @@
       if (data.type !== 'CRUISE_FORM_RESULT') return;
       if (data.success) {
         updateFormResult(data.message || '문의가 정상 접수되었습니다.', 'success');
-        form.reset();
+        if (form) form.reset();
         setTrackingFields();
       } else {
         updateFormResult(data.message || '문의 접수 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
@@ -176,7 +176,7 @@
         form.submit();
 
         window.setTimeout(function () {
-          if (formResult.classList.contains('is-pending')) {
+          if (formResult && formResult.classList.contains('is-pending')) {
             updateFormResult('문의 접수는 진행 중입니다. 잠시 시간이 걸릴 수 있습니다.', 'pending');
           }
         }, config.submitTimeout || 15000);
@@ -201,29 +201,70 @@
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
-      script.src = config.apiUrl + '?' + params.toString();
-      script.async = true;
+      const requestUrl = config.apiUrl + '?' + params.toString();
+      let finished = false;
+      let timeoutId = null;
+
+      console.debug('[main.js] bootstrap request start:', requestUrl);
 
       window[callbackName] = function (payload) {
-        cleanup();
+        if (finished) return;
+        finished = true;
+        console.debug('[main.js] bootstrap success:', payload);
+        cleanup(true);
         resolve(payload);
       };
 
-      script.onerror = function () {
-        cleanup();
+      script.onerror = function (error) {
+        if (finished) return;
+        finished = true;
+        console.debug('[main.js] bootstrap script error:', error);
+        cleanup(false);
         reject(new Error('bootstrap-load-failed'));
       };
 
-      function cleanup() {
-        delete window[callbackName];
+      timeoutId = window.setTimeout(function () {
+        if (finished) return;
+        finished = true;
+        console.debug('[main.js] bootstrap timeout');
+        cleanup(false);
+        reject(new Error('bootstrap-timeout'));
+      }, 8000);
+
+      function cleanup(success) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+
         if (script.parentNode) script.parentNode.removeChild(script);
+
+        if (success) {
+          window[callbackName] = function () {
+            console.debug('[main.js] late jsonp callback ignored:', callbackName);
+          };
+          setTimeout(function () {
+            try { delete window[callbackName]; } catch (e) {}
+          }, 30000);
+        } else {
+          try { delete window[callbackName]; } catch (e) {}
+        }
       }
 
+      script.src = requestUrl;
+      script.async = true;
       document.body.appendChild(script);
     });
   }
 
   function hydrate(data) {
+    console.debug('[main.js] hydrate payload:', {
+      hasSettings: !!(data && data.settings),
+      schedules: data && Array.isArray(data.schedules) ? data.schedules.length : 0,
+      schedule_days: data && Array.isArray(data.schedule_days) ? data.schedule_days.length : 0,
+      reviews: data && Array.isArray(data.reviews) ? data.reviews.length : 0
+    });
+
     state.bootstrap = normalizeData(data);
     renderSettings();
     renderFilters();
@@ -446,7 +487,13 @@
      return String(Number(match[2])) + '월';
    }
    
-   function highlightMonthText(text) {
+ 
+  function getMonthLabel_(dateValue) {
+    console.debug('[main.js] alias getMonthLabel_ called:', dateValue);
+    return getMonthLabel(dateValue);
+  }
+
+  function highlightMonthText(text) {
      return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
    }
   function renderReviews() {
@@ -526,10 +573,16 @@
   }
 
   function buildRouteTrack(stops) {
-    if (!stops.length) return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
+    console.debug('[main.js] buildRouteTrack input:', stops);
+
+    if (!Array.isArray(stops) || !stops.length) {
+      console.debug('[main.js] buildRouteTrack empty');
+      return '<div class="schedule-empty">루트 정보가 아직 등록되지 않았습니다.</div>';
+    }
+
     return stops.map(function (stop, index) {
       const label = index === 0 ? 'DEPARTURE' : (index === stops.length - 1 ? 'ARRIVAL' : 'STOP ' + index);
-      return '<div class="route-stop"><div class="route-pill"><small>' + label + '</small><strong>' + escapeHtml(그만) + '</strong></div>' + (index < stops.length - 1 ? '<div class="route-line">→</div>' : '') + '</div>';
+      return '<div class="route-stop"><div class="route-pill"><small>' + label + '</small><strong>' + escapeHtml(stop) + '</strong></div>' + (index < stops.length - 1 ? '<div class="route-line">→</div>' : '') + '</div>';
     }).join('');
   }
 
@@ -688,12 +741,16 @@
   }
 
   function getRouteStops(scheduleId, preloadedDays) {
+    console.debug('[main.js] getRouteStops scheduleId:', scheduleId);
+
     const schedule = state.bootstrap.schedules.find(function (item) {
       return String(item.schedule_id).trim() === String(scheduleId).trim();
     }) || {};
 
     if (schedule.route_ports) {
-      return String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
+      const routePorts = String(schedule.route_ports).split('|').map(cleanStop).filter(Boolean);
+      console.debug('[main.js] getRouteStops from route_ports:', routePorts);
+      return routePorts;
     }
 
     const days = Array.isArray(preloadedDays) ? preloadedDays : state.bootstrap.schedule_days.filter(function (item) {
@@ -702,12 +759,15 @@
 
     const stops = days.map(function (day) {
       return cleanStop(day.port_name || day.city || '');
-    }).filter(Boolean).filter(function (그만) {
-      const lower = stop.toLowerCase();
+    }).filter(Boolean).filter(function (stop) {
+      const lower = String(stop).toLowerCase();
       return lower !== '해상일' && lower !== 'sea day' && lower !== '인천 출발' && lower !== '부산 출발';
     });
 
-    return Array.from(new Set(stops));
+    const uniqueStops = Array.from(new Set(stops));
+    console.debug('[main.js] getRouteStops from days:', uniqueStops);
+
+    return uniqueStops;
   }
 
   function cleanStop(value) {
@@ -801,4 +861,36 @@
   function escapeAttribute(value) {
     return escapeHtml(value);
   }
+
+  if (typeof setupDynamicSlider_ !== 'function') {
+    function setupDynamicSlider_(sliderKey) {
+      console.debug('[main.js] setupDynamicSlider_ skipped:', sliderKey);
+    }
+  }
+
+  if (typeof moveDynamicSlider_ !== 'function') {
+    function moveDynamicSlider_(sliderKey, direction) {
+      console.debug('[main.js] moveDynamicSlider_ skipped:', sliderKey, direction);
+    }
+  }
+
+  if (typeof setDynamicSliderState_ !== 'function') {
+    function setDynamicSliderState_(sliderKey, page) {
+      console.debug('[main.js] setDynamicSliderState_ skipped:', sliderKey, page);
+    }
+  }
+
+  if (typeof alignContentButtons_ !== 'function') {
+    function alignContentButtons_() {
+      console.debug('[main.js] alignContentButtons_ skipped');
+    }
+  }
+
+  if (typeof buildSafeImageHtml_ !== 'function') {
+    function buildSafeImageHtml_() {
+      console.debug('[main.js] buildSafeImageHtml_ skipped');
+      return '';
+    }
+  }
+
 })();
