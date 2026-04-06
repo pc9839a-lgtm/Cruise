@@ -641,18 +641,6 @@ button {
   backdrop-filter: blur(12px);
 }
 
-/* =========================================================
-   상단 "몇월 출발" 배지 강조
-   - 예: 8월 출발 / 11월 출발 / 2월 출발
-   ========================================================= */
-.schedule-badge-month {
-  background: rgba(255, 214, 10, 0.22);
-  border: 1px solid rgba(255, 214, 10, 0.38);
-  color: #ffe57a;
-  font-weight: 900;
-  box-shadow: 0 8px 20px rgba(255, 214, 10, 0.12);
-}
-
 .schedule-card .schedule-title {
   margin: 0;
   font-size: 34px;
@@ -661,14 +649,69 @@ button {
 }
 
 /* =========================================================
-   타이틀 안의 "몇월" 강조
-   - 예: "디즈니 4박 5일 8월"에서 8월만 강조
+   출발일 강조 영역
+   - 카드 상단 이미지 위에서 가장 먼저 보이게
    ========================================================= */
-.schedule-month-accent {
-  color: #ffd54a;
-  font-weight: 900;
-  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+.schedule-departure-highlight {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 14px;
 }
+
+.schedule-departure-label {
+  display: inline-flex;
+  height: 26px;
+  padding: 0 10px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 214, 10, 0.18);
+  border: 1px solid rgba(255, 214, 10, 0.32);
+  color: #ffe27a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.schedule-departure-date {
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+   지역 배지는 보조 정보로 한 단계 낮춤
+   ========================================================= */
+.schedule-badge-region {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* =========================================================
+   메타 박스 중 출발만 강조
+   ========================================================= */
+.schedule-meta-item.is-primary {
+  background: #eef4ff;
+  border-color: #bfd3ff;
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
+}
+
+.schedule-meta-item.is-primary span {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.schedule-meta-item.is-primary strong {
+  color: #143878;
+  font-size: 18px;
+  font-weight: 900;
+}
+
 
 /* =========================================================
    일정 카드 하단 내용
@@ -680,19 +723,12 @@ button {
   flex: 1;
 }
 
-/* =========================================================
-   일정 카드 하단 메타 그리드
-   - 선박 / 모항지 / 출발 / 도착
-   ========================================================= */
 .schedule-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-/* =========================================================
-   일정 카드 하단 메타 공통 박스
-   ========================================================= */
 .schedule-meta-item {
   min-height: 86px;
   padding: 16px 14px;
@@ -704,7 +740,53 @@ button {
   justify-content: center;
   gap: 8px;
   text-align: center;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* =========================================================
+   일정 카드 하단 메타박스 중 "출발"만 강조
+   - 현재 순서:
+     1) 선박
+     2) 모항지
+     3) 출발
+     4) 도착
+   - 그래서 3번째 박스만 따로 강조
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) {
+  background: #edf4ff;                 /* 다른 박스보다 살짝 더 밝은 파란 배경 */
+  border: 1px solid #bcd3ff;           /* 파란 계열 테두리 */
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.08);
+  transform: translateY(-1px);         /* 아주 살짝만 떠 보이게 */
+}
+
+/* =========================================================
+   출발 박스의 라벨 텍스트
+   - "출발" 글자를 더 또렷하게
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) span {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   출발 박스의 날짜 텍스트
+   - 날짜를 더 크고 진하게
+   ========================================================= */
+.schedule-meta .schedule-meta-item:nth-child(3) strong {
+  color: #143878;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* =========================================================
+   모바일에서도 출발 날짜가 너무 크지 않게 보정
+   ========================================================= */
+@media (max-width: 768px) {
+  .schedule-meta .schedule-meta-item:nth-child(3) strong {
+    font-size: 18px;
+  }
 }
 
 .schedule-meta-item span {
@@ -716,36 +798,6 @@ button {
 .schedule-meta-item strong {
   font-size: 16px;
   line-height: 1.45;
-  color: #111827;
-}
-
-/* =========================================================
-   "출발" 박스만 강조
-   - 현재 순서:
-     1) 선박
-     2) 모항지
-     3) 출발
-     4) 도착
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) {
-  background: #edf4ff;
-  border-color: #bcd3ff;
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.08);
-  transform: translateY(-1px);
-}
-
-.schedule-meta .schedule-meta-item:nth-child(3) span {
-  color: #2563eb;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.schedule-meta .schedule-meta-item:nth-child(3) strong {
-  color: #143878;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
 }
 
 .schedule-actions {
@@ -979,7 +1031,9 @@ button {
 
 
 /* =========================================================
-   문의폼 전체 카드
+   문의폼 전체 카드 영역
+   - 이번에 패치한 핵심 구간
+   - 체크박스 / 버튼 / 결과메시지 정렬 수정 완료
    ========================================================= */
 .contact-card {
   background: #fff;
@@ -989,8 +1043,11 @@ button {
   box-shadow: var(--shadow-soft);
 }
 
+
 /* =========================================================
    문의폼 그리드
+   - PC 2열
+   - 모바일은 아래 media에서 1열
    ========================================================= */
 .form-grid {
   display: grid;
@@ -998,21 +1055,41 @@ button {
   gap: 18px;
 }
 
+
+/* =========================================================
+   각 항목 wrapper
+   - label 안에 제목 + 입력창 세로 배치
+   ========================================================= */
 .form-grid label {
   display: grid;
   gap: 10px;
 }
 
+
+/* =========================================================
+   전체폭 항목
+   - textarea / 개인정보 동의 줄
+   ========================================================= */
 .form-grid label.full {
   grid-column: 1 / -1;
 }
 
+
+/* =========================================================
+   입력 제목
+   - 예: 성함, 연락처, 관심 일정
+   ========================================================= */
 .form-grid span {
   font-size: 14px;
   font-weight: 800;
   color: #374151;
 }
 
+
+/* =========================================================
+   입력창 공통 스타일
+   - input / select / textarea
+   ========================================================= */
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
@@ -1026,11 +1103,20 @@ button {
   color: #111827;
 }
 
+
+/* =========================================================
+   placeholder 글자색
+   ========================================================= */
 .form-grid input::placeholder,
 .form-grid textarea::placeholder {
   color: #94a3b8;
 }
 
+
+/* =========================================================
+   포커스 상태
+   - 클릭 시 하이라이트
+   ========================================================= */
 .form-grid input:focus,
 .form-grid select:focus,
 .form-grid textarea:focus {
@@ -1039,11 +1125,21 @@ button {
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
 }
 
+
+/* =========================================================
+   문의내용 textarea
+   ========================================================= */
 .form-grid textarea {
   min-height: 138px;
   resize: vertical;
 }
 
+
+/* =========================================================
+   개인정보 동의 줄
+   - 체크박스 + 문구를 가운데 정렬
+   - 깨져보이던 부분 수정
+   ========================================================= */
 .form-grid label.full.consent-check {
   grid-column: 1 / -1;
   display: flex;
@@ -1054,6 +1150,10 @@ button {
   text-align: center;
 }
 
+
+/* =========================================================
+   개인정보 동의 체크박스
+   ========================================================= */
 .form-grid label.full.consent-check input[type="checkbox"] {
   width: 18px;
   height: 18px;
@@ -1063,11 +1163,21 @@ button {
   accent-color: #2563eb;
 }
 
+
+/* =========================================================
+   개인정보 동의 문구
+   ========================================================= */
 .form-grid label.full.consent-check span {
   margin: 0;
   line-height: 1.5;
 }
 
+
+/* =========================================================
+   문의폼 하단 액션 영역
+   - 버튼 + 메시지를 세로배치
+   - 가운데 정렬
+   ========================================================= */
 .contact-actions {
   margin-top: 22px;
   display: flex;
@@ -1078,6 +1188,12 @@ button {
   text-align: center;
 }
 
+
+/* =========================================================
+   문의 제출 버튼
+   - 가운데 정렬
+   - 최소 너비 확보
+   ========================================================= */
 .contact-submit {
   display: inline-flex;
   align-items: center;
@@ -1088,6 +1204,10 @@ button {
   padding: 0 28px;
 }
 
+
+/* =========================================================
+   폼 결과 메시지
+   ========================================================= */
 .form-result {
   width: 100%;
   text-align: center;
@@ -1131,8 +1251,8 @@ button {
 
 
 /* =========================================================
-   하단 고정 문의 바
-   - 현재 HTML에서는 .sib-badge 하나만 있어도 자동 깜빡임
+   sticky inquiry bar
+   - 하단 고정 바 전체
    ========================================================= */
 .sticky-inquiry-bar {
   position: fixed;
@@ -1150,24 +1270,19 @@ button {
 }
 
 @keyframes slideUpBar {
-  from {
-    transform: translateY(110%);
-  }
-  to {
-    transform: translateY(0);
-  }
+  from { transform: translateY(110%); }
+  to { transform: translateY(0); }
 }
 
 @keyframes bannerPulse {
-  0%,
-  100% {
-    box-shadow: 0 -8px 34px rgba(2, 6, 23, 0.24);
-  }
-  50% {
-    box-shadow: 0 -12px 42px rgba(37, 99, 235, 0.18);
-  }
+  0%, 100% { box-shadow: 0 -8px 34px rgba(2, 6, 23, 0.24); }
+  50% { box-shadow: 0 -12px 42px rgba(37, 99, 235, 0.18); }
 }
 
+
+/* =========================================================
+   sticky bar 내부 정렬
+   ========================================================= */
 .sib-content {
   max-width: 1180px;
   margin: 0 auto;
@@ -1186,9 +1301,10 @@ button {
   flex-wrap: wrap;
 }
 
+
 /* =========================================================
    왼쪽 마감임박 배지
-   - 현재 index에 .sib-badge만 있어도 기본 깜빡임
+   - 더 강한 깜빡임/발광 효과
    ========================================================= */
 .sib-badge {
   background: #ef4444;
@@ -1198,20 +1314,22 @@ button {
   padding: 6px 12px;
   border-radius: 999px;
   box-shadow: 0 0 14px rgba(239, 68, 68, 0.38);
-  animation: badgeBlinkStrong 0.95s ease-in-out infinite;
+}
+
+.sib-badge-blink {
+  animation: badgeBlinkStrong 1.2s ease-in-out infinite;
 }
 
 @keyframes badgeBlinkStrong {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 1;
     transform: scale(1);
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.35);
   }
   50% {
-    opacity: 0.35;
-    transform: scale(1.12);
-    box-shadow: 0 0 26px rgba(239, 68, 68, 0.82);
+    opacity: 0.45;
+    transform: scale(1.08);
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.7);
   }
 }
 
@@ -1227,6 +1345,11 @@ button {
   font-size: 14px;
 }
 
+
+/* =========================================================
+   버튼 영역
+   - 버튼 1개일 때 넓게 채우기
+   ========================================================= */
 .sib-btn-group {
   display: flex;
   gap: 10px;
@@ -1258,12 +1381,6 @@ button {
   box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
 }
 
-.btn-kakao {
-  background: var(--yellow);
-  color: #111827;
-  box-shadow: 0 12px 24px rgba(245, 205, 17, 0.22);
-}
-
 .sib-btn-wide {
   min-width: 220px;
 }
@@ -1272,6 +1389,40 @@ button {
   transform: translateY(-1px);
 }
 
+
+/* =========================================================
+   모바일 sticky bar
+   ========================================================= */
+@media (max-width: 768px) {
+  .sib-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sib-text-group {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sib-btn-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sib-btn-group-full {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sib-btn,
+  .sib-btn-wide {
+    width: 100%;
+    min-width: 0;
+    padding: 0 14px;
+  }
+}
 
 /* =========================================================
    일정 상세 모달
@@ -1655,20 +1806,15 @@ button {
 
 
 /* =========================================================
-   모바일 통합 대응
-   - 768px 이하
-   - 수정은 이 구간만 보면 됨
+   모바일 대응
    ========================================================= */
 @media (max-width: 768px) {
-  /* ---------------------------------------------------------
-     공통 레이아웃
-     --------------------------------------------------------- */
   .wrap {
-    width: min(100% - 20px, 1180px);
+    width: min(100% - 24px, 1180px);
   }
 
   .topbar-inner {
-    min-height: 64px;
+    min-height: 68px;
   }
 
   .mobile-menu-toggle {
@@ -1678,11 +1824,11 @@ button {
   .nav {
     position: absolute;
     top: calc(100% + 10px);
-    left: 12px;
-    right: 12px;
+    left: 16px;
+    right: 16px;
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: 20px;
     box-shadow: var(--shadow-soft);
     padding: 14px;
     display: none;
@@ -1695,382 +1841,132 @@ button {
     display: flex;
   }
 
-  /* ---------------------------------------------------------
-     히어로
-     --------------------------------------------------------- */
   .hero-section {
-    min-height: auto;
+    min-height: 82svh;
   }
 
   .hero-wrap {
-    padding: 76px 0 84px;
+    padding: 82px 0 100px;
   }
 
-  .hero-content {
-    max-width: 100%;
-  }
-
-  .hero-title {
-    font-size: clamp(34px, 9vw, 48px);
-    line-height: 1.14;
-  }
-
-  .hero-subtitle {
-    margin-top: 16px;
-    font-size: 15px;
-    line-height: 1.68;
+  .hero-tag {
+    font-size: 12px;
   }
 
   .hero-subtitle br {
     display: none;
   }
 
-  .hero-tag-group {
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .hero-tag {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-
   .hero-intro-motion {
-    width: 100%;
-    height: auto;
-    display: grid;
-    gap: 12px;
-    margin-top: 28px;
+    height: 214px;
+    margin-top: 34px;
   }
 
   .hero-float-card {
-    position: relative;
-    width: 100%;
-    min-width: 0;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    animation: none !important;
+    min-width: auto;
+    width: min(100%, 320px);
   }
 
-  .hero-float-card-a,
-  .hero-float-card-b,
+  .hero-float-card-a {
+    left: 0;
+    top: 14px;
+  }
+
+  .hero-float-card-b {
+    top: 72px;
+  }
+
   .hero-float-card-c {
-    animation: none !important;
+    right: 0;
+    bottom: 20px;
   }
 
-  .hero-scroll-cue {
-    display: none;
-  }
-
-  /* ---------------------------------------------------------
-     섹션 공통 여백
-     --------------------------------------------------------- */
-  .identity-section,
-  .review-section,
-  .contact-section {
-    padding: 72px 0;
-  }
-
-  .schedule-section,
-  .price-guarantee-section {
-    padding: 68px 0;
-  }
-
-  .identity-title {
-    font-size: 34px;
-  }
-
-  .identity-desc,
-  .section-description,
-  .section-mini-copy {
-    font-size: 15px;
-    line-height: 1.72;
-  }
-
-  .section-topline,
-  .section-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .section-head.center {
-    align-items: center;
-    text-align: center;
-  }
-
-  /* ---------------------------------------------------------
-     일정 필터칩
-     --------------------------------------------------------- */
-  .schedule-filter-row {
-    gap: 8px;
-    margin: 22px 0 20px;
-  }
-
-  .filter-chip {
-    height: 40px;
-    padding: 0 16px;
-    font-size: 14px;
-  }
-
-  /* ---------------------------------------------------------
-     일정 카드
-     --------------------------------------------------------- */
   .schedule-grid,
   .form-grid {
     grid-template-columns: 1fr;
   }
 
-  .schedule-card {
-    border-radius: 22px;
-  }
-
-  .schedule-visual {
-    min-height: 190px;
-  }
-
-  .schedule-visual-inner {
-    padding: 20px 18px 18px;
-  }
-
-  .schedule-badges {
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-
-  .schedule-badge {
-    height: 28px;
-    padding: 0 12px;
-    font-size: 12px;
-  }
-
   .schedule-card .schedule-title {
-    font-size: 24px;
-    line-height: 1.2;
+    font-size: 28px;
   }
 
-  .schedule-content {
-    padding: 18px 18px 22px;
-  }
-
-  .schedule-meta {
-    gap: 10px;
-  }
-
-  .schedule-meta-item {
-    min-height: 74px;
-    padding: 12px 10px;
-    border-radius: 14px;
-  }
-
-  .schedule-meta-item span {
-    font-size: 12px;
-  }
-
-  .schedule-meta-item strong {
-    font-size: 15px;
-    line-height: 1.35;
-  }
-
-  .schedule-meta .schedule-meta-item:nth-child(3) strong {
-    font-size: 17px;
-  }
-
-  .schedule-actions {
-    padding-top: 14px;
-  }
-
-  .schedule-actions .btn {
-    width: 100%;
-    height: 52px;
-  }
-
-  /* ---------------------------------------------------------
-     가격 보장 섹션
-     --------------------------------------------------------- */
   .price-guarantee-card {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 28px 20px;
-    border-radius: 22px;
+    padding: 34px 24px;
   }
 
   .price-guarantee-copy h2 {
-    font-size: 34px;
+    font-size: 42px;
   }
 
   .price-guarantee-copy p {
-    margin-top: 18px;
-    font-size: 15px;
-  }
-
-  .price-guarantee-side {
-    padding-top: 6px;
-  }
-
-  .price-guarantee-icon {
-    width: 74px;
-    height: 74px;
-    font-size: 36px;
-  }
-
-  .price-guarantee-side strong {
-    font-size: 22px;
-  }
-
-  .price-guarantee-side span {
     font-size: 16px;
   }
 
-  /* ---------------------------------------------------------
-     후기 슬라이더
-     --------------------------------------------------------- */
-  .review-slider {
-    margin-top: 20px;
-  }
-
-  .review-track {
-    gap: 14px;
-  }
-
   .review-card {
-    flex: 0 0 100%;
-    border-radius: 22px;
+    flex: 0 0 calc((100% - 22px) / 2);
   }
 
-  .review-body {
-    padding: 18px;
+  .review-nav.prev {
+    left: -6px;
   }
 
-  .review-body h3 {
-    font-size: 20px;
-    line-height: 1.34;
-  }
-
-  .review-nav {
-    display: none;
-  }
-
-  .review-dots {
-    margin-top: 12px;
-  }
-
-  /* ---------------------------------------------------------
-     문의폼
-     --------------------------------------------------------- */
-  .contact-card {
-    padding: 22px 18px;
-    border-radius: 22px;
-  }
-
-  .form-grid label {
-    gap: 8px;
-  }
-
-  .form-grid input,
-  .form-grid select,
-  .form-grid textarea {
-    padding: 14px 15px;
-  }
-
-  .form-grid textarea {
-    min-height: 120px;
-  }
-
-  .form-grid label.full.consent-check {
-    gap: 8px;
-  }
-
-  .contact-actions {
-    margin-top: 18px;
-    gap: 12px;
-  }
-
-  .contact-submit {
-    width: 100%;
-    min-width: 0;
-    height: 52px;
-  }
-
-  /* ---------------------------------------------------------
-     하단 고정 문의바
-     --------------------------------------------------------- */
-  .sticky-inquiry-bar {
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+  .review-nav.next {
+    right: -6px;
   }
 
   .sib-content {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
     text-align: center;
   }
 
   .sib-text-group {
     justify-content: center;
-    gap: 8px;
     text-align: center;
   }
 
-  .sib-title {
-    font-size: 14px;
-  }
-
-  .sib-sub {
-    font-size: 12px;
-  }
-
-  .sib-btn-group,
-  .sib-btn-group-full {
+  .sib-btn-group {
     width: 100%;
-    min-width: 0;
     justify-content: center;
   }
 
-  .sib-btn,
-  .sib-btn-wide {
-    width: 100%;
-    min-width: 0;
-    height: 46px;
+  .sib-btn {
+    flex: 1;
     padding: 0 14px;
   }
 
-  /* ---------------------------------------------------------
-     일정 상세 모달
-     --------------------------------------------------------- */
   .schedule-modal-panel {
-    width: calc(100% - 10px);
-    margin: 1.5svh auto;
-    max-height: 97svh;
-    border-radius: 20px;
+    width: calc(100% - 12px);
+    margin: 2svh auto;
+    max-height: 96svh;
+    border-radius: 22px;
   }
 
   .schedule-modal-body {
-    padding: 14px;
+    padding: 16px;
   }
 
   .modal-hero-card,
   .modal-route-card,
   .modal-image-card {
-    padding: 16px;
+    padding: 18px;
   }
 
-  .modal-summary-grid,
+  .modal-table-card {
+    padding-bottom: 0;
+  }
+
   .modal-meta-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
-  .modal-hero-title {
-    font-size: 28px;
+  .modal-summary-grid {
+    grid-template-columns: 1fr;
   }
 
   .route-track {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
   }
 
   .route-stop {
@@ -2091,79 +1987,100 @@ button {
   }
 
   /* ---------------------------------------------------------
-     푸터
+     문의폼 모바일 보정
+     - 동의줄 간격 축소
+     - 제출버튼 전체폭
      --------------------------------------------------------- */
-  .footer {
-    padding: 36px 0 120px;
+  .form-grid label.full.consent-check {
+    gap: 8px;
+  }
+
+  .contact-submit {
+    width: 100%;
+    min-width: 0;
   }
 }
 
 
 /* =========================================================
    작은 모바일 대응
-   - 560px 이하
    ========================================================= */
 @media (max-width: 560px) {
-  .wrap {
-    width: min(100% - 16px, 1180px);
-  }
-
   .hero-title {
-    font-size: 34px;
+    font-size: 42px;
   }
 
   .hero-subtitle {
-    font-size: 14px;
-  }
-
-  .hero-tag {
-    font-size: 11px;
-    padding: 8px 12px;
-  }
-
-  .schedule-visual {
-    min-height: 172px;
-  }
-
-  .schedule-card .schedule-title {
-    font-size: 22px;
-  }
-
-  .schedule-meta {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .schedule-meta-item {
-    min-height: 68px;
-    padding: 10px 8px;
-  }
-
-  .schedule-meta-item strong {
-    font-size: 14px;
-  }
-
-  .schedule-meta .schedule-meta-item:nth-child(3) strong {
     font-size: 16px;
   }
 
-  .price-guarantee-copy h2 {
-    font-size: 30px;
+  .hero-intro-motion {
+    height: 268px;
   }
 
-  .price-guarantee-copy p {
-    font-size: 14px;
+  .hero-float-card {
+    width: 100%;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+  }
+
+  .hero-float-card-a {
+    top: 0;
+  }
+
+  .hero-float-card-b {
+    top: 78px;
+  }
+
+  .hero-float-card-c {
+    top: 156px;
+    bottom: auto;
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+
+  .btn,
+  .contact-submit {
+    width: 100%;
+  }
+
+  .review-card {
+    flex: 0 0 100%;
+  }
+
+  .review-nav {
+    display: none;
+  }
+
+  .modal-meta-grid {
+    grid-template-columns: 1fr;
   }
 
   .route-track {
     grid-template-columns: 1fr;
   }
 
+  .footer {
+    padding-bottom: 132px;
+  }
+
+  .sib-title {
+    font-size: 15px;
+  }
+
   .sib-sub {
     display: none;
   }
 
-  .footer {
-    padding-bottom: 128px;
+  .sib-btn-group {
+    flex-direction: column;
+  }
+
+  .btn-phone {
+    display: none;
   }
 }
 
