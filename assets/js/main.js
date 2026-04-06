@@ -22,14 +22,17 @@
     },
     activeRegion: 'ALL',
     reviewPage: 0,
+    basicInfoPage: 0,
     debugLogs: []
   };
 
   let reviewAutoTimer = null;
+  let basicInfoAutoTimer = null;
 
   init();
 
   async function init() {
+    ensureExtraSectionEnhancementsStyles();
     bindStaticEvents();
     setTrackingFields();
     initGlobalDebugHandlers();
@@ -84,6 +87,20 @@
         return;
       }
 
+      const basicNav = target.closest('[data-basic-nav]');
+      if (basicNav) {
+        moveBasicInfo(basicNav.getAttribute('data-basic-nav'));
+        return;
+      }
+
+      const basicDot = target.closest('[data-basic-dot]');
+      if (basicDot) {
+        state.basicInfoPage = Number(basicDot.getAttribute('data-basic-dot') || 0);
+        setupBasicInfoSlider();
+        restartBasicInfoAuto();
+        return;
+      }
+
       const openCard = target.closest('[data-open-schedule]');
       if (openCard) {
         openSchedule(openCard.getAttribute('data-open-schedule'));
@@ -96,7 +113,7 @@
       }
     });
 
-    window.addEventListener('resize', () => setupReviewSlider((state.bootstrap.reviews || []).length));
+    window.addEventListener('resize', () => { setupReviewSlider((state.bootstrap.reviews || []).length); setupBasicInfoSlider(); });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -564,108 +581,191 @@
     renderContentLinks();
   }
 
-  
-function ensureExtraSectionsScaffold() {
+  function ensureExtraSectionsScaffold() {
     if (!mainContent) return;
 
     const scheduleSection = scheduleGrid ? scheduleGrid.closest('section') : null;
+    const priceSection = document.querySelector('.price-guarantee-section');
     const reviewSection = reviewGrid ? reviewGrid.closest('section') : null;
     const contactSection = form ? form.closest('section') : null;
     const debugPanel = document.getElementById('sheetDebugPanel');
 
-    function buildSectionHtml(id, title, label, gridId, gridClass) {
-      return `
-        <section class="sheet-extra-section" id="${id}">
-          <div class="sheet-extra-wrap">
-            <div class="sheet-extra-head">
-              <span class="sheet-extra-label">${label}</span>
-              <h2 class="sheet-extra-title">${title}</h2>
-            </div>
-            <div id="${gridId}" class="${gridClass}"></div>
+    const createSectionHtml = (id, label, title, gridId, gridClass, narrow = false, extraClass = '') => `
+      <section class="sheet-extra-section ${extraClass}" id="${id}">
+        <div class="${narrow ? 'narrow-block' : 'wrap'}">
+          <div class="section-head center compact-head">
+            <span class="section-label">${label}</span>
+            <h2 class="section-title">${title}</h2>
           </div>
-        </section>`;
+          <div id="${gridId}" class="${gridClass}"></div>
+        </div>
+      </section>`;
+
+    const createBasicHtml = () => `
+      <section class="sheet-extra-section sheet-extra-section-basic" id="basicInfoSection">
+        <div class="narrow-block">
+          <div class="section-head center compact-head">
+            <span class="section-label">기초안내</span>
+            <h2 class="section-title">크루즈는 어렵지 않아요</h2>
+          </div>
+          <div class="sheet-basic-slider" id="basicInfoSlider">
+            <div class="sheet-basic-slider-viewport">
+              <div id="basicInfoGrid" class="sheet-basic-slider-track"></div>
+            </div>
+            <div class="sheet-basic-slider-controls" id="basicInfoControls">
+              <button type="button" class="sheet-basic-nav" data-basic-nav="prev" aria-label="이전">‹</button>
+              <div class="sheet-basic-dots" id="basicInfoDots"></div>
+              <button type="button" class="sheet-basic-nav" data-basic-nav="next" aria-label="다음">›</button>
+            </div>
+          </div>
+        </div>
+      </section>`;
+
+    if (!document.getElementById('basicInfoSection')) {
+      const html = createBasicHtml();
+      if (scheduleSection) scheduleSection.insertAdjacentHTML('beforebegin', html);
+      else if (priceSection) priceSection.insertAdjacentHTML('beforebegin', html);
+      else if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
+      else mainContent.insertAdjacentHTML('beforeend', html);
     }
 
-    function ensureSectionAt(id, html, position, anchor) {
-      let section = document.getElementById(id);
-      if (!section) {
-        if (anchor) {
-          anchor.insertAdjacentHTML(position, html);
-        } else if (debugPanel && debugPanel.parentNode === mainContent) {
-          debugPanel.insertAdjacentHTML('beforebegin', html);
-        } else {
-          mainContent.insertAdjacentHTML('beforeend', html);
-        }
-        section = document.getElementById(id);
-      } else if (anchor) {
-        if (position === 'beforebegin') {
-          anchor.parentNode.insertBefore(section, anchor);
-        } else if (position === 'afterend') {
-          anchor.parentNode.insertBefore(section, anchor.nextSibling);
-        }
-      }
-      return section;
-    }
-
-    // 1) 기초안내: 추천 일정 위
-    const basicInfoHtml = buildSectionHtml(
-      'basicInfoSection',
-      '크루즈는 어렵지 않아요',
-      '기초안내',
-      'basicInfoGrid',
-      'sheet-extra-basic-grid'
-    );
-    ensureSectionAt('basicInfoSection', basicInfoHtml, 'beforebegin', scheduleSection);
-
-    // 2) 여행후기 아래: 이용대상자 → 선실비교 → 예약과정 → FAQ
-    let anchor = reviewSection;
-    const orderedSections = [
-      ['targetsSection', '이런 분들께 잘 맞아요', '이용대상자', 'targetsGrid', 'sheet-extra-grid'],
-      ['cabinsSection', '선실 타입 비교', '선실비교', 'cabinsGrid', 'sheet-extra-grid'],
-      ['processSection', '상담부터 탑승까지', '예약과정', 'processGrid', 'sheet-extra-grid sheet-extra-grid-steps'],
-      ['faqSection', '자주 묻는 질문', 'FAQ', 'faqList', 'sheet-extra-faq-list']
+    const flowAfterReview = [
+      ['targetsSection', '이용대상자', '이런 분들께 잘 맞아요', 'targetsGrid', 'sheet-extra-grid', false],
+      ['cabinsSection', '선실비교', '선실 타입 비교', 'cabinsGrid', 'sheet-extra-grid', false],
+      ['processSection', '예약과정', '상담부터 탑승까지', 'processGrid', 'sheet-extra-grid sheet-extra-grid-steps', false],
+      ['faqSection', 'FAQ', '자주 묻는 질문', 'faqList', 'sheet-extra-faq-list', true]
     ];
 
-    orderedSections.forEach(([id, title, label, gridId, gridClass]) => {
-      const html = buildSectionHtml(id, title, label, gridId, gridClass);
-      const section = ensureSectionAt(id, html, 'afterend', anchor);
-      if (section) anchor = section;
+    let anchor = reviewSection;
+    flowAfterReview.forEach(([id, label, title, gridId, gridClass, narrow]) => {
+      if (document.getElementById(id)) {
+        anchor = document.getElementById(id);
+        return;
+      }
+
+      const html = createSectionHtml(id, label, title, gridId, gridClass, narrow);
+      if (anchor) {
+        anchor.insertAdjacentHTML('afterend', html);
+        anchor = document.getElementById(id);
+      } else if (contactSection) {
+        contactSection.insertAdjacentHTML('beforebegin', html);
+        anchor = document.getElementById(id);
+      } else if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', html);
+        anchor = document.getElementById(id);
+      } else {
+        mainContent.insertAdjacentHTML('beforeend', html);
+        anchor = document.getElementById(id);
+      }
     });
 
-    // 3) 콘텐츠연결: 가격 문의하기 아래
-    const contentHtml = buildSectionHtml(
-      'contentSection',
-      '함께 보면 좋은 정보',
-      '콘텐츠연결',
-      'contentGrid',
-      'sheet-extra-grid'
-    );
-    ensureSectionAt('contentSection', contentHtml, 'afterend', contactSection);
-  }
+    if (!document.getElementById('contentSection')) {
+      const html = createSectionHtml('contentSection', '콘텐츠연결', '함께 보면 좋은 정보', 'contentGrid', 'sheet-extra-grid', false);
+      if (contactSection) contactSection.insertAdjacentHTML('afterend', html);
+      else if (debugPanel && debugPanel.parentNode === mainContent) debugPanel.insertAdjacentHTML('beforebegin', html);
+      else mainContent.insertAdjacentHTML('beforeend', html);
+    }
 
+    const trustSection = document.getElementById('trustSection');
+    if (trustSection) trustSection.remove();
+  }
 
   function renderBasicInfo() {
     const section = document.getElementById('basicInfoSection');
-    const grid = document.getElementById('basicInfoGrid');
+    const track = document.getElementById('basicInfoGrid');
     const items = state.bootstrap.basic_info || [];
-    if (!section || !grid) return;
-    
-    if (!items.length) return section.style.display = 'none';
-    section.style.display = '';
+    if (!section || !track) return;
 
-    grid.innerHTML = items.map(item => {
+    if (!items.length) {
+      section.style.display = 'none';
+      stopBasicInfoAuto();
+      return;
+    }
+
+    section.style.display = '';
+    track.innerHTML = items.map(item => {
       const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
       return `
-        <article class="sheet-extra-card sheet-extra-card-basic">
-          <div class="sheet-extra-card-copy">
+        <article class="sheet-basic-slide">
+          <div class="sheet-basic-slide-copy">
             ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
             ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
             ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
             ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
           </div>
-          ${item.image_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+          ${item.image_url ? `<div class="sheet-basic-slide-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
         </article>`;
     }).join('');
+
+    const slider = document.getElementById('basicInfoSlider');
+    if (slider && !slider.dataset.bound) {
+      slider.addEventListener('mouseenter', stopBasicInfoAuto);
+      slider.addEventListener('mouseleave', restartBasicInfoAuto);
+      slider.dataset.bound = 'true';
+    }
+
+    setupBasicInfoSlider();
+    restartBasicInfoAuto();
+  }
+
+  function setupBasicInfoSlider() {
+    const track = document.getElementById('basicInfoGrid');
+    const viewport = document.querySelector('.sheet-basic-slider-viewport');
+    const dots = document.getElementById('basicInfoDots');
+    const controls = document.getElementById('basicInfoControls');
+    if (!track || !viewport || !dots || !controls) return;
+
+    const total = track.children.length;
+    if (!total) return;
+
+    const maxPage = total - 1;
+    state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
+    const width = viewport.clientWidth || 0;
+    track.style.transform = `translateX(-${state.basicInfoPage * width}px)`;
+
+    if (total <= 1) {
+      controls.classList.add('is-hidden');
+      dots.innerHTML = '';
+      stopBasicInfoAuto();
+      return;
+    }
+
+    controls.classList.remove('is-hidden');
+    dots.innerHTML = Array.from({ length: total }).map((_, idx) =>
+      `<button type="button" class="sheet-basic-dot ${idx === state.basicInfoPage ? 'is-active' : ''}" data-basic-dot="${idx}" aria-label="기초안내 ${idx + 1}"></button>`
+    ).join('');
+  }
+
+  function moveBasicInfo(direction) {
+    const track = document.getElementById('basicInfoGrid');
+    if (!track) return;
+    const total = track.children.length;
+    if (!total) return;
+
+    const maxPage = total - 1;
+    state.basicInfoPage = direction === 'prev'
+      ? (state.basicInfoPage <= 0 ? maxPage : state.basicInfoPage - 1)
+      : (state.basicInfoPage >= maxPage ? 0 : state.basicInfoPage + 1);
+
+    setupBasicInfoSlider();
+    restartBasicInfoAuto();
+  }
+
+  function restartBasicInfoAuto() {
+    stopBasicInfoAuto();
+    const track = document.getElementById('basicInfoGrid');
+    if (!track || track.children.length <= 1) return;
+
+    basicInfoAutoTimer = window.setInterval(() => {
+      moveBasicInfo('next');
+    }, 4200);
+  }
+
+  function stopBasicInfoAuto() {
+    if (basicInfoAutoTimer) {
+      window.clearInterval(basicInfoAutoTimer);
+      basicInfoAutoTimer = null;
+    }
   }
 
   function renderTargets() {
@@ -800,7 +900,7 @@ function ensureExtraSectionsScaffold() {
   function logDebug(label, payload) {
     state.debugLogs.unshift({ time: new Date().toLocaleTimeString('ko-KR', { hour12: false }), label, payload: payload || {} });
     if (state.debugLogs.length > 30) state.debugLogs = state.debugLogs.slice(0, 30);
-    try { console.debug('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
+    try { console.log('[CRUISE_DEBUG]', label, payload || {}); } catch (e) {}
     renderDebugPanel();
   }
 
