@@ -1,7 +1,6 @@
 /* =========================================================
    전역 변수
    - 사이트 전체 색상 / 그림자 / 라운드 값
-   - 가장 먼저 여기서 톤 조정
    ========================================================= */
 :root {
   --bg: #f5f7fb;
@@ -15,6 +14,8 @@
   --navy: #091a3b;
   --navy-soft: #183a76;
   --yellow: #f5cd11;
+  --orange: #ff9f1c;
+  --orange-soft: #ffcc66;
   --shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
   --shadow-soft: 0 12px 36px rgba(15, 23, 42, 0.06);
   --radius-xl: 30px;
@@ -26,7 +27,6 @@
 
 /* =========================================================
    기본 리셋
-   - 전체 공통 기본값
    ========================================================= */
 * {
   box-sizing: border-box;
@@ -67,10 +67,7 @@ button {
 
 
 /* =========================================================
-   공통 레이아웃 박스
-   - wrap: 전체 섹션 기본 폭
-   - narrow-block: 좁은 중앙 정렬 텍스트 블록
-   - hidden-frame: 폼 제출용 숨김 iframe
+   공통 레이아웃
    ========================================================= */
 .wrap {
   width: min(1180px, calc(100% - 32px));
@@ -94,7 +91,6 @@ button {
 
 /* =========================================================
    상단바
-   - 로고 / 메뉴 / 모바일 햄버거
    ========================================================= */
 .topbar {
   position: sticky;
@@ -163,8 +159,7 @@ button {
 
 
 /* =========================================================
-   메인 히어로 섹션
-   - 상단 첫 화면 비주얼
+   메인 히어로
    ========================================================= */
 .hero-section {
   position: relative;
@@ -329,8 +324,7 @@ button {
 }
 
 @keyframes floatHero {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
   50% {
@@ -343,8 +337,7 @@ button {
 }
 
 @keyframes floatHeroCenter {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateX(-50%) translateY(0px);
   }
   50% {
@@ -426,7 +419,7 @@ button {
 
 
 /* =========================================================
-   공통 섹션 라벨 / 큰 제목 / 설명
+   공통 섹션 타이포
    ========================================================= */
 .section-label {
   display: inline-flex;
@@ -553,6 +546,12 @@ button {
   background: #fff;
   color: #1f2937;
   font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
 }
 
 .filter-chip.is-active {
@@ -568,24 +567,25 @@ button {
 .schedule-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 24px;
 }
 
 .schedule-card {
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 26px;
+  border: 1px solid #e7edf5;
+  border-radius: 28px;
   overflow: hidden;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
   cursor: pointer;
-  transition: transform 0.24s ease, box-shadow 0.24s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
   display: flex;
   flex-direction: column;
 }
 
 .schedule-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 22px 52px rgba(15, 23, 42, 0.10);
+  border-color: #d8e3f1;
 }
 
 
@@ -610,65 +610,97 @@ button {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 20, 40, 0.08), rgba(10, 20, 40, 0.82));
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 18, 39, 0.06) 0%,
+      rgba(7, 18, 39, 0.20) 36%,
+      rgba(7, 18, 39, 0.72) 100%
+    );
 }
 
 .schedule-visual-inner {
   position: absolute;
   inset: auto 0 0;
   z-index: 1;
-  padding: 28px 24px 24px;
+  padding: 24px 24px 22px;
   color: #fff;
 }
 
 .schedule-badges {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .schedule-badge {
   display: inline-flex;
-  height: 32px;
-  padding: 0 14px;
   align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  font-size: 13px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 12px;
   font-weight: 800;
-  backdrop-filter: blur(12px);
+  letter-spacing: -0.01em;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(7, 18, 39, 0.12);
 }
+
+.schedule-badge-region {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.20);
+  color: rgba(255, 255, 255, 0.94);
+}
+
 .schedule-badge-month {
-  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 55%, #ffd36a 100%);
-  border: 1px solid rgba(255, 186, 73, 0.72);
-  color: #fff7e8;
-  box-shadow: 0 10px 24px rgba(255, 138, 0, 0.28);
+  background: linear-gradient(135deg, #ffbf5a 0%, #ff9f1c 100%);
+  border: 1px solid rgba(255, 222, 163, 0.28);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(255, 159, 28, 0.22);
 }
 
 .schedule-badge-month .month-unit {
   color: #fff;
   font-weight: 900;
 }
+
 .schedule-card .schedule-title {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.15;
-  color: #fff;
+  max-width: 92%;
+  font-size: clamp(28px, 2.3vw, 34px);
+  line-height: 1.16;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  color: #ffffff;
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.26);
 }
+
 .schedule-month-accent {
-  display: inline-block;
-  padding: 0 8px 2px;
-  margin-right: 4px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff8a00 0%, #ffb347 55%, #ffd36a 100%);
-  color: #fffdf8;
-  box-shadow: 0 8px 20px rgba(255, 138, 0, 0.26);
+  display: inline;
+  padding: 0;
+  margin-left: 0.16em;
+  border-radius: 0;
+  background: none;
+  color: var(--orange-soft);
+  box-shadow: none;
+  font-weight: 900;
+  white-space: nowrap;
+  text-shadow: 0 4px 14px rgba(255, 170, 34, 0.26);
 }
+
+.schedule-month-unit {
+  color: inherit;
+  font-weight: 900;
+}
+
+
 /* =========================================================
    출발일 강조 영역
-   - 카드 상단 이미지 위에서 가장 먼저 보이게
    ========================================================= */
 .schedule-departure-highlight {
   display: inline-flex;
@@ -701,41 +733,12 @@ button {
   text-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
-/* =========================================================
-   지역 배지는 보조 정보로 한 단계 낮춤
-   ========================================================= */
-.schedule-badge-region {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.92);
-}
-
-/* =========================================================
-   메타 박스 중 출발만 강조
-   ========================================================= */
-.schedule-meta-item.is-primary {
-  background: #eef4ff;
-  border-color: #bfd3ff;
-  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
-}
-
-.schedule-meta-item.is-primary span {
-  color: #2563eb;
-  font-weight: 800;
-}
-
-.schedule-meta-item.is-primary strong {
-  color: #143878;
-  font-size: 18px;
-  font-weight: 900;
-}
-
 
 /* =========================================================
    일정 카드 하단 내용
    ========================================================= */
 .schedule-content {
-  padding: 22px 24px 26px;
+  padding: 24px 24px 28px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -751,60 +754,18 @@ button {
   min-height: 86px;
   padding: 16px 14px;
   border-radius: 18px;
-  background: var(--surface-soft);
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #f9fbfd 0%, #f5f7fb 100%);
+  border: 1px solid #e3e9f2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 8px;
   text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* =========================================================
-   일정 카드 하단 메타박스 중 "출발"만 강조
-   - 현재 순서:
-     1) 선박
-     2) 모항지
-     3) 출발
-     4) 도착
-   - 그래서 3번째 박스만 따로 강조
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) {
-  background: #edf4ff;                 /* 다른 박스보다 살짝 더 밝은 파란 배경 */
-  border: 1px solid #bcd3ff;           /* 파란 계열 테두리 */
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.08);
-  transform: translateY(-1px);         /* 아주 살짝만 떠 보이게 */
-}
-
-/* =========================================================
-   출발 박스의 라벨 텍스트
-   - "출발" 글자를 더 또렷하게
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) span {
-  color: #2563eb;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-/* =========================================================
-   출발 박스의 날짜 텍스트
-   - 날짜를 더 크고 진하게
-   ========================================================= */
-.schedule-meta .schedule-meta-item:nth-child(3) strong {
-  color: #143878;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-/* =========================================================
-   모바일에서도 출발 날짜가 너무 크지 않게 보정
-   ========================================================= */
-@media (max-width: 768px) {
-  .schedule-meta .schedule-meta-item:nth-child(3) strong {
-    font-size: 18px;
-  }
+.schedule-card:hover .schedule-meta-item {
+  border-color: #dce5f0;
 }
 
 .schedule-meta-item span {
@@ -816,11 +777,34 @@ button {
 .schedule-meta-item strong {
   font-size: 16px;
   line-height: 1.45;
+  color: #0f172a;
+}
+
+.schedule-meta-item.is-primary,
+.schedule-meta .schedule-meta-item:nth-child(3) {
+  background: linear-gradient(180deg, #f4f8ff 0%, #edf4ff 100%);
+  border-color: #bfd3ff;
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.05);
+}
+
+.schedule-meta-item.is-primary span,
+.schedule-meta .schedule-meta-item:nth-child(3) span {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.schedule-meta-item.is-primary strong,
+.schedule-meta .schedule-meta-item:nth-child(3) strong {
+  color: #143878;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .schedule-actions {
   margin-top: auto;
-  padding-top: 18px;
+  padding-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -829,7 +813,6 @@ button {
 
 /* =========================================================
    공통 버튼
-   - 일정 버튼 / 문의 버튼 공용
    ========================================================= */
 .btn,
 .contact-submit {
@@ -845,6 +828,13 @@ button {
   background: linear-gradient(135deg, var(--blue), #2d7eff);
   color: #fff;
   box-shadow: 0 16px 38px rgba(37, 99, 235, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover,
+.contact-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.28);
 }
 
 .schedule-empty {
@@ -866,7 +856,7 @@ button {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 24px;
   padding: 56px 58px;
-  border-radius: 0;
+  border-radius: 32px;
   background: linear-gradient(90deg, #07122a 0%, #0d2248 45%, #142f5f 100%);
   color: #fff;
   box-shadow: var(--shadow);
@@ -1002,9 +992,15 @@ button {
   background: #fff;
   border-radius: 26px;
   overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-soft);
+  border: 1px solid #e7edf5;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
   flex: 0 0 calc((100% - 22px) / 2);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
 }
 
 .review-thumb {
@@ -1039,6 +1035,7 @@ button {
   margin: 14px 0 10px;
   font-size: 24px;
   line-height: 1.28;
+  color: #091a3b;
 }
 
 .review-body p {
@@ -1049,65 +1046,37 @@ button {
 
 
 /* =========================================================
-   문의폼 전체 카드 영역
-   - 이번에 패치한 핵심 구간
-   - 체크박스 / 버튼 / 결과메시지 정렬 수정 완료
+   문의폼 카드
    ========================================================= */
 .contact-card {
   background: #fff;
-  border: 1px solid var(--line);
+  border: 1px solid #e7edf5;
   border-radius: 30px;
   padding: 34px;
   box-shadow: var(--shadow-soft);
 }
 
-
-/* =========================================================
-   문의폼 그리드
-   - PC 2열
-   - 모바일은 아래 media에서 1열
-   ========================================================= */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
-
-/* =========================================================
-   각 항목 wrapper
-   - label 안에 제목 + 입력창 세로 배치
-   ========================================================= */
 .form-grid label {
   display: grid;
   gap: 10px;
 }
 
-
-/* =========================================================
-   전체폭 항목
-   - textarea / 개인정보 동의 줄
-   ========================================================= */
 .form-grid label.full {
   grid-column: 1 / -1;
 }
 
-
-/* =========================================================
-   입력 제목
-   - 예: 성함, 연락처, 관심 일정
-   ========================================================= */
 .form-grid span {
   font-size: 14px;
   font-weight: 800;
   color: #374151;
 }
 
-
-/* =========================================================
-   입력창 공통 스타일
-   - input / select / textarea
-   ========================================================= */
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
@@ -1117,24 +1086,14 @@ button {
   background: #f8fafc;
   padding: 16px 18px;
   outline: none;
-  font: inherit;
   color: #111827;
 }
 
-
-/* =========================================================
-   placeholder 글자색
-   ========================================================= */
 .form-grid input::placeholder,
 .form-grid textarea::placeholder {
   color: #94a3b8;
 }
 
-
-/* =========================================================
-   포커스 상태
-   - 클릭 시 하이라이트
-   ========================================================= */
 .form-grid input:focus,
 .form-grid select:focus,
 .form-grid textarea:focus {
@@ -1143,21 +1102,11 @@ button {
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
 }
 
-
-/* =========================================================
-   문의내용 textarea
-   ========================================================= */
 .form-grid textarea {
   min-height: 138px;
   resize: vertical;
 }
 
-
-/* =========================================================
-   개인정보 동의 줄
-   - 체크박스 + 문구를 가운데 정렬
-   - 깨져보이던 부분 수정
-   ========================================================= */
 .form-grid label.full.consent-check {
   grid-column: 1 / -1;
   display: flex;
@@ -1168,10 +1117,6 @@ button {
   text-align: center;
 }
 
-
-/* =========================================================
-   개인정보 동의 체크박스
-   ========================================================= */
 .form-grid label.full.consent-check input[type="checkbox"] {
   width: 18px;
   height: 18px;
@@ -1181,21 +1126,11 @@ button {
   accent-color: #2563eb;
 }
 
-
-/* =========================================================
-   개인정보 동의 문구
-   ========================================================= */
 .form-grid label.full.consent-check span {
   margin: 0;
   line-height: 1.5;
 }
 
-
-/* =========================================================
-   문의폼 하단 액션 영역
-   - 버튼 + 메시지를 세로배치
-   - 가운데 정렬
-   ========================================================= */
 .contact-actions {
   margin-top: 22px;
   display: flex;
@@ -1206,12 +1141,6 @@ button {
   text-align: center;
 }
 
-
-/* =========================================================
-   문의 제출 버튼
-   - 가운데 정렬
-   - 최소 너비 확보
-   ========================================================= */
 .contact-submit {
   display: inline-flex;
   align-items: center;
@@ -1222,10 +1151,6 @@ button {
   padding: 0 28px;
 }
 
-
-/* =========================================================
-   폼 결과 메시지
-   ========================================================= */
 .form-result {
   width: 100%;
   text-align: center;
@@ -1270,7 +1195,6 @@ button {
 
 /* =========================================================
    sticky inquiry bar
-   - 하단 고정 바 전체
    ========================================================= */
 .sticky-inquiry-bar {
   position: fixed;
@@ -1297,10 +1221,6 @@ button {
   50% { box-shadow: 0 -12px 42px rgba(37, 99, 235, 0.18); }
 }
 
-
-/* =========================================================
-   sticky bar 내부 정렬
-   ========================================================= */
 .sib-content {
   max-width: 1180px;
   margin: 0 auto;
@@ -1319,11 +1239,6 @@ button {
   flex-wrap: wrap;
 }
 
-
-/* =========================================================
-   왼쪽 마감임박 배지
-   - 더 강한 깜빡임/발광 효과
-   ========================================================= */
 .sib-badge {
   background: #ef4444;
   color: #fff;
@@ -1363,11 +1278,6 @@ button {
   font-size: 14px;
 }
 
-
-/* =========================================================
-   버튼 영역
-   - 버튼 1개일 때 넓게 채우기
-   ========================================================= */
 .sib-btn-group {
   display: flex;
   gap: 10px;
@@ -1407,40 +1317,6 @@ button {
   transform: translateY(-1px);
 }
 
-
-/* =========================================================
-   모바일 sticky bar
-   ========================================================= */
-@media (max-width: 768px) {
-  .sib-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-text-group {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .sib-btn-group {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .sib-btn-group-full {
-    min-width: 0;
-    width: 100%;
-  }
-
-  .sib-btn,
-  .sib-btn-wide {
-    width: 100%;
-    min-width: 0;
-    padding: 0 14px;
-  }
-}
 
 /* =========================================================
    일정 상세 모달
@@ -1805,6 +1681,426 @@ button {
 
 
 /* =========================================================
+   숨김 처리용
+   ========================================================= */
+.hero-quick-box {
+  display: none !important;
+}
+
+
+/* =========================================================
+   하단 추가 섹션 공통
+   ========================================================= */
+.sheet-extra-section {
+  padding: 72px 0 12px;
+}
+
+.sheet-extra-wrap {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.sheet-extra-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 0 30px;
+}
+
+.sheet-extra-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.sheet-extra-title {
+  margin: 12px 0 0;
+  font-size: clamp(32px, 3vw, 42px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  color: #091a3b;
+}
+
+
+/* =========================================================
+   기초안내 슬라이더
+   ========================================================= */
+.sheet-extra-slider {
+  position: relative;
+  margin-top: 6px;
+}
+
+.sheet-extra-slider-viewport {
+  overflow: hidden;
+  border-radius: 28px;
+}
+
+.sheet-extra-basic-track {
+  display: flex;
+  gap: 0;
+  transition: transform 0.32s ease;
+  will-change: transform;
+}
+
+.sheet-extra-basic-track .sheet-extra-card {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
+
+.sheet-extra-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sheet-extra-dot {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: #cbd5e1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sheet-extra-dot.is-active {
+  background: var(--blue);
+}
+
+.sheet-extra-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(8, 22, 47, 0.88);
+  color: #fff;
+  font-size: 28px;
+  z-index: 2;
+  box-shadow: var(--shadow-soft);
+}
+
+.sheet-extra-nav.prev {
+  left: -10px;
+}
+
+.sheet-extra-nav.next {
+  right: -10px;
+}
+
+.sheet-extra-nav.is-hidden,
+.sheet-extra-dots.is-hidden {
+  display: none;
+}
+
+
+/* =========================================================
+   하단 추가 섹션 카드 그리드
+   ========================================================= */
+.sheet-extra-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.sheet-extra-grid-steps {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   하단 추가 섹션 카드 공통
+   ========================================================= */
+.sheet-extra-card {
+  background: #ffffff;
+  border: 1px solid #e7edf5;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.sheet-extra-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  border-color: #dce6f3;
+}
+
+.sheet-extra-card h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: #091a3b;
+}
+
+.sheet-extra-card p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.75;
+}
+
+.sheet-extra-muted {
+  margin-bottom: 10px !important;
+}
+
+.sheet-extra-points {
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: #334155;
+  line-height: 1.75;
+}
+
+.sheet-extra-points li + li {
+  margin-top: 8px;
+}
+
+
+/* =========================================================
+   기초안내 카드
+   - 이미지 위 / 텍스트 아래
+   ========================================================= */
+.sheet-extra-card-basic {
+  padding: 0;
+  overflow: hidden;
+}
+
+.sheet-extra-card-basic .sheet-extra-card-copy {
+  padding: 28px;
+}
+
+.sheet-extra-basic-media {
+  margin-bottom: 0;
+  border-radius: 0;
+  min-height: 0;
+  aspect-ratio: 16 / 7;
+  background: #e9eef6;
+}
+
+.sheet-extra-basic-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   이미지 영역
+   ========================================================= */
+.sheet-extra-media {
+  overflow: hidden;
+  border-radius: 18px;
+  background: #f3f6fb;
+  margin-bottom: 18px;
+  min-height: 18px;
+}
+
+.sheet-extra-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-size: 0;
+  color: transparent;
+}
+
+
+/* =========================================================
+   카드 내부 태그
+   ========================================================= */
+.sheet-extra-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f1f5ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.sheet-extra-inline-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f6f7fb;
+  color: #55637e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sheet-extra-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.sheet-extra-tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f6f7fb;
+  color: #55637e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sheet-extra-action {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   예약과정 카드
+   ========================================================= */
+.sheet-extra-step-card {
+  position: relative;
+  padding-top: 30px;
+}
+
+.sheet-extra-step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb, #7fb0ff);
+}
+
+.sheet-extra-step-no {
+  display: inline-flex;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 900;
+  color: #2563eb;
+  letter-spacing: 0.06em;
+}
+
+.sheet-extra-highlight {
+  margin-top: auto;
+  padding-top: 18px;
+  color: #2563eb;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.sheet-extra-faq-list {
+  display: grid;
+  gap: 16px;
+}
+
+.sheet-extra-faq {
+  background: #ffffff;
+  border: 1px solid #e7edf5;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.04);
+}
+
+.sheet-extra-faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 22px 24px;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.45;
+  color: #091a3b;
+}
+
+.sheet-extra-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.sheet-extra-faq-body {
+  padding: 0 24px 22px;
+}
+
+
+/* =========================================================
+   DEBUG 패널
+   ========================================================= */
+.sheet-debug-panel {
+  width: min(1180px, calc(100% - 32px));
+  margin: 28px auto 40px;
+  background: #0f172a;
+  color: #d7e3ff;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+}
+
+.sheet-debug-title {
+  font-size: 14px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.sheet-debug-list {
+  display: grid;
+  gap: 8px;
+  max-height: 280px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.sheet-debug-item {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   신뢰요소 숨김
+   ========================================================= */
+#trustSection {
+  display: none !important;
+}
+
+
+/* =========================================================
    태블릿 대응
    ========================================================= */
 @media (max-width: 1080px) {
@@ -1819,6 +2115,11 @@ button {
 
   .price-guarantee-side {
     padding-top: 16px;
+  }
+
+  .sheet-extra-grid,
+  .sheet-extra-grid-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1904,8 +2205,29 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .schedule-visual {
+    min-height: 224px;
+  }
+
+  .schedule-visual-inner {
+    padding: 20px 20px 18px;
+  }
+
+  .schedule-badge {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
+
   .schedule-card .schedule-title {
-    font-size: 28px;
+    max-width: 100%;
+    font-size: 30px;
+    line-height: 1.18;
+  }
+
+  .schedule-meta .schedule-meta-item:nth-child(3) strong,
+  .schedule-meta-item.is-primary strong {
+    font-size: 18px;
   }
 
   .price-guarantee-card {
@@ -1949,8 +2271,15 @@ button {
     justify-content: center;
   }
 
-  .sib-btn {
-    flex: 1;
+  .sib-btn-group-full {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sib-btn,
+  .sib-btn-wide {
+    width: 100%;
+    min-width: 0;
     padding: 0 14px;
   }
 
@@ -2004,11 +2333,6 @@ button {
     table-layout: auto;
   }
 
-  /* ---------------------------------------------------------
-     문의폼 모바일 보정
-     - 동의줄 간격 축소
-     - 제출버튼 전체폭
-     --------------------------------------------------------- */
   .form-grid label.full.consent-check {
     gap: 8px;
   }
@@ -2017,21 +2341,70 @@ button {
     width: 100%;
     min-width: 0;
   }
+
+  .sheet-extra-section {
+    padding: 56px 0 8px;
+  }
+
+  .sheet-extra-wrap,
+  .sheet-debug-panel {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .sheet-extra-title {
+    font-size: 30px;
+  }
+
+  .sheet-extra-grid,
+  .sheet-extra-grid-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .sheet-extra-card {
+    padding: 22px;
+  }
+
+  .sheet-extra-card-basic {
+    padding: 0;
+  }
+
+  .sheet-extra-card-basic .sheet-extra-card-copy {
+    padding: 22px;
+  }
+
+  .sheet-extra-basic-media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .sheet-extra-step-card::before {
+    left: 22px;
+    right: 22px;
+  }
+
+  .sheet-extra-nav {
+    width: 42px;
+    height: 42px;
+    font-size: 24px;
+  }
+
+  .sheet-extra-nav.prev {
+    left: -6px;
+  }
+
+  .sheet-extra-nav.next {
+    right: -6px;
+  }
 }
 
 
 /* =========================================================
-   작은 모바일 대응
+   작은 모바일
    ========================================================= */
 @media (max-width: 560px) {
   .hero-title {
     font-size: 42px;
   }
-  .sheet-extra-nav {
-    width: 38px;
-    height: 38px;
-    font-size: 22px;
-  }
+
   .hero-subtitle {
     font-size: 16px;
   }
@@ -2104,456 +2477,10 @@ button {
   .btn-phone {
     display: none;
   }
-}
 
-
-/* =========================================================
-   숨김 처리용
-   - 사용하지 않는 보조 박스 숨김
-   ========================================================= */
-.hero-quick-box {
-  display: none !important;
-}
-
-/* =========================================================
-   하단 추가 섹션 공통 래퍼
-   - 이용대상자 / 예약과정 / 선실비교 / FAQ / 콘텐츠연결
-   - 섹션 전체 폭과 상하 간격 정리
-   ========================================================= */
-.sheet-extra-section {
-  padding: 72px 0 12px;
-}
-
-.sheet-extra-wrap {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-}
-
-/* =========================================================
-   하단 추가 섹션 헤더
-   - 섹션 라벨 + 제목을 가운데 정렬
-   - 기존 페이지 섹션 타이포 결에 맞춤
-   ========================================================= */
-.sheet-extra-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 0 0 30px;
-}
-
-.sheet-extra-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.08);
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.sheet-extra-title {
-  margin: 12px 0 0;
-  font-size: clamp(32px, 3vw, 42px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.15;
-  color: #091a3b;
-}
-
-/* =========================================================
-   기초안내 전용 슬라이더
-   - PC / MO 모두 1장씩만 노출
-   ========================================================= */
-.sheet-extra-slider {
-  position: relative;
-  margin-top: 6px;
-}
-
-.sheet-extra-slider-viewport {
-  overflow: hidden;
-  border-radius: 28px;
-}
-
-.sheet-extra-basic-track {
-  display: flex;
-  gap: 0;
-  transition: transform 0.32s ease;
-  will-change: transform;
-}
-
-.sheet-extra-basic-track .sheet-extra-card {
-  flex: 0 0 100%;
-  min-width: 100%;
-}
-
-.sheet-extra-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.sheet-extra-dot {
-  width: 8px;
-  height: 8px;
-  border: 0;
-  border-radius: 50%;
-  background: #cbd5e1;
-  padding: 0;
-  cursor: pointer;
-}
-
-.sheet-extra-dot.is-active {
-  background: var(--blue);
-}
-
-.sheet-extra-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(8, 22, 47, 0.88);
-  color: #fff;
-  font-size: 28px;
-  z-index: 2;
-  box-shadow: var(--shadow-soft);
-}
-
-.sheet-extra-nav.prev {
-  left: -10px;
-}
-
-.sheet-extra-nav.next {
-  right: -10px;
-}
-
-.sheet-extra-nav.is-hidden,
-.sheet-extra-dots.is-hidden {
-  display: none;
-}
-
-/* =========================================================
-   하단 추가 섹션 카드 그리드
-   - 카드 간격 / 높이 정리
-   ========================================================= */
-.sheet-extra-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  align-items: stretch;
-}
-
-.sheet-extra-grid-steps {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* =========================================================
-   하단 추가 섹션 카드 공통
-   - 카드 배경 / 테두리 / 그림자 / 내부 여백
-   ========================================================= */
-.sheet-extra-card {
-  background: #ffffff;
-  border: 1px solid #e6ebf2;
-  border-radius: 28px;
-  padding: 28px;
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.sheet-extra-card h3 {
-  margin: 0 0 12px;
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
-  color: #091a3b;
-}
-
-.sheet-extra-card p {
-  margin: 0;
-  color: #667085;
-  line-height: 1.75;
-}
-
-.sheet-extra-muted {
-  margin-bottom: 10px !important;
-}
-
-.sheet-extra-points {
-  margin: 18px 0 0;
-  padding-left: 18px;
-  color: #334155;
-  line-height: 1.75;
-}
-
-.sheet-extra-points li + li {
-  margin-top: 8px;
-}
-
-/* =========================================================
-   이용대상자 / 콘텐츠연결 이미지 영역
-   - 이미지가 있을 때만 자연스럽게 보이게
-   - 깨진 이미지 공간도 어색하지 않게 유지
-   ========================================================= */
-.sheet-extra-media {
-  overflow: hidden;
-  border-radius: 18px;
-  background: #f3f6fb;
-  margin-bottom: 18px;
-  min-height: 18px;
-}
-
-.sheet-extra-media img {
-  display: block;
-  width: 100%;
-  height: auto;
-  font-size: 0;
-  color: transparent;
-}
-
-/* =========================================================
-   카드 내부 보조 태그
-   ========================================================= */
-.sheet-extra-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #f1f5ff;
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 800;
-  margin-bottom: 12px;
-}
-
-.sheet-extra-inline-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #f6f7fb;
-  color: #55637e;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.sheet-extra-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.sheet-extra-tags span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #f6f7fb;
-  color: #55637e;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* =========================================================
-   카드 하단 액션
-   - 버튼이 카드 아래쪽에 정렬되게
-   ========================================================= */
-.sheet-extra-action {
-  margin-top: auto;
-  padding-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-/* =========================================================
-   예약과정 카드 전용
-   - 지금 가장 밋밋한 부분이라 별도 강조
-   - STEP 배지 / 카드 높이 / 상단 포인트 라인 추가
-   ========================================================= */
-.sheet-extra-step-card {
-  position: relative;
-  padding-top: 30px;
-}
-
-.sheet-extra-step-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 28px;
-  right: 28px;
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #2563eb, #7fb0ff);
-}
-
-.sheet-extra-step-no {
-  display: inline-flex;
-  margin-bottom: 14px;
-  font-size: 12px;
-  font-weight: 900;
-  color: #2563eb;
-  letter-spacing: 0.06em;
-}
-
-.sheet-extra-highlight {
-  margin-top: auto;
-  padding-top: 18px;
-  color: #2563eb;
-  font-weight: 800;
-  line-height: 1.6;
-}
-
-/* =========================================================
-   FAQ
-   - 질문 카드 폭 / 여백 / 타이포 정리
-   ========================================================= */
-.sheet-extra-faq-list {
-  display: grid;
-  gap: 16px;
-}
-
-.sheet-extra-faq {
-  background: #ffffff;
-  border: 1px solid #e6ebf2;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.04);
-}
-
-.sheet-extra-faq summary {
-  cursor: pointer;
-  list-style: none;
-  padding: 22px 24px;
-  font-size: 18px;
-  font-weight: 900;
-  line-height: 1.45;
-  color: #091a3b;
-}
-
-.sheet-extra-faq summary::-webkit-details-marker {
-  display: none;
-}
-
-.sheet-extra-faq-body {
-  padding: 0 24px 22px;
-}
-
-/* =========================================================
-   DEBUG 패널
-   - 최하단 디버그 영역
-   ========================================================= */
-.sheet-debug-panel {
-  width: min(1180px, calc(100% - 32px));
-  margin: 28px auto 40px;
-  background: #0f172a;
-  color: #d7e3ff;
-  border-radius: 20px;
-  padding: 18px 20px;
-  box-sizing: border-box;
-}
-
-.sheet-debug-title {
-  font-size: 14px;
-  font-weight: 800;
-  margin: 0 0 10px;
-  color: #ffffff;
-}
-
-.sheet-debug-list {
-  display: grid;
-  gap: 8px;
-  max-height: 280px;
-  overflow: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.sheet-debug-item {
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  word-break: break-word;
-}
-
-/* =========================================================
-   신뢰요소 숨김
-   - 이 섹션은 현재 제외 처리
-   ========================================================= */
-#trustSection {
-  display: none !important;
-}
-
-/* =========================================================
-   태블릿
-   ========================================================= */
-@media (max-width: 1080px) {
-  .sheet-extra-grid,
-  .sheet-extra-grid-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* =========================================================
-   모바일
-   ========================================================= */
-@media (max-width: 720px) {
-  .sheet-extra-section {
-    padding: 56px 0 8px;
-  }
   .sheet-extra-nav {
-    width: 42px;
-    height: 42px;
-    font-size: 24px;
-  }
-
-  .sheet-extra-nav.prev {
-    left: -6px;
-  }
-
-  .sheet-extra-nav.next {
-    right: -6px;
-  }
-  .sheet-extra-wrap,
-  .sheet-debug-panel {
-    width: min(100%, calc(100% - 24px));
-  }
-
-  .sheet-extra-title {
-    font-size: 30px;
-  }
-
-  .sheet-extra-grid,
-  .sheet-extra-grid-steps {
-    grid-template-columns: 1fr;
-  }
-
-  .sheet-extra-card {
-    padding: 22px;
-  }
-
-  .sheet-extra-step-card::before {
-    left: 22px;
-    right: 22px;
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
   }
 }
-
