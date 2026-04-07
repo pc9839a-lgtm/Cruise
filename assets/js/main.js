@@ -146,20 +146,7 @@
       reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
     }
 	  
-	const basicInfoViewport = document.getElementById('basicInfoViewport');
-	if (basicInfoViewport) {
-	  basicInfoViewport.addEventListener('mouseenter', stopBasicInfoAuto);
-	  basicInfoViewport.addEventListener('mouseleave', () => {
-	    setupBasicInfoSlider();
-	    startBasicInfoAuto((state.bootstrap.basic_info || []).length);
-	  });
-	  basicInfoViewport.addEventListener('touchstart', stopBasicInfoAuto, { passive: true });
-	  basicInfoViewport.addEventListener('touchend', () => {
-	    setupBasicInfoSlider();
-	    startBasicInfoAuto((state.bootstrap.basic_info || []).length);
-	  }, { passive: true });
-	}    
-	  
+  
     if (phoneInput) {
       phoneInput.addEventListener('input', () => {
         phoneInput.value = String(phoneInput.value || '').replace(/\D+/g, '').slice(0, 11);
@@ -662,6 +649,20 @@
 	    }, { passive: true });
 	
 	    viewport.dataset.basicInfoScrollBound = 'true';
+	  }
+	
+	  if (!viewport.dataset.basicInfoAutoBound) {
+	    viewport.addEventListener('mouseenter', stopBasicInfoAuto);
+	    viewport.addEventListener('mouseleave', () => {
+	      startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+	    });
+	
+	    viewport.addEventListener('touchstart', stopBasicInfoAuto, { passive: true });
+	    viewport.addEventListener('touchend', () => {
+	      startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+	    }, { passive: true });
+	
+	    viewport.dataset.basicInfoAutoBound = 'true';
 	  }
 	
 	  if (total <= 1) {
