@@ -578,61 +578,159 @@
     return `${pad(date.getMonth() + 1)}.${pad(date.getDate())} (${weekdays[date.getDay()]})`;
   }
 
-  function getReviewPerView() { return window.innerWidth <= 720 ? 1 : 2; }
+  function getReviewPerView() { return window.innerWidth <= 768 ? 1 : 2; }
 
-  function setupReviewSlider(total) {
-    if (!reviewGrid) return;
-    const perView = getReviewPerView();
-    const maxPage = Math.max(0, total - perView);
-    state.reviewPage = Math.min(state.reviewPage, maxPage);
+  // =========================================================
+// 2) setupReviewSlider
+// 시작: function setupReviewSlider(total) {
+// 끝  : }
+// =========================================================
+	function setupReviewSlider(total) {
+	  if (!reviewGrid || !reviewViewport) return;
+	
+	  const mobileMode = window.innerWidth <= 768;
+	  const prev = document.querySelector('[data-review-nav="prev"]');
+	  const next = document.querySelector('[data-review-nav="next"]');
+	
+	  if (mobileMode) {
+	    if (!reviewViewport.dataset.reviewMobileBound) {
+	      reviewViewport.addEventListener('scroll', () => {
+	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
+	        let closestIndex = 0;
+	        let closestDistance = Infinity;
+	
+	        cards.forEach((card, idx) => {
+	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+	          const distance = Math.abs(cardCenter - viewportCenter);
+	
+	          if (distance < closestDistance) {
+	            closestDistance = distance;
+	            closestIndex = idx;
+	          }
+	        });
+	
+	        state.reviewPage = closestIndex;
+	      }, { passive: true });
+	
+	      reviewViewport.dataset.reviewMobileBound = 'true';
+	    }
+	
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	
+	    reviewGrid.style.transform = '';
+	    prev?.classList.add('is-hidden');
+	    next?.classList.add('is-hidden');
+	
+	    if (reviewDots) {
+	      reviewDots.className = 'review-dots is-hidden';
+	      reviewDots.innerHTML = '';
+	    }
+	
+	    if (total <= 1) {
+	      stopReviewAuto();
+	      return;
+	    }
+	
+	    state.reviewPage = Math.min(state.reviewPage, total - 1);
+	
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
+	    }
+	
+	    startReviewAuto(total);
+	    return;
+	  }
+	
+	  const perView = getReviewPerView();
+	  const maxPage = Math.max(0, total - perView);
+	  state.reviewPage = Math.min(state.reviewPage, maxPage);
+	
+	  if (total <= perView) {
+	    reviewGrid.style.transform = '';
+	    prev?.classList.add('is-hidden');
+	    next?.classList.add('is-hidden');
+	
+	    if (reviewDots) {
+	      reviewDots.className = 'review-dots is-hidden';
+	      reviewDots.innerHTML = '';
+	    }
+	
+	    stopReviewAuto();
+	    return;
+	  }
+	
+	  prev?.classList.remove('is-hidden');
+	  next?.classList.remove('is-hidden');
+	  if (reviewDots) reviewDots.className = 'review-dots';
+	
+	  const gap = 22;
+	  const viewportWidth = reviewViewport.clientWidth || 0;
+	  const cardWidth = (viewportWidth - gap) / perView;
+	  reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
+	
+	  if (reviewDots) {
+	    reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) =>
+	      `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+	    ).join('');
+	  }
+	
+	  startReviewAuto(total);
+	}
 
-    const prev = document.querySelector('[data-review-nav="prev"]');
-    const next = document.querySelector('[data-review-nav="next"]');
+// =========================================================
+// 3) moveReviews
+// 시작: function moveReviews(direction) {
+// 끝  : }
+// =========================================================
+	function moveReviews(direction) {
+	  const total = (state.bootstrap.reviews || []).length;
+	  if (!total) return;
+	
+	  if (window.innerWidth <= 768) {
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	    if (!cards.length || !reviewViewport) return;
+	
+	    const maxPage = total - 1;
+	    state.reviewPage = direction === 'prev'
+	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+	
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
+	    }
+	    return;
+	  }
+	
+	  const maxPage = Math.max(0, total - getReviewPerView());
+	  state.reviewPage = direction === 'prev'
+	    ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+	    : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+	
+	  setupReviewSlider(total);
+	}
 
-    if (total <= perView) {
-      reviewGrid.style.transform = '';
-      prev?.classList.add('is-hidden');
-      next?.classList.add('is-hidden');
-      if (reviewDots) { reviewDots.className = 'review-dots is-hidden'; reviewDots.innerHTML = ''; }
-      stopReviewAuto();
-      return;
-    }
+	function startReviewAuto(total) {
+	  stopReviewAuto();
+	  if (total > 1) {
+	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
+	  }
+	}
 
-    prev?.classList.remove('is-hidden');
-    next?.classList.remove('is-hidden');
-    if (reviewDots) reviewDots.className = 'review-dots';
-
-    const gap = 22;
-    const viewportWidth = reviewViewport ? reviewViewport.clientWidth : 0;
-    const cardWidth = (viewportWidth - gap) / perView;
-    reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
-
-    if (reviewDots) {
-      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) => 
-        `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
-      ).join('');
-    }
-
-    startReviewAuto(total);
-  }
-
-  function moveReviews(direction) {
-    const total = (state.bootstrap.reviews || []).length;
-    const maxPage = Math.max(0, total - getReviewPerView());
-    state.reviewPage = direction === 'prev' 
-      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1) 
-      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
-    setupReviewSlider(total);
-  }
-
-  function startReviewAuto(total) {
-    stopReviewAuto();
-    if (total > getReviewPerView()) reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
-  }
-
-  function stopReviewAuto() {
-    if (reviewAutoTimer) { window.clearInterval(reviewAutoTimer); reviewAutoTimer = null; }
-  }
+	function stopReviewAuto() {
+	  if (reviewAutoTimer) {
+	    window.clearInterval(reviewAutoTimer);
+	    reviewAutoTimer = null;
+	  }
+	}
 
 	function setupBasicInfoSlider() {
 	  const viewport = document.getElementById('basicInfoViewport');
