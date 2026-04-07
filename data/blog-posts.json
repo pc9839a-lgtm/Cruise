@@ -41,7 +41,7 @@
       "팁세금"
     ],
     "featured": true,
-    ": "blog/_posts/cruise-cost-breakdown.html",
+    "content_file": "blog/posts/cruise-cost-breakdown.html",
     "cta_primary_label": "가격 문의하기",
     "cta_primary_url": "/#contact",
     "cta_secondary_label": "전체 일정 보기",
@@ -67,7 +67,7 @@
       "승선서류"
     ],
     "featured": false,
-    ": "blog/_posts/departure-checklist.html",
+    "content_file": "blog/posts/departure-checklist.html",
     "cta_primary_label": "가격 문의하기",
     "cta_primary_url": "/#contact",
     "cta_secondary_label": "추천 일정 보기",
