@@ -15,7 +15,7 @@
       "체크리스트"
     ],
     "featured": true,
-    "content_file": "blog/_posts/first-cruise-guide.html",
+    "content_file": "blog/posts/first-cruise-guide.html",
     "cta_primary_label": "가격 문의하기",
     "cta_primary_url": "/#contact",
     "cta_secondary_label": "추천 일정 보기",
@@ -41,7 +41,7 @@
       "팁세금"
     ],
     "featured": true,
-    "content_file": "blog/_posts/cruise-cost-breakdown.html",
+    ": "blog/_posts/cruise-cost-breakdown.html",
     "cta_primary_label": "가격 문의하기",
     "cta_primary_url": "/#contact",
     "cta_secondary_label": "전체 일정 보기",
@@ -67,7 +67,7 @@
       "승선서류"
     ],
     "featured": false,
-    "content_file": "blog/_posts/departure-checklist.html",
+    ": "blog/_posts/departure-checklist.html",
     "cta_primary_label": "가격 문의하기",
     "cta_primary_url": "/#contact",
     "cta_secondary_label": "추천 일정 보기",
