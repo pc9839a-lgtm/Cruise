@@ -3,11 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>크루즈플레이</title>
-  <meta name="description" content="전세계 크루즈 최저가 보장" />
-  <meta property="og:title" content="크루즈플레이" />
-  <meta property="og:description" content="전세계 크루즈 일정과 후기를 보고 바로 가격 문의까지 연결하세요." />
+  
+  <title>크루즈플레이 | 패키지 말고 크루즈 직구하세요</title>
+  <meta name="description" content="쇼핑, 옵션 없는 진짜 크루즈 자유여행. 크루즈플레이에서 투명한 일정과 항해 루트를 비교하고 최저가로 견적을 받아보세요." />
+  <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/" />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/" />
+  <meta property="og:title" content="크루즈플레이 | 패키지 말고 크루즈 직구하세요" />
+  <meta property="og:description" content="쇼핑, 옵션 없는 진짜 크루즈 자유여행. 투명한 일정과 견적을 지금 확인하세요." />
+  <meta property="og:image" content="https://cruiseplay-dyt.pages.dev/img/og-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="크루즈플레이 | 패키지 말고 크루즈 직구하세요" />
+  <meta name="twitter:description" content="쇼핑, 옵션 없는 진짜 크루즈 자유여행. 투명한 일정과 견적을 지금 확인하세요." />
+  <meta name="twitter:image" content="https://cruiseplay-dyt.pages.dev/img/og-image.jpg" />
+
   <meta name="theme-color" content="#ffffff" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
@@ -24,13 +38,13 @@
         <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
           <span></span><span></span><span></span>
         </button>
-		<nav class="nav" id="mainNav">
-		  <a href="#identity">브랜드 소개</a>
-		  <a href="#schedule">추천 일정</a>
-		  <a href="#reviews">여행 후기</a>
-		  <a href="blog.html">콘텐츠</a>
-		  <a href="#contact" class="nav-highlight">가격문의</a>
-		</nav>
+        <nav class="nav" id="mainNav">
+          <a href="#identity">브랜드 소개</a>
+          <a href="#schedule">추천 일정</a>
+          <a href="#reviews">여행 후기</a>
+          <a href="https://cruiseplay-dyt.pages.dev/blog">콘텐츠</a>
+          <a href="#contact" class="nav-highlight">가격문의</a>
+        </nav>
       </div>
     </header>
 
@@ -140,81 +154,81 @@
 
           <div class="contact-card">
             <form id="contactForm" method="POST" target="formSubmitFrame" novalidate>
-				<div class="form-grid">
-				  <label>
-					<span>성함 <i class="req">*</i></span>
-					<input type="text" name="name" placeholder="성함을 입력해주세요" required />
-				  </label>
+                <div class="form-grid">
+                  <label>
+                    <span>성함 <i class="req">*</i></span>
+                    <input type="text" name="name" placeholder="성함을 입력해주세요" required />
+                  </label>
 
-				  <label>
-					<span>연락처 <i class="req">*</i></span>
-					<input
-					  type="tel"
-					  name="phone"
-					  id="phoneInput"
-					  inputmode="numeric"
-					  pattern="[0-9]*"
-					  autocomplete="tel"
-					  placeholder="숫자만 입력해주세요"
-					  required
-					/>
-				  </label>
+                  <label>
+                    <span>연락처 <i class="req">*</i></span>
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="phoneInput"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                      autocomplete="tel"
+                      placeholder="숫자만 입력해주세요"
+                      required
+                    />
+                  </label>
 
-				  <label>
-					<span>관심 일정 <i class="req">*</i></span>
-					<select name="interest_schedule_id" id="interestScheduleSelect" required>
-					  <option value="">선택해주세요</option>
-					</select>
-				  </label>
+                  <label>
+                    <span>관심 일정 <i class="req">*</i></span>
+                    <select name="interest_schedule_id" id="interestScheduleSelect" required>
+                      <option value="">선택해주세요</option>
+                    </select>
+                  </label>
 
-				  <label>
-					<span>인원수 <i class="req">*</i></span>
-					<select name="people_count" required>
-					  <option value="">선택해주세요</option>
-					  <option value="2">2명</option>
-					  <option value="3">3명</option>
-					  <option value="4">4명</option>
-					  <option value="5+">5명 이상</option>
-					</select>
-				  </label>
+                  <label>
+                    <span>인원수 <i class="req">*</i></span>
+                    <select name="people_count" required>
+                      <option value="">선택해주세요</option>
+                      <option value="2">2명</option>
+                      <option value="3">3명</option>
+                      <option value="4">4명</option>
+                      <option value="5+">5명 이상</option>
+                    </select>
+                  </label>
 
-				  <label>
-					<span>거주지역</span>
-					<input
-					  type="text"
-					  name="region_detail"
-					  id="regionDetailInput"
-					  placeholder="예: 서울 서대문구"
-					/>
-				  </label>
+                  <label>
+                    <span>거주지역</span>
+                    <input
+                      type="text"
+                      name="region_detail"
+                      id="regionDetailInput"
+                      placeholder="예: 서울 서대문구"
+                    />
+                  </label>
 
-				  <label>
-					<span>여권 / 해외결제카드 소지 여부</span>
-					<select name="travel_ready_status" id="travelReadyStatusSelect">
-					  <option value="">선택해주세요</option>
-					  <option value="여권만 있습니다.">여권만 있습니다.</option>
-					  <option value="해외결제카드만 있습니다.">해외결제카드만 있습니다.</option>
-					  <option value="둘 다 가지고 있습니다.">둘 다 가지고 있습니다.</option>
-					  <option value="둘 다 없습니다.">둘 다 없습니다.</option>
-					  <option value="확인 후 안내드릴게요.">확인 후 안내드릴게요.</option>
-					</select>
-				  </label>
+                  <label>
+                    <span>여권 / 해외결제카드 소지 여부</span>
+                    <select name="travel_ready_status" id="travelReadyStatusSelect">
+                      <option value="">선택해주세요</option>
+                      <option value="여권만 있습니다.">여권만 있습니다.</option>
+                      <option value="해외결제카드만 있습니다.">해외결제카드만 있습니다.</option>
+                      <option value="둘 다 가지고 있습니다.">둘 다 가지고 있습니다.</option>
+                      <option value="둘 다 없습니다.">둘 다 없습니다.</option>
+                      <option value="확인 후 안내드릴게요.">확인 후 안내드릴게요.</option>
+                    </select>
+                  </label>
 
-				  <label class="full">
-					<span>문의내용</span>
-					<textarea
-					  name="message"
-					  id="messageInput"
-					  rows="5"
-					  placeholder="원하는 일정, 궁금한 점을 남겨주세요"
-					></textarea>
-				  </label>
+                  <label class="full">
+                    <span>문의내용</span>
+                    <textarea
+                      name="message"
+                      id="messageInput"
+                      rows="5"
+                      placeholder="원하는 일정, 궁금한 점을 남겨주세요"
+                    ></textarea>
+                  </label>
 
-				  <label class="full consent-check">
-					<input type="checkbox" id="privacyAgreeInput" required />
-					<span>개인정보 수집 및 이용에 동의합니다. <i class="req">*</i></span>
-				  </label>
-				</div>
+                  <label class="full consent-check">
+                    <input type="checkbox" id="privacyAgreeInput" required />
+                    <span>개인정보 수집 및 이용에 동의합니다. <i class="req">*</i></span>
+                  </label>
+                </div>
 
               <input type="hidden" name="agent_code" id="agentCodeInput" />
               <input type="hidden" name="utm_source" id="utmSourceInput" />
@@ -244,19 +258,19 @@
     </footer>
   </div>
 
-	<div class="sticky-inquiry-bar" id="stickyInquiryBar">
-	  <div class="sib-content">
-		<div class="sib-text-group">
-		  <span class="sib-badge sib-badge-blink">마감임박</span>
-		  <p class="sib-title">원하시는 일정의 객실이 곧 마감됩니다.</p>
-		  <span class="sib-sub">전문가와 무료로 상담해보세요.</span>
-		</div>
+    <div class="sticky-inquiry-bar" id="stickyInquiryBar">
+      <div class="sib-content">
+        <div class="sib-text-group">
+          <span class="sib-badge sib-badge-blink">마감임박</span>
+          <p class="sib-title">원하시는 일정의 객실이 곧 마감됩니다.</p>
+          <span class="sib-sub">전문가와 무료로 상담해보세요.</span>
+        </div>
 
-		<div class="sib-btn-group sib-btn-group-full">
-		  <a href="#contact" class="sib-btn btn-inquiry sib-btn-wide">가격문의</a>
-		</div>
-	  </div>
-	</div>
+        <div class="sib-btn-group sib-btn-group-full">
+          <a href="#contact" class="sib-btn btn-inquiry sib-btn-wide">가격문의</a>
+        </div>
+      </div>
+    </div>
 
   <div class="schedule-modal" id="scheduleModal" aria-hidden="true">
     <div class="schedule-modal-backdrop" data-close-modal></div>
