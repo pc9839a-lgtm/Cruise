@@ -645,11 +645,21 @@
           min-height: 100%;
         }
 
+        #basicInfoSection .sheet-extra-basic-media {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #f7f9fe;
+        }
+
         #basicInfoSection .sheet-extra-basic-media img {
-          width: 100%;
-          height: 100%;
+          width: auto;
+          height: auto;
+          max-width: 100%;
+          max-height: 100%;
           display: block;
-          object-fit: cover;
+          object-fit: contain;
+          object-position: center;
         }
 
         #basicInfoSection .sheet-extra-card-copy {
@@ -1135,7 +1145,7 @@
 	  if (total > 1) {
 	    basicInfoAutoTimer = window.setInterval(() => {
 	      moveBasicInfoAuto();
-	    }, 3800);
+	    }, 2600);
 	  }
 	}
 	
