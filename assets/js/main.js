@@ -44,12 +44,6 @@
     { order: 11, key: 'contentSection' }
   ];
 
-  const BOOTSTRAP_CACHE_KEY = 'cruise.bootstrap.lastSuccess.v3';
-  const BOOTSTRAP_CACHE_TIME_KEY = 'cruise.bootstrap.lastSuccessAt.v3';
-  const BOOTSTRAP_OVERLAY_ID = 'bootstrapLoadingOverlay';
-  const BOOTSTRAP_OVERLAY_MESSAGE_ID = 'bootstrapLoadingMessage';
-  const BOOTSTRAP_OVERLAY_MIN_MS = 260;
-
 
 	const state = {
 	  bootstrap: {
@@ -142,6 +136,7 @@
 	window.addEventListener('resize', () => {
 	  setupReviewSlider((state.bootstrap.reviews || []).length);
 	  setupBasicInfoSlider();
+	  applyScheduleHeaderDesktopFix();
 	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
 	});
 
@@ -219,47 +214,20 @@
     return;
   }
 
-  async function getBootstrapWithFallback(action = 'bootstrap') {
+  async function getBootstrapWithFallback() {
     try {
-      const apiPayload = await loadBootstrapFromApi(action);
+      const apiPayload = await loadBootstrapFromApi();
       return normalizeData(apiPayload);
     } catch (error) {
       return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
   }
 
-  async function loadBootstrapProgressively() {
-    try {
-      const initialPayload = await loadBootstrapFromApi('bootstrap_initial');
-      return { initial: initialPayload, isSplit: true };
-    } catch (initialError) {
-      const fullPayload = await loadBootstrapFromApi('bootstrap');
-      return { initial: fullPayload, isSplit: false };
-    }
-  }
-
-  async function loadDeferredBootstrapInBackground(basePayload) {
-    try {
-      const deferredPayload = await loadBootstrapFromApi('bootstrap_deferred');
-      const mergedPayload = mergeBootstrapData(basePayload, deferredPayload);
-      hydrate(mergedPayload);
-      persistLastSuccessfulBootstrap(mergedPayload);
-    } catch (error) {
-      const cachedPayload = readLastSuccessfulBootstrap();
-      if (cachedPayload) {
-        hydrate(mergeBootstrapData(basePayload, cachedPayload));
-      }
-    } finally {
-      clearBootstrapSkeletons();
-      hideLoadingOverlay(true);
-    }
-  }
-
-  function loadBootstrapFromApi(action = 'bootstrap') {
+  function loadBootstrapFromApi() {
     return new Promise(function (resolve, reject) {
-      const callbackName = '__cruiseJsonpCallback_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+      const callbackName = '__cruiseJsonpCallback_' + Date.now();
       const params = new URLSearchParams(window.location.search);
-      params.set('action', action);
+      params.set('action', 'bootstrap');
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
@@ -278,15 +246,15 @@
         if (finished) return;
         finished = true;
         cleanup(false);
-        reject(new Error(action + '-load-failed'));
+        reject(new Error('bootstrap-load-failed'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (finished) return;
         finished = true;
         cleanup(false);
-        reject(new Error(action + '-timeout'));
-      }, action === 'bootstrap_deferred' ? 10000 : 8000);
+        reject(new Error('bootstrap-timeout'));
+      }, 8000);
 
       function cleanup(success) {
         if (timeoutId) {
@@ -314,47 +282,6 @@
     });
   }
 
-  function mergeBootstrapData(baseData, incomingData) {
-    const source = baseData || {};
-    const incoming = incomingData || {};
-    const hasOwn = function (key) {
-      return Object.prototype.hasOwnProperty.call(incoming, key);
-    };
-
-    return normalizeData({
-      settings: hasOwn('settings') ? (incoming.settings || {}) : source.settings,
-      schedules: hasOwn('schedules') ? ensureArray(incoming.schedules, []) : source.schedules,
-      schedule_days: hasOwn('schedule_days') ? ensureArray(incoming.schedule_days, []) : source.schedule_days,
-      reviews: hasOwn('reviews') ? ensureArray(incoming.reviews, []) : source.reviews,
-      targets: hasOwn('targets') ? ensureArray(incoming.targets, []) : source.targets,
-      basic_info: hasOwn('basic_info') ? ensureArray(incoming.basic_info, []) : source.basic_info,
-      process_steps: hasOwn('process_steps') ? ensureArray(incoming.process_steps, []) : source.process_steps,
-      cabins: hasOwn('cabins') ? ensureArray(incoming.cabins, []) : source.cabins,
-      faqs: hasOwn('faqs') ? ensureArray(incoming.faqs, []) : source.faqs,
-      trust_points: hasOwn('trust_points') ? ensureArray(incoming.trust_points, []) : source.trust_points,
-      content_links: hasOwn('content_links') ? ensureArray(incoming.content_links, []) : source.content_links
-    });
-  }
-
-  function readLastSuccessfulBootstrap() {
-    try {
-      const raw = window.localStorage.getItem(BOOTSTRAP_CACHE_KEY);
-      return raw ? normalizeData(JSON.parse(raw)) : null;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function persistLastSuccessfulBootstrap(payload) {
-    try {
-      const normalized = normalizeData(payload || {});
-      window.localStorage.setItem(BOOTSTRAP_CACHE_KEY, JSON.stringify(normalized));
-      window.localStorage.setItem(BOOTSTRAP_CACHE_TIME_KEY, String(Date.now()));
-    } catch (error) {
-      return;
-    }
-  }
-
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
     logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
@@ -366,7 +293,45 @@
     populateFormSelects();
     renderExtraSections();
     reorderPageSections();
+    applyScheduleHeaderDesktopFix();
     logDebug('hydrate.done', { ok: true });
+  }
+
+  function applyScheduleHeaderDesktopFix() {
+    const sectionTopline = document.querySelector('#schedule .section-topline');
+    const contentBlock = sectionTopline?.querySelector(':scope > div:first-child') || null;
+    const moreLink = sectionTopline?.querySelector('.section-more-link') || null;
+
+    if (!sectionTopline || !contentBlock) return;
+
+    if (window.innerWidth <= 768) {
+      sectionTopline.style.position = '';
+      sectionTopline.style.justifyContent = '';
+      sectionTopline.style.textAlign = '';
+      contentBlock.style.width = '';
+      contentBlock.style.textAlign = '';
+
+      if (moreLink) {
+        moreLink.style.position = '';
+        moreLink.style.right = '';
+        moreLink.style.top = '';
+        moreLink.style.transform = '';
+      }
+      return;
+    }
+
+    sectionTopline.style.position = 'relative';
+    sectionTopline.style.justifyContent = 'center';
+    sectionTopline.style.textAlign = 'center';
+    contentBlock.style.width = '100%';
+    contentBlock.style.textAlign = 'center';
+
+    if (moreLink) {
+      moreLink.style.position = 'absolute';
+      moreLink.style.right = '0';
+      moreLink.style.top = '50%';
+      moreLink.style.transform = 'translateY(-50%)';
+    }
   }
 
   function normalizeData(data) {
@@ -385,132 +350,6 @@
       trust_points: ensureArray(safe.trust_points, fb.trust_points),
       content_links: ensureArray(safe.content_links, fb.content_links)
     };
-  }
-
-  function showLoadingOverlay(message) {
-    const overlay = document.getElementById(BOOTSTRAP_OVERLAY_ID);
-    const messageNode = document.getElementById(BOOTSTRAP_OVERLAY_MESSAGE_ID);
-    if (!overlay || !messageNode) return;
-
-    loadingOverlayShownAt = Date.now();
-    messageNode.textContent = message || '불러오는 중입니다...';
-    overlay.classList.add('is-visible');
-    overlay.setAttribute('aria-hidden', 'false');
-  }
-
-  function hideLoadingOverlay(forceImmediate) {
-    const overlay = document.getElementById(BOOTSTRAP_OVERLAY_ID);
-    if (!overlay) return;
-
-    const elapsed = Date.now() - loadingOverlayShownAt;
-    const delay = forceImmediate ? 0 : Math.max(0, BOOTSTRAP_OVERLAY_MIN_MS - elapsed);
-
-    window.setTimeout(() => {
-      overlay.classList.remove('is-visible');
-      overlay.setAttribute('aria-hidden', 'true');
-    }, delay);
-  }
-
-  function ensureLoadingOverlay() {
-    if (document.getElementById(BOOTSTRAP_OVERLAY_ID)) return;
-
-    const overlay = document.createElement('div');
-    overlay.id = BOOTSTRAP_OVERLAY_ID;
-    overlay.className = 'bootstrap-loading-overlay';
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.innerHTML = `
-      <div class="bootstrap-loading-card">
-        <div class="bootstrap-loading-spinner" aria-hidden="true"></div>
-        <p id="${BOOTSTRAP_OVERLAY_MESSAGE_ID}">불러오는 중입니다...</p>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  function renderBootstrapSkeletons() {
-    renderScheduleSkeletons();
-    renderReviewSkeletons();
-    renderBasicInfoSkeletons();
-  }
-
-  function clearBootstrapSkeletons(scope) {
-    if (!scope || scope === 'all') {
-      const reviewSection = getSectionNodeByKey('reviewSection');
-      reviewSection?.classList.remove('is-bootstrap-loading');
-    }
-  }
-
-  function renderScheduleSkeletons() {
-    if (!scheduleGrid) return;
-
-    scheduleGrid.innerHTML = Array.from({ length: 3 }).map(() => `
-      <article class="bootstrap-skeleton-card bootstrap-skeleton-schedule">
-        <div class="bootstrap-skeleton bootstrap-skeleton-visual"></div>
-        <div class="bootstrap-skeleton-copy">
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
-          <div class="bootstrap-skeleton-meta">
-            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
-            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
-            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
-            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
-          </div>
-        </div>
-      </article>
-    `).join('');
-  }
-
-  function renderReviewSkeletons() {
-    if (!reviewGrid) return;
-
-    const reviewSection = getSectionNodeByKey('reviewSection');
-    reviewSection?.classList.add('is-bootstrap-loading');
-
-    reviewGrid.innerHTML = Array.from({ length: window.innerWidth <= 768 ? 1 : 2 }).map(() => `
-      <article class="bootstrap-skeleton-card bootstrap-skeleton-review">
-        <div class="bootstrap-skeleton bootstrap-skeleton-review-thumb"></div>
-        <div class="bootstrap-skeleton-copy">
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-md"></div>
-        </div>
-      </article>
-    `).join('');
-
-    if (reviewDots) {
-      reviewDots.className = 'review-dots is-hidden';
-      reviewDots.innerHTML = '';
-    }
-  }
-
-  function renderBasicInfoSkeletons() {
-    const section = document.getElementById('basicInfoSection');
-    const grid = document.getElementById('basicInfoGrid');
-    const dots = document.getElementById('basicInfoDots');
-
-    if (!section || !grid) return;
-
-    section.style.display = '';
-    grid.innerHTML = `
-      <article class="sheet-extra-card sheet-extra-card-basic bootstrap-skeleton-card bootstrap-skeleton-basic">
-        <div class="bootstrap-skeleton bootstrap-skeleton-basic-media"></div>
-        <div class="sheet-extra-card-copy bootstrap-skeleton-copy">
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
-          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-md"></div>
-        </div>
-      </article>
-    `;
-
-    if (dots) {
-      dots.className = 'sheet-extra-dots is-hidden';
-      dots.innerHTML = '';
-    }
   }
 
   function ensureArray(primary, fallback) {
