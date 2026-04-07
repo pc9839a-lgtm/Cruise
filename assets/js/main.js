@@ -113,18 +113,12 @@
         return;
       }
 
-      const basicInfoNav = target.closest('[data-basic-info-nav]');
-      if (basicInfoNav) {
-        moveBasicInfo(basicInfoNav.getAttribute('data-basic-info-nav'));
-        return;
-      }
-
-      const basicInfoDot = target.closest('[data-basic-info-dot]');
-      if (basicInfoDot) {
-        state.basicInfoPage = Number(basicInfoDot.getAttribute('data-basic-info-dot') || 0);
-        setupBasicInfoSlider();
-        return;
-      }
+		const basicInfoDot = target.closest('[data-basic-info-dot]');
+		if (basicInfoDot) {
+		  const page = Number(basicInfoDot.getAttribute('data-basic-info-dot') || 0);
+		  scrollBasicInfoToPage(page);
+		  return;
+		}
 
       const openCard = target.closest('[data-open-schedule]');
       if (openCard) {
@@ -138,10 +132,11 @@
       }
     });
 
-    window.addEventListener('resize', () => {
-      setupReviewSlider((state.bootstrap.reviews || []).length);
-      setupBasicInfoSlider();
-    });
+	window.addEventListener('resize', () => {
+	  setupReviewSlider((state.bootstrap.reviews || []).length);
+	  setupBasicInfoSlider();
+	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
+	});
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -617,63 +612,67 @@
   }
 
 	function setupBasicInfoSlider() {
-	  const track = document.getElementById('basicInfoGrid');
 	  const viewport = document.getElementById('basicInfoViewport');
 	  const dots = document.getElementById('basicInfoDots');
-	  const prev = document.querySelector('[data-basic-info-nav="prev"]');
-	  const next = document.querySelector('[data-basic-info-nav="next"]');
 	  const total = (state.bootstrap.basic_info || []).length;
 
-	  if (!track || !viewport) return;
+	  if (!viewport || !dots) return;
+
+	  if (!viewport.dataset.basicInfoScrollBound) {
+		viewport.addEventListener('scroll', () => {
+		  const width = viewport.clientWidth || 1;
+		  state.basicInfoPage = Math.round(viewport.scrollLeft / width);
+		  syncBasicInfoDots();
+		}, { passive: true });
+
+		viewport.dataset.basicInfoScrollBound = 'true';
+	  }
 
 	  if (total <= 1) {
 		state.basicInfoPage = 0;
-		track.style.transform = 'translateX(0)';
-		prev?.classList.add('is-hidden');
-		next?.classList.add('is-hidden');
-
-		if (dots) {
-		  dots.className = 'sheet-extra-dots is-hidden';
-		  dots.innerHTML = '';
-		}
+		dots.className = 'sheet-extra-dots is-hidden';
+		dots.innerHTML = '';
 		return;
 	  }
 
 	  const maxPage = total - 1;
 	  state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
 
-	  const viewportWidth = viewport.clientWidth;
-	  track.style.transform = `translateX(-${state.basicInfoPage * viewportWidth}px)`;
+	  dots.className = 'sheet-extra-dots';
+	  dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
+		<button
+		  type="button"
+		  class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
+		  data-basic-info-dot="${idx}"
+		  aria-label="기초안내 ${idx + 1}"
+		></button>
+	  `).join('');
 
-	  prev?.classList.remove('is-hidden');
-	  next?.classList.remove('is-hidden');
-
-	  if (dots) {
-		dots.className = 'sheet-extra-dots';
-		dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
-		  <button
-			type="button"
-			class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
-			data-basic-info-dot="${idx}"
-			aria-label="기초안내 ${idx + 1}"
-		  ></button>
-		`).join('');
-	  }
+	  syncBasicInfoDots();
 	}
 
-	function moveBasicInfo(direction) {
+	function scrollBasicInfoToPage(page, behavior = 'smooth') {
+	  const viewport = document.getElementById('basicInfoViewport');
 	  const total = (state.bootstrap.basic_info || []).length;
-	  if (total <= 1) return;
 
-	  const maxPage = total - 1;
+	  if (!viewport || total <= 1) return;
 
-	  if (direction === 'prev') {
-		state.basicInfoPage = state.basicInfoPage <= 0 ? maxPage : state.basicInfoPage - 1;
-	  } else {
-		state.basicInfoPage = state.basicInfoPage >= maxPage ? 0 : state.basicInfoPage + 1;
-	  }
+	  const safePage = Math.max(0, Math.min(page, total - 1));
+	  state.basicInfoPage = safePage;
 
-	  setupBasicInfoSlider();
+	  viewport.scrollTo({
+		left: viewport.clientWidth * safePage,
+		behavior
+	  });
+
+	  syncBasicInfoDots();
+	}
+
+	function syncBasicInfoDots() {
+	  const dotButtons = document.querySelectorAll('#basicInfoDots [data-basic-info-dot]');
+	  dotButtons.forEach((dot, idx) => {
+		dot.classList.toggle('is-active', idx === state.basicInfoPage);
+	  });
 	}
 
   function getHomePort(scheduleId) {
@@ -784,11 +783,9 @@
 		const bodyHtml = type === 'basicInfo'
 		  ? `
 			<div class="sheet-extra-slider" id="basicInfoSlider">
-			  <button type="button" class="sheet-extra-nav prev" data-basic-info-nav="prev" aria-label="이전 기초안내">‹</button>
 			  <div class="sheet-extra-slider-viewport" id="basicInfoViewport">
 				<div id="basicInfoGrid" class="sheet-extra-basic-track"></div>
 			  </div>
-			  <button type="button" class="sheet-extra-nav next" data-basic-info-nav="next" aria-label="다음 기초안내">›</button>
 			</div>
 			<div class="sheet-extra-dots" id="basicInfoDots"></div>
 		  `
@@ -831,22 +828,28 @@
 
 	  grid.innerHTML = items.map(item => {
 		const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+		const hasImage = Boolean(item.image_url);
 
 		return `
-		  <article class="sheet-extra-card sheet-extra-card-basic">
-		    ${item.image_url ? `<div class="sheet-extra-media sheet-extra-basic-media"><img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
-		    <div class="sheet-extra-card-copy">
-		      ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
-		      ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
-		      ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-		      ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
-		    </div>
+		  <article class="sheet-extra-card sheet-extra-card-basic ${hasImage ? '' : 'is-no-image'}">
+			${hasImage
+			  ? `<div class="sheet-extra-media sheet-extra-basic-media">
+				   <img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" />
+				 </div>`
+			  : `<div class="sheet-extra-basic-empty"><span>CRUISE GUIDE</span></div>`
+			}
+			<div class="sheet-extra-card-copy">
+			  ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+			  ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+			  ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+			  ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+			</div>
 		  </article>
 		`;
 	  }).join('');
 
 	  setupBasicInfoSlider();
-	  
+	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
 	}
 
   function renderTargets() {
