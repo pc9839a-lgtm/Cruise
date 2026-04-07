@@ -767,7 +767,7 @@
 	  if (!mainContent) return;
 
 	  const sections = [
-		{ id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '기초안내', type: 'basicInfo' },
+		{ id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '크루즈여행', type: 'basicInfo' },
 		{ id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
 		{ id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
 		{ id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
