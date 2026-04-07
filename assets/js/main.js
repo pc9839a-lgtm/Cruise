@@ -57,7 +57,8 @@
 	};
 
   let reviewAutoTimer = null;
-
+  let basicInfoAutoTimer = null;
+	
   init();
 
   async function init() {
@@ -144,7 +145,21 @@
       reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
       reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
     }
-
+	  
+	const basicInfoViewport = document.getElementById('basicInfoViewport');
+	if (basicInfoViewport) {
+	  basicInfoViewport.addEventListener('mouseenter', stopBasicInfoAuto);
+	  basicInfoViewport.addEventListener('mouseleave', () => {
+	    setupBasicInfoSlider();
+	    startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+	  });
+	  basicInfoViewport.addEventListener('touchstart', stopBasicInfoAuto, { passive: true });
+	  basicInfoViewport.addEventListener('touchend', () => {
+	    setupBasicInfoSlider();
+	    startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+	  }, { passive: true });
+	}    
+	  
     if (phoneInput) {
       phoneInput.addEventListener('input', () => {
         phoneInput.value = String(phoneInput.value || '').replace(/\D+/g, '').slice(0, 11);
@@ -418,33 +433,54 @@
     return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
   }
 
-  function renderReviews() {
-    if (!reviewGrid) return;
-    const reviews = state.bootstrap.reviews || [];
-    if (!reviews.length) {
-      reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
-      if (reviewDots) reviewDots.innerHTML = '';
-      return;
-    }
-
-    reviewGrid.innerHTML = reviews.map(review => {
-      const imageUrl = review.thumbnail_url || '';
-      return `
-        <article class="review-card">
-          <div class="review-thumb">
-            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
-          </div>
-          <div class="review-body">
-            ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
-            <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
-            <p>${escapeHtml(review.summary || review.content || '')}</p>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    setupReviewSlider(reviews.length);
-  }
+	function shuffleArray(items) {
+	  const array = [...items];
+	  for (let i = array.length - 1; i > 0; i -= 1) {
+	    const j = Math.floor(Math.random() * (i + 1));
+	    [array[i], array[j]] = [array[j], array[i]];
+	  }
+	  return array;
+	}	
+		
+	function renderReviews() {
+	  if (!reviewGrid) return;
+	
+	  const reviews = shuffleArray([...(state.bootstrap.reviews || [])]);
+	
+	  if (!reviews.length) {
+	    reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
+	    if (reviewDots) reviewDots.innerHTML = '';
+	    return;
+	  }
+	
+	  reviewGrid.innerHTML = reviews.map(review => {
+	    const imageCandidates = [
+	      review.thumbnail_url,
+	      review.image_url,
+	      review.photo_url
+	    ].filter(Boolean);
+	
+	    const imageUrl = imageCandidates.length
+	      ? imageCandidates[Math.floor(Math.random() * imageCandidates.length)]
+	      : '';
+	
+	    return `
+	      <article class="review-card">
+	        <div class="review-thumb">
+	          ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
+	        </div>
+	        <div class="review-body">
+	          ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
+	          <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
+	          <p>${escapeHtml(review.summary || review.content || '')}</p>
+	        </div>
+	      </article>
+	    `;
+	  }).join('');
+	
+	  state.reviewPage = 0;
+	  setupReviewSlider(reviews.length);
+	}
 
   function openSchedule(scheduleId) {
     const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim());
@@ -615,40 +651,42 @@
 	  const viewport = document.getElementById('basicInfoViewport');
 	  const dots = document.getElementById('basicInfoDots');
 	  const total = (state.bootstrap.basic_info || []).length;
-
+	
 	  if (!viewport || !dots) return;
-
+	
 	  if (!viewport.dataset.basicInfoScrollBound) {
-		viewport.addEventListener('scroll', () => {
-		  const width = viewport.clientWidth || 1;
-		  state.basicInfoPage = Math.round(viewport.scrollLeft / width);
-		  syncBasicInfoDots();
-		}, { passive: true });
-
-		viewport.dataset.basicInfoScrollBound = 'true';
+	    viewport.addEventListener('scroll', () => {
+	      const width = viewport.clientWidth || 1;
+	      state.basicInfoPage = Math.round(viewport.scrollLeft / width);
+	      syncBasicInfoDots();
+	    }, { passive: true });
+	
+	    viewport.dataset.basicInfoScrollBound = 'true';
 	  }
-
+	
 	  if (total <= 1) {
-		state.basicInfoPage = 0;
-		dots.className = 'sheet-extra-dots is-hidden';
-		dots.innerHTML = '';
-		return;
+	    stopBasicInfoAuto();
+	    state.basicInfoPage = 0;
+	    dots.className = 'sheet-extra-dots is-hidden';
+	    dots.innerHTML = '';
+	    return;
 	  }
-
+	
 	  const maxPage = total - 1;
 	  state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
-
+	
 	  dots.className = 'sheet-extra-dots';
 	  dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
-		<button
-		  type="button"
-		  class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
-		  data-basic-info-dot="${idx}"
-		  aria-label="기초안내 ${idx + 1}"
-		></button>
+	    <button
+	      type="button"
+	      class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
+	      data-basic-info-dot="${idx}"
+	      aria-label="기초안내 ${idx + 1}"
+	    ></button>
 	  `).join('');
-
+	
 	  syncBasicInfoDots();
+	  startBasicInfoAuto(total);
 	}
 
 	function scrollBasicInfoToPage(page, behavior = 'smooth') {
@@ -667,7 +705,31 @@
 
 	  syncBasicInfoDots();
 	}
-
+	function moveBasicInfoAuto() {
+	  const total = (state.bootstrap.basic_info || []).length;
+	  if (total <= 1) return;
+	
+	  const nextPage = state.basicInfoPage >= total - 1 ? 0 : state.basicInfoPage + 1;
+	  scrollBasicInfoToPage(nextPage);
+	}
+	
+	function startBasicInfoAuto(total) {
+	  stopBasicInfoAuto();
+	  if (total > 1) {
+	    basicInfoAutoTimer = window.setInterval(() => {
+	      moveBasicInfoAuto();
+	    }, 3800);
+	  }
+	}
+	
+	function stopBasicInfoAuto() {
+	  if (basicInfoAutoTimer) {
+	    window.clearInterval(basicInfoAutoTimer);
+	    basicInfoAutoTimer = null;
+	  }
+	}
+		
+	
 	function syncBasicInfoDots() {
 	  const dotButtons = document.querySelectorAll('#basicInfoDots [data-basic-info-dot]');
 	  dotButtons.forEach((dot, idx) => {
