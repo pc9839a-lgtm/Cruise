@@ -44,6 +44,12 @@
     { order: 11, key: 'contentSection' }
   ];
 
+  const BOOTSTRAP_CACHE_KEY = 'cruise.bootstrap.lastSuccess.v3';
+  const BOOTSTRAP_CACHE_TIME_KEY = 'cruise.bootstrap.lastSuccessAt.v3';
+  const BOOTSTRAP_OVERLAY_ID = 'bootstrapLoadingOverlay';
+  const BOOTSTRAP_OVERLAY_MESSAGE_ID = 'bootstrapLoadingMessage';
+  const BOOTSTRAP_OVERLAY_MIN_MS = 260;
+
 
 	const state = {
 	  bootstrap: {
@@ -58,13 +64,10 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
-  let reviewLoopResetTimer = null;
-  let reviewScrollEndTimer = null;
 	
   init();
 
   async function init() {
-    injectRequestedStyles();
     bindStaticEvents();
     setTrackingFields();
 
@@ -113,11 +116,7 @@
       const reviewDot = target.closest('[data-review-dot]');
       if (reviewDot) {
         state.reviewPage = Number(reviewDot.getAttribute('data-review-dot') || 0);
-        if (window.innerWidth <= 768) {
-          scrollToReviewRenderIndex(state.reviewPage + 1);
-        } else {
-          setupReviewSlider((state.bootstrap.reviews || []).length);
-        }
+        setupReviewSlider((state.bootstrap.reviews || []).length);
         return;
       }
 
@@ -141,7 +140,6 @@
     });
 
 	window.addEventListener('resize', () => {
-	  applyRequestedUiTweaks();
 	  setupReviewSlider((state.bootstrap.reviews || []).length);
 	  setupBasicInfoSlider();
 	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
@@ -221,20 +219,47 @@
     return;
   }
 
-  async function getBootstrapWithFallback() {
+  async function getBootstrapWithFallback(action = 'bootstrap') {
     try {
-      const apiPayload = await loadBootstrapFromApi();
+      const apiPayload = await loadBootstrapFromApi(action);
       return normalizeData(apiPayload);
     } catch (error) {
       return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
   }
 
-  function loadBootstrapFromApi() {
+  async function loadBootstrapProgressively() {
+    try {
+      const initialPayload = await loadBootstrapFromApi('bootstrap_initial');
+      return { initial: initialPayload, isSplit: true };
+    } catch (initialError) {
+      const fullPayload = await loadBootstrapFromApi('bootstrap');
+      return { initial: fullPayload, isSplit: false };
+    }
+  }
+
+  async function loadDeferredBootstrapInBackground(basePayload) {
+    try {
+      const deferredPayload = await loadBootstrapFromApi('bootstrap_deferred');
+      const mergedPayload = mergeBootstrapData(basePayload, deferredPayload);
+      hydrate(mergedPayload);
+      persistLastSuccessfulBootstrap(mergedPayload);
+    } catch (error) {
+      const cachedPayload = readLastSuccessfulBootstrap();
+      if (cachedPayload) {
+        hydrate(mergeBootstrapData(basePayload, cachedPayload));
+      }
+    } finally {
+      clearBootstrapSkeletons();
+      hideLoadingOverlay(true);
+    }
+  }
+
+  function loadBootstrapFromApi(action = 'bootstrap') {
     return new Promise(function (resolve, reject) {
-      const callbackName = '__cruiseJsonpCallback_' + Date.now();
+      const callbackName = '__cruiseJsonpCallback_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
       const params = new URLSearchParams(window.location.search);
-      params.set('action', 'bootstrap');
+      params.set('action', action);
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
@@ -253,15 +278,15 @@
         if (finished) return;
         finished = true;
         cleanup(false);
-        reject(new Error('bootstrap-load-failed'));
+        reject(new Error(action + '-load-failed'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (finished) return;
         finished = true;
         cleanup(false);
-        reject(new Error('bootstrap-timeout'));
-      }, 8000);
+        reject(new Error(action + '-timeout'));
+      }, action === 'bootstrap_deferred' ? 10000 : 8000);
 
       function cleanup(success) {
         if (timeoutId) {
@@ -289,6 +314,47 @@
     });
   }
 
+  function mergeBootstrapData(baseData, incomingData) {
+    const source = baseData || {};
+    const incoming = incomingData || {};
+    const hasOwn = function (key) {
+      return Object.prototype.hasOwnProperty.call(incoming, key);
+    };
+
+    return normalizeData({
+      settings: hasOwn('settings') ? (incoming.settings || {}) : source.settings,
+      schedules: hasOwn('schedules') ? ensureArray(incoming.schedules, []) : source.schedules,
+      schedule_days: hasOwn('schedule_days') ? ensureArray(incoming.schedule_days, []) : source.schedule_days,
+      reviews: hasOwn('reviews') ? ensureArray(incoming.reviews, []) : source.reviews,
+      targets: hasOwn('targets') ? ensureArray(incoming.targets, []) : source.targets,
+      basic_info: hasOwn('basic_info') ? ensureArray(incoming.basic_info, []) : source.basic_info,
+      process_steps: hasOwn('process_steps') ? ensureArray(incoming.process_steps, []) : source.process_steps,
+      cabins: hasOwn('cabins') ? ensureArray(incoming.cabins, []) : source.cabins,
+      faqs: hasOwn('faqs') ? ensureArray(incoming.faqs, []) : source.faqs,
+      trust_points: hasOwn('trust_points') ? ensureArray(incoming.trust_points, []) : source.trust_points,
+      content_links: hasOwn('content_links') ? ensureArray(incoming.content_links, []) : source.content_links
+    });
+  }
+
+  function readLastSuccessfulBootstrap() {
+    try {
+      const raw = window.localStorage.getItem(BOOTSTRAP_CACHE_KEY);
+      return raw ? normalizeData(JSON.parse(raw)) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function persistLastSuccessfulBootstrap(payload) {
+    try {
+      const normalized = normalizeData(payload || {});
+      window.localStorage.setItem(BOOTSTRAP_CACHE_KEY, JSON.stringify(normalized));
+      window.localStorage.setItem(BOOTSTRAP_CACHE_TIME_KEY, String(Date.now()));
+    } catch (error) {
+      return;
+    }
+  }
+
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
     logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
@@ -300,7 +366,6 @@
     populateFormSelects();
     renderExtraSections();
     reorderPageSections();
-    applyRequestedUiTweaks();
     logDebug('hydrate.done', { ok: true });
   }
 
@@ -320,6 +385,132 @@
       trust_points: ensureArray(safe.trust_points, fb.trust_points),
       content_links: ensureArray(safe.content_links, fb.content_links)
     };
+  }
+
+  function showLoadingOverlay(message) {
+    const overlay = document.getElementById(BOOTSTRAP_OVERLAY_ID);
+    const messageNode = document.getElementById(BOOTSTRAP_OVERLAY_MESSAGE_ID);
+    if (!overlay || !messageNode) return;
+
+    loadingOverlayShownAt = Date.now();
+    messageNode.textContent = message || '불러오는 중입니다...';
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function hideLoadingOverlay(forceImmediate) {
+    const overlay = document.getElementById(BOOTSTRAP_OVERLAY_ID);
+    if (!overlay) return;
+
+    const elapsed = Date.now() - loadingOverlayShownAt;
+    const delay = forceImmediate ? 0 : Math.max(0, BOOTSTRAP_OVERLAY_MIN_MS - elapsed);
+
+    window.setTimeout(() => {
+      overlay.classList.remove('is-visible');
+      overlay.setAttribute('aria-hidden', 'true');
+    }, delay);
+  }
+
+  function ensureLoadingOverlay() {
+    if (document.getElementById(BOOTSTRAP_OVERLAY_ID)) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = BOOTSTRAP_OVERLAY_ID;
+    overlay.className = 'bootstrap-loading-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+      <div class="bootstrap-loading-card">
+        <div class="bootstrap-loading-spinner" aria-hidden="true"></div>
+        <p id="${BOOTSTRAP_OVERLAY_MESSAGE_ID}">불러오는 중입니다...</p>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+  }
+
+  function renderBootstrapSkeletons() {
+    renderScheduleSkeletons();
+    renderReviewSkeletons();
+    renderBasicInfoSkeletons();
+  }
+
+  function clearBootstrapSkeletons(scope) {
+    if (!scope || scope === 'all') {
+      const reviewSection = getSectionNodeByKey('reviewSection');
+      reviewSection?.classList.remove('is-bootstrap-loading');
+    }
+  }
+
+  function renderScheduleSkeletons() {
+    if (!scheduleGrid) return;
+
+    scheduleGrid.innerHTML = Array.from({ length: 3 }).map(() => `
+      <article class="bootstrap-skeleton-card bootstrap-skeleton-schedule">
+        <div class="bootstrap-skeleton bootstrap-skeleton-visual"></div>
+        <div class="bootstrap-skeleton-copy">
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
+          <div class="bootstrap-skeleton-meta">
+            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
+            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
+            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
+            <span class="bootstrap-skeleton bootstrap-skeleton-chip"></span>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function renderReviewSkeletons() {
+    if (!reviewGrid) return;
+
+    const reviewSection = getSectionNodeByKey('reviewSection');
+    reviewSection?.classList.add('is-bootstrap-loading');
+
+    reviewGrid.innerHTML = Array.from({ length: window.innerWidth <= 768 ? 1 : 2 }).map(() => `
+      <article class="bootstrap-skeleton-card bootstrap-skeleton-review">
+        <div class="bootstrap-skeleton bootstrap-skeleton-review-thumb"></div>
+        <div class="bootstrap-skeleton-copy">
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-md"></div>
+        </div>
+      </article>
+    `).join('');
+
+    if (reviewDots) {
+      reviewDots.className = 'review-dots is-hidden';
+      reviewDots.innerHTML = '';
+    }
+  }
+
+  function renderBasicInfoSkeletons() {
+    const section = document.getElementById('basicInfoSection');
+    const grid = document.getElementById('basicInfoGrid');
+    const dots = document.getElementById('basicInfoDots');
+
+    if (!section || !grid) return;
+
+    section.style.display = '';
+    grid.innerHTML = `
+      <article class="sheet-extra-card sheet-extra-card-basic bootstrap-skeleton-card bootstrap-skeleton-basic">
+        <div class="bootstrap-skeleton bootstrap-skeleton-basic-media"></div>
+        <div class="sheet-extra-card-copy bootstrap-skeleton-copy">
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-sm"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-lg"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line"></div>
+          <div class="bootstrap-skeleton bootstrap-skeleton-line bootstrap-skeleton-line-md"></div>
+        </div>
+      </article>
+    `;
+
+    if (dots) {
+      dots.className = 'sheet-extra-dots is-hidden';
+      dots.innerHTML = '';
+    }
   }
 
   function ensureArray(primary, fallback) {
@@ -589,350 +780,6 @@
 
   function getReviewPerView() { return window.innerWidth <= 768 ? 1 : 2; }
 
-
-  function injectRequestedStyles() {
-    if (document.getElementById('cruiseRequestedOnlyStyle')) return;
-
-    const style = document.createElement('style');
-    style.id = 'cruiseRequestedOnlyStyle';
-    style.textContent = `
-      @media (min-width: 769px) {
-        .js-schedule-head {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          gap: 14px;
-          width: 100%;
-        }
-
-        .js-schedule-title,
-        .js-schedule-subtitle {
-          text-align: center !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
-        }
-
-        .js-schedule-filters {
-          justify-content: center !important;
-          margin-left: auto !important;
-          margin-right: auto !important;
-        }
-
-        .js-schedule-grid {
-          justify-content: center !important;
-        }
-
-        .js-schedule-top-cta {
-          display: none !important;
-        }
-
-        #reviewDots {
-          display: none !important;
-        }
-
-        #basicInfoSection .sheet-extra-card-basic {
-          display: grid;
-          grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-          align-items: stretch;
-          overflow: hidden;
-        }
-
-        #basicInfoSection .sheet-extra-basic-media,
-        #basicInfoSection .sheet-extra-basic-empty {
-          height: 100%;
-          min-height: 100%;
-        }
-
-        #basicInfoSection .sheet-extra-basic-media img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-        }
-
-        #basicInfoSection .sheet-extra-card-copy {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 16px;
-          padding: 40px 42px;
-          background: linear-gradient(135deg, rgba(248, 250, 255, 0.98), rgba(255, 255, 255, 0.98));
-          border-left: 1px solid rgba(28, 76, 190, 0.08);
-        }
-
-        #basicInfoSection .sheet-extra-card-copy h3 {
-          margin: 0;
-          line-height: 1.16;
-          letter-spacing: -0.03em;
-        }
-
-        #basicInfoSection .sheet-extra-card-copy .sheet-extra-muted {
-          margin: 0;
-          font-size: 16px;
-          line-height: 1.7;
-          color: #5a6785;
-        }
-
-        #basicInfoSection .sheet-extra-card-copy > p:not(.sheet-extra-muted) {
-          margin: 0;
-          font-size: 15px;
-          line-height: 1.8;
-          color: #32415f;
-        }
-
-        #basicInfoSection .sheet-extra-points {
-          display: grid;
-          gap: 10px;
-          margin-top: 4px;
-        }
-
-        #basicInfoSection .sheet-extra-points li {
-          padding: 14px 16px;
-          border-radius: 16px;
-          background: rgba(246, 249, 255, 0.96);
-          border: 1px solid rgba(28, 76, 190, 0.08);
-        }
-      }
-
-      #reviewViewport.is-mobile-review-loop {
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-behavior: smooth;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        padding: 0;
-      }
-
-      #reviewViewport.is-mobile-review-loop::-webkit-scrollbar {
-        display: none;
-      }
-
-      #reviewViewport.is-mobile-review-loop #reviewGrid {
-        display: flex !important;
-        gap: 0 !important;
-        width: auto;
-        transform: none !important;
-        transition: none !important;
-        will-change: scroll-position;
-      }
-
-      #reviewViewport.is-mobile-review-loop #reviewGrid .review-card {
-        flex: 0 0 100%;
-        width: 100%;
-        max-width: none;
-        margin: 0;
-        scroll-snap-align: start;
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
-
-  function applyRequestedUiTweaks() {
-    applyScheduleHeaderLayout();
-  }
-
-  function applyScheduleHeaderLayout() {
-    const scheduleSection = getSectionNodeByKey('scheduleSection');
-    if (!scheduleSection) return;
-
-    const title = scheduleSection.querySelector('h2');
-    const subtitle = Array.from(scheduleSection.querySelectorAll('p')).find((node) => !scheduleGrid?.contains(node));
-    const topActionButton = Array.from(scheduleSection.querySelectorAll('a, button')).find((node) => {
-      const text = String(node.textContent || '').replace(/\s+/g, '');
-      return text.includes('전체일정가격문의');
-    });
-
-    scheduleGrid?.classList.add('js-schedule-grid');
-    scheduleFilters?.classList.add('js-schedule-filters');
-
-    if (title) {
-      title.classList.add('js-schedule-title');
-      title.closest('div')?.classList.add('js-schedule-head');
-    }
-
-    subtitle?.classList.add('js-schedule-subtitle');
-    topActionButton?.classList.add('js-schedule-top-cta');
-  }
-
-  function getReviewCards() {
-    return Array.from(reviewGrid ? reviewGrid.querySelectorAll('.review-card') : []);
-  }
-
-  function restoreDesktopReviewCards() {
-    if (!reviewGrid) return;
-
-    const cards = getReviewCards();
-    const baseCards = cards.filter((card) => card.dataset.reviewClone !== 'true');
-    if (!baseCards.length) {
-      reviewViewport?.classList.remove('is-mobile-review-loop');
-      return;
-    }
-
-    const hasClones = cards.length !== baseCards.length;
-    if (hasClones) {
-      reviewGrid.innerHTML = '';
-      baseCards.forEach((card) => {
-        delete card.dataset.reviewClone;
-        card.removeAttribute('aria-hidden');
-        reviewGrid.appendChild(card);
-      });
-    }
-
-    reviewGrid.removeAttribute('data-review-loop-count');
-    reviewViewport?.classList.remove('is-mobile-review-loop');
-  }
-
-  function ensureMobileReviewLoop(total) {
-    if (!reviewGrid || !reviewViewport) return [];
-
-    reviewViewport.classList.add('is-mobile-review-loop');
-
-    const cards = getReviewCards();
-    const baseCards = cards.filter((card) => card.dataset.reviewClone !== 'true');
-    const sourceCards = baseCards.length ? baseCards : cards;
-
-    if (total <= 1) {
-      reviewGrid.innerHTML = '';
-      sourceCards.forEach((card) => {
-        delete card.dataset.reviewClone;
-        card.removeAttribute('aria-hidden');
-        reviewGrid.appendChild(card);
-      });
-      reviewGrid.setAttribute('data-review-loop-count', String(total));
-      return getReviewCards();
-    }
-
-    const ready = cards.length === total + 2 && Number(reviewGrid.getAttribute('data-review-loop-count') || 0) === total;
-    if (ready) {
-      return cards;
-    }
-
-    const firstClone = sourceCards[0].cloneNode(true);
-    firstClone.dataset.reviewClone = 'true';
-    firstClone.setAttribute('aria-hidden', 'true');
-
-    const lastClone = sourceCards[sourceCards.length - 1].cloneNode(true);
-    lastClone.dataset.reviewClone = 'true';
-    lastClone.setAttribute('aria-hidden', 'true');
-
-    reviewGrid.innerHTML = '';
-    reviewGrid.appendChild(lastClone);
-    sourceCards.forEach((card) => {
-      delete card.dataset.reviewClone;
-      card.removeAttribute('aria-hidden');
-      reviewGrid.appendChild(card);
-    });
-    reviewGrid.appendChild(firstClone);
-    reviewGrid.setAttribute('data-review-loop-count', String(total));
-
-    return getReviewCards();
-  }
-
-  function getNearestReviewRenderIndex() {
-    if (!reviewViewport) return -1;
-
-    const cards = getReviewCards();
-    if (!cards.length) return -1;
-
-    const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-
-    cards.forEach((card, idx) => {
-      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-      const distance = Math.abs(cardCenter - viewportCenter);
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = idx;
-      }
-    });
-
-    return closestIndex;
-  }
-
-  function getMobileReviewStep() {
-    return reviewViewport ? (reviewViewport.clientWidth || 1) : 1;
-  }
-
-  function getCurrentMobileReviewRenderIndex() {
-    if (!reviewViewport) return -1;
-    return Math.round(reviewViewport.scrollLeft / getMobileReviewStep());
-  }
-
-  function normalizeReviewPageFromRenderIndex(renderIndex, total) {
-    if (total <= 0) return 0;
-    if (renderIndex <= 0) return total - 1;
-    if (renderIndex >= total + 1) return 0;
-    return renderIndex - 1;
-  }
-
-  function syncMobileReviewDots(total) {
-    if (!reviewDots) return;
-
-    reviewDots.className = total > 1 ? 'review-dots' : 'review-dots is-hidden';
-    reviewDots.innerHTML = total > 1
-      ? Array.from({ length: total }).map((_, idx) =>
-          `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
-        ).join('')
-      : '';
-  }
-
-  function scrollToReviewRenderIndex(renderIndex, behavior = 'smooth') {
-    if (!reviewViewport) return;
-
-    if (reviewViewport.classList.contains('is-mobile-review-loop')) {
-      reviewViewport.scrollTo({
-        left: getMobileReviewStep() * renderIndex,
-        behavior
-      });
-      return;
-    }
-
-    const cards = getReviewCards();
-    const targetCard = cards[renderIndex];
-    if (!targetCard) return;
-
-    reviewViewport.scrollTo({
-      left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-      behavior
-    });
-  }
-
-  function queueMobileReviewLoopReset() {
-    const total = (state.bootstrap.reviews || []).length;
-    if (!reviewViewport || total <= 1) return;
-
-    if (reviewLoopResetTimer) {
-      window.clearTimeout(reviewLoopResetTimer);
-      reviewLoopResetTimer = null;
-    }
-
-    reviewLoopResetTimer = window.setTimeout(() => {
-      const renderIndex = getCurrentMobileReviewRenderIndex();
-      const cards = getReviewCards();
-      if (!cards.length) return;
-
-      if (renderIndex <= 0) {
-        state.reviewPage = total - 1;
-        syncMobileReviewDots(total);
-        scrollToReviewRenderIndex(total, 'auto');
-        return;
-      }
-
-      if (renderIndex >= cards.length - 1) {
-        state.reviewPage = 0;
-        syncMobileReviewDots(total);
-        scrollToReviewRenderIndex(1, 'auto');
-      }
-    }, 140);
-  }
-
   // =========================================================
 // 2) setupReviewSlider
 // 시작: function setupReviewSlider(total) {
@@ -948,49 +795,56 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
-	        const renderIndex = getCurrentMobileReviewRenderIndex();
-	        if (renderIndex >= 0) {
-	          state.reviewPage = normalizeReviewPageFromRenderIndex(renderIndex, total);
-	          syncMobileReviewDots(total);
-	        }
+	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
+	        let closestIndex = 0;
+	        let closestDistance = Infinity;
 	
-	        if (reviewScrollEndTimer) {
-	          window.clearTimeout(reviewScrollEndTimer);
-	        }
+	        cards.forEach((card, idx) => {
+	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+	          const distance = Math.abs(cardCenter - viewportCenter);
 	
-	        reviewScrollEndTimer = window.setTimeout(() => {
-	          queueMobileReviewLoopReset();
-	        }, 90);
+	          if (distance < closestDistance) {
+	            closestDistance = distance;
+	            closestIndex = idx;
+	          }
+	        });
+	
+	        state.reviewPage = closestIndex;
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
 	    }
 	
-	    ensureMobileReviewLoop(total);
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	
 	    reviewGrid.style.transform = '';
 	    prev?.classList.add('is-hidden');
 	    next?.classList.add('is-hidden');
 	
+	    if (reviewDots) {
+	      reviewDots.className = 'review-dots is-hidden';
+	      reviewDots.innerHTML = '';
+	    }
+	
 	    if (total <= 1) {
-	      syncMobileReviewDots(total);
 	      stopReviewAuto();
 	      return;
 	    }
 	
-	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
-	    syncMobileReviewDots(total);
+	    state.reviewPage = Math.min(state.reviewPage, total - 1);
 	
-	    const renderIndex = getCurrentMobileReviewRenderIndex();
-	    const expectedIndex = state.reviewPage + 1;
-	    if (renderIndex !== expectedIndex) {
-	      scrollToReviewRenderIndex(expectedIndex, 'auto');
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
 	    }
 	
 	    startReviewAuto(total);
 	    return;
 	  }
-	
-	  restoreDesktopReviewCards();
 	
 	  const perView = getReviewPerView();
 	  const maxPage = Math.max(0, total - perView);
@@ -1012,16 +866,18 @@
 	
 	  prev?.classList.remove('is-hidden');
 	  next?.classList.remove('is-hidden');
-	
-	  if (reviewDots) {
-	    reviewDots.className = 'review-dots is-hidden';
-	    reviewDots.innerHTML = '';
-	  }
+	  if (reviewDots) reviewDots.className = 'review-dots';
 	
 	  const gap = 22;
 	  const viewportWidth = reviewViewport.clientWidth || 0;
 	  const cardWidth = (viewportWidth - gap) / perView;
 	  reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
+	
+	  if (reviewDots) {
+	    reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) =>
+	      `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+	    ).join('');
+	  }
 	
 	  startReviewAuto(total);
 	}
@@ -1036,20 +892,21 @@
 	  if (!total) return;
 	
 	  if (window.innerWidth <= 768) {
-	    ensureMobileReviewLoop(total);
-	
-	    const cards = getReviewCards();
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
 	    if (!cards.length || !reviewViewport) return;
 	
-	    const currentRenderIndex = Math.max(0, getCurrentMobileReviewRenderIndex());
-	    const nextRenderIndex = direction === 'prev'
-	      ? Math.max(0, currentRenderIndex - 1)
-	      : Math.min(cards.length - 1, currentRenderIndex + 1);
+	    const maxPage = total - 1;
+	    state.reviewPage = direction === 'prev'
+	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
 	
-	    state.reviewPage = normalizeReviewPageFromRenderIndex(nextRenderIndex, total);
-	    syncMobileReviewDots(total);
-	    scrollToReviewRenderIndex(nextRenderIndex, 'smooth');
-	    queueMobileReviewLoopReset();
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
+	    }
 	    return;
 	  }
 	
