@@ -5,9 +5,9 @@ const ROOT = process.cwd();
 const SITE_URL = 'https://cruiseplay-dyt.pages.dev';
 const SITE_NAME = '크루즈플레이';
 
-const POSTS_DATA_PATH = path.join(ROOT, 'data', 'blog-posts.json');
-const BLOG_INDEX_TEMPLATE_PATH = path.join(ROOT, 'blog', '_templates', 'index.template.html');
-const POST_TEMPLATE_PATH = path.join(ROOT, 'blog', '_templates', 'post.template.html');
+const POSTS_DATA_PATH = path.join(ROOT, 'data', 'posts.json');
+const BLOG_INDEX_TEMPLATE_PATH = path.join(ROOT, 'blog', 'templates', 'index.template.html');
+const POST_TEMPLATE_PATH = path.join(ROOT, 'blog', 'templates', 'post.template.html');
 const OUTPUT_BLOG_DIR = path.join(ROOT, 'blog');
 const SEARCH_INDEX_PATH = path.join(ROOT, 'data', 'blog-search.json');
 const SITEMAP_PATH = path.join(ROOT, 'sitemap.xml');
