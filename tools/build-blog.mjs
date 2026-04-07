@@ -79,6 +79,13 @@ function stripHtml(html = '') {
     .trim();
 }
 
+function stripTags(html = '') {
+  return String(html || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function normalizeDate(value) {
   if (!value) return '';
   const d = new Date(value);
@@ -100,6 +107,19 @@ function toPosix(p) {
   return String(p).replace(/\\/g, '/');
 }
 
+function slugify(text = '') {
+  return String(text || '')
+    .toLowerCase()
+    .trim()
+    .replace(/<[^>]+>/g, '')
+    .replace(/['"]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9가-힣\s-_]/g, ' ')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 function extractSlugFromLink(linkUrl = '') {
   const value = String(linkUrl || '').trim();
   if (!value) return '';
@@ -116,40 +136,33 @@ function extractSlugFromLink(linkUrl = '') {
   return '';
 }
 
-function slugify(text = '') {
-  return String(text || '')
-    .toLowerCase()
-    .trim()
-    .replace(/<[^>]+>/g, '')
-    .replace(/['"]/g, '')
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9가-힣\s-_]/g, ' ')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
 function deriveSlug(post) {
   if (post.slug) return String(post.slug).trim();
+
   if (post.link_url) {
     const fromLink = extractSlugFromLink(post.link_url);
     if (fromLink) return fromLink;
   }
+
   if (post.content_file) {
     return path.basename(post.content_file, path.extname(post.content_file));
   }
+
   if (post.title) {
     const s = slugify(post.title);
     if (s) return s;
   }
+
   if (post.content_id) return String(post.content_id).toLowerCase();
+
   return '';
 }
 
 function resolveThumbnail(post) {
-  if (!post.thumbnail_url) return DEFAULT_OG_IMAGE;
-  if (/^https?:\/\//i.test(post.thumbnail_url)) return post.thumbnail_url;
-  return `${SITE_URL}/${String(post.thumbnail_url).replace(/^\/+/, '')}`;
+  const value = post.thumbnail_url || post.thumbnail || '';
+  if (!value) return DEFAULT_OG_IMAGE;
+  if (/^https?:\/\//i.test(value)) return value;
+  return `${SITE_URL}/${String(value).replace(/^\/+/, '')}`;
 }
 
 function resolvePostSource(post, postsDir) {
@@ -173,11 +186,11 @@ function resolvePostSource(post, postsDir) {
 }
 
 function replaceAll(source, search, replacement) {
-  return source.split(search).join(replacement);
+  return String(source).split(search).join(replacement ?? '');
 }
 
 function renderTemplate(template, map) {
-  let out = template;
+  let out = String(template);
   for (const [key, value] of Object.entries(map)) {
     out = replaceAll(out, key, value ?? '');
   }
@@ -188,7 +201,7 @@ function makeArticleJsonLd(post, postUrl, description, thumbnail) {
   return JSON.stringify(
     {
       '@context': 'https://schema.org',
-      '@type': 'Article',
+      '@type': 'BlogPosting',
       headline: post.title || '',
       description,
       image: thumbnail,
@@ -230,54 +243,131 @@ function buildPostCards(posts) {
       const title = escapeHtml(post.title || '');
       const summary = escapeHtml(post.summary || '');
       const category = escapeHtml(post.category || '콘텐츠');
-      const tags = escapeHtml(Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || ''));
-      const thumbnail = escapeHtml(resolveThumbnail(post));
+      const tags = Array.isArray(post.tags) ? post.tags.join(', ') : String(post.tags || '');
+      const thumb = escapeHtml(resolveThumbnail(post));
       const link = `/blog/${encodeURIComponent(slug)}/`;
       const dateLabel = escapeHtml(formatDateLabel(post.published_at || post.date || ''));
 
       return `
-<article class="blog-card" data-category="${category}" data-title="${title}" data-summary="${summary}" data-tags="${tags}">
-  <a class="blog-card-thumb" href="${link}">
-    <img src="${thumbnail}" alt="${title}" loading="lazy" />
+<article class="blog-card" data-category="${category}" data-title="${title}" data-summary="${summary}" data-tags="${escapeHtml(tags)}">
+  <a class="blog-card-cover" href="${link}">
+    <img src="${thumb}" alt="${title}" loading="lazy" />
   </a>
   <div class="blog-card-body">
-    <div class="blog-card-meta">
-      <span class="blog-card-chip">${category}</span>
+    <div class="blog-card-topline">
+      <span class="blog-card-category">${category}</span>
       ${dateLabel ? `<span class="blog-card-date">${dateLabel}</span>` : ''}
     </div>
     <h2 class="blog-card-title"><a href="${link}">${title}</a></h2>
     <p class="blog-card-summary">${summary}</p>
-    <a class="blog-card-link" href="${link}">자세히 보기</a>
+    <div class="blog-card-actions">
+      <a class="blog-card-link" href="${link}">자세히 보기</a>
+    </div>
   </div>
 </article>`.trim();
     })
     .join('\n');
 }
 
-function buildRelatedPosts(posts, currentPost) {
+function buildRelatedPosts(allPosts, currentPost) {
   const currentSlug = deriveSlug(currentPost);
-  const sameCategory = posts.filter(
-    post => deriveSlug(post) !== currentSlug && post.category && post.category === currentPost.category
-  );
-  const fallback = posts.filter(post => deriveSlug(post) !== currentSlug);
-  const related = [...sameCategory, ...fallback].slice(0, 3);
 
-  return related
-    .map(post => {
-      const slug = deriveSlug(post);
-      const title = escapeHtml(post.title || '');
-      const summary = escapeHtml(post.summary || '');
-      const category = escapeHtml(post.category || '콘텐츠');
-      const link = `/blog/${encodeURIComponent(slug)}/`;
+  let related = [];
+  if (Array.isArray(currentPost.related_slugs) && currentPost.related_slugs.length) {
+    related = currentPost.related_slugs
+      .map(slug => allPosts.find(post => deriveSlug(post) === slug))
+      .filter(Boolean);
+  }
 
-      return `
+  if (!related.length) {
+    const sameCategory = allPosts.filter(
+      post => deriveSlug(post) !== currentSlug && post.category && post.category === currentPost.category
+    );
+    const fallback = allPosts.filter(post => deriveSlug(post) !== currentSlug);
+    related = [...sameCategory, ...fallback].slice(0, 3);
+  }
+
+  return related.slice(0, 3).map(post => {
+    const slug = deriveSlug(post);
+    const title = escapeHtml(post.title || '');
+    const summary = escapeHtml(post.summary || '');
+    const category = escapeHtml(post.category || '콘텐츠');
+    const link = `/blog/${encodeURIComponent(slug)}/`;
+
+    return `
 <a class="post-related-card" href="${link}">
   <span class="post-related-chip">${category}</span>
   <strong>${title}</strong>
   <p>${summary}</p>
 </a>`.trim();
-    })
-    .join('\n');
+  }).join('\n');
+}
+
+function buildTagLinks(tags) {
+  const list = Array.isArray(tags) ? tags : [];
+  if (!list.length) return '';
+  return list
+    .map(tag => `<span class="post-tag">#${escapeHtml(tag)}</span>`)
+    .join('');
+}
+
+function buildTableOfContentsAndBody(rawBody, postSlug) {
+  const headings = [];
+  let index = 0;
+
+  const bodyWithIds = String(rawBody).replace(
+    /<h([2-3])([^>]*)>([\s\S]*?)<\/h\1>/gi,
+    (match, level, attrs, inner) => {
+      const text = stripTags(inner);
+      if (!text) return match;
+      index += 1;
+      const id = `${postSlug}-toc-${index}-${slugify(text) || `section-${index}`}`;
+      headings.push({
+        level: Number(level),
+        id,
+        text,
+      });
+
+      if (/\sid\s*=/i.test(attrs)) {
+        return `<h${level}${attrs}>${inner}</h${level}>`;
+      }
+      return `<h${level}${attrs} id="${id}">${inner}</h${level}>`;
+    }
+  );
+
+  const tocHtml = headings.length
+    ? `<div class="post-toc-box"><strong class="post-toc-title">목차</strong><ul class="post-toc-list">${headings
+        .map(item => `<li class="is-level-${item.level}"><a href="#${item.id}">${escapeHtml(item.text)}</a></li>`)
+        .join('')}</ul></div>`
+    : '';
+
+  return {
+    bodyHtml: bodyWithIds,
+    tocHtml,
+  };
+}
+
+function buildPagerHtml(posts, currentIndex) {
+  const prev = currentIndex > 0 ? posts[currentIndex - 1] : null;
+  const next = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+  if (!prev && !next) return '';
+
+  const prevHtml = prev
+    ? `<a class="post-pager-link is-prev" href="/blog/${encodeURIComponent(deriveSlug(prev))}/">
+        <span class="post-pager-label">이전 글</span>
+        <strong>${escapeHtml(prev.title || '')}</strong>
+      </a>`
+    : '<span class="post-pager-link is-empty"></span>';
+
+  const nextHtml = next
+    ? `<a class="post-pager-link is-next" href="/blog/${encodeURIComponent(deriveSlug(next))}/">
+        <span class="post-pager-label">다음 글</span>
+        <strong>${escapeHtml(next.title || '')}</strong>
+      </a>`
+    : '<span class="post-pager-link is-empty"></span>';
+
+  return `<div class="post-pager">${prevHtml}${nextHtml}</div>`;
 }
 
 function buildSitemap(posts) {
@@ -376,7 +466,12 @@ function main() {
       slug: deriveSlug(post),
     }))
     .filter(post => post.slug)
-    .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0));
+    .sort((a, b) => {
+      const orderA = Number(a.sort_order ?? 0);
+      const orderB = Number(b.sort_order ?? 0);
+      if (orderA !== orderB) return orderA - orderB;
+      return String(b.published_at || '').localeCompare(String(a.published_at || ''));
+    });
 
   if (!posts.length) {
     throw new Error('활성화된 글이 없습니다.');
@@ -389,7 +484,7 @@ function main() {
   const indexTemplate = readUtf8(indexTemplatePath);
   const postTemplate = readUtf8(postTemplatePath);
 
-  for (const post of posts) {
+  posts.forEach((post, postIndex) => {
     const sourcePath = resolvePostSource(post, postsDir);
     const rawBody = readUtf8(sourcePath).trim();
 
@@ -397,46 +492,58 @@ function main() {
       throw new Error(`본문 파일에 전체 HTML이 들어있습니다. 글 본문만 넣어야 합니다: ${toPosix(path.relative(ROOT, sourcePath))}`);
     }
 
-    const description = (post.summary || stripHtml(rawBody)).slice(0, 160);
+    const description = (post.seo_description || post.summary || stripHtml(rawBody)).slice(0, 160);
     const thumbnail = resolveThumbnail(post);
     const postUrl = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}/`;
-    const relatedPosts = buildRelatedPosts(posts, post);
+    const publishedIso = normalizeDate(post.published_at || post.date || '');
+    const updatedIso = normalizeDate(post.updated_at || post.published_at || post.date || '');
+    const tocAndBody = buildTableOfContentsAndBody(rawBody, post.slug);
+    const relatedPostsHtml = buildRelatedPosts(posts, post);
+    const pagerHtml = buildPagerHtml(posts, postIndex);
+    const tagLinks = buildTagLinks(post.tags);
+    const categorySlug = slugify(post.category || '콘텐츠');
 
     const renderedPost = renderTemplate(postTemplate, {
       '__SITE_URL__': SITE_URL,
       '__SITE_NAME__': SITE_NAME,
 
-      '__SEO_TITLE__': escapeHtml(`${post.title || ''} | ${SITE_NAME}`),
+      '__SEO_TITLE__': escapeHtml(post.seo_title || `${post.title || ''} | ${SITE_NAME}`),
       '__SEO_DESCRIPTION__': escapeHtml(description),
-      '__SEO_OG_TITLE__': escapeHtml(post.title || ''),
-      '__SEO_OG_DESCRIPTION__': escapeHtml(description),
-      '__SEO_OG_IMAGE__': escapeHtml(thumbnail),
-      '__SEO_CANONICAL_URL__': escapeHtml(postUrl),
+      '__POST_URL__': escapeHtml(postUrl),
+      '__THUMBNAIL_URL__': escapeHtml(thumbnail),
+      '__PUBLISHED_ISO__': escapeHtml(publishedIso),
+      '__UPDATED_ISO__': escapeHtml(updatedIso || publishedIso),
+      '__BLOG_POSTING_JSON_LD__': makeArticleJsonLd(post, postUrl, description, thumbnail),
 
-      '__POST_TITLE__': escapeHtml(post.title || ''),
-      '__POST_CATEGORY__': escapeHtml(post.category || '콘텐츠'),
+      '__TITLE__': escapeHtml(post.title || ''),
+      '__SUMMARY__': escapeHtml(post.summary || ''),
       '__CATEGORY__': escapeHtml(post.category || '콘텐츠'),
-      '__POST_DATE__': escapeHtml(formatDateLabel(post.published_at || post.date || '')),
-      '__POST_SUMMARY__': escapeHtml(post.summary || ''),
-      '__POST_BODY__': rawBody,
+      '__CATEGORY_SLUG__': escapeHtml(categorySlug),
+      '__PUBLISHED_DATE__': escapeHtml(formatDateLabel(post.published_at || post.date || '')),
+      '__UPDATED_DATE__': escapeHtml(formatDateLabel(post.updated_at || post.published_at || post.date || '')),
+      '__TAG_COUNT__': String(Array.isArray(post.tags) ? post.tags.length : 0),
 
-      '__RELATED_POSTS__': relatedPosts,
+      '__POST_BODY__': tocAndBody.bodyHtml,
+      '__TABLE_OF_CONTENTS__': tocAndBody.tocHtml,
+      '__RELATED_POSTS__': relatedPostsHtml,
+      '__PAGER_HTML__': pagerHtml,
+      '__TAG_LINKS__': tagLinks,
 
-      '__CTA_PRIMARY_URL__': '/#contact',
-      '__CTA_PRIMARY_TEXT__': '가격 문의하기',
-      '__CTA_SECONDARY_URL__': '/blog/',
-      '__CTA_SECONDARY_TEXT__': '목록 보기',
-
-      '__JSON_LD_ARTICLE__': makeArticleJsonLd(post, postUrl, description, thumbnail),
+      '__CTA_PRIMARY_URL__': escapeHtml(post.cta_primary_url || '/#contact'),
+      '__CTA_PRIMARY_LABEL__': escapeHtml(post.cta_primary_label || '가격 문의하기'),
+      '__CTA_SECONDARY_URL__': escapeHtml(post.cta_secondary_url || '/blog/'),
+      '__CTA_SECONDARY_LABEL__': escapeHtml(post.cta_secondary_label || '목록 보기'),
     });
 
     const outDir = path.join(blogRoot, post.slug);
     writeUtf8(path.join(outDir, 'index.html'), renderedPost);
-  }
+  });
 
   const renderedIndex = renderTemplate(indexTemplate, {
     '__SITE_URL__': SITE_URL,
     '__SITE_NAME__': SITE_NAME,
+    '__SEO_TITLE__': `${SITE_NAME} 콘텐츠`,
+    '__SEO_DESCRIPTION__': SITE_DESCRIPTION,
     '__POST_COUNT__': String(posts.length),
     '__CATEGORY_FILTERS__': buildCategoryFilters(posts),
     '__POST_CARDS__': buildPostCards(posts),
