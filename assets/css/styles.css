@@ -790,6 +790,51 @@ button { cursor: pointer; }
 #schedule .schedule-actions { justify-content: center; }
 
 /* =========================================================
+   기초안내 PC 이미지 비율 보정
+   - 이미지 잘림/이상 크롭 방지용
+   ========================================================= */
+@media (min-width: 769px) {
+  #basicInfoSection .sheet-extra-slider-viewport {
+    padding-bottom: 0 !important;
+  }
+
+  #basicInfoSection .sheet-extra-card-basic {
+    display: grid !important;
+    grid-template-columns: clamp(360px, 44%, 460px) minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    min-height: 420px !important;
+    overflow: hidden !important;
+  }
+
+  #basicInfoSection .sheet-extra-basic-media,
+  #basicInfoSection .sheet-extra-basic-empty {
+    margin-bottom: 0 !important;
+    border-bottom: 0 !important;
+    border-right: 1px solid #edf2f7 !important;
+    aspect-ratio: auto !important;
+    min-height: 420px !important;
+    max-height: none !important;
+    height: 100% !important;
+  }
+
+  #basicInfoSection .sheet-extra-basic-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    image-rendering: auto !important;
+  }
+
+  #basicInfoSection .sheet-extra-card-basic .sheet-extra-card-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 40px 40px 42px !important;
+  }
+}
+
+
+/* =========================================================
    태블릿 대응
    ========================================================= */
 @media (max-width: 1080px) {
