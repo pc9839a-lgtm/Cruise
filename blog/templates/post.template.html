@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko" class="blog-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>__SEO_TITLE__</title>
+  <meta name="description" content="__SEO_DESCRIPTION__" />
+  <meta property="og:title" content="__SEO_TITLE__" />
+  <meta property="og:description" content="__SEO_DESCRIPTION__" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="__POST_URL__" />
+  <meta property="og:image" content="__THUMBNAIL_URL__" />
+  <meta property="article:published_time" content="__PUBLISHED_ISO__" />
+  <meta property="article:modified_time" content="__UPDATED_ISO__" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="canonical" href="__POST_URL__" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/blog.css" />
+  <script type="application/ld+json">
+__BLOG_POSTING_JSON_LD__
+  </script>
+</head>
+<body class="blog-page">
+  <div class="blog-shell">
+    <header class="blog-topbar">
+      <div class="blog-topbar-inner">
+        <a class="blog-brand" href="/">
+          <span class="blog-brand-dot"></span>
+          <strong>크루즈플레이</strong>
+        </a>
+        <nav class="blog-nav">
+          <a href="/">홈</a>
+          <a href="/#schedule">추천 일정</a>
+          <a href="/blog/" class="is-current">콘텐츠</a>
+          <a href="/#reviews">여행 후기</a>
+          <a href="/#contact" class="blog-nav-cta">가격문의</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-main">
+      <div class="blog-container">
+        <div class="post-breadcrumbs">
+          <a href="/">홈</a>
+          <span>›</span>
+          <a href="/blog/">콘텐츠</a>
+          <span>›</span>
+          <a href="/blog/category/__CATEGORY_SLUG__/">__CATEGORY__</a>
+          <span>›</span>
+          <strong>__TITLE__</strong>
+        </div>
+
+        <section class="post-hero">
+          <span class="blog-eyebrow">__CATEGORY__</span>
+          <h1>__TITLE__</h1>
+          <p class="post-summary">__SUMMARY__</p>
+          <div class="post-meta">
+            <span>발행일 __PUBLISHED_DATE__</span>
+            <span>수정일 __UPDATED_DATE__</span>
+            <span>태그 __TAG_COUNT__개</span>
+          </div>
+          <div class="post-actions">
+            <a class="post-btn post-btn-light" href="/blog/">목록보기</a>
+            <a class="post-btn post-btn-light" href="/">홈으로</a>
+            <a class="post-btn post-btn-primary" href="/#contact">가격문의</a>
+          </div>
+        </section>
+
+        <div class="post-layout">
+          <div class="post-main">
+            <article class="post-article">
+              <div class="post-body">
+__POST_BODY__
+              </div>
+            </article>
+
+            <section class="post-cta-block">
+              <h2>검색으로 들어온 방문자가 문의까지 이어지게 설계했습니다</h2>
+              <p>정보만 보고 끝나지 않게 추천 일정 확인과 가격 문의 동선을 함께 배치했습니다. 실제 운영에서는 이 영역의 문구와 버튼을 카테고리별로 바꿔 전환율 테스트까지 할 수 있습니다.</p>
+              <div class="post-cta-actions">
+                <a class="post-btn post-btn-light" href="__CTA_SECONDARY_URL__">__CTA_SECONDARY_LABEL__</a>
+                <a class="post-btn post-btn-primary" href="__CTA_PRIMARY_URL__">__CTA_PRIMARY_LABEL__</a>
+              </div>
+            </section>
+
+            <section class="related-section">
+              <div class="section-title-row">
+                <h2>함께 보면 좋은 글</h2>
+                <a class="blog-more" href="/blog/">전체 글 보기</a>
+              </div>
+              <div class="related-grid">
+__RELATED_POSTS__
+              </div>
+            </section>
+
+            <section class="pager-section">
+              <div class="section-title-row">
+                <h2>다음 탐색</h2>
+              </div>
+              <div class="pager-grid">
+__PAGER_HTML__
+              </div>
+            </section>
+          </div>
+
+          <aside class="post-sidebar">
+            <section class="sidebar-card">
+              <h3>목차</h3>
+              <div class="sidebar-toc">
+__TABLE_OF_CONTENTS__
+              </div>
+            </section>
+
+            <section class="sidebar-card">
+              <h3>태그</h3>
+              <div class="sidebar-tags">
+__TAG_LINKS__
+              </div>
+            </section>
+
+            <section class="sidebar-card">
+              <h3>빠른 이동</h3>
+              <div class="sidebar-links">
+                <a href="/blog/">콘텐츠 목록 전체 보기</a>
+                <a href="/blog/category/__CATEGORY_SLUG__/">같은 카테고리 더 보기</a>
+                <a href="/#schedule">추천 일정 보기</a>
+                <a href="/#contact">가격 문의하기</a>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <footer class="blog-footer">
+      <div class="blog-footer-inner">
+        <div>
+          <strong>크루즈플레이 콘텐츠 허브</strong>
+          <span>랜딩페이지 + SEO형 블로그 + 문의 전환 동선을 하나의 공용 템플릿으로 유지하는 구조</span>
+        </div>
+        <div>
+          <span><a href="/blog/">콘텐츠 목록</a> · <a href="/#contact">문의하기</a></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

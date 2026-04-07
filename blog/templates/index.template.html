@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" class="blog-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>크루즈 정보 콘텐츠 | 크루즈플레이</title>
+  <meta name="description" content="크루즈 초보 가이드, 비용 정리, 체크리스트, 기항지 정보까지 검색 유입과 상담 전환을 함께 잡는 크루즈플레이 콘텐츠 허브입니다." />
+  <meta property="og:title" content="크루즈 정보 콘텐츠 | 크루즈플레이" />
+  <meta property="og:description" content="크루즈 초보 가이드, 비용 정리, 체크리스트, 기항지 정보까지 한 번에 정리한 콘텐츠 허브" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="__SITE_URL__/blog/" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="canonical" href="__SITE_URL__/blog/" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/blog.css" />
+</head>
+<body class="blog-page">
+  <div class="blog-shell">
+    <header class="blog-topbar">
+      <div class="blog-topbar-inner">
+        <a class="blog-brand" href="/">
+          <span class="blog-brand-dot"></span>
+          <strong>크루즈플레이</strong>
+        </a>
+        <nav class="blog-nav">
+          <a href="/">홈</a>
+          <a href="/#schedule">추천 일정</a>
+          <a href="/blog/" class="is-current">콘텐츠</a>
+          <a href="/#reviews">여행 후기</a>
+          <a href="/#contact" class="blog-nav-cta">가격문의</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-main">
+      <div class="blog-container">
+        <section class="blog-hero">
+          <span class="blog-eyebrow">SEO + 유입 + 문의 전환</span>
+          <h1>크루즈를 더 쉽게 이해하게 만드는<br />정보형 콘텐츠 허브</h1>
+          <p>크루즈 초보 가이드부터 비용 구조, 준비물 체크리스트, 기항지 정보까지. 검색 유입을 받되 읽고 끝나지 않게, 추천 일정과 가격 문의로 자연스럽게 이어지도록 설계한 콘텐츠 구조입니다.</p>
+          <div class="blog-hero-stats">
+            <span>전체 글 <strong id="blogResultsCount">__POST_COUNT__</strong>개</span>
+            <span>현재 필터 <strong id="blogActiveFilterText">전체</strong></span>
+            <span>문의 연결 CTA 내장</span>
+          </div>
+        </section>
+
+        <section class="blog-section">
+          <div class="blog-search-panel">
+            <div class="blog-search-row">
+              <input id="blogSearchInput" class="blog-search-input" type="search" placeholder="예: 크루즈 비용, 체크리스트, 발코니, 오키나와" />
+            </div>
+            <div class="blog-filter-row">
+              <button type="button" class="blog-filter-btn is-active" data-category="all">전체</button>
+              __CATEGORY_FILTERS__
+            </div>
+            <div class="blog-results-meta">
+              <span>검색 유입용 글은 이 페이지에서 모아서 관리합니다.</span>
+              <span>카드 클릭 시 공용 템플릿 기반 상세 페이지로 이동합니다.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="blog-section">
+          <div class="blog-grid" id="blogGrid">
+            __POST_CARDS__
+          </div>
+          <div class="blog-empty-state" id="blogEmptyState">조건에 맞는 글이 아직 없습니다. 검색어를 줄이거나 카테고리를 다시 선택해보세요.</div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="blog-footer">
+      <div class="blog-footer-inner">
+        <div>
+          <strong>크루즈플레이 콘텐츠 허브</strong>
+          <span>검색 유입용 블로그 글과 랜딩페이지 문의 전환을 하나의 구조로 묶는 정적 블로그 시스템</span>
+        </div>
+        <div>
+          <span>문의 연결: <a href="/#contact">가격문의</a></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/assets/js/blog-index.js"></script>
+</body>
+</html>
