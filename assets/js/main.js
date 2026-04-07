@@ -58,10 +58,13 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
+  let reviewLoopResetTimer = null;
+  let reviewScrollEndTimer = null;
 	
   init();
 
   async function init() {
+    injectRequestedStyles();
     bindStaticEvents();
     setTrackingFields();
 
@@ -110,7 +113,11 @@
       const reviewDot = target.closest('[data-review-dot]');
       if (reviewDot) {
         state.reviewPage = Number(reviewDot.getAttribute('data-review-dot') || 0);
-        setupReviewSlider((state.bootstrap.reviews || []).length);
+        if (window.innerWidth <= 768) {
+          scrollToReviewRenderIndex(state.reviewPage + 1);
+        } else {
+          setupReviewSlider((state.bootstrap.reviews || []).length);
+        }
         return;
       }
 
@@ -134,6 +141,7 @@
     });
 
 	window.addEventListener('resize', () => {
+	  applyRequestedUiTweaks();
 	  setupReviewSlider((state.bootstrap.reviews || []).length);
 	  setupBasicInfoSlider();
 	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
@@ -292,6 +300,7 @@
     populateFormSelects();
     renderExtraSections();
     reorderPageSections();
+    applyRequestedUiTweaks();
     logDebug('hydrate.done', { ok: true });
   }
 
@@ -580,6 +589,325 @@
 
   function getReviewPerView() { return window.innerWidth <= 768 ? 1 : 2; }
 
+
+  function injectRequestedStyles() {
+    if (document.getElementById('cruiseRequestedOnlyStyle')) return;
+
+    const style = document.createElement('style');
+    style.id = 'cruiseRequestedOnlyStyle';
+    style.textContent = `
+      @media (min-width: 769px) {
+        .js-schedule-head {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          gap: 14px;
+          width: 100%;
+        }
+
+        .js-schedule-title,
+        .js-schedule-subtitle {
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+
+        .js-schedule-filters {
+          justify-content: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+
+        .js-schedule-grid {
+          justify-content: center !important;
+        }
+
+        .js-schedule-top-cta {
+          display: none !important;
+        }
+
+        #reviewDots {
+          display: none !important;
+        }
+
+        #basicInfoSection .sheet-extra-card-basic {
+          display: grid;
+          grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+          align-items: stretch;
+          overflow: hidden;
+        }
+
+        #basicInfoSection .sheet-extra-basic-media,
+        #basicInfoSection .sheet-extra-basic-empty {
+          height: 100%;
+          min-height: 100%;
+        }
+
+        #basicInfoSection .sheet-extra-basic-media img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+        }
+
+        #basicInfoSection .sheet-extra-card-copy {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 16px;
+          padding: 40px 42px;
+          background: linear-gradient(135deg, rgba(248, 250, 255, 0.98), rgba(255, 255, 255, 0.98));
+          border-left: 1px solid rgba(28, 76, 190, 0.08);
+        }
+
+        #basicInfoSection .sheet-extra-card-copy h3 {
+          margin: 0;
+          line-height: 1.16;
+          letter-spacing: -0.03em;
+        }
+
+        #basicInfoSection .sheet-extra-card-copy .sheet-extra-muted {
+          margin: 0;
+          font-size: 16px;
+          line-height: 1.7;
+          color: #5a6785;
+        }
+
+        #basicInfoSection .sheet-extra-card-copy > p:not(.sheet-extra-muted) {
+          margin: 0;
+          font-size: 15px;
+          line-height: 1.8;
+          color: #32415f;
+        }
+
+        #basicInfoSection .sheet-extra-points {
+          display: grid;
+          gap: 10px;
+          margin-top: 4px;
+        }
+
+        #basicInfoSection .sheet-extra-points li {
+          padding: 14px 16px;
+          border-radius: 16px;
+          background: rgba(246, 249, 255, 0.96);
+          border: 1px solid rgba(28, 76, 190, 0.08);
+        }
+      }
+
+      #reviewViewport.is-mobile-review-loop {
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      #reviewViewport.is-mobile-review-loop::-webkit-scrollbar {
+        display: none;
+      }
+
+      #reviewViewport.is-mobile-review-loop #reviewGrid {
+        display: flex !important;
+        gap: 18px;
+        transform: none !important;
+        will-change: scroll-position;
+      }
+
+      #reviewViewport.is-mobile-review-loop #reviewGrid .review-card {
+        flex: 0 0 calc(100% - 36px);
+        scroll-snap-align: center;
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  function applyRequestedUiTweaks() {
+    applyScheduleHeaderLayout();
+  }
+
+  function applyScheduleHeaderLayout() {
+    const scheduleSection = getSectionNodeByKey('scheduleSection');
+    if (!scheduleSection) return;
+
+    const title = scheduleSection.querySelector('h2');
+    const subtitle = Array.from(scheduleSection.querySelectorAll('p')).find((node) => !scheduleGrid?.contains(node));
+    const topActionButton = Array.from(scheduleSection.querySelectorAll('a, button')).find((node) => {
+      const text = String(node.textContent || '').replace(/\s+/g, '');
+      return text.includes('전체일정가격문의');
+    });
+
+    scheduleGrid?.classList.add('js-schedule-grid');
+    scheduleFilters?.classList.add('js-schedule-filters');
+
+    if (title) {
+      title.classList.add('js-schedule-title');
+      title.closest('div')?.classList.add('js-schedule-head');
+    }
+
+    subtitle?.classList.add('js-schedule-subtitle');
+    topActionButton?.classList.add('js-schedule-top-cta');
+  }
+
+  function getReviewCards() {
+    return Array.from(reviewGrid ? reviewGrid.querySelectorAll('.review-card') : []);
+  }
+
+  function restoreDesktopReviewCards() {
+    if (!reviewGrid) return;
+
+    const cards = getReviewCards();
+    const baseCards = cards.filter((card) => card.dataset.reviewClone !== 'true');
+    if (!baseCards.length) {
+      reviewViewport?.classList.remove('is-mobile-review-loop');
+      return;
+    }
+
+    const hasClones = cards.length !== baseCards.length;
+    if (hasClones) {
+      reviewGrid.innerHTML = '';
+      baseCards.forEach((card) => {
+        delete card.dataset.reviewClone;
+        card.removeAttribute('aria-hidden');
+        reviewGrid.appendChild(card);
+      });
+    }
+
+    reviewGrid.removeAttribute('data-review-loop-count');
+    reviewViewport?.classList.remove('is-mobile-review-loop');
+  }
+
+  function ensureMobileReviewLoop(total) {
+    if (!reviewGrid || !reviewViewport) return [];
+
+    reviewViewport.classList.add('is-mobile-review-loop');
+
+    const cards = getReviewCards();
+    const baseCards = cards.filter((card) => card.dataset.reviewClone !== 'true');
+    const sourceCards = baseCards.length ? baseCards : cards;
+
+    if (total <= 1) {
+      reviewGrid.innerHTML = '';
+      sourceCards.forEach((card) => {
+        delete card.dataset.reviewClone;
+        card.removeAttribute('aria-hidden');
+        reviewGrid.appendChild(card);
+      });
+      reviewGrid.setAttribute('data-review-loop-count', String(total));
+      return getReviewCards();
+    }
+
+    const ready = cards.length === total + 2 && Number(reviewGrid.getAttribute('data-review-loop-count') || 0) === total;
+    if (ready) {
+      return cards;
+    }
+
+    const firstClone = sourceCards[0].cloneNode(true);
+    firstClone.dataset.reviewClone = 'true';
+    firstClone.setAttribute('aria-hidden', 'true');
+
+    const lastClone = sourceCards[sourceCards.length - 1].cloneNode(true);
+    lastClone.dataset.reviewClone = 'true';
+    lastClone.setAttribute('aria-hidden', 'true');
+
+    reviewGrid.innerHTML = '';
+    reviewGrid.appendChild(lastClone);
+    sourceCards.forEach((card) => {
+      delete card.dataset.reviewClone;
+      card.removeAttribute('aria-hidden');
+      reviewGrid.appendChild(card);
+    });
+    reviewGrid.appendChild(firstClone);
+    reviewGrid.setAttribute('data-review-loop-count', String(total));
+
+    return getReviewCards();
+  }
+
+  function getNearestReviewRenderIndex() {
+    if (!reviewViewport) return -1;
+
+    const cards = getReviewCards();
+    if (!cards.length) return -1;
+
+    const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const distance = Math.abs(cardCenter - viewportCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    return closestIndex;
+  }
+
+  function normalizeReviewPageFromRenderIndex(renderIndex, total) {
+    if (total <= 0) return 0;
+    if (renderIndex <= 0) return total - 1;
+    if (renderIndex >= total + 1) return 0;
+    return renderIndex - 1;
+  }
+
+  function syncMobileReviewDots(total) {
+    if (!reviewDots) return;
+
+    reviewDots.className = total > 1 ? 'review-dots' : 'review-dots is-hidden';
+    reviewDots.innerHTML = total > 1
+      ? Array.from({ length: total }).map((_, idx) =>
+          `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+        ).join('')
+      : '';
+  }
+
+  function scrollToReviewRenderIndex(renderIndex, behavior = 'smooth') {
+    if (!reviewViewport) return;
+
+    const cards = getReviewCards();
+    const targetCard = cards[renderIndex];
+    if (!targetCard) return;
+
+    reviewViewport.scrollTo({
+      left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+      behavior
+    });
+  }
+
+  function queueMobileReviewLoopReset() {
+    const total = (state.bootstrap.reviews || []).length;
+    if (!reviewViewport || total <= 1) return;
+
+    if (reviewLoopResetTimer) {
+      window.clearTimeout(reviewLoopResetTimer);
+      reviewLoopResetTimer = null;
+    }
+
+    reviewLoopResetTimer = window.setTimeout(() => {
+      const renderIndex = getNearestReviewRenderIndex();
+      const cards = getReviewCards();
+      if (!cards.length) return;
+
+      if (renderIndex === 0) {
+        state.reviewPage = total - 1;
+        syncMobileReviewDots(total);
+        scrollToReviewRenderIndex(total, 'auto');
+        return;
+      }
+
+      if (renderIndex === cards.length - 1) {
+        state.reviewPage = 0;
+        syncMobileReviewDots(total);
+        scrollToReviewRenderIndex(1, 'auto');
+      }
+    }, 240);
+  }
+
   // =========================================================
 // 2) setupReviewSlider
 // 시작: function setupReviewSlider(total) {
@@ -595,56 +923,49 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
-	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
-	        let closestIndex = 0;
-	        let closestDistance = Infinity;
+	        const renderIndex = getNearestReviewRenderIndex();
+	        if (renderIndex >= 0) {
+	          state.reviewPage = normalizeReviewPageFromRenderIndex(renderIndex, total);
+	          syncMobileReviewDots(total);
+	        }
 	
-	        cards.forEach((card, idx) => {
-	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-	          const distance = Math.abs(cardCenter - viewportCenter);
+	        if (reviewScrollEndTimer) {
+	          window.clearTimeout(reviewScrollEndTimer);
+	        }
 	
-	          if (distance < closestDistance) {
-	            closestDistance = distance;
-	            closestIndex = idx;
-	          }
-	        });
-	
-	        state.reviewPage = closestIndex;
+	        reviewScrollEndTimer = window.setTimeout(() => {
+	          queueMobileReviewLoopReset();
+	        }, 120);
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
 	    }
 	
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	
+	    ensureMobileReviewLoop(total);
 	    reviewGrid.style.transform = '';
 	    prev?.classList.add('is-hidden');
 	    next?.classList.add('is-hidden');
 	
-	    if (reviewDots) {
-	      reviewDots.className = 'review-dots is-hidden';
-	      reviewDots.innerHTML = '';
-	    }
-	
 	    if (total <= 1) {
+	      syncMobileReviewDots(total);
 	      stopReviewAuto();
 	      return;
 	    }
 	
-	    state.reviewPage = Math.min(state.reviewPage, total - 1);
+	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
+	    syncMobileReviewDots(total);
 	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
+	    const renderIndex = getNearestReviewRenderIndex();
+	    const expectedIndex = state.reviewPage + 1;
+	    if (renderIndex < 0 || Math.abs(renderIndex - expectedIndex) > 1) {
+	      scrollToReviewRenderIndex(expectedIndex, 'auto');
 	    }
 	
 	    startReviewAuto(total);
 	    return;
 	  }
+	
+	  restoreDesktopReviewCards();
 	
 	  const perView = getReviewPerView();
 	  const maxPage = Math.max(0, total - perView);
@@ -666,18 +987,16 @@
 	
 	  prev?.classList.remove('is-hidden');
 	  next?.classList.remove('is-hidden');
-	  if (reviewDots) reviewDots.className = 'review-dots';
+	
+	  if (reviewDots) {
+	    reviewDots.className = 'review-dots is-hidden';
+	    reviewDots.innerHTML = '';
+	  }
 	
 	  const gap = 22;
 	  const viewportWidth = reviewViewport.clientWidth || 0;
 	  const cardWidth = (viewportWidth - gap) / perView;
 	  reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
-	
-	  if (reviewDots) {
-	    reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) =>
-	      `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
-	    ).join('');
-	  }
 	
 	  startReviewAuto(total);
 	}
@@ -692,21 +1011,20 @@
 	  if (!total) return;
 	
 	  if (window.innerWidth <= 768) {
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	    ensureMobileReviewLoop(total);
+	
+	    const cards = getReviewCards();
 	    if (!cards.length || !reviewViewport) return;
 	
-	    const maxPage = total - 1;
-	    state.reviewPage = direction === 'prev'
-	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
-	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+	    const currentRenderIndex = Math.max(0, getNearestReviewRenderIndex());
+	    const nextRenderIndex = direction === 'prev'
+	      ? Math.max(0, currentRenderIndex - 1)
+	      : Math.min(cards.length - 1, currentRenderIndex + 1);
 	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
-	    }
+	    state.reviewPage = normalizeReviewPageFromRenderIndex(nextRenderIndex, total);
+	    syncMobileReviewDots(total);
+	    scrollToReviewRenderIndex(nextRenderIndex, 'smooth');
+	    queueMobileReviewLoopReset();
 	    return;
 	  }
 	
