@@ -646,20 +646,18 @@
         }
 
         #basicInfoSection .sheet-extra-basic-media {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: block;
+          overflow: hidden;
           background: #f7f9fe;
         }
 
         #basicInfoSection .sheet-extra-basic-media img {
-          width: auto;
-          height: auto;
-          max-width: 100%;
-          max-height: 100%;
+          width: 100%;
+          height: 100%;
           display: block;
-          object-fit: contain;
-          object-position: center;
+          object-fit: cover;
+          object-position: center center;
+          image-rendering: auto;
         }
 
         #basicInfoSection .sheet-extra-card-copy {
@@ -1145,7 +1143,7 @@
 	  if (total > 1) {
 	    basicInfoAutoTimer = window.setInterval(() => {
 	      moveBasicInfoAuto();
-	    }, 2600);
+	    }, 2200);
 	  }
 	}
 	
