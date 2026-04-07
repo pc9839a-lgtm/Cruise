@@ -17,6 +17,7 @@
 
   function init() {
     bindEvents();
+    syncFilterButtons();
     update();
   }
 
@@ -41,9 +42,7 @@
   }
 
   function getCards() {
-    return Array.from(
-      blogGrid.querySelectorAll('.blog-card, article[data-category]')
-    );
+    return Array.from(blogGrid.querySelectorAll('.blog-card'));
   }
 
   function syncFilterButtons() {
@@ -52,8 +51,7 @@
     const buttons = filterRow.querySelectorAll('[data-category]');
     buttons.forEach(function (button) {
       const category = String(button.getAttribute('data-category') || '').trim();
-      const isActive = category === state.activeCategory;
-      button.classList.toggle('is-active', isActive);
+      button.classList.toggle('is-active', category === state.activeCategory);
     });
 
     if (blogActiveFilterText) {
@@ -64,29 +62,26 @@
     }
   }
 
-  function normalizeCategory(value) {
+  function normalizeText(value) {
     return String(value || '').trim().toLowerCase();
   }
 
   function matchesCategory(card) {
     if (state.activeCategory === 'all') return true;
-
-    const cardCategory = normalizeCategory(card.dataset.category);
-    const activeCategory = normalizeCategory(state.activeCategory);
-
-    return cardCategory === activeCategory;
+    return normalizeText(card.dataset.category) === normalizeText(state.activeCategory);
   }
 
   function matchesKeyword(card) {
     if (!state.keyword) return true;
 
-    const title = String(card.dataset.title || '').toLowerCase();
-    const summary = String(card.dataset.summary || '').toLowerCase();
-    const tags = String(card.dataset.tags || '').toLowerCase();
-    const category = String(card.dataset.category || '').toLowerCase();
-    const text = [title, summary, tags, category].join(' ');
+    const haystack = [
+      card.dataset.title || '',
+      card.dataset.summary || '',
+      card.dataset.tags || '',
+      card.dataset.category || ''
+    ].join(' ').toLowerCase();
 
-    return text.includes(state.keyword);
+    return haystack.includes(state.keyword);
   }
 
   function update() {
