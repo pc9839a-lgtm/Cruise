@@ -1,351 +1,335 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const ROOT = process.cwd();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.resolve(__dirname, '..');
+
 const SITE_URL = 'https://cruiseplay-dyt.pages.dev';
 const SITE_NAME = '크루즈플레이';
+const SITE_DESCRIPTION = '크루즈 여행 정보와 추천 일정을 한눈에 확인하고 문의까지 자연스럽게 이어지는 콘텐츠 허브';
 
-const POSTS_DATA_PATH = path.join(ROOT, 'data', 'posts.json');
-const BLOG_INDEX_TEMPLATE_PATH = path.join(ROOT, 'blog', 'templates', 'index.template.html');
-const POST_TEMPLATE_PATH = path.join(ROOT, 'blog', 'templates', 'post.template.html');
-const OUTPUT_BLOG_DIR = path.join(ROOT, 'blog');
-const SEARCH_INDEX_PATH = path.join(ROOT, 'data', 'blog-search.json');
-const SITEMAP_PATH = path.join(ROOT, 'sitemap.xml');
-const FEED_PATH = path.join(ROOT, 'blog', 'feed.xml');
+const POSTS_DATA_CANDIDATES = [
+  path.join(ROOT, 'data', 'blog-posts.json'),
+  path.join(ROOT, 'data', 'posts.json')
+];
 
-const rawPosts = JSON.parse(fs.readFileSync(POSTS_DATA_PATH, 'utf8'));
-const blogIndexTemplate = fs.readFileSync(BLOG_INDEX_TEMPLATE_PATH, 'utf8');
-const postTemplate = fs.readFileSync(POST_TEMPLATE_PATH, 'utf8');
+const TEMPLATE_DIR_CANDIDATES = [
+  path.join(ROOT, 'blog', 'templates'),
+  path.join(ROOT, 'blog', '_templates')
+];
 
-ensureDir(path.join(ROOT, 'blog', 'category'));
-ensureDir(path.join(ROOT, 'data'));
+const POSTS_DIR_CANDIDATES = [
+  path.join(ROOT, 'blog', 'posts'),
+  path.join(ROOT, 'blog', '_posts')
+];
 
-const posts = rawPosts
-  .map((post) => hydratePost(post))
-  .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
-
-const postMap = new Map(posts.map((post) => [post.slug, post]));
-const categoryMap = buildCategoryMap(posts);
-
-buildBlogIndex(posts, categoryMap);
-buildCategoryPages(categoryMap);
-buildPostPages(posts, postMap);
-buildSearchIndex(posts);
-buildFeed(posts);
-buildSitemap(posts, categoryMap);
-
-console.log(`✅ blog build complete: ${posts.length} posts`);
-
-function hydratePost(post) {
-  validatePost(post);
-
-  const bodyPath = path.join(ROOT, post.content_file);
-  const rawBody = fs.readFileSync(bodyPath, 'utf8').trim();
-  const { html: bodyHtml, toc } = injectHeadingIds(rawBody);
-  const categorySlug = slugify(post.category);
-  const postUrl = `${SITE_URL}/blog/${post.slug}/`;
-  const publishedDate = formatDate(post.published_at);
-  const updatedDate = formatDate(post.updated_at || post.published_at);
-
-  return {
-    ...post,
-    bodyHtml,
-    toc,
-    categorySlug,
-    postUrl,
-    categoryUrl: `${SITE_URL}/blog/category/${categorySlug}/`,
-    publishedDate,
-    updatedDate,
-    publishedIso: new Date(post.published_at).toISOString(),
-    updatedIso: new Date(post.updated_at || post.published_at).toISOString(),
-    searchText: stripHtml(`${post.title} ${post.summary} ${post.category} ${(post.tags || []).join(' ')}`),
-  };
-}
-
-function validatePost(post) {
-  const required = ['slug', 'category', 'title', 'summary', 'seo_title', 'seo_description', 'thumbnail_url', 'published_at', 'content_file'];
-  const missing = required.filter((key) => !post[key]);
-  if (missing.length) {
-    throw new Error(`Missing required post fields for ${post.slug || 'unknown'}: ${missing.join(', ')}`);
+function exists(targetPath) {
+  try {
+    return fs.existsSync(targetPath);
+  } catch {
+    return false;
   }
 }
 
-function buildCategoryMap(posts) {
-  const map = new Map();
-  posts.forEach((post) => {
-    if (!map.has(post.categorySlug)) {
-      map.set(post.categorySlug, {
-        slug: post.categorySlug,
-        name: post.category,
-        posts: [],
-      });
-    }
-    map.get(post.categorySlug).posts.push(post);
+function pickExisting(candidates, label) {
+  const found = candidates.find(exists);
+  if (!found) {
+    throw new Error(`${label} 경로를 찾지 못했습니다.\n후보:\n- ${candidates.join('\n- ')}`);
+  }
+  return found;
+}
+
+function ensureDir(targetPath) {
+  fs.mkdirSync(targetPath, { recursive: true });
+}
+
+function readUtf8(targetPath) {
+  return fs.readFileSync(targetPath, 'utf8');
+}
+
+function writeUtf8(targetPath, content) {
+  ensureDir(path.dirname(targetPath));
+  fs.writeFileSync(targetPath, content, 'utf8');
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function stripHtml(html = '') {
+  return String(html)
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeDate(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return '';
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function formatDateLabel(value) {
+  const normalized = normalizeDate(value);
+  if (!normalized) return '';
+  const [y, m, d] = normalized.split('-');
+  return `${y}.${m}.${d}`;
+}
+
+function toPosix(p) {
+  return p.replace(/\\/g, '/');
+}
+
+function resolvePostSource(post, postsDir) {
+  const candidates = [];
+
+  if (post.content_file) {
+    candidates.push(path.resolve(ROOT, post.content_file));
+    candidates.push(path.resolve(postsDir, path.basename(post.content_file)));
+  }
+
+  if (post.slug) {
+    candidates.push(path.resolve(postsDir, `${post.slug}.html`));
+  }
+
+  const found = candidates.find(exists);
+  if (!found) {
+    throw new Error(`본문 파일을 찾지 못했습니다: ${post.slug || post.title}`);
+  }
+  return found;
+}
+
+function resolveThumbnail(post) {
+  if (!post.thumbnail_url) return `${SITE_URL}/img/og-default.jpg`;
+  if (/^https?:\/\//i.test(post.thumbnail_url)) return post.thumbnail_url;
+  return `${SITE_URL}/${String(post.thumbnail_url).replace(/^\/+/, '')}`;
+}
+
+function render(template, data) {
+  return template.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_, key) => {
+    return data[key] ?? '';
   });
-  return map;
 }
 
-function buildBlogIndex(posts, categoryMap) {
-  const categoryFilters = Array.from(categoryMap.values())
-    .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
-    .map((category) => `<button type="button" class="blog-filter-btn" data-category="${escapeHtml(category.name)}">${escapeHtml(category.name)}</button>`)
-    .join('\n              ');
-
-  const postCards = posts.map(renderPostCard).join('\n');
-
-  const html = blogIndexTemplate
-    .replaceAll('__SITE_URL__', SITE_URL)
-    .replace('__POST_COUNT__', String(posts.length))
-    .replace('__CATEGORY_FILTERS__', categoryFilters)
-    .replace('__POST_CARDS__', postCards);
-
-  fs.writeFileSync(path.join(OUTPUT_BLOG_DIR, 'index.html'), html, 'utf8');
-}
-
-function buildCategoryPages(categoryMap) {
-  Array.from(categoryMap.values()).forEach((category) => {
-    const categoryCards = category.posts.map(renderPostCard).join('\n');
-    const html = blogIndexTemplate
-      .replaceAll('__SITE_URL__', SITE_URL)
-      .replace('SEO + 유입 + 문의 전환', `카테고리: ${category.name}`)
-      .replace('크루즈를 더 쉽게 이해하게 만드는<br />정보형 콘텐츠 허브', `${category.name} 콘텐츠 모음`)
-      .replace('크루즈 초보 가이드부터 비용 구조, 준비물 체크리스트, 기항지 정보까지. 검색 유입을 받되 읽고 끝나지 않게, 추천 일정과 가격 문의로 자연스럽게 이어지도록 설계한 콘텐츠 구조입니다.', `${category.name} 카테고리 글만 모아볼 수 있는 아카이브입니다. 같은 주제의 글을 묶어 탐색하고 문의 전환까지 이어지도록 설계했습니다.`)
-      .replace('__POST_COUNT__', String(category.posts.length))
-      .replace('__CATEGORY_FILTERS__', `<button type="button" class="blog-filter-btn is-active" data-category="${escapeHtml(category.name)}">${escapeHtml(category.name)}</button>`)
-      .replace('__POST_CARDS__', categoryCards);
-
-    const categoryDir = path.join(OUTPUT_BLOG_DIR, 'category', category.slug);
-    ensureDir(categoryDir);
-    fs.writeFileSync(path.join(categoryDir, 'index.html'), html, 'utf8');
-  });
-}
-
-function buildPostPages(posts, postMap) {
-  posts.forEach((post, index) => {
-    const previousPost = posts[index + 1] || null;
-    const nextPost = posts[index - 1] || null;
-
-    const relatedPosts = resolveRelatedPosts(post, postMap, posts)
-      .slice(0, 2)
-      .map(renderRelatedCard)
-      .join('\n');
-
-    const tocHtml = post.toc.length
-      ? post.toc.map((item) => `<a href="#${item.id}">${escapeHtml(item.text)}</a>`).join('\n')
-      : '<span>이 글에는 별도 목차가 없습니다.</span>';
-
-    const tagLinks = (post.tags || []).length
-      ? post.tags.map((tag) => `<a href="/blog/category/${post.categorySlug}/">${escapeHtml(tag)}</a>`).join('\n')
-      : '<span>태그 없음</span>';
-
-    const pagerHtml = [
-      previousPost
-        ? `<a class="pager-card" href="/blog/${previousPost.slug}/"><em>이전 글</em><strong>${escapeHtml(previousPost.title)}</strong></a>`
-        : '<div class="pager-card"><em>이전 글</em><strong>가장 처음 글입니다.</strong></div>',
-      nextPost
-        ? `<a class="pager-card" href="/blog/${nextPost.slug}/"><em>다음 글</em><strong>${escapeHtml(nextPost.title)}</strong></a>`
-        : '<div class="pager-card"><em>다음 글</em><strong>가장 최근 글입니다.</strong></div>'
-    ].join('\n');
-
-    const jsonLd = JSON.stringify({
+function makeJsonLd(post, url, description, thumbnail) {
+  return JSON.stringify(
+    {
       '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: post.title,
-      description: post.seo_description,
-      datePublished: post.publishedIso,
-      dateModified: post.updatedIso,
-      image: [post.thumbnail_url],
-      url: post.postUrl,
+      '@type': 'Article',
+      headline: post.title || '',
+      description,
+      image: thumbnail,
+      datePublished: normalizeDate(post.published_at || post.date || '') || undefined,
+      dateModified: normalizeDate(post.updated_at || post.published_at || post.date || '') || undefined,
+      mainEntityOfPage: url,
       author: {
         '@type': 'Organization',
-        name: SITE_NAME,
+        name: SITE_NAME
       },
       publisher: {
         '@type': 'Organization',
         name: SITE_NAME,
-      },
-      mainEntityOfPage: post.postUrl,
-      keywords: (post.tags || []).join(', '),
-      articleSection: post.category,
-    }, null, 2);
-
-    const html = postTemplate
-      .replaceAll('__SEO_TITLE__', escapeHtml(post.seo_title))
-      .replaceAll('__SEO_DESCRIPTION__', escapeHtml(post.seo_description))
-      .replaceAll('__POST_URL__', post.postUrl)
-      .replaceAll('__THUMBNAIL_URL__', post.thumbnail_url)
-      .replaceAll('__PUBLISHED_ISO__', post.publishedIso)
-      .replaceAll('__UPDATED_ISO__', post.updatedIso)
-      .replace('__BLOG_POSTING_JSON_LD__', jsonLd)
-      .replaceAll('__CATEGORY_SLUG__', post.categorySlug)
-      .replaceAll('__CATEGORY__', escapeHtml(post.category))
-      .replaceAll('__TITLE__', escapeHtml(post.title))
-      .replaceAll('__SUMMARY__', escapeHtml(post.summary))
-      .replaceAll('__PUBLISHED_DATE__', post.publishedDate)
-      .replaceAll('__UPDATED_DATE__', post.updatedDate)
-      .replaceAll('__TAG_COUNT__', String((post.tags || []).length))
-      .replace('__POST_BODY__', indentHtml(post.bodyHtml, 16))
-      .replaceAll('__CTA_PRIMARY_LABEL__', escapeHtml(post.cta_primary_label || '가격 문의하기'))
-      .replaceAll('__CTA_PRIMARY_URL__', post.cta_primary_url || '/#contact')
-      .replaceAll('__CTA_SECONDARY_LABEL__', escapeHtml(post.cta_secondary_label || '추천 일정 보기'))
-      .replaceAll('__CTA_SECONDARY_URL__', post.cta_secondary_url || '/#schedule')
-      .replace('__RELATED_POSTS__', relatedPosts)
-      .replace('__PAGER_HTML__', pagerHtml)
-      .replace('__TABLE_OF_CONTENTS__', tocHtml)
-      .replace('__TAG_LINKS__', tagLinks);
-
-    const postDir = path.join(OUTPUT_BLOG_DIR, post.slug);
-    ensureDir(postDir);
-    fs.writeFileSync(path.join(postDir, 'index.html'), html, 'utf8');
-  });
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/img/logo.png`
+        }
+      }
+    },
+    null,
+    2
+  );
 }
 
-function buildSearchIndex(posts) {
-  const searchIndex = posts.map((post) => ({
-    slug: post.slug,
-    url: `/blog/${post.slug}/`,
-    category: post.category,
-    title: post.title,
-    summary: post.summary,
-    tags: post.tags || [],
-    published_at: post.published_at,
-    thumbnail_url: post.thumbnail_url,
-  }));
+function buildRelatedPosts(posts, currentPost) {
+  const sameCategory = posts.filter(
+    p => p.slug !== currentPost.slug && p.category && p.category === currentPost.category
+  );
+  const fallback = posts.filter(p => p.slug !== currentPost.slug);
+  const related = [...sameCategory, ...fallback].slice(0, 3);
 
-  fs.writeFileSync(SEARCH_INDEX_PATH, JSON.stringify(searchIndex, null, 2), 'utf8');
+  return related
+    .map(
+      p => `
+      <a class="cp-related-card" href="/blog/${encodeURIComponent(p.slug)}/">
+        <span class="cp-related-chip">${escapeHtml(p.category || '콘텐츠')}</span>
+        <strong>${escapeHtml(p.title || '')}</strong>
+        <p>${escapeHtml(p.summary || '')}</p>
+      </a>`
+    )
+    .join('');
+}
+
+function buildPostCard(post) {
+  return `
+    <article class="cp-post-card">
+      <a class="cp-post-card__thumb" href="/blog/${encodeURIComponent(post.slug)}/">
+        <img src="${escapeHtml(resolveThumbnail(post))}" alt="${escapeHtml(post.title || '')}" loading="lazy" />
+      </a>
+      <div class="cp-post-card__body">
+        <div class="cp-post-card__meta">
+          <span class="cp-chip">${escapeHtml(post.category || '콘텐츠')}</span>
+          <span class="cp-date">${escapeHtml(formatDateLabel(post.published_at || post.date || ''))}</span>
+        </div>
+        <h2><a href="/blog/${encodeURIComponent(post.slug)}/">${escapeHtml(post.title || '')}</a></h2>
+        <p>${escapeHtml(post.summary || '')}</p>
+        <a class="cp-post-card__link" href="/blog/${encodeURIComponent(post.slug)}/">자세히 보기</a>
+      </div>
+    </article>`;
+}
+
+function buildCategoryLinks(posts) {
+  const categories = [...new Set(posts.map(p => p.category).filter(Boolean))];
+  return categories
+    .map(category => `<span class="cp-filter-chip">${escapeHtml(category)}</span>`)
+    .join('');
+}
+
+function buildSitemap(posts) {
+  const urls = [
+    `${SITE_URL}/`,
+    `${SITE_URL}/blog/`,
+    ...posts.map(post => `${SITE_URL}/blog/${encodeURIComponent(post.slug)}/`)
+  ];
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    url => `  <url>
+    <loc>${url}</loc>
+  </url>`
+  )
+  .join('\n')}
+</urlset>`;
 }
 
 function buildFeed(posts) {
-  const items = posts.map((post) => `
+  const items = posts
+    .slice(0, 20)
+    .map(post => {
+      const url = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}/`;
+      const description = escapeHtml(post.summary || '');
+      const title = escapeHtml(post.title || '');
+      const pubDate = post.published_at ? new Date(post.published_at).toUTCString() : new Date().toUTCString();
+      return `
     <item>
-      <title><![CDATA[${post.title}]]></title>
-      <link>${post.postUrl}</link>
-      <guid>${post.postUrl}</guid>
-      <pubDate>${new Date(post.published_at).toUTCString()}</pubDate>
-      <description><![CDATA[${post.summary}]]></description>
-    </item>`).join('');
+      <title>${title}</title>
+      <link>${url}</link>
+      <guid>${url}</guid>
+      <description>${description}</description>
+      <pubDate>${pubDate}</pubDate>
+    </item>`;
+    })
+    .join('');
 
-  const feed = `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>${SITE_NAME} 콘텐츠 허브</title>
+    <title>${SITE_NAME}</title>
     <link>${SITE_URL}/blog/</link>
-    <description>크루즈 초보 가이드, 비용 구조, 체크리스트, 일정 탐색 콘텐츠</description>
-    ${items}
+    <description>${SITE_DESCRIPTION}</description>${items}
   </channel>
 </rss>`;
-
-  fs.writeFileSync(FEED_PATH, feed, 'utf8');
 }
 
-function buildSitemap(posts, categoryMap) {
-  const urls = [
-    '/',
-    '/blog/',
-    ...Array.from(categoryMap.values()).map((category) => `/blog/category/${category.slug}/`),
-    ...posts.map((post) => `/blog/${post.slug}/`),
-  ];
+function main() {
+  const postsDataPath = pickExisting(POSTS_DATA_CANDIDATES, 'posts.json');
+  const templateDir = pickExisting(TEMPLATE_DIR_CANDIDATES, '템플릿 폴더');
+  const postsDir = pickExisting(POSTS_DIR_CANDIDATES, '본문 소스 폴더');
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${SITE_URL}${url}</loc></url>`).join('\n')}
-</urlset>`;
+  const indexTemplatePath = path.join(templateDir, 'index.template.html');
+  const postTemplatePath = path.join(templateDir, 'post.template.html');
 
-  fs.writeFileSync(SITEMAP_PATH, xml, 'utf8');
-}
+  if (!exists(indexTemplatePath)) {
+    throw new Error(`목록 템플릿이 없습니다: ${indexTemplatePath}`);
+  }
+  if (!exists(postTemplatePath)) {
+    throw new Error(`상세 템플릿이 없습니다: ${postTemplatePath}`);
+  }
 
-function renderPostCard(post) {
-  return `
-<article class="blog-card" data-blog-card data-category="${escapeHtml(post.category)}" data-search="${escapeHtml(post.searchText)}">
-  <a class="blog-card-link" href="/blog/${post.slug}/">
-    <div class="blog-card-media">
-      <img src="${post.thumbnail_url}" alt="${escapeHtml(post.title)}" loading="lazy" />
-    </div>
-    <div class="blog-card-body">
-      <div class="blog-chip-row">
-        <span class="blog-chip">${escapeHtml(post.category)}</span>
-        ${(post.tags || []).slice(0, 2).map((tag) => `<span class="blog-chip">${escapeHtml(tag)}</span>`).join('')}
-      </div>
-      <h2>${escapeHtml(post.title)}</h2>
-      <p>${escapeHtml(post.summary)}</p>
-      <div class="blog-card-footer">
-        <div class="blog-card-meta">
-          <span>${post.publishedDate}</span>
-        </div>
-        <span class="blog-more">자세히 보기 →</span>
-      </div>
-    </div>
-  </a>
-</article>`.trim();
-}
+  const raw = readUtf8(postsDataPath);
+  const posts = JSON.parse(raw)
+    .filter(post => {
+      const active = String(post.is_active ?? post.active ?? 'Y').toUpperCase();
+      return active !== 'N' && active !== 'FALSE';
+    })
+    .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0));
 
-function renderRelatedCard(post) {
-  return `
-<article class="related-card">
-  <a class="related-card-link" href="/blog/${post.slug}/">
-    <div class="blog-card-media">
-      <img src="${post.thumbnail_url}" alt="${escapeHtml(post.title)}" loading="lazy" />
-    </div>
-    <div class="related-card-body">
-      <div class="blog-chip-row"><span class="blog-chip">${escapeHtml(post.category)}</span></div>
-      <strong>${escapeHtml(post.title)}</strong>
-      <p>${escapeHtml(post.summary)}</p>
-    </div>
-  </a>
-</article>`.trim();
-}
+  const indexTemplate = readUtf8(indexTemplatePath);
+  const postTemplate = readUtf8(postTemplatePath);
 
-function resolveRelatedPosts(post, postMap, posts) {
-  const explicit = (post.related_slugs || []).map((slug) => postMap.get(slug)).filter(Boolean);
-  if (explicit.length) return explicit;
-  return posts.filter((item) => item.slug !== post.slug && item.categorySlug === post.categorySlug).slice(0, 2);
-}
+  const blogRoot = path.join(ROOT, 'blog');
+  ensureDir(blogRoot);
 
-function injectHeadingIds(html) {
-  const toc = [];
-  let index = 0;
-  const processed = html.replace(/<(h2|h3)([^>]*)>(.*?)<\/\1>/gi, (match, tag, attrs, inner) => {
-    index += 1;
-    const text = stripHtml(inner);
-    const id = `section-${index}`;
-    toc.push({ id, text, level: tag.toLowerCase() });
-    return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
+  for (const post of posts) {
+    if (!post.slug) {
+      throw new Error(`slug가 없습니다: ${post.title || post.content_id || 'unknown'}`);
+    }
+
+    const sourcePath = resolvePostSource(post, postsDir);
+    const contentHtml = readUtf8(sourcePath);
+    const description = (post.summary || stripHtml(contentHtml)).slice(0, 160);
+    const postUrl = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}/`;
+    const thumbnail = resolveThumbnail(post);
+    const relatedPostsHtml = buildRelatedPosts(posts, post);
+
+    const rendered = render(postTemplate, {
+      page_title: `${escapeHtml(post.title || '')} | ${SITE_NAME}`,
+      meta_description: escapeHtml(description),
+      canonical_url: escapeHtml(postUrl),
+      og_title: escapeHtml(post.title || ''),
+      og_description: escapeHtml(description),
+      og_image: escapeHtml(thumbnail),
+      post_title: escapeHtml(post.title || ''),
+      post_category: escapeHtml(post.category || '콘텐츠'),
+      post_date: escapeHtml(formatDateLabel(post.published_at || post.date || '')),
+      post_summary: escapeHtml(post.summary || ''),
+      post_body: contentHtml,
+      related_posts: relatedPostsHtml,
+      json_ld: makeJsonLd(post, postUrl, description, thumbnail)
+    });
+
+    const outDir = path.join(blogRoot, post.slug);
+    writeUtf8(path.join(outDir, 'index.html'), rendered);
+  }
+
+  const indexRendered = render(indexTemplate, {
+    page_title: `${SITE_NAME} 콘텐츠`,
+    meta_description: escapeHtml(SITE_DESCRIPTION),
+    canonical_url: `${SITE_URL}/blog/`,
+    post_count: String(posts.length),
+    category_links: buildCategoryLinks(posts),
+    posts_grid: posts.map(buildPostCard).join('')
   });
-  return { html: processed, toc };
+
+  writeUtf8(path.join(blogRoot, 'index.html'), indexRendered);
+  writeUtf8(path.join(ROOT, 'sitemap.xml'), buildSitemap(posts));
+  writeUtf8(path.join(ROOT, 'feed.xml'), buildFeed(posts));
+
+  console.log('블로그 빌드 완료');
+  console.log(`- posts data: ${toPosix(path.relative(ROOT, postsDataPath))}`);
+  console.log(`- template dir: ${toPosix(path.relative(ROOT, templateDir))}`);
+  console.log(`- posts dir: ${toPosix(path.relative(ROOT, postsDir))}`);
+  console.log(`- generated: /blog/ (${posts.length}개 글)`);
 }
 
-function slugify(value) {
-  return String(value || '')
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9가-힣\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-}
-
-function stripHtml(value) {
-  return String(value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
-function escapeHtml(value) {
-  return String(value || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function indentHtml(html, spaces) {
-  const pad = ' '.repeat(spaces);
-  return html.split('\n').map((line) => `${pad}${line}`).join('\n');
-}
-
-function formatDate(date) {
-  const d = new Date(date);
-  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true });
+try {
+  main();
+} catch (error) {
+  console.error('[build-blog] 실패');
+  console.error(error?.message || error);
+  process.exit(1);
 }
