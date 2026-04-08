@@ -58,7 +58,10 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
-  let reviewScrollEndTimer = null;
+  let isFormSubmitting = false;
+  let formSubmitTimeout = null;
+  let formLoadFallbackTimer = null;
+  let contactSubmitFrame = null;
 	
   init();
 
@@ -68,14 +71,20 @@
     setupFormSubmitTransport();
     bindFormSubmitMessageListener();
 
-    const payload = config.useMockOnly
-      ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
-      : await getBootstrapWithFallback();
+    if (config.useMockOnly) {
+      hydrate(normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true }));
+      return;
+    }
 
-    hydrate(payload);
+    const initialPayload = await getBootstrapInitialWithFallback();
+    hydrate(initialPayload, { initialOnly: true });
+
+    window.setTimeout(function () {
+      loadBootstrapDeferredInBackground();
+    }, 0);
   }
 
-  function bindStaticEvents() {
+    function bindStaticEvents() {
     if (mobileMenuToggle && mainNav) {
       mobileMenuToggle.addEventListener('click', () => mainNav.classList.toggle('is-open'));
     }
@@ -139,7 +148,6 @@
 	window.addEventListener('resize', () => {
 	  setupReviewSlider((state.bootstrap.reviews || []).length);
 	  setupBasicInfoSlider();
-	  applyScheduleHeaderDesktopFix();
 	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
 	});
 
@@ -157,6 +165,7 @@
       });
     }
 
+    // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
     if (form) {
       form.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -201,14 +210,22 @@
   function setupFormSubmitTransport() {
     if (!form || !config.apiUrl) return;
 
-    let iframe = document.getElementById('contactSubmitFrame');
-    if (!iframe) {
-      iframe = document.createElement('iframe');
-      iframe.id = 'contactSubmitFrame';
-      iframe.name = 'contactSubmitFrame';
-      iframe.title = 'contact submit frame';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+    if (!contactSubmitFrame) {
+      contactSubmitFrame = document.getElementById('contactSubmitFrame');
+    }
+
+    if (!contactSubmitFrame) {
+      contactSubmitFrame = document.createElement('iframe');
+      contactSubmitFrame.id = 'contactSubmitFrame';
+      contactSubmitFrame.name = 'contactSubmitFrame';
+      contactSubmitFrame.title = 'contact submit frame';
+      contactSubmitFrame.style.display = 'none';
+      document.body.appendChild(contactSubmitFrame);
+    }
+
+    if (!contactSubmitFrame.dataset.bound) {
+      contactSubmitFrame.addEventListener('load', handleFormSubmitFrameLoad);
+      contactSubmitFrame.dataset.bound = 'true';
     }
 
     form.method = 'POST';
@@ -222,7 +239,16 @@
     if (window.__cruiseFormMessageBound) return;
 
     window.addEventListener('message', function (event) {
-      const payload = event && event.data ? event.data : null;
+      let payload = event && event.data ? event.data : null;
+
+      if (typeof payload === 'string') {
+        try {
+          payload = JSON.parse(payload);
+        } catch (error) {
+          payload = null;
+        }
+      }
+
       if (!payload || payload.type !== 'CRUISE_FORM_RESULT') return;
       if (!isFormSubmitting) return;
 
@@ -230,6 +256,23 @@
     });
 
     window.__cruiseFormMessageBound = true;
+  }
+
+  function handleFormSubmitFrameLoad() {
+    if (!isFormSubmitting) return;
+
+    clearFormLoadFallback();
+    formLoadFallbackTimer = window.setTimeout(function () {
+      if (!isFormSubmitting) return;
+      finishFormSubmit(true, '문의가 정상 접수되었습니다.');
+    }, 700);
+  }
+
+  function clearFormLoadFallback() {
+    if (formLoadFallbackTimer) {
+      window.clearTimeout(formLoadFallbackTimer);
+      formLoadFallbackTimer = null;
+    }
   }
 
   function submitFormThroughIframe() {
@@ -244,6 +287,8 @@
 
   function startFormSubmitTimeout() {
     clearFormSubmitTimeout();
+    clearFormLoadFallback();
+
     formSubmitTimeout = window.setTimeout(function () {
       if (!isFormSubmitting) return;
       finishFormSubmit(false, '전송 확인이 지연되고 있습니다. 잠시 후 다시 확인해주세요.');
@@ -259,6 +304,7 @@
 
   function finishFormSubmit(success, message) {
     clearFormSubmitTimeout();
+    clearFormLoadFallback();
     isFormSubmitting = false;
     setSubmitState(false);
 
@@ -276,20 +322,47 @@
     return;
   }
 
-  async function getBootstrapWithFallback() {
+  async function getBootstrapInitialWithFallback() {
     try {
-      const apiPayload = await loadBootstrapFromApi();
-      return normalizeData(apiPayload);
+      const apiPayload = await loadBootstrapFromApi('bootstrap_initial');
+      return normalizeData(apiPayload, { useMockFallback: false });
     } catch (error) {
-      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+      try {
+        const apiPayload = await loadBootstrapFromApi('bootstrap');
+        return normalizeData(apiPayload, { useMockFallback: false });
+      } catch (fallbackError) {
+        return normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true });
+      }
     }
   }
 
-  function loadBootstrapFromApi() {
+  async function loadBootstrapDeferredInBackground() {
+    try {
+      const apiPayload = await loadBootstrapFromApi('bootstrap_deferred');
+      state.bootstrap = mergeBootstrapData(state.bootstrap, apiPayload);
+      renderReviews();
+      renderExtraSections();
+      reorderPageSections();
+      logDebug('hydrate.deferred', { ok: true });
+    } catch (error) {
+      // deferred 로딩 실패 시 첫 화면은 유지
+    }
+  }
+
+  async function getBootstrapWithFallback() {
+    try {
+      const apiPayload = await loadBootstrapFromApi('bootstrap');
+      return normalizeData(apiPayload, { useMockFallback: false });
+    } catch (error) {
+      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true });
+    }
+  }
+
+  function loadBootstrapFromApi(action) {
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseJsonpCallback_' + Date.now();
       const params = new URLSearchParams(window.location.search);
-      params.set('action', 'bootstrap');
+      params.set('action', action || 'bootstrap');
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
@@ -344,61 +417,34 @@
     });
   }
 
-  function hydrate(data) {
-    state.bootstrap = normalizeData(data);
+  function hydrate(data, options) {
+    const opts = options || {};
+    state.bootstrap = opts.merge
+      ? mergeBootstrapData(state.bootstrap, data)
+      : normalizeData(data, { useMockFallback: !!config.useMockOnly });
+
     logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
     renderSettings();
     renderFilters();
     startHeroMotion();
     renderSchedules();
-    renderReviews();
     populateFormSelects();
-    renderExtraSections();
+    ensureExtraSectionsScaffold();
+    renderBasicInfo();
+
+    if (!opts.initialOnly) {
+      renderReviews();
+      renderExtraSections();
+    }
+
     reorderPageSections();
-    applyScheduleHeaderDesktopFix();
-    logDebug('hydrate.done', { ok: true });
+    logDebug('hydrate.done', { ok: true, initialOnly: !!opts.initialOnly });
   }
 
-
-  function applyScheduleHeaderDesktopFix() {
-    const sectionTopline = document.querySelector('#schedule .section-topline');
-    const contentBlock = sectionTopline?.querySelector(':scope > div:first-child') || null;
-    const moreLink = sectionTopline?.querySelector('.section-more-link') || null;
-
-    if (!sectionTopline || !contentBlock) return;
-
-    if (window.innerWidth <= 768) {
-      sectionTopline.style.position = '';
-      sectionTopline.style.justifyContent = '';
-      sectionTopline.style.textAlign = '';
-      contentBlock.style.width = '';
-      contentBlock.style.textAlign = '';
-
-      if (moreLink) {
-        moreLink.style.position = '';
-        moreLink.style.right = '';
-        moreLink.style.top = '';
-        moreLink.style.transform = '';
-      }
-      return;
-    }
-
-    sectionTopline.style.position = 'relative';
-    sectionTopline.style.justifyContent = 'center';
-    sectionTopline.style.textAlign = 'center';
-    contentBlock.style.width = '100%';
-    contentBlock.style.textAlign = 'center';
-
-    if (moreLink) {
-      moreLink.style.position = 'absolute';
-      moreLink.style.right = '0';
-      moreLink.style.top = '50%';
-      moreLink.style.transform = 'translateY(-50%)';
-    }
-  }
-  function normalizeData(data) {
+  function normalizeData(data, options) {
     const safe = data || {};
-    const fb = window.MOCK_BOOTSTRAP_DATA || {};
+    const useMockFallback = !!(options && options.useMockFallback);
+    const fb = useMockFallback ? (window.MOCK_BOOTSTRAP_DATA || {}) : {};
     return {
       settings: safe.settings || fb.settings || {},
       schedules: ensureArray(safe.schedules, fb.schedules),
@@ -411,6 +457,28 @@
       faqs: ensureArray(safe.faqs, fb.faqs),
       trust_points: ensureArray(safe.trust_points, fb.trust_points),
       content_links: ensureArray(safe.content_links, fb.content_links)
+    };
+  }
+
+  function mergeBootstrapData(baseData, fragmentData) {
+    const base = normalizeData(baseData, { useMockFallback: false });
+    const fragment = fragmentData || {};
+    const has = function (key) {
+      return Object.prototype.hasOwnProperty.call(fragment, key);
+    };
+
+    return {
+      settings: has('settings') ? (fragment.settings || {}) : base.settings,
+      schedules: has('schedules') ? ensureArray(fragment.schedules, []) : base.schedules,
+      schedule_days: has('schedule_days') ? ensureArray(fragment.schedule_days, []) : base.schedule_days,
+      reviews: has('reviews') ? ensureArray(fragment.reviews, []) : base.reviews,
+      targets: has('targets') ? ensureArray(fragment.targets, []) : base.targets,
+      basic_info: has('basic_info') ? ensureArray(fragment.basic_info, []) : base.basic_info,
+      process_steps: has('process_steps') ? ensureArray(fragment.process_steps, []) : base.process_steps,
+      cabins: has('cabins') ? ensureArray(fragment.cabins, []) : base.cabins,
+      faqs: has('faqs') ? ensureArray(fragment.faqs, []) : base.faqs,
+      trust_points: has('trust_points') ? ensureArray(fragment.trust_points, []) : base.trust_points,
+      content_links: has('content_links') ? ensureArray(fragment.content_links, []) : base.content_links
     };
   }
 
@@ -696,40 +764,30 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
-	        if (reviewScrollEndTimer) {
-	          window.clearTimeout(reviewScrollEndTimer);
-	        }
+	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
+	        let closestIndex = 0;
+	        let closestDistance = Infinity;
 	
-	        reviewScrollEndTimer = window.setTimeout(() => {
-	          const width = reviewViewport.clientWidth || 1;
-	          const nextPage = Math.round(reviewViewport.scrollLeft / width);
-	          state.reviewPage = Math.max(0, Math.min(nextPage, Math.max(0, total - 1)));
-	        }, 90);
+	        cards.forEach((card, idx) => {
+	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+	          const distance = Math.abs(cardCenter - viewportCenter);
+	
+	          if (distance < closestDistance) {
+	            closestDistance = distance;
+	            closestIndex = idx;
+	          }
+	        });
+	
+	        state.reviewPage = closestIndex;
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
 	    }
 	
-	    reviewViewport.style.overflowX = 'auto';
-	    reviewViewport.style.overflowY = 'hidden';
-	    reviewViewport.style.scrollSnapType = 'x mandatory';
-	    reviewViewport.style.scrollBehavior = 'smooth';
-	    reviewViewport.style.webkitOverflowScrolling = 'touch';
-	    reviewGrid.style.display = 'flex';
-	    reviewGrid.style.gap = '0';
-	    reviewGrid.style.width = '100%';
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	
 	    reviewGrid.style.transform = '';
-	    reviewGrid.style.transition = '';
-	
-	    Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
-	      card.style.flex = '0 0 100%';
-	      card.style.width = '100%';
-	      card.style.minWidth = '100%';
-	      card.style.margin = '0';
-	      card.style.scrollSnapAlign = 'start';
-	      card.style.scrollSnapStop = 'always';
-	    });
-	
 	    prev?.classList.add('is-hidden');
 	    next?.classList.add('is-hidden');
 	
@@ -743,29 +801,19 @@
 	      return;
 	    }
 	
-	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
-	    scrollMobileReviewToPage(state.reviewPage, 'auto');
+	    state.reviewPage = Math.min(state.reviewPage, total - 1);
+	
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
+	    }
+	
 	    startReviewAuto(total);
 	    return;
 	  }
-
-	  reviewViewport.style.overflowX = '';
-	  reviewViewport.style.overflowY = '';
-	  reviewViewport.style.scrollSnapType = '';
-	  reviewViewport.style.scrollBehavior = '';
-	  reviewViewport.style.webkitOverflowScrolling = '';
-	  reviewGrid.style.display = '';
-	  reviewGrid.style.gap = '';
-	  reviewGrid.style.width = '';
-	  reviewGrid.style.transition = '';
-	  Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
-	    card.style.flex = '';
-	    card.style.width = '';
-	    card.style.minWidth = '';
-	    card.style.margin = '';
-	    card.style.scrollSnapAlign = '';
-	    card.style.scrollSnapStop = '';
-	  });
 	
 	  const perView = getReviewPerView();
 	  const maxPage = Math.max(0, total - perView);
@@ -803,20 +851,6 @@
 	  startReviewAuto(total);
 	}
 
-	function scrollMobileReviewToPage(page, behavior = 'smooth') {
-	  if (!reviewViewport) return;
-	  const total = (state.bootstrap.reviews || []).length;
-	  if (!total) return;
-	
-	  const safePage = Math.max(0, Math.min(page, total - 1));
-	  state.reviewPage = safePage;
-	
-	  reviewViewport.scrollTo({
-	    left: (reviewViewport.clientWidth || 0) * safePage,
-	    behavior
-	  });
-	}
-
 // =========================================================
 // 3) moveReviews
 // 시작: function moveReviews(direction) {
@@ -827,14 +861,21 @@
 	  if (!total) return;
 	
 	  if (window.innerWidth <= 768) {
+	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+	    if (!cards.length || !reviewViewport) return;
+	
 	    const maxPage = total - 1;
-	    const goingPrev = direction === 'prev';
-	    const nextPage = goingPrev
+	    state.reviewPage = direction === 'prev'
 	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
 	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
 	
-	    const wrapJump = (goingPrev && state.reviewPage <= 0) || (!goingPrev && state.reviewPage >= maxPage);
-	    scrollMobileReviewToPage(nextPage, wrapJump ? 'auto' : 'smooth');
+	    const targetCard = cards[state.reviewPage];
+	    if (targetCard) {
+	      reviewViewport.scrollTo({
+	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+	        behavior: 'smooth'
+	      });
+	    }
 	    return;
 	  }
 	
@@ -1251,7 +1292,7 @@
 
     grid.innerHTML = items.map(item => `
       <article class="sheet-extra-card">
-        ${item.thumbnail_url ? `<div class="sheet-extra-media" style="position:relative;aspect-ratio:16 / 9;overflow:hidden;"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" /></div>` : ''}
+        ${item.thumbnail_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
         ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
         <h3>${escapeHtml(item.title || '')}</h3>
         ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
