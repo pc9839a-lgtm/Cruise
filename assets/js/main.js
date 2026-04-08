@@ -59,13 +59,14 @@
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
   let reviewScrollEndTimer = null;
-  let reviewAutoResumeTimer = null;
 	
   init();
 
   async function init() {
     bindStaticEvents();
     setTrackingFields();
+    setupFormSubmitTransport();
+    bindFormSubmitMessageListener();
 
     const payload = config.useMockOnly
       ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
@@ -146,7 +147,7 @@
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
       reviewViewport.addEventListener('mouseleave', () => setupReviewSlider((state.bootstrap.reviews || []).length));
       reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
-      reviewViewport.addEventListener('touchend', () => queueReviewAutoResume(), { passive: true });
+      reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
     }
 	  
   
@@ -156,20 +157,19 @@
       });
     }
 
-    // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
     if (form) {
-      form.addEventListener('submit', async (event) => {
+      form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const formData = new FormData(form);
 
         if (!formData.get('name')?.trim()) return updateFormResult('성함을 입력해주세요.', 'error');
-        
+
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
         if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
         if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
-        
+
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
 
@@ -188,98 +188,93 @@
         if (messageInput) messageInput.value = extraLines.join('\n');
 
         setSubmitState(true);
+        isFormSubmitting = true;
         updateFormResult('문의 내용을 접수하고 있습니다...', 'pending');
         logDebug('form.submit', { schedule_id: formData.get('interest_schedule_id') });
 
-        try {
-          const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
-          const data = await response.json();
-          
-          if (data.success) {
-            updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
-            form.reset();
-            setTrackingFields();
-          } else {
-            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
-          }
-        } catch (error) {
-          updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
-          logDebug('form.result.error', { error: error.message });
-        } finally {
-          setSubmitState(false);
-        }
+        startFormSubmitTimeout();
+        submitFormThroughIframe();
       });
     }
+  }
+
+  function setupFormSubmitTransport() {
+    if (!form || !config.apiUrl) return;
+
+    let iframe = document.getElementById('contactSubmitFrame');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.id = 'contactSubmitFrame';
+      iframe.name = 'contactSubmitFrame';
+      iframe.title = 'contact submit frame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    form.method = 'POST';
+    form.action = config.apiUrl;
+    form.target = 'contactSubmitFrame';
+    form.enctype = 'multipart/form-data';
+    form.acceptCharset = 'UTF-8';
+  }
+
+  function bindFormSubmitMessageListener() {
+    if (window.__cruiseFormMessageBound) return;
+
+    window.addEventListener('message', function (event) {
+      const payload = event && event.data ? event.data : null;
+      if (!payload || payload.type !== 'CRUISE_FORM_RESULT') return;
+      if (!isFormSubmitting) return;
+
+      finishFormSubmit(Boolean(payload.success), payload.message || '');
+    });
+
+    window.__cruiseFormMessageBound = true;
+  }
+
+  function submitFormThroughIframe() {
+    if (!form) return;
+
+    try {
+      HTMLFormElement.prototype.submit.call(form);
+    } catch (error) {
+      finishFormSubmit(false, '문의 전송 중 문제가 발생했습니다.');
+    }
+  }
+
+  function startFormSubmitTimeout() {
+    clearFormSubmitTimeout();
+    formSubmitTimeout = window.setTimeout(function () {
+      if (!isFormSubmitting) return;
+      finishFormSubmit(false, '전송 확인이 지연되고 있습니다. 잠시 후 다시 확인해주세요.');
+    }, 15000);
+  }
+
+  function clearFormSubmitTimeout() {
+    if (formSubmitTimeout) {
+      window.clearTimeout(formSubmitTimeout);
+      formSubmitTimeout = null;
+    }
+  }
+
+  function finishFormSubmit(success, message) {
+    clearFormSubmitTimeout();
+    isFormSubmitting = false;
+    setSubmitState(false);
+
+    if (success) {
+      updateFormResult(message || '문의가 정상 접수되었습니다.', 'success');
+      form?.reset();
+      setTrackingFields();
+      return;
+    }
+
+    updateFormResult(message || '문의 전송 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
   }
 
   function initGlobalDebugHandlers() {
     return;
   }
-
-  function isCrossOriginApiUrl(url) {
-    try {
-      return new URL(url, window.location.href).origin !== window.location.origin;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  async function submitInquiryRequest(formData) {
-    if (!config.apiUrl) {
-      throw new Error('missing-api-url');
-    }
-
-    if (isCrossOriginApiUrl(config.apiUrl)) {
-      await fetch(config.apiUrl, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors',
-        keepalive: true
-      });
-
-      return {
-        success: true,
-        message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
-      };
-    }
-
-    const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
-    return parseInquiryResponse(response);
-  }
-
-  async function parseInquiryResponse(response) {
-    const rawText = await response.text();
-    const text = String(rawText || '').trim();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: text || '오류가 발생했습니다.'
-      };
-    }
-
-    if (!text) {
-      return {
-        success: true,
-        message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
-      };
-    }
-
-    try {
-      const parsed = JSON.parse(text);
-      return {
-        success: Boolean(parsed && parsed.success !== false),
-        message: parsed?.data || parsed?.message || '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
-      };
-    } catch (error) {}
-
-    const htmlSuccess = /postMessage\s*\(\s*\{[\s\S]*?(success|status)\s*:\s*(true|["']success["'])/i.test(text);
-    return {
-      success: htmlSuccess || response.ok,
-      message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
-    };
-  }
-
 
   async function getBootstrapWithFallback() {
     try {
@@ -701,7 +696,6 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
-	        stopReviewAuto();
 	        if (reviewScrollEndTimer) {
 	          window.clearTimeout(reviewScrollEndTimer);
 	        }
@@ -710,14 +704,7 @@
 	          const width = reviewViewport.clientWidth || 1;
 	          const nextPage = Math.round(reviewViewport.scrollLeft / width);
 	          state.reviewPage = Math.max(0, Math.min(nextPage, Math.max(0, total - 1)));
-	
-	          const alignedLeft = width * state.reviewPage;
-	          if (Math.abs(reviewViewport.scrollLeft - alignedLeft) > 2) {
-	            scrollMobileReviewToPage(state.reviewPage, 'smooth');
-	          }
-	
-	          queueReviewAutoResume();
-	        }, 120);
+	        }, 90);
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
@@ -725,26 +712,22 @@
 	
 	    reviewViewport.style.overflowX = 'auto';
 	    reviewViewport.style.overflowY = 'hidden';
-	    reviewViewport.style.scrollSnapType = 'x proximity';
+	    reviewViewport.style.scrollSnapType = 'x mandatory';
 	    reviewViewport.style.scrollBehavior = 'smooth';
 	    reviewViewport.style.webkitOverflowScrolling = 'touch';
-	    reviewViewport.style.overscrollBehaviorX = 'contain';
-	    reviewViewport.style.touchAction = 'pan-x';
-	    reviewGrid.style.display = 'grid';
-	    reviewGrid.style.gridAutoFlow = 'column';
-	    reviewGrid.style.gridAutoColumns = '100%';
+	    reviewGrid.style.display = 'flex';
 	    reviewGrid.style.gap = '0';
 	    reviewGrid.style.width = '100%';
 	    reviewGrid.style.transform = '';
 	    reviewGrid.style.transition = '';
 	
 	    Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
-	      card.style.flex = '';
+	      card.style.flex = '0 0 100%';
 	      card.style.width = '100%';
 	      card.style.minWidth = '100%';
 	      card.style.margin = '0';
 	      card.style.scrollSnapAlign = 'start';
-	      card.style.scrollSnapStop = '';
+	      card.style.scrollSnapStop = 'always';
 	    });
 	
 	    prev?.classList.add('is-hidden');
@@ -762,20 +745,16 @@
 	
 	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
 	    scrollMobileReviewToPage(state.reviewPage, 'auto');
-	    queueReviewAutoResume();
+	    startReviewAuto(total);
 	    return;
 	  }
-	
+
 	  reviewViewport.style.overflowX = '';
 	  reviewViewport.style.overflowY = '';
 	  reviewViewport.style.scrollSnapType = '';
 	  reviewViewport.style.scrollBehavior = '';
 	  reviewViewport.style.webkitOverflowScrolling = '';
-	  reviewViewport.style.overscrollBehaviorX = '';
-	  reviewViewport.style.touchAction = '';
 	  reviewGrid.style.display = '';
-	  reviewGrid.style.gridAutoFlow = '';
-	  reviewGrid.style.gridAutoColumns = '';
 	  reviewGrid.style.gap = '';
 	  reviewGrid.style.width = '';
 	  reviewGrid.style.transition = '';
@@ -838,20 +817,6 @@
 	  });
 	}
 
-	function queueReviewAutoResume(delay = 2800) {
-	  if (reviewAutoResumeTimer) {
-	    window.clearTimeout(reviewAutoResumeTimer);
-	    reviewAutoResumeTimer = null;
-	  }
-	
-	  const total = (state.bootstrap.reviews || []).length;
-	  if (total <= 1) return;
-	
-	  reviewAutoResumeTimer = window.setTimeout(() => {
-	    startReviewAuto(total);
-	  }, delay);
-	}
-
 // =========================================================
 // 3) moveReviews
 // 시작: function moveReviews(direction) {
@@ -884,7 +849,7 @@
 	function startReviewAuto(total) {
 	  stopReviewAuto();
 	  if (total > 1) {
-	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 4200);
+	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
 	  }
 	}
 
@@ -892,10 +857,6 @@
 	  if (reviewAutoTimer) {
 	    window.clearInterval(reviewAutoTimer);
 	    reviewAutoTimer = null;
-	  }
-	  if (reviewAutoResumeTimer) {
-	    window.clearTimeout(reviewAutoResumeTimer);
-	    reviewAutoResumeTimer = null;
 	  }
 	}
 
