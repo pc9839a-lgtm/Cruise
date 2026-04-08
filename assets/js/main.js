@@ -59,6 +59,7 @@
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
   let reviewScrollEndTimer = null;
+  let reviewAutoResumeTimer = null;
 	
   init();
 
@@ -145,7 +146,7 @@
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
       reviewViewport.addEventListener('mouseleave', () => setupReviewSlider((state.bootstrap.reviews || []).length));
       reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
-      reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
+      reviewViewport.addEventListener('touchend', () => queueReviewAutoResume(), { passive: true });
     }
 	  
   
@@ -192,15 +193,14 @@
 
         try {
           const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
-          const rawText = await response.text();
-          const result = parseInquirySubmitResponse(rawText, response);
-
-          if (result.success) {
-            updateFormResult(result.message || '문의가 정상 접수되었습니다.', 'success');
+          const data = await response.json();
+          
+          if (data.success) {
+            updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
             form.reset();
             setTrackingFields();
           } else {
-            updateFormResult(result.message || '오류가 발생했습니다.', 'error');
+            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
           }
         } catch (error) {
           updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
@@ -215,6 +215,71 @@
   function initGlobalDebugHandlers() {
     return;
   }
+
+  function isCrossOriginApiUrl(url) {
+    try {
+      return new URL(url, window.location.href).origin !== window.location.origin;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async function submitInquiryRequest(formData) {
+    if (!config.apiUrl) {
+      throw new Error('missing-api-url');
+    }
+
+    if (isCrossOriginApiUrl(config.apiUrl)) {
+      await fetch(config.apiUrl, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors',
+        keepalive: true
+      });
+
+      return {
+        success: true,
+        message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
+      };
+    }
+
+    const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
+    return parseInquiryResponse(response);
+  }
+
+  async function parseInquiryResponse(response) {
+    const rawText = await response.text();
+    const text = String(rawText || '').trim();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: text || '오류가 발생했습니다.'
+      };
+    }
+
+    if (!text) {
+      return {
+        success: true,
+        message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
+      };
+    }
+
+    try {
+      const parsed = JSON.parse(text);
+      return {
+        success: Boolean(parsed && parsed.success !== false),
+        message: parsed?.data || parsed?.message || '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
+      };
+    } catch (error) {}
+
+    const htmlSuccess = /postMessage\s*\(\s*\{[\s\S]*?(success|status)\s*:\s*(true|["']success["'])/i.test(text);
+    return {
+      success: htmlSuccess || response.ok,
+      message: '문의가 정상 접수되었습니다. 확인 후 연락드리겠습니다.'
+    };
+  }
+
 
   async function getBootstrapWithFallback() {
     try {
@@ -636,6 +701,7 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
+	        stopReviewAuto();
 	        if (reviewScrollEndTimer) {
 	          window.clearTimeout(reviewScrollEndTimer);
 	        }
@@ -644,7 +710,14 @@
 	          const width = reviewViewport.clientWidth || 1;
 	          const nextPage = Math.round(reviewViewport.scrollLeft / width);
 	          state.reviewPage = Math.max(0, Math.min(nextPage, Math.max(0, total - 1)));
-	        }, 90);
+	
+	          const alignedLeft = width * state.reviewPage;
+	          if (Math.abs(reviewViewport.scrollLeft - alignedLeft) > 2) {
+	            scrollMobileReviewToPage(state.reviewPage, 'smooth');
+	          }
+	
+	          queueReviewAutoResume();
+	        }, 120);
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
@@ -652,22 +725,26 @@
 	
 	    reviewViewport.style.overflowX = 'auto';
 	    reviewViewport.style.overflowY = 'hidden';
-	    reviewViewport.style.scrollSnapType = 'x mandatory';
+	    reviewViewport.style.scrollSnapType = 'x proximity';
 	    reviewViewport.style.scrollBehavior = 'smooth';
 	    reviewViewport.style.webkitOverflowScrolling = 'touch';
-	    reviewGrid.style.display = 'flex';
+	    reviewViewport.style.overscrollBehaviorX = 'contain';
+	    reviewViewport.style.touchAction = 'pan-x';
+	    reviewGrid.style.display = 'grid';
+	    reviewGrid.style.gridAutoFlow = 'column';
+	    reviewGrid.style.gridAutoColumns = '100%';
 	    reviewGrid.style.gap = '0';
 	    reviewGrid.style.width = '100%';
 	    reviewGrid.style.transform = '';
 	    reviewGrid.style.transition = '';
 	
 	    Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
-	      card.style.flex = '0 0 100%';
+	      card.style.flex = '';
 	      card.style.width = '100%';
 	      card.style.minWidth = '100%';
 	      card.style.margin = '0';
 	      card.style.scrollSnapAlign = 'start';
-	      card.style.scrollSnapStop = 'always';
+	      card.style.scrollSnapStop = '';
 	    });
 	
 	    prev?.classList.add('is-hidden');
@@ -685,16 +762,20 @@
 	
 	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
 	    scrollMobileReviewToPage(state.reviewPage, 'auto');
-	    startReviewAuto(total);
+	    queueReviewAutoResume();
 	    return;
 	  }
-
+	
 	  reviewViewport.style.overflowX = '';
 	  reviewViewport.style.overflowY = '';
 	  reviewViewport.style.scrollSnapType = '';
 	  reviewViewport.style.scrollBehavior = '';
 	  reviewViewport.style.webkitOverflowScrolling = '';
+	  reviewViewport.style.overscrollBehaviorX = '';
+	  reviewViewport.style.touchAction = '';
 	  reviewGrid.style.display = '';
+	  reviewGrid.style.gridAutoFlow = '';
+	  reviewGrid.style.gridAutoColumns = '';
 	  reviewGrid.style.gap = '';
 	  reviewGrid.style.width = '';
 	  reviewGrid.style.transition = '';
@@ -757,6 +838,20 @@
 	  });
 	}
 
+	function queueReviewAutoResume(delay = 2800) {
+	  if (reviewAutoResumeTimer) {
+	    window.clearTimeout(reviewAutoResumeTimer);
+	    reviewAutoResumeTimer = null;
+	  }
+	
+	  const total = (state.bootstrap.reviews || []).length;
+	  if (total <= 1) return;
+	
+	  reviewAutoResumeTimer = window.setTimeout(() => {
+	    startReviewAuto(total);
+	  }, delay);
+	}
+
 // =========================================================
 // 3) moveReviews
 // 시작: function moveReviews(direction) {
@@ -789,7 +884,7 @@
 	function startReviewAuto(total) {
 	  stopReviewAuto();
 	  if (total > 1) {
-	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
+	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 4200);
 	  }
 	}
 
@@ -797,6 +892,10 @@
 	  if (reviewAutoTimer) {
 	    window.clearInterval(reviewAutoTimer);
 	    reviewAutoTimer = null;
+	  }
+	  if (reviewAutoResumeTimer) {
+	    window.clearTimeout(reviewAutoResumeTimer);
+	    reviewAutoResumeTimer = null;
 	  }
 	}
 
@@ -1225,67 +1324,6 @@
     setInputValue('referrerInput', document.referrer || '');
   }
 
-
-  function parseInquirySubmitResponse(rawText, response) {
-    const text = String(rawText || '').trim();
-
-    if (text) {
-      try {
-        const json = JSON.parse(text);
-        return normalizeInquirySubmitResult(json, response);
-      } catch (error) {}
-
-      const postMessageMatch = text.match(/window\.top\.postMessage\((\{[\s\S]*?\})\s*,\s*["']\*["']\s*\)/i);
-      if (postMessageMatch && postMessageMatch[1]) {
-        try {
-          const payload = JSON.parse(postMessageMatch[1]);
-          return normalizeInquirySubmitResult(payload, response);
-        } catch (error) {}
-      }
-    }
-
-    if (response && response.ok) {
-      return {
-        success: true,
-        message: '문의가 정상 접수되었습니다.'
-      };
-    }
-
-    return {
-      success: false,
-      message: '문의 응답을 확인하지 못했습니다. 다시 시도해주세요.'
-    };
-  }
-
-  function normalizeInquirySubmitResult(payload, response) {
-    const data = payload && typeof payload === 'object' ? payload : {};
-
-    if (data.type === 'CRUISE_FORM_RESULT') {
-      return {
-        success: !!data.success,
-        message: String(data.message || (data.success ? '문의가 정상 접수되었습니다.' : '오류가 발생했습니다.'))
-      };
-    }
-
-    if (typeof data.success === 'boolean') {
-      return {
-        success: data.success,
-        message: String(data.data || data.message || (data.success ? '문의가 정상 접수되었습니다.' : '오류가 발생했습니다.'))
-      };
-    }
-
-    if (response && response.ok) {
-      return {
-        success: true,
-        message: '문의가 정상 접수되었습니다.'
-      };
-    }
-
-    return {
-      success: false,
-      message: '오류가 발생했습니다.'
-    };
-  }
   function updateFormResult(message, type) {
     if (!formResult) return;
     formResult.textContent = message;
