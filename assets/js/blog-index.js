@@ -1,6 +1,3 @@
-==================================================
-1) /assets/js/blog-index.js 전체 교체
-==================================================
 (function () {
   const blogGrid = document.getElementById('blogGrid');
   const blogEmptyState = document.getElementById('blogEmptyState');
@@ -10,6 +7,11 @@
   const filterRow = document.querySelector('.blog-filter-row');
 
   if (!blogGrid) return;
+
+  const TEXT_ALL = '\uC804\uCCB4';
+  const TEXT_VIEW_MORE = '\uC790\uC138\uD788 \uBCF4\uAE30';
+  const ERROR_JSONP_FAILED = 'JSONP \uC694\uCCAD\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.';
+  const ERROR_JSONP_TIMEOUT = 'JSONP \uC751\uB2F5 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.';
 
   const state = {
     activeCategory: 'all',
@@ -47,19 +49,21 @@
 
   async function hydrateFromRemote() {
     const apiUrl = getApiUrl();
-    if (!apiUrl) return;
+    if (!apiUrl) {
+      return;
+    }
 
     try {
       await warmBootstrapCache(apiUrl);
       const payload = await loadBootstrapPayload(apiUrl);
       const items = normalizeItems(payload && payload.content_links);
 
-      if (!items.length) return;
-
       renderCategoryButtons(items);
       renderCards(items);
     } catch (error) {
       console.error('[blog-index] remote content load failed:', error);
+      renderCategoryButtons([]);
+      renderCards([]);
     }
   }
 
@@ -142,14 +146,14 @@
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('JSONP 요청에 실패했습니다.'));
+        reject(new Error(ERROR_JSONP_FAILED));
       };
 
       timeoutId = window.setTimeout(function () {
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('JSONP 응답 시간이 초과되었습니다.'));
+        reject(new Error(ERROR_JSONP_TIMEOUT));
       }, timeoutMs);
 
       document.head.appendChild(script);
@@ -176,12 +180,12 @@
     return list
       .map(function (item) {
         return {
-          category: String(item && item.category || '').trim(),
-          title: String(item && item.title || '').trim(),
-          summary: String(item && item.summary || '').trim(),
-          thumbnail_url: String(item && item.thumbnail_url || '').trim(),
-          link_url: String(item && item.link_url || '').trim(),
-          tag_text: String(item && item.tag_text || '').trim(),
+          category: String((item && item.category) || '').trim(),
+          title: String((item && item.title) || '').trim(),
+          summary: String((item && item.summary) || '').trim(),
+          thumbnail_url: String((item && item.thumbnail_url) || '').trim(),
+          link_url: String((item && item.link_url) || '').trim(),
+          tag_text: String((item && item.tag_text) || '').trim(),
           date_text: formatDateText(
             item && (
               item.publish_date ||
@@ -236,7 +240,7 @@
     const currentCategory = state.activeCategory;
 
     filterRow.innerHTML = [
-      '<button type="button" class="blog-filter-btn" data-category="all">전체</button>'
+      '<button type="button" class="blog-filter-btn" data-category="all">' + TEXT_ALL + '</button>'
     ].concat(
       categories.map(function (category) {
         return '<button type="button" class="blog-filter-btn" data-category="' + escapeAttribute(category) + '">' + escapeHtml(category) + '</button>';
@@ -283,7 +287,7 @@
       '<h2 class="blog-card-title"><a href="' + safeLink + '">' + safeTitle + '</a></h2>',
       '<p class="blog-card-summary">' + safeSummary + '</p>',
       '<div class="blog-card-actions">',
-      '<a class="blog-card-link" href="' + safeLink + '">자세히 보기</a>',
+      '<a class="blog-card-link" href="' + safeLink + '">' + TEXT_VIEW_MORE + '</a>',
       '</div>',
       '</div>',
       '</article>'
@@ -306,8 +310,8 @@
     if (blogActiveFilterText) {
       const activeButton = filterRow.querySelector('[data-category].is-active');
       blogActiveFilterText.textContent = activeButton
-        ? String(activeButton.textContent || '전체').trim()
-        : '전체';
+        ? String(activeButton.textContent || TEXT_ALL).trim()
+        : TEXT_ALL;
     }
   }
 
