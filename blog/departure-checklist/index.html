@@ -22,10 +22,7 @@
   <link rel="stylesheet" href="/assets/css/blog.css" />
 
   <style>
-    .blog-post-container {
-      max-width: 1160px;
-    }
-
+    .blog-post-container { max-width: 1160px; }
     .post-article {
       max-width: 920px;
       margin: 0 auto;
@@ -35,14 +32,12 @@
       box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
       overflow: hidden;
     }
-
     .post-header {
       padding: 44px 48px 24px;
       background:
         radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
         linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
     }
-
     .post-header-topline {
       display: flex;
       flex-wrap: wrap;
@@ -50,7 +45,6 @@
       align-items: center;
       margin-bottom: 18px;
     }
-
     .post-category {
       display: inline-flex;
       align-items: center;
@@ -62,13 +56,11 @@
       font-weight: 700;
       line-height: 1;
     }
-
     .post-date {
       color: #64748b;
       font-size: 14px;
       line-height: 1.4;
     }
-
     .post-title {
       margin: 0;
       font-size: clamp(34px, 4vw, 48px);
@@ -78,7 +70,6 @@
       font-weight: 800;
       word-break: keep-all;
     }
-
     .post-summary {
       margin: 18px 0 0;
       font-size: 19px;
@@ -86,14 +77,12 @@
       color: #475569;
       word-break: keep-all;
     }
-
     .post-header-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 28px;
     }
-
     .post-cta {
       display: inline-flex;
       align-items: center;
@@ -105,22 +94,13 @@
       font-weight: 800;
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
-
-    .post-cta:hover {
-      transform: translateY(-2px);
-    }
-
+    .post-cta:hover { transform: translateY(-2px); }
     .post-cta-primary {
       background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
       color: #ffffff;
       box-shadow: 0 14px 28px rgba(37, 99, 235, 0.24);
     }
-
-    .post-cta-secondary {
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
+    .post-cta-secondary { background: #eff6ff; color: #1d4ed8; }
     .post-meta-strip {
       display: flex;
       flex-wrap: wrap;
@@ -131,12 +111,7 @@
       color: #64748b;
       font-size: 14px;
     }
-
-    .post-cover {
-      padding: 0 48px;
-      margin: 0 0 34px;
-    }
-
+    .post-cover { padding: 0 48px; margin: 0 0 34px; }
     .post-cover-frame {
       position: relative;
       overflow: hidden;
@@ -144,14 +119,12 @@
       background: #e5edf9;
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
     }
-
     .post-cover-frame img {
       display: block;
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
     }
-
     .post-cover-overlay {
       position: absolute;
       left: 24px;
@@ -167,21 +140,18 @@
       font-size: 13px;
       font-weight: 700;
     }
-
     .post-content-shell {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 28px;
       padding: 0 48px 48px;
     }
-
     .post-toc-box {
       padding: 24px 28px;
       border-radius: 24px;
       background: #f8fafc;
       border: 1px solid rgba(148, 163, 184, 0.18);
     }
-
     .post-toc-title {
       display: inline-flex;
       align-items: center;
@@ -191,38 +161,21 @@
       color: #0f172a;
       margin-bottom: 14px;
     }
-
-    .post-toc-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 10px;
-    }
-
-    .post-toc-list li {
-      margin: 0;
-      padding: 0;
-    }
-
-    .post-toc-list li.is-level-3 {
-      padding-left: 18px;
-    }
-
+    .post-toc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .post-toc-list li { margin: 0; padding: 0; }
+    .post-toc-list li.is-level-3 { padding-left: 18px; }
     .post-toc-list a {
       color: #334155;
       text-decoration: none;
       line-height: 1.65;
       font-size: 15px;
     }
-
     .post-body {
       color: #1e293b;
       font-size: 18px;
       line-height: 1.92;
       word-break: keep-all;
     }
-
     .post-intro-section {
       margin: 0 0 40px;
       padding: 28px 30px;
@@ -230,13 +183,11 @@
       background: linear-gradient(180deg, #f8fbff 0%, #f8fafc 100%);
       border: 1px solid rgba(37, 99, 235, 0.1);
     }
-
     .post-intro-section p:first-child {
       margin-top: 0;
       font-size: 19px;
       color: #334155;
     }
-
     .post-body h2 {
       margin: 56px 0 18px;
       font-size: clamp(28px, 3vw, 36px);
@@ -245,7 +196,6 @@
       color: #0f172a;
       font-weight: 800;
     }
-
     .post-body h3 {
       margin: 34px 0 14px;
       font-size: clamp(22px, 2.2vw, 27px);
@@ -254,24 +204,9 @@
       color: #0f172a;
       font-weight: 800;
     }
-
-    .post-body p,
-    .post-body ul,
-    .post-body ol,
-    .post-body blockquote,
-    .post-body table {
-      margin: 0 0 18px;
-    }
-
-    .post-body ul,
-    .post-body ol {
-      padding-left: 24px;
-    }
-
-    .post-body li + li {
-      margin-top: 8px;
-    }
-
+    .post-body p, .post-body ul, .post-body ol, .post-body blockquote, .post-body table { margin: 0 0 18px; }
+    .post-body ul, .post-body ol { padding-left: 24px; }
+    .post-body li + li { margin-top: 8px; }
     .post-body img {
       display: block;
       width: 100%;
@@ -281,16 +216,11 @@
       margin: 28px 0;
       box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
     }
-
-    .post-bottom-cta,
-    .post-tags-section,
-    .post-related-section,
-    .post-pager {
+    .post-bottom-cta, .post-tags-section, .post-related-section, .post-pager {
       margin-left: 48px;
       margin-right: 48px;
       margin-bottom: 32px;
     }
-
     .post-bottom-cta {
       display: flex;
       flex-wrap: wrap;
@@ -302,32 +232,19 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
       color: #ffffff;
     }
-
     .post-bottom-cta-text strong {
       display: block;
       margin-bottom: 8px;
       font-size: 22px;
       line-height: 1.4;
     }
-
     .post-bottom-cta-text p {
       margin: 0;
       color: rgba(255, 255, 255, 0.82);
       line-height: 1.75;
     }
-
-    .post-bottom-cta-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .post-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
+    .post-bottom-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .post-tags { display: flex; flex-wrap: wrap; gap: 10px; }
     .post-tag {
       display: inline-flex;
       align-items: center;
@@ -338,7 +255,6 @@
       font-size: 14px;
       font-weight: 700;
     }
-
     .post-section-heading {
       display: flex;
       justify-content: space-between;
@@ -346,7 +262,6 @@
       gap: 16px;
       margin-bottom: 16px;
     }
-
     .post-section-title {
       margin: 0;
       font-size: 24px;
@@ -354,19 +269,12 @@
       color: #0f172a;
       font-weight: 800;
     }
-
-    .post-section-more {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
+    .post-section-more { color: #2563eb; text-decoration: none; font-weight: 700; }
     .post-related-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
-
     .post-related-card {
       display: block;
       padding: 0 0 20px;
@@ -378,28 +286,22 @@
       color: inherit;
       overflow: hidden;
     }
-
     .post-related-thumb {
       aspect-ratio: 16 / 10;
       overflow: hidden;
       background: #e2e8f0;
       margin-bottom: 14px;
     }
-
     .post-related-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
-    .post-related-card strong,
-    .post-related-card p,
-    .post-related-chip {
+    .post-related-card strong, .post-related-card p, .post-related-chip {
       margin-left: 18px;
       margin-right: 18px;
     }
-
     .post-related-chip {
       display: inline-flex;
       padding: 8px 12px;
@@ -410,7 +312,6 @@
       font-weight: 800;
       margin-bottom: 12px;
     }
-
     .post-related-card strong {
       display: block;
       font-size: 19px;
@@ -419,7 +320,6 @@
       margin-bottom: 10px;
       word-break: keep-all;
     }
-
     .post-related-card p {
       margin-top: 0;
       margin-bottom: 0;
@@ -427,14 +327,12 @@
       line-height: 1.72;
       word-break: keep-all;
     }
-
     .post-pager {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       padding-bottom: 8px;
     }
-
     .post-pager-link {
       display: block;
       padding: 22px 24px;
@@ -444,7 +342,6 @@
       border: 1px solid rgba(148, 163, 184, 0.16);
       color: #0f172a;
     }
-
     .post-pager-label {
       display: block;
       margin-bottom: 10px;
@@ -452,82 +349,32 @@
       font-size: 13px;
       font-weight: 700;
     }
-
     .post-pager-link strong {
       font-size: 18px;
       line-height: 1.55;
       word-break: keep-all;
     }
-
-    .post-pager-link.is-empty {
-      visibility: hidden;
-    }
-
+    .post-pager-link.is-empty { visibility: hidden; }
     @media (max-width: 920px) {
-      .post-header,
-      .post-cover,
-      .post-content-shell,
-      .post-bottom-cta,
-      .post-tags-section,
-      .post-related-section,
-      .post-pager {
+      .post-header, .post-cover, .post-content-shell, .post-bottom-cta, .post-tags-section, .post-related-section, .post-pager {
         margin-left: 20px;
         margin-right: 20px;
         padding-left: 0;
         padding-right: 0;
       }
-
-      .post-header {
-        padding: 34px 24px 20px;
-      }
-
-      .post-cover {
-        padding: 0;
-      }
-
-      .post-content-shell {
-        padding: 0 24px 30px;
-      }
-
-      .post-bottom-cta {
-        padding: 24px;
-      }
-
-      .post-related-grid,
-      .post-pager {
-        grid-template-columns: 1fr;
-      }
+      .post-header { padding: 34px 24px 20px; }
+      .post-cover { padding: 0; }
+      .post-content-shell { padding: 0 24px 30px; }
+      .post-bottom-cta { padding: 24px; }
+      .post-related-grid, .post-pager { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 640px) {
-      .post-title {
-        font-size: 30px;
-      }
-
-      .post-summary,
-      .post-body,
-      .post-intro-section p:first-child {
-        font-size: 17px;
-      }
-
-      .post-header,
-      .post-content-shell {
-        padding-left: 18px;
-        padding-right: 18px;
-      }
-
-      .post-cover-overlay {
-        left: 14px;
-        bottom: 14px;
-        font-size: 12px;
-      }
-
-      .post-bottom-cta,
-      .post-tags-section,
-      .post-related-section,
-      .post-pager {
-        margin-left: 14px;
-        margin-right: 14px;
+      .post-title { font-size: 30px; }
+      .post-summary, .post-body, .post-intro-section p:first-child { font-size: 17px; }
+      .post-header, .post-content-shell { padding-left: 18px; padding-right: 18px; }
+      .post-cover-overlay { left: 14px; bottom: 14px; font-size: 12px; }
+      .post-bottom-cta, .post-tags-section, .post-related-section, .post-pager {
+        margin-left: 14px; margin-right: 14px;
       }
     }
   </style>
@@ -624,7 +471,8 @@
   <p>하지만 실제로는 생각보다 어렵지 않습니다. 크루즈 여행 준비물과 출발 전 체크리스트를 우선순위대로 정리해두면, 막연한 불안은 훨씬 줄어듭니다. 무작정 짐을 많이 싸는 것보다, 반드시 필요한 서류와 바로 써야 하는 물건을 먼저 구분하는 것이 훨씬 중요합니다. 그래서 크루즈 여행 준비는 ‘많이 챙기는 것’보다 ‘잘 나눠 챙기는 것’이 핵심입니다.</p>
   <p>특히 처음 크루즈를 타는 분들은 여행 자체보다 출발 직전 준비 단계에서 가장 많이 긴장합니다. 여권은 챙겼는지, 체크인 서류는 어디 있는지, 항구까지 어떻게 이동할지, 배 안에서는 인터넷이 되는지, 멀미는 괜찮을지 같은 현실적인 걱정이 몰려오기 때문입니다. 이런 불안은 대부분 준비가 부족해서가 아니라, 준비의 순서가 정리되지 않았기 때문에 생깁니다.</p>
   <p>그래서 이번 글에서는 크루즈 여행 준비물, 출발 전 체크리스트, 손가방과 수하물 구분법, 처음 타는 분들이 자주 놓치는 항목까지 한 번에 정리해보겠습니다. 처음 크루즈를 준비하는 분이라면 이 내용만 먼저 확인해도 출발 당일 훨씬 차분하게 움직일 수 있습니다.</p>
-</section></section><h2 id="departure-checklist-toc-1-출발-전-필수-체크-1순위">출발 전 필수 체크 1순위</h2>
+</section></section>
+<h2 id="departure-checklist-toc-1-출발-전-필수-체크-1순위">출발 전 필수 체크 1순위</h2>
 <ul>
   <li>여권 유효기간 확인</li>
   <li>체크인 서류 또는 예약 확인서 준비</li>
@@ -706,15 +554,7 @@
               <a class="post-section-more" href="/blog/">전체 글 보기</a>
             </div>
             <div class="post-related-grid">
-              <a class="post-related-card" href="/blog/first-cruise-guide/">
-  <div class="post-related-thumb">
-    <img src="https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/ubgrsxlwv1uslferklal.jpg" alt="크루즈 처음 타기 전 꼭 알아야 할 기본 정보" loading="lazy" />
-  </div>
-  <span class="post-related-chip">초보가이드</span>
-  <strong>크루즈 처음 타기 전 꼭 알아야 할 기본 정보</strong>
-  <p>처음 이용하는 분들이 가장 많이 궁금해하는 준비사항과 기본 개념을 정리한 안내 콘텐츠입니다.</p>
-</a>
-<a class="post-related-card" href="/blog/cruise-cost-breakdown/">
+              <a class="post-related-card" href="/blog/cruise-cost-breakdown/">
   <div class="post-related-thumb">
     <img src="https://i.namu.wiki/i/aeS_eceHuZxS5J8aBe5pgvxNkO_JKlVpPqx0U5MX2IUzVNPLCkBijqX24NaNRGBZPwgbzCn7ow6VjfhEuLrOnA.webp" alt="크루즈 비용은 어떻게 구성될까요?" loading="lazy" />
   </div>
@@ -722,13 +562,21 @@
   <strong>크루즈 비용은 어떻게 구성될까요?</strong>
   <p>크루즈 비용, 항공, 팁, 세금 등 실제로 많이 헷갈리는 비용 구조를 쉽게 설명합니다.</p>
 </a>
+<a class="post-related-card" href="/blog/first-cruise-guide/">
+  <div class="post-related-thumb">
+    <img src="https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/ubgrsxlwv1uslferklal.jpg" alt="크루즈 처음 타기 전 꼭 알아야 할 기본 정보" loading="lazy" />
+  </div>
+  <span class="post-related-chip">초보가이드</span>
+  <strong>크루즈 처음 타기 전 꼭 알아야 할 기본 정보</strong>
+  <p>처음 이용하는 분들이 가장 많이 궁금해하는 준비사항과 기본 개념을 정리한 안내 콘텐츠입니다.</p>
+</a>
             </div>
           </section>
 
-          <div class="post-pager"><a class="post-pager-link is-prev" href="/blog/cruise-cost-breakdown/">
-        <span class="post-pager-label">이전 글</span>
+          <div class="post-pager"><span class="post-pager-link is-empty"></span><a class="post-pager-link is-next" href="/blog/cruise-cost-breakdown/">
+        <span class="post-pager-label">다음 글</span>
         <strong>크루즈 비용은 어떻게 구성될까요?</strong>
-      </a><span class="post-pager-link is-empty"></span></div>
+      </a></div>
         </article>
       </div>
     </main>
