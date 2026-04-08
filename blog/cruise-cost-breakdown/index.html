@@ -37,7 +37,7 @@
     }
 
     .post-header {
-      padding: 44px 48px 32px;
+      padding: 44px 48px 24px;
       background:
         radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
         linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
@@ -76,6 +76,7 @@
       letter-spacing: -0.03em;
       color: #0f172a;
       font-weight: 800;
+      word-break: keep-all;
     }
 
     .post-summary {
@@ -258,8 +259,8 @@
     .post-body ul,
     .post-body ol,
     .post-body blockquote,
-    .post-body section {
-      margin: 0 0 20px;
+    .post-body table {
+      margin: 0 0 18px;
     }
 
     .post-body ul,
@@ -271,45 +272,47 @@
       margin-top: 8px;
     }
 
-    .post-body blockquote {
-      margin: 34px 0;
-      padding: 22px 24px;
-      border-left: 5px solid #3b82f6;
-      border-radius: 18px;
-      background: #eff6ff;
-      color: #1e3a8a;
-      font-weight: 700;
+    .post-body img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 22px;
+      margin: 28px 0;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
     }
 
     .post-bottom-cta,
     .post-tags-section,
     .post-related-section,
     .post-pager {
-      margin-top: 24px;
+      margin-left: 48px;
+      margin-right: 48px;
+      margin-bottom: 32px;
     }
 
     .post-bottom-cta {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      padding: 26px 28px;
+      align-items: center;
+      gap: 20px;
+      padding: 28px 30px;
       border-radius: 28px;
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
     }
 
     .post-bottom-cta-text strong {
       display: block;
-      color: #0f172a;
+      margin-bottom: 8px;
       font-size: 22px;
       line-height: 1.4;
     }
 
     .post-bottom-cta-text p {
-      margin: 10px 0 0;
-      color: #475569;
-      font-size: 16px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
       line-height: 1.75;
     }
 
@@ -317,21 +320,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-    }
-
-    .post-section-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .post-section-title {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 800;
-      color: #0f172a;
     }
 
     .post-tags {
@@ -351,94 +339,158 @@
       font-weight: 700;
     }
 
+    .post-section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .post-section-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.35;
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .post-section-more {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
     .post-related-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      gap: 18px;
     }
 
     .post-related-card {
       display: block;
-      padding: 22px;
+      padding: 0 0 20px;
       border-radius: 24px;
       background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
       text-decoration: none;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      color: inherit;
+      overflow: hidden;
     }
 
-    .post-related-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
+    .post-related-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #e2e8f0;
+      margin-bottom: 14px;
     }
 
-    .post-related-card strong {
+    .post-related-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      margin-top: 12px;
-      color: #0f172a;
-      font-size: 18px;
-      line-height: 1.55;
     }
 
-    .post-related-card p {
-      margin: 10px 0 0;
-      color: #64748b;
-      font-size: 15px;
-      line-height: 1.7;
+    .post-related-card strong,
+    .post-related-card p,
+    .post-related-chip {
+      margin-left: 18px;
+      margin-right: 18px;
     }
 
     .post-related-chip {
       display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
+      padding: 8px 12px;
       border-radius: 999px;
       background: #eff6ff;
       color: #2563eb;
       font-size: 12px;
       font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .post-related-card strong {
+      display: block;
+      font-size: 19px;
+      line-height: 1.45;
+      color: #0f172a;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .post-related-card p {
+      margin-top: 0;
+      margin-bottom: 0;
+      color: #64748b;
+      line-height: 1.72;
+      word-break: keep-all;
     }
 
     .post-pager {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 16px;
+      padding-bottom: 8px;
     }
 
     .post-pager-link {
       display: block;
-      padding: 22px;
+      padding: 22px 24px;
       border-radius: 24px;
-      background: #f8fafc;
-      border: 1px solid rgba(148, 163, 184, 0.18);
       text-decoration: none;
+      background: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      color: #0f172a;
     }
 
     .post-pager-label {
       display: block;
       margin-bottom: 10px;
+      color: #64748b;
       font-size: 13px;
-      font-weight: 800;
-      color: #2563eb;
+      font-weight: 700;
     }
 
     .post-pager-link strong {
-      color: #0f172a;
-      font-size: 17px;
-      line-height: 1.6;
+      font-size: 18px;
+      line-height: 1.55;
+      word-break: keep-all;
     }
 
     .post-pager-link.is-empty {
-      background: transparent;
-      border-style: dashed;
+      visibility: hidden;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 920px) {
       .post-header,
       .post-cover,
+      .post-content-shell,
+      .post-bottom-cta,
+      .post-tags-section,
+      .post-related-section,
+      .post-pager {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .post-header {
+        padding: 34px 24px 20px;
+      }
+
+      .post-cover {
+        padding: 0;
+      }
+
       .post-content-shell {
-        padding-left: 28px;
-        padding-right: 28px;
+        padding: 0 24px 30px;
+      }
+
+      .post-bottom-cta {
+        padding: 24px;
       }
 
       .post-related-grid,
@@ -448,26 +500,8 @@
     }
 
     @media (max-width: 640px) {
-      .post-article {
-        border-radius: 24px;
-      }
-
-      .post-header {
-        padding: 30px 20px 24px;
-      }
-
-      .post-cover {
-        padding: 0 20px;
-        margin-bottom: 24px;
-      }
-
-      .post-content-shell {
-        gap: 22px;
-        padding: 0 20px 28px;
-      }
-
       .post-title {
-        font-size: 31px;
+        font-size: 30px;
       }
 
       .post-summary,
@@ -476,28 +510,24 @@
         font-size: 17px;
       }
 
-      .post-body h2 {
-        margin-top: 42px;
-        font-size: 28px;
-      }
-
-      .post-body h3 {
-        font-size: 22px;
-      }
-
-      .post-bottom-cta,
-      .post-intro-section,
-      .post-toc-box {
-        padding: 20px;
-        border-radius: 22px;
+      .post-header,
+      .post-content-shell {
+        padding-left: 18px;
+        padding-right: 18px;
       }
 
       .post-cover-overlay {
         left: 14px;
-        right: 14px;
         bottom: 14px;
-        justify-content: center;
-        text-align: center;
+        font-size: 12px;
+      }
+
+      .post-bottom-cta,
+      .post-tags-section,
+      .post-related-section,
+      .post-pager {
+        margin-left: 14px;
+        margin-right: 14px;
       }
     }
   </style>
@@ -579,23 +609,21 @@
           </header>
 
           <section class="post-cover">
-  <div class="post-cover-frame">
-    <img src="https://cruiseplay-dyt.pages.dev/img/blog/cruise-cost-breakdown.jpg" alt="크루즈 비용은 어떻게 구성될까요?" loading="eager" />
-    <div class="post-cover-overlay">비용비교 · 2026.04.07</div>
-  </div>
-</section>
+            <div class="post-cover-frame">
+              <img src="https://cruiseplay-dyt.pages.dev/img/blog/cruise-cost-breakdown.jpg" alt="크루즈 비용은 어떻게 구성될까요?" loading="eager" />
+              <div class="post-cover-overlay">비용비교 · 2026.04.07</div>
+            </div>
+          </section>
 
           <div class="post-content-shell">
             <div class="post-toc-box"><strong class="post-toc-title">목차</strong><ul class="post-toc-list"><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-1-크루즈-비용은-왜-객실가만-보면-안-될까요">크루즈 비용은 왜 객실가만 보면 안 될까요</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-2-가장-먼저-구분해야-할-크루즈-비용-3단계-구조">가장 먼저 구분해야 할 크루즈 비용 3단계 구조</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-3-포함-비용과-별도-비용을-먼저-나눠서-보셔야-합니다">포함 비용과 별도 비용을 먼저 나눠서 보셔야 합니다</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-4-처음-크루즈를-보는-분들이-가장-헷갈리는-항목">처음 크루즈를 보는 분들이 가장 헷갈리는 항목</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-5-크루즈-총예산은-1인-가격보다-실제-여행-총액으로-봐야-합니다">크루즈 총예산은 1인 가격보다 실제 여행 총액으로 봐야 합니다</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-6-크루즈-비용을-보다-정확하게-비교하는-방법">크루즈 비용을 보다 정확하게 비교하는 방법</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-7-가격-문의-전에-꼭-물어봐야-할-질문">가격 문의 전에 꼭 물어봐야 할 질문</a></li><li class="is-level-2"><a href="#cruise-cost-breakdown-toc-8-결론-크루즈-가격은-싸냐-비싸냐보다-구조를-읽는-것이-먼저입니다">결론: 크루즈 가격은 싸냐 비싸냐보다 구조를 읽는 것이 먼저입니다</a></li></ul></div>
 
             <div class="post-body">
-              <section class="post-intro-section">
+              <section class="post-intro-section"><section>
   <p>크루즈 비용을 처음 보면 객실 가격만 보고 “생각보다 괜찮은데?”라고 느끼는 분들이 많습니다. 하지만 실제 여행 준비를 시작하면 항공권, 항만세, 승무원 팁, 와이파이, 기항지 이동비처럼 처음에는 잘 보이지 않던 항목들이 하나씩 더해지면서 전체 예산이 달라집니다.</p>
   <p>그래서 크루즈 가격은 단순히 객실가만 보는 방식으로 접근하면 안 됩니다. 진짜 중요한 건 크루즈 여행 경비 전체를 기준으로, 어떤 비용이 포함이고 어떤 비용이 별도인지 먼저 구분해보는 것입니다. 이 구조를 이해하면 “왜 어떤 크루즈는 저렴해 보였는데 실제 결제 금액은 달라지는지”를 훨씬 쉽게 이해할 수 있습니다.</p>
   <p>특히 크루즈 여행을 처음 준비하는 분이라면 표시 가격보다 총비용 개념으로 접근하는 것이 훨씬 안전합니다. 그래야 객실만 싸 보이는 일정과 실제로 전체 예산이 효율적인 일정을 구분할 수 있습니다.</p>
-</section>
-
-<h2 id="cruise-cost-breakdown-toc-1-크루즈-비용은-왜-객실가만-보면-안-될까요">크루즈 비용은 왜 객실가만 보면 안 될까요</h2>
+</section></section><h2 id="cruise-cost-breakdown-toc-1-크루즈-비용은-왜-객실가만-보면-안-될까요">크루즈 비용은 왜 객실가만 보면 안 될까요</h2>
 <p>크루즈는 일반 자유여행과 달리 숙박, 식사, 이동 경험이 하나의 상품 안에 묶여 있는 구조입니다. 그래서 겉으로 보기에는 가격이 단순해 보이지만, 실제로는 포함 항목과 별도 항목이 나뉘어 있어 체감 비용 차이가 크게 날 수 있습니다.</p>
 <p>예를 들어 어떤 일정은 객실 가격 자체는 낮아 보여도 항공권과 팁, 세금, 기항지 비용을 더하면 총액이 예상보다 커질 수 있습니다. 반대로 처음에는 다소 비싸 보였던 일정도 포함 범위가 넓다면 오히려 전체 예산 기준으로 더 합리적일 수 있습니다.</p>
 <p>즉, 크루즈 가격 비교의 핵심은 최저가 숫자 하나가 아니라, 실제로 내가 여행을 마칠 때까지 들어갈 전체 비용을 얼마나 정확하게 읽어내느냐에 있습니다.</p>
@@ -659,52 +687,58 @@
 <p>정리하면 크루즈 비용은 객실 가격만 보면 오해하기 쉽고, 항공권과 팁, 세금, 와이파이, 기항지 비용까지 합친 실제 총예산 기준으로 봐야 합니다. 그래야 예산 계획도 현실적으로 세울 수 있고, 내 여행 스타일에 맞는 일정을 더 정확하게 고를 수 있습니다.</p>
 <p>결국 중요한 건 “최저가”가 아니라 “내가 실제로 지불하게 될 전체 비용과 만족도”입니다. 이 기준으로 보면 크루즈 가격도 훨씬 덜 복잡하게 느껴지고, 처음 준비하는 분도 훨씬 안정적으로 여행을 계획할 수 있습니다.</p>
             </div>
+          </div>
 
-            <section class="post-bottom-cta">
-              <div class="post-bottom-cta-text">
-                <strong>궁금한 일정이나 비용이 있다면 편하게 확인해보세요.</strong>
-                <p>읽어보신 뒤 더 자세한 안내가 필요하시면 원하는 일정과 함께 문의하실 수 있습니다.</p>
-              </div>
-              <div class="post-bottom-cta-actions">
-                <a class="post-cta post-cta-primary" href="/#contact">가격 문의하기</a>
-                <a class="post-cta post-cta-secondary" href="/blog/">목록 보기</a>
-              </div>
-            </section>
+          <section class="post-bottom-cta">
+            <div class="post-bottom-cta-text">
+              <strong>궁금한 일정이나 비용이 있다면 편하게 확인해보세요.</strong>
+              <p>읽어보신 뒤 더 자세한 안내가 필요하시면 원하는 일정과 함께 문의하실 수 있습니다.</p>
+            </div>
+            <div class="post-bottom-cta-actions">
+              <a class="post-cta post-cta-primary" href="/#contact">가격 문의하기</a>
+              <a class="post-cta post-cta-secondary" href="/blog/">목록 보기</a>
+            </div>
+          </section>
 
-            <section class="post-tags-section">
-              <h2 class="post-section-title">함께 많이 보는 주제</h2>
-              <div class="post-tags">
-                
-              </div>
-            </section>
+          <section class="post-tags-section">
+            <h2 class="post-section-title">함께 많이 보는 주제</h2>
+            <div class="post-tags">
+              
+            </div>
+          </section>
 
-            <section class="post-related-section">
-              <div class="post-section-heading">
-                <h2 class="post-section-title">함께 보면 좋은 글</h2>
-                <a class="post-section-more" href="/blog/">전체 글 보기</a>
-              </div>
-              <div class="post-related-grid">
-                <a class="post-related-card" href="/blog/first-cruise-guide/">
+          <section class="post-related-section">
+            <div class="post-section-heading">
+              <h2 class="post-section-title">함께 보면 좋은 글</h2>
+              <a class="post-section-more" href="/blog/">전체 글 보기</a>
+            </div>
+            <div class="post-related-grid">
+              <a class="post-related-card" href="/blog/first-cruise-guide/">
+  <div class="post-related-thumb">
+    <img src="https://cruiseplay-dyt.pages.dev/img/blog/first-cruise-guide.jpg" alt="크루즈 처음 타기 전 꼭 알아야 할 기본 정보" loading="lazy" />
+  </div>
   <span class="post-related-chip">초보가이드</span>
   <strong>크루즈 처음 타기 전 꼭 알아야 할 기본 정보</strong>
   <p>처음 이용하는 분들이 가장 많이 궁금해하는 준비사항과 기본 개념을 한 번에 정리한 안내 콘텐츠입니다.</p>
 </a>
 <a class="post-related-card" href="/blog/departure-checklist/">
+  <div class="post-related-thumb">
+    <img src="https://cruiseplay-dyt.pages.dev/img/blog/departure-checklist.jpg" alt="출발 전 체크리스트 한 번에 보기" loading="lazy" />
+  </div>
   <span class="post-related-chip">준비물</span>
   <strong>출발 전 체크리스트 한 번에 보기</strong>
   <p>여권부터 의류, 멀미약, 체크인 서류까지 출발 전에 꼭 챙겨야 할 항목을 정리했습니다.</p>
 </a>
-              </div>
-            </section>
+            </div>
+          </section>
 
-            <div class="post-pager"><a class="post-pager-link is-prev" href="/blog/first-cruise-guide/">
+          <div class="post-pager"><a class="post-pager-link is-prev" href="/blog/first-cruise-guide/">
         <span class="post-pager-label">이전 글</span>
         <strong>크루즈 처음 타기 전 꼭 알아야 할 기본 정보</strong>
       </a><a class="post-pager-link is-next" href="/blog/departure-checklist/">
         <span class="post-pager-label">다음 글</span>
         <strong>출발 전 체크리스트 한 번에 보기</strong>
       </a></div>
-          </div>
         </article>
       </div>
     </main>

@@ -37,7 +37,7 @@
     }
 
     .post-header {
-      padding: 44px 48px 32px;
+      padding: 44px 48px 24px;
       background:
         radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
         linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
@@ -76,6 +76,7 @@
       letter-spacing: -0.03em;
       color: #0f172a;
       font-weight: 800;
+      word-break: keep-all;
     }
 
     .post-summary {
@@ -258,8 +259,8 @@
     .post-body ul,
     .post-body ol,
     .post-body blockquote,
-    .post-body section {
-      margin: 0 0 20px;
+    .post-body table {
+      margin: 0 0 18px;
     }
 
     .post-body ul,
@@ -271,45 +272,47 @@
       margin-top: 8px;
     }
 
-    .post-body blockquote {
-      margin: 34px 0;
-      padding: 22px 24px;
-      border-left: 5px solid #3b82f6;
-      border-radius: 18px;
-      background: #eff6ff;
-      color: #1e3a8a;
-      font-weight: 700;
+    .post-body img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 22px;
+      margin: 28px 0;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
     }
 
     .post-bottom-cta,
     .post-tags-section,
     .post-related-section,
     .post-pager {
-      margin-top: 24px;
+      margin-left: 48px;
+      margin-right: 48px;
+      margin-bottom: 32px;
     }
 
     .post-bottom-cta {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      padding: 26px 28px;
+      align-items: center;
+      gap: 20px;
+      padding: 28px 30px;
       border-radius: 28px;
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
     }
 
     .post-bottom-cta-text strong {
       display: block;
-      color: #0f172a;
+      margin-bottom: 8px;
       font-size: 22px;
       line-height: 1.4;
     }
 
     .post-bottom-cta-text p {
-      margin: 10px 0 0;
-      color: #475569;
-      font-size: 16px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
       line-height: 1.75;
     }
 
@@ -317,21 +320,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-    }
-
-    .post-section-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .post-section-title {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 800;
-      color: #0f172a;
     }
 
     .post-tags {
@@ -351,94 +339,158 @@
       font-weight: 700;
     }
 
+    .post-section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .post-section-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.35;
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .post-section-more {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
     .post-related-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      gap: 18px;
     }
 
     .post-related-card {
       display: block;
-      padding: 22px;
+      padding: 0 0 20px;
       border-radius: 24px;
       background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
       text-decoration: none;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      color: inherit;
+      overflow: hidden;
     }
 
-    .post-related-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
+    .post-related-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #e2e8f0;
+      margin-bottom: 14px;
     }
 
-    .post-related-card strong {
+    .post-related-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      margin-top: 12px;
-      color: #0f172a;
-      font-size: 18px;
-      line-height: 1.55;
     }
 
-    .post-related-card p {
-      margin: 10px 0 0;
-      color: #64748b;
-      font-size: 15px;
-      line-height: 1.7;
+    .post-related-card strong,
+    .post-related-card p,
+    .post-related-chip {
+      margin-left: 18px;
+      margin-right: 18px;
     }
 
     .post-related-chip {
       display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
+      padding: 8px 12px;
       border-radius: 999px;
       background: #eff6ff;
       color: #2563eb;
       font-size: 12px;
       font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .post-related-card strong {
+      display: block;
+      font-size: 19px;
+      line-height: 1.45;
+      color: #0f172a;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .post-related-card p {
+      margin-top: 0;
+      margin-bottom: 0;
+      color: #64748b;
+      line-height: 1.72;
+      word-break: keep-all;
     }
 
     .post-pager {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 16px;
+      padding-bottom: 8px;
     }
 
     .post-pager-link {
       display: block;
-      padding: 22px;
+      padding: 22px 24px;
       border-radius: 24px;
-      background: #f8fafc;
-      border: 1px solid rgba(148, 163, 184, 0.18);
       text-decoration: none;
+      background: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      color: #0f172a;
     }
 
     .post-pager-label {
       display: block;
       margin-bottom: 10px;
+      color: #64748b;
       font-size: 13px;
-      font-weight: 800;
-      color: #2563eb;
+      font-weight: 700;
     }
 
     .post-pager-link strong {
-      color: #0f172a;
-      font-size: 17px;
-      line-height: 1.6;
+      font-size: 18px;
+      line-height: 1.55;
+      word-break: keep-all;
     }
 
     .post-pager-link.is-empty {
-      background: transparent;
-      border-style: dashed;
+      visibility: hidden;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 920px) {
       .post-header,
       .post-cover,
+      .post-content-shell,
+      .post-bottom-cta,
+      .post-tags-section,
+      .post-related-section,
+      .post-pager {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .post-header {
+        padding: 34px 24px 20px;
+      }
+
+      .post-cover {
+        padding: 0;
+      }
+
       .post-content-shell {
-        padding-left: 28px;
-        padding-right: 28px;
+        padding: 0 24px 30px;
+      }
+
+      .post-bottom-cta {
+        padding: 24px;
       }
 
       .post-related-grid,
@@ -448,26 +500,8 @@
     }
 
     @media (max-width: 640px) {
-      .post-article {
-        border-radius: 24px;
-      }
-
-      .post-header {
-        padding: 30px 20px 24px;
-      }
-
-      .post-cover {
-        padding: 0 20px;
-        margin-bottom: 24px;
-      }
-
-      .post-content-shell {
-        gap: 22px;
-        padding: 0 20px 28px;
-      }
-
       .post-title {
-        font-size: 31px;
+        font-size: 30px;
       }
 
       .post-summary,
@@ -476,28 +510,24 @@
         font-size: 17px;
       }
 
-      .post-body h2 {
-        margin-top: 42px;
-        font-size: 28px;
-      }
-
-      .post-body h3 {
-        font-size: 22px;
-      }
-
-      .post-bottom-cta,
-      .post-intro-section,
-      .post-toc-box {
-        padding: 20px;
-        border-radius: 22px;
+      .post-header,
+      .post-content-shell {
+        padding-left: 18px;
+        padding-right: 18px;
       }
 
       .post-cover-overlay {
         left: 14px;
-        right: 14px;
         bottom: 14px;
-        justify-content: center;
-        text-align: center;
+        font-size: 12px;
+      }
+
+      .post-bottom-cta,
+      .post-tags-section,
+      .post-related-section,
+      .post-pager {
+        margin-left: 14px;
+        margin-right: 14px;
       }
     }
   </style>
@@ -579,24 +609,22 @@
           </header>
 
           <section class="post-cover">
-  <div class="post-cover-frame">
-    <img src="https://cruiseplay-dyt.pages.dev/img/blog/departure-checklist.jpg" alt="출발 전 체크리스트 한 번에 보기" loading="eager" />
-    <div class="post-cover-overlay">준비물 · 2026.04.07</div>
-  </div>
-</section>
+            <div class="post-cover-frame">
+              <img src="https://cruiseplay-dyt.pages.dev/img/blog/departure-checklist.jpg" alt="출발 전 체크리스트 한 번에 보기" loading="eager" />
+              <div class="post-cover-overlay">준비물 · 2026.04.07</div>
+            </div>
+          </section>
 
           <div class="post-content-shell">
             <div class="post-toc-box"><strong class="post-toc-title">목차</strong><ul class="post-toc-list"><li class="is-level-2"><a href="#departure-checklist-toc-1-출발-전-필수-체크-1순위">출발 전 필수 체크 1순위</a></li><li class="is-level-2"><a href="#departure-checklist-toc-2-짐은-어떻게-나누는-게-좋을까요">짐은 어떻게 나누는 게 좋을까요?</a></li><li class="is-level-2"><a href="#departure-checklist-toc-3-처음-타는-분들이-자주-빼먹는-항목">처음 타는 분들이 자주 빼먹는 항목</a></li><li class="is-level-2"><a href="#departure-checklist-toc-4-서류는-이중-준비가-가장-안전합니다">서류는 이중 준비가 가장 안전합니다</a></li><li class="is-level-2"><a href="#departure-checklist-toc-5-출발-전날-체크리스트">출발 전날 체크리스트</a></li></ul></div>
 
             <div class="post-body">
-              <section class="post-intro-section">
+              <section class="post-intro-section"><section>
   <p>출발일이 가까워질수록 가장 많이 하게 되는 말이 있습니다. 바로 “뭘 챙겨야 하지?”라는 고민입니다. 특히 첫 크루즈 여행을 준비하는 분들은 비행기 탑승만 생각하면 되는 일반 여행과 달리, 공항 이동, 항구 도착, 승선 수속, 선내 생활, 기항지 일정까지 한 번에 떠올라서 더 복잡하게 느끼는 경우가 많습니다.</p>
   <p>하지만 실제로는 생각보다 어렵지 않습니다. 크루즈 여행 준비물과 출발 전 체크리스트를 우선순위대로 정리해두면, 막연한 불안은 훨씬 줄어듭니다. 무작정 짐을 많이 싸는 것보다, 반드시 필요한 서류와 바로 써야 하는 물건을 먼저 구분하는 것이 훨씬 중요합니다. 그래서 크루즈 여행 준비는 ‘많이 챙기는 것’보다 ‘잘 나눠 챙기는 것’이 핵심입니다.</p>
   <p>특히 처음 크루즈를 타는 분들은 여행 자체보다 출발 직전 준비 단계에서 가장 많이 긴장합니다. 여권은 챙겼는지, 체크인 서류는 어디 있는지, 항구까지 어떻게 이동할지, 배 안에서는 인터넷이 되는지, 멀미는 괜찮을지 같은 현실적인 걱정이 몰려오기 때문입니다. 이런 불안은 대부분 준비가 부족해서가 아니라, 준비의 순서가 정리되지 않았기 때문에 생깁니다.</p>
   <p>그래서 이번 글에서는 크루즈 여행 준비물, 출발 전 체크리스트, 손가방과 수하물 구분법, 처음 타는 분들이 자주 놓치는 항목까지 한 번에 정리해보겠습니다. 처음 크루즈를 준비하는 분이라면 이 내용만 먼저 확인해도 출발 당일 훨씬 차분하게 움직일 수 있습니다.</p>
-</section>
-
-<h2 id="departure-checklist-toc-1-출발-전-필수-체크-1순위">출발 전 필수 체크 1순위</h2>
+</section></section><h2 id="departure-checklist-toc-1-출발-전-필수-체크-1순위">출발 전 필수 체크 1순위</h2>
 <ul>
   <li>여권 유효기간 확인</li>
   <li>체크인 서류 또는 예약 확인서 준비</li>
@@ -652,49 +680,55 @@
 
 <blockquote>출발 전 준비는 길고 복잡해 보이지만, 핵심 서류와 이동 동선만 먼저 잡아도 실제 체감 난이도는 크게 내려갑니다. 크루즈 여행 준비물은 많아 보이지만, 결국 중요한 것은 ‘무엇을 챙기느냐’보다 ‘무엇부터 챙기느냐’입니다.</blockquote>
             </div>
+          </div>
 
-            <section class="post-bottom-cta">
-              <div class="post-bottom-cta-text">
-                <strong>궁금한 일정이나 비용이 있다면 편하게 확인해보세요.</strong>
-                <p>읽어보신 뒤 더 자세한 안내가 필요하시면 원하는 일정과 함께 문의하실 수 있습니다.</p>
-              </div>
-              <div class="post-bottom-cta-actions">
-                <a class="post-cta post-cta-primary" href="/#contact">가격 문의하기</a>
-                <a class="post-cta post-cta-secondary" href="/blog/">목록 보기</a>
-              </div>
-            </section>
+          <section class="post-bottom-cta">
+            <div class="post-bottom-cta-text">
+              <strong>궁금한 일정이나 비용이 있다면 편하게 확인해보세요.</strong>
+              <p>읽어보신 뒤 더 자세한 안내가 필요하시면 원하는 일정과 함께 문의하실 수 있습니다.</p>
+            </div>
+            <div class="post-bottom-cta-actions">
+              <a class="post-cta post-cta-primary" href="/#contact">가격 문의하기</a>
+              <a class="post-cta post-cta-secondary" href="/blog/">목록 보기</a>
+            </div>
+          </section>
 
-            <section class="post-tags-section">
-              <h2 class="post-section-title">함께 많이 보는 주제</h2>
-              <div class="post-tags">
-                
-              </div>
-            </section>
+          <section class="post-tags-section">
+            <h2 class="post-section-title">함께 많이 보는 주제</h2>
+            <div class="post-tags">
+              
+            </div>
+          </section>
 
-            <section class="post-related-section">
-              <div class="post-section-heading">
-                <h2 class="post-section-title">함께 보면 좋은 글</h2>
-                <a class="post-section-more" href="/blog/">전체 글 보기</a>
-              </div>
-              <div class="post-related-grid">
-                <a class="post-related-card" href="/blog/first-cruise-guide/">
+          <section class="post-related-section">
+            <div class="post-section-heading">
+              <h2 class="post-section-title">함께 보면 좋은 글</h2>
+              <a class="post-section-more" href="/blog/">전체 글 보기</a>
+            </div>
+            <div class="post-related-grid">
+              <a class="post-related-card" href="/blog/first-cruise-guide/">
+  <div class="post-related-thumb">
+    <img src="https://cruiseplay-dyt.pages.dev/img/blog/first-cruise-guide.jpg" alt="크루즈 처음 타기 전 꼭 알아야 할 기본 정보" loading="lazy" />
+  </div>
   <span class="post-related-chip">초보가이드</span>
   <strong>크루즈 처음 타기 전 꼭 알아야 할 기본 정보</strong>
   <p>처음 이용하는 분들이 가장 많이 궁금해하는 준비사항과 기본 개념을 한 번에 정리한 안내 콘텐츠입니다.</p>
 </a>
 <a class="post-related-card" href="/blog/cruise-cost-breakdown/">
+  <div class="post-related-thumb">
+    <img src="https://cruiseplay-dyt.pages.dev/img/blog/cruise-cost-breakdown.jpg" alt="크루즈 비용은 어떻게 구성될까요?" loading="lazy" />
+  </div>
   <span class="post-related-chip">비용비교</span>
   <strong>크루즈 비용은 어떻게 구성될까요?</strong>
   <p>크루즈 비용, 항공, 팁, 세금 등 실제로 많이 헷갈리는 비용 구조를 쉽게 설명합니다.</p>
 </a>
-              </div>
-            </section>
+            </div>
+          </section>
 
-            <div class="post-pager"><a class="post-pager-link is-prev" href="/blog/cruise-cost-breakdown/">
+          <div class="post-pager"><a class="post-pager-link is-prev" href="/blog/cruise-cost-breakdown/">
         <span class="post-pager-label">이전 글</span>
         <strong>크루즈 비용은 어떻게 구성될까요?</strong>
       </a><span class="post-pager-link is-empty"></span></div>
-          </div>
         </article>
       </div>
     </main>
