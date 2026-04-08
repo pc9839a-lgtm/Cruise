@@ -10,19 +10,21 @@
 
   const state = {
     activeCategory: 'all',
-    keyword: ''
+    keyword: '',
+    items: []
   };
-
-  const SESSION_CACHE_KEY = 'cruise_blog_content_links_v2';
-  const SESSION_CACHE_TTL_MS = 60 * 1000;
-  const REQUEST_TIMEOUT_MS = 8000;
-  const PAGE_IMAGE_BUST = String(Date.now());
 
   init();
 
   async function init() {
     bindEvents();
     await hydrateFromRemote();
+
+    if (!state.items.length) {
+      state.items = extractItemsFromDom();
+    }
+
+    renderCategoryButtons(state.items);
     syncFilterButtons();
     update();
   }
@@ -51,64 +53,39 @@
     const apiUrl = getApiUrl();
     if (!apiUrl) return;
 
-    const cached = readSessionCache();
-    if (cached.items.length) {
-      renderCategoryButtons(cached.items);
-      renderCards(cached.items);
-      syncFilterButtons();
-      update();
-
-      if (cached.isFresh) {
-        return;
-      }
-    }
+    const cacheKey = 'cruise_blog_runtime_items_v2';
+    const cacheTtlMs = 60 * 1000;
 
     try {
-      const payload = await loadBootstrapPayload(apiUrl);
-      const items = normalizeItems(payload && payload.content_links);
-
-      if (!items.length) {
-        if (!cached.items.length) {
-          renderCategoryButtons([]);
-          renderCards([]);
+      const cachedRaw = sessionStorage.getItem(cacheKey);
+      if (cachedRaw) {
+        const cached = JSON.parse(cachedRaw);
+        if (cached && Array.isArray(cached.items) && Date.now() - Number(cached.savedAt || 0) < cacheTtlMs) {
+          state.items = cached.items;
+          return;
         }
-        return;
       }
+    } catch (error) {}
 
-      writeSessionCache(items);
-      renderCategoryButtons(items);
-      renderCards(items);
+    try {
+      const payload = await jsonpRequest(apiUrl, {
+        action: 'bootstrap_full',
+        _ts: Date.now()
+      });
+
+      const items = normalizeItems(payload && payload.content_links);
+      if (!items.length) return;
+
+      state.items = items;
+
+      try {
+        sessionStorage.setItem(cacheKey, JSON.stringify({
+          savedAt: Date.now(),
+          items: items
+        }));
+      } catch (error) {}
     } catch (error) {
       console.error('[blog-index] remote content load failed:', error);
-    }
-  }
-
-  function readSessionCache() {
-    try {
-      const raw = sessionStorage.getItem(SESSION_CACHE_KEY);
-      if (!raw) {
-        return { items: [], isFresh: false };
-      }
-
-      const parsed = JSON.parse(raw);
-      const items = Array.isArray(parsed && parsed.items) ? parsed.items : [];
-      const savedAt = Number(parsed && parsed.savedAt || 0);
-      const isFresh = !!savedAt && (Date.now() - savedAt < SESSION_CACHE_TTL_MS);
-
-      return { items: items, isFresh: isFresh };
-    } catch (error) {
-      return { items: [], isFresh: false };
-    }
-  }
-
-  function writeSessionCache(items) {
-    try {
-      sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify({
-        savedAt: Date.now(),
-        items: items
-      }));
-    } catch (error) {
-      console.warn('[blog-index] session cache write skipped:', error);
     }
   }
 
@@ -142,17 +119,11 @@
     return text;
   }
 
-  function loadBootstrapPayload(apiUrl) {
-    return jsonpRequest(apiUrl, {
-      action: 'bootstrap_full',
-      _ts: Date.now()
-    });
-  }
-
   function jsonpRequest(baseUrl, params) {
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseBlogJsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const script = document.createElement('script');
+      const timeoutMs = 12000;
       let done = false;
       let timeoutId = null;
 
@@ -179,15 +150,15 @@
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('\uC694\uCCAD\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.'));
+        reject(new Error('\uC694\uCCAD \uC2E4\uD328'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('\uC751\uB2F5 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'));
-      }, REQUEST_TIMEOUT_MS);
+        reject(new Error('\uC751\uB2F5 \uC2DC\uAC04 \uCD08\uACFC'));
+      }, timeoutMs);
 
       document.head.appendChild(script);
     });
@@ -216,7 +187,7 @@
           category: String(item && item.category || '').trim(),
           title: String(item && item.title || '').trim(),
           summary: String(item && item.summary || '').trim(),
-          thumbnail_url: String(item && item.thumbnail_url || '').trim(),
+          thumbnail_url: appendImageBust(String(item && item.thumbnail_url || '').trim()),
           link_url: String(item && item.link_url || '').trim(),
           tag_text: String(item && item.tag_text || '').trim(),
           date_text: formatDateText(
@@ -235,26 +206,27 @@
       });
   }
 
-  function formatDateText(value) {
-    const text = String(value || '').trim();
-    if (!text) return '';
+  function extractItemsFromDom() {
+    return Array.from(blogGrid.querySelectorAll('.blog-card')).map(function (card) {
+      const coverLink = card.querySelector('.blog-card-cover');
+      const image = card.querySelector('.blog-card-cover img');
+      const titleLink = card.querySelector('.blog-card-title a');
+      const dateNode = card.querySelector('.blog-card-date');
 
-    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
-      return text.replace(/-/g, '.');
-    }
-
-    if (/^\d{4}\.\d{2}\.\d{2}$/.test(text)) {
-      return text;
-    }
-
-    const match = text.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
-    if (!match) return text;
-
-    return [
-      match[1],
-      String(match[2]).padStart(2, '0'),
-      String(match[3]).padStart(2, '0')
-    ].join('.');
+      return {
+        category: String(card.dataset.category || '').trim(),
+        title: String(card.dataset.title || (titleLink ? titleLink.textContent : '') || '').trim(),
+        summary: String(card.dataset.summary || '').trim(),
+        thumbnail_url: image ? String(image.getAttribute('src') || '').trim() : '',
+        link_url: titleLink
+          ? String(titleLink.getAttribute('href') || '').trim()
+          : (coverLink ? String(coverLink.getAttribute('href') || '').trim() : ''),
+        tag_text: String(card.dataset.tags || '').trim(),
+        date_text: dateNode ? String(dateNode.textContent || '').trim() : ''
+      };
+    }).filter(function (item) {
+      return !!(item.title && item.link_url);
+    });
   }
 
   function renderCategoryButtons(items) {
@@ -287,6 +259,29 @@
     state.activeCategory = hasCurrent ? currentCategory : 'all';
   }
 
+  function update() {
+    const filteredItems = state.items.filter(function (item) {
+      return matchesItemCategory(item) && matchesItemKeyword(item);
+    });
+
+    renderCards(filteredItems);
+
+    if (blogResultsCount) {
+      blogResultsCount.textContent = String(filteredItems.length);
+    }
+
+    if (blogEmptyState) {
+      blogEmptyState.style.display = filteredItems.length === 0 ? 'block' : 'none';
+    }
+
+    if (blogActiveFilterText) {
+      const activeButton = filterRow ? filterRow.querySelector('[data-category].is-active') : null;
+      blogActiveFilterText.textContent = activeButton
+        ? String(activeButton.textContent || '\uC804\uCCB4').trim()
+        : '\uC804\uCCB4';
+    }
+  }
+
   function renderCards(items) {
     blogGrid.innerHTML = items.map(function (item) {
       return buildCardHtml(item);
@@ -298,7 +293,7 @@
     const safeSummary = escapeHtml(item.summary);
     const safeCategory = escapeHtml(item.category);
     const safeLink = escapeAttribute(item.link_url);
-    const safeThumb = escapeAttribute(buildImageUrl(item.thumbnail_url));
+    const safeThumb = escapeAttribute(item.thumbnail_url);
     const safeTags = escapeAttribute(item.tag_text);
     const safeDate = escapeHtml(item.date_text || '0000.00.00');
     const dateStyle = item.date_text ? '' : ' style="visibility:hidden;"';
@@ -327,16 +322,6 @@
     ].join('');
   }
 
-  function buildImageUrl(url) {
-    const safeUrl = String(url || '').trim();
-    if (!safeUrl) return '';
-    return safeUrl + (safeUrl.indexOf('?') >= 0 ? '&' : '?') + 'v=' + encodeURIComponent(PAGE_IMAGE_BUST);
-  }
-
-  function getCards() {
-    return Array.from(blogGrid.querySelectorAll('.blog-card'));
-  }
-
   function syncFilterButtons() {
     if (!filterRow) return;
 
@@ -345,13 +330,24 @@
       const category = String(button.getAttribute('data-category') || '').trim();
       button.classList.toggle('is-active', normalizeText(category) === normalizeText(state.activeCategory));
     });
+  }
 
-    if (blogActiveFilterText) {
-      const activeButton = filterRow.querySelector('[data-category].is-active');
-      blogActiveFilterText.textContent = activeButton
-        ? String(activeButton.textContent || '\uC804\uCCB4').trim()
-        : '\uC804\uCCB4';
-    }
+  function matchesItemCategory(item) {
+    if (normalizeText(state.activeCategory) === 'all') return true;
+    return normalizeText(item.category) === normalizeText(state.activeCategory);
+  }
+
+  function matchesItemKeyword(item) {
+    if (!state.keyword) return true;
+
+    const haystack = normalizeText([
+      item.title || '',
+      item.summary || '',
+      item.tag_text || '',
+      item.category || ''
+    ].join(' '));
+
+    return haystack.indexOf(state.keyword) >= 0;
   }
 
   function normalizeText(value) {
@@ -361,41 +357,33 @@
       .toLowerCase();
   }
 
-  function matchesCategory(card) {
-    if (normalizeText(state.activeCategory) === 'all') return true;
-    return normalizeText(card.dataset.category) === normalizeText(state.activeCategory);
-  }
+  function formatDateText(value) {
+    const text = String(value || '').trim();
+    if (!text) return '';
 
-  function matchesKeyword(card) {
-    if (!state.keyword) return true;
-
-    const haystack = normalizeText([
-      card.dataset.title || '',
-      card.dataset.summary || '',
-      card.dataset.tags || '',
-      card.dataset.category || ''
-    ].join(' '));
-
-    return haystack.indexOf(state.keyword) >= 0;
-  }
-
-  function update() {
-    const cards = getCards();
-    let visibleCount = 0;
-
-    cards.forEach(function (card) {
-      const visible = matchesCategory(card) && matchesKeyword(card);
-      card.hidden = !visible;
-      if (visible) visibleCount += 1;
-    });
-
-    if (blogResultsCount) {
-      blogResultsCount.textContent = String(visibleCount);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+      return text.replace(/-/g, '.');
     }
 
-    if (blogEmptyState) {
-      blogEmptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    if (/^\d{4}\.\d{2}\.\d{2}$/.test(text)) {
+      return text;
     }
+
+    const match = text.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+    if (!match) return text;
+
+    return [
+      match[1],
+      String(match[2]).padStart(2, '0'),
+      String(match[3]).padStart(2, '0')
+    ].join('.');
+  }
+
+  function appendImageBust(url) {
+    const safeUrl = String(url || '').trim();
+    if (!safeUrl) return '';
+    const bucket = Math.floor(Date.now() / (60 * 1000));
+    return safeUrl + (safeUrl.indexOf('?') >= 0 ? '&' : '?') + 'v=' + bucket;
   }
 
   function escapeHtml(value) {
