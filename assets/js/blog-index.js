@@ -8,10 +8,8 @@
 
   if (!blogGrid) return;
 
-  const TEXT_ALL = '\uC804\uCCB4';
-  const TEXT_VIEW_MORE = '\uC790\uC138\uD788 \uBCF4\uAE30';
-  const ERROR_JSONP_FAILED = 'JSONP \uC694\uCCAD\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.';
-  const ERROR_JSONP_TIMEOUT = 'JSONP \uC751\uB2F5 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.';
+  const CLIENT_CACHE_KEY = 'cruise_blog_content_links_v2';
+  const CLIENT_CACHE_TTL_MS = 60 * 1000;
 
   const state = {
     activeCategory: 'all',
@@ -22,6 +20,15 @@
 
   async function init() {
     bindEvents();
+
+    const cachedItems = getCachedItems();
+    if (cachedItems.length) {
+      renderCategoryButtons(cachedItems);
+      renderCards(cachedItems);
+      syncFilterButtons();
+      update();
+    }
+
     await hydrateFromRemote();
     syncFilterButtons();
     update();
@@ -49,21 +56,17 @@
 
   async function hydrateFromRemote() {
     const apiUrl = getApiUrl();
-    if (!apiUrl) {
-      return;
-    }
+    if (!apiUrl) return;
 
     try {
-      await warmBootstrapCache(apiUrl);
-      const payload = await loadBootstrapPayload(apiUrl);
-      const items = normalizeItems(payload && payload.content_links);
+      const items = await loadContentItems(apiUrl);
+      if (!items.length) return;
 
+      setCachedItems(items);
       renderCategoryButtons(items);
       renderCards(items);
     } catch (error) {
       console.error('[blog-index] remote content load failed:', error);
-      renderCategoryButtons([]);
-      renderCards([]);
     }
   }
 
@@ -97,29 +100,34 @@
     return text;
   }
 
-  async function warmBootstrapCache(apiUrl) {
+  async function loadContentItems(apiUrl) {
+    const directPayload = await tryLoadContentLinks(apiUrl);
+    const directItems = normalizeItems(directPayload && directPayload.content_links);
+    if (directItems.length) return directItems;
+
+    const fallbackPayload = await jsonpRequest(apiUrl, {
+      action: 'bootstrap_deferred',
+      _ts: Date.now()
+    });
+    return normalizeItems(fallbackPayload && fallbackPayload.content_links);
+  }
+
+  async function tryLoadContentLinks(apiUrl) {
     try {
-      await jsonpRequest(apiUrl, {
-        action: 'bootstrap_cache_warm',
+      return await jsonpRequest(apiUrl, {
+        action: 'content_links',
         _ts: Date.now()
       });
     } catch (error) {
-      console.warn('[blog-index] bootstrap_cache_warm skipped:', error);
+      return null;
     }
-  }
-
-  function loadBootstrapPayload(apiUrl) {
-    return jsonpRequest(apiUrl, {
-      action: 'bootstrap_full',
-      _ts: Date.now()
-    });
   }
 
   function jsonpRequest(baseUrl, params) {
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseBlogJsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const script = document.createElement('script');
-      const timeoutMs = 15000;
+      const timeoutMs = 8000;
       let done = false;
       let timeoutId = null;
 
@@ -146,14 +154,14 @@
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error(ERROR_JSONP_FAILED));
+        reject(new Error('\uJSONP \uc694\uccad\uc5d0 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4.'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error(ERROR_JSONP_TIMEOUT));
+        reject(new Error('JSONP \uc751\ub2f5 \uc2dc\uac04\uc774 \ucd08\uacfc\ub418\uc5c8\uc2b5\ub2c8\ub2e4.'));
       }, timeoutMs);
 
       document.head.appendChild(script);
@@ -179,27 +187,42 @@
 
     return list
       .map(function (item) {
+        const contentId = String(item && item.content_id || '').trim();
+        const updatedRaw = String(
+          item && (
+            item.updated_at ||
+            item.modified_at ||
+            item.publish_date ||
+            item.published_date ||
+            item.date ||
+            item.created_at
+          ) || ''
+        ).trim();
+
         return {
-          category: String((item && item.category) || '').trim(),
-          title: String((item && item.title) || '').trim(),
-          summary: String((item && item.summary) || '').trim(),
-          thumbnail_url: String((item && item.thumbnail_url) || '').trim(),
-          link_url: String((item && item.link_url) || '').trim(),
-          tag_text: String((item && item.tag_text) || '').trim(),
-          date_text: formatDateText(
-            item && (
-              item.publish_date ||
-              item.published_date ||
-              item.date ||
-              item.created_at ||
-              item.updated_at
-            )
-          )
+          content_id: contentId,
+          category: String(item && item.category || '').trim(),
+          title: String(item && item.title || '').trim(),
+          summary: String(item && item.summary || '').trim(),
+          thumbnail_url: buildImageUrl(String(item && item.thumbnail_url || '').trim(), contentId, updatedRaw),
+          link_url: String(item && item.link_url || '').trim(),
+          tag_text: String(item && item.tag_text || '').trim(),
+          date_text: formatDateText(updatedRaw)
         };
       })
       .filter(function (item) {
         return !!(item.title && item.link_url);
       });
+  }
+
+  function buildImageUrl(url, contentId, updatedRaw) {
+    const text = String(url || '').trim();
+    if (!text) return '';
+
+    const version = String(updatedRaw || contentId || '').trim();
+    if (!version) return text;
+
+    return text + (text.indexOf('?') >= 0 ? '&' : '?') + 'v=' + encodeURIComponent(version);
   }
 
   function formatDateText(value) {
@@ -240,7 +263,7 @@
     const currentCategory = state.activeCategory;
 
     filterRow.innerHTML = [
-      '<button type="button" class="blog-filter-btn" data-category="all">' + TEXT_ALL + '</button>'
+      '<button type="button" class="blog-filter-btn" data-category="all">\uc804\uccb4</button>'
     ].concat(
       categories.map(function (category) {
         return '<button type="button" class="blog-filter-btn" data-category="' + escapeAttribute(category) + '">' + escapeHtml(category) + '</button>';
@@ -267,7 +290,7 @@
     const safeLink = escapeAttribute(item.link_url);
     const safeThumb = escapeAttribute(item.thumbnail_url);
     const safeTags = escapeAttribute(item.tag_text);
-    const safeDate = escapeHtml(item.date_text || '0000.00.00');
+    const safeDate = escapeHtml(item.date_text || '');
     const dateStyle = item.date_text ? '' : ' style="visibility:hidden;"';
 
     return [
@@ -277,7 +300,7 @@
       ' data-summary="' + escapeAttribute(item.summary) + '"',
       ' data-tags="' + safeTags + '">',
       safeThumb
-        ? '<a class="blog-card-cover" href="' + safeLink + '"><img src="' + safeThumb + '" alt="' + escapeAttribute(item.title) + '" loading="lazy" /></a>'
+        ? '<a class="blog-card-cover" href="' + safeLink + '"><img src="' + safeThumb + '" alt="' + escapeAttribute(item.title) + '" loading="lazy" decoding="async" /></a>'
         : '<a class="blog-card-cover" href="' + safeLink + '"></a>',
       '<div class="blog-card-body">',
       '<div class="blog-card-topline">',
@@ -287,7 +310,7 @@
       '<h2 class="blog-card-title"><a href="' + safeLink + '">' + safeTitle + '</a></h2>',
       '<p class="blog-card-summary">' + safeSummary + '</p>',
       '<div class="blog-card-actions">',
-      '<a class="blog-card-link" href="' + safeLink + '">' + TEXT_VIEW_MORE + '</a>',
+      '<a class="blog-card-link" href="' + safeLink + '">\uc790\uc138\ud788 \ubcf4\uae30</a>',
       '</div>',
       '</div>',
       '</article>'
@@ -310,8 +333,8 @@
     if (blogActiveFilterText) {
       const activeButton = filterRow.querySelector('[data-category].is-active');
       blogActiveFilterText.textContent = activeButton
-        ? String(activeButton.textContent || TEXT_ALL).trim()
-        : TEXT_ALL;
+        ? String(activeButton.textContent || '\uc804\uccb4').trim()
+        : '\uc804\uccb4';
     }
   }
 
@@ -356,6 +379,30 @@
 
     if (blogEmptyState) {
       blogEmptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  function getCachedItems() {
+    try {
+      const raw = window.sessionStorage.getItem(CLIENT_CACHE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.items)) return [];
+      if (Date.now() - Number(parsed.saved_at || 0) > CLIENT_CACHE_TTL_MS) return [];
+      return parsed.items;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function setCachedItems(items) {
+    try {
+      window.sessionStorage.setItem(CLIENT_CACHE_KEY, JSON.stringify({
+        saved_at: Date.now(),
+        items: items
+      }));
+    } catch (error) {
+      // ignore storage errors
     }
   }
 
