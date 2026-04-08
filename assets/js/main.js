@@ -58,6 +58,7 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
+  let reviewScrollEndTimer = null;
 	
   init();
 
@@ -191,14 +192,15 @@
 
         try {
           const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
-          const data = await response.json();
-          
-          if (data.success) {
-            updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
+          const rawText = await response.text();
+          const result = parseInquirySubmitResponse(rawText, response);
+
+          if (result.success) {
+            updateFormResult(result.message || '문의가 정상 접수되었습니다.', 'success');
             form.reset();
             setTrackingFields();
           } else {
-            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
+            updateFormResult(result.message || '오류가 발생했습니다.', 'error');
           }
         } catch (error) {
           updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
@@ -297,6 +299,7 @@
     logDebug('hydrate.done', { ok: true });
   }
 
+
   function applyScheduleHeaderDesktopFix() {
     const sectionTopline = document.querySelector('#schedule .section-topline');
     const contentBlock = sectionTopline?.querySelector(':scope > div:first-child') || null;
@@ -333,7 +336,6 @@
       moreLink.style.transform = 'translateY(-50%)';
     }
   }
-
   function normalizeData(data) {
     const safe = data || {};
     const fb = window.MOCK_BOOTSTRAP_DATA || {};
@@ -634,30 +636,40 @@
 	  if (mobileMode) {
 	    if (!reviewViewport.dataset.reviewMobileBound) {
 	      reviewViewport.addEventListener('scroll', () => {
-	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
-	        let closestIndex = 0;
-	        let closestDistance = Infinity;
+	        if (reviewScrollEndTimer) {
+	          window.clearTimeout(reviewScrollEndTimer);
+	        }
 	
-	        cards.forEach((card, idx) => {
-	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-	          const distance = Math.abs(cardCenter - viewportCenter);
-	
-	          if (distance < closestDistance) {
-	            closestDistance = distance;
-	            closestIndex = idx;
-	          }
-	        });
-	
-	        state.reviewPage = closestIndex;
+	        reviewScrollEndTimer = window.setTimeout(() => {
+	          const width = reviewViewport.clientWidth || 1;
+	          const nextPage = Math.round(reviewViewport.scrollLeft / width);
+	          state.reviewPage = Math.max(0, Math.min(nextPage, Math.max(0, total - 1)));
+	        }, 90);
 	      }, { passive: true });
 	
 	      reviewViewport.dataset.reviewMobileBound = 'true';
 	    }
 	
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	
+	    reviewViewport.style.overflowX = 'auto';
+	    reviewViewport.style.overflowY = 'hidden';
+	    reviewViewport.style.scrollSnapType = 'x mandatory';
+	    reviewViewport.style.scrollBehavior = 'smooth';
+	    reviewViewport.style.webkitOverflowScrolling = 'touch';
+	    reviewGrid.style.display = 'flex';
+	    reviewGrid.style.gap = '0';
+	    reviewGrid.style.width = '100%';
 	    reviewGrid.style.transform = '';
+	    reviewGrid.style.transition = '';
+	
+	    Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
+	      card.style.flex = '0 0 100%';
+	      card.style.width = '100%';
+	      card.style.minWidth = '100%';
+	      card.style.margin = '0';
+	      card.style.scrollSnapAlign = 'start';
+	      card.style.scrollSnapStop = 'always';
+	    });
+	
 	    prev?.classList.add('is-hidden');
 	    next?.classList.add('is-hidden');
 	
@@ -671,19 +683,29 @@
 	      return;
 	    }
 	
-	    state.reviewPage = Math.min(state.reviewPage, total - 1);
-	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
-	    }
-	
+	    state.reviewPage = Math.max(0, Math.min(state.reviewPage, total - 1));
+	    scrollMobileReviewToPage(state.reviewPage, 'auto');
 	    startReviewAuto(total);
 	    return;
 	  }
+
+	  reviewViewport.style.overflowX = '';
+	  reviewViewport.style.overflowY = '';
+	  reviewViewport.style.scrollSnapType = '';
+	  reviewViewport.style.scrollBehavior = '';
+	  reviewViewport.style.webkitOverflowScrolling = '';
+	  reviewGrid.style.display = '';
+	  reviewGrid.style.gap = '';
+	  reviewGrid.style.width = '';
+	  reviewGrid.style.transition = '';
+	  Array.from(reviewGrid.querySelectorAll('.review-card')).forEach((card) => {
+	    card.style.flex = '';
+	    card.style.width = '';
+	    card.style.minWidth = '';
+	    card.style.margin = '';
+	    card.style.scrollSnapAlign = '';
+	    card.style.scrollSnapStop = '';
+	  });
 	
 	  const perView = getReviewPerView();
 	  const maxPage = Math.max(0, total - perView);
@@ -721,6 +743,20 @@
 	  startReviewAuto(total);
 	}
 
+	function scrollMobileReviewToPage(page, behavior = 'smooth') {
+	  if (!reviewViewport) return;
+	  const total = (state.bootstrap.reviews || []).length;
+	  if (!total) return;
+	
+	  const safePage = Math.max(0, Math.min(page, total - 1));
+	  state.reviewPage = safePage;
+	
+	  reviewViewport.scrollTo({
+	    left: (reviewViewport.clientWidth || 0) * safePage,
+	    behavior
+	  });
+	}
+
 // =========================================================
 // 3) moveReviews
 // 시작: function moveReviews(direction) {
@@ -731,21 +767,14 @@
 	  if (!total) return;
 	
 	  if (window.innerWidth <= 768) {
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	    if (!cards.length || !reviewViewport) return;
-	
 	    const maxPage = total - 1;
-	    state.reviewPage = direction === 'prev'
+	    const goingPrev = direction === 'prev';
+	    const nextPage = goingPrev
 	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
 	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
 	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
-	    }
+	    const wrapJump = (goingPrev && state.reviewPage <= 0) || (!goingPrev && state.reviewPage >= maxPage);
+	    scrollMobileReviewToPage(nextPage, wrapJump ? 'auto' : 'smooth');
 	    return;
 	  }
 	
@@ -1162,7 +1191,7 @@
 
     grid.innerHTML = items.map(item => `
       <article class="sheet-extra-card">
-        ${item.thumbnail_url ? `<div class="sheet-extra-media"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" /></div>` : ''}
+        ${item.thumbnail_url ? `<div class="sheet-extra-media" style="position:relative;aspect-ratio:16 / 9;overflow:hidden;"><img src="${escapeAttribute(item.thumbnail_url)}" alt="${escapeAttribute(item.title || '')}" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" /></div>` : ''}
         ${item.category ? `<div class="sheet-extra-chip">${escapeHtml(item.category)}</div>` : ''}
         <h3>${escapeHtml(item.title || '')}</h3>
         ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
@@ -1196,6 +1225,67 @@
     setInputValue('referrerInput', document.referrer || '');
   }
 
+
+  function parseInquirySubmitResponse(rawText, response) {
+    const text = String(rawText || '').trim();
+
+    if (text) {
+      try {
+        const json = JSON.parse(text);
+        return normalizeInquirySubmitResult(json, response);
+      } catch (error) {}
+
+      const postMessageMatch = text.match(/window\.top\.postMessage\((\{[\s\S]*?\})\s*,\s*["']\*["']\s*\)/i);
+      if (postMessageMatch && postMessageMatch[1]) {
+        try {
+          const payload = JSON.parse(postMessageMatch[1]);
+          return normalizeInquirySubmitResult(payload, response);
+        } catch (error) {}
+      }
+    }
+
+    if (response && response.ok) {
+      return {
+        success: true,
+        message: '문의가 정상 접수되었습니다.'
+      };
+    }
+
+    return {
+      success: false,
+      message: '문의 응답을 확인하지 못했습니다. 다시 시도해주세요.'
+    };
+  }
+
+  function normalizeInquirySubmitResult(payload, response) {
+    const data = payload && typeof payload === 'object' ? payload : {};
+
+    if (data.type === 'CRUISE_FORM_RESULT') {
+      return {
+        success: !!data.success,
+        message: String(data.message || (data.success ? '문의가 정상 접수되었습니다.' : '오류가 발생했습니다.'))
+      };
+    }
+
+    if (typeof data.success === 'boolean') {
+      return {
+        success: data.success,
+        message: String(data.data || data.message || (data.success ? '문의가 정상 접수되었습니다.' : '오류가 발생했습니다.'))
+      };
+    }
+
+    if (response && response.ok) {
+      return {
+        success: true,
+        message: '문의가 정상 접수되었습니다.'
+      };
+    }
+
+    return {
+      success: false,
+      message: '오류가 발생했습니다.'
+    };
+  }
   function updateFormResult(message, type) {
     if (!formResult) return;
     formResult.textContent = message;
