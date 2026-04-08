@@ -54,37 +54,27 @@
 	  activeRegion: 'ALL',
 	  reviewPage: 0,
 	  basicInfoPage: 0,
+	  contentLinksOrder: [],
+	  contentLinksVisibleCount: 3,
 	};
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
-  let isFormSubmitting = false;
-  let formSubmitTimeout = null;
-  let formLoadFallbackTimer = null;
-  let contactSubmitFrame = null;
 	
   init();
 
   async function init() {
     bindStaticEvents();
     setTrackingFields();
-    setupFormSubmitTransport();
-    bindFormSubmitMessageListener();
 
-    if (config.useMockOnly) {
-      hydrate(normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true }));
-      return;
-    }
+    const payload = config.useMockOnly
+      ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
+      : await getBootstrapWithFallback();
 
-    const initialPayload = await getBootstrapInitialWithFallback();
-    hydrate(initialPayload, { initialOnly: true });
-
-    window.setTimeout(function () {
-      loadBootstrapDeferredInBackground();
-    }, 0);
+    hydrate(payload);
   }
 
-    function bindStaticEvents() {
+  function bindStaticEvents() {
     if (mobileMenuToggle && mainNav) {
       mobileMenuToggle.addEventListener('click', () => mainNav.classList.toggle('is-open'));
     }
@@ -133,6 +123,13 @@
 		  return;
 		}
 
+      const contentMoreButton = target.closest('[data-content-more]');
+      if (contentMoreButton) {
+        state.contentLinksVisibleCount += getContentLinksStep();
+        renderContentLinks();
+        return;
+      }
+
       const openCard = target.closest('[data-open-schedule]');
       if (openCard) {
         openSchedule(openCard.getAttribute('data-open-schedule'));
@@ -148,6 +145,7 @@
 	window.addEventListener('resize', () => {
 	  setupReviewSlider((state.bootstrap.reviews || []).length);
 	  setupBasicInfoSlider();
+      applyScheduleHeaderDesktopFix();
 	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
 	});
 
@@ -167,18 +165,18 @@
 
     // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
     if (form) {
-      form.addEventListener('submit', function (event) {
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const formData = new FormData(form);
 
         if (!formData.get('name')?.trim()) return updateFormResult('성함을 입력해주세요.', 'error');
-
+        
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
         if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
         if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
-
+        
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
 
@@ -197,172 +195,48 @@
         if (messageInput) messageInput.value = extraLines.join('\n');
 
         setSubmitState(true);
-        isFormSubmitting = true;
         updateFormResult('문의 내용을 접수하고 있습니다...', 'pending');
         logDebug('form.submit', { schedule_id: formData.get('interest_schedule_id') });
 
-        startFormSubmitTimeout();
-        submitFormThroughIframe();
+        try {
+          const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
+          const data = await response.json();
+          
+          if (data.success) {
+            updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
+            form.reset();
+            setTrackingFields();
+          } else {
+            updateFormResult(data.message || '오류가 발생했습니다.', 'error');
+          }
+        } catch (error) {
+          updateFormResult('통신 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
+          logDebug('form.result.error', { error: error.message });
+        } finally {
+          setSubmitState(false);
+        }
       });
     }
-  }
-
-  function setupFormSubmitTransport() {
-    if (!form || !config.apiUrl) return;
-
-    if (!contactSubmitFrame) {
-      contactSubmitFrame = document.getElementById('contactSubmitFrame');
-    }
-
-    if (!contactSubmitFrame) {
-      contactSubmitFrame = document.createElement('iframe');
-      contactSubmitFrame.id = 'contactSubmitFrame';
-      contactSubmitFrame.name = 'contactSubmitFrame';
-      contactSubmitFrame.title = 'contact submit frame';
-      contactSubmitFrame.style.display = 'none';
-      document.body.appendChild(contactSubmitFrame);
-    }
-
-    if (!contactSubmitFrame.dataset.bound) {
-      contactSubmitFrame.addEventListener('load', handleFormSubmitFrameLoad);
-      contactSubmitFrame.dataset.bound = 'true';
-    }
-
-    form.method = 'POST';
-    form.action = config.apiUrl;
-    form.target = 'contactSubmitFrame';
-    form.enctype = 'multipart/form-data';
-    form.acceptCharset = 'UTF-8';
-  }
-
-  function bindFormSubmitMessageListener() {
-    if (window.__cruiseFormMessageBound) return;
-
-    window.addEventListener('message', function (event) {
-      let payload = event && event.data ? event.data : null;
-
-      if (typeof payload === 'string') {
-        try {
-          payload = JSON.parse(payload);
-        } catch (error) {
-          payload = null;
-        }
-      }
-
-      if (!payload || payload.type !== 'CRUISE_FORM_RESULT') return;
-      if (!isFormSubmitting) return;
-
-      finishFormSubmit(Boolean(payload.success), payload.message || '');
-    });
-
-    window.__cruiseFormMessageBound = true;
-  }
-
-  function handleFormSubmitFrameLoad() {
-    if (!isFormSubmitting) return;
-
-    clearFormLoadFallback();
-    formLoadFallbackTimer = window.setTimeout(function () {
-      if (!isFormSubmitting) return;
-      finishFormSubmit(true, '문의가 정상 접수되었습니다.');
-    }, 700);
-  }
-
-  function clearFormLoadFallback() {
-    if (formLoadFallbackTimer) {
-      window.clearTimeout(formLoadFallbackTimer);
-      formLoadFallbackTimer = null;
-    }
-  }
-
-  function submitFormThroughIframe() {
-    if (!form) return;
-
-    try {
-      HTMLFormElement.prototype.submit.call(form);
-    } catch (error) {
-      finishFormSubmit(false, '문의 전송 중 문제가 발생했습니다.');
-    }
-  }
-
-  function startFormSubmitTimeout() {
-    clearFormSubmitTimeout();
-    clearFormLoadFallback();
-
-    formSubmitTimeout = window.setTimeout(function () {
-      if (!isFormSubmitting) return;
-      finishFormSubmit(false, '전송 확인이 지연되고 있습니다. 잠시 후 다시 확인해주세요.');
-    }, 15000);
-  }
-
-  function clearFormSubmitTimeout() {
-    if (formSubmitTimeout) {
-      window.clearTimeout(formSubmitTimeout);
-      formSubmitTimeout = null;
-    }
-  }
-
-  function finishFormSubmit(success, message) {
-    clearFormSubmitTimeout();
-    clearFormLoadFallback();
-    isFormSubmitting = false;
-    setSubmitState(false);
-
-    if (success) {
-      updateFormResult(message || '문의가 정상 접수되었습니다.', 'success');
-      form?.reset();
-      setTrackingFields();
-      return;
-    }
-
-    updateFormResult(message || '문의 전송 중 문제가 발생했습니다. 다시 시도해주세요.', 'error');
   }
 
   function initGlobalDebugHandlers() {
     return;
   }
 
-  async function getBootstrapInitialWithFallback() {
-    try {
-      const apiPayload = await loadBootstrapFromApi('bootstrap_initial');
-      return normalizeData(apiPayload, { useMockFallback: false });
-    } catch (error) {
-      try {
-        const apiPayload = await loadBootstrapFromApi('bootstrap');
-        return normalizeData(apiPayload, { useMockFallback: false });
-      } catch (fallbackError) {
-        return normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true });
-      }
-    }
-  }
-
-  async function loadBootstrapDeferredInBackground() {
-    try {
-      const apiPayload = await loadBootstrapFromApi('bootstrap_deferred');
-      state.bootstrap = mergeBootstrapData(state.bootstrap, apiPayload);
-      renderReviews();
-      renderExtraSections();
-      reorderPageSections();
-      logDebug('hydrate.deferred', { ok: true });
-    } catch (error) {
-      // deferred 로딩 실패 시 첫 화면은 유지
-    }
-  }
-
   async function getBootstrapWithFallback() {
     try {
-      const apiPayload = await loadBootstrapFromApi('bootstrap');
-      return normalizeData(apiPayload, { useMockFallback: false });
+      const apiPayload = await loadBootstrapFromApi();
+      return normalizeData(apiPayload);
     } catch (error) {
-      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {}, { useMockFallback: true });
+      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
   }
 
-  function loadBootstrapFromApi(action) {
+  function loadBootstrapFromApi() {
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseJsonpCallback_' + Date.now();
       const params = new URLSearchParams(window.location.search);
-      params.set('action', action || 'bootstrap');
+      params.set('action', 'bootstrap');
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
@@ -417,34 +291,63 @@
     });
   }
 
-  function hydrate(data, options) {
-    const opts = options || {};
-    state.bootstrap = opts.merge
-      ? mergeBootstrapData(state.bootstrap, data)
-      : normalizeData(data, { useMockFallback: !!config.useMockOnly });
-
+  function hydrate(data) {
+    state.bootstrap = normalizeData(data);
+    state.contentLinksOrder = shuffleArray([...(state.bootstrap.content_links || [])]);
+    state.contentLinksVisibleCount = 3;
     logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
     renderSettings();
     renderFilters();
     startHeroMotion();
     renderSchedules();
+    renderReviews();
     populateFormSelects();
-    ensureExtraSectionsScaffold();
-    renderBasicInfo();
-
-    if (!opts.initialOnly) {
-      renderReviews();
-      renderExtraSections();
-    }
-
+    renderExtraSections();
     reorderPageSections();
-    logDebug('hydrate.done', { ok: true, initialOnly: !!opts.initialOnly });
+    applyScheduleHeaderDesktopFix();
+    logDebug('hydrate.done', { ok: true });
   }
 
-  function normalizeData(data, options) {
+  function applyScheduleHeaderDesktopFix() {
+    const sectionTopline = document.querySelector('#schedule .section-topline');
+    const contentBlock = sectionTopline?.querySelector(':scope > div:first-child') || null;
+    const moreLink = sectionTopline?.querySelector('.section-more-link') || null;
+
+    if (!sectionTopline || !contentBlock) return;
+
+    if (window.innerWidth <= 768) {
+      sectionTopline.style.position = '';
+      sectionTopline.style.justifyContent = '';
+      sectionTopline.style.textAlign = '';
+      contentBlock.style.width = '';
+      contentBlock.style.textAlign = '';
+
+      if (moreLink) {
+        moreLink.style.position = '';
+        moreLink.style.right = '';
+        moreLink.style.top = '';
+        moreLink.style.transform = '';
+      }
+      return;
+    }
+
+    sectionTopline.style.position = 'relative';
+    sectionTopline.style.justifyContent = 'center';
+    sectionTopline.style.textAlign = 'center';
+    contentBlock.style.width = '100%';
+    contentBlock.style.textAlign = 'center';
+
+    if (moreLink) {
+      moreLink.style.position = 'absolute';
+      moreLink.style.right = '0';
+      moreLink.style.top = '50%';
+      moreLink.style.transform = 'translateY(-50%)';
+    }
+  }
+
+  function normalizeData(data) {
     const safe = data || {};
-    const useMockFallback = !!(options && options.useMockFallback);
-    const fb = useMockFallback ? (window.MOCK_BOOTSTRAP_DATA || {}) : {};
+    const fb = window.MOCK_BOOTSTRAP_DATA || {};
     return {
       settings: safe.settings || fb.settings || {},
       schedules: ensureArray(safe.schedules, fb.schedules),
@@ -457,28 +360,6 @@
       faqs: ensureArray(safe.faqs, fb.faqs),
       trust_points: ensureArray(safe.trust_points, fb.trust_points),
       content_links: ensureArray(safe.content_links, fb.content_links)
-    };
-  }
-
-  function mergeBootstrapData(baseData, fragmentData) {
-    const base = normalizeData(baseData, { useMockFallback: false });
-    const fragment = fragmentData || {};
-    const has = function (key) {
-      return Object.prototype.hasOwnProperty.call(fragment, key);
-    };
-
-    return {
-      settings: has('settings') ? (fragment.settings || {}) : base.settings,
-      schedules: has('schedules') ? ensureArray(fragment.schedules, []) : base.schedules,
-      schedule_days: has('schedule_days') ? ensureArray(fragment.schedule_days, []) : base.schedule_days,
-      reviews: has('reviews') ? ensureArray(fragment.reviews, []) : base.reviews,
-      targets: has('targets') ? ensureArray(fragment.targets, []) : base.targets,
-      basic_info: has('basic_info') ? ensureArray(fragment.basic_info, []) : base.basic_info,
-      process_steps: has('process_steps') ? ensureArray(fragment.process_steps, []) : base.process_steps,
-      cabins: has('cabins') ? ensureArray(fragment.cabins, []) : base.cabins,
-      faqs: has('faqs') ? ensureArray(fragment.faqs, []) : base.faqs,
-      trust_points: has('trust_points') ? ensureArray(fragment.trust_points, []) : base.trust_points,
-      content_links: has('content_links') ? ensureArray(fragment.content_links, []) : base.content_links
     };
   }
 
@@ -1284,11 +1165,17 @@
   function renderContentLinks() {
     const section = document.getElementById('contentSection');
     const grid = document.getElementById('contentGrid');
-    const items = state.bootstrap.content_links || [];
     if (!section || !grid) return;
-    
-    if (!items.length) return section.style.display = 'none';
+
+    const orderedItems = (state.contentLinksOrder && state.contentLinksOrder.length)
+      ? state.contentLinksOrder
+      : shuffleArray([...(state.bootstrap.content_links || [])]);
+
+    if (!orderedItems.length) return section.style.display = 'none';
     section.style.display = '';
+
+    const visibleCount = Math.max(3, Number(state.contentLinksVisibleCount || 3));
+    const items = orderedItems.slice(0, visibleCount);
 
     grid.innerHTML = items.map(item => `
       <article class="sheet-extra-card">
@@ -1302,6 +1189,28 @@
         </div>
       </article>
     `).join('');
+
+    let moreWrap = section.querySelector('[data-content-more-wrap]');
+    if (!moreWrap) {
+      moreWrap = document.createElement('div');
+      moreWrap.setAttribute('data-content-more-wrap', '');
+      moreWrap.style.display = 'flex';
+      moreWrap.style.justifyContent = 'center';
+      moreWrap.style.marginTop = '20px';
+      grid.insertAdjacentElement('afterend', moreWrap);
+    }
+
+    if (visibleCount < orderedItems.length) {
+      moreWrap.innerHTML = `<button type="button" class="btn btn-secondary" data-content-more>더보기</button>`;
+      moreWrap.style.display = 'flex';
+    } else {
+      moreWrap.innerHTML = '';
+      moreWrap.style.display = 'none';
+    }
+  }
+
+  function getContentLinksStep() {
+    return window.innerWidth <= 768 ? 3 : 6;
   }
 
   function ensureDebugPanel() {
