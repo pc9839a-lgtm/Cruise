@@ -1178,3 +1178,22 @@ button { cursor: pointer; }
   .sib-btn-group { flex-direction: column; }
   .btn-phone { display: none; }
 }
+
+
+/* =========================================================
+   콘텐츠연결 이미지 비율 통일 패치
+   - 콘텐츠연결 카드 이미지 높이/비율 통일
+   - 다른 섹션 규칙은 건드리지 않음
+   ========================================================= */
+#contentSection .sheet-extra-media {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+#contentSection .sheet-extra-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
