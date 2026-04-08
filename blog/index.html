@@ -17,7 +17,7 @@
   <meta name="author" content="크루즈플레이" />
   <meta name="theme-color" content="#ffffff" />
 
-  <link rel="canonical" href="__SITE_URL__/blog/" />
+  <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/blog/" />
 
   <meta property="og:locale" content="ko_KR" />
   <meta property="og:type" content="website" />
@@ -27,8 +27,8 @@
     property="og:description"
     content="크루즈 비용, 준비물, 체크리스트, 기항지 정보까지 한 번에 정리한 크루즈플레이 콘텐츠 페이지입니다. 처음 크루즈를 준비하는 분도 쉽게 이해할 수 있도록 핵심 정보만 모았습니다."
   />
-  <meta property="og:url" content="__SITE_URL__/blog/" />
-  <meta property="og:image" content="__SITE_URL__/assets/images/og-blog.jpg" />
+  <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/blog/" />
+  <meta property="og:image" content="https://cruiseplay-dyt.pages.dev/assets/images/og-blog.jpg" />
   <meta property="og:image:alt" content="크루즈플레이 매거진 대표 이미지" />
 
   <meta name="twitter:card" content="summary_large_image" />
@@ -37,7 +37,7 @@
     name="twitter:description"
     content="크루즈 비용, 준비물, 체크리스트, 기항지 정보까지 한 번에 정리한 크루즈플레이 콘텐츠 페이지입니다."
   />
-  <meta name="twitter:image" content="__SITE_URL__/assets/images/og-blog.jpg" />
+  <meta name="twitter:image" content="https://cruiseplay-dyt.pages.dev/assets/images/og-blog.jpg" />
 
   <meta name="cruise-data-api-url" content="https://script.google.com/macros/s/AKfycbw2e6hcSUoGCM9gdxKTuEPTy3BULFQLQoYoeuLSaDN3fqQRfdvPQ6rb622aQXKzvcU/exec" />
 
@@ -51,18 +51,18 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "크루즈플레이 매거진",
-    "url": "__SITE_URL__/blog/",
+    "url": "https://cruiseplay-dyt.pages.dev/blog/",
     "description": "크루즈 비용, 준비물, 체크리스트, 기항지 정보까지 한 번에 정리한 크루즈 콘텐츠 모음 페이지",
     "inLanguage": "ko-KR",
     "isPartOf": {
       "@type": "WebSite",
       "name": "크루즈플레이",
-      "url": "__SITE_URL__/"
+      "url": "https://cruiseplay-dyt.pages.dev/"
     },
     "publisher": {
       "@type": "Organization",
       "name": "크루즈플레이",
-      "url": "__SITE_URL__/"
+      "url": "https://cruiseplay-dyt.pages.dev/"
     }
   }
   </script>
@@ -73,7 +73,7 @@
       <div class="blog-topbar-inner">
         <a class="blog-brand" href="/">
           <span class="blog-brand-dot"></span>
-          <strong>__SITE_NAME__</strong>
+          <strong>크루즈플레이</strong>
         </a>
 
         <nav class="blog-nav">
@@ -97,7 +97,7 @@
           </p>
 
           <div class="blog-hero-stats">
-            <span>전체 글 <strong id="blogResultsCount">__POST_COUNT__</strong>개</span>
+            <span>전체 글 <strong id="blogResultsCount">0</strong>개</span>
             <span>현재 보는 분류 <strong id="blogActiveFilterText">전체</strong></span>
             <span>궁금한 일정은 바로 문의 가능</span>
           </div>
@@ -116,7 +116,6 @@
 
             <div class="blog-filter-row">
               <button type="button" class="blog-filter-btn is-active" data-category="all">전체</button>
-              __CATEGORY_FILTERS__
             </div>
 
             <div class="blog-results-meta">
@@ -127,9 +126,7 @@
         </section>
 
         <section class="blog-section">
-          <div class="blog-grid" id="blogGrid">
-            __POST_CARDS__
-          </div>
+          <div class="blog-grid" id="blogGrid"></div>
 
           <div class="blog-empty-state" id="blogEmptyState" style="display:none;">
             찾으시는 내용이 아직 없습니다. 검색어를 조금 다르게 입력해보세요.
@@ -141,7 +138,7 @@
     <footer class="blog-footer">
       <div class="blog-footer-inner">
         <div>
-          <strong>__SITE_NAME__ 콘텐츠</strong>
+          <strong>크루즈플레이 콘텐츠</strong>
           <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리한 안내 페이지입니다.</span>
         </div>
         <div>
