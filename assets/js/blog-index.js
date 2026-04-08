@@ -8,15 +8,15 @@
 
   if (!blogGrid) return;
 
-  const TEXT_ALL = '\uC804\uCCB4';
-  const TEXT_VIEW_MORE = '\uC790\uC138\uD788 \uBCF4\uAE30';
-  const ERROR_JSONP_FAILED = 'JSONP \uC694\uCCAD\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.';
-  const ERROR_JSONP_TIMEOUT = 'JSONP \uC751\uB2F5 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.';
-
   const state = {
     activeCategory: 'all',
     keyword: ''
   };
+
+  const SESSION_CACHE_KEY = 'cruise_blog_content_links_v2';
+  const SESSION_CACHE_TTL_MS = 60 * 1000;
+  const REQUEST_TIMEOUT_MS = 8000;
+  const PAGE_IMAGE_BUST = String(Date.now());
 
   init();
 
@@ -49,21 +49,66 @@
 
   async function hydrateFromRemote() {
     const apiUrl = getApiUrl();
-    if (!apiUrl) {
-      return;
+    if (!apiUrl) return;
+
+    const cached = readSessionCache();
+    if (cached.items.length) {
+      renderCategoryButtons(cached.items);
+      renderCards(cached.items);
+      syncFilterButtons();
+      update();
+
+      if (cached.isFresh) {
+        return;
+      }
     }
 
     try {
-      await warmBootstrapCache(apiUrl);
       const payload = await loadBootstrapPayload(apiUrl);
       const items = normalizeItems(payload && payload.content_links);
 
+      if (!items.length) {
+        if (!cached.items.length) {
+          renderCategoryButtons([]);
+          renderCards([]);
+        }
+        return;
+      }
+
+      writeSessionCache(items);
       renderCategoryButtons(items);
       renderCards(items);
     } catch (error) {
       console.error('[blog-index] remote content load failed:', error);
-      renderCategoryButtons([]);
-      renderCards([]);
+    }
+  }
+
+  function readSessionCache() {
+    try {
+      const raw = sessionStorage.getItem(SESSION_CACHE_KEY);
+      if (!raw) {
+        return { items: [], isFresh: false };
+      }
+
+      const parsed = JSON.parse(raw);
+      const items = Array.isArray(parsed && parsed.items) ? parsed.items : [];
+      const savedAt = Number(parsed && parsed.savedAt || 0);
+      const isFresh = !!savedAt && (Date.now() - savedAt < SESSION_CACHE_TTL_MS);
+
+      return { items: items, isFresh: isFresh };
+    } catch (error) {
+      return { items: [], isFresh: false };
+    }
+  }
+
+  function writeSessionCache(items) {
+    try {
+      sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        items: items
+      }));
+    } catch (error) {
+      console.warn('[blog-index] session cache write skipped:', error);
     }
   }
 
@@ -97,17 +142,6 @@
     return text;
   }
 
-  async function warmBootstrapCache(apiUrl) {
-    try {
-      await jsonpRequest(apiUrl, {
-        action: 'bootstrap_cache_warm',
-        _ts: Date.now()
-      });
-    } catch (error) {
-      console.warn('[blog-index] bootstrap_cache_warm skipped:', error);
-    }
-  }
-
   function loadBootstrapPayload(apiUrl) {
     return jsonpRequest(apiUrl, {
       action: 'bootstrap_full',
@@ -119,7 +153,6 @@
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseBlogJsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const script = document.createElement('script');
-      const timeoutMs = 15000;
       let done = false;
       let timeoutId = null;
 
@@ -146,15 +179,15 @@
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error(ERROR_JSONP_FAILED));
+        reject(new Error('\uC694\uCCAD\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error(ERROR_JSONP_TIMEOUT));
-      }, timeoutMs);
+        reject(new Error('\uC751\uB2F5 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.'));
+      }, REQUEST_TIMEOUT_MS);
 
       document.head.appendChild(script);
     });
@@ -180,12 +213,12 @@
     return list
       .map(function (item) {
         return {
-          category: String((item && item.category) || '').trim(),
-          title: String((item && item.title) || '').trim(),
-          summary: String((item && item.summary) || '').trim(),
-          thumbnail_url: String((item && item.thumbnail_url) || '').trim(),
-          link_url: String((item && item.link_url) || '').trim(),
-          tag_text: String((item && item.tag_text) || '').trim(),
+          category: String(item && item.category || '').trim(),
+          title: String(item && item.title || '').trim(),
+          summary: String(item && item.summary || '').trim(),
+          thumbnail_url: String(item && item.thumbnail_url || '').trim(),
+          link_url: String(item && item.link_url || '').trim(),
+          tag_text: String(item && item.tag_text || '').trim(),
           date_text: formatDateText(
             item && (
               item.publish_date ||
@@ -240,7 +273,7 @@
     const currentCategory = state.activeCategory;
 
     filterRow.innerHTML = [
-      '<button type="button" class="blog-filter-btn" data-category="all">' + TEXT_ALL + '</button>'
+      '<button type="button" class="blog-filter-btn" data-category="all">\uC804\uCCB4</button>'
     ].concat(
       categories.map(function (category) {
         return '<button type="button" class="blog-filter-btn" data-category="' + escapeAttribute(category) + '">' + escapeHtml(category) + '</button>';
@@ -265,7 +298,7 @@
     const safeSummary = escapeHtml(item.summary);
     const safeCategory = escapeHtml(item.category);
     const safeLink = escapeAttribute(item.link_url);
-    const safeThumb = escapeAttribute(item.thumbnail_url);
+    const safeThumb = escapeAttribute(buildImageUrl(item.thumbnail_url));
     const safeTags = escapeAttribute(item.tag_text);
     const safeDate = escapeHtml(item.date_text || '0000.00.00');
     const dateStyle = item.date_text ? '' : ' style="visibility:hidden;"';
@@ -287,11 +320,17 @@
       '<h2 class="blog-card-title"><a href="' + safeLink + '">' + safeTitle + '</a></h2>',
       '<p class="blog-card-summary">' + safeSummary + '</p>',
       '<div class="blog-card-actions">',
-      '<a class="blog-card-link" href="' + safeLink + '">' + TEXT_VIEW_MORE + '</a>',
+      '<a class="blog-card-link" href="' + safeLink + '">\uC790\uC138\uD788 \uBCF4\uAE30</a>',
       '</div>',
       '</div>',
       '</article>'
     ].join('');
+  }
+
+  function buildImageUrl(url) {
+    const safeUrl = String(url || '').trim();
+    if (!safeUrl) return '';
+    return safeUrl + (safeUrl.indexOf('?') >= 0 ? '&' : '?') + 'v=' + encodeURIComponent(PAGE_IMAGE_BUST);
   }
 
   function getCards() {
@@ -310,8 +349,8 @@
     if (blogActiveFilterText) {
       const activeButton = filterRow.querySelector('[data-category].is-active');
       blogActiveFilterText.textContent = activeButton
-        ? String(activeButton.textContent || TEXT_ALL).trim()
-        : TEXT_ALL;
+        ? String(activeButton.textContent || '\uC804\uCCB4').trim()
+        : '\uC804\uCCB4';
     }
   }
 
