@@ -18,6 +18,12 @@
 
   async function init() {
     bindEvents();
+
+    state.items = extractItemsFromDom();
+    renderCategoryButtons(state.items);
+    syncFilterButtons();
+    update();
+
     await hydrateFromRemote();
 
     if (!state.items.length) {
@@ -53,8 +59,8 @@
     const apiUrl = getApiUrl();
     if (!apiUrl) return;
 
-    const cacheKey = 'cruise_blog_runtime_items_v2';
-    const cacheTtlMs = 60 * 1000;
+    const cacheKey = 'cruise_blog_runtime_items_v3';
+    const cacheTtlMs = 5 * 60 * 1000;
 
     try {
       const cachedRaw = sessionStorage.getItem(cacheKey);
@@ -69,11 +75,15 @@
 
     try {
       const payload = await jsonpRequest(apiUrl, {
-        action: 'bootstrap_full',
+        action: 'blog_index',
         _ts: Date.now()
       });
 
-      const items = normalizeItems(payload && payload.content_links);
+      const items = normalizeItems(
+        (payload && payload.posts) ||
+        (payload && payload.content_links)
+      );
+
       if (!items.length) return;
 
       state.items = items;
@@ -123,7 +133,7 @@
     return new Promise(function (resolve, reject) {
       const callbackName = '__cruiseBlogJsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
       const script = document.createElement('script');
-      const timeoutMs = 12000;
+      const timeoutMs = 8000;
       let done = false;
       let timeoutId = null;
 
@@ -271,7 +281,7 @@
     }
 
     if (blogEmptyState) {
-      blogEmptyState.hidden = filteredItems.length !== 0;
+      blogEmptyState.style.display = filteredItems.length === 0 ? 'block' : 'none';
     }
 
     if (blogActiveFilterText) {
@@ -295,8 +305,8 @@
     const safeLink = escapeAttribute(item.link_url);
     const safeThumb = escapeAttribute(item.thumbnail_url);
     const safeTags = escapeAttribute(item.tag_text);
-    const safeDate = item.date_text ? escapeHtml(item.date_text) : '';
-    const dateStyle = item.date_text ? '' : ' style="display:none;"';
+    const safeDate = escapeHtml(item.date_text || '0000.00.00');
+    const dateStyle = item.date_text ? '' : ' style="visibility:hidden;"';
 
     return [
       '<article class="blog-card"',
@@ -382,8 +392,7 @@
   function appendImageBust(url) {
     const safeUrl = String(url || '').trim();
     if (!safeUrl) return '';
-    const bucket = Math.floor(Date.now() / (60 * 1000));
-    return safeUrl + (safeUrl.indexOf('?') >= 0 ? '&' : '?') + 'v=' + bucket;
+    return safeUrl;
   }
 
   function escapeHtml(value) {
