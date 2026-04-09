@@ -5,12 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>__SEO_TITLE__</title>
   <meta name="description" content="__SEO_DESCRIPTION__" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <meta name="author" content="__SITE_NAME__" />
+
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="__SITE_NAME__" />
   <meta property="og:title" content="__SEO_TITLE__" />
   <meta property="og:description" content="__SEO_DESCRIPTION__" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="__SITE_URL__/blog/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="__SEO_TITLE__" />
+  <meta name="twitter:description" content="__SEO_DESCRIPTION__" />
+
   <link rel="canonical" href="__SITE_URL__/blog/" />
   <meta name="theme-color" content="#ffffff" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "__SEO_TITLE__",
+    "description": "__SEO_DESCRIPTION__",
+    "url": "__SITE_URL__/blog/",
+    "inLanguage": "ko-KR",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "__SITE_NAME__",
+      "url": "__SITE_URL__/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "__SITE_NAME__",
+      "url": "__SITE_URL__/"
+    }
+  }
+  </script>
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
@@ -39,10 +70,10 @@
     <main class="blog-main">
       <div class="blog-container">
         <section class="blog-hero">
-          <span class="blog-eyebrow">크루즈가 처음이어도 쉽게</span>
-          <h1>처음 보는 분도 헷갈리지 않게<br />크루즈 정보를 쉽게 정리했습니다</h1>
+          <span class="blog-eyebrow">크루즈여행이 처음이어도 쉽게</span>
+          <h1>크루즈여행이 처음인 분도 헷갈리지 않게<br />핵심 정보를 쉽게 정리했습니다</h1>
           <p>
-            승선 전 준비부터 비용 구조, 체크리스트, 기항지 정보까지
+            크루즈여행 준비물부터 비용 구조, 체크리스트, 기항지 정보까지
             실제로 많이 궁금해하는 내용을 보기 쉽게 모아두었습니다.
           </p>
 
@@ -60,7 +91,7 @@
                 id="blogSearchInput"
                 class="blog-search-input"
                 type="search"
-                placeholder="예: 크루즈 비용, 체크리스트, 발코니, 오키나와"
+                placeholder="예: 크루즈여행 비용, 체크리스트, 발코니, 오키나와"
               />
             </div>
 
@@ -70,7 +101,7 @@
             </div>
 
             <div class="blog-results-meta">
-              <span>궁금한 주제를 검색해주세요</span>
+              <span>크루즈여행 관련 궁금한 주제를 검색해주세요</span>
               <span>카드를 누르면 자세한 안내 글로 이동합니다.</span>
             </div>
           </div>
@@ -92,7 +123,7 @@
       <div class="blog-footer-inner">
         <div>
           <strong>__SITE_NAME__ 콘텐츠</strong>
-          <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리한 안내 페이지입니다.</span>
+          <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈여행 정보를 정리한 안내 페이지입니다.</span>
         </div>
         <div>
           <span>문의 연결: <a href="/#contact">가격문의</a></span>
