@@ -69,7 +69,7 @@
 
     try {
       const payload = await jsonpRequest(apiUrl, {
-        action: 'blog_index',
+        action: 'bootstrap_full',
         _ts: Date.now()
       });
 
@@ -150,14 +150,14 @@
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('\uC694\uCCAD \uC2E4\uD328'));
+        reject(new Error('요청 실패'));
       };
 
       timeoutId = window.setTimeout(function () {
         if (done) return;
         done = true;
         cleanup();
-        reject(new Error('\uC751\uB2F5 \uC2DC\uAC04 \uCD08\uACFC'));
+        reject(new Error('응답 시간 초과'));
       }, timeoutMs);
 
       document.head.appendChild(script);
@@ -245,7 +245,7 @@
     const currentCategory = state.activeCategory;
 
     filterRow.innerHTML = [
-      '<button type="button" class="blog-filter-btn" data-category="all">\uC804\uCCB4</button>'
+      '<button type="button" class="blog-filter-btn" data-category="all">전체</button>'
     ].concat(
       categories.map(function (category) {
         return '<button type="button" class="blog-filter-btn" data-category="' + escapeAttribute(category) + '">' + escapeHtml(category) + '</button>';
@@ -277,8 +277,8 @@
     if (blogActiveFilterText) {
       const activeButton = filterRow ? filterRow.querySelector('[data-category].is-active') : null;
       blogActiveFilterText.textContent = activeButton
-        ? String(activeButton.textContent || '\uC804\uCCB4').trim()
-        : '\uC804\uCCB4';
+        ? String(activeButton.textContent || '전체').trim()
+        : '전체';
     }
   }
 
@@ -315,7 +315,7 @@
       '<h2 class="blog-card-title"><a href="' + safeLink + '">' + safeTitle + '</a></h2>',
       '<p class="blog-card-summary">' + safeSummary + '</p>',
       '<div class="blog-card-actions">',
-      '<a class="blog-card-link" href="' + safeLink + '">\uC790\uC138\uD788 \uBCF4\uAE30</a>',
+      '<a class="blog-card-link" href="' + safeLink + '">자세히 보기</a>',
       '</div>',
       '</div>',
       '</article>'
