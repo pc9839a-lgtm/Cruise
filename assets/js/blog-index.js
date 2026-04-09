@@ -232,7 +232,7 @@
           ? String(titleLink.getAttribute('href') || '').trim()
           : (coverLink ? String(coverLink.getAttribute('href') || '').trim() : ''),
         tag_text: String(card.dataset.tags || '').trim(),
-        date_text: dateNode ? String(dateNode.textContent || '').trim() : ''
+        date_text: sanitizeDateText(dateNode ? String(dateNode.textContent || '').trim() : '')
       };
     }).filter(function (item) {
       return !!(item.title && item.link_url);
@@ -305,7 +305,7 @@
     const safeLink = escapeAttribute(item.link_url);
     const safeThumb = escapeAttribute(item.thumbnail_url);
     const safeTags = escapeAttribute(item.tag_text);
-    const safeDate = escapeHtml(item.date_text || '0000.00.00');
+    const safeDate = escapeHtml(item.date_text || '');
     const dateStyle = item.date_text ? '' : ' style="visibility:hidden;"';
 
     return [
@@ -367,8 +367,15 @@
       .toLowerCase();
   }
 
-  function formatDateText(value) {
+  function sanitizeDateText(value) {
     const text = String(value || '').trim();
+    if (!text) return '';
+    if (text === '0000.00.00' || text === '0000-00-00') return '';
+    return text;
+  }
+
+  function formatDateText(value) {
+    const text = sanitizeDateText(String(value || '').trim());
     if (!text) return '';
 
     if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
