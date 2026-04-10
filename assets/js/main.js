@@ -40,8 +40,9 @@
     { order: 7, key: 'cabinsSection' },
     { order: 8, key: 'processSection' },
     { order: 9, key: 'faqSection' },
-    { order: 10, key: 'contactSection' },
-    { order: 11, key: 'contentSection' }
+    { order: 10, key: 'membershipInquirySection' },
+    { order: 11, key: 'contactSection' },
+    { order: 12, key: 'contentSection' }
   ];
 
 
@@ -927,6 +928,7 @@
       scheduleSection: scheduleGrid ? scheduleGrid.closest('section') : document.querySelector('.schedule-section'),
       priceGuaranteeSection: document.querySelector('.price-guarantee-section'),
       reviewSection: reviewGrid ? reviewGrid.closest('section') : document.querySelector('.review-section'),
+      membershipInquirySection: document.getElementById('membershipInquirySection'),
       contactSection: form ? form.closest('section') : document.querySelector('.contact-section'),
       basicInfoSection: document.getElementById('basicInfoSection'),
       targetsSection: document.getElementById('targetsSection'),
@@ -970,6 +972,7 @@
     renderProcessSteps();
     renderCabins();
     renderFaqs();
+    renderMembershipInquiry();
     renderTrustPoints();
     renderContentLinks();
   }
@@ -984,6 +987,7 @@
 		{ id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
 		{ id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
 		{ id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
+		{ id: 'membershipInquirySection', title: '멤버십 문의', label: 'MEMBERSHIP', type: 'membershipInquiry' },
 		{ id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
 	  ];
 
@@ -1000,7 +1004,27 @@
 			</div>
 			<div class="sheet-extra-dots" id="basicInfoDots"></div>
 		  `
-		  : `<div id="${gridId}" class="${gridClass}"></div>`;
+		  : type === 'membershipInquiry'
+		    ? `
+      <div class="membership-inquiry-card">
+        <div class="membership-inquiry-copy">
+          <span class="membership-inquiry-eyebrow">포인트로 더 유리하게 준비</span>
+          <h3>멤버십 방식도<br>함께 안내해드립니다.</h3>
+          <p>일정만 비교하는 방식이 아니라, 멤버십으로 더 유리하게 준비하는 방법까지 상담 시 함께 설명해드립니다.</p>
+          <p>먼저 안내 페이지를 확인하고, 궁금한 점은 바로 문의해보세요.</p>
+          <div class="membership-inquiry-actions">
+            <a href="/membership/" class="btn" data-membership-link>멤버십 안내 보기</a>
+            <a href="#contact" class="btn membership-btn-secondary">멤버십 문의하기</a>
+          </div>
+        </div>
+        <div class="membership-inquiry-side" aria-hidden="true">
+          <div class="membership-inquiry-icon">M</div>
+          <strong>상담 시 함께 안내</strong>
+          <span>포인트 구조 · 시작 방식 · 문의 연결</span>
+        </div>
+      </div>
+    `
+		    : `<div id="${gridId}" class="${gridClass}"></div>`;
 
 		const html = `
 		  <section class="sheet-extra-section" id="${id}">
@@ -1160,6 +1184,24 @@
         </div>
       </details>
     `).join('');
+  }
+
+  function renderMembershipInquiry() {
+    const section = document.getElementById('membershipInquirySection');
+    if (!section) return;
+
+    section.style.display = '';
+
+    const membershipUrl = buildMembershipPageUrl();
+    section.querySelectorAll('[data-membership-link]').forEach((link) => {
+      link.setAttribute('href', membershipUrl);
+    });
+  }
+
+  function buildMembershipPageUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.toString();
+    return query ? `/membership/?${query}` : '/membership/';
   }
 
   function renderContentLinks() {
