@@ -1197,3 +1197,161 @@ button { cursor: pointer; }
   object-position: center center;
   display: block;
 }
+
+/* =========================================================
+   멤버십 문의 섹션
+   - FAQ 아래 / 가격문의 위
+   - 다른 섹션 기능 건드리지 않음
+   ========================================================= */
+#membershipInquirySection {
+  padding-top: 98px;
+  padding-bottom: 30px;
+  background: linear-gradient(180deg, #f6f8fc 0%, #eef4fb 100%);
+}
+
+.membership-inquiry-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
+  gap: 28px;
+  padding: 58px 60px;
+  border-radius: 34px;
+  background: linear-gradient(90deg, #07122a 0%, #0d2248 45%, #142f5f 100%);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.membership-inquiry-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-inquiry-eyebrow {
+  display: inline-block;
+  width: fit-content;
+  color: #67a7ff;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.membership-inquiry-copy h3 {
+  margin: 0;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1.06;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: #fff;
+}
+
+.membership-inquiry-copy p {
+  margin: 20px 0 0;
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 18px;
+  line-height: 1.72;
+}
+
+.membership-inquiry-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.membership-btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+}
+
+.membership-btn-secondary:hover {
+  box-shadow: none;
+}
+
+.membership-inquiry-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.membership-inquiry-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 40px;
+  font-weight: 900;
+  color: #67a7ff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.membership-inquiry-side strong {
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.membership-inquiry-side span {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 1080px) {
+  .membership-inquiry-card {
+    grid-template-columns: 1fr;
+  }
+
+  .membership-inquiry-side {
+    padding-top: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  #membershipInquirySection {
+    padding-top: 74px;
+    padding-bottom: 22px;
+  }
+
+  .membership-inquiry-card {
+    padding: 36px 24px;
+  }
+
+  .membership-inquiry-copy h3 {
+    font-size: 42px;
+  }
+
+  .membership-inquiry-copy p,
+  .membership-inquiry-side span {
+    font-size: 16px;
+  }
+
+  .membership-inquiry-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .membership-inquiry-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .membership-inquiry-copy h3 {
+    font-size: 34px;
+    line-height: 1.12;
+  }
+
+  .membership-inquiry-icon {
+    width: 82px;
+    height: 82px;
+    font-size: 34px;
+  }
+}
