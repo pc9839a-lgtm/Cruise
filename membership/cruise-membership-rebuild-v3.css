@@ -4063,6 +4063,18 @@ br.mobile-break {
 }
 
 @media (max-width: 767px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: clip !important;
+  }
+
+  main,
+  section,
+  .container {
+    overflow-x: clip;
+  }
+
   br.mobile-break {
     display: block;
   }
@@ -4072,6 +4084,7 @@ br.mobile-break {
     right: auto !important;
     transform: translateX(-50%) !important;
     width: min(calc(100% - 24px), 420px) !important;
+    max-width: calc(100vw - 24px) !important;
     min-width: 0 !important;
     padding: 0 18px !important;
     animation: floatingCtaMobile 1.8s ease-in-out infinite !important;
@@ -4112,6 +4125,39 @@ br.mobile-break {
     gap: 12px !important;
   }
 
+  .exchange-bar,
+  .calculator-card {
+    overflow: hidden !important;
+    max-width: 100% !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .exchange-bar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: end !important;
+    gap: 10px !important;
+  }
+
+  .exchange-bar > div,
+  .calculator-head > * ,
+  .result-box > * {
+    min-width: 0 !important;
+  }
+
+  #exchangeRateText {
+    font-size: clamp(22px, 7vw, 30px) !important;
+    line-height: 1.1 !important;
+    word-break: keep-all;
+  }
+
+  .exchange-meta {
+    text-align: right !important;
+    align-items: flex-end !important;
+    font-size: 12px !important;
+  }
+
   .result-box {
     min-height: 0 !important;
     padding: 18px 16px !important;
@@ -4132,11 +4178,38 @@ br.mobile-break {
   }
 
   .calculator-head {
-    align-items: flex-start !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: end !important;
+    gap: 10px !important;
   }
 
   .calculator-head strong {
-    max-width: 10ch;
+    max-width: none !important;
     line-height: 1.2;
+    font-size: 16px !important;
+  }
+
+  .calculator-head span {
+    font-size: clamp(24px, 8vw, 34px) !important;
+    text-align: right !important;
+  }
+
+  .price-range,
+  .calculator-mode,
+  .calculator-note,
+  .result-grid {
+    max-width: 100% !important;
+  }
+
+  .calculator-mode {
+    overflow: hidden !important;
+    gap: 8px !important;
+  }
+
+  .mode-btn {
+    min-width: 0 !important;
+    padding: 0 12px !important;
+    font-size: 14px !important;
   }
 }
