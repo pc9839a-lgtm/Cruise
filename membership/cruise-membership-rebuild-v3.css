@@ -1388,17 +1388,22 @@ button { font: inherit; border: none; cursor: pointer; }
   cursor: pointer;
 }
 
-.plan-cta:hover,
-.plan-cta:focus,
-.plan-cta:active,
-.plan-cta:visited {
-  color: inherit;
-  text-decoration: none;
+.plan-card .plan-cta,
+.plan-card .plan-cta:visited,
+.plan-card .plan-cta:hover,
+.plan-card .plan-cta:focus,
+.plan-card .plan-cta:active {
+  color: #fff !important;
+  text-decoration: none !important;
 }
 
-.plan-cta[aria-disabled="true"] {
-  pointer-events: none;
-  opacity: 0.72;
+.plan-card.recommended .plan-cta,
+.plan-card.recommended .plan-cta:visited,
+.plan-card.recommended .plan-cta:hover,
+.plan-card.recommended .plan-cta:focus,
+.plan-card.recommended .plan-cta:active {
+  color: var(--blue-strong) !important;
+  text-decoration: none !important;
 }
 .plan-card.recommended .plan-cta {
   background: #fff;
