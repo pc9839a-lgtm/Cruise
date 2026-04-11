@@ -58,7 +58,6 @@ const state = {
 
 const AGENT_API_URL = 'https://script.google.com/macros/s/AKfycbxmpUiHPpZObUpjzV8R-cV32UjB-Q64ST_MyCi6xixSB9dHBhxdpdeVTbDV4gwYXv0/exec';
 
-
 function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US')}`;
 }
@@ -217,9 +216,7 @@ async function fetchExchangeRate() {
   renderPlans();
   bindPlanSignupButtons();
   updateCalculator();
-  
 }
-
 
 function getAgentCode() {
   const params = new URLSearchParams(window.location.search);
@@ -235,6 +232,50 @@ function bindPlanSignupButtons() {
   });
 }
 
+function jsonpRequest(url, params) {
+  return new Promise((resolve, reject) => {
+    const callbackName = '__membershipJsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const timeoutId = window.setTimeout(() => {
+      cleanup();
+      reject(new Error('jsonp timeout'));
+    }, 8000);
+
+    function cleanup() {
+      window.clearTimeout(timeoutId);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+      try {
+        delete window[callbackName];
+      } catch (error) {
+        window[callbackName] = undefined;
+      }
+    }
+
+    const query = new URLSearchParams();
+    Object.keys(params || {}).forEach((key) => {
+      if (params[key] !== undefined && params[key] !== null && params[key] !== '') {
+        query.set(key, String(params[key]));
+      }
+    });
+    query.set('callback', callbackName);
+
+    window[callbackName] = function (data) {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = function () {
+      cleanup();
+      reject(new Error('jsonp load failed'));
+    };
+
+    script.src = url + (url.includes('?') ? '&' : '?') + query.toString();
+    document.body.appendChild(script);
+  });
+}
+
 async function loadMembershipSignupUrl() {
   state.agentCode = getAgentCode();
 
@@ -243,14 +284,11 @@ async function loadMembershipSignupUrl() {
   }
 
   try {
-    const requestUrl = new URL(AGENT_API_URL);
-    requestUrl.searchParams.set('action', 'agent_signup');
-    requestUrl.searchParams.set('agent', state.agentCode);
+    const data = await jsonpRequest(AGENT_API_URL, {
+      action: 'agent_signup',
+      agent: state.agentCode
+    });
 
-    const response = await fetch(requestUrl.toString(), { cache: 'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    const data = await response.json();
     if (data && data.success && data.signup_url) {
       state.membershipSignupUrl = String(data.signup_url).trim();
     }
