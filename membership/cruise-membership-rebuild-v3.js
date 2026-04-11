@@ -85,6 +85,10 @@ function renderPlans() {
   wrap.innerHTML = plans.map((plan) => {
     const monthlyKrw = plan.monthlyUsd === 0 ? '없음' : formatKrw(plan.monthlyUsd * state.exchangeRate);
     const startKrw = plan.startUsd === 0 ? '없음' : formatKrw(plan.startUsd * state.exchangeRate);
+    const signupHref = state.membershipSignupUrl || '#';
+    const signupAttrs = state.membershipSignupUrl
+      ? 'target="_blank" rel="noopener"'
+      : 'aria-disabled="true"';
 
     return `
       <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}">
@@ -119,7 +123,7 @@ function renderPlans() {
         </div>
 
         <p class="plan-caption">${plan.caption}</p>
-        <button type="button" class="plan-cta" data-plan-signup>멤버십 가입하기</button>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>멤버십 가입하기</a>
         <div class="plan-disclaimer">환율 기준 원화는 자동 계산됩니다.</div>
       </article>
     `;
@@ -214,7 +218,7 @@ async function fetchExchangeRate() {
   }
 
   renderPlans();
-  bindPlanSignupButtons();
+  bindPlanSignupLinks();
   updateCalculator();
 }
 
@@ -223,11 +227,12 @@ function getAgentCode() {
   return String(params.get('agent') || '').trim();
 }
 
-function bindPlanSignupButtons() {
-  document.querySelectorAll('[data-plan-signup]').forEach((button) => {
-    button.addEventListener('click', () => {
-      if (!state.membershipSignupUrl) return;
-      window.location.href = state.membershipSignupUrl;
+function bindPlanSignupLinks() {
+  document.querySelectorAll('[data-plan-signup-link]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (!state.membershipSignupUrl) {
+        event.preventDefault();
+      }
     });
   });
 }
@@ -291,6 +296,8 @@ async function loadMembershipSignupUrl() {
 
     if (data && data.success && data.signup_url) {
       state.membershipSignupUrl = String(data.signup_url).trim();
+      renderPlans();
+      bindPlanSignupLinks();
     }
   } catch (error) {
     console.error('membership signup url load failed:', error);
@@ -341,7 +348,7 @@ async function init() {
   renderNotices();
   renderPlans();
   bindEvents();
-  bindPlanSignupButtons();
+  bindPlanSignupLinks();
   updateCalculator();
   observeReveals();
   await loadMembershipSignupUrl();
