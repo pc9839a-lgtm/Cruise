@@ -62,6 +62,10 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
+
+  const BOOTSTRAP_STORAGE_KEY = 'cruiseplay_bootstrap_cache_v1';
+  const BOOTSTRAP_STORAGE_TTL = 60 * 60 * 1000;
+
 	
   init();
 
@@ -69,12 +73,24 @@
     bindStaticEvents();
     setTrackingFields();
     setMembershipLink();
+    showInquiryLoadingOverlayIfNeeded();
 
-    const payload = config.useMockOnly
-      ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
-      : await getBootstrapWithFallback();
+    if (config.useMockOnly) {
+      const payload = normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+      hydrate(payload);
+      handleInitialInquiryNavigation();
+      return;
+    }
 
+    const cachedPayload = getCachedBootstrapData();
+    if (cachedPayload) {
+      hydrate(cachedPayload);
+      handleInitialInquiryNavigation();
+    }
+
+    const payload = await getBootstrapWithFallback();
     hydrate(payload);
+    cacheBootstrapData(payload);
     handleInitialInquiryNavigation();
   }
 
@@ -178,8 +194,8 @@
         
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
-        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
-        if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
+        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('문의내용을 선택해주세요.', 'error');
+        if (!formData.get('people_count')?.trim()) return updateFormResult('여행 예상 인원수를 선택해주세요.', 'error');
         
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
@@ -225,6 +241,49 @@
 
   function initGlobalDebugHandlers() {
     return;
+  }
+
+  function getCachedBootstrapData() {
+    try {
+      const raw = localStorage.getItem(BOOTSTRAP_STORAGE_KEY);
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || !parsed.savedAt || !parsed.data) return null;
+      if (Date.now() - Number(parsed.savedAt) > BOOTSTRAP_STORAGE_TTL) return null;
+
+      return normalizeData(parsed.data);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function cacheBootstrapData(payload) {
+    try {
+      localStorage.setItem(BOOTSTRAP_STORAGE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        data: payload
+      }));
+    } catch (error) {}
+  }
+
+  function showInquiryLoadingOverlayIfNeeded() {
+    const overlay = document.getElementById('inquiryLoadingOverlay');
+    if (!overlay) return;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('openInquiry') !== '1') return;
+
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function hideInquiryLoadingOverlay() {
+    const overlay = document.getElementById('inquiryLoadingOverlay');
+    if (!overlay) return;
+
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
   }
 
   async function getBootstrapWithFallback() {
@@ -897,14 +956,14 @@
     return stops.length ? stops[0] : '';
   }
 
-	function populateFormSelects() {
-	  const scheduleSelect = document.getElementById('interestScheduleSelect');
-	  if (!scheduleSelect) return;
-	  scheduleSelect.innerHTML =
-	    `<option value="">선택해주세요</option>` +
-	    `<option value="membership_inquiry">멤버십 문의</option>` +
-	    state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
-	}
+  function populateFormSelects() {
+    const scheduleSelect = document.getElementById('interestScheduleSelect');
+    if (!scheduleSelect) return;
+    scheduleSelect.innerHTML =
+      `<option value="">선택해주세요</option>` +
+      `<option value="membership_inquiry">멤버십 문의</option>` +
+      state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
+  }
 
   function getRouteStops(scheduleId, preloadedDays) {
     const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
@@ -1268,12 +1327,28 @@
     const params = new URLSearchParams(window.location.search);
     const shouldOpenInquiry = params.get('openInquiry') === '1';
     const shouldScrollByHash = window.location.hash === '#contact';
+    const inquiryType = String(params.get('inquiryType') || '').trim();
 
     if (!shouldOpenInquiry && !shouldScrollByHash) return;
 
     requestAnimationFrame(() => {
       setTimeout(() => {
+        const scheduleSelect = document.getElementById('interestScheduleSelect');
+
+        if (scheduleSelect && inquiryType === 'membership') {
+          const membershipOption = Array.from(scheduleSelect.options).find((option) => {
+            return String(option.value || '').trim() === 'membership_inquiry';
+          });
+
+          if (membershipOption) {
+            scheduleSelect.value = membershipOption.value;
+          }
+        }
+
         scrollToSection('contact');
+        setTimeout(() => {
+          hideInquiryLoadingOverlay();
+        }, 120);
       }, 80);
     });
   }
@@ -1288,7 +1363,7 @@
     const button = document.getElementById('formSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
-    button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
+    button.textContent = isSubmitting ? '접수 중...' : '문의하기';
   }
 
   function closeModal() {
