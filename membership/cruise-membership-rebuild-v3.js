@@ -57,7 +57,6 @@ const state = {
 };
 
 const AGENT_API_URL = 'https://script.google.com/macros/s/AKfycbxmpUiHPpZObUpjzV8R-cV32UjB-Q64ST_MyCi6xixSB9dHBhxdpdeVTbDV4gwYXv0/exec';
-const CONTACT_FALLBACK_URL = 'https://cruiseplay-dyt.pages.dev/#contact';
 
 function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US')}`;
@@ -86,7 +85,7 @@ function renderPlans() {
   wrap.innerHTML = plans.map((plan) => {
     const monthlyKrw = plan.monthlyUsd === 0 ? '없음' : formatKrw(plan.monthlyUsd * state.exchangeRate);
     const startKrw = plan.startUsd === 0 ? '없음' : formatKrw(plan.startUsd * state.exchangeRate);
-    const signupHref = state.membershipSignupUrl || CONTACT_FALLBACK_URL;
+    const signupHref = state.membershipSignupUrl || '#';
     const signupAttrs = state.membershipSignupUrl
       ? 'target="_blank" rel="noopener"'
       : '';
@@ -230,8 +229,20 @@ function getAgentCode() {
 
 function bindPlanSignupLinks() {
   document.querySelectorAll('[data-plan-signup-link]').forEach((link) => {
-    link.addEventListener('click', () => {
-      // href 직접 이동 방식 사용
+    link.addEventListener('click', (event) => {
+      if (state.membershipSignupUrl) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const goContact = window.confirm(
+        '담당자가 아직 배정되지 않았습니다. 문의하기로 이동하시겠습니까?'
+      );
+
+      if (goContact) {
+        window.location.href = 'https://cruiseplay-dyt.pages.dev/#contact';
+      }
     });
   });
 }
