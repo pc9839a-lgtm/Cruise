@@ -75,6 +75,7 @@
       : await getBootstrapWithFallback();
 
     hydrate(payload);
+    handleInitialInquiryNavigation();
   }
 
   function bindStaticEvents() {
@@ -177,8 +178,8 @@
         
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
-        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('문의내용을 선택해주세요.', 'error');
-        if (!formData.get('people_count')?.trim()) return updateFormResult('여행 예상 인원수를 선택해주세요.', 'error');
+        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
+        if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
         
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
@@ -899,9 +900,7 @@
   function populateFormSelects() {
     const scheduleSelect = document.getElementById('interestScheduleSelect');
     if (!scheduleSelect) return;
-    scheduleSelect.innerHTML =
-      `<option value="">선택해주세요</option>` +
-      `<option value="membership_inquiry">멤버십 문의</option>` +
+    scheduleSelect.innerHTML = `<option value="">선택해주세요</option>` + 
       state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
   }
 
@@ -1263,6 +1262,20 @@
     membershipLinkButton.href = membershipUrl.toString();
   }
 
+  function handleInitialInquiryNavigation() {
+    const params = new URLSearchParams(window.location.search);
+    const shouldOpenInquiry = params.get('openInquiry') === '1';
+    const shouldScrollByHash = window.location.hash === '#contact';
+
+    if (!shouldOpenInquiry && !shouldScrollByHash) return;
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        scrollToSection('contact');
+      }, 80);
+    });
+  }
+
   function updateFormResult(message, type) {
     if (!formResult) return;
     formResult.textContent = message;
@@ -1273,7 +1286,7 @@
     const button = document.getElementById('formSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
-    button.textContent = isSubmitting ? '접수 중...' : '문의하기';
+    button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
   }
 
   function closeModal() {
