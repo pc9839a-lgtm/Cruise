@@ -51,8 +51,13 @@ const notices = [
 
 const state = {
   exchangeRate: DEFAULT_RATE,
-  mode: 'general'
+  mode: 'general',
+  membershipSignupUrl: '',
+  agentCode: ''
 };
+
+const AGENT_API_URL = (window.APP_CONFIG && window.APP_CONFIG.apiUrl) || '';
+
 
 function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US')}`;
@@ -115,7 +120,7 @@ function renderPlans() {
         </div>
 
         <p class="plan-caption">${plan.caption}</p>
-        <button type="button" class="plan-cta">멤버십 가입하기</button>
+        <button type="button" class="plan-cta" data-plan-signup>멤버십 가입하기</button>
         <div class="plan-disclaimer">환율 기준 원화는 자동 계산됩니다.</div>
       </article>
     `;
@@ -213,6 +218,45 @@ async function fetchExchangeRate() {
   updateCalculator();
 }
 
+
+function getAgentCode() {
+  const params = new URLSearchParams(window.location.search);
+  return String(params.get('agent') || '').trim();
+}
+
+function bindPlanSignupButtons() {
+  document.querySelectorAll('[data-plan-signup]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!state.membershipSignupUrl) return;
+      window.location.href = state.membershipSignupUrl;
+    });
+  });
+}
+
+async function loadMembershipSignupUrl() {
+  state.agentCode = getAgentCode();
+
+  if (!AGENT_API_URL || !state.agentCode) {
+    return;
+  }
+
+  try {
+    const requestUrl = new URL(AGENT_API_URL);
+    requestUrl.searchParams.set('action', 'agent_signup');
+    requestUrl.searchParams.set('agent', state.agentCode);
+
+    const response = await fetch(requestUrl.toString(), { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    if (data && data.success && data.signup_url) {
+      state.membershipSignupUrl = String(data.signup_url).trim();
+    }
+  } catch (error) {
+    console.error('membership signup url load failed:', error);
+  }
+}
+
 function bindEvents() {
   const range = document.getElementById('cruisePrice');
   if (range) {
@@ -253,12 +297,14 @@ function observeReveals() {
   document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => revealObserver.observe(el));
 }
 
-function init() {
+async function init() {
   renderNotices();
   renderPlans();
   bindEvents();
+  bindPlanSignupButtons();
   updateCalculator();
   observeReveals();
+  await loadMembershipSignupUrl();
   fetchExchangeRate();
 }
 
