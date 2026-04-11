@@ -899,7 +899,9 @@
   function populateFormSelects() {
     const scheduleSelect = document.getElementById('interestScheduleSelect');
     if (!scheduleSelect) return;
-    scheduleSelect.innerHTML = `<option value="">선택해주세요</option>` + 
+    scheduleSelect.innerHTML =
+      `<option value="">선택해주세요</option>` +
+      `<option value="membership_inquiry">멤버십 문의</option>` +
       state.bootstrap.schedules.map(s => `<option value="${escapeAttribute(s.schedule_id)}">${escapeHtml(s.title || s.schedule_id)}</option>`).join('');
   }
 
