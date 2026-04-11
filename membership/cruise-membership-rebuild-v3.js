@@ -215,7 +215,9 @@ async function fetchExchangeRate() {
   }
 
   renderPlans();
+  bindPlanSignupButtons();
   updateCalculator();
+  
 }
 
 
