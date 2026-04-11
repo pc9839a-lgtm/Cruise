@@ -497,7 +497,7 @@
     scheduleGrid.innerHTML = schedules.map(schedule => {
       const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
       return `
-        <article class="schedule-card" data-open-schedule="${escapeAttribute(schedule.schedule_id)}">
+        <article class="schedule-card ${String(schedule.highlight_yn || '').trim().toUpperCase() === 'Y' ? 'is-highlighted' : ''}" data-open-schedule="${escapeAttribute(schedule.schedule_id)}">
           <div class="schedule-visual">
             ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(schedule.title || '')}" />` : ''}
             <div class="schedule-visual-inner">
