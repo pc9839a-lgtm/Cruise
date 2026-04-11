@@ -27,8 +27,9 @@
        7 선실비교
        8 예약과정
        9 FAQ
-       10 가격 문의하기
-       11 콘텐츠연결
+       10 멤버십 안내
+       11 가격 문의하기
+       12 콘텐츠연결
      --------------------------------------------------------- */
   const SECTION_SEQUENCE = [
     { order: 1, key: 'identitySection' },
@@ -40,8 +41,9 @@
     { order: 7, key: 'cabinsSection' },
     { order: 8, key: 'processSection' },
     { order: 9, key: 'faqSection' },
-    { order: 10, key: 'contactSection' },
-    { order: 11, key: 'contentSection' }
+    { order: 10, key: 'membershipSection' },
+    { order: 11, key: 'contactSection' },
+    { order: 12, key: 'contentSection' }
   ];
 
 
@@ -66,6 +68,7 @@
   async function init() {
     bindStaticEvents();
     setTrackingFields();
+    setMembershipLink();
 
     const payload = config.useMockOnly
       ? normalizeData(window.MOCK_BOOTSTRAP_DATA || {})
@@ -933,6 +936,7 @@
       cabinsSection: document.getElementById('cabinsSection'),
       processSection: document.getElementById('processSection'),
       faqSection: document.getElementById('faqSection'),
+      membershipSection: document.getElementById('membershipInquirySection'),
       contentSection: document.getElementById('contentSection'),
       trustSection: document.getElementById('trustSection')
     };
@@ -1233,6 +1237,21 @@
     setInputValue('utmCampaignInput', params.get('utm_campaign') || '');
     setInputValue('landingPageInput', window.location.href);
     setInputValue('referrerInput', document.referrer || '');
+  }
+
+  function setMembershipLink() {
+    const membershipLinkButton = document.getElementById('membershipLinkButton');
+    if (!membershipLinkButton) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const agentCode = String(params.get('agent') || '').trim();
+    const membershipUrl = new URL('https://cruiseplay-dyt.pages.dev/membership/');
+
+    if (agentCode) {
+      membershipUrl.searchParams.set('agent', agentCode);
+    }
+
+    membershipLinkButton.href = membershipUrl.toString();
   }
 
   function updateFormResult(message, type) {
