@@ -57,6 +57,7 @@ const state = {
 };
 
 const AGENT_API_URL = 'https://script.google.com/macros/s/AKfycbxmpUiHPpZObUpjzV8R-cV32UjB-Q64ST_MyCi6xixSB9dHBhxdpdeVTbDV4gwYXv0/exec';
+const CONTACT_FALLBACK_URL = 'https://cruiseplay-dyt.pages.dev/#contact';
 
 function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US')}`;
@@ -85,10 +86,10 @@ function renderPlans() {
   wrap.innerHTML = plans.map((plan) => {
     const monthlyKrw = plan.monthlyUsd === 0 ? '없음' : formatKrw(plan.monthlyUsd * state.exchangeRate);
     const startKrw = plan.startUsd === 0 ? '없음' : formatKrw(plan.startUsd * state.exchangeRate);
-    const signupHref = state.membershipSignupUrl || '#';
+    const signupHref = state.membershipSignupUrl || CONTACT_FALLBACK_URL;
     const signupAttrs = state.membershipSignupUrl
       ? 'target="_blank" rel="noopener"'
-      : 'aria-disabled="true"';
+      : '';
 
     return `
       <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}">
@@ -229,10 +230,8 @@ function getAgentCode() {
 
 function bindPlanSignupLinks() {
   document.querySelectorAll('[data-plan-signup-link]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      if (!state.membershipSignupUrl) {
-        event.preventDefault();
-      }
+    link.addEventListener('click', () => {
+      // href 직접 이동 방식 사용
     });
   });
 }
@@ -285,6 +284,9 @@ async function loadMembershipSignupUrl() {
   state.agentCode = getAgentCode();
 
   if (!AGENT_API_URL || !state.agentCode) {
+    state.membershipSignupUrl = '';
+    renderPlans();
+    bindPlanSignupLinks();
     return;
   }
 
@@ -296,10 +298,16 @@ async function loadMembershipSignupUrl() {
 
     if (data && data.success && data.signup_url) {
       state.membershipSignupUrl = String(data.signup_url).trim();
-      renderPlans();
-      bindPlanSignupLinks();
+    } else {
+      state.membershipSignupUrl = '';
     }
+
+    renderPlans();
+    bindPlanSignupLinks();
   } catch (error) {
+    state.membershipSignupUrl = '';
+    renderPlans();
+    bindPlanSignupLinks();
     console.error('membership signup url load failed:', error);
   }
 }
