@@ -38,8 +38,78 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <style>
+    .inquiry-loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(7, 25, 57, 0.56);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .inquiry-loading-overlay.is-visible {
+      display: flex;
+    }
+    .inquiry-loading-card {
+      width: min(92vw, 420px);
+      border-radius: 24px;
+      padding: 28px 24px;
+      background: #ffffff;
+      box-shadow: 0 24px 60px rgba(7, 25, 57, 0.18);
+      text-align: center;
+    }
+    .inquiry-loading-spinner {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      border: 4px solid rgba(37, 99, 235, 0.16);
+      border-top-color: #2563eb;
+      animation: inquirySpin 0.9s linear infinite;
+    }
+    .inquiry-loading-title {
+      margin: 0 0 8px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #071939;
+    }
+    .inquiry-loading-desc {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #4b5563;
+    }
+    @keyframes inquirySpin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('openInquiry') === '1') {
+          document.documentElement.classList.add('open-inquiry-pending');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
 </head>
 <body>
+
+  <div class="inquiry-loading-overlay" id="inquiryLoadingOverlay" aria-hidden="true">
+    <div class="inquiry-loading-card">
+      <div class="inquiry-loading-spinner" aria-hidden="true"></div>
+      <h3 class="inquiry-loading-title">문의 페이지로 이동 중입니다</h3>
+      <p class="inquiry-loading-desc">잠시만 기다려주세요.</p>
+    </div>
+  </div>
+
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="site-shell">
