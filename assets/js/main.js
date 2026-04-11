@@ -177,8 +177,8 @@
         
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
-        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('관심 일정을 선택해주세요.', 'error');
-        if (!formData.get('people_count')?.trim()) return updateFormResult('인원수를 선택해주세요.', 'error');
+        if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('문의내용을 선택해주세요.', 'error');
+        if (!formData.get('people_count')?.trim()) return updateFormResult('여행 예상 인원수를 선택해주세요.', 'error');
         
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
@@ -1271,7 +1271,7 @@
     const button = document.getElementById('formSubmitButton');
     if (!button) return;
     button.disabled = isSubmitting;
-    button.textContent = isSubmitting ? '접수 중...' : '상담 신청하기';
+    button.textContent = isSubmitting ? '접수 중...' : '문의하기';
   }
 
   function closeModal() {
