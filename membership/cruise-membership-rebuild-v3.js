@@ -241,7 +241,7 @@ function bindPlanSignupLinks() {
       );
 
       if (goContact) {
-        window.location.href = 'https://cruiseplay-dyt.pages.dev/?openInquiry=1';
+        window.location.href = 'https://cruiseplay-dyt.pages.dev/?openInquiry=1&inquiryType=membership';
       }
     });
   });
