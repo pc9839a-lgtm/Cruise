@@ -1237,6 +1237,13 @@
     setInputValue('utmCampaignInput', params.get('utm_campaign') || '');
     setInputValue('landingPageInput', window.location.href);
     setInputValue('referrerInput', document.referrer || '');
+	 const stickyMembershipLink = document.getElementById('stickyMembershipLink');
+	  const agent = params.get('agent') || '';
+	  if (stickyMembershipLink) {
+	    stickyMembershipLink.href = agent
+	      ? `/membership/?agent=${encodeURIComponent(agent)}`
+	      : '/membership/';
+	  }	  
   }
 
   function setMembershipLink() {
