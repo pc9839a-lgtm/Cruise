@@ -1,4 +1,3 @@
-
 /* =========================================================
    전역 변수
    ========================================================= */
@@ -495,6 +494,7 @@ button { cursor: pointer; }
   border-top: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 -10px 26px rgba(2, 6, 23, 0.18);
   padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); transform: translateY(110%);
   animation: slideUpBar 0.7s cubic-bezier(.16, 1, .3, 1) 0.15s forwards, bannerPulse 5s ease-in-out infinite;
+  transition: bottom 0.28s ease, opacity 0.22s ease, visibility 0.22s ease, box-shadow 0.28s ease;
 }
 @keyframes slideUpBar { from { transform: translateY(110%); } to { transform: translateY(0); } }
 @keyframes bannerPulse {
@@ -999,7 +999,6 @@ button { cursor: pointer; }
   }
 }
 
-
 /* =========================================================
    태블릿 대응
    ========================================================= */
@@ -1083,6 +1082,13 @@ button { cursor: pointer; }
   .sib-btn-group-full { min-width: 0; width: 100%; }
   .sib-btn,
   .sib-btn-wide { width: 100%; min-width: 0; padding: 0 14px; }
+
+  .sticky-inquiry-bar.is-input-active {
+    bottom: calc(-100% - env(safe-area-inset-bottom));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
   .identity-section,
   .review-section,
@@ -1204,7 +1210,6 @@ button { cursor: pointer; }
   .sib-btn-group { flex-direction: column; }
   .btn-phone { display: none; }
 }
-
 
 /* =========================================================
    콘텐츠연결 이미지 비율 통일 패치
