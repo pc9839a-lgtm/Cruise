@@ -13,6 +13,8 @@
   const mainNav = document.getElementById('mainNav');
   const phoneInput = document.getElementById('phoneInput');
   const mainContent = document.querySelector('main');
+  const stickyInquiryBar = document.getElementById('stickyInquiryBar');
+  const MOBILE_STICKY_HIDE_BREAKPOINT = 768;
 
   /* ---------------------------------------------------------
      페이지 섹션 순서 설정
@@ -46,19 +48,18 @@
     { order: 12, key: 'contentSection' }
   ];
 
-
-	const state = {
-	  bootstrap: {
-		settings: {}, schedules: [], schedule_days: [], reviews: [],
-		targets: [], basic_info: [], process_steps: [], cabins: [],
-		faqs: [], trust_points: [], content_links: []
-	  },
-	  activeRegion: 'ALL',
-	  reviewPage: 0,
-	  basicInfoPage: 0,
-	  contentLinksOrder: [],
-	  contentLinksVisibleCount: 3,
-	};
+  const state = {
+    bootstrap: {
+      settings: {}, schedules: [], schedule_days: [], reviews: [],
+      targets: [], basic_info: [], process_steps: [], cabins: [],
+      faqs: [], trust_points: [], content_links: []
+    },
+    activeRegion: 'ALL',
+    reviewPage: 0,
+    basicInfoPage: 0,
+    contentLinksOrder: [],
+    contentLinksVisibleCount: 3,
+  };
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
@@ -66,7 +67,6 @@
   const BOOTSTRAP_STORAGE_KEY = 'cruiseplay_bootstrap_cache_v1';
   const BOOTSTRAP_STORAGE_TTL = 60 * 60 * 1000;
 
-	
   init();
 
   async function init() {
@@ -74,6 +74,7 @@
     setTrackingFields();
     setMembershipLink();
     showInquiryLoadingOverlayIfNeeded();
+    syncMobileStickyInquiryVisibility();
 
     if (config.useMockOnly) {
       const payload = normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
@@ -136,12 +137,12 @@
         return;
       }
 
-		const basicInfoDot = target.closest('[data-basic-info-dot]');
-		if (basicInfoDot) {
-		  const page = Number(basicInfoDot.getAttribute('data-basic-info-dot') || 0);
-		  scrollBasicInfoToPage(page);
-		  return;
-		}
+      const basicInfoDot = target.closest('[data-basic-info-dot]');
+      if (basicInfoDot) {
+        const page = Number(basicInfoDot.getAttribute('data-basic-info-dot') || 0);
+        scrollBasicInfoToPage(page);
+        return;
+      }
 
       const contentMoreButton = target.closest('[data-content-more]');
       if (contentMoreButton) {
@@ -162,12 +163,12 @@
       }
     });
 
-	window.addEventListener('resize', () => {
-	  setupReviewSlider((state.bootstrap.reviews || []).length);
-	  setupBasicInfoSlider();
+    window.addEventListener('resize', () => {
+      setupReviewSlider((state.bootstrap.reviews || []).length);
+      setupBasicInfoSlider();
       applyScheduleHeaderDesktopFix();
-	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
-	});
+      requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
+    });
 
     if (reviewViewport) {
       reviewViewport.addEventListener('mouseenter', stopReviewAuto);
@@ -175,12 +176,21 @@
       reviewViewport.addEventListener('touchstart', stopReviewAuto, { passive: true });
       reviewViewport.addEventListener('touchend', () => setupReviewSlider((state.bootstrap.reviews || []).length), { passive: true });
     }
-	  
-  
+
     if (phoneInput) {
       phoneInput.addEventListener('input', () => {
         phoneInput.value = String(phoneInput.value || '').replace(/\D+/g, '').slice(0, 11);
       });
+    }
+
+    if (form && stickyInquiryBar) {
+      form.addEventListener('focusin', handleMobileStickyInquiryFocusIn);
+      form.addEventListener('focusout', handleMobileStickyInquiryFocusOut);
+      window.addEventListener('resize', syncMobileStickyInquiryVisibility);
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncMobileStickyInquiryVisibility);
+      }
     }
 
     // 💡 Fetch API 기반의 모던 폼 제출 (Iframe 해킹 제거)
@@ -191,12 +201,12 @@
         const formData = new FormData(form);
 
         if (!formData.get('name')?.trim()) return updateFormResult('성함을 입력해주세요.', 'error');
-        
+
         const phone = formData.get('phone')?.replace(/\D+/g, '').trim();
         if (!phone) return updateFormResult('연락처를 입력해주세요.', 'error');
         if (!formData.get('interest_schedule_id')?.trim()) return updateFormResult('문의내용을 선택해주세요.', 'error');
         if (!formData.get('people_count')?.trim()) return updateFormResult('여행 예상 인원수를 선택해주세요.', 'error');
-        
+
         const privacyAgreeInput = document.getElementById('privacyAgreeInput');
         if (privacyAgreeInput && !privacyAgreeInput.checked) return updateFormResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
 
@@ -221,11 +231,12 @@
         try {
           const response = await fetch(config.apiUrl, { method: 'POST', body: formData });
           const data = await response.json();
-          
+
           if (data.success) {
             updateFormResult(data.data || data.message || '문의가 정상 접수되었습니다.', 'success');
             form.reset();
             setTrackingFields();
+            syncMobileStickyInquiryVisibility();
           } else {
             updateFormResult(data.message || '오류가 발생했습니다.', 'error');
           }
@@ -475,8 +486,7 @@
   function renderFilters() {
     if (!scheduleFilters) return;
     const regions = ['ALL', ...new Set(state.bootstrap.schedules.map(item => item.region).filter(Boolean))];
-    
-    // 💡 템플릿 리터럴 적용
+
     scheduleFilters.innerHTML = regions.map(region => {
       const isActive = state.activeRegion === region ? ' is-active' : '';
       const label = region === 'ALL' ? '전체 일정' : region;
@@ -492,8 +502,7 @@
       scheduleGrid.innerHTML = `<div class="schedule-empty">현재 준비된 일정이 없습니다. 일정 문의를 남겨주시면 가능한 항차를 안내해드립니다.</div>`;
       return;
     }
-    
-    // 💡 템플릿 리터럴 적용으로 가독성 향상
+
     scheduleGrid.innerHTML = schedules.map(schedule => {
       const imageUrl = schedule.thumbnail_url || schedule.schedule_image_url || '';
       return `
@@ -533,54 +542,54 @@
     return escapeHtml(String(text || '')).replace(/(\d{1,2}월)/g, '<span class="schedule-month-accent">$1</span>');
   }
 
-	function shuffleArray(items) {
-	  const array = [...items];
-	  for (let i = array.length - 1; i > 0; i -= 1) {
-	    const j = Math.floor(Math.random() * (i + 1));
-	    [array[i], array[j]] = [array[j], array[i]];
-	  }
-	  return array;
-	}	
-		
-	function renderReviews() {
-	  if (!reviewGrid) return;
-	
-	  const reviews = shuffleArray([...(state.bootstrap.reviews || [])]);
-	
-	  if (!reviews.length) {
-	    reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
-	    if (reviewDots) reviewDots.innerHTML = '';
-	    return;
-	  }
-	
-	  reviewGrid.innerHTML = reviews.map(review => {
-	    const imageCandidates = [
-	      review.thumbnail_url,
-	      review.image_url,
-	      review.photo_url
-	    ].filter(Boolean);
-	
-	    const imageUrl = imageCandidates.length
-	      ? imageCandidates[Math.floor(Math.random() * imageCandidates.length)]
-	      : '';
-	
-	    return `
-	      <article class="review-card">
-	        <div class="review-thumb">
-	          ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
-	        </div>
-	        <div class="review-body">
-	          ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
-	          <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
-	          <p>${escapeHtml(review.summary || review.content || '')}</p>
-	        </div>
-	      </article>
-	    `;
-	  }).join('');
-	
-	  state.reviewPage = 0;
-	  setupReviewSlider(reviews.length);
-	}
+  function shuffleArray(items) {
+    const array = [...items];
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function renderReviews() {
+    if (!reviewGrid) return;
+
+    const reviews = shuffleArray([...(state.bootstrap.reviews || [])]);
+
+    if (!reviews.length) {
+      reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
+      if (reviewDots) reviewDots.innerHTML = '';
+      return;
+    }
+
+    reviewGrid.innerHTML = reviews.map(review => {
+      const imageCandidates = [
+        review.thumbnail_url,
+        review.image_url,
+        review.photo_url
+      ].filter(Boolean);
+
+      const imageUrl = imageCandidates.length
+        ? imageCandidates[Math.floor(Math.random() * imageCandidates.length)]
+        : '';
+
+      return `
+        <article class="review-card">
+          <div class="review-thumb">
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
+          </div>
+          <div class="review-body">
+            ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
+            <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
+            <p>${escapeHtml(review.summary || review.content || '')}</p>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    state.reviewPage = 0;
+    setupReviewSlider(reviews.length);
+  }
 
   function openSchedule(scheduleId) {
     const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim());
@@ -694,260 +703,260 @@
   function getReviewPerView() { return window.innerWidth <= 768 ? 1 : 2; }
 
   // =========================================================
-// 2) setupReviewSlider
-// 시작: function setupReviewSlider(total) {
-// 끝  : }
-// =========================================================
-	function setupReviewSlider(total) {
-	  if (!reviewGrid || !reviewViewport) return;
-	
-	  const mobileMode = window.innerWidth <= 768;
-	  const prev = document.querySelector('[data-review-nav="prev"]');
-	  const next = document.querySelector('[data-review-nav="next"]');
-	
-	  if (mobileMode) {
-	    if (!reviewViewport.dataset.reviewMobileBound) {
-	      reviewViewport.addEventListener('scroll', () => {
-	        const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	        const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
-	        let closestIndex = 0;
-	        let closestDistance = Infinity;
-	
-	        cards.forEach((card, idx) => {
-	          const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-	          const distance = Math.abs(cardCenter - viewportCenter);
-	
-	          if (distance < closestDistance) {
-	            closestDistance = distance;
-	            closestIndex = idx;
-	          }
-	        });
-	
-	        state.reviewPage = closestIndex;
-	      }, { passive: true });
-	
-	      reviewViewport.dataset.reviewMobileBound = 'true';
-	    }
-	
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	
-	    reviewGrid.style.transform = '';
-	    prev?.classList.add('is-hidden');
-	    next?.classList.add('is-hidden');
-	
-	    if (reviewDots) {
-	      reviewDots.className = 'review-dots is-hidden';
-	      reviewDots.innerHTML = '';
-	    }
-	
-	    if (total <= 1) {
-	      stopReviewAuto();
-	      return;
-	    }
-	
-	    state.reviewPage = Math.min(state.reviewPage, total - 1);
-	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
-	    }
-	
-	    startReviewAuto(total);
-	    return;
-	  }
-	
-	  const perView = getReviewPerView();
-	  const maxPage = Math.max(0, total - perView);
-	  state.reviewPage = Math.min(state.reviewPage, maxPage);
-	
-	  if (total <= perView) {
-	    reviewGrid.style.transform = '';
-	    prev?.classList.add('is-hidden');
-	    next?.classList.add('is-hidden');
-	
-	    if (reviewDots) {
-	      reviewDots.className = 'review-dots is-hidden';
-	      reviewDots.innerHTML = '';
-	    }
-	
-	    stopReviewAuto();
-	    return;
-	  }
-	
-	  prev?.classList.remove('is-hidden');
-	  next?.classList.remove('is-hidden');
-	  if (reviewDots) reviewDots.className = 'review-dots';
-	
-	  const gap = 22;
-	  const viewportWidth = reviewViewport.clientWidth || 0;
-	  const cardWidth = (viewportWidth - gap) / perView;
-	  reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
-	
-	  if (reviewDots) {
-	    reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) =>
-	      `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
-	    ).join('');
-	  }
-	
-	  startReviewAuto(total);
-	}
+  // 2) setupReviewSlider
+  // 시작: function setupReviewSlider(total) {
+  // 끝  : }
+  // =========================================================
+  function setupReviewSlider(total) {
+    if (!reviewGrid || !reviewViewport) return;
 
-// =========================================================
-// 3) moveReviews
-// 시작: function moveReviews(direction) {
-// 끝  : }
-// =========================================================
-	function moveReviews(direction) {
-	  const total = (state.bootstrap.reviews || []).length;
-	  if (!total) return;
-	
-	  if (window.innerWidth <= 768) {
-	    const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
-	    if (!cards.length || !reviewViewport) return;
-	
-	    const maxPage = total - 1;
-	    state.reviewPage = direction === 'prev'
-	      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
-	      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
-	
-	    const targetCard = cards[state.reviewPage];
-	    if (targetCard) {
-	      reviewViewport.scrollTo({
-	        left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
-	        behavior: 'smooth'
-	      });
-	    }
-	    return;
-	  }
-	
-	  const maxPage = Math.max(0, total - getReviewPerView());
-	  state.reviewPage = direction === 'prev'
-	    ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
-	    : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
-	
-	  setupReviewSlider(total);
-	}
+    const mobileMode = window.innerWidth <= 768;
+    const prev = document.querySelector('[data-review-nav="prev"]');
+    const next = document.querySelector('[data-review-nav="next"]');
 
-	function startReviewAuto(total) {
-	  stopReviewAuto();
-	  if (total > 1) {
-	    reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
-	  }
-	}
+    if (mobileMode) {
+      if (!reviewViewport.dataset.reviewMobileBound) {
+        reviewViewport.addEventListener('scroll', () => {
+          const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+          const viewportCenter = reviewViewport.scrollLeft + (reviewViewport.clientWidth / 2);
+          let closestIndex = 0;
+          let closestDistance = Infinity;
 
-	function stopReviewAuto() {
-	  if (reviewAutoTimer) {
-	    window.clearInterval(reviewAutoTimer);
-	    reviewAutoTimer = null;
-	  }
-	}
+          cards.forEach((card, idx) => {
+            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+            const distance = Math.abs(cardCenter - viewportCenter);
 
-	function setupBasicInfoSlider() {
-	  const viewport = document.getElementById('basicInfoViewport');
-	  const dots = document.getElementById('basicInfoDots');
-	  const total = (state.bootstrap.basic_info || []).length;
-	
-	  if (!viewport || !dots) return;
-	
-	  if (!viewport.dataset.basicInfoScrollBound) {
-	    viewport.addEventListener('scroll', () => {
-	      const width = viewport.clientWidth || 1;
-	      state.basicInfoPage = Math.round(viewport.scrollLeft / width);
-	      syncBasicInfoDots();
-	    }, { passive: true });
-	
-	    viewport.dataset.basicInfoScrollBound = 'true';
-	  }
-	
-	  if (!viewport.dataset.basicInfoAutoBound) {
-	    viewport.addEventListener('mouseenter', stopBasicInfoAuto);
-	    viewport.addEventListener('mouseleave', () => {
-	      startBasicInfoAuto((state.bootstrap.basic_info || []).length);
-	    });
-	
-	    viewport.addEventListener('touchstart', stopBasicInfoAuto, { passive: true });
-	    viewport.addEventListener('touchend', () => {
-	      startBasicInfoAuto((state.bootstrap.basic_info || []).length);
-	    }, { passive: true });
-	
-	    viewport.dataset.basicInfoAutoBound = 'true';
-	  }
-	
-	  if (total <= 1) {
-	    stopBasicInfoAuto();
-	    state.basicInfoPage = 0;
-	    dots.className = 'sheet-extra-dots is-hidden';
-	    dots.innerHTML = '';
-	    return;
-	  }
-	
-	  const maxPage = total - 1;
-	  state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
-	
-	  dots.className = 'sheet-extra-dots';
-	  dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
-	    <button
-	      type="button"
-	      class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
-	      data-basic-info-dot="${idx}"
-	      aria-label="기초안내 ${idx + 1}"
-	    ></button>
-	  `).join('');
-	
-	  syncBasicInfoDots();
-	  startBasicInfoAuto(total);
-	}
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestIndex = idx;
+            }
+          });
 
-	function scrollBasicInfoToPage(page, behavior = 'smooth') {
-	  const viewport = document.getElementById('basicInfoViewport');
-	  const total = (state.bootstrap.basic_info || []).length;
+          state.reviewPage = closestIndex;
+        }, { passive: true });
 
-	  if (!viewport || total <= 1) return;
+        reviewViewport.dataset.reviewMobileBound = 'true';
+      }
 
-	  const safePage = Math.max(0, Math.min(page, total - 1));
-	  state.basicInfoPage = safePage;
+      const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
 
-	  viewport.scrollTo({
-		left: viewport.clientWidth * safePage,
-		behavior
-	  });
+      reviewGrid.style.transform = '';
+      prev?.classList.add('is-hidden');
+      next?.classList.add('is-hidden');
 
-	  syncBasicInfoDots();
-	}
-	function moveBasicInfoAuto() {
-	  const total = (state.bootstrap.basic_info || []).length;
-	  if (total <= 1) return;
-	
-	  const nextPage = state.basicInfoPage >= total - 1 ? 0 : state.basicInfoPage + 1;
-	  scrollBasicInfoToPage(nextPage);
-	}
-	
-	function startBasicInfoAuto(total) {
-	  stopBasicInfoAuto();
-	  if (total > 1) {
-	    basicInfoAutoTimer = window.setInterval(() => {
-	      moveBasicInfoAuto();
-	    }, 3800);
-	  }
-	}
-	
-	function stopBasicInfoAuto() {
-	  if (basicInfoAutoTimer) {
-	    window.clearInterval(basicInfoAutoTimer);
-	    basicInfoAutoTimer = null;
-	  }
-	}
-		
-	
-	function syncBasicInfoDots() {
-	  const dotButtons = document.querySelectorAll('#basicInfoDots [data-basic-info-dot]');
-	  dotButtons.forEach((dot, idx) => {
-		dot.classList.toggle('is-active', idx === state.basicInfoPage);
-	  });
-	}
+      if (reviewDots) {
+        reviewDots.className = 'review-dots is-hidden';
+        reviewDots.innerHTML = '';
+      }
+
+      if (total <= 1) {
+        stopReviewAuto();
+        return;
+      }
+
+      state.reviewPage = Math.min(state.reviewPage, total - 1);
+
+      const targetCard = cards[state.reviewPage];
+      if (targetCard) {
+        reviewViewport.scrollTo({
+          left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+          behavior: 'smooth'
+        });
+      }
+
+      startReviewAuto(total);
+      return;
+    }
+
+    const perView = getReviewPerView();
+    const maxPage = Math.max(0, total - perView);
+    state.reviewPage = Math.min(state.reviewPage, maxPage);
+
+    if (total <= perView) {
+      reviewGrid.style.transform = '';
+      prev?.classList.add('is-hidden');
+      next?.classList.add('is-hidden');
+
+      if (reviewDots) {
+        reviewDots.className = 'review-dots is-hidden';
+        reviewDots.innerHTML = '';
+      }
+
+      stopReviewAuto();
+      return;
+    }
+
+    prev?.classList.remove('is-hidden');
+    next?.classList.remove('is-hidden');
+    if (reviewDots) reviewDots.className = 'review-dots';
+
+    const gap = 22;
+    const viewportWidth = reviewViewport.clientWidth || 0;
+    const cardWidth = (viewportWidth - gap) / perView;
+    reviewGrid.style.transform = `translateX(-${state.reviewPage * (cardWidth + gap)}px)`;
+
+    if (reviewDots) {
+      reviewDots.innerHTML = Array.from({ length: maxPage + 1 }).map((_, idx) =>
+        `<button type="button" class="review-dot ${idx === state.reviewPage ? 'is-active' : ''}" data-review-dot="${idx}" aria-label="후기 ${idx + 1}"></button>`
+      ).join('');
+    }
+
+    startReviewAuto(total);
+  }
+
+  // =========================================================
+  // 3) moveReviews
+  // 시작: function moveReviews(direction) {
+  // 끝  : }
+  // =========================================================
+  function moveReviews(direction) {
+    const total = (state.bootstrap.reviews || []).length;
+    if (!total) return;
+
+    if (window.innerWidth <= 768) {
+      const cards = Array.from(reviewGrid.querySelectorAll('.review-card'));
+      if (!cards.length || !reviewViewport) return;
+
+      const maxPage = total - 1;
+      state.reviewPage = direction === 'prev'
+        ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+        : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+
+      const targetCard = cards[state.reviewPage];
+      if (targetCard) {
+        reviewViewport.scrollTo({
+          left: targetCard.offsetLeft - ((reviewViewport.clientWidth - targetCard.offsetWidth) / 2),
+          behavior: 'smooth'
+        });
+      }
+      return;
+    }
+
+    const maxPage = Math.max(0, total - getReviewPerView());
+    state.reviewPage = direction === 'prev'
+      ? (state.reviewPage <= 0 ? maxPage : state.reviewPage - 1)
+      : (state.reviewPage >= maxPage ? 0 : state.reviewPage + 1);
+
+    setupReviewSlider(total);
+  }
+
+  function startReviewAuto(total) {
+    stopReviewAuto();
+    if (total > 1) {
+      reviewAutoTimer = window.setInterval(() => moveReviews('next'), 3600);
+    }
+  }
+
+  function stopReviewAuto() {
+    if (reviewAutoTimer) {
+      window.clearInterval(reviewAutoTimer);
+      reviewAutoTimer = null;
+    }
+  }
+
+  function setupBasicInfoSlider() {
+    const viewport = document.getElementById('basicInfoViewport');
+    const dots = document.getElementById('basicInfoDots');
+    const total = (state.bootstrap.basic_info || []).length;
+
+    if (!viewport || !dots) return;
+
+    if (!viewport.dataset.basicInfoScrollBound) {
+      viewport.addEventListener('scroll', () => {
+        const width = viewport.clientWidth || 1;
+        state.basicInfoPage = Math.round(viewport.scrollLeft / width);
+        syncBasicInfoDots();
+      }, { passive: true });
+
+      viewport.dataset.basicInfoScrollBound = 'true';
+    }
+
+    if (!viewport.dataset.basicInfoAutoBound) {
+      viewport.addEventListener('mouseenter', stopBasicInfoAuto);
+      viewport.addEventListener('mouseleave', () => {
+        startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+      });
+
+      viewport.addEventListener('touchstart', stopBasicInfoAuto, { passive: true });
+      viewport.addEventListener('touchend', () => {
+        startBasicInfoAuto((state.bootstrap.basic_info || []).length);
+      }, { passive: true });
+
+      viewport.dataset.basicInfoAutoBound = 'true';
+    }
+
+    if (total <= 1) {
+      stopBasicInfoAuto();
+      state.basicInfoPage = 0;
+      dots.className = 'sheet-extra-dots is-hidden';
+      dots.innerHTML = '';
+      return;
+    }
+
+    const maxPage = total - 1;
+    state.basicInfoPage = Math.min(state.basicInfoPage, maxPage);
+
+    dots.className = 'sheet-extra-dots';
+    dots.innerHTML = Array.from({ length: total }).map((_, idx) => `
+      <button
+        type="button"
+        class="sheet-extra-dot ${idx === state.basicInfoPage ? 'is-active' : ''}"
+        data-basic-info-dot="${idx}"
+        aria-label="기초안내 ${idx + 1}"
+      ></button>
+    `).join('');
+
+    syncBasicInfoDots();
+    startBasicInfoAuto(total);
+  }
+
+  function scrollBasicInfoToPage(page, behavior = 'smooth') {
+    const viewport = document.getElementById('basicInfoViewport');
+    const total = (state.bootstrap.basic_info || []).length;
+
+    if (!viewport || total <= 1) return;
+
+    const safePage = Math.max(0, Math.min(page, total - 1));
+    state.basicInfoPage = safePage;
+
+    viewport.scrollTo({
+      left: viewport.clientWidth * safePage,
+      behavior
+    });
+
+    syncBasicInfoDots();
+  }
+
+  function moveBasicInfoAuto() {
+    const total = (state.bootstrap.basic_info || []).length;
+    if (total <= 1) return;
+
+    const nextPage = state.basicInfoPage >= total - 1 ? 0 : state.basicInfoPage + 1;
+    scrollBasicInfoToPage(nextPage);
+  }
+
+  function startBasicInfoAuto(total) {
+    stopBasicInfoAuto();
+    if (total > 1) {
+      basicInfoAutoTimer = window.setInterval(() => {
+        moveBasicInfoAuto();
+      }, 3800);
+    }
+  }
+
+  function stopBasicInfoAuto() {
+    if (basicInfoAutoTimer) {
+      window.clearInterval(basicInfoAutoTimer);
+      basicInfoAutoTimer = null;
+    }
+  }
+
+  function syncBasicInfoDots() {
+    const dotButtons = document.querySelectorAll('#basicInfoDots [data-basic-info-dot]');
+    dotButtons.forEach((dot, idx) => {
+      dot.classList.toggle('is-active', idx === state.basicInfoPage);
+    });
+  }
 
   function getHomePort(scheduleId) {
     const schedule = state.bootstrap.schedules.find(item => String(item.schedule_id).trim() === String(scheduleId).trim()) || {};
@@ -973,14 +982,13 @@
     const stops = days.map(day => cleanStop(day.port_name || day.city || ''))
       .filter(Boolean)
       .filter(stop => !['해상일', 'sea day', '인천 출발', '부산 출발'].includes(stop.toLowerCase()));
-    
+
     return Array.from(new Set(stops));
   }
 
   function cleanStop(value) {
     return String(value || '').replace(/\s+/g, ' ').replace(/\(.*?\)/g, '').trim();
   }
-
 
   /* ---------------------------------------------------------
      섹션 DOM 찾기
@@ -1040,101 +1048,101 @@
     renderContentLinks();
   }
 
-	function ensureExtraSectionsScaffold() {
-	  if (!mainContent) return;
+  function ensureExtraSectionsScaffold() {
+    if (!mainContent) return;
 
-	  const sections = [
-		{ id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '크루즈여행', type: 'basicInfo' },
-		{ id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
-		{ id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
-		{ id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
-		{ id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
-		{ id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
-		{ id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
-	  ];
+    const sections = [
+      { id: 'basicInfoSection', title: '크루즈는 어렵지 않아요', label: '크루즈여행', type: 'basicInfo' },
+      { id: 'targetsSection', title: '이런 분들께 잘 맞아요', label: '이용대상자', gridId: 'targetsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'processSection', title: '상담부터 탑승까지', label: '예약과정', gridId: 'processGrid', gridClass: 'sheet-extra-grid sheet-extra-grid-steps' },
+      { id: 'cabinsSection', title: '선실 타입 비교', label: '선실비교', gridId: 'cabinsGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'trustSection', title: '왜 이 구조가 편한지', label: '신뢰요소', gridId: 'trustGrid', gridClass: 'sheet-extra-grid' },
+      { id: 'faqSection', title: '자주 묻는 질문', label: 'FAQ', gridId: 'faqList', gridClass: 'sheet-extra-faq-list' },
+      { id: 'contentSection', title: '함께 보면 좋은 정보', label: '콘텐츠연결', gridId: 'contentGrid', gridClass: 'sheet-extra-grid' }
+    ];
 
-	  sections.forEach((sectionInfo) => {
-		const { id, title, label, gridId, gridClass, type } = sectionInfo;
-		if (document.getElementById(id)) return;
+    sections.forEach((sectionInfo) => {
+      const { id, title, label, gridId, gridClass, type } = sectionInfo;
+      if (document.getElementById(id)) return;
 
-		const bodyHtml = type === 'basicInfo'
-		  ? `
-			<div class="sheet-extra-slider" id="basicInfoSlider">
-			  <div class="sheet-extra-slider-viewport" id="basicInfoViewport">
-				<div id="basicInfoGrid" class="sheet-extra-basic-track"></div>
-			  </div>
-			</div>
-			<div class="sheet-extra-dots" id="basicInfoDots"></div>
-		  `
-		  : `<div id="${gridId}" class="${gridClass}"></div>`;
+      const bodyHtml = type === 'basicInfo'
+        ? `
+          <div class="sheet-extra-slider" id="basicInfoSlider">
+            <div class="sheet-extra-slider-viewport" id="basicInfoViewport">
+              <div id="basicInfoGrid" class="sheet-extra-basic-track"></div>
+            </div>
+          </div>
+          <div class="sheet-extra-dots" id="basicInfoDots"></div>
+        `
+        : `<div id="${gridId}" class="${gridClass}"></div>`;
 
-		const html = `
-		  <section class="sheet-extra-section" id="${id}">
-			<div class="sheet-extra-wrap">
-			  <div class="sheet-extra-head">
-				<span class="sheet-extra-label">${label}</span>
-				<h2 class="sheet-extra-title">${title}</h2>
-			  </div>
-			  ${bodyHtml}
-			</div>
-		  </section>
-		`;
+      const html = `
+        <section class="sheet-extra-section" id="${id}">
+          <div class="sheet-extra-wrap">
+            <div class="sheet-extra-head">
+              <span class="sheet-extra-label">${label}</span>
+              <h2 class="sheet-extra-title">${title}</h2>
+            </div>
+            ${bodyHtml}
+          </div>
+        </section>
+      `;
 
-		const debugPanel = document.getElementById('sheetDebugPanel');
-		if (debugPanel && debugPanel.parentNode === mainContent) {
-		  debugPanel.insertAdjacentHTML('beforebegin', html);
-		} else {
-		  mainContent.insertAdjacentHTML('beforeend', html);
-		}
-	  });
-	}
+      const debugPanel = document.getElementById('sheetDebugPanel');
+      if (debugPanel && debugPanel.parentNode === mainContent) {
+        debugPanel.insertAdjacentHTML('beforebegin', html);
+      } else {
+        mainContent.insertAdjacentHTML('beforeend', html);
+      }
+    });
+  }
 
-	function renderBasicInfo() {
-	  const section = document.getElementById('basicInfoSection');
-	  const grid = document.getElementById('basicInfoGrid');
-	  const items = state.bootstrap.basic_info || [];
+  function renderBasicInfo() {
+    const section = document.getElementById('basicInfoSection');
+    const grid = document.getElementById('basicInfoGrid');
+    const items = state.bootstrap.basic_info || [];
 
-	  if (!section || !grid) return;
+    if (!section || !grid) return;
 
-	  if (!items.length) {
-		section.style.display = 'none';
-		return;
-	  }
+    if (!items.length) {
+      section.style.display = 'none';
+      return;
+    }
 
-	  section.style.display = '';
+    section.style.display = '';
 
-	  grid.innerHTML = items.map(item => {
-		const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
-		const hasImage = Boolean(item.image_url);
+    grid.innerHTML = items.map(item => {
+      const points = [item.point_1, item.point_2, item.point_3].filter(Boolean);
+      const hasImage = Boolean(item.image_url);
 
-		return `
-		  <article class="sheet-extra-card sheet-extra-card-basic ${hasImage ? '' : 'is-no-image'}">
-			${hasImage
-			  ? `<div class="sheet-extra-media sheet-extra-basic-media">
-				   <img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" />
-				 </div>`
-			  : `<div class="sheet-extra-basic-empty"><span>CRUISE GUIDE</span></div>`
-			}
-			<div class="sheet-extra-card-copy">
-			  ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
-			  ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
-			  ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
-			  ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
-			</div>
-		  </article>
-		`;
-	  }).join('');
+      return `
+        <article class="sheet-extra-card sheet-extra-card-basic ${hasImage ? '' : 'is-no-image'}">
+          ${hasImage
+            ? `<div class="sheet-extra-media sheet-extra-basic-media">
+                 <img src="${escapeAttribute(item.image_url)}" alt="${escapeAttribute(item.title || '')}" />
+               </div>`
+            : `<div class="sheet-extra-basic-empty"><span>CRUISE GUIDE</span></div>`
+          }
+          <div class="sheet-extra-card-copy">
+            ${item.title ? `<h3>${escapeHtml(item.title)}</h3>` : ''}
+            ${item.subtitle ? `<p class="sheet-extra-muted">${escapeHtml(item.subtitle)}</p>` : ''}
+            ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}
+            ${points.length ? `<ul class="sheet-extra-points">${points.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : ''}
+          </div>
+        </article>
+      `;
+    }).join('');
 
-	  setupBasicInfoSlider();
-	  requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
-	}
+    setupBasicInfoSlider();
+    requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
+  }
 
   function renderTargets() {
     const section = document.getElementById('targetsSection');
     const grid = document.getElementById('targetsGrid');
     const items = state.bootstrap.targets || [];
     if (!section || !grid) return;
-    
+
     if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
@@ -1155,7 +1163,7 @@
     const grid = document.getElementById('processGrid');
     const items = state.bootstrap.process_steps || [];
     if (!section || !grid) return;
-    
+
     if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
@@ -1174,7 +1182,7 @@
     const grid = document.getElementById('cabinsGrid');
     const items = state.bootstrap.cabins || [];
     if (!section || !grid) return;
-    
+
     if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
@@ -1195,7 +1203,7 @@
     const grid = document.getElementById('trustGrid');
     const items = state.bootstrap.trust_points || [];
     if (!section || !grid) return;
-    
+
     if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
@@ -1213,7 +1221,7 @@
     const list = document.getElementById('faqList');
     const items = state.bootstrap.faqs || [];
     if (!section || !list) return;
-    
+
     if (!items.length) return section.style.display = 'none';
     section.style.display = '';
 
@@ -1299,13 +1307,13 @@
     setInputValue('utmCampaignInput', params.get('utm_campaign') || '');
     setInputValue('landingPageInput', window.location.href);
     setInputValue('referrerInput', document.referrer || '');
-	 const stickyMembershipLink = document.getElementById('stickyMembershipLink');
-	  const agent = params.get('agent') || '';
-	  if (stickyMembershipLink) {
-	    stickyMembershipLink.href = agent
-	      ? `/membership/?agent=${encodeURIComponent(agent)}`
-	      : '/membership/';
-	  }	  
+    const stickyMembershipLink = document.getElementById('stickyMembershipLink');
+    const agent = params.get('agent') || '';
+    if (stickyMembershipLink) {
+      stickyMembershipLink.href = agent
+        ? `/membership/?agent=${encodeURIComponent(agent)}`
+        : '/membership/';
+    }
   }
 
   function setMembershipLink() {
@@ -1351,6 +1359,56 @@
         }, 120);
       }, 80);
     });
+  }
+
+  function isMobileStickyViewport() {
+    return window.innerWidth <= MOBILE_STICKY_HIDE_BREAKPOINT;
+  }
+
+  function isContactFieldElement(element) {
+    return Boolean(
+      element &&
+      form &&
+      form.contains(element) &&
+      element.matches &&
+      element.matches('input, select, textarea')
+    );
+  }
+
+  function setMobileStickyInquiryHidden(hidden) {
+    if (!stickyInquiryBar) return;
+    stickyInquiryBar.classList.toggle('is-input-active', Boolean(hidden) && isMobileStickyViewport());
+  }
+
+  function handleMobileStickyInquiryFocusIn(event) {
+    if (!isMobileStickyViewport()) return;
+    if (isContactFieldElement(event.target)) {
+      setMobileStickyInquiryHidden(true);
+    }
+  }
+
+  function handleMobileStickyInquiryFocusOut() {
+    window.setTimeout(() => {
+      const active = document.activeElement;
+
+      if (isMobileStickyViewport() && isContactFieldElement(active)) {
+        setMobileStickyInquiryHidden(true);
+        return;
+      }
+
+      setMobileStickyInquiryHidden(false);
+    }, 80);
+  }
+
+  function syncMobileStickyInquiryVisibility() {
+    if (!stickyInquiryBar) return;
+
+    if (!isMobileStickyViewport()) {
+      setMobileStickyInquiryHidden(false);
+      return;
+    }
+
+    setMobileStickyInquiryHidden(isContactFieldElement(document.activeElement));
   }
 
   function updateFormResult(message, type) {
@@ -1407,10 +1465,10 @@
 
   function pad(num) { return String(num).padStart(2, '0'); }
   function convertLineBreaks(value) { return String(value || '').replace(/\n/g, '<br>'); }
-  
+
   function escapeHtml(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[match]);
   }
-  
+
   function escapeAttribute(value) { return escapeHtml(value); }
 })();
