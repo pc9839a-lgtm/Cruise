@@ -4285,7 +4285,7 @@ br.mobile-break {
 @media (max-width: 767px) {
 
   .membership-section-head h2 {
-    max-width: 14ch;
+    max-width: 10ch;
     margin-left: auto;
     margin-right: auto;
   }
@@ -4373,150 +4373,106 @@ br.mobile-break {
 
 
 /* =========================================================
-   2026-04-16 HOTFIX : membership mobile card only
-   - 기존 흐름 유지
-   - 모바일 카드만 압축 정리
-   - 월 비용 / 시작 비용 유지
-   - #plans 구간에서만 floating CTA 숨김
+   membership footer patch only
    ========================================================= */
-.floating-cta {
-  transition: opacity .22s ease, visibility .22s ease, transform .22s ease, box-shadow .22s ease;
+.site-footer {
+  padding: 42px 0 132px !important;
+  background: linear-gradient(90deg, #07162f 0%, #0a1d43 100%) !important;
+  color: #fff !important;
 }
 
-.floating-cta.is-hidden-on-plans {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
+.footer-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.footer-main-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-brand {
+  display: block;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.footer-meta {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.footer-links-text {
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.footer-home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  backdrop-filter: blur(10px);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.footer-home-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.rate-credit {
+  display: none !important;
 }
 
 @media (max-width: 767px) {
-  .plan-grid .plan-card {
+  .site-footer {
+    padding: 36px 0 118px !important;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .footer-meta,
+  .footer-links-text {
+    font-size: 14px;
+  }
+
+  .footer-actions {
+    width: 100%;
     justify-content: flex-start;
   }
 
-  .plan-grid .plan-name,
-  .plan-grid .plan-price-row,
-  .plan-grid .plan-feature-group,
-  .plan-grid .plan-caption,
-  .plan-grid .plan-disclaimer {
-    display: none !important;
-  }
-
-  .plan-grid .plan-top-stats {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-stat {
-    min-height: 48px;
-    padding: 12px 14px;
-    border-radius: 16px;
-  }
-
-  .plan-grid .plan-stat .label {
-    font-size: 13px;
-  }
-
-  .plan-grid .plan-stat .value {
-    font-size: 16px;
-    line-height: 1.2;
-    text-align: right;
-  }
-
-  .plan-grid .plan-mobile-summary,
-  .plan-grid .plan-quick-summary {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-mobile-line,
-  .plan-grid .plan-quick-summary > span,
-  .plan-grid .plan-quick-main {
-    min-height: 48px;
-    padding: 0 14px;
-    border-radius: 16px;
-    background: rgba(15, 25, 49, 0.05);
-  }
-
-  .plan-grid .plan-mobile-line {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .plan-grid .plan-mobile-line-main,
-  .plan-grid .plan-quick-main {
-    min-height: 52px;
-    background: rgba(46, 102, 255, 0.08);
-  }
-
-  .plan-grid .plan-mobile-line em,
-  .plan-grid .plan-quick-summary > span {
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  .plan-grid .plan-mobile-line strong,
-  .plan-grid .plan-mobile-line span,
-  .plan-grid .plan-quick-summary strong,
-  .plan-grid .plan-quick-summary span {
-    font-size: 16px;
-    line-height: 1.2;
-  }
-
-  .plan-grid .plan-mobile-line-main strong,
-  .plan-grid .plan-mobile-line-main span,
-  .plan-grid .plan-quick-main {
-    font-size: 18px;
-    font-weight: 900;
-    letter-spacing: -0.04em;
-  }
-
-  .plan-grid .plan-quick-summary {
-    grid-template-columns: 1fr;
-  }
-
-  .plan-grid .plan-quick-summary > span {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .plan-grid .plan-cta {
-    min-height: 50px;
-    font-size: 16px;
-    margin-top: 0 !important;
-  }
-
-  .plan-card.recommended .plan-stat,
-  .plan-card.recommended .plan-mobile-line,
-  .plan-card.recommended .plan-quick-summary > span,
-  .plan-card.recommended .plan-quick-main {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-color: rgba(255, 255, 255, 0.10) !important;
-  }
-
-  .plan-card.recommended .plan-mobile-line-main,
-  .plan-card.recommended .plan-quick-main {
-    background: rgba(255, 255, 255, 0.16) !important;
-  }
-
-  .plan-card.recommended .plan-stat .label,
-  .plan-card.recommended .plan-stat .value,
-  .plan-card.recommended .plan-mobile-line em,
-  .plan-card.recommended .plan-mobile-line strong,
-  .plan-card.recommended .plan-mobile-line span,
-  .plan-card.recommended .plan-quick-summary > span,
-  .plan-card.recommended .plan-quick-summary strong,
-  .plan-card.recommended .plan-quick-summary span {
-    color: #fff !important;
-  }
-
-  .floating-cta.is-hidden-on-plans {
-    transform: translateX(-50%) translateY(14px) scale(0.98) !important;
+  .footer-home-btn {
+    min-width: 120px;
   }
 }
