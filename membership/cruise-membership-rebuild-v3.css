@@ -4285,7 +4285,7 @@ br.mobile-break {
 @media (max-width: 767px) {
 
   .membership-section-head h2 {
-    max-width: 10ch;
+    max-width: 14ch;
     margin-left: auto;
     margin-right: auto;
   }
