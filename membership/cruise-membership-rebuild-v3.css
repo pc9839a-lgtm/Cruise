@@ -4479,7 +4479,7 @@ br.mobile-break {
 
 
 /* =========================================================
-   fix : footer-only + membership title width + plan card restore
+   fix : footer-only + membership title width + mobile plan summary
    ========================================================= */
 @media (max-width: 767px) {
   .membership-section-head h2 {
@@ -4494,9 +4494,30 @@ br.mobile-break {
     display: flex !important;
   }
 
-  .plan-grid .plan-top-stats,
-  .plan-grid .plan-feature-group {
+  .plan-grid .plan-top-stats {
     display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+  }
+
+  .plan-grid .plan-stat {
+    min-height: 48px;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+
+  .plan-grid .plan-stat .label {
+    font-size: 13px;
+  }
+
+  .plan-grid .plan-stat .value {
+    font-size: 16px;
+    line-height: 1.2;
+    text-align: right;
+  }
+
+  .plan-grid .plan-feature-group {
+    display: none !important;
   }
 
   .plan-grid .plan-caption,
@@ -4504,14 +4525,56 @@ br.mobile-break {
     display: block !important;
   }
 
-  .plan-grid .plan-mobile-summary,
-  .plan-grid .plan-quick-summary {
+  .plan-grid .plan-mobile-summary {
     display: none !important;
+  }
+
+  .plan-grid .plan-quick-summary {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+  }
+
+  .plan-grid .plan-quick-main {
+    display: none !important;
+  }
+
+  .plan-grid .plan-quick-summary > span {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 16px;
+    background: rgba(15, 25, 49, 0.05);
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .plan-grid .plan-quick-summary strong {
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .plan-grid .plan-cta {
     min-height: 56px !important;
     font-size: 18px !important;
     margin-top: auto !important;
+  }
+
+  .plan-card.recommended .plan-stat,
+  .plan-card.recommended .plan-quick-summary > span {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  .plan-card.recommended .plan-stat .label,
+  .plan-card.recommended .plan-stat .value,
+  .plan-card.recommended .plan-quick-summary > span,
+  .plan-card.recommended .plan-quick-summary strong {
+    color: #fff !important;
   }
 }
