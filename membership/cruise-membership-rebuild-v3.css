@@ -4283,24 +4283,24 @@ br.mobile-break {
 }
 
 @media (max-width: 767px) {
-
   .membership-section-head h2 {
-    max-width: 10ch;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 14ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .plan-grid {
     gap: 12px !important;
-    padding: 8px 2px 12px;
+    padding: 8px 2px 12px !important;
   }
 
   .plan-grid .plan-card {
-    flex: 0 0 calc(100% - 10px);
-    min-width: calc(100% - 10px);
-    padding: 18px 16px 18px;
-    border-radius: 22px;
-    min-height: 0;
+    flex: 0 0 calc(100% - 10px) !important;
+    min-width: calc(100% - 10px) !important;
+    padding: 18px 16px 18px !important;
+    border-radius: 22px !important;
+    min-height: 0 !important;
+    justify-content: flex-start !important;
   }
 
   .plan-grid .plan-tag {
@@ -4309,66 +4309,112 @@ br.mobile-break {
     font-size: 12px;
   }
 
-  .plan-grid .plan-name,
-  .plan-grid .plan-price-row,
-  .plan-grid .plan-top-stats,
-  .plan-grid .plan-feature-group,
-  .plan-grid .plan-caption,
-  .plan-grid .plan-disclaimer {
+  .plan-grid .plan-name {
+    display: block !important;
+  }
+
+  .plan-grid .plan-price-row {
+    display: flex !important;
+    align-items: flex-end !important;
+    margin-bottom: 14px !important;
+  }
+
+  .plan-grid .plan-top-stats {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+  }
+
+  .plan-grid .plan-stat {
+    min-height: 48px !important;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .plan-grid .plan-stat .label {
+    font-size: 13px !important;
+  }
+
+  .plan-grid .plan-stat .value {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+  }
+
+  .plan-grid .plan-feature-group {
     display: none !important;
   }
 
   .plan-grid .plan-mobile-summary {
-    display: grid;
-    gap: 10px;
-    margin: 14px 0 16px;
-  }
-
-  .plan-grid .plan-mobile-line {
-    min-height: 48px;
-    padding: 0 14px;
-    border-radius: 16px;
-    background: rgba(15, 25, 49, 0.05);
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
   }
 
   .plan-grid .plan-mobile-line-main {
-    min-height: 52px;
-    background: rgba(46, 102, 255, 0.08);
+    display: none !important;
+  }
+
+  .plan-grid .plan-mobile-line {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    min-height: 48px !important;
+    padding: 0 14px !important;
+    border-radius: 16px !important;
+    background: rgba(15, 25, 49, 0.05) !important;
   }
 
   .plan-grid .plan-mobile-line em {
-    font-size: 13px;
+    margin: 0 !important;
+    font-style: normal !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
   }
 
   .plan-grid .plan-mobile-line strong,
   .plan-grid .plan-mobile-line span {
-    font-size: 16px;
-    line-height: 1.2;
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.03em !important;
+    white-space: nowrap !important;
   }
 
-  .plan-grid .plan-mobile-line-main strong,
-  .plan-grid .plan-mobile-line-main span {
-    font-size: 18px;
+  .plan-grid .plan-caption {
+    display: block !important;
+    margin: 0 0 14px !important;
+  }
+
+  .plan-grid .plan-disclaimer {
+    display: block !important;
   }
 
   .plan-grid .plan-cta {
-    min-height: 50px;
-    font-size: 16px;
-    margin-top: 0;
+    min-height: 50px !important;
+    font-size: 16px !important;
+    margin-top: 0 !important;
   }
 
+  .plan-card.recommended .plan-stat,
   .plan-card.recommended .plan-mobile-line {
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.10) !important;
   }
 
-  .plan-card.recommended .plan-mobile-line-main {
-    background: rgba(255,255,255,0.16);
+  .plan-card.recommended .plan-mobile-line em,
+  .plan-card.recommended .plan-mobile-line strong,
+  .plan-card.recommended .plan-mobile-line span,
+  .plan-card.recommended .plan-stat .label,
+  .plan-card.recommended .plan-stat .value {
+    color: #fff !important;
   }
 
   .floating-cta.is-hidden-by-plans {
     transform: translateX(-50%) translateY(14px) scale(0.98) !important;
   }
-
 }
 
 
@@ -4474,184 +4520,5 @@ br.mobile-break {
 
   .footer-home-btn {
     min-width: 120px;
-  }
-}
-
-
-/* =========================================================
-   fix : footer-only + membership title width + mobile plan summary
-   ========================================================= */
-@media (max-width: 767px) {
-  .membership-section-head h2 {
-    max-width: 14ch !important;
-  }
-
-  .plan-grid .plan-name {
-    display: block !important;
-  }
-
-  .plan-grid .plan-price-row {
-    display: flex !important;
-  }
-
-  .plan-grid .plan-top-stats {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-stat {
-    min-height: 48px;
-    padding: 12px 14px;
-    border-radius: 16px;
-  }
-
-  .plan-grid .plan-stat .label {
-    font-size: 13px;
-  }
-
-  .plan-grid .plan-stat .value {
-    font-size: 16px;
-    line-height: 1.2;
-    text-align: right;
-  }
-
-  .plan-grid .plan-feature-group {
-    display: none !important;
-  }
-
-  .plan-grid .plan-caption,
-  .plan-grid .plan-disclaimer {
-    display: block !important;
-  }
-
-  .plan-grid .plan-mobile-summary {
-    display: none !important;
-  }
-
-  .plan-grid .plan-quick-summary {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-quick-main {
-    display: none !important;
-  }
-
-  .plan-grid .plan-quick-summary > span {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 48px;
-    padding: 0 14px;
-    border-radius: 16px;
-    background: rgba(15, 25, 49, 0.05);
-    font-size: 16px;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-
-  .plan-grid .plan-quick-summary strong {
-    font-size: 16px;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-
-  .plan-grid .plan-cta {
-    min-height: 56px !important;
-    font-size: 18px !important;
-    margin-top: auto !important;
-  }
-
-  .plan-card.recommended .plan-stat,
-  .plan-card.recommended .plan-quick-summary > span {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-color: rgba(255, 255, 255, 0.10) !important;
-  }
-
-  .plan-card.recommended .plan-stat .label,
-  .plan-card.recommended .plan-stat .value,
-  .plan-card.recommended .plan-quick-summary > span,
-  .plan-card.recommended .plan-quick-summary strong {
-    color: #fff !important;
-  }
-}
-/* =========================================================
-   PATCH ONLY : membership mobile point-summary restore
-   적용 방법:
-   - 현재 사용 중인 cruise-membership-rebuild-v3.css 맨 아래에 그대로 추가
-   - 기존 코드 삭제 없이 덧붙이면 됩니다
-   ========================================================= */
-
-@media (max-width: 767px) {
-  .membership-section-head h2 {
-    max-width: 14ch !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  /* 현재 모바일 카드에서 유지되어야 하는 기본 정보 */
-  .plan-grid .plan-name {
-    display: block !important;
-  }
-
-  .plan-grid .plan-price-row {
-    display: flex !important;
-    align-items: flex-end !important;
-  }
-
-  .plan-grid .plan-top-stats {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  /* 큰 포인트 박스는 모바일에서 숨기고 */
-  .plan-grid .plan-feature-group {
-    display: none !important;
-  }
-
-  /* 한줄형 포인트 요약은 다시 표시 */
-  .plan-grid .plan-quick-summary {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-    grid-template-columns: 1fr !important;
-  }
-
-  /* 이름/가격이 이미 위에 있으니 모바일 메인 요약줄은 숨김 */
-  .plan-grid .plan-quick-main {
-    display: none !important;
-  }
-
-  .plan-grid .plan-quick-summary > span {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 12px !important;
-    min-height: 48px;
-    padding: 0 14px;
-    border-radius: 16px;
-    background: rgba(15, 25, 49, 0.05);
-    font-size: 13px;
-    font-weight: 800;
-    white-space: nowrap;
-  }
-
-  .plan-grid .plan-quick-summary > span strong {
-    font-size: 16px;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-  }
-
-  .plan-card.recommended .plan-quick-summary > span {
-    background: rgba(255, 255, 255, 0.12) !important;
-    color: rgba(255, 255, 255, 0.92) !important;
-  }
-
-  .plan-card.recommended .plan-quick-summary > span strong {
-    color: #ffffff !important;
   }
 }
