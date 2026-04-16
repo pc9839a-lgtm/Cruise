@@ -100,21 +100,6 @@ function renderPlans() {
           <div class="plan-price-unit">/월</div>
         </div>
 
-        <div class="plan-mobile-summary" aria-label="모바일 멤버십 요약">
-          <div class="plan-mobile-line plan-mobile-line-main">
-            <strong>${plan.name}</strong>
-            <span>${formatUsd(plan.monthlyUsd)}/월</span>
-          </div>
-          <div class="plan-mobile-line">
-            <em>가입시 리워드</em>
-            <strong>${formatPoint(plan.rewardPoint)}</strong>
-          </div>
-          <div class="plan-mobile-line">
-            <em>매월 적립 포인트</em>
-            <strong>${formatPoint(plan.monthlyPoint)}</strong>
-          </div>
-        </div>
-
         <div class="plan-top-stats">
           <div class="plan-stat">
             <span class="label">월 비용</span>
@@ -124,6 +109,12 @@ function renderPlans() {
             <span class="label">시작 비용</span>
             <div class="value">${startKrw}</div>
           </div>
+        </div>
+
+        <div class="plan-quick-summary" aria-label="모바일 핵심 요약">
+          <span class="plan-quick-main">${plan.name} ${formatUsd(plan.monthlyUsd)}/월</span>
+          <span>가입시 리워드 <strong>${formatPoint(plan.rewardPoint)}</strong></span>
+          <span>매월 적립 포인트 <strong>${formatPoint(plan.monthlyPoint)}</strong></span>
         </div>
 
         <div class="plan-feature-group">
@@ -338,39 +329,21 @@ async function loadMembershipSignupUrl() {
   }
 }
 
-
-
-function setupPlansFloatingCtaObserver() {
-  const plansSection = document.getElementById('plans');
+function bindFloatingCtaForPlans() {
   const floatingCta = document.querySelector('.floating-cta');
+  const plansSection = document.getElementById('plans');
 
-  if (!plansSection || !floatingCta) return;
-
-  const toggleFloatingCta = (shouldHide) => {
-    floatingCta.classList.toggle('is-hidden-by-plans', Boolean(shouldHide));
-  };
-
-  if (!('IntersectionObserver' in window)) {
-    const syncByScroll = () => {
-      const rect = plansSection.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
-      const visible = rect.top < viewportHeight * 0.82 && rect.bottom > viewportHeight * 0.18;
-      toggleFloatingCta(visible);
-    };
-
-    window.addEventListener('scroll', syncByScroll, { passive: true });
-    window.addEventListener('resize', syncByScroll);
-    syncByScroll();
+  if (!floatingCta || !plansSection || !('IntersectionObserver' in window)) {
     return;
   }
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      toggleFloatingCta(entry.isIntersecting);
+      floatingCta.classList.toggle('is-hidden-on-plans', entry.isIntersecting);
     });
   }, {
-    threshold: 0.12,
-    rootMargin: '-12% 0px -12% 0px'
+    threshold: 0.18,
+    rootMargin: '-8% 0px -45% 0px'
   });
 
   observer.observe(plansSection);
@@ -421,9 +394,9 @@ async function init() {
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
+  bindFloatingCtaForPlans();
   updateCalculator();
   observeReveals();
-  setupPlansFloatingCtaObserver();
   await loadMembershipSignupUrl();
   fetchExchangeRate();
 }
