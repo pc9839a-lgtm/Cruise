@@ -4476,3 +4476,42 @@ br.mobile-break {
     min-width: 120px;
   }
 }
+
+
+/* =========================================================
+   fix : footer-only + membership title width + plan card restore
+   ========================================================= */
+@media (max-width: 767px) {
+  .membership-section-head h2 {
+    max-width: 14ch !important;
+  }
+
+  .plan-grid .plan-name {
+    display: block !important;
+  }
+
+  .plan-grid .plan-price-row {
+    display: flex !important;
+  }
+
+  .plan-grid .plan-top-stats,
+  .plan-grid .plan-feature-group {
+    display: grid !important;
+  }
+
+  .plan-grid .plan-caption,
+  .plan-grid .plan-disclaimer {
+    display: block !important;
+  }
+
+  .plan-grid .plan-mobile-summary,
+  .plan-grid .plan-quick-summary {
+    display: none !important;
+  }
+
+  .plan-grid .plan-cta {
+    min-height: 56px !important;
+    font-size: 18px !important;
+    margin-top: auto !important;
+  }
+}
