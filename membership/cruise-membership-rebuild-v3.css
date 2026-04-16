@@ -4578,3 +4578,80 @@ br.mobile-break {
     color: #fff !important;
   }
 }
+/* =========================================================
+   PATCH ONLY : membership mobile point-summary restore
+   적용 방법:
+   - 현재 사용 중인 cruise-membership-rebuild-v3.css 맨 아래에 그대로 추가
+   - 기존 코드 삭제 없이 덧붙이면 됩니다
+   ========================================================= */
+
+@media (max-width: 767px) {
+  .membership-section-head h2 {
+    max-width: 14ch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* 현재 모바일 카드에서 유지되어야 하는 기본 정보 */
+  .plan-grid .plan-name {
+    display: block !important;
+  }
+
+  .plan-grid .plan-price-row {
+    display: flex !important;
+    align-items: flex-end !important;
+  }
+
+  .plan-grid .plan-top-stats {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+  }
+
+  /* 큰 포인트 박스는 모바일에서 숨기고 */
+  .plan-grid .plan-feature-group {
+    display: none !important;
+  }
+
+  /* 한줄형 포인트 요약은 다시 표시 */
+  .plan-grid .plan-quick-summary {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 이름/가격이 이미 위에 있으니 모바일 메인 요약줄은 숨김 */
+  .plan-grid .plan-quick-main {
+    display: none !important;
+  }
+
+  .plan-grid .plan-quick-summary > span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 16px;
+    background: rgba(15, 25, 49, 0.05);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .plan-grid .plan-quick-summary > span strong {
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .plan-card.recommended .plan-quick-summary > span {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+  }
+
+  .plan-card.recommended .plan-quick-summary > span strong {
+    color: #ffffff !important;
+  }
+}
