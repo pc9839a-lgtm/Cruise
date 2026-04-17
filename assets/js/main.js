@@ -14,6 +14,7 @@
   const phoneInput = document.getElementById('phoneInput');
   const mainContent = document.querySelector('main');
   const stickyInquiryBar = document.getElementById('stickyInquiryBar');
+  const footer = document.getElementById('footer');
   const MOBILE_STICKY_HIDE_BREAKPOINT = 768;
 
   /* ---------------------------------------------------------
@@ -63,6 +64,8 @@
 
   let reviewAutoTimer = null;
   let basicInfoAutoTimer = null;
+  let isStickyFooterIntersecting = false;
+  let stickyFooterObserver = null;
 
   const BOOTSTRAP_STORAGE_KEY = 'cruiseplay_bootstrap_cache_v1';
   const BOOTSTRAP_STORAGE_TTL = 60 * 60 * 1000;
@@ -79,6 +82,7 @@
     setMembershipLink();
     showInquiryLoadingOverlayIfNeeded();
     syncMobileStickyInquiryVisibility();
+    setupStickyInquiryFooterObserver();
 
     if (config.useMockOnly) {
       const payload = normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
@@ -171,6 +175,7 @@
       setupReviewSlider((state.bootstrap.reviews || []).length);
       setupBasicInfoSlider();
       applyScheduleHeaderDesktopFix();
+      syncStickyInquiryFooterVisibility();
       requestAnimationFrame(() => scrollBasicInfoToPage(state.basicInfoPage || 0, 'auto'));
     });
 
@@ -1409,10 +1414,50 @@
 
     if (!isMobileStickyViewport()) {
       setMobileStickyInquiryHidden(false);
+      syncStickyInquiryFooterVisibility();
       return;
     }
 
     setMobileStickyInquiryHidden(isContactFieldElement(document.activeElement));
+    syncStickyInquiryFooterVisibility();
+  }
+
+  function setupStickyInquiryFooterObserver() {
+    if (!stickyInquiryBar || !footer) return;
+
+    if (stickyFooterObserver) {
+      stickyFooterObserver.disconnect();
+      stickyFooterObserver = null;
+    }
+
+    if ('IntersectionObserver' in window) {
+      stickyFooterObserver = new IntersectionObserver((entries) => {
+        const entry = entries && entries[0] ? entries[0] : null;
+        isStickyFooterIntersecting = !!(entry && entry.isIntersecting);
+        syncStickyInquiryFooterVisibility();
+      }, {
+        threshold: 0.01
+      });
+
+      stickyFooterObserver.observe(footer);
+      syncStickyInquiryFooterVisibility();
+      return;
+    }
+
+    const fallbackSync = () => {
+      const rect = footer.getBoundingClientRect();
+      isStickyFooterIntersecting = rect.top < window.innerHeight && rect.bottom > 0;
+      syncStickyInquiryFooterVisibility();
+    };
+
+    window.addEventListener('scroll', fallbackSync, { passive: true });
+    window.addEventListener('resize', fallbackSync);
+    fallbackSync();
+  }
+
+  function syncStickyInquiryFooterVisibility() {
+    if (!stickyInquiryBar) return;
+    stickyInquiryBar.classList.toggle('is-hidden-by-footer', isMobileStickyViewport() && isStickyFooterIntersecting);
   }
 
   function updateFormResult(message, type) {
