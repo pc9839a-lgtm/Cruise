@@ -58,7 +58,7 @@
     reviewPage: 0,
     basicInfoPage: 0,
     contentLinksOrder: [],
-    contentLinksVisibleCount: 3,
+    contentLinksVisibleCount: getInitialContentLinksVisibleCount(),
   };
 
   let reviewAutoTimer = null;
@@ -66,6 +66,10 @@
 
   const BOOTSTRAP_STORAGE_KEY = 'cruiseplay_bootstrap_cache_v1';
   const BOOTSTRAP_STORAGE_TTL = 60 * 60 * 1000;
+
+  function getInitialContentLinksVisibleCount() {
+    return window.innerWidth <= 768 ? 4 : 3;
+  }
 
   init();
 
@@ -84,46 +88,14 @@
     }
 
     const cachedPayload = getCachedBootstrapData();
-
-    if (hasBootstrapAnyData(cachedPayload)) {
+    if (cachedPayload) {
       hydrate(cachedPayload);
       handleInitialInquiryNavigation();
     }
 
-    let initialPayload = null;
-
-    try {
-      initialPayload = normalizeData(await loadBootstrapFromApi('bootstrap_initial'));
-
-      const mergedInitial = mergeBootstrapData(cachedPayload, initialPayload);
-
-      if (hasBootstrapCoreData(mergedInitial)) {
-        hydrate(mergedInitial);
-        cacheBootstrapData(mergedInitial);
-      }
-    } catch (error) {
-      // initial 실패 시 cached 유지
-    }
-
-    try {
-      const deferredPayload = normalizeData(await loadBootstrapFromApi('bootstrap_deferred'));
-      const mergedPayload = mergeBootstrapData(
-        mergeBootstrapData({}, cachedPayload),
-        mergeBootstrapData(initialPayload, deferredPayload)
-      );
-
-      if (hasBootstrapAnyData(mergedPayload)) {
-        hydrate(mergedPayload);
-        cacheBootstrapData(mergedPayload);
-      }
-    } catch (error) {
-      // deferred 실패 시 initial/cached 유지
-    }
-
-    if (!hasBootstrapAnyData(cachedPayload) && !hasBootstrapCoreData(initialPayload)) {
-      renderBootstrapFallbackState();
-    }
-
+    const payload = await getBootstrapWithFallback();
+    hydrate(payload);
+    cacheBootstrapData(payload);
     handleInitialInquiryNavigation();
   }
 
@@ -295,20 +267,17 @@
       if (!parsed || !parsed.savedAt || !parsed.data) return null;
       if (Date.now() - Number(parsed.savedAt) > BOOTSTRAP_STORAGE_TTL) return null;
 
-      const normalized = normalizeData(parsed.data);
-      return hasBootstrapAnyData(normalized) ? normalized : null;
+      return normalizeData(parsed.data);
     } catch (error) {
       return null;
     }
   }
 
   function cacheBootstrapData(payload) {
-    if (!hasBootstrapCoreData(payload)) return;
-
     try {
       localStorage.setItem(BOOTSTRAP_STORAGE_KEY, JSON.stringify({
         savedAt: Date.now(),
-        data: normalizeData(payload)
+        data: payload
       }));
     } catch (error) {}
   }
@@ -333,15 +302,19 @@
   }
 
   async function getBootstrapWithFallback() {
-    const apiPayload = await loadBootstrapFromApi('bootstrap_initial');
-    return normalizeData(apiPayload);
+    try {
+      const apiPayload = await loadBootstrapFromApi();
+      return normalizeData(apiPayload);
+    } catch (error) {
+      return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+    }
   }
 
-  function loadBootstrapFromApi(action) {
+  function loadBootstrapFromApi() {
     return new Promise(function (resolve, reject) {
-      const callbackName = '__cruiseJsonpCallback_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+      const callbackName = '__cruiseJsonpCallback_' + Date.now();
       const params = new URLSearchParams(window.location.search);
-      params.set('action', action || 'bootstrap_initial');
+      params.set('action', 'bootstrap');
       params.set('callback', callbackName);
 
       const script = document.createElement('script');
@@ -399,7 +372,7 @@
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
     state.contentLinksOrder = shuffleArray([...(state.bootstrap.content_links || [])]);
-    state.contentLinksVisibleCount = 3;
+    state.contentLinksVisibleCount = getInitialContentLinksVisibleCount();
     logDebug('hydrate.start', getBootstrapDebugSummary(state.bootstrap));
     renderSettings();
     renderFilters();
@@ -452,89 +425,25 @@
 
   function normalizeData(data) {
     const safe = data || {};
+    const fb = window.MOCK_BOOTSTRAP_DATA || {};
     return {
-      settings: safe.settings && typeof safe.settings === 'object' ? safe.settings : {},
-      schedules: ensureArray(safe.schedules),
-      schedule_days: ensureArray(safe.schedule_days),
-      reviews: ensureArray(safe.reviews),
-      targets: ensureArray(safe.targets),
-      basic_info: ensureArray(safe.basic_info),
-      process_steps: ensureArray(safe.process_steps),
-      cabins: ensureArray(safe.cabins),
-      faqs: ensureArray(safe.faqs),
-      trust_points: ensureArray(safe.trust_points),
-      content_links: ensureArray(safe.content_links)
+      settings: safe.settings || fb.settings || {},
+      schedules: ensureArray(safe.schedules, fb.schedules),
+      schedule_days: ensureArray(safe.schedule_days, fb.schedule_days),
+      reviews: ensureArray(safe.reviews, fb.reviews),
+      targets: ensureArray(safe.targets, fb.targets),
+      basic_info: ensureArray(safe.basic_info, fb.basic_info),
+      process_steps: ensureArray(safe.process_steps, fb.process_steps),
+      cabins: ensureArray(safe.cabins, fb.cabins),
+      faqs: ensureArray(safe.faqs, fb.faqs),
+      trust_points: ensureArray(safe.trust_points, fb.trust_points),
+      content_links: ensureArray(safe.content_links, fb.content_links)
     };
   }
 
-  function ensureArray(value) {
-    return Array.isArray(value) ? value : [];
+  function ensureArray(primary, fallback) {
+    return Array.isArray(primary) ? primary : (Array.isArray(fallback) ? fallback : []);
   }
-
-  function hasBootstrapCoreData(payload) {
-    const safe = normalizeData(payload);
-    return !!(
-      safe.settings &&
-      Object.keys(safe.settings).length > 0 &&
-      Array.isArray(safe.schedules) &&
-      safe.schedules.length > 0
-    );
-  }
-
-  function hasBootstrapAnyData(payload) {
-    const safe = normalizeData(payload);
-
-    if (safe.settings && Object.keys(safe.settings).length > 0) return true;
-
-    return [
-      safe.schedules,
-      safe.schedule_days,
-      safe.reviews,
-      safe.targets,
-      safe.basic_info,
-      safe.process_steps,
-      safe.cabins,
-      safe.faqs,
-      safe.trust_points,
-      safe.content_links
-    ].some(function (arr) {
-      return Array.isArray(arr) && arr.length > 0;
-    });
-  }
-
-  function mergeBootstrapData(base, incoming) {
-    const a = normalizeData(base);
-    const b = normalizeData(incoming);
-
-    return {
-      settings: Object.keys(b.settings || {}).length ? b.settings : a.settings,
-      schedules: b.schedules.length ? b.schedules : a.schedules,
-      schedule_days: b.schedule_days.length ? b.schedule_days : a.schedule_days,
-      reviews: b.reviews.length ? b.reviews : a.reviews,
-      targets: b.targets.length ? b.targets : a.targets,
-      basic_info: b.basic_info.length ? b.basic_info : a.basic_info,
-      process_steps: b.process_steps.length ? b.process_steps : a.process_steps,
-      cabins: b.cabins.length ? b.cabins : a.cabins,
-      faqs: b.faqs.length ? b.faqs : a.faqs,
-      trust_points: b.trust_points.length ? b.trust_points : a.trust_points,
-      content_links: b.content_links.length ? b.content_links : a.content_links
-    };
-  }
-
-  function renderBootstrapFallbackState() {
-    if (scheduleGrid && !scheduleGrid.innerHTML.trim()) {
-      scheduleGrid.innerHTML = `<div class="schedule-empty">현재 일정 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>`;
-    }
-
-    if (reviewGrid && !reviewGrid.innerHTML.trim()) {
-      reviewGrid.innerHTML = `<div class="schedule-empty">후기 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>`;
-    }
-
-    if (reviewDots) {
-      reviewDots.innerHTML = '';
-    }
-  }
-
 
   function getBootstrapDebugSummary(payload) {
     return Object.keys(payload || {}).reduce((acc, key) => {
@@ -1343,7 +1252,7 @@
     if (!orderedItems.length) return section.style.display = 'none';
     section.style.display = '';
 
-    const visibleCount = Math.max(3, Number(state.contentLinksVisibleCount || 3));
+    const visibleCount = Math.max(getInitialContentLinksVisibleCount(), Number(state.contentLinksVisibleCount || getInitialContentLinksVisibleCount()));
     const items = orderedItems.slice(0, visibleCount);
 
     grid.innerHTML = items.map(item => `
