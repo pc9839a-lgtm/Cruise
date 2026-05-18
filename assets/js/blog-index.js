@@ -14,22 +14,6 @@
     items: []
   };
 
-  const BLOG_DATE_MAP = {
-    'first-cruise-guide': '2026.03.03',
-    'cruise-cost-breakdown': '2026.03.09',
-    'departure-checklist': '2026.03.14',
-    'cruise-vs-package-tour': '2026.03.21',
-    'cabin-type-comparison': '2026.03.28',
-    'extra-cruise-costs': '2026.04.02',
-    'cruise-packing-by-season': '2026.04.09',
-    'cruise-boarding-process': '2026.04.15',
-    'shore-excursion-guide': '2026.04.23',
-    'cruise-seasick-tips': '2026.05.01',
-    'cruise-dining-guide': '2026.05.10',
-    'cruise-passport-documents-check': '2026.05.18',
-    'first-cruise-common-mistakes': '2026.05.27'
-  };
-
   init();
 
   async function init() {
@@ -209,15 +193,14 @@
 
     return list
       .map(function (item) {
-        const linkUrl = String(item && item.link_url || '').trim();
         return {
           category: String(item && item.category || '').trim(),
           title: String(item && item.title || '').trim(),
           summary: String(item && item.summary || '').trim(),
           thumbnail_url: appendImageBust(String(item && item.thumbnail_url || '').trim()),
-          link_url: linkUrl,
+          link_url: String(item && item.link_url || '').trim(),
           tag_text: String(item && item.tag_text || '').trim(),
-          date_text: getBlogDateText(linkUrl) || formatDateText(
+          date_text: formatDateText(
             item && (
               item.publish_date ||
               item.published_date ||
@@ -239,18 +222,17 @@
       const image = card.querySelector('.blog-card-cover img');
       const titleLink = card.querySelector('.blog-card-title a');
       const dateNode = card.querySelector('.blog-card-date');
-      const linkUrl = titleLink
-        ? String(titleLink.getAttribute('href') || '').trim()
-        : (coverLink ? String(coverLink.getAttribute('href') || '').trim() : '');
 
       return {
         category: String(card.dataset.category || '').trim(),
         title: String(card.dataset.title || (titleLink ? titleLink.textContent : '') || '').trim(),
         summary: String(card.dataset.summary || '').trim(),
         thumbnail_url: image ? String(image.getAttribute('src') || '').trim() : '',
-        link_url: linkUrl,
+        link_url: titleLink
+          ? String(titleLink.getAttribute('href') || '').trim()
+          : (coverLink ? String(coverLink.getAttribute('href') || '').trim() : ''),
         tag_text: String(card.dataset.tags || '').trim(),
-        date_text: getBlogDateText(linkUrl) || sanitizeDateText(dateNode ? String(dateNode.textContent || '').trim() : '')
+        date_text: sanitizeDateText(dateNode ? String(dateNode.textContent || '').trim() : '')
       };
     }).filter(function (item) {
       return !!(item.title && item.link_url);
@@ -390,18 +372,6 @@
     if (!text) return '';
     if (text === '0000.00.00' || text === '0000-00-00') return '';
     return text;
-  }
-
-  function getBlogDateText(linkUrl) {
-    const slug = extractBlogSlug(linkUrl);
-    return BLOG_DATE_MAP[slug] || '';
-  }
-
-  function extractBlogSlug(linkUrl) {
-    const text = String(linkUrl || '').trim();
-    if (!text) return '';
-    const match = text.match(/\/blog\/([^/?#]+)\/?/i);
-    return match && match[1] ? decodeURIComponent(match[1]).replace(/\/+$/, '') : '';
   }
 
   function formatDateText(value) {
