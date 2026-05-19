@@ -94,13 +94,12 @@
     const cachedPayload = getCachedBootstrapData();
     if (cachedPayload) {
       hydrate(cachedPayload);
-      handleInitialInquiryNavigation();
+    } else {
+      hydrate(normalizeData(window.MOCK_BOOTSTRAP_DATA || {}));
     }
 
-    const payload = await getBootstrapWithFallback();
-    hydrate(payload);
-    cacheBootstrapData(payload);
     handleInitialInquiryNavigation();
+    refreshBootstrapData();
   }
 
   function bindStaticEvents() {
@@ -272,13 +271,16 @@
       if (!parsed || !parsed.savedAt || !parsed.data) return null;
       if (Date.now() - Number(parsed.savedAt) > BOOTSTRAP_STORAGE_TTL) return null;
 
-      return normalizeData(parsed.data);
+      const payload = normalizeData(parsed.data);
+      return hasUsableBootstrapData(payload) ? payload : null;
     } catch (error) {
       return null;
     }
   }
 
   function cacheBootstrapData(payload) {
+    if (!hasUsableBootstrapData(payload)) return;
+
     try {
       localStorage.setItem(BOOTSTRAP_STORAGE_KEY, JSON.stringify({
         savedAt: Date.now(),
@@ -374,6 +376,23 @@
     });
   }
 
+  function refreshBootstrapData() {
+    getBootstrapWithFallback()
+      .then((payload) => {
+        if (!hasUsableBootstrapData(payload)) {
+          logDebug('bootstrap.refresh.skip_empty', getBootstrapDebugSummary(payload));
+          return;
+        }
+
+        hydrate(payload);
+        cacheBootstrapData(payload);
+        handleInitialInquiryNavigation();
+      })
+      .catch((error) => {
+        logDebug('bootstrap.refresh.error', { error: error.message });
+      });
+  }
+
   function hydrate(data) {
     state.bootstrap = normalizeData(data);
     state.contentLinksOrder = shuffleArray([...(state.bootstrap.content_links || [])]);
@@ -447,7 +466,26 @@
   }
 
   function ensureArray(primary, fallback) {
-    return Array.isArray(primary) ? primary : (Array.isArray(fallback) ? fallback : []);
+    if (Array.isArray(primary) && primary.length > 0) return primary;
+    if (Array.isArray(fallback) && fallback.length > 0) return fallback;
+    return [];
+  }
+
+  function hasUsableBootstrapData(payload) {
+    if (!payload) return false;
+
+    return [
+      'schedules',
+      'schedule_days',
+      'reviews',
+      'targets',
+      'basic_info',
+      'process_steps',
+      'cabins',
+      'faqs',
+      'trust_points',
+      'content_links'
+    ].some((key) => Array.isArray(payload[key]) && payload[key].length > 0);
   }
 
   function getBootstrapDebugSummary(payload) {
