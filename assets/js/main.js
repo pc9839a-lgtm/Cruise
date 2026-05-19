@@ -95,7 +95,10 @@
     if (cachedPayload) {
       hydrate(cachedPayload);
     } else {
-      hydrate(normalizeData(window.MOCK_BOOTSTRAP_DATA || {}));
+      const fallbackPayload = normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
+      if (hasUsableBootstrapData(fallbackPayload)) {
+        hydrate(fallbackPayload);
+      }
     }
 
     handleInitialInquiryNavigation();
