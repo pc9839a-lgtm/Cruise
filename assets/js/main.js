@@ -69,6 +69,8 @@
 
   const BOOTSTRAP_STORAGE_KEY = 'cruiseplay_bootstrap_cache_v1';
   const BOOTSTRAP_STORAGE_TTL = 60 * 60 * 1000;
+  const STATIC_BOOTSTRAP_URL = 'assets/data/bootstrap-fallback.json?v=20260520';
+  const STATIC_BOOTSTRAP_TIMEOUT = 1800;
 
   function getInitialContentLinksVisibleCount() {
     return window.innerWidth <= 768 ? 4 : 3;
@@ -91,13 +93,30 @@
       return;
     }
 
+    let hasHydratedBootstrap = false;
     const cachedPayload = getCachedBootstrapData();
     if (cachedPayload) {
       hydrate(cachedPayload);
+      hasHydratedBootstrap = true;
     } else {
       const fallbackPayload = normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
       if (hasUsableBootstrapData(fallbackPayload)) {
         hydrate(fallbackPayload);
+        hasHydratedBootstrap = true;
+      }
+    }
+
+    if (!hasHydratedBootstrap) {
+      try {
+        const staticPayload = await loadStaticBootstrapFallback();
+        if (hasUsableBootstrapData(staticPayload)) {
+          hydrate(staticPayload);
+          cacheBootstrapData(staticPayload);
+          hasHydratedBootstrap = true;
+          logDebug('bootstrap.static.loaded', getBootstrapDebugSummary(staticPayload));
+        }
+      } catch (error) {
+        logDebug('bootstrap.static.error', { error: error.message });
       }
     }
 
@@ -316,8 +335,46 @@
       const apiPayload = await loadBootstrapFromApi();
       return normalizeData(apiPayload);
     } catch (error) {
+      try {
+        const staticPayload = await loadStaticBootstrapFallback();
+        if (hasUsableBootstrapData(staticPayload)) {
+          return staticPayload;
+        }
+      } catch (staticError) {
+        logDebug('bootstrap.static.fallback_error', { error: staticError.message });
+      }
+
       return normalizeData(window.MOCK_BOOTSTRAP_DATA || {});
     }
+  }
+
+  function loadStaticBootstrapFallback() {
+    if (!window.fetch) return Promise.reject(new Error('static-bootstrap-fetch-unavailable'));
+
+    return new Promise((resolve, reject) => {
+      const controller = window.AbortController ? new AbortController() : null;
+      const timeoutId = window.setTimeout(() => {
+        if (controller) controller.abort();
+        reject(new Error('static-bootstrap-timeout'));
+      }, STATIC_BOOTSTRAP_TIMEOUT);
+
+      fetch(STATIC_BOOTSTRAP_URL, {
+        cache: 'force-cache',
+        signal: controller ? controller.signal : undefined
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('static-bootstrap-http-' + response.status);
+          return response.json();
+        })
+        .then((payload) => {
+          clearTimeout(timeoutId);
+          resolve(normalizeData(payload));
+        })
+        .catch((error) => {
+          clearTimeout(timeoutId);
+          reject(error);
+        });
+    });
   }
 
   function loadBootstrapFromApi() {
