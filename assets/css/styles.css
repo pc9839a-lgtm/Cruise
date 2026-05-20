@@ -912,7 +912,7 @@ button { cursor: pointer; }
 }
 #targetsSection {
   padding-top: 98px;
-  padding-bottom: 30px;
+  padding-bottom: 86px;
   background: linear-gradient(180deg, #f6f8fc 0%, #eef4fb 100%);
 }
 #cabinsSection {
@@ -922,7 +922,7 @@ button { cursor: pointer; }
 }
 #processSection {
   padding-top: 98px;
-  padding-bottom: 30px;
+  padding-bottom: 86px;
   background: linear-gradient(180deg, #f7f9fd 0%, #eef4fb 100%);
 }
 #faqSection {
