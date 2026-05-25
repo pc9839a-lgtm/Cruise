@@ -3,26 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>크루즈 여행을 소개하는 투잡 | 크루즈플레이</title>
-  <meta name="description" content="재고, 매장, 복잡한 창업 없이 크루즈 여행 멤버십을 소개하는 투잡 안내 페이지입니다. 블로그 자동화, 개인 랜딩페이지, 온라인 명함, 컨텐츠, 무료 교육을 제공합니다." />
+  <title>월급 말고 딱 50만원만 더 | 크루즈 소개 부업</title>
+  <meta name="description" content="월급 외 딱 50만원의 여유를 목표로, 크루즈 여행 경험과 멤버십 소개를 활용하는 부업 안내 페이지입니다." />
 
   <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/partner/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/partner/" />
-  <meta property="og:title" content="크루즈 여행을 소개하는 투잡 | 크루즈플레이" />
-  <meta property="og:description" content="재고, 매장, 복잡한 창업 없이 크루즈 여행 멤버십을 소개하는 투잡 안내 페이지입니다." />
+  <meta property="og:title" content="월급 말고 딱 50만원만 더 | 크루즈 소개 부업" />
+  <meta property="og:description" content="크루즈 여행 다녀오고 그 경험을 자랑하세요. 사진, 영상, 후기가 새로운 부업의 시작이 될 수 있습니다." />
   <meta property="og:image" content="https://cruiseplay-dyt.pages.dev/img/og-membership.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="크루즈 여행을 소개하는 투잡 | 크루즈플레이" />
-  <meta name="twitter:description" content="재고, 매장, 복잡한 창업 없이 크루즈 여행 멤버십을 소개하는 투잡 안내 페이지입니다." />
+  <meta name="twitter:title" content="월급 말고 딱 50만원만 더 | 크루즈 소개 부업" />
+  <meta name="twitter:description" content="크루즈 여행 다녀오고 그 경험을 자랑하세요. 사진, 영상, 후기가 새로운 부업의 시작이 될 수 있습니다." />
   <meta name="twitter:image" content="https://cruiseplay-dyt.pages.dev/img/og-membership.jpg" />
+
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="/membership/cruise-membership-rebuild-v3.css" />
   <style>
     :root {
+      --partner-navy: #06142f;
+      --partner-blue: #2e66ff;
       --partner-gold: #f6c645;
-      --partner-ink: #06142f;
+      --partner-red: #ff2d2d;
+      --partner-muted: #53647f;
+      --partner-line: rgba(15, 25, 49, 0.10);
+    }
+
+    body.partner-page {
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(46, 102, 255, 0.08), transparent 34%),
+        linear-gradient(180deg, #f5f8ff 0%, #ffffff 22%, #f3f7ff 100%);
     }
 
     body.partner-page .reveal {
@@ -30,459 +42,740 @@
       transform: none !important;
     }
 
-    body.partner-page .hero-shell {
-      min-height: 790px;
-      padding: 64px clamp(34px, 5vw, 68px);
-      background:
-        radial-gradient(circle at 18% 18%, rgba(246, 198, 69, 0.28), transparent 26%),
-        radial-gradient(circle at 88% 20%, rgba(46, 102, 255, 0.34), transparent 28%),
-        linear-gradient(140deg, rgba(3, 12, 34, 0.91), rgba(9, 40, 96, 0.82)),
-        url('/membership/img/KakaoTalk_20260405_150550057_03.jpg') center center / cover no-repeat;
-      animation: partnerHeroIn 760ms cubic-bezier(.2,.9,.2,1) both;
+    .partner-nav .hero-nav-track a {
+      min-width: 150px;
     }
 
-    body.partner-page .hero-copy-wrap {
+    .partner-hero {
+      padding: 52px 0 40px;
+    }
+
+    .partner-hero-shell {
       position: relative;
-      z-index: 5;
-      max-width: 640px !important;
-      margin: 0 !important;
-      padding-top: 44px;
-      text-align: left !important;
+      overflow: hidden;
+      min-height: 790px;
+      padding: clamp(46px, 6vw, 78px);
+      border-radius: 46px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(246, 198, 69, 0.28), transparent 25%),
+        radial-gradient(circle at 86% 24%, rgba(46, 102, 255, 0.30), transparent 31%),
+        linear-gradient(140deg, rgba(4, 13, 36, 0.91), rgba(9, 39, 92, 0.82)),
+        url('/membership/img/KakaoTalk_20260405_150550057_03.jpg') center center / cover no-repeat;
+      box-shadow: 0 36px 90px rgba(15, 30, 70, 0.20);
+      animation: heroIn 720ms cubic-bezier(.2,.9,.2,1) both;
     }
 
-    body.partner-page .hero-title {
-      max-width: 640px !important;
-      margin: 0 !important;
-      font-size: clamp(54px, 6vw, 86px) !important;
-      line-height: 0.98 !important;
-      text-align: left !important;
-    }
-
-    body.partner-page .hero-title strong {
-      color: var(--partner-gold) !important;
-    }
-
-    body.partner-page .hero-lead {
-      max-width: 560px !important;
-      margin: 28px 0 0 !important;
-      text-align: left !important;
-    }
-
-    body.partner-page .hero-benefit-row {
-      max-width: 590px;
-      justify-content: flex-start !important;
-    }
-
-    body.partner-page .hero-actions {
-      justify-content: flex-start !important;
-    }
-
-    .partner-visual-board {
+    .partner-hero-shell::after {
+      content: "";
       position: absolute;
-      right: -96px;
-      top: 220px;
-      bottom: auto;
-      z-index: 2;
-      width: min(35vw, 430px);
-      min-width: 360px;
-      display: grid;
-      grid-template-columns: 1fr 0.72fr;
-      gap: 16px;
-      align-items: end;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(3, 10, 29, 0.30), transparent 48%),
+        radial-gradient(circle at 72% 70%, rgba(46, 102, 255, 0.20), transparent 32%);
       pointer-events: none;
     }
 
-    .partner-phone {
-      overflow: hidden;
-      min-height: 410px;
-      padding: 18px;
-      border-radius: 36px;
-      border: 1px solid rgba(255,255,255,0.28);
-      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(231,238,255,0.92));
-      box-shadow: 0 34px 80px rgba(0,0,0,0.26);
-      transform: rotate(-3deg);
-      animation: partnerPhoneFloat 5s ease-in-out infinite;
+    .partner-hero-copy {
+      position: relative;
+      z-index: 4;
+      max-width: 720px;
+      padding-top: 18px;
     }
 
-    .partner-phone-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 20px;
-      color: var(--partner-ink);
-      font-weight: 900;
-      letter-spacing: -0.05em;
-    }
-
-    .partner-phone-top span {
+    .partner-kicker {
       display: inline-flex;
-      min-height: 30px;
       align-items: center;
+      min-height: 40px;
+      padding: 0 16px;
       border-radius: 999px;
-      padding: 0 11px;
-      background: rgba(46, 102, 255, 0.10);
-      color: #2e66ff;
-      font-size: 12px;
-      letter-spacing: -0.02em;
+      background: rgba(255,255,255,0.13);
+      color: rgba(255,255,255,0.88);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      backdrop-filter: blur(12px);
     }
 
-    .partner-phone h2 {
-      margin: 0;
-      color: var(--partner-ink);
-      font-size: clamp(32px, 3.5vw, 48px);
-      line-height: 0.98;
+    .partner-hero-title {
+      margin: 24px 0 0;
+      font-size: clamp(60px, 7vw, 104px);
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+      font-weight: 950;
+      text-shadow: 0 14px 34px rgba(0,0,0,0.24);
+    }
+
+    .partner-hero-title strong {
+      display: block;
+      color: var(--partner-gold);
+      font-weight: 950;
+    }
+
+    .partner-hero-subtitle {
+      margin: 30px 0 0;
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1.25;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .partner-hero-copy p {
+      max-width: 560px;
+      margin: 24px 0 0;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(19px, 2vw, 25px);
+      line-height: 1.55;
+      font-weight: 750;
+      letter-spacing: -0.045em;
+    }
+
+    .partner-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .partner-hero-actions a {
+      min-height: 66px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 30px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      text-decoration: none;
+    }
+
+    .partner-hero-actions .primary {
+      min-width: 280px;
+      background: linear-gradient(135deg, #2e66ff 0%, #1f4a8e 100%);
+      box-shadow: 0 22px 48px rgba(46, 102, 255, 0.34);
+    }
+
+    .partner-hero-actions .secondary {
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.16);
+      backdrop-filter: blur(14px);
+    }
+
+    .partner-hero-card {
+      position: absolute;
+      z-index: 3;
+      right: clamp(28px, 5vw, 76px);
+      bottom: clamp(42px, 5vw, 78px);
+      width: min(38vw, 460px);
+      min-width: 360px;
+      padding: 28px;
+      border-radius: 36px;
+      background: rgba(255,255,255,0.92);
+      color: var(--partner-navy);
+      border: 1px solid rgba(255,255,255,0.42);
+      box-shadow: 0 34px 90px rgba(0,0,0,0.30);
+      transform: rotate(-2deg);
+      animation: cardFloat 5.2s ease-in-out infinite;
+    }
+
+    .partner-hero-card span {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(46, 102, 255, 0.10);
+      color: var(--partner-blue);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .partner-hero-card strong {
+      display: block;
+      margin-top: 18px;
+      font-size: clamp(32px, 3.4vw, 50px);
+      line-height: 1.04;
       letter-spacing: -0.075em;
     }
 
-    .partner-phone p {
-      margin: 16px 0 22px;
-      color: #33425f;
-      font-size: 16px;
-      line-height: 1.55;
-      font-weight: 700;
-    }
-
-    .partner-phone-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .partner-phone-list span {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      color: var(--partner-ink);
-      background: #fff;
-      box-shadow: 0 14px 30px rgba(15, 30, 70, 0.08);
-      font-size: 14px;
-      font-weight: 900;
+    .partner-hero-card p {
+      margin: 16px 0 0;
+      color: #40516e;
+      font-size: 17px;
+      font-weight: 750;
+      line-height: 1.56;
       letter-spacing: -0.04em;
     }
 
-    .partner-phone-list em {
-      color: #2e66ff;
+    .hero-mini-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hero-mini-list em {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 15px;
+      border-radius: 16px;
+      background: #fff;
+      color: var(--partner-navy);
       font-style: normal;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(15, 30, 70, 0.07);
     }
 
-    .partner-float-stack {
-      display: grid;
-      gap: 14px;
-      transform: translateY(-20px);
+    .hero-mini-list b {
+      color: var(--partner-blue);
     }
 
-    .partner-float-card {
-      padding: 16px;
-      border-radius: 26px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(255,255,255,0.16);
-      color: #fff;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.20);
-      backdrop-filter: blur(14px);
-      animation: partnerCardPulse 4.8s ease-in-out infinite;
+    .partner-section {
+      padding: clamp(76px, 9vw, 126px) 0;
     }
 
-    .partner-float-card:nth-child(2) {
-      animation-delay: 480ms;
+    .partner-section.tight {
+      padding-top: clamp(54px, 7vw, 88px);
     }
 
-    .partner-float-card:nth-child(3) {
-      animation-delay: 960ms;
+    .partner-section.light {
+      background: linear-gradient(180deg, rgba(241,246,255,0.92), rgba(255,255,255,0.92));
     }
 
-    .partner-float-card strong {
-      display: block;
-      font-size: 18px;
-      line-height: 1.2;
-      letter-spacing: -0.055em;
-    }
-
-    .partner-float-card span {
-      display: block;
-      margin-top: 8px;
-      color: rgba(255,255,255,0.76);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .partner-stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 22px;
-    }
-
-    .partner-stat {
-      padding: 22px;
-      border-radius: 28px;
-      border: 1px solid rgba(15, 25, 49, 0.08);
-      background: rgba(255,255,255,0.88);
-      box-shadow: 0 18px 45px rgba(15, 30, 70, 0.08);
+    .partner-head {
+      max-width: 980px;
+      margin: 0 auto 34px;
       text-align: center;
     }
 
-    .partner-stat strong {
-      display: block;
-      color: #2e66ff;
-      font-size: clamp(32px, 4vw, 58px);
-      line-height: 0.95;
+    .partner-head h2 {
+      margin: 16px 0 0;
+      color: var(--partner-navy);
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 1.04;
       letter-spacing: -0.075em;
+      font-weight: 950;
     }
 
-    .partner-stat span {
-      display: block;
-      margin-top: 10px;
-      color: #33425f;
-      font-size: 15px;
-      font-weight: 800;
+    .partner-head p {
+      max-width: 760px;
+      margin: 20px auto 0;
+      color: var(--partner-muted);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.66;
+      font-weight: 720;
       letter-spacing: -0.04em;
     }
 
-    .partner-package {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .partner-package-main {
-      position: relative;
-      overflow: hidden;
-      min-height: 520px;
-      padding: clamp(34px, 5vw, 58px);
-      border-radius: 38px;
-      color: #fff;
-      background:
-        linear-gradient(145deg, rgba(4, 17, 46, 0.92), rgba(10, 47, 113, 0.82)),
-        url('/membership/img/음식및엔터24.png') center center / cover no-repeat;
-      box-shadow: 0 30px 80px rgba(15, 30, 70, 0.16);
-    }
-
-    .partner-package-main::after {
-      content: "";
-      position: absolute;
-      inset: auto -80px -110px auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 999px;
-      background: rgba(246, 198, 69, 0.34);
-      filter: blur(2px);
-    }
-
-    .partner-package-main span {
+    .pill {
       display: inline-flex;
-      min-height: 36px;
       align-items: center;
-      padding: 0 14px;
+      min-height: 38px;
+      padding: 0 15px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      color: rgba(255,255,255,0.86);
-      font-size: 13px;
-      font-weight: 900;
+      background: rgba(46, 102, 255, 0.10);
+      color: var(--partner-blue);
+      font-size: 14px;
+      font-weight: 950;
       letter-spacing: -0.03em;
     }
 
-    .partner-package-main h2 {
-      position: relative;
-      z-index: 1;
-      margin: 22px 0 0;
-      max-width: 620px;
+    .big-copy-panel {
+      overflow: hidden;
+      padding: clamp(34px, 5vw, 58px);
+      border-radius: 42px;
+      border: 1px solid var(--partner-line);
+      background:
+        radial-gradient(circle at 12% 14%, rgba(246,198,69,0.18), transparent 30%),
+        linear-gradient(135deg, #071630 0%, #163f82 100%);
+      color: #fff;
+      box-shadow: 0 30px 80px rgba(15, 30, 70, 0.14);
+    }
+
+    .big-copy-panel h2 {
+      margin: 0;
       font-size: clamp(42px, 6vw, 78px);
-      line-height: 0.98;
+      line-height: 1.05;
       letter-spacing: -0.075em;
     }
 
-    .partner-package-main p {
-      position: relative;
-      z-index: 1;
-      max-width: 600px;
+    .big-copy-panel p {
+      max-width: 840px;
       margin: 24px 0 0;
-      color: rgba(255,255,255,0.84);
-      font-size: 20px;
-      font-weight: 750;
-      line-height: 1.58;
+      color: rgba(255,255,255,0.82);
+      font-size: clamp(19px, 2vw, 24px);
+      line-height: 1.7;
+      font-weight: 720;
       letter-spacing: -0.04em;
     }
 
-    .partner-tool-grid {
+    .card-grid,
+    .three-grid,
+    .four-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .three-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .four-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .info-card {
+      min-height: 230px;
+      padding: 30px;
+      border-radius: 34px;
+      border: 1px solid var(--partner-line);
+      background: rgba(255,255,255,0.90);
+      box-shadow: 0 18px 46px rgba(15, 30, 70, 0.08);
+    }
+
+    .info-card.dark {
+      color: #fff;
+      background: linear-gradient(135deg, #2e66ff 0%, #143a7b 100%);
+      box-shadow: 0 24px 56px rgba(46, 102, 255, 0.22);
+    }
+
+    .info-card strong {
+      display: block;
+      margin-top: 14px;
+      color: var(--partner-navy);
+      font-size: clamp(25px, 2.8vw, 36px);
+      line-height: 1.12;
+      letter-spacing: -0.065em;
+      font-weight: 950;
+    }
+
+    .info-card.dark strong,
+    .info-card.dark p,
+    .info-card.dark .pill {
+      color: #fff;
+    }
+
+    .info-card.dark .pill {
+      background: rgba(255,255,255,0.16);
+    }
+
+    .info-card p {
+      margin: 14px 0 0;
+      color: var(--partner-muted);
+      font-size: 17px;
+      line-height: 1.62;
+      font-weight: 720;
+      letter-spacing: -0.04em;
+    }
+
+    .membership-preview {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .membership-image-card {
+      overflow: hidden;
+      min-height: 580px;
+      padding: clamp(32px, 4vw, 52px);
+      border-radius: 42px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(4,17,46,0.84), rgba(10,47,113,0.70)),
+        url('/membership/img/KakaoTalk_20260405_150550057.jpg') center center / cover no-repeat;
+      box-shadow: 0 28px 76px rgba(15, 30, 70, 0.16);
+    }
+
+    .membership-image-card h2 {
+      margin: 18px 0 0;
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.075em;
+    }
+
+    .membership-image-card p {
+      max-width: 520px;
+      margin-top: 22px;
+      color: rgba(255,255,255,0.84);
+      font-size: 20px;
+      line-height: 1.62;
+      font-weight: 730;
+      letter-spacing: -0.04em;
+    }
+
+    .membership-table {
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid var(--partner-line);
+      background: #fff;
+      box-shadow: 0 20px 52px rgba(15, 30, 70, 0.08);
+    }
+
+    .membership-row {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr 1fr;
+      min-height: 92px;
+      border-bottom: 1px solid rgba(15,25,49,0.10);
+    }
+
+    .membership-row:last-child {
+      border-bottom: none;
+    }
+
+    .membership-row.header {
+      min-height: 82px;
+      background: #070707;
+      color: #fff;
+    }
+
+    .membership-row > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      border-right: 1px solid rgba(15,25,49,0.12);
+      text-align: center;
+      font-size: 17px;
+      font-weight: 850;
+      line-height: 1.42;
+      letter-spacing: -0.04em;
+    }
+
+    .membership-row.header > div {
+      font-size: 24px;
+      font-weight: 950;
+    }
+
+    .membership-row > div:last-child {
+      border-right: none;
+    }
+
+    .red {
+      color: var(--partner-red);
+      font-weight: 950;
+    }
+
+    .membership-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      margin-top: 18px;
+      padding: 0 24px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, #2e66ff 0%, #1f4a8e 100%);
+      text-decoration: none;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      box-shadow: 0 18px 42px rgba(46,102,255,0.24);
+    }
+
+    .affiliate-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .affiliate-copy {
+      padding: clamp(34px, 5vw, 60px);
+      border-radius: 42px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(246,198,69,0.22), transparent 26%),
+        linear-gradient(135deg, #071630 0%, #153b7c 100%);
+      box-shadow: 0 30px 80px rgba(15,30,70,0.14);
+    }
+
+    .affiliate-copy h2 {
+      margin: 16px 0 0;
+      font-size: clamp(42px, 5.8vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -0.075em;
+    }
+
+    .affiliate-copy p {
+      margin: 22px 0 0;
+      color: rgba(255,255,255,0.82);
+      font-size: 20px;
+      line-height: 1.68;
+      font-weight: 730;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-wall {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .partner-tool {
-      min-height: 160px;
-      padding: 24px;
-      border-radius: 28px;
-      border: 1px solid rgba(15, 25, 49, 0.08);
-      background: rgba(255,255,255,0.90);
-      box-shadow: 0 18px 45px rgba(15, 30, 70, 0.08);
-    }
-
-    .partner-tool strong {
-      display: block;
-      color: var(--partner-ink);
-      font-size: 24px;
-      line-height: 1.14;
-      letter-spacing: -0.06em;
-    }
-
-    .partner-tool p {
-      margin: 12px 0 0;
-      color: #52617a;
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.55;
-      letter-spacing: -0.035em;
-    }
-
-    .partner-tool.featured {
-      grid-column: span 2;
-      color: #fff;
-      background: linear-gradient(135deg, #2e66ff 0%, #12356f 100%);
-    }
-
-    .partner-tool.featured strong,
-    .partner-tool.featured p {
-      color: #fff;
-    }
-
-    .partner-wide-card {
-      padding: clamp(34px, 5vw, 62px);
-      border-radius: 40px;
-      border: 1px solid rgba(15, 25, 49, 0.08);
-      background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(237,243,255,0.86));
-      box-shadow: 0 24px 70px rgba(15, 30, 70, 0.10);
-    }
-
-    .partner-wide-card.dark {
-      color: #fff;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(246, 198, 69, 0.20), transparent 26%),
-        linear-gradient(135deg, #06142f 0%, #153b7c 100%);
-    }
-
-    .partner-wide-card.dark .section-kicker,
-    .partner-wide-card.dark p {
-      color: rgba(255,255,255,0.78);
-    }
-
-    .partner-wide-card h2 {
-      margin: 16px 0 0;
-      font-size: var(--section-title-size);
-      line-height: 1.05;
-      letter-spacing: -0.065em;
-    }
-
-    .partner-wide-card p {
-      max-width: 780px;
-      margin: 22px auto 0;
-      color: #52617a;
-      font-size: 20px;
-      font-weight: 750;
-      line-height: 1.7;
-      text-align: center;
-      letter-spacing: -0.04em;
-    }
-
-    .partner-action-list {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .partner-action-list span {
-      min-height: 120px;
+    .brand-wall span {
+      min-height: 104px;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 18px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.14);
-      color: #fff;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--partner-line);
+      color: var(--partner-navy);
       text-align: center;
-      font-size: 18px;
-      font-weight: 900;
-      line-height: 1.35;
-      letter-spacing: -0.05em;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: -0.055em;
+      box-shadow: 0 16px 40px rgba(15,30,70,0.07);
     }
 
-    .partner-plan-grid {
+    .commission-flow {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 24px;
     }
 
-    .partner-plan-card {
-      padding: 34px;
+    .flow-card {
+      position: relative;
+      min-height: 230px;
+      padding: 30px;
       border-radius: 34px;
-      border: 1px solid rgba(15, 25, 49, 0.08);
+      color: var(--partner-navy);
       background: rgba(255,255,255,0.90);
-      box-shadow: 0 18px 45px rgba(15, 30, 70, 0.08);
+      border: 1px solid var(--partner-line);
+      box-shadow: 0 18px 46px rgba(15,30,70,0.08);
     }
 
-    .partner-plan-card strong {
+    .flow-card::after {
+      content: ">";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--partner-blue);
+      font-size: 34px;
+      font-weight: 950;
+    }
+
+    .flow-card:last-child::after {
+      display: none;
+    }
+
+    .flow-card strong {
       display: block;
-      color: var(--partner-ink);
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1.04;
-      letter-spacing: -0.075em;
+      margin-top: 16px;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -0.065em;
     }
 
-    .partner-plan-card p {
-      margin: 16px 0 0;
-      color: #52617a;
-      font-size: 18px;
-      font-weight: 750;
-      line-height: 1.62;
+    .flow-card p {
+      margin: 14px 0 0;
+      color: var(--partner-muted);
+      font-size: 17px;
+      line-height: 1.58;
+      font-weight: 720;
       letter-spacing: -0.04em;
     }
 
-    .partner-plan-card.highlight {
+    .commission-box {
+      margin-top: 24px;
+      padding: clamp(34px, 5vw, 56px);
+      border-radius: 42px;
+      color: #fff;
       background: linear-gradient(135deg, #2e66ff 0%, #12356f 100%);
-      color: #fff;
+      box-shadow: 0 30px 80px rgba(46,102,255,0.22);
     }
 
-    .partner-plan-card.highlight strong,
-    .partner-plan-card.highlight p {
-      color: #fff;
+    .commission-box h3 {
+      margin: 0;
+      font-size: clamp(40px, 5vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -0.075em;
     }
 
-    .partner-final .final-cta-panel {
+    .commission-box p {
+      margin: 18px 0 0;
+      color: rgba(255,255,255,0.84);
+      font-size: 20px;
+      line-height: 1.66;
+      font-weight: 730;
+      letter-spacing: -0.04em;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .example-card {
+      padding: 28px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .example-card strong {
+      display: block;
+      color: #fff;
+      font-size: clamp(28px, 3.6vw, 46px);
+      line-height: 1.08;
+      letter-spacing: -0.07em;
+    }
+
+    .example-card p {
+      color: rgba(255,255,255,0.82);
+      font-size: 17px;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .support-card {
+      min-height: 180px;
+      padding: 24px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--partner-line);
+      box-shadow: 0 16px 40px rgba(15,30,70,0.07);
+    }
+
+    .support-card strong {
+      display: block;
+      color: var(--partner-navy);
+      font-size: 23px;
+      line-height: 1.15;
+      letter-spacing: -0.06em;
+    }
+
+    .support-card p {
+      margin: 12px 0 0;
+      color: var(--partner-muted);
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+    }
+
+    .fit-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .fit-list span {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 30px;
+      color: var(--partner-navy);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--partner-line);
+      box-shadow: 0 16px 40px rgba(15,30,70,0.07);
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 920;
+      letter-spacing: -0.055em;
+    }
+
+    .partner-final {
+      padding-bottom: 130px;
+    }
+
+    .final-panel {
+      padding: clamp(42px, 6vw, 78px);
+      border-radius: 46px;
+      color: #fff;
+      text-align: center;
       background:
-        radial-gradient(circle at 22% 20%, rgba(246, 198, 69, 0.22), transparent 28%),
+        radial-gradient(circle at 18% 14%, rgba(246,198,69,0.24), transparent 26%),
         linear-gradient(135deg, #06142f 0%, #153b7c 100%);
+      box-shadow: 0 32px 86px rgba(15,30,70,0.18);
+    }
+
+    .final-panel h2 {
+      margin: 16px 0 0;
+      font-size: clamp(44px, 6vw, 86px);
+      line-height: 1.04;
+      letter-spacing: -0.08em;
+    }
+
+    .final-panel p {
+      max-width: 760px;
+      margin: 22px auto 0;
+      color: rgba(255,255,255,0.82);
+      font-size: 21px;
+      line-height: 1.62;
+      font-weight: 730;
+      letter-spacing: -0.04em;
+    }
+
+    .final-panel a,
+    .floating-cta {
+      text-decoration: none;
+    }
+
+    .final-panel a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 68px;
+      min-width: 290px;
+      margin-top: 34px;
+      padding: 0 34px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, #2e66ff 0%, #1f4a8e 100%);
+      font-size: 19px;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      box-shadow: 0 22px 48px rgba(46,102,255,0.28);
     }
 
     body.partner-page .floating-cta {
+      position: fixed !important;
       left: auto !important;
       right: 24px !important;
       bottom: 24px !important;
+      z-index: 140 !important;
       width: 220px !important;
       min-width: 0 !important;
       min-height: 58px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 0 24px !important;
+      border-radius: 999px;
+      border: 0;
+      color: #fff;
+      background: linear-gradient(135deg, #2e66ff 0%, #1f4a8e 100%);
+      box-shadow: 0 18px 44px rgba(31, 74, 142, 0.26) !important;
       transform: none !important;
       font-size: 18px !important;
-      box-shadow: 0 18px 44px rgba(31, 74, 142, 0.26) !important;
+      font-weight: 950;
+      letter-spacing: -0.04em;
+      cursor: pointer;
     }
 
-    @media (max-width: 1180px) {
-      .partner-visual-board {
-        right: -130px;
-        opacity: 0.86;
-      }
-    }
-
-    @keyframes partnerHeroIn {
+    @keyframes heroIn {
       from {
         opacity: 0;
-        transform: translateY(24px) scale(0.985);
+        transform: translateY(22px) scale(0.985);
       }
       to {
         opacity: 1;
@@ -490,134 +783,166 @@
       }
     }
 
-    @keyframes partnerPhoneFloat {
+    @keyframes cardFloat {
       0%, 100% {
-        transform: translateY(0) rotate(-3deg);
+        transform: translateY(0) rotate(-2deg);
       }
       50% {
-        transform: translateY(-10px) rotate(-2deg);
+        transform: translateY(-10px) rotate(-1deg);
       }
     }
 
-    @keyframes partnerCardPulse {
-      0%, 100% {
-        transform: translateY(0);
-        background: rgba(255,255,255,0.16);
-      }
-      50% {
-        transform: translateY(-6px);
-        background: rgba(255,255,255,0.22);
-      }
-    }
-
-    @media (max-width: 980px) {
-      body.partner-page .hero-copy-wrap,
-      body.partner-page .hero-title,
-      body.partner-page .hero-lead {
-        max-width: 100% !important;
-        text-align: center !important;
+    @media (max-width: 1100px) {
+      .partner-hero-card {
+        opacity: 0.82;
+        right: -90px;
       }
 
-      body.partner-page .hero-benefit-row,
-      body.partner-page .hero-actions {
-        justify-content: center !important;
-      }
-
-      .partner-visual-board {
-        position: relative;
-        top: auto;
-        right: auto;
-        opacity: 1;
-        bottom: auto;
-        width: 100%;
-        min-width: 0;
-        margin-top: 34px;
+      .membership-preview,
+      .affiliate-band {
         grid-template-columns: 1fr;
       }
 
-      .partner-float-stack {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        transform: none;
-      }
-
-      .partner-package,
-      .partner-plan-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .partner-action-list,
-      .partner-stat-row {
+      .support-grid,
+      .four-grid,
+      .fit-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 760px) {
       body.partner-page {
         overflow-x: hidden;
       }
 
-      body.partner-page .hero-shell {
+      body.partner-page *,
+      body.partner-page *::before,
+      body.partner-page *::after {
+        box-sizing: border-box;
+      }
+
+      .partner-hero {
+        padding-top: 20px;
+      }
+
+      body.partner-page .container {
+        width: min(100% - 24px, 1180px) !important;
+        max-width: calc(100% - 24px) !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      .partner-hero-shell {
         min-height: auto;
         padding: 58px 22px 64px;
+        border-radius: 28px;
       }
 
-      body.partner-page .hero-title {
-        font-size: clamp(44px, 14vw, 58px) !important;
+      .partner-hero-title {
+        font-size: clamp(42px, 13vw, 54px);
+        text-align: center;
+        line-height: 1.02;
+        word-break: keep-all;
       }
 
-      body.partner-page .hero-lead {
-        font-size: 18px !important;
+      .partner-hero-subtitle,
+      .partner-hero-copy p {
+        text-align: center;
       }
 
-      body.partner-page .hero-benefit-row span {
+      .partner-hero-copy {
+        max-width: 100%;
+        padding-top: 0;
+      }
+
+      .partner-kicker {
+        margin: 0 auto;
+      }
+
+      .partner-hero-actions a,
+      .partner-hero-actions .primary {
         width: 100%;
         min-width: 0;
       }
 
-      body.partner-page .section-head h2,
-      body.partner-page .partner-wide-card h2,
-      body.partner-page .partner-package-main h2,
-      body.partner-page .final-cta-panel h2 {
+      .partner-hero-card {
+        display: none;
+      }
+
+      .partner-section {
+        padding: 68px 0;
+      }
+
+      .big-copy-panel,
+      .affiliate-copy,
+      .commission-box,
+      .final-panel {
+        width: 100%;
         max-width: 100%;
-        font-size: clamp(32px, 10vw, 42px) !important;
-        line-height: 1.12 !important;
+        padding: 34px 24px;
+      }
+
+      .partner-head h2,
+      .big-copy-panel h2,
+      .membership-image-card h2,
+      .affiliate-copy h2,
+      .commission-box h3,
+      .final-panel h2 {
+        max-width: 100%;
+        font-size: clamp(29px, 9vw, 38px);
+        line-height: 1.12;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+      }
+
+      .big-copy-panel p,
+      .affiliate-copy p,
+      .commission-box p,
+      .membership-image-card p,
+      .final-panel p {
+        max-width: 100%;
+        font-size: 17px;
+        white-space: normal !important;
         word-break: keep-all;
         overflow-wrap: break-word;
       }
 
-      body.partner-page .section-head p {
-        font-size: 17px !important;
-      }
-
-      body.partner-page .contrast-grid,
-      body.partner-page .reason-grid,
-      body.partner-page .journey-grid,
-      body.partner-page .scope-grid {
-        grid-template-columns: 1fr !important;
-      }
-
-      .partner-visual-board {
-        display: none;
-      }
-
-      .partner-float-stack,
-      .partner-action-list,
-      .partner-stat-row,
-      .partner-tool-grid {
+      .card-grid,
+      .three-grid,
+      .four-grid,
+      .commission-flow,
+      .example-grid,
+      .support-grid,
+      .fit-list,
+      .brand-wall {
         grid-template-columns: 1fr;
       }
 
-      .partner-tool.featured {
-        grid-column: auto;
+      .flow-card::after {
+        display: none;
+      }
+
+      .membership-row {
+        grid-template-columns: 1fr;
+      }
+
+      .membership-row > div {
+        border-right: none;
+        border-bottom: 1px solid rgba(15,25,49,0.10);
+      }
+
+      .membership-row > div:last-child {
+        border-bottom: none;
       }
 
       body.partner-page .floating-cta {
         right: 12px !important;
         bottom: 12px !important;
-        width: 168px !important;
+        width: 166px !important;
         min-height: 52px !important;
-        font-size: 15px !important;
         padding: 0 14px !important;
+        font-size: 15px !important;
       }
     }
   </style>
@@ -626,332 +951,362 @@
   <div class="page-glow glow-a"></div>
   <div class="page-glow glow-b"></div>
 
-  <nav class="sticky-menu-bar" aria-label="섹션 메뉴">
+  <nav class="sticky-menu-bar partner-nav" aria-label="섹션 메뉴">
     <div class="container">
       <div class="hero-nav-marquee" aria-label="섹션 이동">
         <div class="hero-nav-track">
-          <a href="#start"><strong>01</strong><span>투잡 시작</span></a>
-          <a href="#market"><strong>02</strong><span>크루즈 시장</span></a>
-          <a href="#support"><strong>03</strong><span>제공내역</span></a>
-          <a href="#strength"><strong>04</strong><span>강점</span></a>
-          <a href="#work"><strong>05</strong><span>하는 일</span></a>
-          <a href="#fit"><strong>06</strong><span>추천 대상</span></a>
-          <a href="#pay"><strong>07</strong><span>보상 방식</span></a>
-          <a href="#start"><strong>01</strong><span>투잡 시작</span></a>
-          <a href="#market"><strong>02</strong><span>크루즈 시장</span></a>
-          <a href="#support"><strong>03</strong><span>제공내역</span></a>
-          <a href="#strength"><strong>04</strong><span>강점</span></a>
-          <a href="#work"><strong>05</strong><span>하는 일</span></a>
-          <a href="#fit"><strong>06</strong><span>추천 대상</span></a>
-          <a href="#pay"><strong>07</strong><span>보상 방식</span></a>
+          <a href="#hero"><strong>01</strong><span>50만원 더</span></a>
+          <a href="#brag"><strong>02</strong><span>여행 자랑</span></a>
+          <a href="#cruise-growth"><strong>03</strong><span>크루즈 성장</span></a>
+          <a href="#membership"><strong>04</strong><span>멤버십</span></a>
+          <a href="#affiliate"><strong>05</strong><span>제휴마케팅</span></a>
+          <a href="#commission"><strong>06</strong><span>수수료</span></a>
+          <a href="#support"><strong>07</strong><span>제공내역</span></a>
+          <a href="#fit"><strong>08</strong><span>추천 대상</span></a>
+          <a href="#hero"><strong>01</strong><span>50만원 더</span></a>
+          <a href="#brag"><strong>02</strong><span>여행 자랑</span></a>
+          <a href="#cruise-growth"><strong>03</strong><span>크루즈 성장</span></a>
+          <a href="#membership"><strong>04</strong><span>멤버십</span></a>
+          <a href="#affiliate"><strong>05</strong><span>제휴마케팅</span></a>
+          <a href="#commission"><strong>06</strong><span>수수료</span></a>
+          <a href="#support"><strong>07</strong><span>제공내역</span></a>
+          <a href="#fit"><strong>08</strong><span>추천 대상</span></a>
         </div>
       </div>
     </div>
   </nav>
 
   <main>
-    <section class="hero-section">
+    <section id="hero" class="partner-hero">
       <div class="container">
-        <div class="hero-shell reveal reveal-scale">
-          <div class="hero-overlay"></div>
-
-          <div class="hero-copy-wrap">
-            <h1 class="hero-title reveal reveal-rise">
-              크루즈 여행을<br />
-              <strong>소개하는 투잡</strong>
+        <div class="partner-hero-shell">
+          <div class="partner-hero-copy">
+            <span class="partner-kicker">크루즈 소개 부업</span>
+            <h1 class="partner-hero-title">
+              월급 말고<br />
+              <strong>딱 50만원만<br />더</strong>
             </h1>
-
-            <p class="hero-lead reveal reveal-rise">
-              재고도 매장도 필요 없습니다. 여행을 좋아한다면 개인 페이지와 컨텐츠로 바로 시작할 수 있습니다.
+            <div class="partner-hero-subtitle">
+              퇴근 후, 주말, 쉬는 시간에<br />
+              크루즈 여행을 소개하는 부업
+            </div>
+            <p>
+              재고를 사지 않아도 됩니다.<br />
+              매장을 열 필요도 없습니다.<br />
+              크루즈 여행 다녀오고 그 경험을 자랑하세요.
             </p>
-
-            <div class="hero-benefit-row reveal reveal-pop" aria-label="핵심 제공">
-              <span>블로그 자동화 프로그램</span>
-              <span>개인 랜딩페이지 제공</span>
-              <span>무료 교육 제공</span>
-            </div>
-
-            <div class="hero-actions reveal reveal-pop">
-              <a class="btn btn-primary hero-main-cta btn-hero-xl" href="/contact/">상담 문의하기</a>
+            <div class="partner-hero-actions">
+              <a class="primary" href="/contact/">상담 문의하기</a>
+              <a class="secondary" href="/membership/" target="_blank" rel="noopener">멤버십 소개 보기</a>
             </div>
           </div>
 
-          <div class="partner-visual-board reveal reveal-pop" aria-hidden="true">
-            <div class="partner-phone">
-              <div class="partner-phone-top">
-                <strong>Partner Kit</strong>
-                <span>READY</span>
-              </div>
-              <h2>내 페이지로<br />크루즈 소개</h2>
-              <p>상담 전에 보여줄 소개 자료, 사진, 영상, 온라인 명함까지 준비됩니다.</p>
-              <div class="partner-phone-list">
-                <span>개인 랜딩페이지 <em>제공</em></span>
-                <span>온라인 명함 <em>제공</em></span>
-                <span>크루즈 컨텐츠 <em>제공</em></span>
-              </div>
+          <aside class="partner-hero-card" aria-label="부업 시작 포인트">
+            <span>Experience First</span>
+            <strong>사진 한 장,<br />영상 하나,<br />여행 후기 하나</strong>
+            <p>새로운 부업의 시작이 될 수 있습니다.</p>
+            <div class="hero-mini-list">
+              <em>크루즈 다녀오기 <b>01</b></em>
+              <em>사진·영상 남기기 <b>02</b></em>
+              <em>경험 자랑하기 <b>03</b></em>
             </div>
-            <div class="partner-float-stack">
-              <div class="partner-float-card">
-                <strong>퇴근 후 30분</strong>
-                <span>SNS · 블로그 · 지인 안내</span>
-              </div>
-              <div class="partner-float-card">
-                <strong>초보 교육</strong>
-                <span>온·오프라인 무료 교육</span>
-              </div>
-              <div class="partner-float-card">
-                <strong>자료 제공</strong>
-                <span>사진 · 영상 · 소개 문구</span>
-              </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="brag" class="partner-section tight light">
+      <div class="container">
+        <div class="big-copy-panel">
+          <h2>크루즈 여행<br />다녀오고<br />그 경험을<br />자랑하세요</h2>
+          <p>
+            사진 한 장, 영상 하나, 여행 후기 하나가<br />
+            관심을 만드는 시작입니다.<br />
+            여행을 다녀온 사람이 직접 보여주는 이야기는<br />
+            광고보다 자연스럽습니다.
+          </p>
+        </div>
+
+        <div class="card-grid" style="margin-top: 22px;">
+          <article class="info-card">
+            <span class="pill">01</span>
+            <strong>사진</strong>
+            <p>객실, 식사, 공연, 바다 풍경은 보여줄 소재가 많습니다.</p>
+          </article>
+          <article class="info-card">
+            <span class="pill">02</span>
+            <strong>영상</strong>
+            <p>배 안 시설과 기항지 장면은 짧은 영상으로도 관심을 만들기 좋습니다.</p>
+          </article>
+          <article class="info-card dark">
+            <span class="pill">03</span>
+            <strong>후기</strong>
+            <p>내가 다녀온 이야기를 주변에 보여주면 궁금해하는 사람이 생깁니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="cruise-growth" class="partner-section">
+      <div class="container">
+        <div class="partner-head">
+          <span class="pill">왜 크루즈 여행일까요?</span>
+          <h2>국내뿐 아니라<br />전세계 크루즈 여행은 커지고 있습니다</h2>
+          <p>
+            이미 세상은 자유여행 시대입니다. 이 자유여행 시대에 맞는 여행 비즈니스를 소개합니다.
+          </p>
+        </div>
+
+        <div class="three-grid">
+          <article class="info-card">
+            <span class="pill">가족 여행</span>
+            <strong>부모님·가족 여행에 강함</strong>
+            <p>숙박, 이동, 식사가 한 번에 해결되어 가족 단위 문의와 잘 맞습니다.</p>
+          </article>
+          <article class="info-card">
+            <span class="pill">자유여행</span>
+            <strong>배 안은 리조트, 기항지는 여행</strong>
+            <p>쉬는 시간과 관광 시간을 함께 가져갈 수 있어 설명할 포인트가 많습니다.</p>
+          </article>
+          <article class="info-card dark">
+            <span class="pill">성장성</span>
+            <strong>아직 모르는 사람이 많음</strong>
+            <p>처음 알아보는 고객에게는 선실, 비용, 준비물 안내가 필요합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="membership" class="partner-section light">
+      <div class="container">
+        <div class="partner-head">
+          <span class="pill">여행 구독 서비스</span>
+          <h2>생소한 아이템이 아닙니다</h2>
+          <p>
+            멤버십 소개는 기존 멤버십 페이지에서 자세히 볼 수 있습니다.
+            가입 버튼 없이 소개 내용만 새창으로 확인할 수 있게 연결했습니다.
+          </p>
+          <a class="membership-link" href="/membership/" target="_blank" rel="noopener">멤버십 소개페이지 새창으로 보기</a>
+        </div>
+
+        <div class="membership-preview">
+          <article class="membership-image-card">
+            <span class="partner-kicker">Membership Summary</span>
+            <h2>전세계 크루즈 여행<br />멤버십 기본 내용</h2>
+            <p>가입비, 월 구독료, 포인트 적립, 포인트 사용 방식까지 한눈에 확인할 수 있도록 정리했습니다.</p>
+          </article>
+
+          <div class="membership-table" aria-label="전세계 크루즈 여행 멤버십 기본 내용">
+            <div class="membership-row header">
+              <div>구분</div>
+              <div>금액</div>
+              <div>비고</div>
+            </div>
+            <div class="membership-row">
+              <div>최초 가입비</div>
+              <div>클래식, 프리미엄 멤버십 기준<br />($100 / $250)</div>
+              <div>1회만 납부</div>
+            </div>
+            <div class="membership-row">
+              <div>월 구독료</div>
+              <div>$100 / $250</div>
+              <div>매월 납부<br /><span class="red">납부 금액 대비 2배 포인트 적립</span></div>
+            </div>
+            <div class="membership-row">
+              <div><span class="red">포인트 용도</span></div>
+              <div>크루즈 요금, 와이파이, 음료 패키지 등</div>
+              <div></div>
+            </div>
+            <div class="membership-row">
+              <div><span class="red">포인트 사용</span></div>
+              <div>크루즈 요금의 50% 사용 가능<br /><span class="red">보유 포인트의 50%가 아님</span></div>
+              <div>내 보유 포인트: 1,700<br />3,000달러 크루즈 예약<br /><span class="red">최대 1,500포인트 사용</span></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="start" class="section section-light">
+    <section id="affiliate" class="partner-section">
       <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">01. 투잡 시작</span>
-          <h2>직장인도, 주부도,<br />프리랜서도<br />시작하기 쉽게</h2>
-          <p>물건을 사서 쌓아두거나 매장을 운영하는 방식이 아닙니다. 크루즈 여행 멤버십을 소개하고 상담으로 넘기는 일입니다.</p>
+        <div class="affiliate-band">
+          <div class="affiliate-copy">
+            <span class="partner-kicker">그래서 수익은?</span>
+            <h2>네 맞습니다<br />이 비즈니스는 제휴마케팅 기반입니다</h2>
+            <p>
+              제휴마케팅이 없는 비즈니스가 있을까요?
+              우리가 일상에서 접하는 대부분의 비즈니스는 형태만 다를 뿐,
+              제휴·중개·수수료 방식으로 움직입니다.
+            </p>
+          </div>
+
+          <div class="brand-wall" aria-label="대표적인 제휴마케팅 회사">
+            <span><strong>쿠팡</strong></span>
+            <span><strong>코웨이</strong></span>
+            <span><strong>보험<br />메리츠·롯데손보</strong></span>
+            <span><strong>디즈니플러스</strong></span>
+            <span><strong>네이버<br />브랜드커넥트</strong></span>
+            <span><strong>오늘의집<br />무신사</strong></span>
+          </div>
         </div>
 
-        <div class="contrast-grid">
-          <article class="contrast-card reveal reveal-left">
-            <span class="contrast-label">기존 투잡</span>
-            <strong>재고 부담</strong>
-            <p>상품을 먼저 사고, 팔리지 않으면 부담이 남습니다.</p>
-          </article>
-          <article class="contrast-card reveal reveal-scale">
-            <span class="contrast-label">크루즈 파트너</span>
-            <strong>소개 중심</strong>
-            <p>여행에 관심 있는 사람에게 준비된 페이지를 보여줍니다.</p>
-          </article>
-          <article class="contrast-card highlight reveal reveal-right">
-            <span class="contrast-label">시작 방식</span>
-            <strong>온라인 중심</strong>
-            <p>블로그, SNS, 온라인 명함으로 부담을 낮춥니다.</p>
-          </article>
+        <div class="partner-head" style="margin-top: 64px;">
+          <span class="pill">1회성과 다른 점</span>
+          <h2>대부분은 1회성입니다<br />소개 &gt; 구매 &gt; 수익</h2>
+          <p>
+            보험 설계사, 렌탈 비즈니스 등은 고객이 해지하면 환수금이 발생할 수 있습니다.
+            하지만 이 크루즈 비즈니스는 고객이 구독을 유지하는 동안 매월 수수료를 받을 수 있습니다.
+          </p>
         </div>
       </div>
     </section>
 
-    <section id="market" class="section">
+    <section id="commission" class="partner-section light">
       <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">02. 왜 크루즈인가</span>
-          <h2>크루즈는 아직 설명해줄 사람이 부족합니다</h2>
+        <div class="partner-head">
+          <span class="pill">크루즈 비즈니스 수수료</span>
+          <h2>매출의 10%~</h2>
+          <p>
+            고객이 달러로 구독비를 결제하기 때문에 수수료도 달러로 지급됩니다.
+            달러 결제 전용 카드 지급 및 원화 송금도 가능합니다.
+          </p>
         </div>
 
-        <div class="proof-band reveal reveal-scale">
-          <div class="proof-copy">
-            <span class="proof-caption">여행 관심은 커졌지만</span>
-            <p>처음 알아보는 사람에게는<br /><strong>선실, 일정, 비용, 서류가 어렵게 느껴집니다.</strong></p>
-            <div class="proof-mini-points">
-              <span>선실 선택</span>
-              <span>비용 비교</span>
-              <span>출발 준비</span>
-            </div>
-          </div>
-          <div class="proof-number">
-            <strong>INFO</strong>
-            <span>좋은 안내가 필요한 시장</span>
-          </div>
-        </div>
-
-        <div class="partner-stat-row">
-          <div class="partner-stat reveal reveal-left">
-            <strong>1</strong>
-            <span>처음 타는 고객이 많음</span>
-          </div>
-          <div class="partner-stat reveal reveal-scale">
-            <strong>3</strong>
-            <span>객실·비용·준비물 문의 반복</span>
-          </div>
-          <div class="partner-stat reveal reveal-right">
-            <strong>5</strong>
-            <span>가족·부부·단체에 맞는 제안 가능</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="support" class="section section-light">
-      <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">03. 제공내역</span>
-          <h2>혼자 만들 필요 없습니다<br />필요한 도구를 제공합니다</h2>
-        </div>
-
-        <div class="partner-package">
-          <div class="partner-package-main reveal reveal-left">
-            <span>Partner Package</span>
-            <h2>시작에 필요한<br />자료와 페이지</h2>
-            <p>처음부터 디자인, 문구, 이미지, 교육을 혼자 준비하지 않도록 기본 패키지를 제공합니다.</p>
-          </div>
-
-          <div class="partner-tool-grid">
-            <article class="partner-tool reveal reveal-scale">
-              <strong>블로그 자동화 프로그램</strong>
-              <p>크루즈 정보를 꾸준히 발행할 수 있도록 활용합니다.</p>
-            </article>
-            <article class="partner-tool reveal reveal-scale">
-              <strong>개인 랜딩페이지 제공</strong>
-              <p>상담 전 고객에게 보여줄 전용 소개 페이지를 제공합니다.</p>
-            </article>
-            <article class="partner-tool reveal reveal-scale">
-              <strong>온라인 명함 제공</strong>
-              <p>카카오톡, 문자, SNS에서 바로 전달할 수 있습니다.</p>
-            </article>
-            <article class="partner-tool reveal reveal-scale">
-              <strong>크루즈 컨텐츠 제공</strong>
-              <p>사진, 영상, 소개 자료를 영업에 활용할 수 있습니다.</p>
-            </article>
-            <article class="partner-tool featured reveal reveal-right">
-              <strong>온·오프라인 무료 교육</strong>
-              <p>초보자도 설명할 수 있도록 기본 교육과 실전 안내를 제공합니다.</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="strength" class="section">
-      <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">04. 강점</span>
-          <h2>처음 시작하는 사람에게<br class="mobile-break" />부담이 낮은 이유</h2>
-        </div>
-
-        <div class="reason-grid">
-          <article class="reason-card reveal reveal-left">
-            <span class="card-emoji" aria-hidden="true">01</span>
-            <strong>재고가 없습니다</strong>
-            <p>상품을 사두고 판매하는 방식이 아니라 부담이 낮습니다.</p>
+        <div class="commission-flow">
+          <article class="flow-card">
+            <span class="pill">STEP 1</span>
+            <strong>멤버십 소개</strong>
+            <p>크루즈 여행 멤버십을 관심 고객에게 소개합니다.</p>
           </article>
-          <article class="reason-card reveal reveal-scale">
-            <span class="card-emoji" aria-hidden="true">02</span>
-            <strong>온라인으로 시작합니다</strong>
-            <p>블로그, SNS, 온라인 명함으로 소개할 수 있습니다.</p>
-          </article>
-          <article class="reason-card reveal reveal-right">
-            <span class="card-emoji" aria-hidden="true">03</span>
-            <strong>자료가 준비됩니다</strong>
-            <p>사진, 영상, 안내 페이지가 있어 처음부터 만들 필요가 적습니다.</p>
-          </article>
-          <article class="reason-card reveal reveal-left">
-            <span class="card-emoji" aria-hidden="true">04</span>
-            <strong>교육이 있습니다</strong>
-            <p>크루즈를 잘 몰라도 설명할 수 있도록 교육을 제공합니다.</p>
-          </article>
-          <article class="reason-card reveal reveal-scale">
-            <span class="card-emoji" aria-hidden="true">05</span>
-            <strong>가족 여행과 잘 맞습니다</strong>
-            <p>부모님, 부부, 단체 여행 문의로 자연스럽게 대화가 시작됩니다.</p>
-          </article>
-          <article class="reason-card reveal reveal-right">
-            <span class="card-emoji" aria-hidden="true">06</span>
-            <strong>본업과 병행 가능합니다</strong>
-            <p>퇴근 후, 주말, 쉬는 시간에 소개 활동을 할 수 있습니다.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="work" class="section section-light">
-      <div class="container">
-        <div class="partner-wide-card dark reveal reveal-scale">
-          <div class="section-head center">
-            <span class="section-kicker">05. 하는 일</span>
-            <h2>복잡하게 판매하지 않습니다</h2>
-            <p>여행에 관심 있는 사람에게 크루즈 멤버십을 소개하고, 상담이 필요한 고객은 문의로 넘기면 됩니다.</p>
-          </div>
-
-          <div class="partner-action-list">
-            <span>콘텐츠 공유</span>
-            <span>온라인 명함 전달</span>
-            <span>랜딩페이지 안내</span>
-            <span>상담 문의 접수</span>
-          </div>
-        </div>
-
-        <div class="journey-grid compact" style="margin-top: 22px;">
-          <article class="journey-card reveal reveal-left">
-            <span class="journey-step">STEP 1</span>
-            <strong>자료 받기</strong>
-            <p>블로그, 사진, 영상, 랜딩페이지를 준비합니다.</p>
-          </article>
-          <article class="journey-card reveal reveal-scale">
-            <span class="journey-step">STEP 2</span>
-            <strong>관심 고객 안내</strong>
-            <p>크루즈가 궁금한 사람에게 소개 페이지를 보여줍니다.</p>
-          </article>
-          <article class="journey-card reveal reveal-right">
-            <span class="journey-step">STEP 3</span>
-            <strong>상담 접수</strong>
-            <p>상세 견적과 일정 상담은 담당 상담으로 처리합니다.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="fit" class="section">
-      <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">06. 이런 분에게 맞습니다</span>
-          <h2>투잡은 하고 싶지만<br class="mobile-break" />재고 판매는 부담스러운 분</h2>
-        </div>
-
-        <div class="scope-grid">
-          <article class="reveal reveal-left">여행을 좋아하는 분</article>
-          <article class="reveal reveal-scale">부모님 여행 상담이 많은 분</article>
-          <article class="reveal reveal-scale">SNS 활동을 하는 분</article>
-          <article class="reveal reveal-scale">퇴근 후 투잡을 찾는 분</article>
-          <article class="reveal reveal-right">단체·모임 인맥이 있는 분</article>
-        </div>
-
-        <div class="scope-emphasis reveal reveal-pop">
-          <strong>말 잘하는 사람만 하는 일이 아닙니다</strong>
-          <p>준비된 페이지와 자료가 있으면 처음 대화의 부담이 줄어듭니다.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="pay" class="section section-light">
-      <div class="container">
-        <div class="section-head center reveal reveal-rise">
-          <span class="section-kicker">07. 보상 방식</span>
-          <h2>소개 활동이 실적으로 남는 방식</h2>
-          <p>고객이 멤버십에 가입하거나 여행 예약까지 진행하면 기준에 따라 보상이 발생할 수 있습니다.</p>
-        </div>
-
-        <div class="partner-plan-grid">
-          <article class="partner-plan-card reveal reveal-left">
+          <article class="flow-card">
+            <span class="pill">STEP 2</span>
             <strong>멤버십 가입</strong>
-            <p>크루즈 여행에 관심 있는 고객이 멤버십을 선택하면 소개 실적으로 반영될 수 있습니다.</p>
+            <p>고객이 가입하면 가입비와 구독비가 매출로 인정됩니다.</p>
           </article>
-          <article class="partner-plan-card highlight reveal reveal-right">
-            <strong>여행 예약</strong>
-            <p>상담 이후 실제 크루즈 예약까지 진행되면 활동 결과를 더 크게 만들 수 있습니다.</p>
+          <article class="flow-card">
+            <span class="pill">STEP 3</span>
+            <strong>월 수익 정착</strong>
+            <p>고객이 멤버십을 유지하면 매월 수수료가 발생할 수 있습니다.</p>
+          </article>
+        </div>
+
+        <div class="commission-box">
+          <h3>가입비도 매출에 합산됩니다</h3>
+          <p>앞서 가입비와 구독비를 설명해드렸죠? 이 매출은 가입비도 합산됩니다.</p>
+          <div class="example-grid">
+            <article class="example-card">
+              <strong>클래식 멤버 1명</strong>
+              <p>가입비 + 구독비 $200 매출 전부 인정</p>
+            </article>
+            <article class="example-card">
+              <strong>신규 클래식 3명</strong>
+              <p>나의 매출 $600 / 수수료 $60 예시</p>
+            </article>
+            <article class="example-card">
+              <strong>프리미엄 멤버 1명</strong>
+              <p>가입비 + 구독비 $500 매출 전부 인정</p>
+            </article>
+            <article class="example-card">
+              <strong>신규 프리미엄 3명</strong>
+              <p>나의 매출 $1,500 / 수수료 $150 예시</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="incentive" class="partner-section">
+      <div class="container">
+        <div class="partner-head">
+          <span class="pill">수수료 외 인센티브</span>
+          <h2>크루즈를 좋아하는 사람에게<br />더 잘 맞는 이유</h2>
+        </div>
+
+        <div class="three-grid">
+          <article class="info-card">
+            <span class="pill">01. 멤버십 할인</span>
+            <strong>총 매출 $500 달성 시</strong>
+            <p>나의 크루즈 멤버십 구독비 $100이 면제됩니다.</p>
+          </article>
+          <article class="info-card dark">
+            <span class="pill">클래식 / 프리미엄</span>
+            <strong>월 멤버십 비용 $0</strong>
+            <p>클래식은 200포인트, 프리미엄은 500포인트 적립 예시입니다.</p>
+          </article>
+          <article class="info-card">
+            <span class="pill">02. 여행 혜택</span>
+            <strong>월 $3,000 이상 3회</strong>
+            <p>3회 이상 달성 시 보유 포인트를 크루즈 예약에 100% 사용할 수 있습니다.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section partner-final">
+    <section id="support" class="partner-section light">
       <div class="container">
-        <div class="final-cta-panel reveal reveal-scale">
-          <span class="section-kicker">Partner Start</span>
-          <h2>크루즈 여행을 소개하는 투잡</h2>
-          <p>자료, 페이지, 교육까지 준비된 상태에서 시작하세요.</p>
-          <a class="btn btn-primary hero-main-cta btn-hero-xl" href="/contact/">상담 문의하기</a>
+        <div class="partner-head">
+          <span class="pill">혼자 할 수 있을까요?</span>
+          <h2>철저히 1인 비즈니스지만<br />선배 파트너가 도와드립니다</h2>
+          <p>처음부터 혼자 자료 만들고, 페이지 만들고, 설명 문구까지 준비할 필요 없습니다.</p>
+        </div>
+
+        <div class="support-grid">
+          <article class="support-card">
+            <strong>블로그 자동화 프로그램</strong>
+            <p>크루즈 정보를 꾸준히 발행할 수 있도록 활용합니다.</p>
+          </article>
+          <article class="support-card">
+            <strong>개인 랜딩페이지 제공</strong>
+            <p>상담 전 고객에게 보여줄 전용 페이지를 제공합니다.</p>
+          </article>
+          <article class="support-card">
+            <strong>온라인 명함 제공</strong>
+            <p>카카오톡, 문자, SNS에서 바로 전달할 수 있습니다.</p>
+          </article>
+          <article class="support-card">
+            <strong>크루즈 컨텐츠 제공</strong>
+            <p>사진, 영상, 소개 자료를 활동에 활용할 수 있습니다.</p>
+          </article>
+          <article class="support-card">
+            <strong>온·오프라인 무료 교육</strong>
+            <p>초보자도 설명할 수 있도록 기본 교육과 실전 안내를 제공합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="fit" class="partner-section">
+      <div class="container">
+        <div class="partner-head">
+          <span class="pill">추천 대상</span>
+          <h2>이런 분에게 잘 맞습니다</h2>
+        </div>
+
+        <div class="fit-list">
+          <span>동창회, 동호회 모임장이거나 모임이 많은 사람</span>
+          <span>평소 국내여행 및 세계여행을 좋아하는 사람</span>
+          <span>월급 외 부수입을 원하는 사람</span>
+          <span>딱 월 50만원의 여유를 만들고 싶은 사람</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="partner-section partner-final light">
+      <div class="container">
+        <div class="final-panel">
+          <span class="partner-kicker">Partner Start</span>
+          <h2>월급 말고<br />딱 50만원만 더</h2>
+          <p>
+            크루즈 여행을 다녀온 경험, 사진, 영상, 후기부터 시작하세요.
+            필요한 페이지와 자료, 교육은 함께 제공합니다.
+          </p>
+          <a href="/contact/">상담 문의하기</a>
         </div>
       </div>
     </section>
   </main>
 
-  <button type="button" class="floating-cta">상담 문의하기</button>
+  <a class="floating-cta" href="/contact/">상담 문의하기</a>
 
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -965,7 +1320,5 @@
       </div>
     </div>
   </footer>
-
-  <script src="/membership/cruise-membership-rebuild-v3.js"></script>
 </body>
 </html>
