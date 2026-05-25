@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>크루즈 여행 파트너 비즈니스 안내 | 크루즈플레이</title>
+  <meta name="description" content="크루즈 여행 구독 서비스와 포인트 적립, 제휴 수수료 구조를 바탕으로 한 파트너 비즈니스 모델을 이해하기 쉽게 정리했습니다." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/partner/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/partner/" />
+  <meta property="og:title" content="크루즈 여행 파트너 비즈니스 안내 | 크루즈플레이" />
+  <meta property="og:description" content="크루즈 여행 구독 서비스와 포인트 적립, 제휴 수수료 구조를 바탕으로 한 파트너 비즈니스 모델을 이해하기 쉽게 정리했습니다." />
+  <meta property="og:image" content="https://cruiseplay-dyt.pages.dev/img/og-membership.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <style>
+    :root {
+      --navy: #07152f;
+      --navy-2: #102b5c;
+      --blue: #2f6df6;
+      --sky: #7fb0ff;
+      --ink: #07152f;
+      --muted: #62708a;
+      --line: #dfe7f3;
+      --soft: #f4f7fb;
+      --card: #ffffff;
+      --shadow: 0 24px 70px rgba(15, 35, 75, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(47, 109, 246, 0.12), transparent 32%),
+        radial-gradient(circle at 88% 8%, rgba(127, 176, 255, 0.18), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #f4f7fb 42%, #ffffff 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, 0.86);
+      border-bottom: 1px solid rgba(223, 231, 243, 0.78);
+      backdrop-filter: blur(16px);
+    }
+    .topbar-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; letter-spacing: -0.04em; }
+    .brand-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 7px rgba(47, 109, 246, 0.12); }
+    .nav { display: flex; align-items: center; gap: 22px; font-weight: 800; color: #35445f; }
+    .nav a:last-child { color: var(--blue); }
+    .hero { padding: 92px 0 72px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr); gap: 34px; align-items: stretch; }
+    .hero-copy {
+      min-height: 560px;
+      padding: clamp(34px, 5vw, 64px);
+      border-radius: 42px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 80% 18%, rgba(127, 176, 255, 0.34), transparent 26%),
+        linear-gradient(135deg, #061126 0%, #102b5c 62%, #1d4da0 100%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-copy::after {
+      content: ""; position: absolute; inset: auto -12% -32% auto; width: 340px; height: 340px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px;
+      padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
+      color: #cfe0ff; font-size: 14px; font-weight: 900; letter-spacing: 0.04em;
+    }
+    .hero h1 { position: relative; z-index: 1; margin: 0; font-size: clamp(44px, 6vw, 82px); line-height: 0.98; letter-spacing: -0.07em; }
+    .hero h1 span { display: block; color: #9fc5ff; }
+    .hero-lead {
+      position: relative; z-index: 1; max-width: 720px; margin: 28px 0 0;
+      color: rgba(255, 255, 255, 0.82); font-size: 20px; line-height: 1.78; font-weight: 700;
+    }
+    .hero-actions { position: relative; z-index: 1; display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 24px;
+      border-radius: 18px; border: 0; font-size: 17px; font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), #2d86ff); color: #fff;
+      box-shadow: 0 18px 42px rgba(47, 109, 246, 0.28);
+    }
+    .btn.secondary { background: rgba(255, 255, 255, 0.12); box-shadow: none; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .hero-panel {
+      padding: 30px; border-radius: 34px; background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(223, 231, 243, 0.9); box-shadow: 0 18px 54px rgba(15, 35, 75, 0.1);
+      backdrop-filter: blur(14px);
+    }
+    .metric-grid { display: grid; gap: 14px; }
+    .metric {
+      padding: 22px; border-radius: 24px; background: #fff; border: 1px solid var(--line);
+      box-shadow: 0 12px 28px rgba(15, 35, 75, 0.05);
+    }
+    .metric small { display: block; color: var(--blue); font-size: 13px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 8px; font-size: 34px; line-height: 1.08; letter-spacing: -0.05em; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); line-height: 1.62; font-weight: 700; }
+    section { padding: 86px 0; }
+    .section-head { max-width: 860px; margin-bottom: 32px; }
+    .label { display: inline-flex; margin-bottom: 14px; color: var(--blue); font-size: 14px; font-weight: 900; letter-spacing: 0.1em; }
+    h2 { margin: 0; font-size: clamp(36px, 4vw, 58px); line-height: 1.08; letter-spacing: -0.06em; }
+    .desc { margin: 18px 0 0; color: var(--muted); font-size: 18px; line-height: 1.78; font-weight: 700; }
+    .card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .card {
+      min-height: 100%; padding: 28px; border-radius: 30px; background: #fff;
+      border: 1px solid var(--line); box-shadow: 0 14px 38px rgba(15, 35, 75, 0.06);
+    }
+    .card h3 { margin: 0 0 12px; font-size: 26px; line-height: 1.22; letter-spacing: -0.04em; }
+    .card p, .card li { color: #47546b; line-height: 1.78; font-weight: 700; }
+    .card ul { margin: 18px 0 0; padding-left: 20px; }
+    .dark-band {
+      border-radius: 40px; padding: clamp(34px, 5vw, 58px);
+      color: #fff; background: linear-gradient(135deg, #07152f 0%, #13326b 100%);
+      box-shadow: var(--shadow);
+    }
+    .dark-band .desc, .dark-band p, .dark-band li { color: rgba(255, 255, 255, 0.8); }
+    .plan-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+    .plan {
+      padding: 22px; border-radius: 24px; background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    .plan small { color: #9fc5ff; font-weight: 900; }
+    .plan strong { display: block; margin-top: 10px; font-size: 34px; letter-spacing: -0.04em; }
+    .plan span { display: block; margin-top: 8px; color: rgba(255, 255, 255, 0.72); font-weight: 700; line-height: 1.55; }
+    .flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: flow; }
+    .flow-card { position: relative; padding-top: 54px; }
+    .flow-card::before {
+      counter-increment: flow; content: counter(flow, decimal-leading-zero);
+      position: absolute; top: 22px; left: 28px; color: #a8c7ff; font-size: 16px; font-weight: 900;
+    }
+    .split { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 28px; align-items: start; }
+    .example-list { display: grid; gap: 14px; }
+    .example {
+      display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center;
+      padding: 18px; border-radius: 22px; background: #fff; border: 1px solid var(--line);
+    }
+    .example strong { font-size: 24px; color: var(--blue); }
+    .example p { margin: 0; color: #47546b; line-height: 1.65; font-weight: 700; }
+    .notice {
+      margin-top: 26px; padding: 20px 22px; border-radius: 22px; background: #fff7ed;
+      border: 1px solid #fed7aa; color: #8a4b12; line-height: 1.7; font-weight: 800;
+    }
+    .cta {
+      text-align: center; padding: 74px 24px; border-radius: 40px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(127, 176, 255, 0.32), transparent 34%),
+        linear-gradient(135deg, #07152f, #12346f);
+      color: #fff; box-shadow: var(--shadow);
+    }
+    .cta p { max-width: 760px; margin: 18px auto 30px; color: rgba(255, 255, 255, 0.8); font-size: 18px; line-height: 1.75; font-weight: 700; }
+    footer { padding: 38px 0 70px; color: #667085; font-size: 14px; line-height: 1.7; }
+    .reveal { animation: rise 0.8s cubic-bezier(.16, 1, .3, 1) both; }
+    .delay-1 { animation-delay: 0.12s; }
+    .delay-2 { animation-delay: 0.24s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 960px) {
+      .hero-grid, .split { grid-template-columns: 1fr; }
+      .hero-copy { min-height: 0; }
+      .card-grid, .flow, .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav { display: none; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding-top: 54px; }
+      .card-grid, .flow, .plan-grid { grid-template-columns: 1fr; }
+      .example { grid-template-columns: 1fr; }
+      section { padding: 62px 0; }
+      .hero h1 { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/"><span class="brand-dot"></span><span>크루즈 플레이</span></a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/#schedule">추천 일정</a>
+        <a href="/membership/">멤버십</a>
+        <a href="/blog/">콘텐츠</a>
+        <a href="/#contact">문의하기</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">CRUISE PARTNER BUSINESS</span>
+          <h1>크루즈 여행을<br /><span>수익 구조로 이해하는 법</span></h1>
+          <p class="hero-lead">
+            단순히 여행 상품을 판매하는 방식이 아니라, 크루즈 구독 멤버십과 포인트 적립, 제휴 수수료가 결합된 파트너형 비즈니스 구조입니다.
+            본업을 대체하라는 이야기가 아니라, 성장하는 여행 시장 안에서 반복 매출이 만들어지는 구조를 이해하는 페이지입니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#structure">구조 먼저 보기</a>
+            <a class="btn secondary" href="/#contact">상담 문의</a>
+          </div>
+        </div>
+        <aside class="hero-panel reveal delay-1" aria-label="핵심 요약">
+          <div class="metric-grid">
+            <div class="metric">
+              <small>Business Type</small>
+              <strong>구독 기반</strong>
+              <span>멤버가 매월 구독료를 납부하고 포인트를 적립하는 여행 멤버십 구조입니다.</span>
+            </div>
+            <div class="metric">
+              <small>Revenue</small>
+              <strong>제휴 수수료</strong>
+              <span>소개, 유지, 팀 매출 조건에 따라 수수료와 보너스가 설계됩니다.</span>
+            </div>
+            <div class="metric">
+              <small>Market</small>
+              <strong>크루즈 여행</strong>
+              <span>전세계 크루즈 산업은 이미 큰 시장이고, 국내 시장은 아직 성장 초기 단계입니다.</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">WHY CRUISE</span>
+          <h2>크루즈 시장은 여행 산업 안에서도 다른 구조를 가집니다</h2>
+          <p class="desc">
+            항공, 호텔, 식사, 이동을 따로 파는 일반 여행과 달리 크루즈는 숙박, 식사, 이동, 엔터테인먼트가 하나로 묶입니다.
+            그래서 고객 입장에서는 명확한 혜택이 있고, 파트너 입장에서는 반복 이용과 멤버십 유지가 중요한 구조가 됩니다.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="card reveal">
+            <h3>여행 경험 기반</h3>
+            <p>AI가 대체하기 어려운 영역은 실제 경험, 신뢰, 안내, 커뮤니티입니다. 크루즈는 처음 접하는 고객이 많아 설명과 상담의 가치가 큽니다.</p>
+          </article>
+          <article class="card reveal delay-1">
+            <h3>국내 시장 성장 여지</h3>
+            <p>전세계 크루즈 시장은 이미 형성되어 있지만 국내 대중화는 아직 시작 단계에 가깝습니다. 초기 시장은 교육형 콘텐츠와 안내자가 중요합니다.</p>
+          </article>
+          <article class="card reveal delay-2">
+            <h3>패키지 여행의 대안</h3>
+            <p>정해진 쇼핑과 옵션 중심의 패키지에 피로감을 느끼는 고객에게, 크루즈는 숙소 이동 없이 자유롭게 쉬고 즐기는 대안이 될 수 있습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <div class="wrap">
+        <div class="dark-band reveal">
+          <span class="label">SUBSCRIPTION STRUCTURE</span>
+          <h2>기본은 구독, 혜택은 포인트, 수익은 제휴 구조입니다</h2>
+          <p class="desc">
+            고객은 여행 멤버십에 가입하고 매월 구독료를 납부합니다. 구독료는 포인트로 적립되고, 적립 포인트는 크루즈 요금, 와이파이, 음료 패키지 등 여행 관련 비용에 사용할 수 있습니다.
+          </p>
+          <div class="plan-grid">
+            <div class="plan">
+              <small>가입 구조</small>
+              <strong>1회 가입비</strong>
+              <span>초기 등록 시 1회 납부하는 비용이 있습니다.</span>
+            </div>
+            <div class="plan">
+              <small>월 구독</small>
+              <strong>$100+</strong>
+              <span>대표적인 기본 구독료 예시는 월 $100 수준입니다.</span>
+            </div>
+            <div class="plan">
+              <small>포인트</small>
+              <strong>2배 적립</strong>
+              <span>월 구독료 대비 포인트가 적립되는 구조입니다.</span>
+            </div>
+            <div class="plan">
+              <small>사용 기준</small>
+              <strong>요금의 일부</strong>
+              <span>일반적으로 크루즈 요금의 일정 비율까지 포인트 사용이 가능합니다.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <div class="section-head reveal">
+          <span class="label">AFFILIATE MODEL</span>
+          <h2>이 사업은 제휴 마케팅 기반입니다</h2>
+          <p class="desc">
+            핵심은 상품을 직접 제조하거나 재고를 들고 판매하는 것이 아닙니다.
+            멤버십을 소개하고, 고객이 구독을 유지하면 그 매출을 기준으로 제휴 수수료와 인센티브가 발생하는 구조입니다.
+          </p>
+        </div>
+        <div class="example-list reveal delay-1">
+          <div class="example">
+            <strong>소개</strong>
+            <p>크루즈 여행 멤버십의 혜택과 사용 방식을 안내합니다.</p>
+          </div>
+          <div class="example">
+            <strong>가입</strong>
+            <p>고객이 가입비와 구독료를 결제하면 매출로 인정됩니다.</p>
+          </div>
+          <div class="example">
+            <strong>유지</strong>
+            <p>1회성 판매가 아니라 구독 유지에 따라 반복 매출 구조가 만들어질 수 있습니다.</p>
+          </div>
+          <div class="example">
+            <strong>보상</strong>
+            <p>활성화, 매칭, 팀 매출, 리커링 등 조건별 보상 구조가 설계됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">INCOME STREAMS</span>
+          <h2>수익 구조는 하나가 아니라 여러 단계로 나뉩니다</h2>
+          <p class="desc">
+            실제 보상은 플랜, 활동량, 유지 고객, 팀 구조, 지급 조건에 따라 달라집니다.
+            아래 내용은 구조 이해를 돕기 위한 요약입니다.
+          </p>
+        </div>
+        <div class="flow">
+          <article class="card flow-card reveal">
+            <h3>일일 활성화 보너스</h3>
+            <p>신규 멤버를 직접 활성화했을 때 발생하는 즉시성 보너스 구조입니다.</p>
+          </article>
+          <article class="card flow-card reveal delay-1">
+            <h3>주간 매칭 보너스</h3>
+            <p>직접 연결된 파트너의 주간 활성화 성과와 내 활동 조건이 맞을 때 받을 수 있는 보너스입니다.</p>
+          </article>
+          <article class="card flow-card reveal delay-2">
+            <h3>팀 리더십 보너스</h3>
+            <p>팀 전체 매출이 특정 기준을 넘으면 레그 규칙에 따라 지급되는 리더십 보상입니다.</p>
+          </article>
+          <article class="card flow-card reveal">
+            <h3>리커링 소득</h3>
+            <p>구독 유지 고객이 쌓일수록 반복적으로 계산될 수 있는 수수료 구조입니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <div class="dark-band reveal">
+          <span class="label">EXAMPLE</span>
+          <h2>숫자로 보면 구조가 더 명확해집니다</h2>
+          <p class="desc">
+            예를 들어 신규 멤버의 가입비와 구독료가 합산되어 매출로 인정되고, 그 매출을 기준으로 일정 비율의 수수료가 계산됩니다.
+            팀 매출이 일정 기준을 넘으면 월 단위 보상이 추가로 설계될 수 있습니다.
+          </p>
+        </div>
+        <div class="example-list reveal delay-1">
+          <div class="example">
+            <strong>$200</strong>
+            <p>기본 멤버 1명의 가입비와 첫 구독료가 합산되는 예시입니다.</p>
+          </div>
+          <div class="example">
+            <strong>$500</strong>
+            <p>상위 플랜 멤버 1명의 가입비와 구독료가 합산되는 예시입니다.</p>
+          </div>
+          <div class="example">
+            <strong>10%</strong>
+            <p>대표적인 직접 수수료 예시로, 매출 기준 일정 비율이 적용될 수 있습니다.</p>
+          </div>
+          <div class="example">
+            <strong>$3,000</strong>
+            <p>팀 매출 기준이 충족될 때 리더십/리커링 구조가 본격적으로 계산되는 예시입니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">PARTNER ADVANTAGE</span>
+          <h2>수수료 외에도 여행 혜택이 함께 설계됩니다</h2>
+          <p class="desc">
+            이 모델의 특징은 수익 구조와 여행 혜택이 분리되어 있지 않다는 점입니다.
+            활동 기준을 충족하면 구독비 면제, 포인트 사용 범위 확대 같은 여행 혜택이 함께 제공될 수 있습니다.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="card reveal">
+            <h3>멤버십 비용 절감</h3>
+            <p>일정 매출 기준을 충족하면 본인의 월 구독비 부담을 줄이는 혜택이 제공될 수 있습니다.</p>
+          </article>
+          <article class="card reveal delay-1">
+            <h3>포인트 활용 확대</h3>
+            <p>일반 멤버보다 더 높은 비율로 포인트를 사용할 수 있는 조건이 제공될 수 있습니다.</p>
+          </article>
+          <article class="card reveal delay-2">
+            <h3>달러 기반 구조</h3>
+            <p>구독 결제와 수수료가 달러 기준으로 설계되어 글로벌 여행 시장과 연결된 구조를 가집니다.</p>
+          </article>
+        </div>
+        <div class="notice">
+          안내: 이 페이지의 금액과 보상 예시는 사업 구조 이해를 돕기 위한 설명입니다. 실제 지급 여부와 금액은 가입 플랜, 활동 조건, 유지율, 정책 변경, 환율, 세금 및 개인별 상황에 따라 달라질 수 있습니다. 수익을 보장하는 안내가 아닙니다.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta reveal">
+          <span class="label">NEXT STEP</span>
+          <h2>먼저 구조를 이해하고, 그다음 참여 여부를 판단하세요</h2>
+          <p>
+            이 사업은 단순 판매보다 구독 유지, 신뢰 기반 소개, 팀 운영 이해가 중요합니다.
+            관심이 있다면 먼저 본인이 여행 멤버십을 어떻게 활용할 수 있는지부터 확인하는 편이 안전합니다.
+          </p>
+          <a class="btn" href="/#contact">파트너 구조 상담하기</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>크루즈플레이 파트너 정보</strong><br />
+      본 페이지는 크루즈 여행 구독형 제휴 비즈니스의 일반적인 구조를 설명하기 위한 안내 페이지입니다.
+    </div>
+  </footer>
+</body>
+</html>
