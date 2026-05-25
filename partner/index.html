@@ -403,6 +403,70 @@
       font-size: 22px;
     }
 
+    .bridge-panel {
+      position: relative;
+      overflow: hidden;
+      margin-top: 44px;
+      padding: clamp(34px, 5vw, 62px);
+      border-radius: 44px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255, 204, 61, 0.20), transparent 28%),
+        linear-gradient(135deg, #07152f 0%, #123a83 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .bridge-panel::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -70px;
+      bottom: -90px;
+      border-radius: 999px;
+      background: rgba(47, 107, 255, 0.34);
+      filter: blur(5px);
+    }
+
+    .bridge-flow {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .bridge-item {
+      min-height: 126px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 18px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #fff;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+
+    .bridge-item em {
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 950;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .bridge-item strong {
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
     .membership-mini {
       margin-top: 44px;
       padding: clamp(34px, 5vw, 58px);
@@ -556,6 +620,54 @@
       margin-top: 34px;
     }
 
+    .money-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .money-step {
+      min-height: 150px;
+      padding: 22px 16px;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 42px rgba(16, 39, 88, 0.07);
+      text-align: center;
+    }
+
+    .money-step span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      background: rgba(47, 107, 255, 0.10);
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .money-step strong {
+      display: block;
+      margin-top: 14px;
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    .money-step p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 720;
+    }
+
     .brand-row {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -635,6 +747,50 @@
       border-right: none;
     }
 
+    .incentive-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .incentive-card {
+      min-height: 190px;
+      padding: 28px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      text-align: left;
+    }
+
+    .incentive-card em {
+      display: block;
+      color: var(--gold);
+      font-style: normal;
+      font-size: clamp(36px, 4vw, 58px);
+      line-height: 0.95;
+      letter-spacing: -0.08em;
+      font-weight: 950;
+    }
+
+    .incentive-card strong {
+      display: block;
+      margin-top: 14px;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    .incentive-card p {
+      margin: 10px 0 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 720;
+    }
+
     .highlight {
       color: var(--red);
       font-weight: 950;
@@ -694,6 +850,67 @@
       font-weight: 950;
     }
 
+    .hero-card,
+    .step-card,
+    .metric-card,
+    .plan,
+    .brand,
+    .money-step,
+    .support-card,
+    .fit-card,
+    .profit-table,
+    .big-panel,
+    .membership-mini,
+    .bridge-panel {
+      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .steps > *:nth-child(2),
+    .metric-grid > *:nth-child(2),
+    .plans > *:nth-child(2),
+    .brand-row > *:nth-child(2),
+    .money-flow > *:nth-child(2),
+    .support-grid > *:nth-child(2),
+    .fit-grid > *:nth-child(2) {
+      animation-delay: 80ms;
+    }
+
+    .steps > *:nth-child(3),
+    .metric-grid > *:nth-child(3),
+    .plans > *:nth-child(3),
+    .brand-row > *:nth-child(3),
+    .money-flow > *:nth-child(3),
+    .support-grid > *:nth-child(3),
+    .fit-grid > *:nth-child(3) {
+      animation-delay: 160ms;
+    }
+
+    .metric-grid > *:nth-child(4),
+    .plans > *:nth-child(4),
+    .brand-row > *:nth-child(4),
+    .money-flow > *:nth-child(4),
+    .support-grid > *:nth-child(4),
+    .fit-grid > *:nth-child(4) {
+      animation-delay: 240ms;
+    }
+
+    .brand-row > *:nth-child(5),
+    .money-flow > *:nth-child(5),
+    .support-grid > *:nth-child(5) {
+      animation-delay: 320ms;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .site-footer {
       padding: 44px 0;
       color: var(--muted);
@@ -740,6 +957,9 @@
       .plans,
       .brand-row,
       .flow,
+      .bridge-flow,
+      .money-flow,
+      .incentive-grid,
       .support-grid,
       .fit-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -816,6 +1036,9 @@
       .plans,
       .brand-row,
       .flow,
+      .bridge-flow,
+      .money-flow,
+      .incentive-grid,
       .support-grid,
       .fit-grid {
         grid-template-columns: 1fr;
@@ -946,6 +1169,19 @@
             <p>여행 구독 서비스로 반복 안내가 가능합니다.</p>
           </article>
         </div>
+
+        <div class="bridge-panel">
+          <span class="eyebrow">Bridge</span>
+          <h3>여행 자랑이<br />멤버십 소개로 넘어가는 순간</h3>
+          <p>크루즈를 궁금해하는 사람은 결국 비용, 포인트, 예약 혜택을 묻습니다. 그때 보여주는 것이 여행 멤버십입니다.</p>
+          <div class="bridge-flow" aria-label="여행 경험에서 멤버십 소개까지">
+            <div class="bridge-item"><em>01</em><strong>크루즈 경험</strong></div>
+            <div class="bridge-item"><em>02</em><strong>사진·영상</strong></div>
+            <div class="bridge-item"><em>03</em><strong>주변 관심</strong></div>
+            <div class="bridge-item"><em>04</em><strong>멤버십 소개</strong></div>
+            <div class="bridge-item"><em>05</em><strong>상담 문의</strong></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1044,6 +1280,34 @@
             <p>고객이 구독을 유지하면 매월 수수료가 발생할 수 있습니다.</p>
           </article>
         </div>
+
+        <div class="money-flow" aria-label="크루즈 비즈니스 수익구조">
+          <article class="money-step">
+            <span>01</span>
+            <strong>경험 콘텐츠</strong>
+            <p>사진, 영상, 후기로 관심을 만듭니다.</p>
+          </article>
+          <article class="money-step">
+            <span>02</span>
+            <strong>멤버십 안내</strong>
+            <p>포인트와 여행 혜택을 보여줍니다.</p>
+          </article>
+          <article class="money-step">
+            <span>03</span>
+            <strong>가입 발생</strong>
+            <p>가입비와 구독비가 매출로 인정됩니다.</p>
+          </article>
+          <article class="money-step">
+            <span>04</span>
+            <strong>구독 유지</strong>
+            <p>고객이 유지하면 매월 매출이 반복됩니다.</p>
+          </article>
+          <article class="money-step">
+            <span>05</span>
+            <strong>수수료 지급</strong>
+            <p>매출 기준 수수료가 달러로 지급됩니다.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -1083,7 +1347,24 @@
 
         <div class="big-panel">
           <h3>수수료 외 인센티브</h3>
-          <p>총 매출 $500 달성 시 나의 크루즈 멤버십 구독비 $100 면제. 월 $3,000 이상 3회 달성 시 보유 포인트를 크루즈 예약에 100% 사용할 수 있습니다.</p>
+          <p>수수료 외에도 크루즈를 직접 다니는 사람에게 유리한 혜택이 붙습니다.</p>
+          <div class="incentive-grid" aria-label="수수료 외 인센티브">
+            <article class="incentive-card">
+              <em>$500</em>
+              <strong>총 매출 달성</strong>
+              <p>나의 크루즈 멤버십 구독비 $100 면제</p>
+            </article>
+            <article class="incentive-card">
+              <em>200P</em>
+              <strong>클래식 예시</strong>
+              <p>월 멤버십 비용 $0, 포인트는 적립</p>
+            </article>
+            <article class="incentive-card">
+              <em>$3,000</em>
+              <strong>3회 달성</strong>
+              <p>보유 포인트를 크루즈 예약에 100% 사용 가능</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
