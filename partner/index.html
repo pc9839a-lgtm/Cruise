@@ -4,35 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>월급 말고 딱 50만원만 더 | 크루즈 소개 부업</title>
-  <meta name="description" content="크루즈 여행을 다녀온 경험을 콘텐츠로 만들고, 멤버십 소개를 통해 월급 외 부수입을 목표로 시작하는 크루즈 소개 부업 안내입니다." />
-
+  <meta name="description" content="크루즈 여행을 좋아하는 사람이 여행 경험과 콘텐츠를 활용해 월급 외 부수입을 목표로 시작하는 크루즈 소개 부업 안내입니다." />
   <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/partner/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/partner/" />
   <meta property="og:title" content="월급 말고 딱 50만원만 더 | 크루즈 소개 부업" />
-  <meta property="og:description" content="크루즈 여행 다녀오고 그 경험을 자랑하세요. 사진, 영상, 후기가 부업의 시작이 될 수 있습니다." />
+  <meta property="og:description" content="크루즈를 다녀온 경험, 사진, 영상, 후기가 부업의 시작점이 될 수 있습니다." />
   <meta property="og:image" content="https://cruiseplay-dyt.pages.dev/img/og-membership.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="월급 말고 딱 50만원만 더 | 크루즈 소개 부업" />
-  <meta name="twitter:description" content="크루즈 여행 다녀오고 그 경험을 자랑하세요. 사진, 영상, 후기가 부업의 시작이 될 수 있습니다." />
+  <meta name="twitter:description" content="크루즈를 다녀온 경험, 사진, 영상, 후기가 부업의 시작점이 될 수 있습니다." />
   <meta name="twitter:image" content="https://cruiseplay-dyt.pages.dev/img/og-membership.jpg" />
-
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <style>
     :root {
-      --navy: #07152f;
+      --ink: #111827;
+      --ink-2: #1f2937;
+      --muted: #647084;
+      --paper: #f5f0e8;
+      --paper-2: #fffaf3;
+      --line: rgba(17, 24, 39, 0.10);
       --blue: #2f6bff;
       --blue-dark: #123a83;
-      --sky: #eff5ff;
-      --line: rgba(15, 30, 70, 0.09);
-      --text: #0b1733;
-      --muted: #65748d;
-      --gold: #ffcc3d;
-      --red: #ff3030;
+      --gold: #c99a5a;
+      --gold-soft: #f3dfbf;
+      --shadow: 0 24px 70px rgba(17, 24, 39, 0.10);
       --radius: 34px;
-      --shadow: 0 24px 70px rgba(16, 39, 88, 0.10);
-      --container: 1180px;
+      --container: 1160px;
     }
 
     * {
@@ -46,10 +45,10 @@
     body {
       margin: 0;
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
+      color: var(--ink);
       background:
-        radial-gradient(circle at 50% 0%, rgba(47, 107, 255, 0.10), transparent 32%),
-        linear-gradient(180deg, #f6f9ff 0%, #ffffff 34%, #f3f7ff 100%);
+        radial-gradient(circle at top left, rgba(201, 154, 90, 0.18), transparent 34%),
+        linear-gradient(180deg, var(--paper), #f8fbff 42%, #fff 100%);
       letter-spacing: -0.045em;
       word-break: keep-all;
       overflow-x: hidden;
@@ -70,14 +69,15 @@
       top: 0;
       z-index: 50;
       padding: 12px 0;
-      background: rgba(246, 249, 255, 0.86);
-      border-bottom: 1px solid rgba(15, 30, 70, 0.06);
-      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+      background: rgba(245, 240, 232, 0.82);
+      backdrop-filter: blur(18px);
     }
 
     .nav-track {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 9px;
       overflow: auto;
       scrollbar-width: none;
     }
@@ -90,36 +90,132 @@
       flex: 0 0 auto;
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
-      padding: 0 18px;
+      min-height: 42px;
+      padding: 0 16px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 28px rgba(16, 39, 88, 0.07);
-      color: #17325f;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.07);
+      color: #354155;
       font-size: 14px;
       font-weight: 900;
+      box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06);
+    }
+
+    .section {
+      position: relative;
+      padding: clamp(84px, 10vw, 138px) 0;
+      text-align: center;
+    }
+
+    .section.white {
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .section.dark {
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(201, 154, 90, 0.22), transparent 28%),
+        linear-gradient(135deg, #101827, #07152f);
+    }
+
+    .kicker,
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      gap: 8px;
+      padding: 0 15px;
+      border-radius: 999px;
+      color: #7b5a34;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .kicker::before,
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--gold);
+    }
+
+    .dark .kicker,
+    .dark .eyebrow,
+    .hero .eyebrow {
+      color: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 940px;
+      margin: 24px auto 0;
+      font-size: clamp(58px, 9vw, 124px);
+      line-height: 0.94;
+      letter-spacing: -0.09em;
+      font-weight: 950;
+    }
+
+    h1 strong {
+      display: block;
+      color: #ffd166;
+      font-weight: 950;
+    }
+
+    h2 {
+      max-width: 930px;
+      margin: 18px auto 0;
+      font-size: clamp(42px, 6vw, 82px);
+      line-height: 1.05;
+      letter-spacing: -0.085em;
+      font-weight: 950;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.62;
+      font-weight: 760;
+    }
+
+    .dark .lead {
+      color: rgba(255, 255, 255, 0.72);
     }
 
     .hero {
-      padding: 70px 0 48px;
-      text-align: center;
+      min-height: auto;
+      padding: 58px 0 86px;
+      color: #fff;
     }
 
     .hero-card {
       position: relative;
       overflow: hidden;
-      min-height: 760px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: clamp(44px, 6vw, 84px);
-      border-radius: 48px;
+      min-height: 760px;
+      padding: clamp(44px, 6vw, 82px);
+      border-radius: 52px;
       background:
-        radial-gradient(circle at 28% 20%, rgba(255, 204, 61, 0.22), transparent 25%),
-        linear-gradient(180deg, rgba(4, 14, 40, 0.66), rgba(4, 14, 40, 0.88)),
-        url('/membership/img/KakaoTalk_20260405_150550057_03.jpg') center / cover no-repeat;
-      color: #fff;
-      box-shadow: 0 36px 92px rgba(16, 39, 88, 0.22);
+        radial-gradient(circle at 20% 20%, rgba(201, 154, 90, 0.25), transparent 28%),
+        linear-gradient(180deg, rgba(8, 14, 28, 0.70), rgba(8, 14, 28, 0.92)),
+        url("/membership/img/KakaoTalk_20260405_150550057_03.jpg") center / cover no-repeat;
+      box-shadow: 0 38px 96px rgba(17, 24, 39, 0.24);
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
     }
 
     .hero-card::before,
@@ -128,15 +224,16 @@
       position: absolute;
       border-radius: 999px;
       pointer-events: none;
+      animation: drift 7s ease-in-out infinite alternate;
     }
 
     .hero-card::before {
       width: 320px;
       height: 320px;
-      left: -90px;
-      bottom: -100px;
-      background: rgba(47, 107, 255, 0.34);
-      filter: blur(10px);
+      left: -110px;
+      bottom: -110px;
+      background: rgba(47, 107, 255, 0.30);
+      filter: blur(8px);
     }
 
     .hero-card::after {
@@ -144,55 +241,28 @@
       height: 220px;
       right: -70px;
       top: 80px;
-      background: rgba(255, 204, 61, 0.24);
+      background: rgba(255, 209, 102, 0.25);
       filter: blur(8px);
+      animation-delay: 900ms;
     }
 
     .hero-inner {
       position: relative;
       z-index: 1;
-      width: min(100%, 880px);
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      min-height: 38px;
-      padding: 0 15px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: rgba(255, 255, 255, 0.88);
-      font-size: 14px;
-      font-weight: 900;
-      backdrop-filter: blur(12px);
-    }
-
-    .hero h1 {
-      margin: 26px 0 0;
-      font-size: clamp(64px, 8.6vw, 124px);
-      line-height: 0.95;
-      letter-spacing: -0.085em;
-      font-weight: 950;
-      text-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
-    }
-
-    .hero h1 strong {
-      display: block;
-      color: var(--gold);
-      font-weight: 950;
+      width: min(100%, 900px);
+      text-align: center;
     }
 
     .hero-sub {
+      max-width: 760px;
       margin: 30px auto 0;
-      max-width: 720px;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.86);
       font-size: clamp(22px, 2.6vw, 36px);
-      line-height: 1.34;
+      line-height: 1.35;
       font-weight: 900;
     }
 
-    .hero-micro {
+    .chips {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -200,25 +270,25 @@
       margin-top: 30px;
     }
 
-    .hero-micro span {
+    .chip {
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
-      padding: 0 17px;
+      min-height: 40px;
+      padding: 0 16px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #fff;
-      font-size: 15px;
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 14px;
       font-weight: 850;
       backdrop-filter: blur(12px);
     }
 
     .cta-row {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
-      flex-wrap: wrap;
       margin-top: 36px;
     }
 
@@ -226,110 +296,106 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 66px;
-      min-width: 240px;
-      padding: 0 30px;
+      min-height: 62px;
+      min-width: 220px;
+      padding: 0 26px;
       border-radius: 999px;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 950;
-      box-shadow: 0 22px 48px rgba(47, 107, 255, 0.28);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
     }
 
     .btn.primary {
       color: #fff;
       background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      box-shadow: 0 20px 48px rgba(47, 107, 255, 0.28);
     }
 
-    .btn.ghost {
+    .btn.secondary {
       color: #fff;
-      background: rgba(255, 255, 255, 0.13);
+      background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: none;
       backdrop-filter: blur(14px);
     }
 
-    .section {
-      padding: clamp(88px, 10vw, 150px) 0;
-      text-align: center;
+    .btn:hover {
+      transform: translateY(-3px);
     }
 
-    .section.soft {
-      background: linear-gradient(180deg, rgba(239, 245, 255, 0.9), rgba(255, 255, 255, 0.96));
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 16px;
+      margin-top: 42px;
     }
 
-    .kicker {
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card,
+    .story-card,
+    .question-card,
+    .plan-card,
+    .kit-card,
+    .fit-card {
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 48px rgba(17, 24, 39, 0.07);
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .card {
+      min-height: 230px;
+      padding: 30px;
+      text-align: left;
+      border-top: 4px solid var(--gold);
+    }
+
+    .number {
       display: inline-flex;
       align-items: center;
-      min-height: 38px;
-      padding: 0 15px;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 20px;
       border-radius: 999px;
-      color: var(--blue);
-      background: rgba(47, 107, 255, 0.10);
-      font-size: 14px;
-      font-weight: 950;
-    }
-
-    .section h2 {
-      max-width: 940px;
-      margin: 18px auto 0;
-      color: var(--navy);
-      font-size: clamp(44px, 6vw, 84px);
-      line-height: 1.04;
-      letter-spacing: -0.08em;
-      font-weight: 950;
-    }
-
-    .lead {
-      max-width: 760px;
-      margin: 22px auto 0;
-      color: var(--muted);
-      font-size: clamp(18px, 2vw, 23px);
-      line-height: 1.65;
-      font-weight: 760;
-    }
-
-    .thread-note {
-      max-width: 900px;
-      margin: 30px auto 0;
-      padding: clamp(24px, 4vw, 38px);
-      border-radius: 34px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 48px rgba(16, 39, 88, 0.08);
-      color: var(--navy);
-      font-size: clamp(21px, 2.5vw, 32px);
-      line-height: 1.42;
-      letter-spacing: -0.06em;
-      font-weight: 930;
-      text-align: center;
-    }
-
-    .thread-note small {
-      display: block;
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: clamp(15px, 1.6vw, 18px);
-      line-height: 1.6;
-      letter-spacing: -0.03em;
-      font-weight: 760;
-    }
-
-    .hero .thread-note {
-      max-width: 820px;
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.16);
       color: #fff;
-      box-shadow: none;
-      backdrop-filter: blur(16px);
+      background: var(--ink);
+      font-size: 15px;
+      font-weight: 950;
     }
 
-    .hero .thread-note small {
-      color: rgba(255, 255, 255, 0.76);
+    .card strong,
+    .story-card strong,
+    .question-card strong,
+    .kit-card strong,
+    .fit-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(23px, 2.6vw, 34px);
+      line-height: 1.16;
+      letter-spacing: -0.065em;
+      font-weight: 950;
+    }
+
+    .card p,
+    .story-card p,
+    .question-card p,
+    .kit-card p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.58;
+      font-weight: 710;
     }
 
     .graph-panel {
-      position: relative;
-      overflow: hidden;
       margin-top: 42px;
       padding: clamp(30px, 5vw, 56px);
       border-radius: 42px;
@@ -337,48 +403,33 @@
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       text-align: left;
-    }
-
-    .graph-panel.dark-graph {
-      color: #fff;
-      background:
-        radial-gradient(circle at 90% 10%, rgba(255, 204, 61, 0.18), transparent 28%),
-        linear-gradient(135deg, #07152f, #123a83);
-      border-color: rgba(255, 255, 255, 0.10);
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
     }
 
     .graph-head {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 28px;
+      gap: 20px;
+      margin-bottom: 30px;
     }
 
     .graph-head h3 {
       margin: 0;
-      color: var(--navy);
+      color: var(--ink);
       font-size: clamp(30px, 4vw, 54px);
       line-height: 1.08;
       letter-spacing: -0.075em;
       font-weight: 950;
     }
 
-    .dark-graph .graph-head h3 {
-      color: #fff;
-    }
-
     .graph-head p {
-      max-width: 360px;
+      max-width: 390px;
       margin: 0;
       color: var(--muted);
       font-size: 16px;
       line-height: 1.55;
       font-weight: 760;
-    }
-
-    .dark-graph .graph-head p {
-      color: rgba(255, 255, 255, 0.72);
     }
 
     .bar-list {
@@ -388,30 +439,22 @@
 
     .bar-row {
       display: grid;
-      grid-template-columns: 170px 1fr 70px;
+      grid-template-columns: 170px 1fr 74px;
       align-items: center;
       gap: 16px;
     }
 
     .bar-label {
-      color: var(--navy);
+      color: var(--ink);
       font-size: 17px;
       font-weight: 920;
-    }
-
-    .dark-graph .bar-label {
-      color: #fff;
     }
 
     .bar-track {
       overflow: hidden;
       height: 18px;
       border-radius: 999px;
-      background: #edf3fc;
-    }
-
-    .dark-graph .bar-track {
-      background: rgba(255, 255, 255, 0.12);
+      background: #edf2fb;
     }
 
     .bar-fill {
@@ -419,497 +462,280 @@
       width: var(--value);
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--blue), #8bb3ff);
+      background: linear-gradient(90deg, var(--blue), #9abaff);
       transform-origin: left center;
       animation: barGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
     }
 
-    .bar-row:nth-child(2) .bar-fill {
-      animation-delay: 100ms;
-    }
-
-    .bar-row:nth-child(3) .bar-fill {
-      animation-delay: 200ms;
-    }
-
-    .bar-row:nth-child(4) .bar-fill {
-      animation-delay: 300ms;
-    }
-
     .bar-value {
       color: var(--blue);
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 950;
       text-align: right;
     }
 
-    .dark-graph .bar-value {
-      color: var(--gold);
-    }
-
-    .mini-bars {
+    .story-board {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .mini-bar-card {
-      min-height: 190px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 22px;
-      border-radius: 28px;
-      background: #f3f7ff;
-      text-align: left;
-    }
-
-    .mini-bar {
-      width: 100%;
-      height: 112px;
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: 18px;
-      border-radius: 22px;
-      background: rgba(47, 107, 255, 0.08);
-      overflow: hidden;
-    }
-
-    .mini-bar span {
-      display: block;
-      width: 100%;
-      height: var(--value);
-      border-radius: 22px 22px 0 0;
-      background: linear-gradient(180deg, #8bb3ff, var(--blue));
-      transform-origin: bottom center;
-      animation: columnGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
-    }
-
-    .mini-bar-card strong {
-      color: var(--navy);
-      font-size: 24px;
-      line-height: 1.1;
-      letter-spacing: -0.06em;
-      font-weight: 950;
-    }
-
-    .mini-bar-card p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      font-weight: 740;
-    }
-
-    .money-bars {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      align-items: end;
-      gap: 14px;
-      margin-top: 34px;
-      padding-top: 10px;
-    }
-
-    .money-bar-card {
-      min-height: 300px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 14px;
-      padding: 22px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      text-align: center;
-    }
-
-    .money-column {
-      position: relative;
-      height: 160px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-    }
-
-    .money-column span {
-      width: 100%;
-      height: var(--value);
-      border-radius: 24px 24px 0 0;
-      background: linear-gradient(180deg, var(--gold), #ff8f3d);
-      transform-origin: bottom center;
-      animation: columnGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
-    }
-
-    .money-bar-card em {
-      color: var(--gold);
-      font-style: normal;
-      font-size: 36px;
-      line-height: 1;
-      letter-spacing: -0.07em;
-      font-weight: 950;
-    }
-
-    .money-bar-card strong {
-      color: #fff;
-      font-size: 20px;
-      line-height: 1.25;
-      letter-spacing: -0.06em;
-      font-weight: 950;
-    }
-
-    .big-panel {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
       margin-top: 42px;
-      padding: clamp(38px, 6vw, 72px);
-      border-radius: 44px;
-      color: #fff;
-      background:
-        radial-gradient(circle at 15% 18%, rgba(255, 204, 61, 0.18), transparent 25%),
-        linear-gradient(135deg, #07152f, #16418b);
-      box-shadow: var(--shadow);
     }
 
-    .big-panel h3 {
-      margin: 0;
-      font-size: clamp(40px, 5.6vw, 78px);
-      line-height: 1.05;
-      letter-spacing: -0.08em;
-      font-weight: 950;
-    }
-
-    .big-panel p {
-      max-width: 780px;
-      margin: 22px auto 0;
-      color: rgba(255, 255, 255, 0.82);
-      font-size: clamp(18px, 2vw, 23px);
-      line-height: 1.65;
-      font-weight: 760;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 28px;
-    }
-
-    .step-card,
-    .metric-card,
-    .support-card,
-    .fit-card {
-      padding: 30px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.92);
-      box-shadow: 0 18px 48px rgba(16, 39, 88, 0.07);
-      text-align: left;
-    }
-
-    .step-card {
-      min-height: 230px;
-    }
-
-    .num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 48px;
-      height: 48px;
-      border-radius: 18px;
-      background: rgba(47, 107, 255, 0.10);
-      color: var(--blue);
-      font-size: 15px;
-      font-weight: 950;
-    }
-
-    .step-card strong,
-    .metric-card strong,
-    .support-card strong,
-    .fit-card strong {
-      display: block;
-      margin-top: 18px;
-      color: var(--navy);
-      font-size: clamp(25px, 3vw, 38px);
-      line-height: 1.1;
-      letter-spacing: -0.07em;
-      font-weight: 950;
-    }
-
-    .step-card p,
-    .metric-card p,
-    .support-card p,
-    .fit-card p {
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.58;
-      font-weight: 720;
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 34px;
-    }
-
-    .metric-card {
-      min-height: 210px;
-      text-align: center;
-    }
-
-    .metric-card em {
-      display: block;
-      color: var(--blue);
-      font-style: normal;
-      font-size: clamp(38px, 5vw, 72px);
-      line-height: 0.95;
-      letter-spacing: -0.08em;
-      font-weight: 950;
-    }
-
-    .metric-card strong {
-      margin-top: 18px;
-      font-size: 22px;
-    }
-
-    .bridge-panel {
+    .story-card {
       position: relative;
+      min-height: 190px;
+      padding: 28px;
+      text-align: left;
       overflow: hidden;
-      margin-top: 44px;
-      padding: clamp(34px, 5vw, 62px);
-      border-radius: 44px;
-      color: #fff;
-      background:
-        radial-gradient(circle at 16% 18%, rgba(255, 204, 61, 0.20), transparent 28%),
-        linear-gradient(135deg, #07152f 0%, #123a83 100%);
-      box-shadow: var(--shadow);
     }
 
-    .bridge-panel::after {
+    .story-card::before {
       content: "";
       position: absolute;
-      width: 240px;
-      height: 240px;
-      right: -70px;
-      bottom: -90px;
-      border-radius: 999px;
-      background: rgba(47, 107, 255, 0.34);
-      filter: blur(5px);
+      top: 0;
+      left: 28px;
+      width: 58px;
+      height: 4px;
+      border-radius: 0 0 999px 999px;
+      background: var(--gold);
     }
 
-    .bridge-flow {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .bridge-item {
-      min-height: 126px;
+    .story-meta {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 9px;
-      padding: 18px;
-      border-radius: 26px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #fff;
-      text-align: center;
-      backdrop-filter: blur(12px);
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
-    .bridge-item em {
-      font-style: normal;
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--ink), var(--gold));
+    }
+
+    .story-meta span {
+      display: block;
+      color: var(--muted);
       font-size: 13px;
-      font-weight: 950;
-      color: rgba(255, 255, 255, 0.68);
-    }
-
-    .bridge-item strong {
-      font-size: 20px;
-      line-height: 1.2;
-      letter-spacing: -0.06em;
-      font-weight: 950;
+      font-weight: 800;
     }
 
     .question-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 34px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 40px;
     }
 
     .question-card {
-      min-height: 150px;
-      padding: 24px 18px;
-      border-radius: 30px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 16px 42px rgba(16, 39, 88, 0.07);
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
       text-align: center;
     }
 
-    .question-card span {
+    .question-card strong {
+      font-size: 22px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 42px;
+    }
+
+    .compare-card {
+      min-height: 240px;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      text-align: left;
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .compare-card.featured {
+      color: var(--ink);
+      background: #fff;
+      border-color: transparent;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .compare-card strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .compare-card p {
+      margin-top: 16px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 16px;
+      line-height: 1.58;
+      font-weight: 720;
+    }
+
+    .compare-card.featured p {
+      color: var(--muted);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-width: 42px;
-      height: 42px;
-      border-radius: 15px;
-      color: var(--blue);
-      background: rgba(47, 107, 255, 0.10);
-      font-size: 14px;
-      font-weight: 950;
+      min-height: 32px;
+      padding: 0 11px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--gold-soft);
+      font-size: 13px;
+      font-weight: 900;
     }
 
-    .question-card strong {
-      display: block;
-      margin-top: 16px;
-      color: var(--navy);
-      font-size: 22px;
-      line-height: 1.2;
-      letter-spacing: -0.06em;
-      font-weight: 950;
-    }
-
-    .membership-mini {
+    .membership-box {
       margin-top: 44px;
-      padding: clamp(34px, 5vw, 58px);
+      padding: clamp(30px, 5vw, 54px);
       border-radius: 44px;
       background: #fff;
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
     }
 
-    .plan-title {
-      margin: 0;
-      color: var(--navy);
-      font-size: clamp(38px, 5vw, 66px);
+    .membership-box h3 {
+      color: var(--ink);
+      font-size: clamp(34px, 4.5vw, 62px);
       line-height: 1.08;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .plan-note {
-      margin: 12px 0 0;
-      color: var(--blue);
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    .plans {
+    .plan-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 34px;
+      margin-top: 32px;
     }
 
-    .plan {
-      display: flex;
-      min-height: 480px;
-      flex-direction: column;
-      gap: 14px;
-      padding: 22px;
-      border-radius: 28px;
-      border: 1px solid var(--line);
-      background: #fff;
+    .plan-card {
+      min-height: 430px;
+      padding: 24px;
       text-align: left;
-      box-shadow: 0 14px 36px rgba(16, 39, 88, 0.06);
     }
 
-    .plan.recommended {
+    .plan-card.recommended {
       color: #fff;
-      background: linear-gradient(180deg, #2d62b2, #174385);
+      background: linear-gradient(180deg, #101827, #17325f);
       border-color: transparent;
     }
 
     .tag {
       display: inline-flex;
-      width: fit-content;
-      min-height: 34px;
       align-items: center;
+      min-height: 34px;
       padding: 0 12px;
-      border-radius: 14px;
-      color: var(--blue);
-      background: rgba(47, 107, 255, 0.10);
+      border-radius: 999px;
+      color: #7b5a34;
+      background: #f4ead9;
       font-size: 13px;
       font-weight: 950;
     }
 
-    .plan.recommended .tag {
-      color: #174385;
+    .plan-card.recommended .tag {
+      color: var(--ink);
       background: #fff;
     }
 
     .plan-name {
-      margin-top: 6px;
-      font-size: 24px;
+      margin-top: 20px;
+      font-size: 25px;
       line-height: 1.1;
+      letter-spacing: -0.06em;
       font-weight: 950;
     }
 
     .price {
-      font-size: clamp(36px, 4vw, 52px);
-      line-height: 0.95;
+      margin-top: 10px;
+      font-size: 44px;
+      line-height: 1;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
     .price span {
       font-size: 16px;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
     }
 
-    .plan-line {
+    .plan-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 52px;
       gap: 12px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: #edf3fc;
-      color: var(--navy);
+      min-height: 52px;
+      margin-top: 12px;
+      padding: 13px 14px;
+      border-radius: 18px;
+      color: var(--ink);
+      background: #f1f5fb;
       font-size: 14px;
       font-weight: 850;
     }
 
-    .plan-line.big {
-      display: block;
-      min-height: 82px;
-    }
-
-    .plan-line.big b {
-      display: block;
-      margin-top: 8px;
-      font-size: 30px;
-      line-height: 1;
-      letter-spacing: -0.06em;
-    }
-
-    .plan.recommended .plan-line {
-      background: rgba(255, 255, 255, 0.14);
+    .plan-card.recommended .plan-row {
       color: #fff;
+      background: rgba(255, 255, 255, 0.12);
     }
 
-    .plan-desc {
-      margin-top: auto;
-      color: var(--muted);
+    .point-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .point-card {
+      min-height: 158px;
+      padding: 26px;
+      border-radius: 28px;
+      background: #f5f8ff;
+      text-align: left;
+    }
+
+    .point-card em {
+      color: var(--blue);
+      font-style: normal;
       font-size: 14px;
-      font-weight: 760;
-      line-height: 1.45;
+      font-weight: 950;
     }
 
-    .plan.recommended .plan-desc {
-      color: rgba(255, 255, 255, 0.86);
+    .point-card strong {
+      display: block;
+      margin-top: 12px;
+      color: var(--ink);
+      font-size: 25px;
+      line-height: 1.15;
+      letter-spacing: -0.065em;
+      font-weight: 950;
+    }
+
+    .point-card p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.52;
+      font-weight: 720;
     }
 
     .simple-link {
@@ -927,316 +753,300 @@
       box-shadow: 0 18px 42px rgba(47, 107, 255, 0.22);
     }
 
-    .member-benefit-grid {
+    .brand-row {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 38px;
+    }
+
+    .brand {
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border-radius: 26px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 34px rgba(17, 24, 39, 0.06);
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 950;
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .revenue-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
+      gap: 16px;
+      margin-top: 36px;
     }
 
-    .member-benefit {
-      min-height: 150px;
-      padding: 26px;
-      border-radius: 28px;
-      background: #f3f7ff;
-      color: var(--navy);
+    .revenue-card {
+      min-height: 220px;
+      padding: 30px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.13);
       text-align: left;
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
     }
 
-    .member-benefit em {
-      display: block;
-      color: var(--blue);
-      font-style: normal;
-      font-size: 15px;
+    .revenue-card.featured {
+      background: #fff;
+      color: var(--ink);
+      border-color: transparent;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .revenue-card span {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--gold-soft);
+      font-size: 13px;
       font-weight: 950;
     }
 
-    .member-benefit strong {
+    .revenue-card strong {
       display: block;
-      margin-top: 12px;
-      font-size: 26px;
-      line-height: 1.15;
+      margin-top: 18px;
+      color: inherit;
+      font-size: 28px;
+      line-height: 1.16;
       letter-spacing: -0.07em;
       font-weight: 950;
     }
 
-    .member-benefit p {
-      margin: 12px 0 0;
-      color: var(--muted);
+    .revenue-card p {
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.68);
       font-size: 16px;
-      line-height: 1.55;
-      font-weight: 740;
+      line-height: 1.58;
+      font-weight: 720;
     }
 
-    .affiliate-map {
+    .revenue-card.featured p {
+      color: var(--muted);
+    }
+
+    .formula {
+      display: inline-grid;
+      grid-template-columns: repeat(3, auto);
+      gap: 10px;
+      align-items: center;
+      margin-top: 34px;
+      padding: 18px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .formula b {
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 18px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.10);
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .formula span {
+      color: var(--gold-soft);
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .profit-wrap {
       display: grid;
-      gap: 14px;
-      margin-top: 34px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 42px;
     }
 
-    .formula-panel {
-      margin-top: 34px;
+    .profit-card {
       padding: clamp(30px, 5vw, 52px);
-      border-radius: 40px;
+      border-radius: 42px;
+      color: #fff;
       background:
-        radial-gradient(circle at 88% 12%, rgba(47, 107, 255, 0.18), transparent 30%),
-        #fff;
-      border: 1px solid var(--line);
+        radial-gradient(circle at 85% 12%, rgba(255, 209, 102, 0.22), transparent 30%),
+        linear-gradient(135deg, #101827, #17325f);
+      text-align: left;
       box-shadow: var(--shadow);
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
     }
 
-    .formula-panel h3 {
-      margin: 0;
-      color: var(--navy);
-      font-size: clamp(36px, 4.8vw, 64px);
-      line-height: 1.08;
+    .profit-card h3 {
+      color: #fff;
+      font-size: clamp(32px, 4vw, 58px);
+      line-height: 1.05;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .formula-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 26px;
-    }
-
-    .formula-card {
-      padding: 26px;
-      border-radius: 28px;
-      background: #edf3fc;
-      text-align: left;
-    }
-
-    .formula-card span {
-      color: var(--blue);
-      font-size: 15px;
-      font-weight: 950;
-    }
-
-    .formula-card strong {
-      display: block;
-      margin-top: 10px;
-      color: var(--navy);
-      font-size: clamp(24px, 3vw, 36px);
-      line-height: 1.12;
-      letter-spacing: -0.07em;
-      font-weight: 950;
-    }
-
-    .money-flow {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    .money-step {
-      min-height: 150px;
-      padding: 22px 16px;
-      border-radius: 28px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 16px 42px rgba(16, 39, 88, 0.07);
-      text-align: center;
-    }
-
-    .money-step span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 40px;
-      height: 40px;
-      border-radius: 15px;
-      background: rgba(47, 107, 255, 0.10);
-      color: var(--blue);
-      font-size: 14px;
-      font-weight: 950;
-    }
-
-    .money-step strong {
-      display: block;
-      margin-top: 14px;
-      color: var(--navy);
-      font-size: 20px;
-      line-height: 1.2;
-      letter-spacing: -0.06em;
-      font-weight: 950;
-    }
-
-    .money-step p {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      font-weight: 720;
-    }
-
-    .brand-row {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .brand {
-      min-height: 118px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      border-radius: 28px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 16px 42px rgba(16, 39, 88, 0.07);
-      color: var(--navy);
-      font-size: 22px;
-      font-weight: 950;
-      line-height: 1.25;
-      text-align: center;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .flow .step-card {
-      text-align: center;
-    }
-
-    .profit-table {
-      overflow: hidden;
-      margin-top: 34px;
-      border-radius: 34px;
-      border: 1px solid var(--line);
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .profit-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      min-height: 82px;
-      border-bottom: 1px solid rgba(15, 30, 70, 0.08);
-    }
-
-    .profit-row:last-child {
-      border-bottom: none;
-    }
-
-    .profit-row.header {
-      background: var(--navy);
-      color: #fff;
-    }
-
-    .profit-row > div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      border-right: 1px solid rgba(15, 30, 70, 0.08);
-      font-size: 18px;
-      font-weight: 850;
-      line-height: 1.42;
-    }
-
-    .profit-row.header > div {
-      font-size: 20px;
-      font-weight: 950;
-    }
-
-    .profit-row > div:last-child {
-      border-right: none;
-    }
-
-    .incentive-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 26px;
-    }
-
-    .incentive-card {
-      min-height: 190px;
-      padding: 28px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.13);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #fff;
-      text-align: left;
-    }
-
-    .incentive-card em {
-      display: block;
-      color: var(--gold);
-      font-style: normal;
-      font-size: clamp(36px, 4vw, 58px);
+    .profit-number {
+      margin-top: 22px;
+      color: #ffd166;
+      font-size: clamp(58px, 7vw, 104px);
       line-height: 0.95;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .incentive-card strong {
-      display: block;
-      margin-top: 14px;
-      font-size: 23px;
-      line-height: 1.2;
-      letter-spacing: -0.06em;
-      font-weight: 950;
-    }
-
-    .incentive-card p {
-      margin: 10px 0 0;
-      color: rgba(255, 255, 255, 0.78);
-      font-size: 15px;
-      line-height: 1.5;
+    .profit-card p {
+      margin-top: 16px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 17px;
+      line-height: 1.58;
       font-weight: 720;
     }
 
-    .highlight {
-      color: var(--red);
+    .column {
+      display: flex;
+      align-items: end;
+      height: 170px;
+      margin-top: 26px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.10);
+      overflow: hidden;
+    }
+
+    .column span {
+      display: block;
+      width: 100%;
+      height: var(--value);
+      border-radius: 26px 26px 0 0;
+      background: linear-gradient(180deg, #ffd166, #ff8f3d);
+      transform-origin: bottom center;
+      animation: columnGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 42px;
+    }
+
+    .benefit-card {
+      min-height: 280px;
+      padding: 32px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 48px rgba(17, 24, 39, 0.07);
+      text-align: left;
+      animation: enter 700ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .benefit-card em {
+      display: block;
+      color: var(--gold);
+      font-style: normal;
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .support-grid {
+    .benefit-card strong {
+      display: block;
+      margin-top: 20px;
+      color: var(--ink);
+      font-size: 27px;
+      line-height: 1.16;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .benefit-card p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.58;
+      font-weight: 720;
+    }
+
+    .kit-box {
+      margin-top: 44px;
+      padding: clamp(30px, 5vw, 54px);
+      border-radius: 44px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .kit-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 34px;
     }
 
-    .support-card {
-      min-height: 184px;
+    .kit-card {
+      min-height: 210px;
+      padding: 24px;
+      background: #f7f3ed;
+      text-align: left;
+      box-shadow: none;
     }
 
-    .support-card strong {
-      font-size: 23px;
+    .kit-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 16px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 18px;
+      font-weight: 950;
     }
 
     .fit-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 34px;
+      margin-top: 42px;
     }
 
     .fit-card {
-      min-height: 150px;
+      min-height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 26px;
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.13);
       text-align: center;
+      box-shadow: none;
     }
 
     .fit-card strong {
-      margin: 0;
+      color: #fff;
       font-size: 24px;
     }
 
-    .final {
-      padding-bottom: 130px;
+    .notice {
+      max-width: 860px;
+      margin: 26px auto 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .dark .notice {
+      color: rgba(255, 255, 255, 0.56);
     }
 
     .floating-cta {
@@ -1244,6 +1054,9 @@
       right: 24px;
       bottom: 24px;
       z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-height: 58px;
       padding: 0 24px;
       border-radius: 999px;
@@ -1254,63 +1067,87 @@
       font-weight: 950;
     }
 
-    .hero-card,
-    .step-card,
-    .metric-card,
-    .graph-panel,
-    .question-card,
-    .member-benefit,
-    .formula-card,
-    .mini-bar-card,
-    .money-bar-card,
-    .plan,
-    .brand,
-    .money-step,
-    .support-card,
-    .fit-card,
-    .profit-table,
-    .big-panel,
-    .membership-mini,
-    .bridge-panel {
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+    .site-footer {
+      padding: 44px 0;
+      color: var(--muted);
+      background: #fff;
+      border-top: 1px solid var(--line);
     }
 
-    .steps > *:nth-child(2),
-    .metric-grid > *:nth-child(2),
-    .plans > *:nth-child(2),
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .footer-brand {
+      display: block;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .footer-meta,
+    .footer-links-text {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .footer-home-btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .grid-3 > *:nth-child(2),
+    .grid-4 > *:nth-child(2),
+    .story-board > *:nth-child(2),
+    .question-grid > *:nth-child(2),
+    .plan-grid > *:nth-child(2),
     .brand-row > *:nth-child(2),
-    .money-flow > *:nth-child(2),
-    .support-grid > *:nth-child(2),
+    .benefit-grid > *:nth-child(2),
+    .kit-grid > *:nth-child(2),
     .fit-grid > *:nth-child(2) {
       animation-delay: 80ms;
     }
 
-    .steps > *:nth-child(3),
-    .metric-grid > *:nth-child(3),
-    .plans > *:nth-child(3),
+    .grid-3 > *:nth-child(3),
+    .grid-4 > *:nth-child(3),
+    .story-board > *:nth-child(3),
+    .question-grid > *:nth-child(3),
+    .plan-grid > *:nth-child(3),
     .brand-row > *:nth-child(3),
-    .money-flow > *:nth-child(3),
-    .support-grid > *:nth-child(3),
+    .benefit-grid > *:nth-child(3),
+    .kit-grid > *:nth-child(3),
     .fit-grid > *:nth-child(3) {
       animation-delay: 160ms;
     }
 
-    .metric-grid > *:nth-child(4),
-    .plans > *:nth-child(4),
+    .grid-4 > *:nth-child(4),
+    .story-board > *:nth-child(4),
+    .question-grid > *:nth-child(4),
+    .plan-grid > *:nth-child(4),
     .brand-row > *:nth-child(4),
-    .money-flow > *:nth-child(4),
-    .support-grid > *:nth-child(4),
+    .kit-grid > *:nth-child(4),
     .fit-grid > *:nth-child(4) {
       animation-delay: 240ms;
     }
 
+    .question-grid > *:nth-child(5),
     .brand-row > *:nth-child(5),
-    .money-flow > *:nth-child(5),
-    .support-grid > *:nth-child(5) {
+    .kit-grid > *:nth-child(5) {
       animation-delay: 320ms;
     }
 
-    @keyframes riseIn {
+    @keyframes enter {
       from {
         opacity: 0;
         transform: translateY(22px) scale(0.985);
@@ -1318,6 +1155,15 @@
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes drift {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(18px, -14px, 0);
       }
     }
 
@@ -1349,71 +1195,25 @@
       }
     }
 
-    .site-footer {
-      padding: 44px 0;
-      color: var(--muted);
-      background: #fff;
-      border-top: 1px solid rgba(15, 30, 70, 0.08);
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .footer-brand {
-      display: block;
-      color: var(--navy);
-      font-size: 20px;
-      font-weight: 950;
-    }
-
-    .footer-meta,
-    .footer-links-text {
-      margin: 6px 0 0;
-      font-size: 14px;
-      font-weight: 650;
-    }
-
-    .footer-home-btn {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
-      padding: 0 18px;
-      border-radius: 999px;
-      color: #fff;
-      background: var(--navy);
-      font-size: 14px;
-      font-weight: 900;
-    }
-
     @media (max-width: 980px) {
-      .steps,
-      .metric-grid,
+      .grid-3,
+      .grid-4,
+      .story-board,
       .question-grid,
-      .mini-bars,
-      .money-bars,
-      .plans,
-      .member-benefit-grid,
+      .compare-grid,
+      .plan-grid,
+      .point-cards,
       .brand-row,
-      .flow,
-      .formula-grid,
-      .bridge-flow,
-      .money-flow,
-      .incentive-grid,
-      .support-grid,
+      .revenue-grid,
+      .profit-wrap,
+      .benefit-grid,
+      .kit-grid,
       .fit-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .plan {
-        min-height: 0;
-      }
-
       .bar-row {
-        grid-template-columns: 130px 1fr 58px;
+        grid-template-columns: 135px 1fr 68px;
       }
     }
 
@@ -1427,32 +1227,32 @@
       }
 
       .nav a {
-        min-height: 42px;
-        padding: 0 15px;
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 13px;
       }
 
       .hero {
-        padding: 24px 0 24px;
+        min-height: auto;
+        padding: 24px 0 34px;
       }
 
       .hero-card {
-        min-height: 650px;
-        padding: 46px 22px;
-        border-radius: 30px;
+        min-height: 660px;
+        border-radius: 32px;
+        padding: 42px 20px;
       }
 
-      .hero h1 {
-        font-size: clamp(44px, 13.5vw, 58px);
-        line-height: 1.02;
+      h1 {
+        font-size: clamp(48px, 14vw, 62px);
       }
 
-      .hero-sub {
-        font-size: 22px;
+      h2 {
+        font-size: clamp(34px, 10vw, 44px);
       }
 
-      .hero-micro span {
-        width: 100%;
-        justify-content: center;
+      .lead {
+        font-size: 17px;
       }
 
       .btn {
@@ -1460,38 +1260,18 @@
         min-width: 0;
       }
 
-      .section {
-        padding: 72px 0;
-      }
-
-      .section h2,
-      .big-panel h3,
-      .plan-title {
-        font-size: clamp(31px, 9.8vw, 40px);
-        line-height: 1.12;
-        white-space: normal;
-        overflow-wrap: break-word;
-      }
-
-      .lead,
-      .big-panel p {
-        font-size: 17px;
-      }
-
-      .steps,
-      .metric-grid,
+      .grid-3,
+      .grid-4,
+      .story-board,
       .question-grid,
-      .mini-bars,
-      .money-bars,
-      .plans,
-      .member-benefit-grid,
+      .compare-grid,
+      .plan-grid,
+      .point-cards,
       .brand-row,
-      .flow,
-      .formula-grid,
-      .bridge-flow,
-      .money-flow,
-      .incentive-grid,
-      .support-grid,
+      .revenue-grid,
+      .profit-wrap,
+      .benefit-grid,
+      .kit-grid,
       .fit-grid {
         grid-template-columns: 1fr;
       }
@@ -1513,27 +1293,9 @@
         text-align: left;
       }
 
-      .money-bar-card {
-        min-height: 230px;
-      }
-
-      .membership-mini,
-      .big-panel {
-        padding: 30px 20px;
-        border-radius: 30px;
-      }
-
-      .profit-row {
+      .formula {
+        display: grid;
         grid-template-columns: 1fr;
-      }
-
-      .profit-row > div {
-        border-right: none;
-        border-bottom: 1px solid rgba(15, 30, 70, 0.08);
-      }
-
-      .profit-row > div:last-child {
-        border-bottom: none;
       }
 
       .floating-cta {
@@ -1555,51 +1317,76 @@
   <nav class="nav" aria-label="섹션 메뉴">
     <div class="container nav-track">
       <a href="#hero">50만원 더</a>
-      <a href="#story">여행 자랑</a>
-      <a href="#market">크루즈 시장</a>
+      <a href="#story">여행 이야기</a>
+      <a href="#questions">질문</a>
       <a href="#membership">멤버십</a>
-      <a href="#affiliate">제휴마케팅</a>
-      <a href="#profit">수익 예시</a>
-      <a href="#support">제공내역</a>
+      <a href="#revenue">수익 방식</a>
+      <a href="#profit">수수료 예시</a>
+      <a href="#support">지원자료</a>
     </div>
   </nav>
 
   <main>
-    <section id="hero" class="hero">
+    <section id="hero" class="hero section">
       <div class="container">
         <div class="hero-card">
           <div class="hero-inner">
-            <span class="eyebrow">크루즈 소개 부업</span>
+            <span class="eyebrow">크루즈 좋아하는 사람을 위한 부업</span>
             <h1>
               월급 말고
               <strong>딱 50만원만<br />더</strong>
             </h1>
-            <div class="hero-sub">크루즈 다녀오고 자랑하세요</div>
-            <div class="hero-micro">
-              <span>재고 없음</span>
-              <span>매장 없음</span>
-              <span>사진·영상·후기 활용</span>
+            <p class="hero-sub">
+              크루즈 좋아하세요?<br />
+              여행 다녀온 이야기가 소개 수익의 시작점이 될 수 있습니다.
+            </p>
+            <div class="chips">
+              <span class="chip">재고 없음</span>
+              <span class="chip">매장 없음</span>
+              <span class="chip">여행 후기 활용</span>
             </div>
             <div class="cta-row">
-              <a class="btn primary" href="/contact/">상담 문의하기</a>
+              <a class="btn primary" href="/contact/">시작 방법 물어보기</a>
+              <a class="btn secondary" href="#story">어떤 일인지 보기</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="extra-income" class="section soft">
+    <section id="goal" class="section">
       <div class="container">
         <span class="kicker">현실적인 목표</span>
-        <h2>월급 말고<br />딱 50만원만 더</h2>
-        <p class="lead">부업을 찾는 이유는 거창하지 않습니다. 매달 고정으로 들어오는 돈 말고, 내가 쓸 수 있는 여유가 하나 더 필요하기 때문입니다.</p>
+        <h2>딱 50만원은<br />작은 돈이 아닙니다</h2>
+        <p class="lead">
+          매달 50만원이 더 생기면 외식, 여행, 카드값, 비상금에서 바로 차이가 납니다.
+          무리한 시작보다 먼저 볼 것은 내가 꾸준히 할 수 있는 방식입니다.
+        </p>
 
-        <div class="graph-panel">
+        <div class="grid-3">
+          <article class="card">
+            <span class="number">01</span>
+            <strong>돈보다 먼저 부담을 줄입니다</strong>
+            <p>재고를 사놓고 팔거나, 매장을 열거나, 광고비부터 쓰는 방식이 아닙니다.</p>
+          </article>
+          <article class="card">
+            <span class="number">02</span>
+            <strong>내가 좋아하는 여행으로 시작합니다</strong>
+            <p>억지로 모르는 상품을 외우는 것보다 내가 관심 있는 여행을 말하는 쪽이 오래 갑니다.</p>
+          </article>
+          <article class="card">
+            <span class="number">03</span>
+            <strong>혼자 자료를 만들지 않습니다</strong>
+            <p>랜딩페이지, 온라인 명함, 블로그 자동화, 크루즈 콘텐츠, 교육 자료를 활용합니다.</p>
+          </article>
+        </div>
+
+        <div class="graph-panel" aria-label="시작 부담 비교 그래프">
           <div class="graph-head">
-            <h3>이 부업에서<br />줄이는 부담</h3>
-            <p>처음부터 재고, 매장, 광고비를 떠안는 방식이 아닙니다. 시작 부담을 낮추는 쪽에 초점을 둡니다.</p>
+            <h3>시작할 때<br />줄이는 부담</h3>
+            <p>처음부터 크게 벌겠다는 말보다, 오래 하기 어려운 부담을 줄이는 것이 먼저입니다.</p>
           </div>
-          <div class="bar-list" aria-label="크루즈 부업 시작 부담 비교 막대그래프">
+          <div class="bar-list">
             <div class="bar-row">
               <div class="bar-label">재고 부담</div>
               <div class="bar-track"><span class="bar-fill" style="--value:8%"></span></div>
@@ -1625,68 +1412,75 @@
       </div>
     </section>
 
-    <section id="story" class="section">
+    <section id="story" class="section white">
       <div class="container">
-        <span class="kicker">시작은 여행 경험</span>
-        <h2>크루즈를 다녀오면<br />남길 이야기가 생깁니다</h2>
-        <p class="lead">객실, 식사, 공연, 기항지, 부모님과 다녀온 후기까지. 여행을 좋아하는 사람이라면 억지로 꾸며내지 않아도 이야기할 소재가 있습니다.</p>
+        <span class="kicker">크루즈 이야기가 시작점</span>
+        <h2>크루즈는 한 번 다녀오면<br />할 이야기가 많습니다</h2>
+        <p class="lead">
+          객실에서 보는 바다, 배 안 식사, 공연, 수영장, 기항지, 부모님과 함께한 후기까지.
+          여행을 좋아하는 사람이라면 말할 소재가 생깁니다.
+        </p>
 
-        <div class="steps">
-          <article class="step-card">
-            <span class="num">01</span>
-            <strong>경험</strong>
-            <p>내가 다녀온 객실, 식사, 공연, 기항지 이야기를 남깁니다.</p>
+        <div class="story-board">
+          <article class="story-card">
+            <div class="story-meta">
+              <span class="avatar"></span>
+              <span>객실 후기</span>
+            </div>
+            <strong>오늘 객실 뷰 미쳤다</strong>
+            <p>호텔과 다른 점은 바다가 계속 옆에 있다는 것. 사진 한 장만으로도 관심을 받기 쉽습니다.</p>
           </article>
-          <article class="step-card">
-            <span class="num">02</span>
-            <strong>자랑</strong>
-            <p>사진, 영상, 후기를 카톡·SNS·모임에서 자연스럽게 보여줍니다.</p>
+          <article class="story-card">
+            <div class="story-meta">
+              <span class="avatar"></span>
+              <span>부모님 여행</span>
+            </div>
+            <strong>부모님 모시고 오기 좋다</strong>
+            <p>식사, 이동, 공연을 따로 챙기는 부담이 적어서 가족 여행 이야기로 풀기 좋습니다.</p>
           </article>
-          <article class="step-card">
-            <span class="num">03</span>
-            <strong>질문</strong>
-            <p>좋아 보인다는 반응 다음에는 가격과 예약 방법을 묻습니다.</p>
+          <article class="story-card">
+            <div class="story-meta">
+              <span class="avatar"></span>
+              <span>배 안 생활</span>
+            </div>
+            <strong>식사와 공연까지 포함</strong>
+            <p>크루즈를 모르는 사람에게 가장 잘 먹히는 포인트는 배 안에서 보내는 시간입니다.</p>
+          </article>
+          <article class="story-card">
+            <div class="story-meta">
+              <span class="avatar"></span>
+              <span>다음 여행</span>
+            </div>
+            <strong>다음엔 발코니 객실</strong>
+            <p>한 번 경험하면 객실, 일정, 포인트를 더 자세히 묻게 됩니다.</p>
           </article>
         </div>
-
-        <p class="thread-note">
-          관심이 생긴 사람에게는 설명 자료가 필요합니다.
-          <small>그래서 개인 랜딩페이지, 온라인 명함, 크루즈 콘텐츠, 상담 창구를 같이 씁니다.</small>
-        </p>
       </div>
     </section>
 
-    <section id="market" class="section soft">
+    <section id="questions" class="section">
       <div class="container">
-        <span class="kicker">왜 크루즈인가</span>
-        <h2>크루즈는<br />질문이 많은<br />여행입니다</h2>
-        <p class="lead">항공권만 사면 끝나는 여행이 아닙니다. 선실, 일정, 포인트, 준비물까지 물어볼 내용이 많아 상담 수요가 생깁니다.</p>
+        <span class="kicker">사람들이 묻는 것</span>
+        <h2>관심이 생기면<br />질문이 나옵니다</h2>
+        <p class="lead">
+          크루즈는 항공권 하나 사고 끝나는 여행이 아닙니다.
+          선실, 비용, 일정, 포인트, 예약 절차를 묻는 사람이 생깁니다.
+        </p>
 
         <div class="question-grid">
-          <article class="question-card">
-            <span>Q1</span>
-            <strong>어디로 가야 해?</strong>
-          </article>
-          <article class="question-card">
-            <span>Q2</span>
-            <strong>가격은 얼마야?</strong>
-          </article>
-          <article class="question-card">
-            <span>Q3</span>
-            <strong>포인트는 어떻게 써?</strong>
-          </article>
-          <article class="question-card">
-            <span>Q4</span>
-            <strong>예약은 누가 도와줘?</strong>
-          </article>
+          <article class="question-card"><strong>얼마야?</strong></article>
+          <article class="question-card"><strong>어디서 출발해?</strong></article>
+          <article class="question-card"><strong>부모님도 괜찮아?</strong></article>
+          <article class="question-card"><strong>포인트는 어떻게 써?</strong></article>
+          <article class="question-card"><strong>예약은 어떻게 해?</strong></article>
         </div>
 
-        <div class="graph-panel">
+        <div class="graph-panel" aria-label="상담 질문 포인트 그래프">
           <div class="graph-head">
             <h3>상담으로 가는<br />질문 포인트</h3>
-            <p>사람들이 실제로 궁금해하는 항목을 기준으로 정리했습니다.</p>
+            <p>크루즈 상담에서 자주 확인하는 항목입니다.</p>
           </div>
-          <div class="bar-list" aria-label="크루즈 소개 강점 막대그래프">
+          <div class="bar-list">
             <div class="bar-row">
               <div class="bar-label">선실 선택</div>
               <div class="bar-track"><span class="bar-fill" style="--value:94%"></span></div>
@@ -1709,180 +1503,151 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="bridge-panel">
-          <span class="eyebrow">다음 단계</span>
-          <h3>이때 보여줄 것이<br />크루즈 멤버십입니다</h3>
-          <p>크루즈를 가고 싶어 하는 사람에게 포인트 적립, 예약 사용, 플랜별 비용을 한 번에 보여줄 수 있습니다.</p>
-          <div class="bridge-flow" aria-label="여행 경험에서 멤버십 소개까지">
-            <div class="bridge-item"><em>01</em><strong>크루즈 경험</strong></div>
-            <div class="bridge-item"><em>02</em><strong>사진·영상</strong></div>
-            <div class="bridge-item"><em>03</em><strong>주변 관심</strong></div>
-            <div class="bridge-item"><em>04</em><strong>멤버십 소개</strong></div>
-            <div class="bridge-item"><em>05</em><strong>상담 문의</strong></div>
-          </div>
+    <section id="why" class="section dark">
+      <div class="container">
+        <span class="kicker">왜 크루즈인가</span>
+        <h2>크루즈는 그냥<br />배 타는 여행이 아닙니다</h2>
+        <p class="lead">
+          숙박, 이동, 식사, 공연, 기항지 여행이 한 번에 들어갑니다.
+          그래서 가족, 부부, 단체 여행에서 소개할 포인트가 많습니다.
+        </p>
+
+        <div class="compare-grid">
+          <article class="compare-card">
+            <strong>해외 자유여행</strong>
+            <p>항공, 숙소, 이동, 식사를 직접 챙겨야 합니다.</p>
+          </article>
+          <article class="compare-card">
+            <strong>패키지여행</strong>
+            <p>편하지만 일정이 빠듯하고 자유 시간이 아쉬울 수 있습니다.</p>
+          </article>
+          <article class="compare-card featured">
+            <strong>크루즈여행</strong>
+            <p>숙박, 이동, 식사, 공연, 기항지가 함께 있어 소개할 내용이 많습니다.</p>
+            <div class="pill-list">
+              <span class="pill">숙박</span>
+              <span class="pill">이동</span>
+              <span class="pill">식사</span>
+              <span class="pill">공연</span>
+              <span class="pill">기항지</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="membership" class="section">
+    <section id="membership" class="section white">
       <div class="container">
         <span class="kicker">멤버십 소개</span>
         <h2>크루즈를 준비하는 사람에게<br />보여줄 멤버십입니다</h2>
-        <p class="lead">포인트를 쌓고, 크루즈 예약에 쓰고, 플랜에 따라 적립 속도가 달라지는 여행 멤버십입니다.</p>
+        <p class="lead">
+          포인트를 쌓고, 크루즈 예약에 쓰고, 플랜에 따라 적립 속도가 달라지는 여행 멤버십입니다.
+        </p>
 
-        <div class="membership-mini">
-          <h3 class="plan-title">전세계 크루즈 여행 멤버십</h3>
-          <p class="plan-note">크루즈 요금, 와이파이, 음료 패키지 등에 포인트 사용</p>
-
-          <div class="plans" aria-label="멤버십 플랜 비교">
-            <article class="plan">
-              <span class="tag">무료</span>
+        <div class="membership-box">
+          <h3>전세계 크루즈 여행 멤버십</h3>
+          <div class="plan-grid" aria-label="멤버십 플랜 비교">
+            <article class="plan-card">
+              <span class="tag">무료 등록</span>
               <div class="plan-name">게스트</div>
               <div class="price">$0<span>/월</span></div>
-              <div class="plan-line"><span>월 비용</span><b>없음</b></div>
-              <div class="plan-line"><span>시작 비용</span><b>없음</b></div>
-              <div class="plan-line big"><span>가입 시 리워드</span><b>50P</b></div>
-              <div class="plan-line big"><span>월 포인트</span><b>0P</b></div>
-              <div class="plan-desc">부담 없이 먼저 보고 싶은 분</div>
+              <div class="plan-row"><span>시작 비용</span><b>없음</b></div>
+              <div class="plan-row"><span>가입 리워드</span><b>50P</b></div>
+              <div class="plan-row"><span>월 포인트</span><b>0P</b></div>
             </article>
-
-            <article class="plan">
+            <article class="plan-card">
               <span class="tag">입문</span>
               <div class="plan-name">스타터</div>
               <div class="price">$50<span>/월</span></div>
-              <div class="plan-line"><span>월 비용</span><b>약 ₩75,939</b></div>
-              <div class="plan-line"><span>시작 비용</span><b>약 ₩75,939</b></div>
-              <div class="plan-line big"><span>가입 시 리워드</span><b>100P</b></div>
-              <div class="plan-line big"><span>월 포인트</span><b>50P</b></div>
-              <div class="plan-desc">가볍게 시작하고 싶은 분</div>
+              <div class="plan-row"><span>시작 비용</span><b>$50</b></div>
+              <div class="plan-row"><span>가입 리워드</span><b>100P</b></div>
+              <div class="plan-row"><span>월 포인트</span><b>50P</b></div>
             </article>
-
-            <article class="plan">
+            <article class="plan-card recommended">
               <span class="tag">일반</span>
               <div class="plan-name">클래식</div>
               <div class="price">$100<span>/월</span></div>
-              <div class="plan-line"><span>월 비용</span><b>약 ₩151,878</b></div>
-              <div class="plan-line"><span>시작 비용</span><b>약 ₩303,755</b></div>
-              <div class="plan-line big"><span>가입 시 리워드</span><b>350P</b></div>
-              <div class="plan-line big"><span>월 포인트</span><b>200P</b></div>
-              <div class="plan-desc">무난하게 꾸준히 쌓고 싶은 분</div>
+              <div class="plan-row"><span>시작 비용</span><b>$200</b></div>
+              <div class="plan-row"><span>가입 리워드</span><b>350P</b></div>
+              <div class="plan-row"><span>월 포인트</span><b>200P</b></div>
             </article>
-
-            <article class="plan recommended">
-              <span class="tag">추천</span>
+            <article class="plan-card">
+              <span class="tag">프리미엄</span>
               <div class="plan-name">프리미엄</div>
               <div class="price">$250<span>/월</span></div>
-              <div class="plan-line"><span>월 비용</span><b>약 ₩379,694</b></div>
-              <div class="plan-line"><span>시작 비용</span><b>약 ₩759,389</b></div>
-              <div class="plan-line big"><span>가입 시 리워드</span><b>800P</b></div>
-              <div class="plan-line big"><span>월 포인트</span><b>500P</b></div>
-              <div class="plan-desc">여행 계획이 분명하고 빨리 쌓고 싶은 분</div>
+              <div class="plan-row"><span>시작 비용</span><b>$500</b></div>
+              <div class="plan-row"><span>가입 리워드</span><b>800P</b></div>
+              <div class="plan-row"><span>월 포인트</span><b>500P</b></div>
             </article>
           </div>
 
-          <div class="member-benefit-grid" aria-label="멤버십 주요 포인트">
-            <article class="member-benefit">
+          <div class="point-cards">
+            <article class="point-card">
               <em>POINT 01</em>
               <strong>포인트 적립</strong>
               <p>클래식부터 매월 납부 금액 대비 2배 포인트가 적립됩니다.</p>
             </article>
-            <article class="member-benefit">
+            <article class="point-card">
               <em>POINT 02</em>
               <strong>크루즈 예약 사용</strong>
-              <p>포인트는 크루즈 요금, 와이파이, 음료 패키지 등에 사용할 수 있습니다.</p>
+              <p>크루즈 요금, 와이파이, 음료 패키지 등에 포인트를 사용할 수 있습니다.</p>
             </article>
-            <article class="member-benefit">
+            <article class="point-card">
               <em>POINT 03</em>
-              <strong>상담 소재</strong>
-              <p>여행을 궁금해하는 사람에게 가격표와 혜택을 바로 보여줄 수 있습니다.</p>
+              <strong>최저가 보장</strong>
+              <p>동일 조건 기준 더 낮은 가격이 있으면 차액 보상 기준을 확인할 수 있습니다.</p>
             </article>
           </div>
 
-          <a class="simple-link" href="/membership/" target="_blank" rel="noopener">멤버십 자세히 보기</a>
+          <a class="simple-link" href="/membership/" target="_blank" rel="noopener">멤버십 소개 보기</a>
         </div>
       </div>
     </section>
 
-    <section id="affiliate" class="section soft">
+    <section id="revenue" class="section dark">
       <div class="container">
         <span class="kicker">수익 방식</span>
-        <h2>멤버십을 소개하면<br />수수료가 생깁니다</h2>
-        <p class="lead">이 방식은 제휴마케팅 기반입니다. 낯선 이야기가 아니라, 우리가 매일 보는 브랜드들도 비슷한 방식으로 고객을 만듭니다.</p>
+        <h2>네, 맞습니다.<br />제휴마케팅 기반입니다</h2>
+        <p class="lead">
+          우리가 일상에서 보는 많은 서비스도 소개, 중개, 수수료 방식으로 고객을 만듭니다.
+          크루즈 멤버십도 소개 후 유지되는 매출을 기준으로 수수료가 계산됩니다.
+        </p>
 
-        <div class="affiliate-map">
-          <div class="brand-row" aria-label="마스킹된 제휴마케팅 예시">
-            <div class="brand">쿠*</div>
-            <div class="brand">코*이</div>
-            <div class="brand">보*<br />메*츠·롯*손보</div>
-            <div class="brand">디*니+</div>
-            <div class="brand">네*버<br />브랜드</div>
-            <div class="brand">오*의집<br />무*사</div>
-          </div>
+        <div class="brand-row" aria-label="마스킹된 제휴마케팅 예시">
+          <div class="brand">쿠*</div>
+          <div class="brand">코*이</div>
+          <div class="brand">보*</div>
+          <div class="brand">디*니+</div>
+          <div class="brand">네*버<br />브랜드</div>
+          <div class="brand">오*의집</div>
+          <div class="brand">무*사</div>
         </div>
 
-        <div class="formula-panel">
-          <h3>수익은 이렇게 계산됩니다</h3>
-          <div class="formula-grid" aria-label="수익 계산 방식">
-            <article class="formula-card">
-              <span>01</span>
-              <strong>멤버십 매출<br />= 가입비 + 월 구독비</strong>
-            </article>
-            <article class="formula-card">
-              <span>02</span>
-              <strong>수수료<br />= 매출 × 10%~</strong>
-            </article>
-            <article class="formula-card">
-              <span>03</span>
-              <strong>고객 유지<br />= 매월 반복</strong>
-            </article>
-          </div>
-        </div>
-
-        <div class="flow">
-          <article class="step-card">
-            <span class="num">A</span>
-            <strong>일반 제휴</strong>
-            <p>소개 후 구매가 일어나면 1회성 수익이 발생합니다.</p>
+        <div class="revenue-grid">
+          <article class="revenue-card">
+            <span>일반 제휴</span>
+            <strong>소개 후 구매<br />1회성 수익</strong>
+            <p>구매나 계약이 끝나면 수익도 한 번으로 끝나는 경우가 많습니다.</p>
           </article>
-          <article class="step-card">
-            <span class="num">B</span>
-            <strong>렌탈·보험</strong>
-            <p>고객 해지 시 환수금이 발생할 수 있습니다.</p>
+          <article class="revenue-card">
+            <span>렌탈·보험</span>
+            <strong>고객 해지 시<br />환수 가능</strong>
+            <p>업종에 따라 고객 해지 시 환수금 부담이 생길 수 있습니다.</p>
           </article>
-          <article class="step-card">
-            <span class="num">C</span>
-            <strong>크루즈 멤버십</strong>
-            <p>고객이 구독을 유지하면 매월 수수료가 발생할 수 있습니다.</p>
+          <article class="revenue-card featured">
+            <span>크루즈 멤버십</span>
+            <strong>멤버십 유지 시<br />월 수수료 가능</strong>
+            <p>고객이 멤버십을 유지하면 매월 수수료를 받을 수 있습니다.</p>
           </article>
         </div>
 
-        <div class="money-flow" aria-label="크루즈 비즈니스 수익 방식">
-          <article class="money-step">
-            <span>01</span>
-            <strong>경험 콘텐츠</strong>
-            <p>사진, 영상, 후기로 관심을 만듭니다.</p>
-          </article>
-          <article class="money-step">
-            <span>02</span>
-            <strong>멤버십 안내</strong>
-            <p>포인트와 여행 혜택을 보여줍니다.</p>
-          </article>
-          <article class="money-step">
-            <span>03</span>
-            <strong>가입 발생</strong>
-            <p>가입비와 구독비가 매출로 인정됩니다.</p>
-          </article>
-          <article class="money-step">
-            <span>04</span>
-            <strong>구독 유지</strong>
-            <p>고객이 유지하면 매월 매출이 반복됩니다.</p>
-          </article>
-          <article class="money-step">
-            <span>05</span>
-            <strong>수수료 지급</strong>
-            <p>매출 기준 수수료가 달러로 지급됩니다.</p>
-          </article>
+        <div class="formula" aria-label="수수료 계산식">
+          <b>멤버십 매출</b>
+          <span>×</span>
+          <b>10%~</b>
         </div>
       </div>
     </section>
@@ -1890,115 +1655,114 @@
     <section id="profit" class="section">
       <div class="container">
         <span class="kicker">수수료 예시</span>
-        <h2>매출의 10%~<br />달러 기준 지급</h2>
-        <p class="lead">가입비와 구독비가 매출로 인정되고, 매출 기준으로 수수료가 계산됩니다. 아래는 3명 기준 예시입니다.</p>
+        <h2>3명 기준으로 보면<br />숫자가 더 선명합니다</h2>
+        <p class="lead">
+          가입비와 첫 구독비가 매출로 인정됩니다. 아래 금액은 이해를 돕기 위한 단순 예시입니다.
+        </p>
 
-        <div class="profit-table" aria-label="수수료 예시">
-          <div class="profit-row header">
-            <div>구분</div>
-            <div>인정 매출</div>
-            <div>수수료 예시</div>
-          </div>
-          <div class="profit-row">
-            <div>클래식 3명</div>
-            <div>$600</div>
-            <div class="highlight">$60</div>
-          </div>
-          <div class="profit-row">
-            <div>프리미엄 3명</div>
-            <div>$1,500</div>
-            <div class="highlight">$150</div>
-          </div>
+        <div class="profit-wrap">
+          <article class="profit-card">
+            <h3>클래식 멤버 3명</h3>
+            <div class="profit-number">$60</div>
+            <p>클래식 3명 합산 매출 $600 기준 예시입니다.</p>
+            <div class="column"><span style="--value:40%"></span></div>
+          </article>
+          <article class="profit-card">
+            <h3>프리미엄 멤버 3명</h3>
+            <div class="profit-number">$150</div>
+            <p>프리미엄 3명 합산 매출 $1,500 기준 예시입니다.</p>
+            <div class="column"><span style="--value:100%"></span></div>
+          </article>
         </div>
 
-        <div class="graph-panel dark-graph">
-          <div class="graph-head">
-            <h3>3명 기준<br />수수료 예시</h3>
-            <p>클래식과 프리미엄의 인정 매출 차이를 단순 비교한 그래프입니다.</p>
-          </div>
-          <div class="money-bars" aria-label="수수료 예시 세로 막대그래프">
-            <article class="money-bar-card">
-              <div class="money-column"><span style="--value:40%"></span></div>
-              <em>$60</em>
-              <strong>클래식 3명</strong>
-            </article>
-            <article class="money-bar-card">
-              <div class="money-column"><span style="--value:100%"></span></div>
-              <em>$150</em>
-              <strong>프리미엄 3명</strong>
-            </article>
-          </div>
-        </div>
-
-        <div class="big-panel">
-          <h3>파트너 추가 혜택</h3>
-          <p>수수료와 별도로, 직접 크루즈를 다니는 파트너에게 도움이 되는 혜택입니다.</p>
-          <div class="incentive-grid" aria-label="파트너 추가 혜택">
-            <article class="incentive-card">
-              <em>$500</em>
-              <strong>월 매출 달성</strong>
-              <p>총 매출 $500 달성 시 나의 클래식 멤버십 월 구독비 $100 면제</p>
-            </article>
-            <article class="incentive-card">
-              <em>200P</em>
-              <strong>포인트 적립 유지</strong>
-              <p>클래식 기준 월 비용 부담은 줄이고, 월 200P 적립은 유지</p>
-            </article>
-            <article class="incentive-card">
-              <em>$3,000</em>
-              <strong>크루즈 예약 혜택</strong>
-              <p>월 $3,000 이상 매출을 3회 달성 시 보유 포인트를 크루즈 예약에 100% 사용 가능</p>
-            </article>
-          </div>
-          <p>가입비도 매출에 포함됩니다. 예를 들어 클래식 멤버 3명이 발생하면 가입비와 첫 구독비를 합산해 $600 매출로 계산됩니다.</p>
-        </div>
+        <p class="notice">
+          수익은 보장되지 않습니다. 활동량, 유지율, 회사 정책, 환율, 세금, 수수료 지급 조건에 따라 달라질 수 있습니다.
+        </p>
       </div>
     </section>
 
-    <section id="support" class="section soft">
+    <section id="benefit" class="section white">
       <div class="container">
-        <span class="kicker">제공내역</span>
-        <h2>처음 시작할 때<br />이 자료들을 받습니다</h2>
+        <span class="kicker">파트너 추가 혜택</span>
+        <h2>직접 크루즈를 다니는 사람에게도<br />쓸 수 있는 혜택이 있습니다</h2>
+        <p class="lead">
+          수수료와 별도로, 매출 조건을 달성한 파트너에게 적용되는 혜택입니다.
+        </p>
 
-        <div class="support-grid">
-          <article class="support-card">
-            <strong>블로그 자동화 프로그램</strong>
-            <p>크루즈 관련 글을 꾸준히 발행할 수 있도록 기본 콘텐츠 작업을 돕습니다.</p>
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <em>$500</em>
+            <strong>월 매출 달성</strong>
+            <p>총 매출 $500 달성 시 나의 클래식 멤버십 월 구독비 $100 면제 기준을 확인할 수 있습니다.</p>
           </article>
-          <article class="support-card">
-            <strong>개인 랜딩페이지 제공</strong>
-            <p>관심 있는 사람에게 보낼 수 있는 나만의 소개 페이지를 제공합니다.</p>
+          <article class="benefit-card">
+            <em>200P</em>
+            <strong>포인트 적립 유지</strong>
+            <p>클래식 기준 월 비용 부담은 줄이고, 월 200P 적립은 유지되는 방식입니다.</p>
           </article>
-          <article class="support-card">
-            <strong>온라인 명함 제공</strong>
-            <p>카톡, 문자, SNS, 모임에서 바로 전달할 수 있는 온라인 명함을 제공합니다.</p>
-          </article>
-          <article class="support-card">
-            <strong>크루즈 컨텐츠 제공</strong>
-            <p>사진, 영상, 소개 자료 등 홍보에 쓸 수 있는 기본 자료를 제공합니다.</p>
-          </article>
-          <article class="support-card">
-            <strong>온·오프라인 무료 교육</strong>
-            <p>처음 시작하는 사람도 따라올 수 있도록 온라인과 오프라인 교육을 제공합니다.</p>
+          <article class="benefit-card">
+            <em>$3,000</em>
+            <strong>크루즈 예약 혜택</strong>
+            <p>월 $3,000 이상 매출을 3회 달성 시 보유 포인트를 크루즈 예약에 100% 사용할 수 있습니다.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="fit" class="section final">
+    <section id="support" class="section">
+      <div class="container">
+        <span class="kicker">지원자료</span>
+        <h2>처음 시작할 때<br />이 자료들을 받습니다</h2>
+        <p class="lead">
+          처음부터 블로그, 페이지, 명함, 콘텐츠, 교육 자료를 혼자 준비하지 않습니다.
+        </p>
+
+        <div class="kit-box">
+          <div class="kit-grid">
+            <article class="kit-card">
+              <span class="kit-icon">1</span>
+              <strong>블로그 자동화 프로그램</strong>
+              <p>크루즈 관련 글을 꾸준히 발행할 수 있도록 기본 콘텐츠 작업을 돕습니다.</p>
+            </article>
+            <article class="kit-card">
+              <span class="kit-icon">2</span>
+              <strong>개인 랜딩페이지 제공</strong>
+              <p>관심 있는 사람에게 보낼 수 있는 나만의 소개 페이지를 제공합니다.</p>
+            </article>
+            <article class="kit-card">
+              <span class="kit-icon">3</span>
+              <strong>온라인 명함 제공</strong>
+              <p>카톡, 문자, SNS, 모임에서 바로 전달할 수 있는 온라인 명함을 제공합니다.</p>
+            </article>
+            <article class="kit-card">
+              <span class="kit-icon">4</span>
+              <strong>크루즈 컨텐츠 제공</strong>
+              <p>사진, 영상, 소개 자료 등 홍보에 쓸 수 있는 기본 자료를 제공합니다.</p>
+            </article>
+            <article class="kit-card">
+              <span class="kit-icon">5</span>
+              <strong>온·오프라인 무료 교육</strong>
+              <p>처음 시작하는 사람도 따라올 수 있도록 온라인과 오프라인 교육을 제공합니다.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fit" class="section dark">
       <div class="container">
         <span class="kicker">추천 대상</span>
-        <h2>이런 분에게<br />잘 맞습니다</h2>
+        <h2>이런 사람에게<br />잘 맞습니다</h2>
 
         <div class="fit-grid">
-          <article class="fit-card"><strong>모임이 많은 사람</strong></article>
-          <article class="fit-card"><strong>여행을 좋아하는 사람</strong></article>
-          <article class="fit-card"><strong>월급 외 부수입이 필요한 사람</strong></article>
+          <article class="fit-card"><strong>동창회, 동호회 모임이 많은 사람</strong></article>
+          <article class="fit-card"><strong>여행 이야기를 자주 하는 사람</strong></article>
+          <article class="fit-card"><strong>월급 외 부수입을 원하는 사람</strong></article>
           <article class="fit-card"><strong>딱 월 50만원의 여유가 필요한 사람</strong></article>
         </div>
 
         <div class="cta-row">
-          <a class="btn primary" href="/contact/">상담 문의하기</a>
+          <a class="btn primary" href="/contact/">시작 방법 물어보기</a>
         </div>
       </div>
     </section>
