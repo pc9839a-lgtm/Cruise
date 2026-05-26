@@ -111,6 +111,7 @@
       position: relative;
       padding: clamp(92px, 11vw, 150px) 0;
       scroll-margin-top: 96px;
+      text-align: center;
     }
 
     .section.white {
@@ -156,9 +157,9 @@
     h1 {
       margin-top: 26px;
       color: #fff;
-      font-size: clamp(58px, 9vw, 128px);
-      line-height: 0.94;
-      letter-spacing: -0.09em;
+      font-size: clamp(44px, 6.5vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -0.08em;
       font-weight: 950;
     }
 
@@ -167,11 +168,12 @@
     }
 
     h2 {
-      margin-top: 20px;
+      max-width: 900px;
+      margin: 20px auto 0;
       color: var(--ink);
-      font-size: clamp(44px, 6.2vw, 86px);
-      line-height: 1.05;
-      letter-spacing: -0.085em;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -0.075em;
       font-weight: 950;
     }
 
@@ -181,10 +183,10 @@
 
     .lead {
       max-width: 880px;
-      margin-top: 26px;
+      margin: 24px auto 0;
       color: var(--muted);
-      font-size: clamp(22px, 2.5vw, 32px);
-      line-height: 1.5;
+      font-size: clamp(18px, 1.85vw, 23px);
+      line-height: 1.58;
       font-weight: 800;
     }
 
@@ -200,12 +202,12 @@
       position: relative;
       min-height: 760px;
       display: grid;
-      align-items: end;
+      place-items: center;
       overflow: hidden;
       padding: clamp(34px, 6vw, 76px);
       border-radius: 56px;
       background:
-        linear-gradient(90deg, rgba(5, 12, 24, 0.88), rgba(5, 12, 24, 0.58) 54%, rgba(5, 12, 24, 0.22)),
+        linear-gradient(180deg, rgba(5, 12, 24, 0.76), rgba(5, 12, 24, 0.56) 48%, rgba(5, 12, 24, 0.84)),
         url("/membership/img/KakaoTalk_20260405_150550057_03.jpg") center / cover no-repeat;
       box-shadow: 0 40px 110px rgba(7, 17, 31, 0.25);
       animation: reveal 760ms cubic-bezier(.2,.9,.2,1) both;
@@ -228,20 +230,23 @@
       position: relative;
       z-index: 1;
       max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .hero-sub {
       max-width: 760px;
-      margin-top: 28px;
+      margin: 26px auto 0;
       color: rgba(255, 255, 255, 0.86);
-      font-size: clamp(24px, 3vw, 40px);
-      line-height: 1.32;
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height: 1.4;
       font-weight: 900;
     }
 
     .chips {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
       margin-top: 32px;
     }
@@ -261,25 +266,26 @@
     }
 
     .editorial {
-      display: grid;
-      grid-template-columns: 0.82fr 1.18fr;
-      gap: clamp(34px, 6vw, 90px);
-      align-items: start;
+      display: block;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .section-label {
-      position: sticky;
-      top: 110px;
-      align-self: start;
-      padding-top: 6px;
+      position: static;
+      display: block;
+      margin: 0 auto 26px;
       color: var(--gold);
-      font-size: clamp(44px, 7vw, 96px);
+      font-size: clamp(38px, 5vw, 68px);
       line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
     .statement {
+      max-width: 920px;
+      margin: 34px auto 0;
       padding: 38px 0;
       border-top: 2px solid var(--line);
       border-bottom: 2px solid var(--line);
@@ -287,16 +293,17 @@
 
     .statement p {
       color: var(--ink);
-      font-size: clamp(34px, 5vw, 70px);
-      line-height: 1.14;
-      letter-spacing: -0.075em;
+      font-size: clamp(27px, 3.5vw, 42px);
+      line-height: 1.2;
+      letter-spacing: -0.065em;
       font-weight: 950;
     }
 
     .body-large {
-      margin-top: 30px;
+      max-width: 820px;
+      margin: 28px auto 0;
       color: var(--muted);
-      font-size: clamp(22px, 2.4vw, 30px);
+      font-size: clamp(18px, 1.8vw, 22px);
       line-height: 1.58;
       font-weight: 780;
     }
@@ -315,9 +322,10 @@
 
     .visual-caption {
       position: absolute;
-      left: 34px;
-      right: 34px;
+      left: 50%;
       bottom: 34px;
+      transform: translateX(-50%);
+      width: min(calc(100% - 68px), 620px);
       max-width: 620px;
       padding: 30px;
       border-radius: 30px;
@@ -329,7 +337,7 @@
 
     .visual-caption strong {
       display: block;
-      font-size: clamp(34px, 4.5vw, 62px);
+      font-size: clamp(27px, 3.5vw, 42px);
       line-height: 1.08;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -339,7 +347,7 @@
       display: block;
       margin-top: 12px;
       color: rgba(255, 255, 255, 0.78);
-      font-size: 21px;
+      font-size: 19px;
       line-height: 1.42;
       font-weight: 750;
     }
@@ -365,7 +373,7 @@
     .metric b {
       display: block;
       color: var(--blue);
-      font-size: clamp(56px, 8vw, 104px);
+      font-size: clamp(42px, 5.2vw, 64px);
       line-height: 0.92;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -375,7 +383,7 @@
       display: block;
       margin-top: 18px;
       color: var(--ink);
-      font-size: clamp(26px, 3vw, 42px);
+      font-size: clamp(22px, 2.4vw, 30px);
       line-height: 1.18;
       font-weight: 950;
     }
@@ -383,7 +391,7 @@
     .metric p {
       margin-top: 12px;
       color: var(--muted);
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 730;
     }
@@ -418,7 +426,7 @@
       display: block;
       margin-top: 12px;
       color: #fff;
-      font-size: clamp(28px, 3.4vw, 48px);
+      font-size: clamp(23px, 2.5vw, 32px);
       line-height: 1.05;
       font-weight: 950;
     }
@@ -435,6 +443,7 @@
       align-items: center;
       padding: 34px 0;
       border-bottom: 1px solid var(--line);
+      text-align: center;
     }
 
     .step-row em {
@@ -446,7 +455,7 @@
 
     .step-row strong {
       color: var(--ink);
-      font-size: clamp(28px, 3.2vw, 46px);
+      font-size: clamp(23px, 2.5vw, 32px);
       line-height: 1.12;
       letter-spacing: -0.07em;
       font-weight: 950;
@@ -454,43 +463,43 @@
 
     .step-row p {
       color: var(--muted);
-      font-size: 21px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 760;
     }
 
     .membership-panel {
       margin-top: 48px;
-      padding: clamp(30px, 5vw, 58px);
+      padding: clamp(32px, 5vw, 60px);
       border-radius: var(--radius-xl);
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 28px 80px rgba(7, 17, 31, 0.10);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.86)),
+        radial-gradient(circle at 50% 0, rgba(45, 108, 255, 0.12), transparent 34%);
+      border: 1px solid rgba(7, 17, 31, 0.08);
+      box-shadow: 0 24px 70px rgba(7, 17, 31, 0.08);
     }
 
     .membership-headline {
       color: var(--ink);
-      font-size: clamp(36px, 5vw, 70px);
-      line-height: 1.08;
-      letter-spacing: -0.08em;
+      font-size: clamp(30px, 3.6vw, 44px);
+      line-height: 1.14;
+      letter-spacing: -0.065em;
       font-weight: 950;
     }
 
     .benefit-line {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 36px;
-      border-top: 2px solid var(--line);
-      border-bottom: 2px solid var(--line);
+      gap: 18px;
+      margin-top: 38px;
     }
 
     .benefit-line div {
       padding: 28px 24px;
-      border-right: 1px solid var(--line);
-    }
-
-    .benefit-line div:last-child {
-      border-right: 0;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid rgba(7, 17, 31, 0.08);
+      box-shadow: 0 12px 34px rgba(7, 17, 31, 0.05);
     }
 
     .benefit-line b {
@@ -504,38 +513,72 @@
       display: block;
       margin-top: 14px;
       color: var(--ink);
-      font-size: clamp(28px, 3vw, 42px);
-      line-height: 1.12;
+      font-size: clamp(22px, 2.3vw, 29px);
+      line-height: 1.16;
       font-weight: 950;
     }
 
     .benefit-line p {
       margin-top: 12px;
       color: var(--muted);
-      font-size: 19px;
+      font-size: 17px;
       line-height: 1.45;
       font-weight: 730;
     }
 
     .plan-table {
+      position: relative;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 36px;
+      margin-top: 86px;
+      padding-top: 62px;
+      border-top: 2px solid rgba(7, 17, 31, 0.10);
+    }
+
+    .plan-table::before {
+      content: "멤버십 플랜 비교";
+      position: absolute;
+      left: 50%;
+      top: -22px;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid rgba(7, 17, 31, 0.10);
+      font-size: 16px;
+      font-weight: 950;
+      box-shadow: 0 12px 32px rgba(7, 17, 31, 0.08);
     }
 
     .plan {
       min-height: 400px;
-      padding: 26px;
+      padding: 24px;
       border-radius: 30px;
       background: #f2f6fc;
       border: 1px solid rgba(7, 17, 31, 0.08);
+      text-align: center;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
     }
 
     .plan.featured {
       color: #fff;
       background: linear-gradient(180deg, #0b1b35, #173f7c);
       transform: translateY(-10px);
+    }
+
+    .plan:hover {
+      transform: translateY(-6px);
+      border-color: rgba(45, 108, 255, 0.24);
+      box-shadow: 0 18px 42px rgba(7, 17, 31, 0.12);
+    }
+
+    .plan.featured:hover {
+      transform: translateY(-14px);
     }
 
     .plan small {
@@ -558,7 +601,7 @@
     .plan h3 {
       margin-top: 22px;
       color: inherit;
-      font-size: 30px;
+      font-size: 27px;
       line-height: 1.05;
       letter-spacing: -0.06em;
       font-weight: 950;
@@ -566,7 +609,7 @@
 
     .plan .price {
       margin-top: 14px;
-      font-size: clamp(44px, 5vw, 66px);
+      font-size: clamp(34px, 3.7vw, 46px);
       line-height: 1;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -585,7 +628,7 @@
       padding: 14px 0;
       border-top: 1px solid rgba(7, 17, 31, 0.10);
       color: var(--muted);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 820;
     }
 
@@ -663,6 +706,7 @@
       align-items: center;
       padding: 34px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      text-align: center;
     }
 
     .revenue-row:last-child {
@@ -678,7 +722,7 @@
 
     .revenue-row strong {
       color: #fff;
-      font-size: clamp(30px, 3.7vw, 54px);
+      font-size: clamp(25px, 2.7vw, 36px);
       line-height: 1.1;
       letter-spacing: -0.07em;
       font-weight: 950;
@@ -686,7 +730,7 @@
 
     .revenue-row p {
       color: rgba(255, 255, 255, 0.72);
-      font-size: 21px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 740;
     }
@@ -706,11 +750,18 @@
         radial-gradient(circle at 90% 0%, rgba(255, 209, 102, 0.22), transparent 34%),
         linear-gradient(135deg, #0b1b35, #173f7c);
       box-shadow: 0 28px 80px rgba(7, 17, 31, 0.16);
+      text-align: center;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .commission:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 34px 90px rgba(7, 17, 31, 0.22);
     }
 
     .commission h3 {
       color: #fff;
-      font-size: clamp(32px, 4.2vw, 60px);
+      font-size: clamp(27px, 3vw, 40px);
       line-height: 1.06;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -720,7 +771,7 @@
       display: block;
       margin-top: 22px;
       color: #ffd166;
-      font-size: clamp(64px, 8vw, 116px);
+      font-size: clamp(46px, 5.2vw, 68px);
       line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -729,16 +780,16 @@
     .commission p {
       margin-top: 18px;
       color: rgba(255, 255, 255, 0.76);
-      font-size: 21px;
+      font-size: 18px;
       line-height: 1.44;
       font-weight: 740;
     }
 
     .notice {
       max-width: 900px;
-      margin-top: 28px;
+      margin: 28px auto 0;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.58;
       font-weight: 740;
     }
@@ -759,11 +810,12 @@
       align-items: center;
       padding: 36px 0;
       border-bottom: 1px solid var(--line);
+      text-align: center;
     }
 
     .benefit-row b {
       color: var(--gold);
-      font-size: clamp(54px, 7vw, 100px);
+      font-size: clamp(38px, 4.8vw, 58px);
       line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
@@ -772,7 +824,7 @@
     .benefit-row strong {
       display: block;
       color: var(--ink);
-      font-size: clamp(32px, 4vw, 58px);
+      font-size: clamp(25px, 2.8vw, 36px);
       line-height: 1.1;
       letter-spacing: -0.075em;
       font-weight: 950;
@@ -781,7 +833,7 @@
     .benefit-row p {
       margin-top: 12px;
       color: var(--muted);
-      font-size: 22px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 750;
     }
@@ -799,6 +851,7 @@
       align-items: center;
       padding: 30px 0;
       border-bottom: 1px solid var(--line);
+      text-align: center;
     }
 
     .tool-row:last-child {
@@ -814,7 +867,7 @@
 
     .tool-row strong {
       color: var(--ink);
-      font-size: clamp(28px, 3.2vw, 46px);
+      font-size: clamp(23px, 2.5vw, 32px);
       line-height: 1.1;
       letter-spacing: -0.07em;
       font-weight: 950;
@@ -822,7 +875,7 @@
 
     .tool-row p {
       color: var(--muted);
-      font-size: 21px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 740;
     }
@@ -840,11 +893,12 @@
       align-items: center;
       padding: 34px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      text-align: center;
     }
 
     .target strong {
       color: #fff;
-      font-size: clamp(30px, 3.5vw, 50px);
+      font-size: clamp(24px, 2.7vw, 34px);
       line-height: 1.08;
       letter-spacing: -0.075em;
       font-weight: 950;
@@ -852,7 +906,7 @@
 
     .target p {
       color: rgba(255, 255, 255, 0.72);
-      font-size: 22px;
+      font-size: 18px;
       line-height: 1.45;
       font-weight: 740;
     }
@@ -929,6 +983,18 @@
       font-weight: 900;
     }
 
+    .metric,
+    .feature-line div,
+    .step-row,
+    .benefit-line div,
+    .revenue-row,
+    .commission,
+    .benefit-row,
+    .tool-row,
+    .target {
+      will-change: transform, opacity;
+    }
+
     @keyframes reveal {
       from {
         opacity: 0;
@@ -955,6 +1021,79 @@
       }
       to {
         transform: translateX(-50%);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(34px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes softPop {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @supports (animation-timeline: view()) {
+      .section .eyebrow,
+      .section h2,
+      .section .lead,
+      .statement,
+      .visual-wide,
+      .metric,
+      .feature-line div,
+      .step-row,
+      .benefit-line div,
+      .revenue-row,
+      .commission,
+      .benefit-row,
+      .tool-row,
+      .target,
+      .final-cta {
+        animation: fadeUp both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 34%;
+      }
+
+      .membership-panel,
+      .commission,
+      .visual-wide {
+        animation-name: softPop;
+      }
+
+      .metric:nth-child(2),
+      .feature-line div:nth-child(2),
+      .step-row:nth-child(2),
+      .benefit-line div:nth-child(2),
+      .revenue-row:nth-child(2),
+      .commission:nth-child(2),
+      .benefit-row:nth-child(2),
+      .tool-row:nth-child(2),
+      .target:nth-child(2) {
+        animation-range: entry 12% cover 36%;
+      }
+
+      .metric:nth-child(3),
+      .feature-line div:nth-child(3),
+      .step-row:nth-child(3),
+      .benefit-line div:nth-child(3),
+      .revenue-row:nth-child(3),
+      .benefit-row:nth-child(3),
+      .tool-row:nth-child(3),
+      .target:nth-child(3) {
+        animation-range: entry 16% cover 38%;
       }
     }
 
