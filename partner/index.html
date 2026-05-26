@@ -327,6 +327,240 @@
       color: rgba(255, 255, 255, 0.76);
     }
 
+    .graph-panel {
+      position: relative;
+      overflow: hidden;
+      margin-top: 42px;
+      padding: clamp(30px, 5vw, 56px);
+      border-radius: 42px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+
+    .graph-panel.dark-graph {
+      color: #fff;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(255, 204, 61, 0.18), transparent 28%),
+        linear-gradient(135deg, #07152f, #123a83);
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .graph-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .graph-head h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 1.08;
+      letter-spacing: -0.075em;
+      font-weight: 950;
+    }
+
+    .dark-graph .graph-head h3 {
+      color: #fff;
+    }
+
+    .graph-head p {
+      max-width: 360px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      font-weight: 760;
+    }
+
+    .dark-graph .graph-head p {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 170px 1fr 70px;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bar-label {
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 920;
+    }
+
+    .dark-graph .bar-label {
+      color: #fff;
+    }
+
+    .bar-track {
+      overflow: hidden;
+      height: 18px;
+      border-radius: 999px;
+      background: #edf3fc;
+    }
+
+    .dark-graph .bar-track {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .bar-fill {
+      display: block;
+      width: var(--value);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), #8bb3ff);
+      transform-origin: left center;
+      animation: barGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .bar-row:nth-child(2) .bar-fill {
+      animation-delay: 100ms;
+    }
+
+    .bar-row:nth-child(3) .bar-fill {
+      animation-delay: 200ms;
+    }
+
+    .bar-row:nth-child(4) .bar-fill {
+      animation-delay: 300ms;
+    }
+
+    .bar-value {
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 950;
+      text-align: right;
+    }
+
+    .dark-graph .bar-value {
+      color: var(--gold);
+    }
+
+    .mini-bars {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .mini-bar-card {
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 22px;
+      border-radius: 28px;
+      background: #f3f7ff;
+      text-align: left;
+    }
+
+    .mini-bar {
+      width: 100%;
+      height: 112px;
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      border-radius: 22px;
+      background: rgba(47, 107, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .mini-bar span {
+      display: block;
+      width: 100%;
+      height: var(--value);
+      border-radius: 22px 22px 0 0;
+      background: linear-gradient(180deg, #8bb3ff, var(--blue));
+      transform-origin: bottom center;
+      animation: columnGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .mini-bar-card strong {
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    .mini-bar-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 740;
+    }
+
+    .money-bars {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: 14px;
+      margin-top: 34px;
+      padding-top: 10px;
+    }
+
+    .money-bar-card {
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 14px;
+      padding: 22px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+    }
+
+    .money-column {
+      position: relative;
+      height: 160px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .money-column span {
+      width: 100%;
+      height: var(--value);
+      border-radius: 24px 24px 0 0;
+      background: linear-gradient(180deg, var(--gold), #ff8f3d);
+      transform-origin: bottom center;
+      animation: columnGrow 1100ms cubic-bezier(.2,.9,.2,1) both;
+    }
+
+    .money-bar-card em {
+      color: var(--gold);
+      font-style: normal;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .money-bar-card strong {
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
     .big-panel {
       margin-top: 42px;
       padding: clamp(38px, 6vw, 72px);
@@ -1023,6 +1257,12 @@
     .hero-card,
     .step-card,
     .metric-card,
+    .graph-panel,
+    .question-card,
+    .member-benefit,
+    .formula-card,
+    .mini-bar-card,
+    .money-bar-card,
     .plan,
     .brand,
     .money-step,
@@ -1081,6 +1321,34 @@
       }
     }
 
+    @keyframes barGrow {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes columnGrow {
+      from {
+        transform: scaleY(0);
+      }
+      to {
+        transform: scaleY(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
     .site-footer {
       padding: 44px 0;
       color: var(--muted);
@@ -1125,6 +1393,8 @@
       .steps,
       .metric-grid,
       .question-grid,
+      .mini-bars,
+      .money-bars,
       .plans,
       .member-benefit-grid,
       .brand-row,
@@ -1140,6 +1410,10 @@
 
       .plan {
         min-height: 0;
+      }
+
+      .bar-row {
+        grid-template-columns: 130px 1fr 58px;
       }
     }
 
@@ -1207,6 +1481,8 @@
       .steps,
       .metric-grid,
       .question-grid,
+      .mini-bars,
+      .money-bars,
       .plans,
       .member-benefit-grid,
       .brand-row,
@@ -1218,6 +1494,27 @@
       .support-grid,
       .fit-grid {
         grid-template-columns: 1fr;
+      }
+
+      .graph-head {
+        display: block;
+      }
+
+      .graph-head p {
+        margin-top: 12px;
+      }
+
+      .bar-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .bar-value {
+        text-align: left;
+      }
+
+      .money-bar-card {
+        min-height: 230px;
       }
 
       .membership-mini,
@@ -1295,6 +1592,43 @@
       </div>
     </section>
 
+    <section id="extra-income" class="section soft">
+      <div class="container">
+        <span class="kicker">현실적인 목표</span>
+        <h2>딱 50만원만 더 있어도<br />체감은 큽니다</h2>
+        <p class="lead">처음부터 큰 사업을 말하는 페이지가 아닙니다. 월급 외에 작지만 눈에 보이는 여유를 만드는 쪽으로 설명합니다.</p>
+
+        <div class="graph-panel">
+          <div class="graph-head">
+            <h3>월 50만원으로<br />달라지는 부분</h3>
+            <p>생활비, 여행비, 갑작스러운 지출처럼 매달 바로 체감되는 항목을 기준으로 보여줍니다.</p>
+          </div>
+          <div class="bar-list" aria-label="월 50만원 활용 예시 막대그래프">
+            <div class="bar-row">
+              <div class="bar-label">외식비 부담</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:72%"></span></div>
+              <div class="bar-value">72%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">여행비 적립</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:86%"></span></div>
+              <div class="bar-value">86%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">비상금 여유</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:64%"></span></div>
+              <div class="bar-value">64%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">월급 외 여유</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:58%"></span></div>
+              <div class="bar-value">58%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="story" class="section">
       <div class="container">
         <span class="kicker">시작은 여행 경험</span>
@@ -1349,6 +1683,35 @@
             <span>Q4</span>
             <strong>예약은 누가 도와줘?</strong>
           </article>
+        </div>
+
+        <div class="graph-panel">
+          <div class="graph-head">
+            <h3>크루즈가<br />말하기 쉬운 이유</h3>
+            <p>장면이 많고, 가족·부부·단체 여행과 잘 맞아서 질문이 자연스럽게 생깁니다.</p>
+          </div>
+          <div class="bar-list" aria-label="크루즈 소개 강점 막대그래프">
+            <div class="bar-row">
+              <div class="bar-label">보여줄 장면</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:94%"></span></div>
+              <div class="bar-value">94</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">가족 추천성</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:88%"></span></div>
+              <div class="bar-value">88</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">상담 질문</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:91%"></span></div>
+              <div class="bar-value">91</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">고단가 상품성</div>
+              <div class="bar-track"><span class="bar-fill" style="--value:82%"></span></div>
+              <div class="bar-value">82</div>
+            </div>
+          </div>
         </div>
 
         <div class="bridge-panel">
@@ -1438,6 +1801,35 @@
               <strong>상담 소재</strong>
               <p>여행을 궁금해하는 사람에게 가격표와 혜택을 바로 보여줄 수 있습니다.</p>
             </article>
+          </div>
+
+          <div class="graph-panel">
+            <div class="graph-head">
+              <h3>매월 적립 포인트<br />차이가 보입니다</h3>
+              <p>플랜별로 매월 쌓이는 포인트를 막대그래프로 바로 비교합니다.</p>
+            </div>
+            <div class="mini-bars" aria-label="멤버십 플랜별 매월 적립 포인트 그래프">
+              <article class="mini-bar-card">
+                <div class="mini-bar"><span style="--value:6%"></span></div>
+                <strong>게스트 0P</strong>
+                <p>무료로 먼저 확인</p>
+              </article>
+              <article class="mini-bar-card">
+                <div class="mini-bar"><span style="--value:16%"></span></div>
+                <strong>스타터 50P</strong>
+                <p>가볍게 시작</p>
+              </article>
+              <article class="mini-bar-card">
+                <div class="mini-bar"><span style="--value:48%"></span></div>
+                <strong>클래식 200P</strong>
+                <p>포인트 2배 적립</p>
+              </article>
+              <article class="mini-bar-card">
+                <div class="mini-bar"><span style="--value:100%"></span></div>
+                <strong>프리미엄 500P</strong>
+                <p>빠르게 쌓는 플랜</p>
+              </article>
+            </div>
           </div>
 
           <a class="simple-link" href="/membership/" target="_blank" rel="noopener">멤버십 자세히 보기</a>
@@ -1564,6 +1956,35 @@
             <div>프리미엄 3명</div>
             <div>$1,500</div>
             <div class="highlight">$150</div>
+          </div>
+        </div>
+
+        <div class="graph-panel dark-graph">
+          <div class="graph-head">
+            <h3>같은 3명이어도<br />플랜에 따라 달라집니다</h3>
+            <p>아래 그래프는 단순 예시입니다. 금액은 보장값이 아니라 계산 이해용입니다.</p>
+          </div>
+          <div class="money-bars" aria-label="수수료 예시 세로 막대그래프">
+            <article class="money-bar-card">
+              <div class="money-column"><span style="--value:14%"></span></div>
+              <em>$20</em>
+              <strong>클래식 1명</strong>
+            </article>
+            <article class="money-bar-card">
+              <div class="money-column"><span style="--value:40%"></span></div>
+              <em>$60</em>
+              <strong>클래식 3명</strong>
+            </article>
+            <article class="money-bar-card">
+              <div class="money-column"><span style="--value:34%"></span></div>
+              <em>$50</em>
+              <strong>프리미엄 1명</strong>
+            </article>
+            <article class="money-bar-card">
+              <div class="money-column"><span style="--value:100%"></span></div>
+              <em>$150</em>
+              <strong>프리미엄 3명</strong>
+            </article>
           </div>
         </div>
 
