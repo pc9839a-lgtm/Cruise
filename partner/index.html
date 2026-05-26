@@ -991,6 +991,239 @@
       box-shadow: 0 28px 62px rgba(45, 108, 255, 0.34);
     }
 
+    .form-section {
+      background:
+        radial-gradient(circle at 50% 0, rgba(45, 108, 255, 0.12), transparent 34%),
+        linear-gradient(180deg, #f8fbff, #ffffff);
+    }
+
+    .form-shell {
+      max-width: 980px;
+      margin: 48px auto 0;
+      padding: clamp(28px, 5vw, 54px);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(7, 17, 31, 0.08);
+      box-shadow: 0 30px 86px rgba(7, 17, 31, 0.10);
+      backdrop-filter: blur(16px);
+      text-align: left;
+    }
+
+    .partner-form {
+      display: grid;
+      gap: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .partner-form label {
+      display: grid;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    .partner-form label.full {
+      grid-column: 1 / -1;
+    }
+
+    .partner-form input,
+    .partner-form select,
+    .partner-form textarea {
+      width: 100%;
+      min-height: 58px;
+      padding: 0 18px;
+      border: 1px solid rgba(7, 17, 31, 0.12);
+      border-radius: 18px;
+      outline: 0;
+      color: var(--ink);
+      background: #f5f8fd;
+      font: inherit;
+      font-size: 17px;
+      font-weight: 760;
+      letter-spacing: -0.035em;
+      transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .partner-form textarea {
+      min-height: 150px;
+      padding: 18px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .partner-form input:focus,
+    .partner-form select:focus,
+    .partner-form textarea:focus {
+      border-color: rgba(45, 108, 255, 0.58);
+      background: #fff;
+      box-shadow: 0 0 0 5px rgba(45, 108, 255, 0.10);
+    }
+
+    .consent-check {
+      display: flex !important;
+      grid-template-columns: none !important;
+      align-items: flex-start;
+      gap: 12px !important;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: #f5f8fd;
+      color: var(--muted) !important;
+      font-size: 15px !important;
+      line-height: 1.45;
+      font-weight: 820 !important;
+    }
+
+    .consent-check input {
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
+      min-height: 20px;
+      margin-top: 1px;
+      padding: 0;
+      accent-color: var(--blue);
+    }
+
+    .consent-check a {
+      color: var(--blue);
+      font-weight: 950;
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .partner-submit {
+      min-height: 64px;
+      min-width: 240px;
+      padding: 0 34px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), #123f91);
+      font-size: 19px;
+      font-weight: 950;
+      letter-spacing: -0.045em;
+      cursor: pointer;
+      box-shadow: 0 24px 58px rgba(45, 108, 255, 0.30);
+      animation: buttonBounce 2.2s ease-in-out infinite;
+    }
+
+    .partner-submit:disabled {
+      cursor: wait;
+      opacity: 0.72;
+      animation-play-state: paused;
+    }
+
+    .form-result {
+      width: 100%;
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .form-result.is-error {
+      color: #d92d20;
+    }
+
+    .form-result.is-success {
+      color: #135f35;
+    }
+
+    .hidden-frame {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      border: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .floating-cta {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 68px;
+      padding: 10px 16px 10px 22px;
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(7, 17, 31, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 24px 70px rgba(7, 17, 31, 0.30);
+      backdrop-filter: blur(18px);
+      transform: translateX(-50%);
+      animation: floatingCtaBounce 2.4s ease-in-out infinite;
+    }
+
+    .floating-cta span {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: #0b1b35;
+      background: #ffd166;
+      font-size: 14px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .floating-cta strong {
+      min-width: 140px;
+      font-size: 18px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .benefit-line div.is-visible,
+    .commission.is-visible {
+      animation: cardBounce 2.7s ease-in-out infinite;
+    }
+
+    .benefit-line div:nth-child(2).is-visible,
+    .commission:nth-child(2).is-visible {
+      animation-delay: 180ms;
+    }
+
+    .benefit-line div:nth-child(3).is-visible {
+      animation-delay: 360ms;
+    }
+
+    .plan.is-visible {
+      animation: planBounce 2.9s ease-in-out infinite;
+    }
+
+    .plan:nth-child(2).is-visible {
+      animation-delay: 160ms;
+    }
+
+    .plan:nth-child(4).is-visible {
+      animation-delay: 320ms;
+    }
+
+    .plan.featured.reveal.is-visible {
+      animation: featuredPlanBounce 2.55s ease-in-out infinite;
+    }
+
+    .form-shell.is-visible {
+      animation: formPulse 3.1s ease-in-out infinite;
+    }
+
     .site-footer {
       padding: 42px 0;
       color: var(--muted);
@@ -1151,6 +1384,72 @@
       }
     }
 
+    @keyframes cardBounce {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 12px 34px rgba(7, 17, 31, 0.05);
+      }
+      50% {
+        transform: translateY(-8px) scale(1.018);
+        box-shadow: 0 24px 58px rgba(45, 108, 255, 0.15);
+      }
+    }
+
+    @keyframes planBounce {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-9px) scale(1.018);
+      }
+    }
+
+    @keyframes featuredPlanBounce {
+      0%,
+      100% {
+        transform: translateY(-10px) scale(1);
+        box-shadow: 0 22px 54px rgba(23, 63, 124, 0.24);
+      }
+      50% {
+        transform: translateY(-18px) scale(1.025);
+        box-shadow: 0 34px 86px rgba(23, 63, 124, 0.34);
+      }
+    }
+
+    @keyframes formPulse {
+      0%,
+      100% {
+        box-shadow: 0 30px 86px rgba(7, 17, 31, 0.10);
+      }
+      50% {
+        box-shadow: 0 38px 108px rgba(45, 108, 255, 0.17);
+      }
+    }
+
+    @keyframes buttonBounce {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-5px) scale(1.025);
+      }
+    }
+
+    @keyframes floatingCtaBounce {
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0) scale(1);
+        box-shadow: 0 24px 70px rgba(7, 17, 31, 0.30);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-6px) scale(1.025);
+        box-shadow: 0 32px 86px rgba(45, 108, 255, 0.32);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1186,7 +1485,8 @@
       .feature-line,
       .benefit-line,
       .plan-table,
-      .commission-band {
+      .commission-band,
+      .form-grid {
         grid-template-columns: 1fr 1fr;
       }
 
@@ -1260,8 +1560,30 @@
       .feature-line,
       .benefit-line,
       .plan-table,
-      .commission-band {
+      .commission-band,
+      .form-grid {
         grid-template-columns: 1fr;
+      }
+
+      .form-shell {
+        padding: 22px 16px;
+        border-radius: 28px;
+      }
+
+      .partner-submit {
+        width: 100%;
+      }
+
+      .floating-cta {
+        bottom: 14px;
+        width: calc(100% - 24px);
+        justify-content: space-between;
+        padding: 10px 12px 10px 14px;
+      }
+
+      .floating-cta strong {
+        min-width: 0;
+        font-size: 16px;
       }
 
       .metric,
@@ -1317,6 +1639,7 @@
           <a href="#plans"><strong>06</strong><span>플랜 비교</span></a>
           <a href="#revenue"><strong>07</strong><span>수익구조</span></a>
           <a href="#support"><strong>08</strong><span>지원</span></a>
+          <a href="#partner-form"><strong>09</strong><span>문의</span></a>
           <a href="#intro"><strong>01</strong><span>인트로</span></a>
           <a href="#item"><strong>02</strong><span>아이템</span></a>
           <a href="#cruise"><strong>03</strong><span>크루즈</span></a>
@@ -1325,6 +1648,7 @@
           <a href="#plans"><strong>06</strong><span>플랜 비교</span></a>
           <a href="#revenue"><strong>07</strong><span>수익구조</span></a>
           <a href="#support"><strong>08</strong><span>지원</span></a>
+          <a href="#partner-form"><strong>09</strong><span>문의</span></a>
         </div>
       </div>
     </div>
@@ -1668,6 +1992,100 @@
       </div>
     </section>
 
+    <section id="partner-form" class="section form-section">
+      <div class="container">
+        <span class="eyebrow">DB 입력폼</span>
+        <h2>파트너 상담 문의</h2>
+        <p class="lead">아래 내용을 남기면 담당자가 확인 후 상담 안내를 드립니다.</p>
+
+        <div class="form-shell">
+          <form
+            id="partnerInquiryForm"
+            class="partner-form"
+            method="POST"
+            target="partnerSubmitFrame"
+            accept-charset="UTF-8"
+            novalidate
+          >
+            <div class="form-grid">
+              <label>
+                <span>이름 / 성함</span>
+                <input type="text" name="name" id="partnerNameInput" placeholder="성함을 입력해주세요" autocomplete="name" required />
+              </label>
+
+              <label>
+                <span>연락처</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="partnerPhoneInput"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  autocomplete="tel"
+                  placeholder="숫자만 입력해주세요"
+                  required
+                />
+              </label>
+
+              <label>
+                <span>연령대</span>
+                <select name="age_group" id="partnerAgeInput" required>
+                  <option value="">선택해주세요</option>
+                  <option value="20대">20대</option>
+                  <option value="30대">30대</option>
+                  <option value="40대">40대</option>
+                  <option value="50대">50대</option>
+                  <option value="60대 이상">60대 이상</option>
+                </select>
+              </label>
+
+              <label>
+                <span>거주지역</span>
+                <input type="text" name="region_detail" id="partnerRegionInput" placeholder="예: 서울 강남구" required />
+              </label>
+
+              <label>
+                <span>해외결제카드 소지여부</span>
+                <select name="travel_ready_status" id="partnerCardInput" required>
+                  <option value="">선택해주세요</option>
+                  <option value="해외결제카드 소지">해외결제카드 소지</option>
+                  <option value="준비중">준비중</option>
+                  <option value="없음">없음</option>
+                  <option value="상담 후 확인">상담 후 확인</option>
+                </select>
+              </label>
+
+              <label class="full">
+                <span>문의내용</span>
+                <textarea name="partner_message" id="partnerMessageInput" placeholder="문의 내용을 남겨주세요"></textarea>
+              </label>
+
+              <label class="full consent-check">
+                <input type="checkbox" id="partnerPrivacyInput" required />
+                <span>개인정보 수집 및 이용에 동의합니다. <a href="https://cruiseplay-dyt.pages.dev/privacy/" target="_blank" rel="noopener">개인정보처리방침 보기</a></span>
+              </label>
+            </div>
+
+            <input type="hidden" name="interest_schedule_id" value="partner_membership" />
+            <input type="hidden" name="people_count" value="1" />
+            <input type="hidden" name="message" id="partnerMessageHidden" />
+            <input type="hidden" name="agent_code" id="partnerAgentInput" />
+            <input type="hidden" name="utm_source" id="partnerUtmSourceInput" />
+            <input type="hidden" name="utm_medium" id="partnerUtmMediumInput" />
+            <input type="hidden" name="utm_campaign" id="partnerUtmCampaignInput" />
+            <input type="hidden" name="page_url" id="partnerPageUrlInput" />
+            <input type="hidden" name="referrer" id="partnerReferrerInput" />
+            <input type="hidden" name="site_name" value="크루즈 제휴마케팅" />
+
+            <div class="form-actions">
+              <button type="submit" class="partner-submit" id="partnerSubmitButton">상담 문의하기</button>
+              <div class="form-result" id="partnerFormResult" role="status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section id="fit" class="section dark">
       <div class="container">
         <span class="eyebrow">추천 대상</span>
@@ -1702,11 +2120,16 @@
         <div class="final-cta">
           <h2>크루즈를 좋아한다면<br />소개할 이유는 충분합니다.</h2>
           <p class="lead">여행을 좋아하는 사람이 여행을 소개하고, 그 소개가 수수료로 정산되는 방식입니다.</p>
-          <a class="btn" href="/contact/">상담 문의하기</a>
+          <a class="btn" href="#partner-form">상담 문의하기</a>
         </div>
       </div>
     </section>
   </main>
+
+  <a class="floating-cta" href="#partner-form" aria-label="파트너 상담 문의 입력폼으로 이동">
+    <span>상담문의</span>
+    <strong>입력폼으로 이동</strong>
+  </a>
 
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -1717,12 +2140,14 @@
       <a class="footer-home-btn" href="/">홈으로</a>
     </div>
   </footer>
+
+  <iframe name="partnerSubmitFrame" id="partnerSubmitFrame" class="hidden-frame"></iframe>
   <script>
     (() => {
       const revealGroups = [
         ['.section .eyebrow, .section h2, .section .lead', 'reveal-rise'],
-        ['.statement, .visual-wide, .membership-panel, .plans-shell, .logo-marquee, .commission, .final-cta', 'reveal-scale'],
-        ['.metric, .feature-line div, .step-row, .benefit-line div, .plan, .revenue-row, .benefit-row, .tool-row, .target', 'reveal-pop']
+        ['.statement, .visual-wide, .membership-panel, .plans-shell, .logo-marquee, .commission, .form-shell, .final-cta', 'reveal-scale'],
+        ['.metric, .feature-line div, .step-row, .benefit-line div, .plan, .revenue-row, .benefit-row, .tool-row, .target, .partner-form label', 'reveal-pop']
       ];
 
       revealGroups.forEach(([selector, type]) => {
@@ -1750,6 +2175,98 @@
       });
 
       revealItems.forEach((el) => observer.observe(el));
+    })();
+
+    (() => {
+      const API_URL = 'https://script.google.com/macros/s/AKfycby3q6qHN94t16gTrjkzRT9-aDLux6H7GER6hmMbij-VZVAUQZCJNKxgHWuH2m4r4j8/exec';
+      const form = document.getElementById('partnerInquiryForm');
+      const iframe = document.getElementById('partnerSubmitFrame');
+      const result = document.getElementById('partnerFormResult');
+      const submitButton = document.getElementById('partnerSubmitButton');
+      if (!form || !iframe) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const agentCode = String(params.get('agent') || '').trim() || 'admin';
+      const setValue = (id, value) => {
+        const input = document.getElementById(id);
+        if (input) input.value = value || '';
+      };
+      const setResult = (message, type) => {
+        if (!result) return;
+        result.textContent = message || '';
+        result.className = `form-result${type ? ` is-${type}` : ''}`;
+      };
+
+      form.action = API_URL;
+      setValue('partnerAgentInput', agentCode);
+      setValue('partnerUtmSourceInput', params.get('utm_source') || '');
+      setValue('partnerUtmMediumInput', params.get('utm_medium') || '');
+      setValue('partnerUtmCampaignInput', params.get('utm_campaign') || '');
+      setValue('partnerPageUrlInput', window.location.href);
+      setValue('partnerReferrerInput', document.referrer || '');
+
+      let submitted = false;
+
+      form.addEventListener('submit', (event) => {
+        const name = document.getElementById('partnerNameInput');
+        const phone = document.getElementById('partnerPhoneInput');
+        const age = document.getElementById('partnerAgeInput');
+        const region = document.getElementById('partnerRegionInput');
+        const card = document.getElementById('partnerCardInput');
+        const privacy = document.getElementById('partnerPrivacyInput');
+        const visibleMessage = document.getElementById('partnerMessageInput');
+        const hiddenMessage = document.getElementById('partnerMessageHidden');
+        const phoneValue = phone.value.replace(/\D+/g, '');
+        phone.value = phoneValue;
+
+        if (!name.value.trim() || !phoneValue || !age.value || !region.value.trim() || !card.value) {
+          event.preventDefault();
+          setResult('필수 항목을 입력해주세요.', 'error');
+          return;
+        }
+
+        if (!privacy.checked) {
+          event.preventDefault();
+          setResult('개인정보 수집 및 이용 동의가 필요합니다.', 'error');
+          return;
+        }
+
+        const memo = [
+          `[파트너 상담]`,
+          `연락처: ${phoneValue}`,
+          `연령대: ${age.value}`,
+          `거주지역: ${region.value.trim()}`,
+          `해외결제카드: ${card.value}`,
+          `파트너코드: ${agentCode}`,
+          '',
+          visibleMessage.value.trim() || '문의내용 없음'
+        ].join('\n');
+
+        if (hiddenMessage) hiddenMessage.value = memo;
+        submitted = true;
+        setResult('접수 중입니다. 잠시만 기다려주세요.', '');
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = '접수 중';
+        }
+      });
+
+      iframe.addEventListener('load', () => {
+        if (!submitted) return;
+        submitted = false;
+        form.reset();
+        setValue('partnerAgentInput', agentCode);
+        setValue('partnerUtmSourceInput', params.get('utm_source') || '');
+        setValue('partnerUtmMediumInput', params.get('utm_medium') || '');
+        setValue('partnerUtmCampaignInput', params.get('utm_campaign') || '');
+        setValue('partnerPageUrlInput', window.location.href);
+        setValue('partnerReferrerInput', document.referrer || '');
+        setResult('상담 문의가 접수되었습니다.', 'success');
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = '상담 문의하기';
+        }
+      });
     })();
   </script>
 </body>
