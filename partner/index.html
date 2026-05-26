@@ -19,19 +19,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <style>
     :root {
-      --ink: #111827;
-      --ink-2: #202b3f;
-      --muted: #657084;
+      --ink: #07111f;
+      --ink-soft: #17243a;
+      --muted: #627086;
+      --line: rgba(7, 17, 31, 0.12);
       --paper: #f4efe7;
-      --paper-2: #fffaf3;
-      --line: rgba(17, 24, 39, 0.10);
-      --blue: #2f6bff;
-      --blue-dark: #123a83;
-      --gold: #c99a5a;
-      --gold-soft: #f4e3c7;
-      --shadow: 0 24px 70px rgba(17, 24, 39, 0.10);
-      --radius: 34px;
-      --container: 1160px;
+      --paper-2: #fffaf1;
+      --blue: #2d6cff;
+      --navy: #0b1b35;
+      --gold: #d39a46;
+      --gold-soft: #ffe1aa;
+      --container: 1180px;
+      --radius-xl: 42px;
     }
 
     * {
@@ -46,8 +45,8 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 0 0, rgba(201, 154, 90, 0.20), transparent 34%),
-        linear-gradient(180deg, var(--paper), #fff 58%, #f7f9ff);
+        radial-gradient(circle at 4% 0%, rgba(211, 154, 70, 0.25), transparent 30%),
+        linear-gradient(180deg, var(--paper), #fff 48%, #f7f9ff 100%);
       font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       letter-spacing: -0.045em;
       word-break: keep-all;
@@ -67,25 +66,25 @@
     }
 
     .container {
-      width: min(calc(100% - 40px), var(--container));
+      width: min(calc(100% - 44px), var(--container));
       margin: 0 auto;
     }
 
     .nav {
       position: sticky;
       top: 0;
-      z-index: 50;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+      z-index: 20;
+      padding: 14px 0;
       background: rgba(244, 239, 231, 0.84);
+      border-bottom: 1px solid rgba(7, 17, 31, 0.08);
       backdrop-filter: blur(18px);
     }
 
     .nav-track {
       display: flex;
       align-items: center;
-      gap: 9px;
-      overflow: auto;
+      gap: 10px;
+      overflow-x: auto;
       scrollbar-width: none;
     }
 
@@ -98,51 +97,47 @@
       display: inline-flex;
       align-items: center;
       min-height: 42px;
-      padding: 0 15px;
+      padding: 0 17px;
       border-radius: 999px;
-      color: #344055;
       background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(17, 24, 39, 0.07);
-      box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06);
-      font-size: 14px;
+      border: 1px solid rgba(7, 17, 31, 0.08);
+      color: #25324a;
+      font-size: 15px;
       font-weight: 900;
-      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(7, 17, 31, 0.06);
     }
 
     .section {
-      padding: clamp(84px, 10vw, 138px) 0;
-      text-align: center;
-      scroll-margin-top: 92px;
+      position: relative;
+      padding: clamp(92px, 11vw, 150px) 0;
+      scroll-margin-top: 96px;
     }
 
     .section.white {
-      background: rgba(255, 255, 255, 0.76);
+      background: rgba(255, 255, 255, 0.78);
     }
 
     .section.dark {
       color: #fff;
       background:
-        radial-gradient(circle at 86% 12%, rgba(201, 154, 90, 0.22), transparent 30%),
-        linear-gradient(135deg, #101827, #07152f);
+        radial-gradient(circle at 90% 0%, rgba(211, 154, 70, 0.23), transparent 30%),
+        linear-gradient(135deg, #0b172b, #061329);
     }
 
-    .kicker,
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      gap: 8px;
-      padding: 0 15px;
+      gap: 9px;
+      min-height: 40px;
+      padding: 0 16px;
       border-radius: 999px;
-      color: #7b5a34;
+      color: #7b5a31;
       background: rgba(255, 255, 255, 0.74);
-      border: 1px solid rgba(17, 24, 39, 0.08);
-      font-size: 14px;
+      border: 1px solid rgba(7, 17, 31, 0.10);
+      font-size: 15px;
       font-weight: 950;
     }
 
-    .kicker::before,
     .eyebrow::before {
       content: "";
       width: 7px;
@@ -151,34 +146,31 @@
       background: var(--gold);
     }
 
-    .dark .kicker,
+    .dark .eyebrow,
     .hero .eyebrow {
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(255, 255, 255, 0.9);
       background: rgba(255, 255, 255, 0.10);
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.16);
     }
 
     h1 {
-      max-width: 1040px;
-      margin: 26px auto 0;
+      margin-top: 26px;
       color: #fff;
-      font-size: clamp(54px, 8.6vw, 116px);
-      line-height: 0.98;
+      font-size: clamp(58px, 9vw, 128px);
+      line-height: 0.94;
       letter-spacing: -0.09em;
       font-weight: 950;
     }
 
     h1 strong {
       color: #ffd166;
-      font-weight: 950;
     }
 
     h2 {
-      max-width: 960px;
-      margin: 18px auto 0;
+      margin-top: 20px;
       color: var(--ink);
-      font-size: clamp(40px, 5.7vw, 78px);
-      line-height: 1.06;
+      font-size: clamp(44px, 6.2vw, 86px);
+      line-height: 1.05;
       letter-spacing: -0.085em;
       font-weight: 950;
     }
@@ -188,88 +180,68 @@
     }
 
     .lead {
-      max-width: 820px;
-      margin: 22px auto 0;
+      max-width: 880px;
+      margin-top: 26px;
       color: var(--muted);
-      font-size: clamp(21px, 2.4vw, 30px);
-      line-height: 1.52;
-      font-weight: 760;
+      font-size: clamp(22px, 2.5vw, 32px);
+      line-height: 1.5;
+      font-weight: 800;
     }
 
     .dark .lead {
-      color: rgba(255, 255, 255, 0.72);
+      color: rgba(255, 255, 255, 0.76);
     }
 
     .hero {
-      padding: 58px 0 88px;
-      color: #fff;
+      padding: 56px 0 92px;
     }
 
-    .hero-card {
+    .hero-stage {
       position: relative;
+      min-height: 760px;
+      display: grid;
+      align-items: end;
       overflow: hidden;
-      min-height: 730px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(42px, 6vw, 82px);
-      border-radius: 52px;
+      padding: clamp(34px, 6vw, 76px);
+      border-radius: 56px;
       background:
-        radial-gradient(circle at 18% 18%, rgba(201, 154, 90, 0.25), transparent 28%),
-        linear-gradient(180deg, rgba(8, 14, 28, 0.68), rgba(8, 14, 28, 0.92)),
+        linear-gradient(90deg, rgba(5, 12, 24, 0.88), rgba(5, 12, 24, 0.58) 54%, rgba(5, 12, 24, 0.22)),
         url("/membership/img/KakaoTalk_20260405_150550057_03.jpg") center / cover no-repeat;
-      box-shadow: 0 38px 96px rgba(17, 24, 39, 0.24);
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+      box-shadow: 0 40px 110px rgba(7, 17, 31, 0.25);
+      animation: reveal 760ms cubic-bezier(.2,.9,.2,1) both;
     }
 
-    .hero-card::before,
-    .hero-card::after {
+    .hero-stage::after {
       content: "";
       position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -120px;
+      top: -120px;
       border-radius: 999px;
-      pointer-events: none;
+      background: rgba(255, 209, 102, 0.20);
+      filter: blur(12px);
       animation: drift 7s ease-in-out infinite alternate;
     }
 
-    .hero-card::before {
-      width: 320px;
-      height: 320px;
-      left: -110px;
-      bottom: -110px;
-      background: rgba(47, 107, 255, 0.30);
-      filter: blur(8px);
-    }
-
-    .hero-card::after {
-      width: 220px;
-      height: 220px;
-      right: -70px;
-      top: 80px;
-      background: rgba(255, 209, 102, 0.25);
-      filter: blur(8px);
-      animation-delay: 900ms;
-    }
-
-    .hero-inner {
+    .hero-copy {
       position: relative;
       z-index: 1;
-      width: min(100%, 960px);
-      text-align: center;
+      max-width: 920px;
     }
 
     .hero-sub {
       max-width: 760px;
-      margin: 30px auto 0;
-      color: rgba(255, 255, 255, 0.84);
-      font-size: clamp(22px, 2.5vw, 34px);
-      line-height: 1.35;
+      margin-top: 28px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: clamp(24px, 3vw, 40px);
+      line-height: 1.32;
       font-weight: 900;
     }
 
     .chips {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 10px;
       margin-top: 32px;
     }
@@ -277,480 +249,381 @@
     .chip {
       display: inline-flex;
       align-items: center;
-      min-height: 42px;
-      padding: 0 17px;
+      min-height: 44px;
+      padding: 0 18px;
       border-radius: 999px;
       color: #fff;
-      background: rgba(255, 255, 255, 0.11);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      font-size: 15px;
-      font-weight: 850;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 17px;
+      font-weight: 900;
       backdrop-filter: blur(12px);
     }
 
-    .grid-3,
-    .grid-4,
-    .grid-5 {
+    .editorial {
       display: grid;
-      gap: 16px;
-      margin-top: 42px;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: clamp(34px, 6vw, 90px);
+      align-items: start;
     }
 
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid-4 {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .grid-5 {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-
-    .card,
-    .stat-card,
-    .port-card,
-    .feature-card,
-    .support-card,
-    .fit-card {
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
-    }
-
-    .card {
-      min-height: auto;
-      padding: 34px 0 34px 32px;
-      border-left: 5px solid var(--gold);
-      text-align: left;
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 54px;
-      height: 54px;
-      margin-bottom: 24px;
-      border-radius: 999px;
-      color: #fff;
-      background: var(--ink);
-      font-size: 17px;
-      font-weight: 950;
-    }
-
-    .card strong,
-    .stat-card strong,
-    .port-card strong,
-    .feature-card strong,
-    .support-card strong,
-    .fit-card strong {
-      display: block;
-      color: var(--ink);
-      font-size: clamp(29px, 3.2vw, 46px);
-      line-height: 1.16;
-      letter-spacing: -0.065em;
-      font-weight: 950;
-    }
-
-    .card p,
-    .stat-card p,
-    .port-card p,
-    .feature-card p,
-    .support-card p,
-    .fit-card p {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 19px;
-      line-height: 1.5;
-      font-weight: 710;
-    }
-
-    .hero-image {
-      position: relative;
-      overflow: hidden;
-      margin-top: 44px;
-      min-height: 460px;
-      border-radius: 44px;
-      background:
-        linear-gradient(180deg, rgba(8, 14, 28, 0.14), rgba(8, 14, 28, 0.62)),
-        url("https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1800&q=85") center / cover no-repeat;
-      box-shadow: var(--shadow);
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
-    }
-
-    .image-badge {
-      position: absolute;
-      left: 28px;
-      bottom: 28px;
-      max-width: 480px;
-      padding: 26px;
-      border-radius: 30px;
-      color: #fff;
-      background: rgba(8, 14, 28, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      text-align: left;
-      backdrop-filter: blur(16px);
-    }
-
-    .image-badge strong {
-      display: block;
-      font-size: clamp(28px, 4vw, 48px);
-      line-height: 1.08;
-      letter-spacing: -0.075em;
-      font-weight: 950;
-    }
-
-    .image-badge p {
-      margin-top: 12px;
-      color: rgba(255, 255, 255, 0.76);
-      font-size: 16px;
-      line-height: 1.55;
-      font-weight: 720;
-    }
-
-    .stat-card {
-      min-height: auto;
-      padding: 10px 14px 28px;
-      border-bottom: 1px solid rgba(17, 24, 39, 0.12);
-      text-align: left;
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .stat-card em {
-      display: block;
-      margin-bottom: 16px;
+    .section-label {
+      position: sticky;
+      top: 110px;
+      align-self: start;
+      padding-top: 6px;
       color: var(--gold);
-      font-style: normal;
-      font-size: clamp(44px, 6vw, 84px);
-      line-height: 0.92;
+      font-size: clamp(44px, 7vw, 96px);
+      line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .port-card {
-      min-height: auto;
-      padding: 30px 10px;
-      border-top: 1px solid rgba(17, 24, 39, 0.12);
-      text-align: center;
-      background: transparent;
-      box-shadow: none;
+    .statement {
+      padding: 38px 0;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
     }
 
-    .port-card em {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 46px;
-      height: 46px;
-      margin-bottom: 18px;
-      border-radius: 999px;
-      color: #fff;
-      background: var(--blue);
-      font-style: normal;
+    .statement p {
+      color: var(--ink);
+      font-size: clamp(34px, 5vw, 70px);
+      line-height: 1.14;
+      letter-spacing: -0.075em;
       font-weight: 950;
     }
 
-    .note {
-      max-width: 860px;
-      margin: 26px auto 0;
+    .body-large {
+      margin-top: 30px;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
-      font-weight: 700;
+      font-size: clamp(22px, 2.4vw, 30px);
+      line-height: 1.58;
+      font-weight: 780;
     }
 
-    .dark .note {
-      color: rgba(255, 255, 255, 0.56);
-    }
-
-    .feature-wrap {
-      margin-top: 44px;
-      padding: clamp(30px, 5vw, 54px);
-      border-radius: 44px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0;
-    }
-
-    .feature-card {
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 18px;
-      border-right: 1px solid rgba(17, 24, 39, 0.09);
-      background: transparent;
-      text-align: center;
-      box-shadow: none;
-    }
-
-    .feature-card:last-child {
-      border-right: 0;
-    }
-
-    .feature-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      margin-bottom: 16px;
-      border-radius: 999px;
-      color: #fff;
-      background: var(--ink);
-      font-weight: 950;
-    }
-
-    .feature-card strong {
-      font-size: clamp(28px, 3vw, 40px);
-    }
-
-    .flow-cards {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0;
-      margin-top: 52px;
-      border-top: 2px solid rgba(17, 24, 39, 0.12);
-    }
-
-    .flow-card {
+    .visual-wide {
       position: relative;
       overflow: hidden;
-      min-height: auto;
-      padding: 34px 24px 12px;
-      color: var(--ink);
-      background: transparent;
-      border: 0;
-      border-right: 1px solid rgba(17, 24, 39, 0.10);
-      box-shadow: none;
-      text-align: left;
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+      min-height: 520px;
+      margin-top: 48px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(7, 17, 31, 0.04), rgba(7, 17, 31, 0.56)),
+        url("https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1900&q=85") center / cover no-repeat;
+      box-shadow: 0 28px 80px rgba(7, 17, 31, 0.16);
     }
 
-    .flow-card:last-child {
-      border-right: 0;
-    }
-
-    .flow-card::after {
-      content: "";
+    .visual-caption {
       position: absolute;
-      left: 24px;
-      top: -8px;
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      background: var(--blue);
-      box-shadow: 0 0 0 8px rgba(47, 107, 255, 0.12);
+      left: 34px;
+      right: 34px;
+      bottom: 34px;
+      max-width: 620px;
+      padding: 30px;
+      border-radius: 30px;
+      color: #fff;
+      background: rgba(7, 17, 31, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(16px);
     }
 
-    .flow-card span {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0;
-      color: var(--blue);
-      background: transparent;
-      font-size: 15px;
-      font-weight: 950;
-    }
-
-    .flow-card strong {
-      position: relative;
-      z-index: 1;
+    .visual-caption strong {
       display: block;
-      margin-top: 14px;
-      font-size: clamp(28px, 3vw, 40px);
-      line-height: 1.16;
-      letter-spacing: -0.065em;
-      font-weight: 950;
-    }
-
-    .flow-card p {
-      position: relative;
-      z-index: 1;
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.5;
-      font-weight: 720;
-    }
-
-    .membership-box {
-      margin-top: 44px;
-      padding: clamp(30px, 5vw, 54px);
-      border-radius: 44px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .membership-box h3 {
-      color: var(--ink);
       font-size: clamp(34px, 4.5vw, 62px);
       line-height: 1.08;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .plan-grid {
+    .visual-caption span {
+      display: block;
+      margin-top: 12px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 21px;
+      line-height: 1.42;
+      font-weight: 750;
+    }
+
+    .metric-wall {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 32px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 52px;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
     }
 
-    .plan-card {
-      min-height: 420px;
-      padding: 24px;
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 48px rgba(17, 24, 39, 0.07);
-      text-align: left;
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+    .metric {
+      padding: 34px 30px;
+      border-right: 1px solid var(--line);
     }
 
-    .plan-card.recommended {
-      color: #fff;
-      background: linear-gradient(180deg, #101827, #17325f);
-      border-color: transparent;
+    .metric:last-child {
+      border-right: 0;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
-      border-radius: 999px;
-      color: #7b5a34;
-      background: #f4ead9;
-      font-size: 13px;
+    .metric b {
+      display: block;
+      color: var(--blue);
+      font-size: clamp(56px, 8vw, 104px);
+      line-height: 0.92;
+      letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .plan-card.recommended .tag {
+    .metric span {
+      display: block;
+      margin-top: 18px;
+      color: var(--ink);
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1.18;
+      font-weight: 950;
+    }
+
+    .metric p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.45;
+      font-weight: 730;
+    }
+
+    .feature-line {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 50px;
+      border-top: 2px solid rgba(255, 255, 255, 0.16);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .feature-line div {
+      padding: 32px 18px;
+      border-right: 1px solid rgba(255, 255, 255, 0.16);
+      text-align: center;
+    }
+
+    .feature-line div:last-child {
+      border-right: 0;
+    }
+
+    .feature-line b {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .feature-line span {
+      display: block;
+      margin-top: 12px;
+      color: #fff;
+      font-size: clamp(28px, 3.4vw, 48px);
+      line-height: 1.05;
+      font-weight: 950;
+    }
+
+    .step-list {
+      margin-top: 54px;
+      border-top: 2px solid var(--line);
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 150px 0.85fr 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-row em {
+      color: var(--blue);
+      font-style: normal;
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .step-row strong {
+      color: var(--ink);
+      font-size: clamp(28px, 3.2vw, 46px);
+      line-height: 1.12;
+      letter-spacing: -0.07em;
+      font-weight: 950;
+    }
+
+    .step-row p {
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.45;
+      font-weight: 760;
+    }
+
+    .membership-panel {
+      margin-top: 48px;
+      padding: clamp(30px, 5vw, 58px);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 28px 80px rgba(7, 17, 31, 0.10);
+    }
+
+    .membership-headline {
+      color: var(--ink);
+      font-size: clamp(36px, 5vw, 70px);
+      line-height: 1.08;
+      letter-spacing: -0.08em;
+      font-weight: 950;
+    }
+
+    .benefit-line {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 36px;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+    }
+
+    .benefit-line div {
+      padding: 28px 24px;
+      border-right: 1px solid var(--line);
+    }
+
+    .benefit-line div:last-child {
+      border-right: 0;
+    }
+
+    .benefit-line b {
+      display: block;
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .benefit-line strong {
+      display: block;
+      margin-top: 14px;
+      color: var(--ink);
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.12;
+      font-weight: 950;
+    }
+
+    .benefit-line p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.45;
+      font-weight: 730;
+    }
+
+    .plan-table {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 36px;
+    }
+
+    .plan {
+      min-height: 400px;
+      padding: 26px;
+      border-radius: 30px;
+      background: #f2f6fc;
+      border: 1px solid rgba(7, 17, 31, 0.08);
+    }
+
+    .plan.featured {
+      color: #fff;
+      background: linear-gradient(180deg, #0b1b35, #173f7c);
+      transform: translateY(-10px);
+    }
+
+    .plan small {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      color: #7b5a31;
+      background: #fff0d2;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .plan.featured small {
       color: var(--ink);
       background: #fff;
     }
 
-    .plan-name {
-      margin-top: 20px;
-      font-size: 25px;
-      line-height: 1.1;
+    .plan h3 {
+      margin-top: 22px;
+      color: inherit;
+      font-size: 30px;
+      line-height: 1.05;
       letter-spacing: -0.06em;
       font-weight: 950;
     }
 
-    .price {
-      margin-top: 10px;
-      font-size: 44px;
+    .plan .price {
+      margin-top: 14px;
+      font-size: clamp(44px, 5vw, 66px);
       line-height: 1;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .price span {
-      font-size: 16px;
-      letter-spacing: -0.03em;
+    .plan .rows {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
     }
 
-    .plan-row {
+    .plan .rows span {
       display: flex;
-      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      min-height: 52px;
-      margin-top: 12px;
-      padding: 13px 14px;
-      border-radius: 18px;
-      color: var(--ink);
-      background: #f1f5fb;
-      font-size: 14px;
-      font-weight: 850;
-    }
-
-    .plan-card.recommended .plan-row {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .benefit-list {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      margin-top: 34px;
-      border-top: 1px solid rgba(17, 24, 39, 0.12);
-    }
-
-    .benefit-mini {
-      min-height: auto;
-      padding: 30px 26px;
-      border-right: 1px solid rgba(17, 24, 39, 0.10);
-      background: transparent;
-      text-align: left;
-    }
-
-    .benefit-mini:last-child {
-      border-right: 0;
-    }
-
-    .benefit-mini em {
-      color: var(--blue);
-      font-style: normal;
-      font-size: 14px;
-      font-weight: 950;
-    }
-
-    .benefit-mini strong {
-      display: block;
-      margin-top: 12px;
-      color: var(--ink);
-      font-size: clamp(27px, 3vw, 42px);
-      line-height: 1.15;
-      letter-spacing: -0.065em;
-      font-weight: 950;
-    }
-
-    .benefit-mini p {
-      margin-top: 10px;
+      padding: 14px 0;
+      border-top: 1px solid rgba(7, 17, 31, 0.10);
       color: var(--muted);
+      font-size: 17px;
+      font-weight: 820;
+    }
+
+    .plan.featured .rows span {
+      color: rgba(255, 255, 255, 0.78);
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .plan .rows b {
+      color: var(--ink);
       font-size: 18px;
-      line-height: 1.5;
-      font-weight: 720;
+      font-weight: 950;
+    }
+
+    .plan.featured .rows b {
+      color: #fff;
     }
 
     .simple-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 58px;
-      margin-top: 28px;
-      padding: 0 24px;
+      min-height: 60px;
+      margin-top: 34px;
+      padding: 0 26px;
       border-radius: 999px;
       color: #fff;
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-      font-size: 17px;
+      background: linear-gradient(135deg, var(--blue), #123f91);
+      font-size: 18px;
       font-weight: 950;
-      box-shadow: 0 18px 42px rgba(47, 107, 255, 0.22);
+      box-shadow: 0 18px 42px rgba(45, 108, 255, 0.24);
     }
 
     .logo-marquee {
       overflow: hidden;
-      margin-top: 38px;
+      margin-top: 44px;
       padding: 12px 0;
-      border-radius: 34px;
+      border-radius: 999px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
@@ -759,315 +632,267 @@
       display: flex;
       width: max-content;
       gap: 12px;
-      animation: marquee 26s linear infinite;
+      animation: marquee 24s linear infinite;
     }
 
     .logo {
-      min-width: 142px;
-      min-height: 80px;
+      min-width: 150px;
+      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 24px;
+      border-radius: 999px;
       color: var(--ink);
       background: #fff;
-      font-size: 20px;
-      line-height: 1.2;
+      font-size: 21px;
+      line-height: 1.15;
+      text-align: center;
       font-weight: 950;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
     }
 
-    .revenue-cards {
+    .revenue-line {
+      margin-top: 54px;
+      border-top: 2px solid rgba(255, 255, 255, 0.18);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .revenue-row {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      margin-top: 44px;
-      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      grid-template-columns: 0.65fr 1fr 1.2fr;
+      gap: 28px;
+      align-items: center;
+      padding: 34px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.16);
     }
 
-    .revenue-card {
-      min-height: auto;
-      padding: 34px 30px;
-      color: #fff;
-      background: transparent;
-      border: 0;
-      border-right: 1px solid rgba(255, 255, 255, 0.16);
-      text-align: left;
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+    .revenue-row:last-child {
+      border-bottom: 0;
     }
 
-    .revenue-card.featured {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.07);
-      box-shadow: none;
-    }
-
-    .revenue-card:last-child {
-      border-right: 0;
-    }
-
-    .revenue-card span {
-      display: inline-flex;
-      min-height: 34px;
-      align-items: center;
-      padding: 0 12px;
-      border-radius: 999px;
-      color: var(--ink);
-      background: var(--gold-soft);
-      font-size: 13px;
+    .revenue-row em {
+      color: var(--gold-soft);
+      font-style: normal;
+      font-size: 18px;
       font-weight: 950;
     }
 
-    .revenue-card strong {
-      display: block;
-      margin-top: 18px;
-      color: inherit;
-      font-size: clamp(32px, 3.7vw, 54px);
-      line-height: 1.16;
+    .revenue-row strong {
+      color: #fff;
+      font-size: clamp(30px, 3.7vw, 54px);
+      line-height: 1.1;
       letter-spacing: -0.07em;
       font-weight: 950;
     }
 
-    .revenue-card p {
-      margin-top: 14px;
-      color: rgba(255, 255, 255, 0.68);
-      font-size: 18px;
-      line-height: 1.5;
-      font-weight: 720;
-    }
-
-    .revenue-card.featured p {
+    .revenue-row p {
       color: rgba(255, 255, 255, 0.72);
+      font-size: 21px;
+      line-height: 1.45;
+      font-weight: 740;
     }
 
-    .commission-grid {
+    .commission-band {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 40px;
+      margin-top: 46px;
     }
 
-    .commission-card {
-      padding: clamp(30px, 5vw, 52px);
-      border-radius: 42px;
+    .commission {
+      padding: clamp(34px, 5vw, 60px);
+      border-radius: var(--radius-xl);
       color: #fff;
       background:
-        radial-gradient(circle at 85% 12%, rgba(255, 209, 102, 0.22), transparent 30%),
-        linear-gradient(135deg, #101827, #17325f);
-      text-align: left;
-      box-shadow: var(--shadow);
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+        radial-gradient(circle at 90% 0%, rgba(255, 209, 102, 0.22), transparent 34%),
+        linear-gradient(135deg, #0b1b35, #173f7c);
+      box-shadow: 0 28px 80px rgba(7, 17, 31, 0.16);
     }
 
-    .commission-card h3 {
+    .commission h3 {
       color: #fff;
-      font-size: clamp(32px, 4vw, 58px);
-      line-height: 1.05;
+      font-size: clamp(32px, 4.2vw, 60px);
+      line-height: 1.06;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .commission-number {
+    .commission b {
+      display: block;
       margin-top: 22px;
       color: #ffd166;
-      font-size: clamp(58px, 7vw, 104px);
-      line-height: 0.95;
+      font-size: clamp(64px, 8vw, 116px);
+      line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .commission-card p {
-      margin-top: 16px;
-      color: rgba(255, 255, 255, 0.72);
+    .commission p {
+      margin-top: 18px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 21px;
+      line-height: 1.44;
+      font-weight: 740;
+    }
+
+    .notice {
+      max-width: 900px;
+      margin-top: 28px;
+      color: var(--muted);
       font-size: 17px;
       line-height: 1.58;
-      font-weight: 720;
+      font-weight: 740;
     }
 
-    .extra-benefits {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      margin-top: 42px;
-      border-top: 1px solid rgba(17, 24, 39, 0.12);
+    .dark .notice {
+      color: rgba(255, 255, 255, 0.58);
     }
 
-    .extra-card {
-      min-height: auto;
+    .benefit-rows {
+      margin-top: 48px;
+      border-top: 2px solid var(--line);
+    }
+
+    .benefit-row {
       display: grid;
-      grid-template-columns: minmax(160px, 220px) 1fr;
+      grid-template-columns: minmax(160px, 0.35fr) 1fr;
+      gap: 40px;
       align-items: center;
-      gap: 32px;
       padding: 36px 0;
-      background: transparent;
-      border: 0;
-      border-bottom: 1px solid rgba(17, 24, 39, 0.12);
-      box-shadow: none;
-      text-align: left;
-      animation: riseIn 720ms cubic-bezier(.2,.9,.2,1) both;
+      border-bottom: 1px solid var(--line);
     }
 
-    .extra-card em {
-      display: block;
+    .benefit-row b {
       color: var(--gold);
-      font-style: normal;
-      font-size: clamp(42px, 5vw, 72px);
-      line-height: 1;
+      font-size: clamp(54px, 7vw, 100px);
+      line-height: 0.9;
       letter-spacing: -0.08em;
       font-weight: 950;
     }
 
-    .extra-card strong {
+    .benefit-row strong {
       display: block;
-      margin-top: 20px;
       color: var(--ink);
-      font-size: clamp(32px, 3.8vw, 56px);
-      line-height: 1.16;
+      font-size: clamp(32px, 4vw, 58px);
+      line-height: 1.1;
+      letter-spacing: -0.075em;
+      font-weight: 950;
+    }
+
+    .benefit-row p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.45;
+      font-weight: 750;
+    }
+
+    .tool-board {
+      margin-top: 48px;
+      border-top: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+    }
+
+    .tool-row {
+      display: grid;
+      grid-template-columns: 86px 0.72fr 1fr;
+      gap: 28px;
+      align-items: center;
+      padding: 30px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tool-row:last-child {
+      border-bottom: 0;
+    }
+
+    .tool-row em {
+      color: var(--blue);
+      font-style: normal;
+      font-size: 26px;
+      font-weight: 950;
+    }
+
+    .tool-row strong {
+      color: var(--ink);
+      font-size: clamp(28px, 3.2vw, 46px);
+      line-height: 1.1;
       letter-spacing: -0.07em;
       font-weight: 950;
     }
 
-    .extra-card p {
-      margin-top: 14px;
+    .tool-row p {
       color: var(--muted);
-      font-size: 20px;
-      line-height: 1.5;
-      font-weight: 720;
+      font-size: 21px;
+      line-height: 1.45;
+      font-weight: 740;
     }
 
-    .example-box {
-      max-width: 860px;
-      margin: 30px auto 0;
-      padding: 28px;
-      border-radius: 30px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 48px rgba(17, 24, 39, 0.06);
-      text-align: center;
-      color: var(--ink);
-      font-size: 20px;
-      line-height: 1.55;
-      font-weight: 850;
+    .target-list {
+      max-width: 980px;
+      margin: 50px auto 0;
+      border-top: 2px solid rgba(255, 255, 255, 0.18);
     }
 
-    .support-box {
-      margin-top: 44px;
-      padding: clamp(30px, 5vw, 54px);
-      border-radius: 44px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .support-grid {
+    .target {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0;
-      border-top: 1px solid rgba(17, 24, 39, 0.12);
-    }
-
-    .support-card {
-      min-height: auto;
-      display: grid;
-      grid-template-columns: 58px 1fr;
-      gap: 18px;
-      padding: 28px 22px;
-      border-bottom: 1px solid rgba(17, 24, 39, 0.12);
-      background: transparent;
-      text-align: left;
-      box-shadow: none;
-    }
-
-    .support-card:nth-child(odd) {
-      border-right: 1px solid rgba(17, 24, 39, 0.12);
-    }
-
-    .support-icon {
-      display: inline-flex;
+      grid-template-columns: minmax(260px, 0.85fr) 1fr;
+      gap: 34px;
       align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
+      padding: 34px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .target strong {
       color: #fff;
-      background: var(--ink);
-      font-size: 18px;
+      font-size: clamp(30px, 3.5vw, 50px);
+      line-height: 1.08;
+      letter-spacing: -0.075em;
       font-weight: 950;
     }
 
-    .fit-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      max-width: 980px;
-      margin: 48px auto 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.16);
-    }
-
-    .fit-card {
-      min-height: auto;
-      display: grid;
-      grid-template-columns: minmax(240px, 0.8fr) 1fr;
-      align-items: center;
-      gap: 28px;
-      padding: 30px 0;
-      text-align: left;
-      background: transparent;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: none;
-    }
-
-    .fit-card strong {
-      color: #fff;
-      font-size: clamp(28px, 3.4vw, 46px);
-    }
-
-    .fit-card p {
-      color: rgba(255, 255, 255, 0.68);
-      margin-top: 0;
-      font-size: 20px;
+    .target p {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 22px;
+      line-height: 1.45;
+      font-weight: 740;
     }
 
     .final-cta {
-      margin-top: 46px;
+      max-width: 980px;
+      margin: 70px auto 0;
+      padding-top: 54px;
+      border-top: 2px solid rgba(255, 255, 255, 0.18);
+      text-align: center;
+    }
+
+    .final-cta .lead {
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 62px;
-      min-width: 230px;
-      padding: 0 28px;
+      min-height: 64px;
+      margin-top: 34px;
+      padding: 0 34px;
       border-radius: 999px;
       color: #fff;
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
-      box-shadow: 0 20px 48px rgba(47, 107, 255, 0.28);
-      font-size: 17px;
+      background: linear-gradient(135deg, var(--blue), #123f91);
+      font-size: 19px;
       font-weight: 950;
+      box-shadow: 0 22px 50px rgba(45, 108, 255, 0.28);
       transition: transform 180ms ease, box-shadow 180ms ease;
     }
 
     .btn:hover {
       transform: translateY(-3px);
-    }
-
-    .notice {
-      max-width: 860px;
-      margin: 26px auto 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.6;
-      font-weight: 700;
-    }
-
-    .dark .notice {
-      color: rgba(255, 255, 255, 0.56);
+      box-shadow: 0 28px 62px rgba(45, 108, 255, 0.34);
     }
 
     .site-footer {
-      padding: 44px 0;
+      padding: 42px 0;
       color: var(--muted);
       background: #fff;
       border-top: 1px solid var(--line);
@@ -1077,21 +902,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 20px;
     }
 
     .footer-brand {
-      display: block;
       color: var(--ink);
       font-size: 20px;
       font-weight: 950;
     }
 
-    .footer-meta,
-    .footer-links-text {
+    .footer-meta {
       margin-top: 6px;
-      font-size: 14px;
-      font-weight: 650;
+      font-size: 15px;
+      font-weight: 680;
     }
 
     .footer-home-btn {
@@ -1102,58 +925,14 @@
       border-radius: 999px;
       color: #fff;
       background: var(--ink);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 900;
     }
 
-    .grid-3 > *:nth-child(2),
-    .grid-4 > *:nth-child(2),
-    .grid-5 > *:nth-child(2),
-    .feature-grid > *:nth-child(2),
-    .flow-cards > *:nth-child(2),
-    .plan-grid > *:nth-child(2),
-    .benefit-list > *:nth-child(2),
-    .revenue-cards > *:nth-child(2),
-    .commission-grid > *:nth-child(2),
-    .extra-benefits > *:nth-child(2),
-    .support-grid > *:nth-child(2),
-    .fit-grid > *:nth-child(2) {
-      animation-delay: 90ms;
-    }
-
-    .grid-3 > *:nth-child(3),
-    .grid-4 > *:nth-child(3),
-    .grid-5 > *:nth-child(3),
-    .feature-grid > *:nth-child(3),
-    .flow-cards > *:nth-child(3),
-    .plan-grid > *:nth-child(3),
-    .benefit-list > *:nth-child(3),
-    .revenue-cards > *:nth-child(3),
-    .extra-benefits > *:nth-child(3),
-    .support-grid > *:nth-child(3),
-    .fit-grid > *:nth-child(3) {
-      animation-delay: 180ms;
-    }
-
-    .grid-4 > *:nth-child(4),
-    .grid-5 > *:nth-child(4),
-    .feature-grid > *:nth-child(4),
-    .flow-cards > *:nth-child(4),
-    .plan-grid > *:nth-child(4),
-    .support-grid > *:nth-child(4) {
-      animation-delay: 270ms;
-    }
-
-    .grid-5 > *:nth-child(5),
-    .feature-grid > *:nth-child(5),
-    .support-grid > *:nth-child(5) {
-      animation-delay: 360ms;
-    }
-
-    @keyframes riseIn {
+    @keyframes reveal {
       from {
         opacity: 0;
-        transform: translateY(22px) scale(0.985);
+        transform: translateY(22px) scale(0.988);
       }
       to {
         opacity: 1;
@@ -1166,7 +945,7 @@
         transform: translate3d(0, 0, 0);
       }
       to {
-        transform: translate3d(18px, -14px, 0);
+        transform: translate3d(18px, 14px, 0);
       }
     }
 
@@ -1190,28 +969,30 @@
     }
 
     @media (max-width: 980px) {
-      .grid-3,
-      .grid-4,
-      .grid-5,
-      .feature-grid,
-      .flow-cards,
-      .plan-grid,
-      .benefit-list,
-      .revenue-cards,
-      .commission-grid,
-      .extra-benefits,
-      .support-grid,
-      .fit-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .extra-benefits,
-      .fit-grid,
-      .support-grid {
+      .editorial,
+      .step-row,
+      .revenue-row,
+      .benefit-row,
+      .tool-row,
+      .target {
         grid-template-columns: 1fr;
       }
 
-      .support-card:nth-child(odd) {
+      .section-label {
+        position: static;
+      }
+
+      .metric-wall,
+      .feature-line,
+      .benefit-line,
+      .plan-table,
+      .commission-band {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .feature-line div:nth-child(2n),
+      .benefit-line div:nth-child(2n),
+      .metric:nth-child(2n) {
         border-right: 0;
       }
     }
@@ -1226,8 +1007,8 @@
       }
 
       .nav a {
-        min-height: 40px;
-        padding: 0 14px;
+        min-height: 38px;
+        padding: 0 13px;
         font-size: 13px;
       }
 
@@ -1236,132 +1017,84 @@
       }
 
       .hero {
-        padding: 24px 0 44px;
+        padding: 24px 0 48px;
       }
 
-      .hero-card {
-        min-height: 640px;
-        padding: 42px 20px;
+      .hero-stage {
+        min-height: 650px;
+        padding: 34px 20px;
         border-radius: 32px;
       }
 
       h1 {
-        font-size: clamp(42px, 13vw, 58px);
+        font-size: clamp(46px, 14vw, 66px);
       }
 
       h2 {
-        font-size: clamp(34px, 10vw, 44px);
+        font-size: clamp(36px, 11vw, 48px);
       }
 
-      .lead {
+      .lead,
+      .body-large {
         font-size: 20px;
-        line-height: 1.5;
+        line-height: 1.52;
       }
 
-      .grid-3,
-      .grid-4,
-      .grid-5,
-      .feature-grid,
-      .flow-cards,
-      .plan-grid,
-      .benefit-list,
-      .revenue-cards,
-      .commission-grid,
-      .extra-benefits,
-      .support-grid,
-      .fit-grid {
-        grid-template-columns: 1fr;
+      .statement p {
+        font-size: clamp(34px, 10vw, 48px);
       }
 
-      .card {
-        padding: 26px 0 26px 22px;
+      .visual-wide {
+        min-height: 420px;
+        border-radius: 30px;
       }
 
-      .card p,
-      .stat-card p,
-      .port-card p,
-      .feature-card p,
-      .support-card p,
-      .fit-card p {
-        font-size: 18px;
-      }
-
-      .feature-grid {
-        gap: 0;
-      }
-
-      .feature-card {
-        min-height: auto;
-        border-right: 0;
-        border-bottom: 1px solid rgba(17, 24, 39, 0.10);
-      }
-
-      .feature-card:last-child {
-        border-bottom: 0;
-      }
-
-      .flow-cards {
-        border-top: 0;
-      }
-
-      .flow-card {
-        padding: 28px 0;
-        border-right: 0;
-        border-bottom: 1px solid rgba(17, 24, 39, 0.12);
-      }
-
-      .flow-card::after {
-        left: 0;
-        top: 0;
-      }
-
-      .benefit-list {
-        border-top: 0;
-      }
-
-      .benefit-mini {
-        padding: 28px 0;
-        border-right: 0;
-        border-bottom: 1px solid rgba(17, 24, 39, 0.12);
-      }
-
-      .revenue-card {
-        padding: 30px 0;
-        border-right: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-      }
-
-      .extra-card {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 32px 0;
-      }
-
-      .support-card {
-        grid-template-columns: 52px 1fr;
-        padding: 26px 0;
-      }
-
-      .fit-card {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 28px 0;
-      }
-
-      .hero-image {
-        min-height: 390px;
-        border-radius: 32px;
-      }
-
-      .image-badge {
+      .visual-caption {
         left: 16px;
         right: 16px;
         bottom: 16px;
         padding: 20px;
       }
 
+      .metric-wall,
+      .feature-line,
+      .benefit-line,
+      .plan-table,
+      .commission-band {
+        grid-template-columns: 1fr;
+      }
+
+      .metric,
+      .feature-line div,
+      .benefit-line div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .feature-line div {
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+
+      .step-row,
+      .revenue-row,
+      .benefit-row,
+      .tool-row,
+      .target {
+        gap: 14px;
+        padding: 28px 0;
+      }
+
+      .membership-panel {
+        padding: 24px 18px;
+        border-radius: 30px;
+      }
+
+      .plan.featured {
+        transform: none;
+      }
+
       .logo {
-        min-width: 128px;
+        min-width: 132px;
       }
 
       .footer-inner {
@@ -1387,11 +1120,11 @@
   <main>
     <section id="intro" class="hero section">
       <div class="container">
-        <div class="hero-card">
-          <div class="hero-inner">
+        <div class="hero-stage">
+          <div class="hero-copy">
             <span class="eyebrow">누구나 시작할 수 있는 제휴마케팅</span>
             <h1>월급 말고<br /><strong>딱 50만원 더</strong><br />벌 수 있다면?</h1>
-            <p class="hero-sub">여행을 좋아한다면, 여행을 소개하는 일도 부업이 될 수 있습니다.</p>
+            <p class="hero-sub">재택으로 가능한 여행 인플루언서형 부업입니다.</p>
             <div class="chips">
               <span class="chip">재택가능</span>
               <span class="chip">여행인플루언서</span>
@@ -1403,239 +1136,176 @@
     </section>
 
     <section id="item" class="section">
-      <div class="container">
-        <span class="kicker">현실적인 부업</span>
-        <h2>어떤 아이템이에요?</h2>
-        <p class="lead">
-          여행 인플루언서가 되어서 여행을 홍보하고<br />
-          제휴마케팅 방식을 통해 수수료를 정산받는 아이템입니다.
-        </p>
-
-        <div class="grid-3">
-          <article class="card">
-            <span class="num">01</span>
-            <strong>여행을 홍보합니다</strong>
-            <p>크루즈 여행의 장점과 멤버십 혜택을 콘텐츠로 소개합니다.</p>
-          </article>
-          <article class="card">
-            <span class="num">02</span>
-            <strong>관심 고객이 상담합니다</strong>
-            <p>일정, 비용, 선실, 멤버십 혜택을 확인하는 고객이 상담으로 넘어갑니다.</p>
-          </article>
-          <article class="card">
-            <span class="num">03</span>
-            <strong>수수료를 정산받습니다</strong>
-            <p>멤버십 매출 기준으로 제휴마케팅 수수료가 계산됩니다.</p>
-          </article>
+      <div class="container editorial">
+        <div class="section-label">01</div>
+        <div>
+          <span class="eyebrow">현실적인 부업</span>
+          <h2>어떤 아이템이에요?</h2>
+          <div class="statement">
+            <p>여행 인플루언서가 되어서 여행을 홍보하고 제휴마케팅 방식을 통해 수수료를 정산받는 아이템입니다.</p>
+          </div>
+          <p class="body-large">재고를 사지 않아도 되고, 매장을 열 필요도 없습니다. 여행 콘텐츠와 상담 페이지를 활용해 관심 있는 고객을 안내하는 방식입니다.</p>
         </div>
       </div>
     </section>
 
     <section id="cruise" class="section white">
-      <div class="container">
-        <span class="kicker">소개하는 여행</span>
-        <h2>어떤 여행이에요?</h2>
-        <p class="lead">
-          전세계적으로 꾸준히 성장하고 있는 크루즈 여행입니다.<br />
-          작은 통통배가 아닙니다. 17~21만 톤급의 럭셔리 크루즈 여행입니다.
-        </p>
-
-        <div class="hero-image" aria-label="대형 크루즈 이미지">
-          <div class="image-badge">
-            <strong>17~21만 톤급<br />럭셔리 크루즈</strong>
-            <p>호텔형 선박에서 숙박, 식사, 공연, 기항지 여행을 함께 즐기는 여행입니다.</p>
+      <div class="container editorial">
+        <div class="section-label">02</div>
+        <div>
+          <span class="eyebrow">어떤 여행이에요?</span>
+          <h2>전세계적으로 꾸준히 성장하고 있는 크루즈 여행입니다.</h2>
+          <p class="lead">작은 통통배가 아닙니다. 17~21만톤 급의 럭셔리 크루즈 여행입니다.</p>
+          <div class="visual-wide">
+            <div class="visual-caption">
+              <strong>숙박, 식사, 공연, 기항지까지</strong>
+              <span>배 하나가 여행의 중심이 되는 고급 여행 상품입니다.</span>
+            </div>
           </div>
-        </div>
-
-        <div class="grid-4">
-          <article class="stat-card">
-            <em>17~21</em>
-            <strong>만 톤급 선박</strong>
-            <p>일반 여객선이 아닌 대형 럭셔리 크루즈입니다.</p>
-          </article>
-          <article class="stat-card">
-            <em>호텔</em>
-            <strong>숙박형 여행</strong>
-            <p>객실, 레스토랑, 라운지, 공연장이 함께 있습니다.</p>
-          </article>
-          <article class="stat-card">
-            <em>식사</em>
-            <strong>선내 식사</strong>
-            <p>여행 중 식사 고민을 줄일 수 있습니다.</p>
-          </article>
-          <article class="stat-card">
-            <em>기항</em>
-            <strong>도시 이동</strong>
-            <p>배가 이동하면서 새로운 기항지를 만납니다.</p>
-          </article>
         </div>
       </div>
     </section>
 
     <section id="market" class="section">
       <div class="container">
-        <span class="kicker">시장 기회</span>
-        <h2>왜 하필 크루즈예요?</h2>
-        <p class="lead">
-          국내의 크루즈 여행 경험은 단 1% 미만입니다.<br />
-          국내 모항지는 대표적으로 인천, 부산, 강정이 있습니다.
-          2026년부터 국내에서 출발하는 크루즈 노선이 증가하고 있습니다.
-        </p>
-
-        <div class="grid-3">
-          <article class="port-card">
-            <em>01</em>
-            <strong>인천</strong>
-            <p>수도권 접근성이 좋은 대표 모항지입니다.</p>
-          </article>
-          <article class="port-card">
-            <em>02</em>
-            <strong>부산</strong>
-            <p>국내 크루즈 출발지로 가장 익숙한 항구입니다.</p>
-          </article>
-          <article class="port-card">
-            <em>03</em>
-            <strong>강정</strong>
-            <p>제주 출발 크루즈 관심이 늘어나는 항구입니다.</p>
-          </article>
+        <span class="eyebrow">왜 하필 크루즈에요?</span>
+        <h2>아직 경험한 사람이 적고,<br />국내 출발 노선은 늘고 있습니다.</h2>
+        <div class="metric-wall">
+          <div class="metric">
+            <b>1%</b>
+            <span>국내 크루즈 여행경험</span>
+            <p>국내에서 크루즈 여행을 경험한 사람은 아직 1% 미만입니다.</p>
+          </div>
+          <div class="metric">
+            <b>3</b>
+            <span>대표 국내 모항지</span>
+            <p>인천, 부산, 강정에서 출발하는 크루즈 일정이 있습니다.</p>
+          </div>
+          <div class="metric">
+            <b>2026</b>
+            <span>국내 출발 확대</span>
+            <p>2026년부터 국내에서 출발하는 크루즈 노선이 증가하고 있습니다.</p>
+          </div>
         </div>
-
-        <p class="note">수치와 노선 정보는 안내 자료 기준이며, 실제 운항 일정은 선사와 시즌에 따라 달라질 수 있습니다.</p>
       </div>
     </section>
 
     <section id="possible" class="section dark">
       <div class="container">
-        <span class="kicker">초보자 가능 여부</span>
-        <h2>제가 할 수 있을까요?</h2>
-        <p class="lead">
-          크루즈는 그냥 배 타는 여행이 아닙니다.<br />
-          숙박, 이동, 식사, 공연, 기항지 여행을 한 번에 모두 즐기는 가성비 좋은 여행입니다.
-        </p>
-
-        <div class="feature-wrap">
-          <div class="feature-grid">
-            <article class="feature-card">
-              <span class="feature-icon">1</span>
-              <strong>숙박</strong>
-            </article>
-            <article class="feature-card">
-              <span class="feature-icon">2</span>
-              <strong>이동</strong>
-            </article>
-            <article class="feature-card">
-              <span class="feature-icon">3</span>
-              <strong>식사</strong>
-            </article>
-            <article class="feature-card">
-              <span class="feature-icon">4</span>
-              <strong>공연</strong>
-            </article>
-            <article class="feature-card">
-              <span class="feature-icon">5</span>
-              <strong>기항지</strong>
-            </article>
-          </div>
+        <span class="eyebrow">제가 할 수 있을까요?</span>
+        <h2>크루즈는 그냥<br />배 타는 여행이 아닙니다.</h2>
+        <p class="lead">숙박, 이동, 식사, 공연, 기항지 여행을 한 번에 모두 즐기는 가성비 좋은 여행입니다.</p>
+        <div class="feature-line">
+          <div><b>01</b><span>숙박</span></div>
+          <div><b>02</b><span>이동</span></div>
+          <div><b>03</b><span>식사</span></div>
+          <div><b>04</b><span>공연</span></div>
+          <div><b>05</b><span>기항지</span></div>
         </div>
       </div>
     </section>
 
     <section id="work" class="section">
       <div class="container">
-        <span class="kicker">실제로 하는 일</span>
-        <h2>제가 뭘 하면 될까요?</h2>
-        <p class="lead">
-          크루즈 여행의 매력을 알려주세요.<br />
-          저희가 알려야 하는 여행은 전세계 최저가로 크루즈 여행을 즐길 수 있는 크루즈 여행 멤버십입니다.
-        </p>
-
-        <div class="flow-cards">
-          <article class="flow-card">
-            <span>STEP 1</span>
+        <span class="eyebrow">제가 뭘 하면 될까요?</span>
+        <h2>크루즈 여행의 매력을 알려주세요.</h2>
+        <p class="lead">저희가 알려야 하는 여행은 전세계 최저가로 크루즈 여행을 즐길 수 있는 크루즈 여행 멤버십입니다.</p>
+        <div class="step-list">
+          <div class="step-row">
+            <em>STEP 1</em>
             <strong>크루즈 여행 소개</strong>
             <p>사진, 영상, 후기 콘텐츠로 여행의 매력을 보여줍니다.</p>
-          </article>
-          <article class="flow-card">
-            <span>STEP 2</span>
+          </div>
+          <div class="step-row">
+            <em>STEP 2</em>
             <strong>멤버십 혜택 안내</strong>
             <p>최저가 보장, 월 납부, 포인트 사용 혜택을 안내합니다.</p>
-          </article>
-          <article class="flow-card">
-            <span>STEP 3</span>
+          </div>
+          <div class="step-row">
+            <em>STEP 3</em>
             <strong>상담 문의 발생</strong>
             <p>관심 있는 고객이 일정, 비용, 선실을 상담합니다.</p>
-          </article>
-          <article class="flow-card">
-            <span>STEP 4</span>
+          </div>
+          <div class="step-row">
+            <em>STEP 4</em>
             <strong>수수료 정산</strong>
             <p>멤버십 매출 기준으로 수수료가 정산됩니다.</p>
-          </article>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="membership" class="section white">
       <div class="container">
-        <span class="kicker">멤버십 소개</span>
+        <span class="eyebrow">멤버십 소개</span>
         <h2>멤버십이 뭐예요?</h2>
-        <p class="lead">
-          왜 크루즈 여행을 멤버십으로 갈까요?<br />
-          국내에는 이미 2만여 명이 위 멤버십으로 크루즈 여행을 즐기고 있습니다.
-        </p>
+        <p class="lead">왜 크루즈 여행을 멤버십으로 갈까요? 국내에는 이미 2만여 명이 위 멤버십으로 크루즈 여행을 즐기고 있습니다.</p>
 
-        <div class="membership-box">
-          <h3>크루즈 여행 멤버십 핵심</h3>
-          <div class="benefit-list">
-            <article class="benefit-mini">
-              <em>01</em>
+        <div class="membership-panel">
+          <div class="membership-headline">크루즈 여행 멤버십 핵심</div>
+          <div class="benefit-line">
+            <div>
+              <b>01</b>
               <strong>최저가 보장</strong>
               <p>동일 조건 기준 더 낮은 가격이 있으면 차액 보상 기준을 확인할 수 있습니다.</p>
-            </article>
-            <article class="benefit-mini">
-              <em>02</em>
+            </div>
+            <div>
+              <b>02</b>
               <strong>월 납부 가능</strong>
               <p>자기 상황에 맞춰 크루즈 비용을 월 납부 방식으로 준비할 수 있습니다.</p>
-            </article>
-            <article class="benefit-mini">
-              <em>03</em>
+            </div>
+            <div>
+              <b>03</b>
               <strong>해지 위약금 없음</strong>
               <p>멤버십 해지 시 위약금 부담 없이 중단할 수 있습니다.</p>
-            </article>
+            </div>
           </div>
 
-          <div class="plan-grid" aria-label="멤버십 플랜 비교">
-            <article class="plan-card">
-              <span class="tag">무료 등록</span>
-              <div class="plan-name">게스트</div>
-              <div class="price">$0<span>/월</span></div>
-              <div class="plan-row"><span>시작 비용</span><b>없음</b></div>
-              <div class="plan-row"><span>가입 리워드</span><b>50P</b></div>
-              <div class="plan-row"><span>월 포인트</span><b>0P</b></div>
-            </article>
-            <article class="plan-card">
-              <span class="tag">입문</span>
-              <div class="plan-name">스타터</div>
-              <div class="price">$50<span>/월</span></div>
-              <div class="plan-row"><span>시작 비용</span><b>$50</b></div>
-              <div class="plan-row"><span>가입 리워드</span><b>100P</b></div>
-              <div class="plan-row"><span>월 포인트</span><b>50P</b></div>
-            </article>
-            <article class="plan-card recommended">
-              <span class="tag">일반</span>
-              <div class="plan-name">클래식</div>
-              <div class="price">$100<span>/월</span></div>
-              <div class="plan-row"><span>시작 비용</span><b>$200</b></div>
-              <div class="plan-row"><span>가입 리워드</span><b>350P</b></div>
-              <div class="plan-row"><span>월 포인트</span><b>200P</b></div>
-            </article>
-            <article class="plan-card">
-              <span class="tag">프리미엄</span>
-              <div class="plan-name">프리미엄</div>
-              <div class="price">$250<span>/월</span></div>
-              <div class="plan-row"><span>시작 비용</span><b>$500</b></div>
-              <div class="plan-row"><span>가입 리워드</span><b>800P</b></div>
-              <div class="plan-row"><span>월 포인트</span><b>500P</b></div>
-            </article>
+          <div class="plan-table" aria-label="멤버십 플랜 비교">
+            <div class="plan">
+              <small>무료 등록</small>
+              <h3>게스트</h3>
+              <div class="price">$0</div>
+              <div class="rows">
+                <span>월 비용 <b>없음</b></span>
+                <span>시작 비용 <b>없음</b></span>
+                <span>가입 리워드 <b>50P</b></span>
+                <span>월 포인트 <b>0P</b></span>
+              </div>
+            </div>
+            <div class="plan">
+              <small>입문</small>
+              <h3>스타터</h3>
+              <div class="price">$50</div>
+              <div class="rows">
+                <span>월 비용 <b>$50</b></span>
+                <span>시작 비용 <b>$50</b></span>
+                <span>가입 리워드 <b>100P</b></span>
+                <span>월 포인트 <b>50P</b></span>
+              </div>
+            </div>
+            <div class="plan featured">
+              <small>일반</small>
+              <h3>클래식</h3>
+              <div class="price">$100</div>
+              <div class="rows">
+                <span>월 비용 <b>$100</b></span>
+                <span>시작 비용 <b>$200</b></span>
+                <span>가입 리워드 <b>350P</b></span>
+                <span>월 포인트 <b>200P</b></span>
+              </div>
+            </div>
+            <div class="plan">
+              <small>추천</small>
+              <h3>프리미엄</h3>
+              <div class="price">$250</div>
+              <div class="rows">
+                <span>월 비용 <b>$250</b></span>
+                <span>시작 비용 <b>$500</b></span>
+                <span>가입 리워드 <b>800P</b></span>
+                <span>월 포인트 <b>500P</b></span>
+              </div>
+            </div>
           </div>
 
           <a class="simple-link" href="/membership/" target="_blank" rel="noopener">멤버십 자세히 보기</a>
@@ -1645,13 +1315,9 @@
 
     <section id="revenue" class="section dark">
       <div class="container">
-        <span class="kicker">수익구조</span>
+        <span class="eyebrow">수익구조</span>
         <h2>수익구조가 정확히<br />어떻게 돼요?</h2>
-        <p class="lead">
-          제휴마케팅 기반의 수수료 정산입니다.<br />
-          우리가 일상에서 보는 많은 서비스도 소개, 중개, 수수료 방식으로 고객을 만듭니다.
-          크루즈 멤버십도 소개 후 유지되는 매출을 기준으로 수수료가 계산됩니다.
-        </p>
+        <p class="lead">제휴마케팅 기반의 수수료 정산입니다. 우리가 일상에서 보는 많은 서비스도 소개, 중개, 수수료 방식으로 고객을 만듭니다.</p>
 
         <div class="logo-marquee" aria-label="마스킹된 제휴마케팅 예시 브랜드 롤링">
           <div class="logo-track">
@@ -1672,117 +1338,108 @@
           </div>
         </div>
 
-        <div class="revenue-cards">
-          <article class="revenue-card">
-            <span>일반 제휴</span>
+        <div class="revenue-line">
+          <div class="revenue-row">
+            <em>일반 제휴</em>
             <strong>소개 후 구매<br />1회성 수익</strong>
             <p>구매나 계약이 끝나면 수익도 한 번으로 끝나는 경우가 많습니다.</p>
-          </article>
-          <article class="revenue-card">
-            <span>렌탈·보험</span>
+          </div>
+          <div class="revenue-row">
+            <em>렌탈·보험</em>
             <strong>고객 해지 시<br />환수 가능</strong>
             <p>업종에 따라 고객 해지 시 환수금 부담이 생길 수 있습니다.</p>
-          </article>
-          <article class="revenue-card featured">
-            <span>크루즈 멤버십</span>
+          </div>
+          <div class="revenue-row">
+            <em>크루즈 멤버십</em>
             <strong>멤버십 유지 시<br />월 수수료 가능</strong>
-            <p>고객이 멤버십을 유지하면 매월 수수료를 받을 수 있습니다.</p>
-          </article>
+            <p>크루즈 멤버십은 소개 후 유지되는 매출을 기준으로 수수료가 계산됩니다.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="commission" class="section">
       <div class="container">
-        <span class="kicker">수수료 예시</span>
-        <h2>차트보다 예시로<br />명확하게 보세요</h2>
-        <p class="lead">
-          아래 금액은 이해를 돕기 위한 단순 예시입니다. 수익은 보장되지 않습니다.
-        </p>
-
-        <div class="commission-grid">
-          <article class="commission-card">
+        <span class="eyebrow">수수료 예시</span>
+        <h2>차트보다 예시로<br />명확하게 보세요.</h2>
+        <p class="lead">가입비와 구독비가 모두 매출로 인정됩니다. 아래 금액은 이해를 돕기 위한 단순 예시입니다.</p>
+        <div class="commission-band">
+          <div class="commission">
             <h3>클래식 멤버 3명</h3>
-            <div class="commission-number">$60</div>
+            <b>$60</b>
             <p>인정 매출 $600 기준 수수료 예시입니다.</p>
-          </article>
-          <article class="commission-card">
+          </div>
+          <div class="commission">
             <h3>프리미엄 멤버 3명</h3>
-            <div class="commission-number">$150</div>
+            <b>$150</b>
             <p>인정 매출 $1,500 기준 수수료 예시입니다.</p>
-          </article>
+          </div>
         </div>
-
-        <p class="notice">수익은 활동량, 유지율, 회사 정책, 환율, 세금, 수수료 지급 조건에 따라 달라질 수 있습니다.</p>
+        <p class="notice">수익은 보장되지 않습니다. 활동량, 유지율, 회사 정책, 환율, 세금, 수수료 지급 조건에 따라 달라질 수 있습니다.</p>
       </div>
     </section>
 
     <section id="benefit" class="section white">
       <div class="container">
-        <span class="kicker">추가 혜택</span>
+        <span class="eyebrow">추가 혜택</span>
         <h2>수수료 외 혜택은?</h2>
         <p class="lead">크루즈 여행의 인센티브 제도가 있습니다.</p>
-
-        <div class="extra-benefits">
-          <article class="extra-card">
-            <em>$500</em>
-            <strong>멤버십 비용 면제</strong>
-            <p>월 매출 $500 달성 시 멤버십 비용 월 $100 면제 기준을 확인할 수 있습니다.</p>
-          </article>
-          <article class="extra-card">
-            <em>POINT</em>
-            <strong>포인트 적립 유지</strong>
-            <p>멤버십 비용 면제 후에도 멤버십 포인트는 그대로 적립됩니다.</p>
-          </article>
-          <article class="extra-card">
-            <em>$3,000</em>
-            <strong>포인트 100% 사용</strong>
-            <p>월 매출 $3,000 이상 3회 연속 달성 시 보유 포인트 100% 사용 크루즈 여행이 가능합니다.</p>
-          </article>
-        </div>
-
-        <div class="example-box">
-          클래식 멤버 기준: 월 비용 $100 면제 + 월 200P 적립 유지
+        <div class="benefit-rows">
+          <div class="benefit-row">
+            <b>$500</b>
+            <div>
+              <strong>멤버십 비용 월 $100 면제</strong>
+              <p>월 매출 $500 달성 시 멤버십 비용 월 $100 면제 기준을 확인할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <b>POINT</b>
+            <div>
+              <strong>포인트는 그대로 적립</strong>
+              <p>멤버십 비용 면제 후에도 멤버십 포인트는 그대로 적립됩니다.</p>
+            </div>
+          </div>
+          <div class="benefit-row">
+            <b>$3,000</b>
+            <div>
+              <strong>보유 포인트 100% 사용</strong>
+              <p>월 매출 $3,000 이상 3회 연속 달성 시 보유 포인트 100% 사용 크루즈 여행이 가능합니다.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="support" class="section">
       <div class="container">
-        <span class="kicker">지원 시스템</span>
+        <span class="eyebrow">지원 시스템</span>
         <h2>혼자 할 수 있을까요?</h2>
-        <p class="lead">
-          선배 인플루언서 분들이 도와드립니다.<br />
-          아래 제공되는 내역을 확인해보세요.
-        </p>
-
-        <div class="support-box">
-          <div class="support-grid">
-            <article class="support-card">
-              <span class="support-icon">1</span>
-              <strong>블로그 자동화 프로그램</strong>
-              <p>크루즈 관련 글을 꾸준히 발행할 수 있도록 기본 콘텐츠 작업을 돕습니다.</p>
-            </article>
-            <article class="support-card">
-              <span class="support-icon">2</span>
-              <strong>개인 랜딩페이지 제공</strong>
-              <p>관심 있는 사람에게 보낼 수 있는 나만의 소개 페이지를 제공합니다.</p>
-            </article>
-            <article class="support-card">
-              <span class="support-icon">3</span>
-              <strong>온라인 명함 제공</strong>
-              <p>카톡, 문자, SNS, 모임에서 바로 전달할 수 있는 온라인 명함을 제공합니다.</p>
-            </article>
-            <article class="support-card">
-              <span class="support-icon">4</span>
-              <strong>크루즈 컨텐츠 제공</strong>
-              <p>사진, 영상, 소개 자료 등 홍보에 쓸 수 있는 기본 자료를 제공합니다.</p>
-            </article>
-            <article class="support-card">
-              <span class="support-icon">5</span>
-              <strong>온·오프라인 무료 교육</strong>
-              <p>처음 시작하는 사람도 따라올 수 있도록 온라인과 오프라인 교육을 제공합니다.</p>
-            </article>
+        <p class="lead">선배 인플루언서 분들이 도와드립니다. 아래 제공되는 내역을 확인해보세요.</p>
+        <div class="tool-board">
+          <div class="tool-row">
+            <em>01</em>
+            <strong>블로그 자동화 프로그램</strong>
+            <p>크루즈 관련 글을 꾸준히 발행할 수 있도록 기본 콘텐츠 작업을 돕습니다.</p>
+          </div>
+          <div class="tool-row">
+            <em>02</em>
+            <strong>개인 랜딩페이지 제공</strong>
+            <p>관심 있는 사람에게 보낼 수 있는 나만의 소개 페이지를 제공합니다.</p>
+          </div>
+          <div class="tool-row">
+            <em>03</em>
+            <strong>온라인 명함 제공</strong>
+            <p>카톡, 문자, SNS, 모임에서 바로 전달할 수 있는 온라인 명함을 제공합니다.</p>
+          </div>
+          <div class="tool-row">
+            <em>04</em>
+            <strong>크루즈 컨텐츠 제공</strong>
+            <p>사진, 영상, 소개 자료 등 홍보에 쓸 수 있는 기본 자료를 제공합니다.</p>
+          </div>
+          <div class="tool-row">
+            <em>05</em>
+            <strong>온·오프라인 무료 교육</strong>
+            <p>처음 시작하는 사람도 따라올 수 있도록 온라인과 오프라인 교육을 제공합니다.</p>
           </div>
         </div>
       </div>
@@ -1790,45 +1447,39 @@
 
     <section id="fit" class="section dark">
       <div class="container">
-        <span class="kicker">추천 대상</span>
-        <h2>이런 분에게<br />잘 맞습니다</h2>
-
-        <div class="fit-grid">
-          <article class="fit-card">
+        <span class="eyebrow">추천 대상</span>
+        <h2>이런 분에게<br />잘 맞습니다.</h2>
+        <div class="target-list">
+          <div class="target">
             <strong>여행 이야기를 자주 하는 분</strong>
             <p>국내여행, 해외여행, 크루즈 여행에 관심이 많다면 시작이 쉽습니다.</p>
-          </article>
-          <article class="fit-card">
+          </div>
+          <div class="target">
             <strong>모임이 많은 분</strong>
             <p>동창회, 동호회, 골프모임, 교회, 단체 모임이 있다면 소개할 기회가 많습니다.</p>
-          </article>
-          <article class="fit-card">
+          </div>
+          <div class="target">
             <strong>부모님 여행을 자주 알아보는 분</strong>
             <p>크루즈는 부모님 효도여행, 가족여행과 잘 맞습니다.</p>
-          </article>
-          <article class="fit-card">
+          </div>
+          <div class="target">
             <strong>SNS나 블로그를 해보고 싶은 분</strong>
             <p>사진, 영상, 후기 콘텐츠를 쌓아가며 소개할 수 있습니다.</p>
-          </article>
-          <article class="fit-card">
+          </div>
+          <div class="target">
             <strong>월급 외 부수입이 필요한 분</strong>
             <p>큰 사업보다 현실적인 월 부수입을 목표로 시작할 수 있습니다.</p>
-          </article>
-          <article class="fit-card">
+          </div>
+          <div class="target">
             <strong>달러 수익에 관심 있는 분</strong>
             <p>고객이 달러로 결제하기 때문에 수수료도 달러 기준으로 지급됩니다.</p>
-          </article>
+          </div>
         </div>
 
         <div class="final-cta">
-          <h2>크루즈를 좋아한다면<br />소개할 이유는 충분합니다</h2>
-          <p class="lead">
-            여행을 좋아하는 사람이 여행을 소개하고,
-            그 소개가 수수료로 정산되는 방식입니다.
-          </p>
-          <div style="margin-top: 34px;">
-            <a class="btn" href="/contact/">상담 문의하기</a>
-          </div>
+          <h2>크루즈를 좋아한다면<br />소개할 이유는 충분합니다.</h2>
+          <p class="lead">여행을 좋아하는 사람이 여행을 소개하고, 그 소개가 수수료로 정산되는 방식입니다.</p>
+          <a class="btn" href="/contact/">상담 문의하기</a>
         </div>
       </div>
     </section>
@@ -1837,9 +1488,8 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong class="footer-brand">WAYZI</strong>
-        <p class="footer-meta">대표 김도윤 · 사업자번호 538-42-01450</p>
-        <p class="footer-links-text">사이트소개 · 문의안내 · 개인정보처리방침 · 이용약관</p>
+        <div class="footer-brand">CRUISE SIDE</div>
+        <div class="footer-meta">크루즈 제휴마케팅 안내 페이지</div>
       </div>
       <a class="footer-home-btn" href="/">홈으로</a>
     </div>
