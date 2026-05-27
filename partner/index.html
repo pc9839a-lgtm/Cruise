@@ -795,14 +795,15 @@
 
     .revenue-line {
       margin-top: 54px;
+      width: 100%;
       border-top: 2px solid rgba(255, 255, 255, 0.18);
       border-bottom: 2px solid rgba(255, 255, 255, 0.18);
     }
 
     .revenue-row {
       display: grid;
-      grid-template-columns: 0.62fr 1.15fr;
-      gap: 28px;
+      grid-template-columns: minmax(150px, 0.42fr) minmax(520px, 1.58fr);
+      gap: 42px;
       align-items: center;
       padding: 34px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.16);
@@ -823,10 +824,11 @@
 
     .revenue-row strong {
       color: rgba(255, 255, 255, 0.82);
-      font-size: clamp(24px, 2.35vw, 32px);
+      font-size: clamp(25px, 2.55vw, 36px);
       line-height: 1.1;
       letter-spacing: -0.07em;
       font-weight: 850;
+      white-space: nowrap;
     }
 
     .revenue-row p {
@@ -839,7 +841,7 @@
 
     .revenue-row.is-featured {
       margin: 0 -18px;
-      grid-template-columns: 0.52fr 1.48fr;
+      grid-template-columns: minmax(150px, 0.34fr) minmax(640px, 1.66fr);
       padding: 42px 24px;
       border-radius: 32px;
       border: 2px solid rgba(255, 209, 102, 0.62);
@@ -1556,6 +1558,10 @@
         grid-template-columns: 1fr;
       }
 
+      .revenue-row strong {
+        white-space: normal;
+      }
+
       .section-label {
         position: static;
       }
@@ -1696,6 +1702,10 @@
         grid-template-columns: 1fr;
         gap: 14px;
         padding: 28px 0;
+      }
+
+      .revenue-row strong {
+        white-space: normal;
       }
 
       .revenue-row.is-featured {
@@ -2041,7 +2051,7 @@
         <div class="revenue-line">
           <div class="revenue-row">
             <em>일반 제휴</em>
-            <strong>소개 후 구매<br />1회성 수익</strong>
+            <strong>소개 후 구매 1회성 수익</strong>
           </div>
           <div class="revenue-row">
             <em>렌탈·보험</em>
@@ -2176,7 +2186,7 @@
         <div class="final-cta">
           <h2>크루즈를 좋아한다면<br />소개할 이유는 충분합니다.</h2>
           <p class="lead">여행을 좋아하는 사람이 여행을 소개하고, 그 소개가 수수료로 정산되는 방식입니다.</p>
-          <a class="btn" href="#partner-form">상담 문의하기</a>
+          <a class="btn" href="#partner-form">인플루언서 시작하기</a>
         </div>
       </div>
     </section>
@@ -2265,7 +2275,7 @@
             <input type="hidden" name="site_name" value="크루즈 제휴마케팅" />
 
             <div class="form-actions">
-              <button type="submit" class="partner-submit" id="partnerSubmitButton">상담 문의하기</button>
+              <button type="submit" class="partner-submit" id="partnerSubmitButton">인플루언서 시작하기</button>
               <div class="form-result" id="partnerFormResult" role="status" aria-live="polite"></div>
             </div>
           </form>
@@ -2274,9 +2284,9 @@
     </section>
   </main>
 
-  <a class="floating-cta" href="#partner-form" aria-label="상담 문의하기">
+  <a class="floating-cta" href="#partner-form" aria-label="인플루언서 시작하기">
     <span>상담문의</span>
-    <strong>상담 문의하기</strong>
+    <strong>인플루언서 시작하기</strong>
   </a>
 
   <footer class="site-footer">
@@ -2419,7 +2429,7 @@
         setResult('상담 문의가 접수되었습니다.', 'success');
         if (submitButton) {
           submitButton.disabled = false;
-          submitButton.textContent = '상담 문의하기';
+          submitButton.textContent = '인플루언서 시작하기';
         }
       });
     })();
