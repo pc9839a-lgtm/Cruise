@@ -703,7 +703,7 @@
 
     .revenue-row {
       display: grid;
-      grid-template-columns: 0.65fr 1fr 1.2fr;
+      grid-template-columns: 0.62fr 1.15fr;
       gap: 28px;
       align-items: center;
       padding: 34px 0;
@@ -718,19 +718,21 @@
     .revenue-row em {
       color: var(--gold-soft);
       font-style: normal;
-      font-size: 18px;
-      font-weight: 950;
+      font-size: 17px;
+      font-weight: 850;
+      opacity: 0.84;
     }
 
     .revenue-row strong {
-      color: #fff;
-      font-size: clamp(25px, 2.7vw, 36px);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: clamp(24px, 2.35vw, 32px);
       line-height: 1.1;
       letter-spacing: -0.07em;
-      font-weight: 950;
+      font-weight: 850;
     }
 
     .revenue-row p {
+      grid-column: 1 / -1;
       color: rgba(255, 255, 255, 0.72);
       font-size: 18px;
       line-height: 1.45;
@@ -739,27 +741,34 @@
 
     .revenue-row.is-featured {
       margin: 0 -18px;
-      padding: 42px 18px;
+      grid-template-columns: 0.52fr 1.48fr;
+      padding: 58px 24px;
       border-radius: 32px;
-      border: 1px solid rgba(255, 209, 102, 0.34);
+      border: 2px solid rgba(255, 209, 102, 0.62);
       background:
-        radial-gradient(circle at 0% 50%, rgba(255, 209, 102, 0.18), transparent 34%),
-        linear-gradient(135deg, rgba(45, 108, 255, 0.22), rgba(255, 255, 255, 0.06));
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.20);
+        radial-gradient(circle at 50% 50%, rgba(45, 108, 255, 0.44), transparent 44%),
+        linear-gradient(135deg, #182844, #0f326d 52%, #132744);
+      box-shadow: 0 36px 110px rgba(45, 108, 255, 0.28), 0 20px 80px rgba(0, 0, 0, 0.30);
     }
 
     .revenue-row.is-featured em {
       color: #ffd166;
+      font-size: 22px;
+      font-weight: 950;
+      opacity: 1;
     }
 
     .revenue-row.is-featured strong {
       color: #fff;
-      text-shadow: 0 14px 34px rgba(45, 108, 255, 0.36);
+      font-size: clamp(40px, 5.2vw, 72px);
+      line-height: 0.98;
+      font-weight: 950;
+      letter-spacing: -0.09em;
+      text-shadow: 0 18px 46px rgba(45, 108, 255, 0.58);
     }
 
     .revenue-row.is-featured p {
-      color: rgba(255, 255, 255, 0.88);
-      font-weight: 850;
+      display: none;
     }
 
     .commission-band {
@@ -1006,6 +1015,12 @@
       gap: 10px;
       color: var(--ink);
       font-size: 15px;
+      font-weight: 950;
+    }
+
+    .req {
+      color: #d92d20;
+      font-style: normal;
       font-weight: 950;
     }
 
@@ -1546,8 +1561,15 @@
       .benefit-row,
       .tool-row,
       .target {
+        grid-template-columns: 1fr;
         gap: 14px;
         padding: 28px 0;
+      }
+
+      .revenue-row.is-featured {
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 46px 18px;
       }
 
       .membership-panel {
@@ -1827,17 +1849,14 @@
           <div class="revenue-row">
             <em>일반 제휴</em>
             <strong>소개 후 구매<br />1회성 수익</strong>
-            <p>구매나 계약이 끝나면 수익도 한 번으로 끝나는 경우가 많습니다.</p>
           </div>
           <div class="revenue-row">
             <em>렌탈·보험</em>
-            <strong>고객 해지 시<br />환수 가능</strong>
-            <p>업종에 따라 고객 해지 시 환수금 부담이 생길 수 있습니다.</p>
+            <strong>고객 해지 시 환수 가능</strong>
           </div>
           <div class="revenue-row is-featured">
             <em>크루즈 멤버십</em>
             <strong>멤버십 유지 시<br />월 수수료 가능</strong>
-            <p>크루즈 멤버십은 소개 후 유지되는 매출을 기준으로 수수료가 계산됩니다.</p>
           </div>
         </div>
       </div>
@@ -1986,12 +2005,12 @@
           >
             <div class="form-grid">
               <label>
-                <span>이름 / 성함</span>
+                <span>이름 / 성함 <i class="req">*</i></span>
                 <input type="text" name="name" id="partnerNameInput" placeholder="성함을 입력해주세요" autocomplete="name" required />
               </label>
 
               <label>
-                <span>연락처</span>
+                <span>연락처 <i class="req">*</i></span>
                 <input
                   type="tel"
                   name="phone"
@@ -2005,7 +2024,7 @@
               </label>
 
               <label>
-                <span>연령대</span>
+                <span>연령대 <i class="req">*</i></span>
                 <select name="age_group" id="partnerAgeInput" required>
                   <option value="">선택해주세요</option>
                   <option value="20대">20대</option>
@@ -2018,17 +2037,15 @@
 
               <label>
                 <span>거주지역</span>
-                <input type="text" name="region_detail" id="partnerRegionInput" placeholder="예: 서울 강남구" required />
+                <input type="text" name="region_detail" id="partnerRegionInput" placeholder="예: 서울 강남구" />
               </label>
 
               <label>
-                <span>해외결제카드 소지여부</span>
+                <span>해외결제카드 소지여부 <i class="req">*</i></span>
                 <select name="travel_ready_status" id="partnerCardInput" required>
                   <option value="">선택해주세요</option>
-                  <option value="해외결제카드 소지">해외결제카드 소지</option>
-                  <option value="준비중">준비중</option>
+                  <option value="있음">있음</option>
                   <option value="없음">없음</option>
-                  <option value="상담 후 확인">상담 후 확인</option>
                 </select>
               </label>
 
@@ -2143,6 +2160,13 @@
       setValue('partnerPageUrlInput', window.location.href);
       setValue('partnerReferrerInput', document.referrer || '');
 
+      const phoneInput = document.getElementById('partnerPhoneInput');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', () => {
+          phoneInput.value = phoneInput.value.replace(/\D+/g, '');
+        });
+      }
+
       let submitted = false;
 
       form.addEventListener('submit', (event) => {
@@ -2157,7 +2181,7 @@
         const phoneValue = phone.value.replace(/\D+/g, '');
         phone.value = phoneValue;
 
-        if (!name.value.trim() || !phoneValue || !age.value || !region.value.trim() || !card.value) {
+        if (!name.value.trim() || !phoneValue || !age.value || !card.value) {
           event.preventDefault();
           setResult('필수 항목을 입력해주세요.', 'error');
           return;
@@ -2173,7 +2197,7 @@
           `[파트너 상담]`,
           `연락처: ${phoneValue}`,
           `연령대: ${age.value}`,
-          `거주지역: ${region.value.trim()}`,
+          `거주지역: ${region.value.trim() || '미입력'}`,
           `해외결제카드: ${card.value}`,
           `파트너코드: ${agentCode}`,
           '',
