@@ -958,6 +958,16 @@
       font-weight: 950;
     }
 
+    .benefit-row b span {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-weight: 950;
+    }
+
     .benefit-row strong {
       display: block;
       color: var(--ink);
@@ -973,6 +983,17 @@
       font-size: 18px;
       line-height: 1.45;
       font-weight: 750;
+    }
+
+    .benefit-detail {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+      color: var(--ink);
+      font-size: clamp(17px, 1.7vw, 21px);
+      line-height: 1.35;
+      letter-spacing: -0.055em;
+      font-weight: 900;
     }
 
     .tool-board {
@@ -2059,7 +2080,7 @@
           </div>
           <div class="revenue-row is-featured">
             <em>크루즈 멤버십</em>
-            <strong>멤버십 유지 시 월 수수료 가능</strong>
+            <strong>멤버십 유지 시 꾸준한 월 수수료 정산</strong>
           </div>
         </div>
       </div>
@@ -2093,24 +2114,20 @@
         <p class="lead">크루즈 여행의 인센티브 제도가 있습니다.</p>
         <div class="benefit-rows">
           <div class="benefit-row">
-            <b>$500</b>
+            <b><span>매출</span>$500</b>
             <div>
-              <strong>멤버십 비용 월 $100 면제</strong>
-              <p>월 매출 $500 달성 시 멤버십 비용 월 $100 면제 기준을 확인할 수 있습니다.</p>
+              <strong>월 매출 $500 달성 시 멤버십 비용 월 $100 면제</strong>
+              <div class="benefit-detail">
+                <span>클래식 멤버십 $0 납부 &gt; 200포인트 적립</span>
+                <span>프리미엄 멤버십 $150 납부 &gt; 500포인트 적립</span>
+              </div>
             </div>
           </div>
           <div class="benefit-row">
-            <b>POINT</b>
-            <div>
-              <strong>포인트는 그대로 적립</strong>
-              <p>멤버십 비용 면제 후에도 멤버십 포인트는 그대로 적립됩니다.</p>
-            </div>
-          </div>
-          <div class="benefit-row">
-            <b>$3,000</b>
+            <b><span>혜택</span>$3,000</b>
             <div>
               <strong>보유 포인트 100% 사용</strong>
-              <p>월 매출 $3,000 이상 3회 연속 달성 시 보유 포인트 100% 사용 크루즈 여행이 가능합니다.</p>
+              <p>월 매출 $3,000 이상 3회 연속 달성 시 무료 크루즈 여행 가능</p>
             </div>
           </div>
         </div>
