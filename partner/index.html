@@ -986,14 +986,30 @@
     }
 
     .benefit-detail {
-      display: grid;
-      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
       margin-top: 18px;
-      color: var(--ink);
-      font-size: clamp(17px, 1.7vw, 21px);
+      color: #164fbb;
+      font-size: clamp(15px, 1.35vw, 18px);
       line-height: 1.35;
-      letter-spacing: -0.055em;
+      letter-spacing: -0.045em;
       font-weight: 900;
+    }
+
+    .benefit-detail span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #eef4ff;
+      border: 1px solid rgba(45, 108, 255, 0.16);
+    }
+
+    .benefit-row p {
+      color: #5f6d84;
     }
 
     .tool-board {
@@ -2124,7 +2140,7 @@
             </div>
           </div>
           <div class="benefit-row">
-            <b><span>혜택</span>$3,000</b>
+            <b><span>매출</span>$3,000</b>
             <div>
               <strong>보유 포인트 100% 사용</strong>
               <p>월 매출 $3,000 이상 3회 연속 달성 시 무료 크루즈 여행 가능</p>
