@@ -8,7 +8,7 @@ const ROOT = path.resolve(__dirname, '..');
 
 const SITE_URL = 'https://cruiseplay-dyt.pages.dev';
 const SITE_NAME = '크루즈플레이';
-const SITE_DESCRIPTION = '처음 떠나는 크루즈 여행에서 많이 궁금해하는 비용, 준비물, 선실, 기항지 정보를 쉽게 안내합니다.';
+const SITE_DESCRIPTION = '전세계 최저가 크루즈여행은 크루즈플레이. 크루즈의 모든 정보를 확인해보세요.';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/img/og-default.jpg`;
 
 // 반드시 실제 Apps Script 웹앱 URL로 바꾸거나, 환경변수 CRUISE_BOOTSTRAP_URL로 넣어주세요.
@@ -722,7 +722,7 @@ async function main() {
   const renderedIndex = renderTemplate(indexTemplate, {
     '__SITE_URL__': SITE_URL,
     '__SITE_NAME__': SITE_NAME,
-    '__SEO_TITLE__': `${SITE_NAME} 콘텐츠`,
+    '__SEO_TITLE__': `전세계 최저가 크루즈여행은? ${SITE_NAME}!`,
     '__SEO_DESCRIPTION__': SITE_DESCRIPTION,
     '__POST_COUNT__': String(posts.length),
     '__CATEGORY_FILTERS__': buildCategoryFilters(posts),
