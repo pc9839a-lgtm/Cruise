@@ -14,7 +14,7 @@ const DEFAULT_OG_IMAGE = `${SITE_URL}/img/og-default.jpg`;
 // 반드시 실제 Apps Script 웹앱 URL로 바꾸거나, 환경변수 CRUISE_BOOTSTRAP_URL로 넣어주세요.
 const SHEET_BOOTSTRAP_URL =
   process.env.CRUISE_BOOTSTRAP_URL ||
-  'https://script.google.com/macros/s/AKfycbw2e6hcSUoGCM9gdxKTuEPTy3BULFQLQoYoeuLSaDN3fqQRfdvPQ6rb622aQXKzvcU/exec';
+  'https://script.google.com/macros/s/AKfycbwcgILUioi3I3ndTIrnlZ9KtdN-YxpwCQaLEcradUc1vDZfsa-jSwllYfSdOju4vj8/exec';
 
 const TEMPLATE_DIR_CANDIDATES = [
   path.join(ROOT, 'blog', 'templates'),

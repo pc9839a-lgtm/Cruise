@@ -56,7 +56,7 @@ const state = {
   agentCode: ''
 };
 
-const AGENT_API_URL = 'https://script.google.com/macros/s/AKfycbxmpUiHPpZObUpjzV8R-cV32UjB-Q64ST_MyCi6xixSB9dHBhxdpdeVTbDV4gwYXv0/exec';
+const AGENT_API_URL = 'https://script.google.com/macros/s/AKfycbwcgILUioi3I3ndTIrnlZ9KtdN-YxpwCQaLEcradUc1vDZfsa-jSwllYfSdOju4vj8/exec';
 
 function formatUsd(value) {
   return `$${Number(value).toLocaleString('en-US')}`;
