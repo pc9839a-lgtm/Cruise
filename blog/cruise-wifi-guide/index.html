@@ -18,6 +18,84 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="stylesheet" href="/assets/css/blog.css" />
+  <style>
+    .blog-post-container { max-width: 1160px; }
+    .post-article {
+      max-width: 920px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      border-radius: 32px;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+    .post-header {
+      padding: 44px 48px 24px;
+      background:
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+    .post-header-topline { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+    .post-category { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; background: rgba(37, 99, 235, 0.1); color: #2563eb; font-size: 13px; font-weight: 800; line-height: 1; }
+    .post-date { color: #64748b; font-size: 14px; line-height: 1.4; }
+    .post-title { margin: 0; font-size: clamp(34px, 4vw, 48px); line-height: 1.22; letter-spacing: -0.03em; color: #0f172a; font-weight: 900; word-break: keep-all; }
+    .post-summary { margin: 18px 0 0; font-size: 19px; line-height: 1.8; color: #475569; word-break: keep-all; }
+    .post-header-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .post-cta { display: inline-flex; align-items: center; justify-content: center; min-width: 144px; padding: 14px 22px; border-radius: 16px; text-decoration: none; font-weight: 800; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; }
+    .post-cta:hover { transform: translateY(-2px); }
+    .post-cta-primary { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); color: #ffffff; box-shadow: 0 14px 28px rgba(37, 99, 235, 0.24); }
+    .post-cta-secondary { background: #eff6ff; color: #1d4ed8; }
+    .post-meta-strip { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(15, 23, 42, 0.08); color: #64748b; font-size: 14px; }
+    .post-cover { padding: 0 48px; margin: 0 0 34px; }
+    .post-cover-frame { position: relative; overflow: hidden; border-radius: 28px; background: #e5edf9; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
+    .post-cover-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .post-cover-overlay { position: absolute; left: 24px; bottom: 22px; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; background: rgba(15, 23, 42, 0.58); color: #ffffff; backdrop-filter: blur(10px); font-size: 13px; font-weight: 800; }
+    .post-content-shell { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 0 48px 48px; }
+    .post-toc-box { padding: 24px 28px; border-radius: 24px; background: #f8fafc; border: 1px solid rgba(148, 163, 184, 0.18); }
+    .post-toc-title { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 900; color: #0f172a; margin-bottom: 14px; }
+    .post-toc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .post-toc-list li { margin: 0; padding: 0; }
+    .post-toc-list a { color: #334155; text-decoration: none; line-height: 1.65; font-size: 15px; }
+    .post-body { color: #1e293b; font-size: 18px; line-height: 1.92; word-break: keep-all; }
+    .post-intro-section { margin: 0 0 40px; padding: 28px 30px; border-radius: 28px; background: linear-gradient(180deg, #f8fbff 0%, #f8fafc 100%); border: 1px solid rgba(37, 99, 235, 0.1); }
+    .post-intro-section p:first-child { margin-top: 0; font-size: 19px; color: #334155; }
+    .post-body h2 { margin: 56px 0 18px; font-size: clamp(28px, 3vw, 36px); line-height: 1.35; letter-spacing: -0.03em; color: #0f172a; font-weight: 900; }
+    .post-body h3 { margin: 34px 0 14px; font-size: clamp(22px, 2.2vw, 27px); line-height: 1.45; letter-spacing: -0.02em; color: #0f172a; font-weight: 900; }
+    .post-body p, .post-body ul, .post-body ol, .post-body blockquote, .post-body table { margin: 0 0 18px; }
+    .post-body ul, .post-body ol { padding-left: 24px; }
+    .post-body li + li { margin-top: 8px; }
+    .post-body blockquote { padding: 22px 26px; border-left: 5px solid #2563eb; border-radius: 18px; background: #f8fbff; color: #334155; font-weight: 700; }
+    .post-bottom-cta, .post-tags-section, .post-related-section, .post-pager { margin-left: 48px; margin-right: 48px; margin-bottom: 32px; }
+    .post-bottom-cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding: 28px 30px; border-radius: 28px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #ffffff; }
+    .post-bottom-cta-text strong { display: block; margin-bottom: 8px; font-size: 22px; line-height: 1.4; }
+    .post-bottom-cta-text p { margin: 0; color: rgba(255, 255, 255, 0.82); line-height: 1.75; }
+    .post-bottom-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .post-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .post-tag { display: inline-flex; align-items: center; padding: 10px 14px; border-radius: 999px; background: #f1f5f9; color: #334155; font-size: 14px; font-weight: 800; }
+    .post-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .post-section-title { margin: 0 0 14px; font-size: 24px; line-height: 1.4; color: #0f172a; font-weight: 900; }
+    .post-section-more { color: #2563eb; text-decoration: none; font-weight: 800; }
+    .post-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .post-related-card { display: block; padding: 18px; border-radius: 22px; background: #f8fafc; border: 1px solid rgba(148, 163, 184, 0.18); text-decoration: none; color: inherit; }
+    .post-related-thumb { overflow: hidden; border-radius: 16px; margin-bottom: 12px; background: #e5edf9; }
+    .post-related-thumb img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+    .post-related-chip { display: inline-flex; margin-bottom: 8px; padding: 6px 10px; border-radius: 999px; background: rgba(37, 99, 235, 0.1); color: #2563eb; font-size: 12px; font-weight: 800; }
+    .post-related-card strong { display: block; margin-bottom: 8px; color: #0f172a; line-height: 1.45; }
+    .post-related-card p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.65; }
+    .post-pager { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; }
+    .post-pager-link { flex: 1; padding: 20px; border-radius: 20px; background: #f8fafc; border: 1px solid rgba(148, 163, 184, 0.18); text-decoration: none; color: #0f172a; }
+    .post-pager-label { display: block; margin-bottom: 6px; color: #64748b; font-size: 13px; }
+    @media (max-width: 768px) {
+      .blog-post-container { padding-left: 16px; padding-right: 16px; }
+      .post-article { border-radius: 24px; }
+      .post-header { padding: 32px 22px 22px; }
+      .post-cover { padding: 0 22px; }
+      .post-content-shell { padding: 0 22px 36px; }
+      .post-bottom-cta, .post-tags-section, .post-related-section, .post-pager { margin-left: 22px; margin-right: 22px; }
+      .post-related-grid { grid-template-columns: 1fr; }
+      .post-pager { flex-direction: column; }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -61,21 +139,21 @@
               <span class="post-date">작성일 2026.07.10</span>
               <span class="post-date">수정일 2026.07.10</span>
             </div>
-            <h1 class="post-title">크루즈 와이파이 꼭 해야 할까?</h1>
-            <p class="post-summary">크루즈 와이파이 패키지는 무조건 필요한 옵션은 아닙니다. 항해일이 얼마나 있는지, 기항지에서 데이터를 쓸 수 있는지, 업무 연락이 필요한지에 따라 선택 기준이 달라집니다.</p>
+            <h1 class="post-title">크루즈 와이파이 꼭 해야 할까? 인터넷 패키지 선택 기준</h1>
+            <p class="post-summary">크루즈 와이파이 패키지가 필요한 경우와 굳이 필요하지 않은 경우를 항해일, 기항지, 사용 목적 기준으로 정리했습니다.</p>
             <div class="post-header-actions">
               <a class="post-cta post-cta-primary" href="/#contact">일정 문의하기</a>
               <a class="post-cta post-cta-secondary" href="/blog/">목록 보기</a>
             </div>
             <div class="post-meta-strip">
               <span>분류 <strong>여행팁</strong></span>
-              <span>관련 태그 <strong>3개</strong></span>
+              <span>관련 태그 <strong>크루즈와이파이 · 인터넷패키지 · 항해일</strong></span>
             </div>
           </header>
 
           <section class="post-cover">
             <div class="post-cover-frame">
-              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop" alt="크루즈 와이파이 선택 기준" loading="eager" />
+              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop" alt="크루즈 와이파이 인터넷 패키지 선택 기준" loading="eager" />
               <div class="post-cover-overlay">여행팁 · 2026.07.10</div>
             </div>
           </section>
@@ -84,66 +162,65 @@
             <div class="post-toc-box">
               <strong class="post-toc-title">목차</strong>
               <ul class="post-toc-list">
-                <li class="is-level-2"><a href="#section-1">크루즈 와이파이는 왜 따로 고민해야 할까요?</a></li>
-                <li class="is-level-2"><a href="#section-2">와이파이가 필요한 경우</a></li>
-                <li class="is-level-2"><a href="#section-3">굳이 신청하지 않아도 되는 경우</a></li>
-                <li class="is-level-2"><a href="#section-4">선택 전 확인할 질문</a></li>
-                <li class="is-level-2"><a href="#section-5">정리</a></li>
+                <li><a href="#wifi-need">크루즈 와이파이는 왜 따로 봐야 할까요</a></li>
+                <li><a href="#wifi-who">와이파이가 필요한 사람</a></li>
+                <li><a href="#wifi-no">굳이 안 해도 되는 경우</a></li>
+                <li><a href="#wifi-check">구매 전 확인할 기준</a></li>
+                <li><a href="#wifi-summary">결론</a></li>
               </ul>
             </div>
 
             <div class="post-body">
               <section class="post-intro-section">
-                <p>크루즈를 처음 준비할 때 많이 헷갈리는 옵션 중 하나가 와이파이입니다. 일반 호텔이나 카페처럼 인터넷이 당연히 무료라고 생각하기 쉽지만, 크루즈는 바다 위를 이동하는 시간이 길기 때문에 인터넷 이용 방식이 다르게 운영되는 경우가 많습니다.</p>
-                <p>그래서 와이파이는 “해야 한다, 안 해도 된다”로 단정하기보다 내 일정과 사용 목적에 맞춰 판단하는 것이 좋습니다.</p>
+                <p>크루즈를 처음 준비할 때 은근히 헷갈리는 비용 중 하나가 와이파이입니다. 선내에서는 일반적인 휴대폰 데이터가 잘 잡히지 않는 구간이 있고, 바다 위 항해일에는 인터넷 이용 방식이 육지 여행과 완전히 다르게 느껴질 수 있습니다.</p>
+                <p>그렇다고 모든 사람이 무조건 와이파이 패키지를 해야 하는 것은 아닙니다. 여행 스타일, 항해일 수, 업무 연락 필요 여부, 기항지 체류 시간에 따라 선택 기준이 달라집니다.</p>
               </section>
 
-              <h2 id="section-1">크루즈 와이파이는 왜 따로 고민해야 할까요?</h2>
-              <p>크루즈는 항해 중 육상 통신망을 그대로 쓰기 어렵습니다. 선박 인터넷은 일반적인 휴대폰 데이터와 사용 환경이 다르기 때문에, 속도나 안정성, 요금 체계가 육지와 같지 않을 수 있습니다.</p>
-              <p>특히 전일 해상일이 많은 일정이라면 인터넷이 필요한 시간이 길어집니다. 반대로 매일 기항지가 있는 일정이라면 항구에 내려서 현지 유심, eSIM, 로밍 데이터를 활용하는 방식도 생각해볼 수 있습니다.</p>
+              <h2 id="wifi-need">크루즈 와이파이는 왜 따로 봐야 할까요</h2>
+              <p>크루즈는 바다 위를 이동하는 시간이 있기 때문에 휴대폰 로밍이나 현지 유심만으로는 선내 인터넷 사용이 제한될 수 있습니다. 특히 전일해상 구간이 길수록 메시지 확인, 지도 검색, 영상 시청, 업무 연락이 불편할 수 있습니다.</p>
+              <p>반대로 기항지가 많고 배 안에서는 쉬는 시간이 중심이라면 와이파이 없이도 충분히 여행할 수 있습니다. 결국 핵심은 “인터넷을 얼마나 오래, 어떤 목적으로 쓰는가”입니다.</p>
 
-              <h2 id="section-2">와이파이가 필요한 경우</h2>
-              <p>아래에 해당한다면 와이파이 패키지를 검토하는 것이 좋습니다.</p>
+              <h2 id="wifi-who">와이파이가 필요한 사람</h2>
+              <p>아래에 해당하면 와이파이 패키지를 미리 검토하는 것이 좋습니다.</p>
               <ul>
-                <li>업무 연락이나 메신저 확인이 꼭 필요한 경우</li>
-                <li>전일 해상일이 많아 배 위에서 보내는 시간이 긴 경우</li>
-                <li>가족에게 매일 연락해야 하는 경우</li>
-                <li>사진 업로드, 일정 확인, 이메일 확인을 자주 해야 하는 경우</li>
-                <li>여행 중에도 모바일 뱅킹이나 예약 확인이 필요한 경우</li>
+                <li>항해일이 2일 이상 포함된 일정</li>
+                <li>카카오톡, 이메일, 업무 연락을 계속 확인해야 하는 경우</li>
+                <li>아이와 함께 가서 영상이나 메신저 사용이 필요한 경우</li>
+                <li>선내에서 사진 업로드나 SNS 공유를 자주 하고 싶은 경우</li>
+                <li>현지 도착 전 기항지 동선을 계속 검색하고 싶은 경우</li>
               </ul>
-              <p>다만 영상 스트리밍이나 대용량 파일 업로드까지 기대한다면 실제 이용 만족도는 달라질 수 있으니, 신청 전에 사용 가능 범위를 확인하는 것이 좋습니다.</p>
 
-              <h2 id="section-3">굳이 신청하지 않아도 되는 경우</h2>
-              <p>반대로 아래에 해당한다면 와이파이 없이도 여행이 가능할 수 있습니다.</p>
+              <h2 id="wifi-no">굳이 안 해도 되는 경우</h2>
+              <p>반대로 짧은 일정이거나 배 안에서는 휴식 위주로 지낼 계획이라면 와이파이를 꼭 신청하지 않아도 됩니다.</p>
               <ul>
-                <li>여행 중 휴대폰 사용을 줄이고 싶은 경우</li>
-                <li>해상일보다 기항지 체류가 많은 일정</li>
-                <li>기항지에서만 지도, 메신저, 검색을 사용해도 충분한 경우</li>
-                <li>사진은 찍어두고 귀국 후 정리해도 괜찮은 경우</li>
+                <li>1박 2일 또는 2박 3일처럼 짧은 일정</li>
+                <li>기항지에서만 인터넷을 사용해도 되는 경우</li>
+                <li>선내에서는 사진 촬영과 휴식이 중심인 경우</li>
+                <li>여행 중 업무 연락을 끊어도 되는 경우</li>
               </ul>
-              <p>크루즈 여행은 오히려 인터넷을 줄였을 때 선내 공연, 식사, 수영장, 라운지 이용에 더 집중하기 좋다는 장점도 있습니다.</p>
+              <blockquote>크루즈 와이파이는 필수 비용이라기보다 여행 스타일에 따라 선택하는 편의 비용에 가깝습니다.</blockquote>
 
-              <h2 id="section-4">선택 전 확인할 질문</h2>
-              <p>와이파이를 신청하기 전에는 아래 질문을 먼저 확인해보세요.</p>
+              <h2 id="wifi-check">구매 전 확인할 기준</h2>
+              <p>와이파이를 신청하기 전에 아래 항목은 꼭 확인해보는 것이 좋습니다.</p>
               <ul>
-                <li>내 일정에 전일 해상일이 며칠이나 있나요?</li>
-                <li>기항지에서 현지 데이터 사용이 가능한가요?</li>
-                <li>와이파이 패키지는 1인 기준인가요, 기기 기준인가요?</li>
-                <li>메신저만 가능한 상품인지, 웹서핑까지 가능한 상품인지 확인했나요?</li>
-                <li>속도 제한이나 사용량 제한이 있나요?</li>
+                <li>1인 기준인지, 기기 1대 기준인지</li>
+                <li>메신저만 가능한 요금제인지, 웹서핑까지 가능한지</li>
+                <li>영상 시청이나 화상통화가 가능한 속도인지</li>
+                <li>하루 단위 구매가 가능한지, 전체 일정 구매만 가능한지</li>
+                <li>선사 앱 사용은 무료인지 별도 인터넷이 필요한지</li>
               </ul>
-              <p>이 질문만 확인해도 불필요한 지출을 줄이고, 필요한 경우에는 더 알맞은 옵션을 고를 수 있습니다.</p>
+              <p>처음 크루즈를 준비한다면 가장 저렴한 패키지를 바로 고르기보다, 실제로 필요한 기능을 먼저 정리한 뒤 선택하는 편이 안전합니다.</p>
 
-              <h2 id="section-5">정리</h2>
-              <p>크루즈 와이파이는 필수라기보다 일정과 여행 스타일에 따라 선택하는 옵션입니다. 업무 연락이 필요하거나 해상일이 많은 일정이라면 검토할 만하고, 기항지 중심 일정이거나 디지털 휴식을 원한다면 신청하지 않아도 괜찮습니다.</p>
-              <blockquote>핵심은 “인터넷이 되냐 안 되냐”가 아니라, 내 일정에서 인터넷이 꼭 필요한 시간이 얼마나 되는지 먼저 보는 것입니다.</blockquote>
+              <h2 id="wifi-summary">결론: 항해일과 사용 목적을 기준으로 보면 됩니다</h2>
+              <p>크루즈 와이파이는 무조건 해야 하는 항목은 아닙니다. 항해일이 길거나 업무 연락이 필요하면 신청하는 쪽이 편하고, 짧은 일정이나 휴식 중심 여행이라면 굳이 비용을 쓰지 않아도 됩니다.</p>
+              <p>정리하면, 크루즈 와이파이는 가격보다 사용 목적을 먼저 봐야 합니다. 배 안에서 인터넷이 꼭 필요한지, 기항지에서만 사용해도 되는지, 연락을 계속 받아야 하는지에 따라 선택하면 됩니다.</p>
             </div>
           </div>
 
           <section class="post-bottom-cta">
             <div class="post-bottom-cta-text">
-              <strong>와이파이까지 포함해 실제 준비 비용을 보고 싶다면</strong>
-              <p>관심 일정과 예상 인원을 남겨주시면 확인해야 할 항목을 기준으로 안내드립니다.</p>
+              <strong>크루즈 비용과 포함 항목이 헷갈린다면 먼저 문의해보세요.</strong>
+              <p>관심 일정과 인원수를 남겨주시면 일정 기준으로 확인해야 할 항목을 안내드립니다.</p>
             </div>
             <div class="post-bottom-cta-actions">
               <a class="post-cta post-cta-primary" href="/#contact">문의하기</a>
@@ -155,20 +232,50 @@
             <h2 class="post-section-title">함께 많이 보는 주제</h2>
             <div class="post-tags">
               <span class="post-tag">#크루즈와이파이</span>
-              <span class="post-tag">#추가비용</span>
-              <span class="post-tag">#크루즈준비</span>
+              <span class="post-tag">#인터넷패키지</span>
+              <span class="post-tag">#크루즈비용</span>
+              <span class="post-tag">#항해일</span>
             </div>
           </section>
+
+          <section class="post-related-section">
+            <div class="post-section-heading">
+              <h2 class="post-section-title">함께 보면 좋은 글</h2>
+              <a class="post-section-more" href="/blog/">전체 글 보기</a>
+            </div>
+            <div class="post-related-grid">
+              <a class="post-related-card" href="/blog/extra-cruise-costs/">
+                <div class="post-related-thumb"><img src="https://images.unsplash.com/photo-1601771281064-e9340d2cb2b3?q=80&w=1600&auto=format&fit=crop" alt="크루즈 추가 비용" loading="lazy" /></div>
+                <span class="post-related-chip">비용비교</span>
+                <strong>크루즈 여행에서 추가로 드는 비용은 무엇이 있나요?</strong>
+                <p>팁, 세금, 와이파이, 음료패키지처럼 놓치기 쉬운 항목을 정리했습니다.</p>
+              </a>
+              <a class="post-related-card" href="/blog/cruise-cost-breakdown/">
+                <div class="post-related-thumb"><img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=1600&auto=format&fit=crop" alt="크루즈 비용 구조" loading="lazy" /></div>
+                <span class="post-related-chip">비용비교</span>
+                <strong>크루즈 비용은 어떻게 구성될까요?</strong>
+                <p>객실가, 항공, 팁, 세금 등 전체 예산을 보는 방법을 설명합니다.</p>
+              </a>
+              <a class="post-related-card" href="/blog/departure-checklist/">
+                <div class="post-related-thumb"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1600&auto=format&fit=crop" alt="출발 전 체크리스트" loading="lazy" /></div>
+                <span class="post-related-chip">준비물</span>
+                <strong>출발 전 체크리스트 한 번에 보기</strong>
+                <p>여권, 의류, 멀미약, 체크인 서류까지 출발 전 챙길 항목을 정리했습니다.</p>
+              </a>
+            </div>
+          </section>
+
+          <div class="post-pager">
+            <a class="post-pager-link is-prev" href="/blog/extra-cruise-costs/"><span class="post-pager-label">관련 글</span><strong>크루즈 여행에서 추가로 드는 비용은 무엇이 있나요?</strong></a>
+            <a class="post-pager-link is-next" href="/blog/first-cruise-common-mistakes/"><span class="post-pager-label">다음 추천</span><strong>첫 크루즈에서 많이 하는 실수와 피하는 법</strong></a>
+          </div>
         </article>
       </div>
     </main>
 
     <footer class="blog-footer">
       <div class="blog-footer-inner">
-        <div>
-          <strong>크루즈플레이 콘텐츠</strong>
-          <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리한 안내 페이지입니다.</span>
-        </div>
+        <div><strong>크루즈플레이 콘텐츠</strong><span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리한 안내 페이지입니다.</span></div>
         <div><span>문의 연결: <a href="/#contact">문의하기</a></span></div>
       </div>
     </footer>
