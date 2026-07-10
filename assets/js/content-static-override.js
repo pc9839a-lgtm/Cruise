@@ -2,6 +2,36 @@
   const source = window.MOCK_BOOTSTRAP_DATA || {};
   const newItems = [
     {
+      content_id: 'cruise-travel-insurance-guide',
+      title: '크루즈 여행자보험 필요할까? 해외여행 보험 체크 기준',
+      category: '여행팁',
+      summary: '크루즈 여행 전 여행자보험에서 확인할 의료비, 수하물, 일정 변경, 보장 제외 조건을 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-travel-insurance-guide/',
+      tag_text: '여행자보험',
+      published_at: '2026-07-10'
+    },
+    {
+      content_id: 'cruise-cabin-location-guide',
+      title: '크루즈 객실 위치는 어디가 좋을까? 중앙·선수·선미 선택 기준',
+      category: '선실비교',
+      summary: '크루즈 객실 위치를 고를 때 중앙, 선수, 선미, 고층, 저층, 엘리베이터 근처 객실의 차이를 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1510132310763-2df322eed83f?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-cabin-location-guide/',
+      tag_text: '객실위치',
+      published_at: '2026-07-10'
+    },
+    {
+      content_id: 'cruise-onboard-payment-guide',
+      title: '크루즈 선상 결제는 어떻게 하나요? 승선카드와 보증금 이해하기',
+      category: '비용비교',
+      summary: '크루즈 승선카드, 선상 결제, 보증금, 현금·신용카드 등록 방식, 하선 전 정산까지 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-onboard-payment-guide/',
+      tag_text: '선상결제',
+      published_at: '2026-07-10'
+    },
+    {
       content_id: 'cruise-sea-day-guide',
       title: '크루즈 해상일에는 뭐 할까? 배 안에서 보내는 하루',
       category: '초보가이드',
