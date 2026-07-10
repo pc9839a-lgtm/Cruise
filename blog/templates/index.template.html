@@ -7,18 +7,15 @@
   <meta name="description" content="__SEO_DESCRIPTION__" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
   <meta name="author" content="__SITE_NAME__" />
-
   <meta property="og:locale" content="ko_KR" />
   <meta property="og:site_name" content="__SITE_NAME__" />
   <meta property="og:title" content="__SEO_TITLE__" />
   <meta property="og:description" content="__SEO_DESCRIPTION__" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="__SITE_URL__/blog/" />
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="__SEO_TITLE__" />
   <meta name="twitter:description" content="__SEO_DESCRIPTION__" />
-
   <link rel="canonical" href="__SITE_URL__/blog/" />
   <meta name="theme-color" content="#ffffff" />
 
@@ -56,13 +53,12 @@
           <span class="blog-brand-dot"></span>
           <strong>__SITE_NAME__</strong>
         </a>
-
         <nav class="blog-nav">
           <a href="/">홈</a>
           <a href="/#schedule">추천 일정</a>
           <a href="/blog/" class="is-current">콘텐츠</a>
           <a href="/#reviews">여행 후기</a>
-          <a href="/#contact" class="blog-nav-cta">가격문의</a>
+          <a href="/#contact" class="blog-nav-cta">문의하기</a>
         </nav>
       </div>
     </header>
@@ -71,32 +67,24 @@
       <div class="blog-container">
         <section class="blog-hero">
           <span class="blog-eyebrow">크루즈플레이 콘텐츠</span>
-          <h1>전세계 최저가 크루즈여행은?<br />크루즈플레이!</h1>
-          <p>크루즈의 모든 정보를 확인해보세요</p>
-
+          <h1>처음 크루즈를 준비하는 분을 위한<br />크루즈 여행 가이드</h1>
+          <p>비용, 선실, 준비물, 기항지 정보를 쉽게 확인해보세요.</p>
           <div class="blog-hero-stats">
             <span>전체 글 <strong id="blogResultsCount">__POST_COUNT__</strong>개</span>
             <span>현재 보는 분류 <strong id="blogActiveFilterText">전체</strong></span>
-            <span>궁금한 일정은 바로 문의 가능</span>
+            <span>필요한 주제를 검색할 수 있습니다</span>
           </div>
         </section>
 
         <section class="blog-section">
           <div class="blog-search-panel">
             <div class="blog-search-row">
-              <input
-                id="blogSearchInput"
-                class="blog-search-input"
-                type="search"
-                placeholder="예: 크루즈여행 비용, 체크리스트, 발코니, 오키나와"
-              />
+              <input id="blogSearchInput" class="blog-search-input" type="search" placeholder="예: 크루즈 비용, 체크리스트, 발코니, 오키나와" />
             </div>
-
             <div class="blog-filter-row">
               <button type="button" class="blog-filter-btn is-active" data-category="all">전체</button>
               __CATEGORY_FILTERS__
             </div>
-
             <div class="blog-results-meta">
               <span>궁금한 크루즈 주제를 검색해주세요</span>
               <span>카드를 누르면 자세한 안내 글로 이동합니다.</span>
@@ -108,7 +96,6 @@
           <div class="blog-grid" id="blogGrid">
             __POST_CARDS__
           </div>
-
           <div class="blog-empty-state" id="blogEmptyState" style="display:none;">
             찾으시는 내용이 아직 없습니다. 검색어를 조금 다르게 입력해보세요.
           </div>
@@ -120,15 +107,12 @@
       <div class="blog-footer-inner">
         <div>
           <strong>__SITE_NAME__ 콘텐츠</strong>
-          <span>크루즈의 모든 정보를 확인해보세요.</span>
+          <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리합니다.</span>
         </div>
-        <div>
-          <span>문의 연결: <a href="/#contact">가격문의</a></span>
-        </div>
+        <div><span>문의 연결: <a href="/#contact">문의하기</a></span></div>
       </div>
     </footer>
   </div>
-
   <script src="/assets/js/blog-index.js"></script>
 </body>
 </html>
