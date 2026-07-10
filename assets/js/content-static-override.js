@@ -2,6 +2,36 @@
   const source = window.MOCK_BOOTSTRAP_DATA || {};
   const newItems = [
     {
+      content_id: 'cruise-sea-day-guide',
+      title: '크루즈 해상일에는 뭐 할까? 배 안에서 보내는 하루',
+      category: '초보가이드',
+      summary: '기항지 없이 바다 위에서 보내는 해상일을 아침, 오후, 저녁 활동 기준으로 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-sea-day-guide/',
+      tag_text: '해상일',
+      published_at: '2026-07-10'
+    },
+    {
+      content_id: 'cruise-luggage-guide',
+      title: '크루즈 수하물·캐리어는 어떻게 맡길까?',
+      category: '탑승절차',
+      summary: '승선 전 캐리어 위탁, 객실 배송, 직접 들고 탈 가방 구성과 하선 전 짐 정리까지 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-luggage-guide/',
+      tag_text: '크루즈수하물',
+      published_at: '2026-07-10'
+    },
+    {
+      content_id: 'cruise-dress-code-guide',
+      title: '크루즈 복장·드레스코드 어떻게 준비할까?',
+      category: '준비물',
+      summary: '선내 복장, 저녁 식사 드레스코드, 포멀나이트, 수영장과 기항지 옷차림을 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-dress-code-guide/',
+      tag_text: '크루즈복장',
+      published_at: '2026-07-10'
+    },
+    {
       content_id: 'cruise-wifi-guide',
       title: '크루즈 와이파이 꼭 해야 할까? 인터넷 패키지 선택 기준',
       category: '여행팁',
