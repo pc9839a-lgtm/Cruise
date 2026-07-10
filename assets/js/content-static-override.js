@@ -1,6 +1,25 @@
 (function () {
   const source = window.MOCK_BOOTSTRAP_DATA || {};
-  const staticItems = Array.isArray(source.content_links) ? source.content_links : [];
+  const newItems = [
+    {
+      content_id: 'cruise-wifi-guide',
+      title: '크루즈 와이파이 꼭 해야 할까? 인터넷 패키지 선택 기준',
+      category: '여행팁',
+      summary: '크루즈 와이파이 패키지가 필요한 경우와 굳이 필요하지 않은 경우를 항해일, 기항지, 사용 목적 기준으로 정리했습니다.',
+      thumbnail_url: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop',
+      link_url: '/blog/cruise-wifi-guide/',
+      tag_text: '크루즈와이파이',
+      published_at: '2026-07-10'
+    }
+  ];
+  const baseItems = Array.isArray(source.content_links) ? source.content_links : [];
+  const seen = new Set();
+  const staticItems = newItems.concat(baseItems).filter(function (item) {
+    const key = String(item.content_id || item.link_url || item.title || '').trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
   if (!staticItems.length) return;
 
   const section = document.getElementById('contentSection');
