@@ -1,7 +1,7 @@
 window.APP_CONFIG = {
-  // 콘텐츠는 GitHub 정적 파일(mock-data.js / bootstrap-fallback.json) 기준으로 고정합니다.
-  // apiUrl은 문의폼 접수용으로만 유지합니다.
+  // 구글시트 API는 일정, 후기, FAQ, 선실 등 운영 데이터용으로 사용합니다.
+  // 블로그/콘텐츠 발행은 GitHub 정적 파일 기반으로 관리합니다.
   apiUrl: 'https://script.google.com/macros/s/AKfycbwcgILUioi3I3ndTIrnlZ9KtdN-YxpwCQaLEcradUc1vDZfsa-jSwllYfSdOju4vj8/exec',
-  useMockOnly: true,
+  useMockOnly: false,
   submitTimeout: 30000
 };
