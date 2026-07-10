@@ -11,8 +11,8 @@ window.MOCK_BOOTSTRAP_DATA = {
     hero_title: '크루즈 여행,\n처음이라도 쉽게 준비하세요.',
     hero_subtitle: '선박, 출발지, 항해 루트, 예상 비용을 한눈에 비교하고\n내 일정에 맞는 크루즈를 확인해보세요.',
     hero_bottom_text: '표시 가격보다 실제 준비 과정과 포함 항목을 먼저 확인하는 것이 중요합니다.',
-    identity_title: '크루즈플레이는\n크루즈 정보를 쉽게 정리합니다.',
-    identity_desc: '복잡한 크루즈 용어와 일정표를 처음 준비하는 분도 이해하기 쉽게 정리합니다.\n일정 비교, 비용 구조, 선실 선택, 준비물까지 필요한 내용을 안내합니다.'
+    identity_title: '크루즈플레이는\n여행사가 아닙니다.',
+    identity_desc: '쇼핑과 옵션이 포함된 패키지 여행이 아닙니다.\n오직 크루즈 티켓만 투명하게 비교하고 선택하는\n100% 자유여행 플랫폼입니다.'
   },
   schedules: [
     { schedule_id: 'CR007', title: '디즈니 4박 5일 8월', region: '싱가포르', ship_name: '디즈니 어드벤처', departure_date: '2026-08-20', return_date: '2026-08-24', departure_airport: '', summary: '싱가포르 정박 중심의 디즈니 어드벤처 4박 일정', thumbnail_url: 'https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=1600&auto=format&fit=crop', route_ports: '싱가포르', highlight_yn: 'Y' },
