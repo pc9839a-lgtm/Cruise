@@ -28,6 +28,8 @@ function jsonResponse(payload, status = 200, extraHeaders = {}) {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'no-store, max-age=0',
       'X-Content-Type-Options': 'nosniff',
+      'X-Robots-Tag': 'noindex, nofollow',
+      'Cross-Origin-Resource-Policy': 'same-origin',
       ...extraHeaders
     }
   });
@@ -133,20 +135,27 @@ async function consumeRateLimit(context, key, ttlSeconds) {
   const digest = await sha256(key);
   const markerUrl = new URL('/__security/contact-rate/' + digest, context.request.url).toString();
   const markerRequest = new Request(markerUrl, { method: 'GET' });
-  const cache = caches.default;
-  const cached = await cache.match(markerRequest);
-  if (cached) return true;
 
-  const expiresAt = now + ttlSeconds * 1000;
-  localRateLimits.set(key, expiresAt);
+  try {
+    const cache = caches.default;
+    const cached = await cache.match(markerRequest);
+    if (cached) return true;
 
-  const markerResponse = new Response('1', {
-    headers: {
-      'Cache-Control': `public, max-age=${ttlSeconds}`,
-      'Content-Type': 'text/plain; charset=utf-8'
-    }
-  });
-  context.waitUntil(cache.put(markerRequest, markerResponse));
+    const markerResponse = new Response('1', {
+      headers: {
+        'Cache-Control': `public, max-age=${ttlSeconds}`,
+        'Content-Type': 'text/plain; charset=utf-8'
+      }
+    });
+
+    context.waitUntil(
+      cache.put(markerRequest, markerResponse).catch(function () {})
+    );
+  } catch (error) {
+    // Cache API가 실패해도 인스턴스 단위 제한은 계속 적용합니다.
+  }
+
+  localRateLimits.set(key, now + ttlSeconds * 1000);
   return false;
 }
 
@@ -290,10 +299,7 @@ export async function onRequestPost(context) {
     upstreamResponse = await fetch(UPSTREAM_URL, {
       method: 'POST',
       body: forwarded,
-      redirect: 'follow',
-      headers: {
-        'User-Agent': 'CruisePlay-Contact-Proxy/1.0'
-      }
+      redirect: 'follow'
     });
   } catch (error) {
     return jsonResponse({ success: false, message: '접수 서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.' }, 502);
