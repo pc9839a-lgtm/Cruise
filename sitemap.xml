@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://cruiseplay-dyt.pages.dev/</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://cruiseplay-dyt.pages.dev/blog/</loc><lastmod>2026-07-11</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://cruiseplay-dyt.pages.dev/</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://cruiseplay-dyt.pages.dev/blog/</loc><lastmod>2026-07-12</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/about/</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/contact/</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/privacy/</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/terms/</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://cruiseplay-dyt.pages.dev/blog/cruise-onboard-medical-center-guide/</loc><lastmod>2026-07-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://cruiseplay-dyt.pages.dev/blog/cruise-muster-drill-guide/</loc><lastmod>2026-07-12</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/blog/cruise-cabin-outlet-charging-guide/</loc><lastmod>2026-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/blog/cruise-laundry-guide/</loc><lastmod>2026-07-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://cruiseplay-dyt.pages.dev/blog/cruise-travel-insurance-guide/</loc><lastmod>2026-07-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
