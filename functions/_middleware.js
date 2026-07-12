@@ -22,7 +22,7 @@ class HeadSecurityInjector {
 class SecurityScriptInjector {
   element(element) {
     element.append(
-      '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script>',
+      '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>',
       { html: true }
     );
   }
