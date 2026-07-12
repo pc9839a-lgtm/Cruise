@@ -11,6 +11,13 @@
     if (input) input.value = value || '';
   }
 
+  function setFormResult(message, type) {
+    const result = document.getElementById('partnerFormResult');
+    if (!result) return;
+    result.textContent = message || '';
+    result.className = 'form-result' + (type ? ' is-' + type : '');
+  }
+
   function initTracking() {
     const params = new URLSearchParams(window.location.search);
     const agent = String(params.get('agent') || '').trim();
@@ -68,7 +75,6 @@
 
   function initFloatingCta() {
     if (!floatingCta || !formSection) return;
-
     if (!('IntersectionObserver' in window)) return;
 
     const observer = new IntersectionObserver(function (entries) {
@@ -91,12 +97,36 @@
     });
   }
 
+  function initPartnerForm() {
+    const form = document.getElementById('partnerInquiryForm');
+    const interestInput = document.getElementById('partnerInterestInput');
+    const messageInput = document.getElementById('partnerMessageInput');
+    if (!form || !interestInput || !messageInput) return;
+
+    form.addEventListener('submit', function (event) {
+      const interest = String(interestInput.value || '').trim();
+      if (!interest) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        setFormResult('가장 궁금한 내용을 선택해주세요.', 'error');
+        interestInput.focus();
+        return;
+      }
+
+      const prefix = '[관심내용: ' + interest + ']';
+      const current = String(messageInput.value || '').trim();
+      const withoutOldPrefix = current.replace(/^\[관심내용:[^\]]+\]\s*/i, '').trim();
+      messageInput.value = prefix + (withoutOldPrefix ? '\n' + withoutOldPrefix : '');
+    }, true);
+  }
+
   function init() {
     initTracking();
     initMenu();
     initReveal();
     initFloatingCta();
     initPhotoSlots();
+    initPartnerForm();
   }
 
   if (document.readyState === 'loading') {
