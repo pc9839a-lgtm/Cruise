@@ -1,0 +1,244 @@
+/* Practical partner landing overrides */
+.hero-inner h1 {
+  max-width: 1120px;
+  font-size: clamp(48px, 6.8vw, 92px);
+  line-height: 1.02;
+}
+.hero-inner h1 em {
+  margin-top: 8px;
+}
+.hero-inner > p {
+  max-width: 820px;
+  font-size: clamp(18px, 1.8vw, 26px);
+  line-height: 1.6;
+}
+.hero-inner > .source-note {
+  margin-top: 18px;
+  color: rgba(255,255,255,.48);
+}
+.hero-photo {
+  max-width: 1080px;
+  min-height: clamp(380px, 48vw, 610px);
+  margin-top: 58px;
+}
+
+.early-section {
+  min-height: 78svh;
+}
+.impact-center h2 {
+  max-width: 900px;
+}
+.impact-center strong {
+  max-width: 850px;
+}
+
+.bridge-section,
+.opportunity-section,
+.market-section,
+.korea-section,
+.reason-section,
+.generation-section,
+.team-section,
+.support-section,
+.final-impact {
+  padding-top: 110px;
+  padding-bottom: 110px;
+}
+
+.bridge-flow {
+  max-width: 980px;
+  margin-top: 58px;
+}
+.bridge-flow article {
+  min-height: 150px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.bridge-flow article strong {
+  font-size: clamp(24px, 2.3vw, 34px);
+}
+.bridge-flow article span {
+  margin-top: 10px;
+  font-size: 16px;
+}
+.opportunity-photo {
+  max-width: 1060px;
+}
+
+.dollar-section {
+  min-height: auto;
+}
+.dollar-inner h2 {
+  max-width: 980px;
+}
+.dollar-flow {
+  grid-template-columns: repeat(7, auto);
+  justify-content: center;
+  max-width: 1180px;
+  margin-top: 58px;
+  gap: 14px;
+}
+.dollar-flow article {
+  min-width: 190px;
+  min-height: 142px;
+  padding: 24px 18px;
+  border-color: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.055);
+}
+.dollar-flow article strong {
+  font-size: 22px;
+}
+.dollar-flow > i {
+  color: rgba(255,255,255,.42);
+}
+.dollar-inner > small {
+  max-width: 900px;
+}
+
+.life-section {
+  min-height: 86svh;
+}
+.life-inner h2 {
+  max-width: 980px;
+  margin-top: 8px;
+}
+.life-photo,
+.team-photo,
+.reason-photo {
+  max-width: 1080px;
+}
+
+.support-section .support-words,
+.generation-section .support-words,
+.team-section .support-words {
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.support-words span {
+  min-height: 54px;
+  padding: 0 22px;
+  font-size: 18px;
+}
+.generation-section .support-words span,
+.team-section .support-words span {
+  color: #fff;
+  border-color: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.08);
+}
+
+.photo-overlay p {
+  max-width: 820px;
+  margin-top: 24px;
+  color: rgba(255,255,255,.82);
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.55;
+  font-weight: 780;
+}
+.photo-overlay small {
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+.korea-inner > strong:last-of-type {
+  display: block;
+  max-width: 900px;
+  margin: 38px auto 0;
+  color: #9fc8ff;
+  font-size: clamp(24px, 3vw, 42px);
+  line-height: 1.35;
+  font-weight: 950;
+}
+
+.market-numbers article {
+  border: 0;
+  background: transparent;
+}
+.market-closing {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.partner-life-gallery .photo-slot {
+  border-radius: 24px;
+}
+
+.final-impact-inner > strong {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(28px, 4vw, 56px);
+}
+
+.form-layout {
+  align-items: center;
+}
+.form-copy {
+  position: static;
+}
+
+@media (max-width: 1100px) {
+  .dollar-flow {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+  }
+  .dollar-flow > i {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-inner h1 {
+    font-size: clamp(38px, 11.5vw, 54px);
+    line-height: 1.08;
+  }
+  .hero-inner > p {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .hero-photo {
+    min-height: 340px;
+    margin-top: 42px;
+  }
+  .early-section,
+  .bridge-section,
+  .opportunity-section,
+  .market-section,
+  .korea-section,
+  .reason-section,
+  .generation-section,
+  .team-section,
+  .support-section,
+  .final-impact,
+  .life-section,
+  .dollar-section {
+    padding-top: 82px;
+    padding-bottom: 82px;
+  }
+  .bridge-flow,
+  .dollar-flow {
+    margin-top: 42px;
+  }
+  .bridge-flow article,
+  .dollar-flow article {
+    min-height: 118px;
+  }
+  .support-words {
+    gap: 10px;
+    margin-top: 38px;
+  }
+  .support-words span {
+    min-height: 46px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+  .photo-overlay p {
+    font-size: 18px;
+  }
+  .korea-inner > strong:last-of-type {
+    margin-top: 28px;
+    font-size: 24px;
+  }
+}
