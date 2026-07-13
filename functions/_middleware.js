@@ -19,7 +19,7 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .partner-direct-benefit{width:200%!important;height:100%!important;top:0!important;object-fit:fill!important}
 .hero-bg{display:block!important;opacity:1!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-real-images-v4.css?v=20260713-direct"><script src="/partner/partner-real-images-v4.js?v=20260713-direct" defer></script>';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-real-images-v4.css?v=20260713-valid-webp"><script src="/partner/partner-real-images-v4.js?v=20260713-valid-webp" defer></script>';
 
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
