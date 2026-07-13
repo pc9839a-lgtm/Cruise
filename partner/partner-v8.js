@@ -12,6 +12,7 @@ function loadStyle(href,key){
 }
 loadStyle('/partner/partner-motion-v2.css?v=20260713-varied-motion','data-partner-motion-v2');
 loadStyle('/partner/partner-form-v2.css?v=20260713-centered-simple','data-partner-form-v2');
+loadStyle('/partner/partner-images-v2.css?v=20260713-real-images','data-partner-images-v2');
 
 root.classList.add('js-enabled');
 window.addEventListener('error',()=>root.classList.add('reveal-fallback'),{once:true});
@@ -24,15 +25,36 @@ const formSection=document.getElementById('partner-form');
 function setValue(id,value){const input=document.getElementById(id);if(input)input.value=value||''}
 function setFormResult(message,type){const result=document.getElementById('partnerFormResult');if(!result)return;result.textContent=message||'';result.className='form-result'+(type?' is-'+type:'')}
 
-async function initEmbeddedImages(){
- try{
-  const [heroRes,galleryRes]=await Promise.all([
-   fetch('/img/partner/data/hero-tiny.b64.txt',{cache:'force-cache'}),
-   fetch('/img/partner/data/gallery-tiny.b64.txt',{cache:'force-cache'})
-  ]);
-  if(heroRes.ok){const b64=(await heroRes.text()).trim();const hero=document.querySelector('.hero-bg');if(hero&&b64)hero.src='data:image/webp;base64,'+b64}
-  if(galleryRes.ok){const b64=(await galleryRes.text()).trim();if(b64)root.style.setProperty('--partner-gallery-image','url("data:image/webp;base64,'+b64+'")')}
- }catch(error){console.warn('파트너 이미지 로딩 실패',error)}
+function initDirectImages(){
+ const hero=document.querySelector('.hero-bg');
+ if(hero){
+  hero.src='/img/partner/hero.webp?v=20260713-real';
+  hero.loading='eager';
+  hero.decoding='async';
+ }
+
+ document.querySelectorAll('.actual-photo').forEach((frame,index)=>{
+  if(frame.querySelector('.partner-photo-sheet'))return;
+  const image=document.createElement('img');
+  image.className='partner-photo-sheet';
+  image.src='/img/partner/gallery.webp?v=20260713-real';
+  image.alt=frame.getAttribute('aria-label')||'크루즈 여행 실제 사진';
+  image.loading=index<2?'eager':'lazy';
+  image.decoding='async';
+  frame.appendChild(image);
+  frame.classList.add('has-real-image');
+ });
+
+ document.querySelectorAll('.benefit-visual').forEach(frame=>{
+  if(frame.querySelector('.partner-benefit-sheet'))return;
+  const image=document.createElement('img');
+  image.className='partner-benefit-sheet';
+  image.src='/img/partner/benefits.webp?v=20260713-real';
+  image.alt=frame.getAttribute('aria-label')||'크루즈 파트너 혜택 이미지';
+  image.loading='lazy';
+  image.decoding='async';
+  frame.appendChild(image);
+ });
 }
 
 function initApprovedCopy(){
@@ -83,6 +105,15 @@ function initSimpleForm(){
  };
  ensureHidden('partner_interest','파트너 상담 문의');
  ensureHidden('travel_ready_status','미입력');
+
+ if(layout&&!layout.querySelector('.form-photo-panel')){
+  const photo=document.createElement('div');
+  photo.className='form-photo-panel actual-photo photo-6 reveal-media';
+  photo.setAttribute('role','img');
+  photo.setAttribute('aria-label','크루즈 여행을 함께 즐기는 실제 단체사진');
+  const shell=layout.querySelector('.partner-form-shell');
+  if(shell)layout.insertBefore(photo,shell);else layout.appendChild(photo);
+ }
 }
 
 function initMotionVariants(){
@@ -281,9 +312,9 @@ function init(){
  try{
   initApprovedCopy();
   initSimpleForm();
+  initDirectImages();
   initMotionVariants();
   initSectionActivation();
-  initEmbeddedImages();
   initTracking();
   initMenu();
   initReveal();
