@@ -29,49 +29,8 @@ class SecurityScriptInjector {
   }
 }
 
-class PartnerFreeCruiseCopyInjector {
-  element(element) {
-    element.setInnerContent(
-      '쉽다고 말하지는 않습니다.<br />하지만, 이미 수많은 사람들이 무료 여행을 즐기고 있습니다.',
-      { html: true }
-    );
-  }
-}
-
-class PartnerLifeHeadlineInjector {
-  element(element) {
-    element.setInnerContent(
-      '여행이 수익이 되는 순간,<br />인생의 선택지가 달라집니다.',
-      { html: true }
-    );
-  }
-}
-
-class PartnerLifeBodyInjector {
-  element(element) {
-    element.setInnerContent(
-      '1년에 한 번 큰맘 먹고 가던 여행이<br /><em>두 번, 세 번 이어지고 삶의 반경도 넓어집니다.</em>',
-      { html: true }
-    );
-  }
-}
-
-class PartnerLifePhotoTitleInjector {
-  element(element) {
-    element.setInnerContent('달라진 여행의 실제 장면');
-  }
-}
-
-class PartnerLifePhotoCaptionInjector {
-  element(element) {
-    element.setInnerContent('반복되는 여행·새로운 인연·달라진 일상');
-  }
-}
-
 function applySecurityHeaders(headers) {
-  Object.entries(SECURITY_HEADERS).forEach(([name, value]) => {
-    headers.set(name, value);
-  });
+  Object.entries(SECURITY_HEADERS).forEach(([name, value]) => headers.set(name, value));
   return headers;
 }
 
@@ -81,11 +40,7 @@ async function secureSitemapResponse(response, headers) {
     xml = xml.replace('</urlset>', PARTNER_SITEMAP_ENTRY + '\n</urlset>');
   }
   headers.set('Content-Type', 'application/xml; charset=UTF-8');
-  return new Response(xml, {
-    status: response.status,
-    statusText: response.statusText,
-    headers
-  });
+  return new Response(xml, { status: response.status, statusText: response.statusText, headers });
 }
 
 export async function onRequest(context) {
@@ -105,20 +60,10 @@ export async function onRequest(context) {
   });
 
   if (contentType.includes('text/html')) {
-    let rewriter = new HTMLRewriter()
+    securedResponse = new HTMLRewriter()
       .on('head', new HeadSecurityInjector())
-      .on('body', new SecurityScriptInjector());
-
-    if (pathname === '/partner' || pathname === '/partner/') {
-      rewriter = rewriter
-        .on('.free-cruise-section .photo-overlay small', new PartnerFreeCruiseCopyInjector())
-        .on('.opportunity-section h2', new PartnerLifeHeadlineInjector())
-        .on('.opportunity-section > .partner-container > p', new PartnerLifeBodyInjector())
-        .on('.opportunity-section .photo-slot-copy strong', new PartnerLifePhotoTitleInjector())
-        .on('.opportunity-section .photo-slot-copy small', new PartnerLifePhotoCaptionInjector());
-    }
-
-    securedResponse = rewriter.transform(securedResponse);
+      .on('body', new SecurityScriptInjector())
+      .transform(securedResponse);
   }
 
   return securedResponse;
