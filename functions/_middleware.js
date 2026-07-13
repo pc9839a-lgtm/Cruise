@@ -11,12 +11,12 @@ const SECURITY_HEADERS = {
 
 const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);var n=new URLSearchParams();var rules={agent:40,utm_source:80,utm_medium:80,utm_campaign:80,inquiryType:40};Object.keys(rules).forEach(function(k){var v=(u.searchParams.get(k)||'').replace(/[\\u0000-\\u001f\\u007f<>]/g,'').trim().slice(0,rules[k]);if(!v)return;if(k==='agent'&&!/^[A-Za-z0-9_-]+$/.test(v))return;if(k==='inquiryType'&&!/^[A-Za-z0-9_-]+$/.test(v))return;n.set(k,v)});if(u.searchParams.get('openInquiry')==='1')n.set('openInquiry','1');var s=n.toString();var clean=u.pathname+(s?'?'+s:'')+u.hash;if(clean!==u.pathname+u.search+u.hash)history.replaceState(null,'',clean)}catch(e){}})();</script>`;
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
-const PARTNER_SITEMAP_ENTRY = '  <url><loc>https://cruiseplay-dyt.pages.dev/partner/</loc><lastmod>2026-07-13</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>';
+const PARTNER_SITEMAP_ENTRY = '  <url><loc>https://cruiseplay-dyt.pages.dev/partner/</loc><lastmod>2026-07-14</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>';
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-color:#dfe7f2!important}
-.hero-bg{display:block!important;opacity:1!important}
+.hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-sprite-restore.css?v=20260714-spritefix">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-mobile-direct">';
 
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
@@ -41,9 +41,29 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-spritefix');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-mobile-direct');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
+  }
+}
+
+class PartnerPhotoInjector {
+  element(element) {
+    const alt = String(element.getAttribute('aria-label') || '크루즈 여행 실제 사진').replace(/"/g, '&quot;');
+    element.setInnerContent(
+      `<img class="partner-direct-photo" src="/img/partner/gallery.webp?v=20260714-mobile-direct" alt="${alt}" loading="lazy" decoding="async" />`,
+      { html: true }
+    );
+  }
+}
+
+class PartnerBenefitInjector {
+  element(element) {
+    const alt = String(element.getAttribute('aria-label') || '크루즈 파트너 혜택 이미지').replace(/"/g, '&quot;');
+    element.setInnerContent(
+      `<img class="partner-direct-benefit" src="/img/partner/benefits.webp?v=20260714-mobile-direct" alt="${alt}" loading="lazy" decoding="async" />`,
+      { html: true }
+    );
   }
 }
 
@@ -90,7 +110,10 @@ export async function onRequest(context) {
       .on('body', new SecurityScriptInjector());
 
     if (isPartner) {
-      rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
+      rewriter = rewriter
+        .on('.hero-bg', new PartnerHeroInjector())
+        .on('.actual-photo', new PartnerPhotoInjector())
+        .on('.benefit-visual', new PartnerBenefitInjector());
     }
 
     securedResponse = rewriter.transform(securedResponse);
