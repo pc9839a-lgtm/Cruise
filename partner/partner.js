@@ -1,6 +1,14 @@
 (function () {
   'use strict';
 
+  if (!document.querySelector('link[data-partner-real-copy]')) {
+    const styleLink = document.createElement('link');
+    styleLink.rel = 'stylesheet';
+    styleLink.href = '/partner/partner-real-copy.css?v=20260713-final';
+    styleLink.setAttribute('data-partner-real-copy', 'true');
+    document.head.appendChild(styleLink);
+  }
+
   const menuButton = document.getElementById('partnerMenuButton');
   const nav = document.getElementById('partnerNav');
   const floatingCta = document.getElementById('partnerFloatingCta');
