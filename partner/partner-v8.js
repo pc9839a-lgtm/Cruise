@@ -2,13 +2,17 @@
 'use strict';
 
 const root=document.documentElement;
-if(!document.querySelector('link[data-partner-motion-v2]')){
+function loadStyle(href,key){
+ if(document.querySelector('link['+key+']'))return;
  const link=document.createElement('link');
  link.rel='stylesheet';
- link.href='/partner/partner-motion-v2.css?v=20260713-varied-motion';
- link.setAttribute('data-partner-motion-v2','true');
+ link.href=href;
+ link.setAttribute(key,'true');
  document.head.appendChild(link);
 }
+loadStyle('/partner/partner-motion-v2.css?v=20260713-varied-motion','data-partner-motion-v2');
+loadStyle('/partner/partner-form-v2.css?v=20260713-centered-simple','data-partner-form-v2');
+
 root.classList.add('js-enabled');
 window.addEventListener('error',()=>root.classList.add('reveal-fallback'),{once:true});
 
@@ -57,6 +61,30 @@ function initApprovedCopy(){
  }
 }
 
+function initSimpleForm(){
+ const section=document.getElementById('partner-form');
+ const form=document.getElementById('partnerInquiryForm');
+ const grid=form&&form.querySelector('.partner-form-grid');
+ if(!section||!form||!grid)return;
+ section.classList.add('partner-form-simple');
+ const layout=section.querySelector('.form-layout');
+ if(layout)layout.classList.add('is-centered-form');
+ grid.innerHTML='\
+  <label class="partner-field partner-field-full"><span>이름 *</span><input type="text" name="name" id="partnerNameInput" placeholder="이름을 입력해주세요" autocomplete="name" required /></label>\
+  <label class="partner-field partner-field-full"><span>연락처 *</span><input type="tel" name="phone" id="partnerPhoneInput" inputmode="numeric" autocomplete="tel" placeholder="숫자만 입력해주세요" required /></label>\
+  <label class="partner-field partner-field-full"><span>지역 *</span><input type="text" name="region_detail" id="partnerRegionInput" placeholder="예: 서울" autocomplete="address-level1" required /></label>\
+  <label class="partner-field partner-field-full"><span>나이 *</span><input type="number" name="age_group" id="partnerAgeInput" min="18" max="99" inputmode="numeric" placeholder="예: 35" required /></label>\
+  <label class="partner-field partner-field-full"><span>문의사항 *</span><textarea name="partner_message" id="partnerMessageInput" rows="5" placeholder="궁금한 내용을 남겨주세요" required></textarea></label>\
+  <label class="partner-consent partner-field-full"><input type="checkbox" id="partnerPrivacyInput" required /><span>개인정보 수집 및 이용에 동의합니다. <a href="/privacy/" target="_blank" rel="noopener">보기</a></span></label>';
+ const ensureHidden=(name,value)=>{
+  let input=form.querySelector('input[name="'+name+'"]');
+  if(!input){input=document.createElement('input');input.type='hidden';input.name=name;form.appendChild(input)}
+  input.value=value;
+ };
+ ensureHidden('partner_interest','파트너 상담 문의');
+ ensureHidden('travel_ready_status','미입력');
+}
+
 function initMotionVariants(){
  const sections=[...document.querySelectorAll('main>section')];
  const cycle=['anim-slide-left','anim-slide-right','anim-clip','anim-pop','anim-fade','anim-rise'];
@@ -81,13 +109,8 @@ function initMotionVariants(){
    section.classList.add(cycle[index%cycle.length]);
   }
  });
-
- document.querySelectorAll('.flow-card').forEach((card,index)=>{
-  card.style.transitionDelay=(index*.13)+'s';
- });
- document.querySelectorAll('.gallery-item').forEach((card,index)=>{
-  card.style.transitionDelay=(index*.09)+'s';
- });
+ document.querySelectorAll('.flow-card').forEach((card,index)=>{card.style.transitionDelay=(index*.13)+'s'});
+ document.querySelectorAll('.gallery-item').forEach((card,index)=>{card.style.transitionDelay=(index*.09)+'s'});
 }
 
 function initSectionActivation(){
@@ -209,27 +232,55 @@ function initFloatingCta(){
 
 function initPartnerForm(){
  const form=document.getElementById('partnerInquiryForm');
- const interest=document.getElementById('partnerInterestInput');
- const message=document.getElementById('partnerMessageInput');
- if(!form||!interest||!message)return;
+ if(!form)return;
  form.addEventListener('submit',event=>{
-  const chosen=String(interest.value||'').trim();
-  if(!chosen){
+  const name=document.getElementById('partnerNameInput');
+  const phone=document.getElementById('partnerPhoneInput');
+  const region=document.getElementById('partnerRegionInput');
+  const age=document.getElementById('partnerAgeInput');
+  const message=document.getElementById('partnerMessageInput');
+  const privacy=document.getElementById('partnerPrivacyInput');
+  const required=[
+   [name,'이름을 입력해주세요.'],
+   [phone,'연락처를 입력해주세요.'],
+   [region,'지역을 입력해주세요.'],
+   [age,'나이를 입력해주세요.'],
+   [message,'문의사항을 입력해주세요.']
+  ];
+  for(const [field,errorMessage] of required){
+   if(!field||!String(field.value||'').trim()){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    setFormResult(errorMessage,'error');
+    if(field)field.focus();
+    return;
+   }
+  }
+  const digits=String(phone.value||'').replace(/\D/g,'');
+  if(digits.length<9){
    event.preventDefault();
    event.stopImmediatePropagation();
-   setFormResult('가장 궁금한 내용을 선택해주세요.','error');
-   interest.focus();
+   setFormResult('연락처를 정확히 입력해주세요.','error');
+   phone.focus();
    return;
   }
-  const prefix='[관심내용: '+chosen+']';
-  const current=String(message.value||'').replace(/^\[관심내용:[^\]]+\]\s*/i,'').trim();
-  message.value=prefix+(current?'\n'+current:'');
+  phone.value=digits;
+  if(!privacy||!privacy.checked){
+   event.preventDefault();
+   event.stopImmediatePropagation();
+   setFormResult('개인정보 수집 및 이용에 동의해주세요.','error');
+   if(privacy)privacy.focus();
+   return;
+  }
+  setValue('partnerMessageHidden',String(message.value||'').trim());
+  setFormResult('','');
  },true);
 }
 
 function init(){
  try{
   initApprovedCopy();
+  initSimpleForm();
   initMotionVariants();
   initSectionActivation();
   initEmbeddedImages();
