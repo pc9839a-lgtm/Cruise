@@ -1,0 +1,47 @@
+/* Restore actual partner photo and benefit sprites after legacy image overrides */
+.actual-photo{
+  position:relative!important;
+  overflow:hidden!important;
+  background-image:url('/img/partner/gallery.webp?v=20260714-spritefix')!important;
+  background-size:500% 200%!important;
+  background-repeat:no-repeat!important;
+  background-color:#dfe7f2!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.actual-photo.photo-0{background-position:0% 0%!important}
+.actual-photo.photo-1{background-position:25% 0%!important}
+.actual-photo.photo-2{background-position:50% 0%!important}
+.actual-photo.photo-3{background-position:75% 0%!important}
+.actual-photo.photo-4{background-position:100% 0%!important}
+.actual-photo.photo-5{background-position:0% 100%!important}
+.actual-photo.photo-6{background-position:25% 100%!important}
+.actual-photo.photo-7{background-position:50% 100%!important}
+.actual-photo.photo-8{background-position:75% 100%!important}
+.actual-photo.photo-9{background-position:100% 100%!important}
+.actual-photo>img,
+.actual-photo .partner-direct-photo,
+.actual-photo .partner-photo-sheet,
+.actual-photo .partner-real-photo,
+.actual-photo .partner-inline-photo-v5{
+  display:none!important;
+}
+.benefit-visual{
+  position:relative!important;
+  overflow:hidden!important;
+  background-image:url('/img/partner/benefits.webp?v=20260714-spritefix')!important;
+  background-size:200% 100%!important;
+  background-repeat:no-repeat!important;
+  background-color:#050a12!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.benefit-visual.benefit-credit{background-position:0% 50%!important}
+.benefit-visual.benefit-income{background-position:100% 50%!important}
+.benefit-visual>img,
+.benefit-visual .partner-direct-benefit,
+.benefit-visual .partner-benefit-sheet,
+.benefit-visual .partner-inline-benefit-v5{
+  display:none!important;
+}
+.hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
