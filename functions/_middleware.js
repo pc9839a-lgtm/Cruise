@@ -13,13 +13,10 @@ const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
 const PARTNER_SITEMAP_ENTRY = '  <url><loc>https://cruiseplay-dyt.pages.dev/partner/</loc><lastmod>2026-07-13</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>';
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
-.actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-image:none!important;background-color:#dfe7f2!important}
-.partner-direct-photo,.partner-direct-benefit{position:absolute!important;z-index:1!important;display:block!important;max-width:none!important;pointer-events:none!important;user-select:none!important}
-.partner-direct-photo{width:500%!important;height:200%!important;object-fit:fill!important}
-.partner-direct-benefit{width:200%!important;height:100%!important;top:0!important;object-fit:fill!important}
+.actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-color:#dfe7f2!important}
 .hero-bg{display:block!important;opacity:1!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-real-images-v4.css?v=20260713-valid-webp"><script src="/partner/partner-real-images-v4.js?v=20260713-valid-webp" defer></script>';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-sprite-restore.css?v=20260714-spritefix">';
 
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
@@ -44,38 +41,9 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260713-edge-image');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-spritefix');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
-  }
-}
-
-class PartnerPhotoInjector {
-  element(element) {
-    const className = String(element.getAttribute('class') || '');
-    const match = className.match(/photo-(\d+)/);
-    const index = match ? Math.max(0, Math.min(9, Number(match[1]))) : 0;
-    const column = index % 5;
-    const row = Math.floor(index / 5);
-    const left = -(column * 100);
-    const top = -(row * 100);
-    const alt = element.getAttribute('aria-label') || '크루즈 여행 실제 사진';
-    element.setInnerContent(
-      `<img class="partner-direct-photo" src="/img/partner/gallery.webp?v=20260713-edge-image" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy" decoding="async" style="left:${left}%;top:${top}%" />`,
-      { html: true }
-    );
-  }
-}
-
-class PartnerBenefitInjector {
-  element(element) {
-    const className = String(element.getAttribute('class') || '');
-    const left = className.includes('benefit-income') ? -100 : 0;
-    const alt = element.getAttribute('aria-label') || '크루즈 파트너 혜택 이미지';
-    element.setInnerContent(
-      `<img class="partner-direct-benefit" src="/img/partner/benefits.webp?v=20260713-edge-image" alt="${alt.replace(/"/g, '&quot;')}" loading="lazy" decoding="async" style="left:${left}%" />`,
-      { html: true }
-    );
   }
 }
 
@@ -122,10 +90,7 @@ export async function onRequest(context) {
       .on('body', new SecurityScriptInjector());
 
     if (isPartner) {
-      rewriter = rewriter
-        .on('.hero-bg', new PartnerHeroInjector())
-        .on('.actual-photo', new PartnerPhotoInjector())
-        .on('.benefit-visual', new PartnerBenefitInjector());
+      rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
     }
 
     securedResponse = rewriter.transform(securedResponse);
