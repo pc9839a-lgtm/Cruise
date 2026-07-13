@@ -1,0 +1,81 @@
+/* Direct image rendering for desktop and mobile — no background sprite dependency */
+.actual-photo,
+.benefit-visual{
+  position:relative!important;
+  overflow:hidden!important;
+  background:#dfe7f2!important;
+  background-image:none!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+.actual-photo>.partner-direct-photo{
+  position:absolute!important;
+  z-index:5!important;
+  display:block!important;
+  width:500%!important;
+  height:200%!important;
+  max-width:none!important;
+  object-fit:fill!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+  pointer-events:none!important;
+}
+.actual-photo.photo-0>.partner-direct-photo{left:0!important;top:0!important}
+.actual-photo.photo-1>.partner-direct-photo{left:-100%!important;top:0!important}
+.actual-photo.photo-2>.partner-direct-photo{left:-200%!important;top:0!important}
+.actual-photo.photo-3>.partner-direct-photo{left:-300%!important;top:0!important}
+.actual-photo.photo-4>.partner-direct-photo{left:-400%!important;top:0!important}
+.actual-photo.photo-5>.partner-direct-photo{left:0!important;top:-100%!important}
+.actual-photo.photo-6>.partner-direct-photo{left:-100%!important;top:-100%!important}
+.actual-photo.photo-7>.partner-direct-photo{left:-200%!important;top:-100%!important}
+.actual-photo.photo-8>.partner-direct-photo{left:-300%!important;top:-100%!important}
+.actual-photo.photo-9>.partner-direct-photo{left:-400%!important;top:-100%!important}
+
+.benefit-visual>.partner-direct-benefit{
+  position:absolute!important;
+  z-index:5!important;
+  top:0!important;
+  display:block!important;
+  width:200%!important;
+  height:100%!important;
+  max-width:none!important;
+  object-fit:fill!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+  pointer-events:none!important;
+}
+#benefit-credit .partner-direct-benefit{left:0!important}
+#benefit-income .partner-direct-benefit{left:-100%!important}
+
+.actual-photo>.partner-photo-sheet,
+.actual-photo>.partner-real-photo,
+.actual-photo>.partner-section-image,
+.benefit-visual>.partner-benefit-sheet{
+  display:none!important;
+}
+
+.hero-bg{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+@media(max-width:700px){
+  .actual-photo>.partner-direct-photo,
+  .benefit-visual>.partner-direct-benefit{
+    display:block!important;
+    opacity:1!important;
+    visibility:visible!important;
+  }
+  .actual-photo{
+    min-height:260px!important;
+  }
+  .flow-card>.actual-photo{height:230px!important;min-height:230px!important}
+  .gallery-item>.actual-photo{min-height:320px!important}
+  .photo-impact{min-height:100%!important}
+}
