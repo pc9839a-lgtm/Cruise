@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>크루즈플레이 아카데미</title>
-  <meta name="description" content="크루즈 멤버십과 파트너 활동을 단계별로 배우고 바로 실행하는 크루즈플레이 아카데미입니다." />
+  <meta name="description" content="크루즈 멤버십과 파트너 활동을 과정별 카드로 확인하는 크루즈플레이 아카데미입니다." />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="theme-color" content="#07111f" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="/academy/academy-v1.css?v=20260714-portal" />
+  <link rel="stylesheet" href="/academy/academy-v1.css?v=20260714-catalog" />
 </head>
 <body>
   <header class="academy-header">
@@ -22,205 +22,191 @@
         <span></span><span></span><span></span>
       </button>
       <nav class="academy-nav" id="academyNav" aria-label="아카데미 메뉴">
-        <a href="#start">처음 시작</a>
-        <a href="#partner-track">파트너 실전</a>
-        <a href="#quick-links">빠른 링크</a>
-        <a href="/partner/#partner-form" class="academy-nav-cta" data-preserve-agent>문의하기</a>
+        <a href="#courses">전체 과정</a>
+        <a href="#membership">멤버십</a>
+        <a href="#partner">파트너</a>
+        <a href="#quick-links">바로가기</a>
+        <a href="/partner/#partner-form" class="academy-nav-cta">문의하기</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="academy-dashboard" id="top">
+    <section class="academy-intro">
       <div class="academy-container">
-        <div class="academy-welcome-card">
-          <div class="academy-welcome-copy">
+        <div class="academy-intro-card">
+          <div class="academy-intro-copy">
             <span class="academy-eyebrow">CRUISEPLAY ACADEMY</span>
-            <h1>어디서부터<br /><strong>시작할까요?</strong></h1>
-            <p>처음 알아보는 단계와 파트너 가입 후 단계가 나뉘어 있습니다. 지금 내 상황에 맞는 코스부터 시작하세요.</p>
-            <div class="academy-role-switch" role="tablist" aria-label="학습 단계 선택">
-              <button type="button" class="is-active" data-track-button="before" role="tab" aria-selected="true">처음 알아보는 중</button>
-              <button type="button" data-track-button="after" role="tab" aria-selected="false">파트너 가입 완료</button>
-            </div>
+            <h1>궁금한 과정부터.<br /><strong>하나씩 확인하세요.</strong></h1>
+            <p>처음 알아보는 사람과 가입한 파트너가 필요한 내용을 같은 곳에서 확인합니다.</p>
           </div>
           <div class="academy-progress-card" aria-live="polite">
             <div class="academy-progress-head">
-              <span>내 진행률</span>
+              <span>학습 진행률</span>
               <strong id="academyProgressPercent">0%</strong>
             </div>
             <div class="academy-progress-bar"><span id="academyProgressBar"></span></div>
             <p id="academyProgressText">완료한 과정이 없습니다.</p>
-            <button type="button" id="academyResetProgress">처음부터 다시 보기</button>
-          </div>
-        </div>
-
-        <div class="academy-mini-links" aria-label="바로가기">
-          <a href="/membership/" data-preserve-agent><span>멤버십 페이지</span><strong>바로 보기 →</strong></a>
-          <a href="/partner/" data-preserve-agent><span>파트너 페이지</span><strong>바로 보기 →</strong></a>
-          <a href="/partner/#partner-form" data-preserve-agent><span>궁금한 점</span><strong>문의 남기기 →</strong></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="academy-course-section" id="start">
-      <div class="academy-container">
-        <div class="academy-section-head">
-          <span>처음 알아보는 중</span>
-          <h2>가입 전에<br /><strong>이 네 가지만.</strong></h2>
-          <p>멤버십과 파트너 활동을 처음 보는 사람에게 필요한 순서입니다.</p>
-        </div>
-
-        <div class="academy-course-grid" data-track-panel="before">
-          <article class="academy-course-card" data-course-id="before-membership">
-            <div class="academy-course-top"><span>01</span><em>약 10분</em></div>
-            <h3>멤버십부터 이해하기</h3>
-            <p>가입비, 월 납부액, 포인트 적립과 사용 범위를 확인합니다.</p>
-            <div class="academy-course-tags"><span>플랜</span><span>포인트</span><span>예약</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="before-membership">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="before-membership" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="before-booking">
-            <div class="academy-course-top"><span>02</span><em>약 7분</em></div>
-            <h3>포인트와 예약 보기</h3>
-            <p>일반 예약과 270일 이후 출발 예약의 차이를 확인합니다.</p>
-            <div class="academy-course-tags"><span>50%</span><span>270일</span><span>카드 결제</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="before-booking">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="before-booking" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="before-partner">
-            <div class="academy-course-top"><span>03</span><em>약 8분</em></div>
-            <h3>파트너가 하는 일</h3>
-            <p>콘텐츠를 올리고, 링크를 보내고, 남은 질문에 답하는 실제 활동을 봅니다.</p>
-            <div class="academy-course-tags"><span>콘텐츠</span><span>공유</span><span>후속 안내</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="before-partner">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="before-partner" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="before-caution">
-            <div class="academy-course-top"><span>04</span><em>약 5분</em></div>
-            <h3>가입 전 꼭 확인하기</h3>
-            <p>환불, 해지, 본인 명의 카드, 멤버십 유지 조건을 확인합니다.</p>
-            <div class="academy-course-tags"><span>환불</span><span>해지</span><span>유지 조건</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="before-caution">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="before-caution" /><span>완료</span></label>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="academy-course-section academy-partner-section" id="partner-track">
-      <div class="academy-container">
-        <div class="academy-section-head academy-section-head-dark">
-          <span>파트너 가입 완료</span>
-          <h2>배웠다면 바로.<br /><strong>한 사람에게 보내기.</strong></h2>
-          <p>가입 후 첫 주에 필요한 실전 과정입니다.</p>
-        </div>
-
-        <div class="academy-course-grid academy-course-grid-dark" data-track-panel="after" hidden>
-          <article class="academy-course-card" data-course-id="after-link">
-            <div class="academy-course-top"><span>01</span><em>약 5분</em></div>
-            <h3>내 추천 링크 확인</h3>
-            <p>추천코드를 넣고 멤버십·파트너·아카데미 링크를 만듭니다.</p>
-            <div class="academy-course-tags"><span>추천코드</span><span>개인 링크</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="after-link">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="after-link" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="after-share">
-            <div class="academy-course-top"><span>02</span><em>약 8분</em></div>
-            <h3>첫 링크 보내기</h3>
-            <p>상대의 관심에 맞춰 멤버십 또는 파트너 페이지를 보냅니다.</p>
-            <div class="academy-course-tags"><span>멤버십</span><span>파트너</span><span>메시지</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="after-share">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="after-share" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="after-reply">
-            <div class="academy-course-top"><span>03</span><em>약 7분</em></div>
-            <h3>첫 문의 답하기</h3>
-            <p>자주 묻는 비용, 포인트, 활동 조건을 짧고 정확하게 답합니다.</p>
-            <div class="academy-course-tags"><span>비용</span><span>조건</span><span>FAQ</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="after-reply">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="after-reply" /><span>완료</span></label>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="after-followup">
-            <div class="academy-course-top"><span>04</span><em>약 6분</em></div>
-            <h3>첫 가입 연결하기</h3>
-            <p>상대가 충분히 확인한 뒤 본인 추천 링크로 가입하도록 안내합니다.</p>
-            <div class="academy-course-tags"><span>가입</span><span>확인</span><span>후속 안내</span></div>
-            <div class="academy-course-actions">
-              <button type="button" class="academy-open-course" data-open-course="after-followup">과정 열기</button>
-              <label><input type="checkbox" data-complete-course="after-followup" /><span>완료</span></label>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="academy-link-section" id="quick-links">
-      <div class="academy-container">
-        <div class="academy-link-shell">
-          <div class="academy-link-copy">
-            <span>내 링크 만들기</span>
-            <h2>추천코드 하나로<br /><strong>세 개의 링크.</strong></h2>
-            <p>파트너 가입 후 받은 추천코드를 입력하세요.</p>
-          </div>
-          <div class="academy-link-maker">
-            <label for="academyAgentCode">추천코드</label>
-            <div class="academy-link-input-row">
-              <input id="academyAgentCode" type="text" maxlength="40" placeholder="추천코드를 입력하세요" autocomplete="off" />
-              <button type="button" id="academyCreateLinks">링크 만들기</button>
-            </div>
-            <p class="academy-link-message" id="academyLinkMessage" role="status" aria-live="polite"></p>
-            <div class="academy-generated-links" id="academyGeneratedLinks" hidden>
-              <button type="button" data-copy-link="membership"><span>멤버십 링크</span><strong>복사</strong></button>
-              <button type="button" data-copy-link="partner"><span>파트너 링크</span><strong>복사</strong></button>
-              <button type="button" data-copy-link="academy"><span>아카데미 링크</span><strong>복사</strong></button>
-            </div>
+            <button type="button" id="academyResetProgress">완료 표시 초기화</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="academy-resource-section">
+    <section class="academy-catalog" id="courses">
       <div class="academy-container">
-        <div class="academy-section-head">
-          <span>빠른 링크</span>
-          <h2>설명보다 먼저.<br /><strong>필요한 페이지 보내기.</strong></h2>
+        <div class="academy-catalog-head">
+          <div>
+            <span>ACADEMY COURSE</span>
+            <h2>전체 과정</h2>
+          </div>
+          <div class="academy-filter-row" role="tablist" aria-label="과정 분류">
+            <button type="button" class="is-active" data-filter="all" aria-selected="true">전체</button>
+            <button type="button" data-filter="membership" aria-selected="false">멤버십</button>
+            <button type="button" data-filter="partner" aria-selected="false">파트너</button>
+            <button type="button" data-filter="required" aria-selected="false">필수 확인</button>
+          </div>
+        </div>
+
+        <div class="academy-course-grid" id="academyCourseGrid">
+          <article class="academy-course-card" data-course-id="membership-overview" data-category="membership" id="membership">
+            <img src="/membership/img/KakaoTalk_20260405_150550057_03.jpg" alt="크루즈 오션뷰 라운지" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>멤버십</span><em>01 · 7분</em></div>
+              <h3>크루즈 멤버십 한눈에</h3>
+              <p>어떤 서비스인지, 어디에 쓰는지 먼저 확인합니다.</p>
+              <div class="academy-course-tags"><span>크루즈</span><span>호텔</span><span>포인트</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="membership-overview">학습하기</button>
+                <label><input type="checkbox" data-complete-course="membership-overview" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="membership-plans" data-category="membership">
+            <img src="/membership/img/KakaoTalk_20260405_150550057_02.jpg" alt="크루즈 출항 풍경" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>멤버십</span><em>02 · 8분</em></div>
+              <h3>플랜과 비용</h3>
+              <p>무료부터 프리미엄까지 비용과 적립 차이를 봅니다.</p>
+              <div class="academy-course-tags"><span>게스트</span><span>클래식</span><span>프리미엄</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="membership-plans">학습하기</button>
+                <label><input type="checkbox" data-complete-course="membership-plans" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="membership-points" data-category="membership">
+            <img src="/membership/img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>멤버십</span><em>03 · 6분</em></div>
+              <h3>포인트 적립</h3>
+              <p>가입 혜택과 매월 적립 포인트를 플랜별로 확인합니다.</p>
+              <div class="academy-course-tags"><span>가입 혜택</span><span>2배 적립</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="membership-points">학습하기</button>
+                <label><input type="checkbox" data-complete-course="membership-points" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="membership-booking" data-category="membership required">
+            <img src="/membership/img/음식및엔터24.png" alt="크루즈 선내 공연" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>필수 확인</span><em>04 · 8분</em></div>
+              <h3>예약할 때 쓰는 법</h3>
+              <p>일반 예약과 270일 이후 출발 예약의 차이를 봅니다.</p>
+              <div class="academy-course-tags"><span>50%</span><span>270일</span><span>카드 결제</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="membership-booking">학습하기</button>
+                <label><input type="checkbox" data-complete-course="membership-booking" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-role" data-category="partner" id="partner">
+            <img src="/membership/img/KakaoTalk_20260405_150550057_06.jpg" alt="크루즈 갑판 풍경" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>파트너</span><em>05 · 7분</em></div>
+              <h3>파트너는 무슨 일을 하나</h3>
+              <p>콘텐츠, 페이지 공유, 질문 안내까지 실제 활동을 봅니다.</p>
+              <div class="academy-course-tags"><span>콘텐츠</span><span>공유</span><span>안내</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="partner-role">학습하기</button>
+                <label><input type="checkbox" data-complete-course="partner-role" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-content" data-category="partner">
+            <img src="/membership/img/객실및내부시설9-1.png" alt="크루즈 선내 포토존" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>파트너</span><em>06 · 8분</em></div>
+              <h3>첫 콘텐츠 올리기</h3>
+              <p>처음 올릴 사진과 글의 범위를 어렵지 않게 잡습니다.</p>
+              <div class="academy-course-tags"><span>사진</span><span>후기</span><span>SNS</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="partner-content">학습하기</button>
+                <label><input type="checkbox" data-complete-course="partner-content" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-reply" data-category="partner">
+            <img src="/membership/img/음식및엔터11.png" alt="크루즈 레스토랑" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>파트너</span><em>07 · 7분</em></div>
+              <h3>문의가 왔을 때</h3>
+              <p>비용, 포인트, 활동 조건을 짧고 정확하게 답합니다.</p>
+              <div class="academy-course-tags"><span>비용</span><span>조건</span><span>FAQ</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="partner-reply">학습하기</button>
+                <label><input type="checkbox" data-complete-course="partner-reply" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-signup" data-category="partner required">
+            <img src="/membership/img/KakaoTalk_20260405_150550057.jpg" alt="크루즈 야경" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>필수 확인</span><em>08 · 6분</em></div>
+              <h3>가입 연결 전 확인</h3>
+              <p>상대가 비용과 조건을 확인한 뒤 스스로 결정하도록 안내합니다.</p>
+              <div class="academy-course-tags"><span>가입</span><span>확인</span><span>후속 안내</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="partner-signup">학습하기</button>
+                <label><input type="checkbox" data-complete-course="partner-signup" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="membership-caution" data-category="required">
+            <img src="/membership/img/객실및내부시설12-2.png" alt="크루즈 라운지" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>필수 확인</span><em>09 · 5분</em></div>
+              <h3>가입 전 유의사항</h3>
+              <p>환불, 해지, 본인 명의 카드, 멤버십 유지 조건을 봅니다.</p>
+              <div class="academy-course-tags"><span>환불</span><span>해지</span><span>유지 조건</span></div>
+              <div class="academy-course-actions">
+                <button type="button" data-open-course="membership-caution">학습하기</button>
+                <label><input type="checkbox" data-complete-course="membership-caution" /><span>완료</span></label>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="academy-resource-section" id="quick-links">
+      <div class="academy-container">
+        <div class="academy-catalog-head academy-resource-head">
+          <div><span>QUICK LINK</span><h2>바로가기</h2></div>
         </div>
         <div class="academy-resource-grid">
-          <a href="/membership/" data-preserve-agent>
-            <small>여행 혜택이 궁금한 사람에게</small>
-            <h3>멤버십 페이지</h3>
-            <strong>열기 →</strong>
-          </a>
-          <a href="/partner/" data-preserve-agent>
-            <small>파트너 활동이 궁금한 사람에게</small>
-            <h3>파트너 페이지</h3>
-            <strong>열기 →</strong>
-          </a>
-          <a href="/partner/#partner-form" data-preserve-agent>
-            <small>추가 질문이 있는 사람에게</small>
-            <h3>상담 문의</h3>
-            <strong>열기 →</strong>
-          </a>
+          <a href="/membership/"><small>멤버십 전체 내용</small><h3>멤버십 페이지</h3><strong>열기 →</strong></a>
+          <a href="/partner/"><small>파트너 활동 안내</small><h3>파트너 페이지</h3><strong>열기 →</strong></a>
+          <a href="/partner/#partner-form"><small>추가로 궁금한 내용</small><h3>상담 문의</h3><strong>열기 →</strong></a>
         </div>
       </div>
     </section>
@@ -243,6 +229,6 @@
     </div>
   </dialog>
 
-  <script src="/academy/academy-v1.js?v=20260714-portal" defer></script>
+  <script src="/academy/academy-v1.js?v=20260714-catalog" defer></script>
 </body>
 </html>
