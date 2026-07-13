@@ -2,7 +2,7 @@
   'use strict';
 
   async function loadDataImage(path){
-    const response=await fetch(path+'?v=20260713-direct',{cache:'no-store'});
+    const response=await fetch(path+'?v=20260713-valid-webp',{cache:'no-store'});
     if(!response.ok)throw new Error('이미지 로딩 실패: '+path);
     const base64=(await response.text()).replace(/\s+/g,'');
     if(!base64)throw new Error('빈 이미지 데이터: '+path);
