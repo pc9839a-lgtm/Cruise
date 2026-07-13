@@ -24,31 +24,26 @@ function initApprovedCopy(){
   const heading=freeSection.querySelector('h2');
   if(heading)heading.innerHTML='하지만 실제로,<br /><span class="accent-text">무료로 크루즈 여행을 하면서<br />달러 수익을 버는 사람들이 있습니다.</span>';
  }
+ const togetherSection=findSection('15 · TOGETHER');
+ if(togetherSection){
+  const heading=togetherSection.querySelector('h2');
+  if(heading)heading.innerHTML='<span class="accent-text">여행을 좋아한다면<br />누구나 시작할 수 있습니다.</span>';
+  const support=togetherSection.querySelector('.support-grid');
+  if(support)support.remove();
+ }
  const galleryHeading=document.querySelector('#proof h2');
  if(galleryHeading)galleryHeading.innerHTML='사진으로만 보던 크루즈가<br /><span class="accent-text">내 일이 됩니다.</span>';
  const finalSection=findSection('19 · YOUR NEXT CRUISE');
  if(finalSection){
   const heading=finalSection.querySelector('h2');
   if(heading)heading.innerHTML='다음 크루즈는.<br /><span class="accent-text">내 돈으로만 가지 마세요.</span>';
-  const inner=finalSection.querySelector('.decision-inner');
-  const cta=finalSection.querySelector('.primary-cta');
-  if(inner&&!inner.querySelector('.partner-anyone-copy')){
-   const copy=document.createElement('p');
-   copy.className='partner-anyone-copy reveal-item';
-   copy.textContent='여행을 좋아한다면 누구나 시작할 수 있습니다.';
-   if(cta)inner.insertBefore(copy,cta);else inner.appendChild(copy);
-  }
- }
- if(!document.getElementById('partnerApprovedCopyStyle')){
-  const style=document.createElement('style');
-  style.id='partnerApprovedCopyStyle';
-  style.textContent='.partner-anyone-copy{max-width:760px;margin:26px auto 0;color:rgba(255,255,255,.78);font-size:clamp(18px,2.2vw,27px);line-height:1.5;font-weight:850;text-align:center}.partner-anyone-copy+.primary-cta{margin-top:34px}';
-  document.head.appendChild(style);
+  const oldCopy=finalSection.querySelector('.partner-anyone-copy');
+  if(oldCopy)oldCopy.remove();
  }
 }
 function initTracking(){const params=new URLSearchParams(location.search);setValue('partnerAgentInput',String(params.get('agent')||'').trim()||'admin');setValue('partnerUtmSourceInput',params.get('utm_source')||'');setValue('partnerUtmMediumInput',params.get('utm_medium')||'');setValue('partnerUtmCampaignInput',params.get('utm_campaign')||'');setValue('partnerPageUrlInput',location.href);setValue('partnerReferrerInput',document.referrer||'')}
 function initMenu(){if(!menuButton||!nav)return;menuButton.addEventListener('click',()=>{const open=nav.classList.toggle('is-open');menuButton.setAttribute('aria-expanded',String(open));document.body.classList.toggle('is-menu-open',open)});nav.addEventListener('click',e=>{if(!e.target.closest('a'))return;nav.classList.remove('is-open');menuButton.setAttribute('aria-expanded','false');document.body.classList.remove('is-menu-open')})}
-function initReveal(){const groups=document.querySelectorAll('.reveal-group');const cards=document.querySelectorAll('.reveal-card,.reveal-media');if(!('IntersectionObserver'in window)){groups.forEach(el=>el.classList.add('is-visible'));cards.forEach(el=>el.classList.add('is-visible'));return}const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.classList.add('is-visible');observer.unobserve(entry.target)}),{threshold:.13,rootMargin:'0px 0px -40px 0px'});groups.forEach(el=>observer.observe(el));cards.forEach((el,index)=>{el.style.transitionDelay=(index%3)*.08+'s';observer.observe(el)})}
+function initReveal(){document.documentElement.classList.add('js-enabled');const groups=document.querySelectorAll('.reveal-group');const cards=document.querySelectorAll('.reveal-card,.reveal-media');if(!('IntersectionObserver'in window)){groups.forEach(el=>el.classList.add('is-visible'));cards.forEach(el=>el.classList.add('is-visible'));return}const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;entry.target.classList.add('is-visible');observer.unobserve(entry.target)}),{threshold:.13,rootMargin:'0px 0px -40px 0px'});groups.forEach(el=>observer.observe(el));cards.forEach((el,index)=>{el.style.transitionDelay=(index%3)*.08+'s';observer.observe(el)})}
 function formatCount(value,decimals){return Number(value).toLocaleString('ko-KR',{minimumFractionDigits:decimals,maximumFractionDigits:decimals})}
 function animateCounter(el){if(el.dataset.counted==='1')return;el.dataset.counted='1';const target=Number(el.dataset.count);const decimals=Number(el.dataset.decimals||0);const suffix=el.dataset.suffix||'';const duration=1700;const start=performance.now();function tick(now){const p=Math.min(1,(now-start)/duration);const eased=1-Math.pow(1-p,3);el.textContent=formatCount(target*eased,decimals)+suffix;if(p<1)requestAnimationFrame(tick);else el.textContent=formatCount(target,decimals)+suffix}requestAnimationFrame(tick)}
 function initCounters(){const counters=document.querySelectorAll('.count-number');const line=document.querySelector('.growth-line');if(!('IntersectionObserver'in window)){counters.forEach(animateCounter);if(line)line.classList.add('is-animated');return}const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;animateCounter(entry.target);observer.unobserve(entry.target)}),{threshold:.45});counters.forEach(el=>observer.observe(el));if(line){const lineObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){line.classList.add('is-animated');lineObserver.disconnect()}}),{threshold:.45});lineObserver.observe(line)}}
