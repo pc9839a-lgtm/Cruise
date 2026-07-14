@@ -1,0 +1,101 @@
+/* Balanced partner visuals: Korean benefit panels + isolated 3D icons */
+#benefit-credit,
+#benefit-income{
+  text-align:center!important;
+}
+
+.korean-benefit-visual{
+  position:relative!important;
+  min-height:clamp(460px,58vw,760px)!important;
+  overflow:hidden!important;
+  background:linear-gradient(145deg,#07111f 0%,#111c36 58%,#231c4d 100%)!important;
+  border-radius:0!important;
+}
+
+.korean-benefit-sheet{
+  position:absolute!important;
+  top:0!important;
+  display:block!important;
+  width:200%!important;
+  height:100%!important;
+  max-width:none!important;
+  object-fit:fill!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+}
+
+#benefit-credit .korean-benefit-sheet[data-panel="0"]{left:0!important}
+#benefit-income .korean-benefit-sheet[data-panel="1"]{left:-100%!important}
+
+.graphic-showcase{
+  position:relative!important;
+  width:min(920px,100%)!important;
+  min-height:clamp(430px,52vw,650px)!important;
+  margin:clamp(38px,5vw,72px) auto 0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+  border-radius:36px!important;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(71,118,255,.20),transparent 38%),
+    linear-gradient(145deg,rgba(255,255,255,.96),rgba(239,244,255,.92))!important;
+  border:1px solid rgba(59,99,246,.13)!important;
+  box-shadow:0 30px 80px rgba(15,30,65,.12)!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+.impact-dark .graphic-showcase{
+  background:
+    radial-gradient(circle at 50% 46%,rgba(99,102,241,.24),transparent 40%),
+    linear-gradient(145deg,#0a1427,#111b35 62%,#211b48)!important;
+  border-color:rgba(150,165,255,.18)!important;
+  box-shadow:0 32px 90px rgba(0,0,0,.30)!important;
+}
+
+.partner-graphic-icon{
+  display:block!important;
+  width:min(68%,560px)!important;
+  height:auto!important;
+  max-height:540px!important;
+  object-fit:contain!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:translateY(0) scale(1)!important;
+  filter:drop-shadow(0 26px 32px rgba(19,34,75,.23))!important;
+  animation:partnerGraphicFloat 4.8s ease-in-out infinite!important;
+}
+
+.partner-graphic-icon-income{width:min(72%,590px)!important}
+.partner-graphic-icon-credit{width:min(66%,540px)!important}
+
+@keyframes partnerGraphicFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-12px) scale(1.015)}
+}
+
+@media(max-width:700px){
+  .korean-benefit-visual{
+    min-height:390px!important;
+  }
+
+  .graphic-showcase{
+    min-height:330px!important;
+    margin-top:32px!important;
+    border-radius:26px!important;
+  }
+
+  .partner-graphic-icon,
+  .partner-graphic-icon-income,
+  .partner-graphic-icon-credit{
+    width:min(82%,380px)!important;
+    max-height:310px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .partner-graphic-icon{animation:none!important}
+}
