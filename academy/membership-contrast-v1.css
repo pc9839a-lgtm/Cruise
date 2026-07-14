@@ -57,6 +57,30 @@
   background:#f6f8fc!important;
 }
 
+/* Booking order: passenger information must come before point application. */
+.membership-page #booking-steps .ppt-step-list article:nth-child(4){
+  order:5;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(5){
+  order:4;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(4) b,
+.membership-page #booking-steps .ppt-step-list article:nth-child(5) b{
+  font-size:0!important;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(4) b::after{
+  content:'05';
+  font-size:16px;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(5) b::after{
+  content:'04';
+  font-size:16px;
+}
+
 @media(max-width:700px){
   .membership-page .ppt-ledger article,
   .membership-page .ppt-formula-box article{
@@ -76,5 +100,10 @@
   .membership-page .ppt-formula-box span{
     font-size:14px!important;
     line-height:1.45!important;
+  }
+
+  .membership-page #booking-steps .ppt-step-list article:nth-child(4) b::after,
+  .membership-page #booking-steps .ppt-step-list article:nth-child(5) b::after{
+    font-size:15px;
   }
 }
