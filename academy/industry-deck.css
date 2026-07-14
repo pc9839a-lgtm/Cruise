@@ -1,4 +1,4 @@
-/* Korea-focused industry deck */
+/* Korea cruise outlook — presentation-first design */
 .industry-page .ppt-section{
   width:min(1200px,calc((100vh - 170px) * 1.7777),calc(100vw - 56px))!important;
   aspect-ratio:16/9;
@@ -8,16 +8,20 @@
   overflow:hidden;
 }
 
-.industry-page .ppt-head{flex:0 0 auto;margin:0 0 26px}
-.industry-page .ppt-head h2,
-.industry-page h2{
+.industry-page h2,
+.industry-page .ppt-head h2{
+  max-width:1000px!important;
   margin:12px 0 0!important;
-  max-width:980px!important;
-  font-size:clamp(40px,4.2vw,62px)!important;
+  color:#0b1524;
+  font-size:clamp(40px,4.15vw,62px)!important;
   line-height:1.04!important;
   letter-spacing:-.065em!important;
   word-break:keep-all;
 }
+
+.industry-page .ppt-dark h2{color:#fff}
+.industry-page em{font-style:normal;color:#78b6ff}
+.industry-page .ppt-head{margin:0 0 24px}
 
 .slide-label,
 .industry-page .ppt-head>span{
@@ -34,33 +38,68 @@
 }
 
 .industry-page .ppt-dark .slide-label,
-.industry-page .ppt-warning-slide .ppt-head>span{
+.industry-page .ppt-dark .ppt-head>span{
   color:#d8edff;
   background:rgba(255,255,255,.1);
 }
 
-.industry-page .ppt-dark h2,
-.industry-page .ppt-warning-slide h2{color:#fff}
-.industry-page em{font-style:normal;color:#6fa8ff}
+.source-link{
+  display:inline-flex;
+  align-self:flex-start;
+  margin-top:17px;
+  color:#245ed6;
+  font-size:13px;
+  font-weight:900;
+}
 
-/* Cover: preserve image orientation */
+.slide-takeaway,
+.slide-bottom-message{
+  color:#53657b!important;
+  font-size:16px!important;
+  font-weight:780!important;
+  line-height:1.5!important;
+  word-break:keep-all;
+}
+
+.slide-bottom-message{
+  flex:0 0 auto;
+  margin:16px 0 0!important;
+  padding:13px 16px;
+  border-radius:15px;
+  background:#edf4ff;
+  text-align:center;
+}
+
+/* Cover */
 .industry-page .korea-hero .lesson-hero-bg{
-  object-fit:cover;
+  object-fit:contain;
   object-position:center;
+  background:#07111f;
   transform:none!important;
 }
-.industry-page .portrait-safe{transform:none!important;image-orientation:from-image}
+.industry-page .portrait-safe{image-orientation:from-image;transform:none!important}
+.industry-page .korea-hero .lesson-hero-shade{
+  background:linear-gradient(90deg,rgba(7,17,31,.96) 0%,rgba(7,17,31,.74) 48%,rgba(7,17,31,.2) 100%);
+}
+.industry-page .cover-subcopy{
+  max-width:720px;
+  margin:22px 0 0;
+  color:rgba(255,255,255,.72);
+  font-size:21px;
+  font-weight:760;
+  line-height:1.45;
+}
 
-/* 02 opening */
-.korea-opening{
+/* 02 Core message */
+.opening-stage{
   display:grid!important;
-  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
-  gap:44px;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  gap:46px;
   align-items:center;
 }
-.korea-opening-copy{display:flex;flex-direction:column;justify-content:center}
-.korea-opening-copy h2{font-size:clamp(50px,5.2vw,78px)!important}
-.korea-opening-copy p{
+.opening-statement{display:flex;flex-direction:column;justify-content:center}
+.opening-statement h2{font-size:clamp(50px,5.15vw,78px)!important}
+.opening-statement p{
   max-width:650px;
   margin:24px 0 0;
   color:rgba(255,255,255,.7);
@@ -69,7 +108,7 @@
   line-height:1.55;
   word-break:keep-all;
 }
-.korea-opening-facts{
+.opening-evidence{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   grid-template-rows:repeat(2,minmax(0,1fr));
@@ -77,147 +116,208 @@
   height:100%;
   min-height:0;
 }
-.korea-opening-facts article{
-  min-height:0;
+.opening-evidence article{
   display:flex;
   flex-direction:column;
   justify-content:center;
+  min-height:0;
   padding:24px;
   border:1px solid rgba(255,255,255,.13);
   border-radius:24px;
   background:rgba(255,255,255,.08);
 }
-.korea-opening-facts small{color:#9ed6ff;font-size:13px;font-weight:900}
-.korea-opening-facts strong{margin-top:9px;color:#fff;font-size:clamp(27px,3vw,42px);line-height:1.05;letter-spacing:-.055em}
-.korea-opening-facts span{margin-top:8px;color:rgba(255,255,255,.64);font-size:14px;font-weight:720}
+.opening-evidence small{color:#9ed6ff;font-size:13px;font-weight:900}
+.opening-evidence strong{margin-top:9px;color:#fff;font-size:clamp(27px,3vw,42px);line-height:1.05;letter-spacing:-.055em}
+.opening-evidence span{margin-top:8px;color:rgba(255,255,255,.64);font-size:14px;font-weight:720}
 
-/* 03 global proof */
+/* 03 World market */
 .global-proof{
   display:grid!important;
-  grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);
-  gap:34px;
+  grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);
+  gap:36px;
   align-items:stretch;
 }
 .global-proof-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
-.global-proof-copy h2{font-size:clamp(39px,4vw,59px)!important}
-.global-big-number{display:flex;align-items:end;gap:16px;margin-top:24px}
-.global-big-number strong{color:#0b1524;font-size:clamp(54px,6.2vw,90px);line-height:.94;letter-spacing:-.075em}
-.global-big-number span{padding-bottom:8px;color:#607086;font-size:16px;font-weight:850}
-.global-timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:26px}
-.global-timeline span{position:relative;padding:14px 10px 12px;border-radius:16px;background:#f1f5fb;color:#52647a;font-size:13px;font-weight:800;text-align:center}
-.global-timeline span::before{content:'';position:absolute;left:50%;top:-10px;width:8px;height:8px;border-radius:50%;background:#b9c6d8;transform:translateX(-50%)}
-.global-timeline span.active{color:#fff;background:linear-gradient(145deg,#0d2a55,#2f73ff)}
-.global-timeline span.active::before{background:#2f73ff}
-.global-timeline b{display:block;margin-bottom:5px;font-size:12px}
-.source-link{display:inline-flex;align-self:flex-start;margin-top:20px;color:#245ed6;font-size:14px;font-weight:900}
-.external-photo-card{position:relative;display:block;min-height:0;overflow:hidden;border-radius:28px;background:#081426;box-shadow:0 22px 55px rgba(11,29,58,.17)}
+.global-proof-copy h2{font-size:clamp(38px,3.9vw,58px)!important}
+.global-number-lockup{display:flex;align-items:flex-end;gap:18px;margin-top:26px}
+.global-number-lockup>strong{color:#0b1524;font-size:clamp(62px,7vw,102px);line-height:.9;letter-spacing:-.08em}
+.global-number-lockup div{padding-bottom:7px}
+.global-number-lockup b{display:block;color:#10203a;font-size:18px}
+.global-number-lockup span{display:block;margin-top:5px;color:#6a7a8e;font-size:14px;font-weight:750}
+.global-growth-line{display:flex;align-items:center;gap:10px;margin-top:28px}
+.global-growth-line span{min-width:100px;padding:14px 12px;border-radius:17px;background:#f1f5fb;color:#5c6d82;font-size:12px;font-weight:800;text-align:center;line-height:1.4}
+.global-growth-line b{font-size:15px;color:#10203a}
+.global-growth-line .active{color:#fff;background:linear-gradient(145deg,#0d2a55,#2f73ff)}
+.global-growth-line .active b{color:#fff}
+.global-growth-line i{color:#2f73ff;font-size:22px;font-style:normal;font-weight:900}
+.global-proof .slide-takeaway{margin:20px 0 0!important}
+.external-photo-card{
+  position:relative;
+  display:block;
+  min-height:0;
+  overflow:hidden;
+  border-radius:28px;
+  background:#081426;
+  box-shadow:0 22px 55px rgba(11,29,58,.17);
+}
 .external-photo-card img{width:100%;height:100%;object-fit:cover;transform:none!important}
 .external-photo-card::after{content:'';position:absolute;inset:48% 0 0;background:linear-gradient(180deg,transparent,rgba(5,14,27,.94))}
 .external-photo-card>span{position:absolute;left:22px;right:22px;bottom:20px;z-index:2;color:#fff;font-size:18px;font-weight:850;line-height:1.4}
 
-/* 04 compare */
-.korea-position{background:linear-gradient(180deg,#fff,#f7faff)}
+/* 04 Experience gap */
+.experience-gap{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(350px,1fr);
+  gap:42px;
+  align-items:center;
+  background:linear-gradient(145deg,#f8fbff,#eef4ff);
+}
+.experience-copy{display:flex;flex-direction:column;justify-content:center}
+.experience-copy h2{font-size:clamp(49px,5vw,76px)!important}
+.experience-copy>p{max-width:620px;margin:22px 0 0;color:#607086;font-size:18px;font-weight:720;line-height:1.55;word-break:keep-all}
+.experience-message{margin-top:24px;padding:20px 22px;border-left:5px solid #2f73ff;border-radius:0 18px 18px 0;background:#fff}
+.experience-message strong{display:block;color:#10203a;font-size:18px}
+.experience-message span{display:block;margin-top:7px;color:#63758a;font-size:15px;font-weight:700;line-height:1.5}
+.people-meter{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:34px;border-radius:30px;background:#07111f;color:#fff}
+.people-grid{width:min(390px,100%);display:grid;grid-template-columns:repeat(10,1fr);gap:9px}
+.people-grid i{aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.14)}
+.people-grid i.active{background:linear-gradient(145deg,#60a5fa,#8b5cf6);box-shadow:0 0 0 6px rgba(96,165,250,.14)}
+.people-meter>strong{margin-top:25px;font-size:34px;letter-spacing:-.055em}
+.people-meter>small{margin-top:8px;color:rgba(255,255,255,.55);font-size:12px;font-weight:700;text-align:center}
+
+/* 05 Korea port calls */
+.portcall-stage{
+  display:grid!important;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:36px;
+  align-items:stretch;
+}
+.portcall-copy{display:flex;flex-direction:column;justify-content:center}
+.portcall-copy h2{font-size:clamp(44px,4.5vw,67px)!important}
+.portcall-copy>p{margin:22px 0 0;color:#607086;font-size:18px;font-weight:720;line-height:1.58;word-break:keep-all}
+.portcall-names{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.portcall-names b{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;color:#245ed6;background:#edf4ff;font-size:13px;letter-spacing:.08em}
+
+/* 06 Port call vs homeport */
+.market-compare-stage{background:linear-gradient(180deg,#fff,#f7faff)}
 .market-compare{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.market-compare article{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:34px;border-radius:30px;overflow:hidden}
+.market-compare article{display:flex;flex-direction:column;justify-content:center;min-height:0;padding:32px;border-radius:29px;overflow:hidden}
 .market-compare .port-call{color:#fff;background:linear-gradient(145deg,#07111f,#1d447c)}
 .market-compare .home-port{color:#10203a;background:linear-gradient(145deg,#e9f3ff,#f7fbff);border:1px solid #d7e5f8}
-.market-compare small{font-size:13px;font-weight:900;letter-spacing:.1em;opacity:.68}
-.market-compare strong{margin-top:11px;font-size:clamp(38px,4.2vw,62px);line-height:1;letter-spacing:-.06em}
-.market-compare p{margin:18px 0 0;max-width:500px;font-size:17px;font-weight:720;line-height:1.55;word-break:keep-all;opacity:.76}
-.market-compare b{display:inline-flex;align-self:flex-start;margin-top:24px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.12);font-size:14px}
-.market-compare .home-port b{color:#245ed6;background:#e3efff}
+.market-compare small{font-size:13px;font-weight:900;letter-spacing:.08em;opacity:.72}
+.market-compare strong{margin-top:10px;font-size:clamp(39px,4.2vw,62px);line-height:1;letter-spacing:-.06em}
+.market-compare p{margin:16px 0 0;font-size:16px;font-weight:720;line-height:1.5;opacity:.78}
+.market-compare ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:22px 0 0;padding:0;list-style:none}
+.market-compare li{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.1);font-size:14px;font-weight:800;text-align:center}
+.market-compare .home-port li{background:#e2edfb;color:#33506f}
 
-/* 05 ports */
-.port-role-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.port-role-grid article{display:flex;flex-direction:column;justify-content:flex-end;padding:30px;border-radius:28px;background:#f3f7fc;border:1px solid rgba(12,24,48,.07)}
-.port-role-grid article:nth-child(1){background:linear-gradient(160deg,#eaf4ff,#f8fbff)}
-.port-role-grid article:nth-child(2){background:linear-gradient(160deg,#0d2444,#193e70);color:#fff}
-.port-role-grid article:nth-child(3){background:linear-gradient(160deg,#f1ebff,#fbf9ff)}
-.port-role-grid b{color:#2f73ff;font-size:13px;letter-spacing:.1em}
-.port-role-grid article:nth-child(2) b{color:#8dc8ff}
-.port-role-grid strong{margin-top:12px;font-size:clamp(34px,3.7vw,54px);line-height:1;letter-spacing:-.06em}
-.port-role-grid span{margin-top:14px;color:#5f7085;font-size:16px;font-weight:720;line-height:1.5;word-break:keep-all}
-.port-role-grid article:nth-child(2) span{color:rgba(255,255,255,.72)}
-.port-summary{flex:0 0 auto;margin-top:18px;padding:15px 18px;border-radius:16px;background:#edf4ff;color:#52647a;font-size:15px;font-weight:760;text-align:center}
-.port-summary strong{color:#245ed6}
+/* 07 Government / port economics */
+.port-economy{
+  display:grid!important;
+  grid-template-columns:minmax(0,.92fr) minmax(420px,1.08fr);
+  gap:42px;
+  align-items:center;
+  background:linear-gradient(145deg,#f8fbff,#eef4ff);
+}
+.economy-copy{display:flex;flex-direction:column;justify-content:center}
+.economy-copy h2{font-size:clamp(43px,4.5vw,68px)!important}
+.economy-copy>p{margin:21px 0 0;color:#607086;font-size:18px;font-weight:720;line-height:1.55;word-break:keep-all}
+.port-fee-note{margin-top:25px;padding:19px 21px;border-radius:19px;background:#fff;border:1px solid #dce8f7}
+.port-fee-note b{display:block;color:#10203a;font-size:17px}
+.port-fee-note span{display:block;margin-top:7px;color:#66778b;font-size:14px;font-weight:700;line-height:1.45}
+.economy-wheel{position:relative;min-height:420px;border-radius:50%;background:radial-gradient(circle at center,#183d72 0 27%,#0b1e38 27% 49%,#07111f 49% 100%);box-shadow:0 24px 60px rgba(11,29,58,.18)}
+.wheel-center{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;width:180px;height:180px;border-radius:50%;color:#fff;background:linear-gradient(145deg,#2f73ff,#705cff);transform:translate(-50%,-50%);text-align:center}
+.wheel-center span{font-size:12px;font-weight:900;letter-spacing:.12em;opacity:.75}
+.wheel-center strong{margin-top:8px;font-size:24px;letter-spacing:-.04em}
+.economy-wheel article{position:absolute;width:165px;padding:16px 17px;border:1px solid rgba(255,255,255,.14);border-radius:18px;color:#fff;background:rgba(255,255,255,.08);backdrop-filter:blur(10px)}
+.economy-wheel article b{display:block;font-size:17px}
+.economy-wheel article span{display:block;margin-top:5px;color:rgba(255,255,255,.62);font-size:12px;font-weight:700;line-height:1.4}
+.wheel-a{left:6%;top:9%}.wheel-b{right:6%;top:9%}.wheel-c{left:6%;bottom:9%}.wheel-d{right:6%;bottom:9%}
 
-/* shared 2x2 */
-.korea-four-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:15px}
-.korea-four-grid article{min-height:0;display:flex;flex-direction:column;justify-content:center;padding:24px 27px;border-radius:24px;background:#f4f7fb;border:1px solid rgba(12,24,48,.07)}
-.korea-four-grid b{color:#2f73ff;font-size:13px;font-weight:900}
-.korea-four-grid strong{margin-top:8px;color:#10203a;font-size:clamp(23px,2.5vw,34px);line-height:1.13;letter-spacing:-.05em}
-.korea-four-grid span{margin-top:8px;color:#63758a;font-size:15px;font-weight:720;line-height:1.46;word-break:keep-all}
-.dark-grid article{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.08)}
-.dark-grid b{color:#9ed6ff}
-.dark-grid strong{color:#fff}
-.dark-grid span{color:rgba(255,255,255,.68)}
-
-/* 07 route map */
-.route-potential{background:linear-gradient(145deg,#f7fbff,#eef4ff)}
-.route-map{position:relative;flex:1;min-height:0;overflow:hidden;border-radius:30px;background:radial-gradient(circle at 50% 50%,rgba(47,115,255,.16),transparent 26%),linear-gradient(145deg,#07111f,#132f58)}
-.route-map::before{content:'동북아 단거리 항로';position:absolute;left:30px;top:25px;color:rgba(255,255,255,.46);font-size:13px;font-weight:900;letter-spacing:.1em}
-.route-node{position:absolute;z-index:3;min-width:175px;padding:17px 20px;border:1px solid rgba(255,255,255,.16);border-radius:20px;color:#fff;background:rgba(255,255,255,.1);backdrop-filter:blur(12px)}
-.route-node small{display:block;color:#9ed6ff;font-size:11px;font-weight:900;letter-spacing:.1em}
-.route-node strong{display:block;margin-top:6px;font-size:21px;letter-spacing:-.04em}
-.route-node.korea{left:50%;top:50%;min-width:210px;background:linear-gradient(145deg,#2f73ff,#705cff);transform:translate(-50%,-50%)}
-.route-node.japan{right:7%;top:16%}
-.route-node.china{left:7%;top:28%}
-.route-node.island{right:13%;bottom:12%}
-.route-line{position:absolute;z-index:1;height:2px;background:linear-gradient(90deg,rgba(122,181,255,.15),#80c2ff,rgba(122,181,255,.15));transform-origin:left center}
-.line-a{left:49%;top:49%;width:37%;transform:rotate(-30deg)}
-.line-b{left:19%;top:41%;width:32%;transform:rotate(12deg)}
-.line-c{left:49%;top:52%;width:36%;transform:rotate(26deg)}
-.route-conclusion{flex:0 0 auto;margin:17px 0 0!important;color:#53657b!important;font-size:16px!important;font-weight:760!important;text-align:center}
-.route-conclusion strong{color:#245ed6}
-
-/* 08 portrait feature */
-.portrait-feature{display:grid!important;grid-template-columns:minmax(290px,.78fr) minmax(0,1.22fr);gap:38px;align-items:stretch;background:linear-gradient(145deg,#f8fbff,#eef5ff)}
-.portrait-photo-wrap{min-height:0;margin:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:30px;background:#091529}
+/* 08 Homeport value */
+.homeport-value{
+  display:grid!important;
+  grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr);
+  gap:40px;
+  align-items:stretch;
+}
+.portrait-photo-wrap{min-height:0;margin:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:29px;background:#07111f}
 .portrait-photo-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;transform:none!important}
-.portrait-feature-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
-.portrait-feature-copy h2{font-size:clamp(39px,4.1vw,60px)!important}
-.homeport-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:28px}
-.homeport-points article{padding:18px 19px;border-radius:19px;background:#fff;border:1px solid #dce8f7}
-.homeport-points strong{display:block;color:#10203a;font-size:19px;letter-spacing:-.04em}
-.homeport-points span{display:block;margin-top:6px;color:#6a7a8e;font-size:13px;font-weight:720}
+.homeport-value-copy{display:flex;flex-direction:column;justify-content:center}
+.homeport-value-copy h2{font-size:clamp(42px,4.45vw,66px)!important}
+.value-compare{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin-top:28px}
+.value-compare article{min-height:170px;display:flex;flex-direction:column;justify-content:center;padding:22px;border-radius:22px;background:#f1f5fa}
+.value-compare article.emphasis{color:#fff;background:linear-gradient(145deg,#10294d,#2f73ff)}
+.value-compare small{font-size:12px;font-weight:900;letter-spacing:.06em}
+.value-compare strong{margin-top:10px;font-size:25px;line-height:1.18;letter-spacing:-.045em}
+.value-compare span{margin-top:8px;color:#65768a;font-size:13px;font-weight:700;line-height:1.4}
+.value-compare .emphasis span{color:rgba(255,255,255,.7)}
+.value-compare i{color:#2f73ff;font-size:28px;font-style:normal;font-weight:900}
+.homeport-value-copy>p{margin:22px 0 0;color:#5c6d82;font-size:16px;font-weight:760;line-height:1.5}
+.homeport-value-copy>p strong{color:#245ed6}
 
-/* 10 Asia signal */
-.asia-signal{display:grid!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:34px;align-items:stretch}
-.asia-signal-copy{display:flex;flex-direction:column;justify-content:center}
-.asia-signal-copy h2{font-size:clamp(39px,4.15vw,60px)!important}
-.asia-signal-copy p{margin:22px 0 0;color:#607086;font-size:18px;font-weight:720;line-height:1.55;word-break:keep-all}
-.external-photo-card.wide{min-height:0}
+/* 09 Korea growth conditions */
+.korea-potential{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:42px;
+  align-items:center;
+  background:linear-gradient(145deg,#07111f,#152f57);
+}
+.potential-main h2{color:#fff;font-size:clamp(46px,4.8vw,72px)!important}
+.potential-main p{margin:24px 0 0;color:rgba(255,255,255,.67);font-size:18px;font-weight:720;line-height:1.5}
+.potential-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:13px;height:100%;min-height:0}
+.potential-grid article{display:flex;flex-direction:column;justify-content:center;min-height:0;padding:23px;border:1px solid rgba(255,255,255,.13);border-radius:22px;background:rgba(255,255,255,.08)}
+.potential-grid b{color:#9ed6ff;font-size:12px}
+.potential-grid strong{margin-top:8px;color:#fff;font-size:24px;line-height:1.16;letter-spacing:-.045em}
+.potential-grid span{margin-top:7px;color:rgba(255,255,255,.62);font-size:13px;font-weight:700;line-height:1.4}
 
-/* 12 roadmap */
-.roadmap-line{flex:1;min-height:0;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:center;gap:12px}
-.roadmap-line article{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;border-radius:25px;background:#f3f7fc;text-align:center}
-.roadmap-line article:nth-of-type(3),
-.roadmap-line article:nth-of-type(4){color:#fff;background:linear-gradient(145deg,#10294d,#295f9f)}
-.roadmap-line b{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:15px;color:#fff;background:#2f73ff;font-size:13px}
-.roadmap-line strong{margin-top:16px;font-size:22px;letter-spacing:-.04em}
-.roadmap-line span{margin-top:8px;color:#66778b;font-size:14px;font-weight:720}
-.roadmap-line article:nth-of-type(3) span,
-.roadmap-line article:nth-of-type(4) span{color:rgba(255,255,255,.7)}
-.roadmap-line i{color:#2f73ff;font-size:26px;font-style:normal;font-weight:900}
-.roadmap-message{flex:0 0 auto;margin:18px 0 0!important;color:#53657b!important;font-size:16px!important;font-weight:760!important;text-align:center}
-.roadmap-message strong{color:#245ed6}
+/* 10 Early market */
+.early-market{background:#fff}
+.early-market-title{flex:0 0 auto}
+.early-market-title h2{font-size:clamp(44px,4.5vw,67px)!important}
+.early-market-rail{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:26px}
+.early-market-rail article{display:flex;flex-direction:column;justify-content:flex-end;padding:25px 21px;border-radius:24px;background:#f3f7fc;border-top:5px solid #d7e4f4}
+.early-market-rail article:nth-child(4){color:#fff;background:linear-gradient(145deg,#10294d,#2f73ff);border-top-color:#78b6ff}
+.early-market-rail b{color:#2f73ff;font-size:13px}
+.early-market-rail article:nth-child(4) b{color:#9ed6ff}
+.early-market-rail strong{margin-top:14px;font-size:23px;line-height:1.18;letter-spacing:-.045em}
+.early-market-rail span{margin-top:10px;color:#65768a;font-size:14px;font-weight:700;line-height:1.45}
+.early-market-rail article:nth-child(4) span{color:rgba(255,255,255,.68)}
 
-/* final */
-.final-korea{align-items:stretch}
+/* 11 Partner timing */
+.partner-timing{
+  display:grid!important;
+  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+  gap:42px;
+  align-items:center;
+  background:linear-gradient(145deg,#f8fbff,#eef4ff);
+}
+.partner-timing-copy h2{font-size:clamp(43px,4.5vw,67px)!important}
+.partner-timing-copy p{margin:23px 0 0;color:#607086;font-size:18px;font-weight:720;line-height:1.55;word-break:keep-all}
+.partner-timeline{display:grid;gap:10px}
+.partner-timeline article{display:grid;grid-template-columns:46px 1fr;grid-template-rows:auto auto;align-items:center;gap:0 16px;min-height:74px;padding:13px 17px;border-radius:18px;background:#fff;border:1px solid #dce8f7}
+.partner-timeline b{grid-row:1/3;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;color:#fff;background:linear-gradient(145deg,#2f73ff,#705cff);font-size:12px}
+.partner-timeline strong{font-size:19px;letter-spacing:-.04em}
+.partner-timeline span{margin-top:3px;color:#68798d;font-size:13px;font-weight:700}
+
+/* 12 Final */
+.final-korea{align-items:stretch;background:linear-gradient(145deg,#07111f,#15315a 58%,#2d1f58)}
 .final-korea-copy{flex:1;display:flex;flex-direction:column;justify-content:center}
-.final-korea-copy h2{font-size:clamp(44px,4.8vw,70px)!important}
-.final-korea-copy ol{display:grid;gap:10px;margin:28px 0 0;padding:0;list-style:none}
-.final-korea-copy li{display:grid;grid-template-columns:48px 1fr;align-items:center;gap:16px;min-height:66px;padding:12px 16px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:rgba(255,255,255,.07);color:#fff;font-size:18px;font-weight:800}
-.final-korea-copy li b{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:13px;color:#0c203c;background:#fff;font-size:12px}
+.final-korea-copy h2{font-size:clamp(54px,5.8vw,88px)!important}
+.final-lines{display:grid;gap:10px;margin-top:30px}
+.final-lines p{display:grid;grid-template-columns:48px 1fr;align-items:center;gap:16px;min-height:65px;margin:0;padding:11px 15px;border:1px solid rgba(255,255,255,.12);border-radius:17px;background:rgba(255,255,255,.07);color:#fff;font-size:18px;font-weight:800}
+.final-lines b{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:13px;color:#0c203c;background:#fff;font-size:12px}
 .industry-end-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
 .industry-end-actions a{min-height:60px;display:flex;align-items:center;justify-content:center;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:16px;color:#fff;background:rgba(255,255,255,.08);font-size:15px;font-weight:900}
 
 @media(max-width:980px){
   .industry-page .ppt-section{padding:38px 40px!important}
-  .port-role-grid{gap:12px}
-  .port-role-grid article{padding:24px}
-  .global-proof{grid-template-columns:1fr .72fr}
-  .route-node{min-width:150px}
+  .global-proof{grid-template-columns:1fr .75fr}
+  .port-economy{grid-template-columns:.9fr 1.1fr}
+  .economy-wheel{min-height:360px}
+  .economy-wheel article{width:145px;padding:13px}
+  .wheel-center{width:150px;height:150px}
 }
 
 @media(max-width:700px){
@@ -230,85 +330,79 @@
     overflow-y:auto;
     border-radius:22px!important;
   }
-  .industry-page .ppt-head{margin-bottom:14px}
-  .industry-page .ppt-head h2,
-  .industry-page h2{margin-top:8px!important;font-size:30px!important;line-height:1.06!important}
+  .industry-page h2,.industry-page .ppt-head h2{margin-top:8px!important;font-size:30px!important;line-height:1.06!important}
   .slide-label,.industry-page .ppt-head>span{min-height:25px;padding:0 9px;font-size:10px}
-
+  .industry-page .cover-subcopy{margin-top:13px;font-size:14px}
   .industry-page .korea-hero .lesson-hero-bg{object-fit:contain;background:#07111f}
 
-  .korea-opening{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:14px}
-  .korea-opening-copy h2{font-size:36px!important}
-  .korea-opening-copy p{margin-top:11px;font-size:13px;line-height:1.4}
-  .korea-opening-facts{gap:8px}
-  .korea-opening-facts article{padding:12px;border-radius:15px}
-  .korea-opening-facts strong{font-size:20px}
-  .korea-opening-facts small,.korea-opening-facts span{font-size:10px}
+  .opening-stage{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:14px}
+  .opening-statement h2{font-size:36px!important}
+  .opening-statement p{margin-top:10px;font-size:13px;line-height:1.4}
+  .opening-evidence{gap:8px}
+  .opening-evidence article{padding:12px;border-radius:15px}
+  .opening-evidence strong{font-size:19px}
+  .opening-evidence small,.opening-evidence span{font-size:10px}
 
   .global-proof{grid-template-columns:1fr!important;grid-template-rows:auto 150px;gap:12px}
   .global-proof-copy h2{font-size:28px!important}
-  .global-big-number{margin-top:12px;gap:8px}
-  .global-big-number strong{font-size:48px}
-  .global-big-number span{font-size:11px;padding-bottom:4px}
-  .global-timeline{grid-template-columns:repeat(5,minmax(72px,1fr));overflow-x:auto;margin-top:13px;padding-top:8px}
-  .global-timeline span{padding:9px 5px;font-size:10px}
-  .source-link{margin-top:10px;font-size:11px}
+  .global-number-lockup{margin-top:12px;gap:8px}
+  .global-number-lockup>strong{font-size:48px}
+  .global-number-lockup b{font-size:12px}.global-number-lockup span{font-size:10px}
+  .global-growth-line{gap:5px;margin-top:12px;overflow-x:auto}
+  .global-growth-line span{min-width:74px;padding:8px 5px;font-size:9px}
+  .global-growth-line b{font-size:11px}.global-growth-line i{font-size:14px}
+  .global-proof .slide-takeaway{margin-top:9px!important;font-size:11px!important}
+  .source-link{margin-top:8px;font-size:10px}
   .external-photo-card{border-radius:18px}
-  .external-photo-card>span{left:14px;right:14px;bottom:12px;font-size:13px}
+  .external-photo-card>span{left:13px;right:13px;bottom:11px;font-size:12px}
 
-  .market-compare{grid-template-columns:1fr;gap:9px}
-  .market-compare article{min-height:0;padding:18px;border-radius:18px}
-  .market-compare strong{font-size:30px}
-  .market-compare p{margin-top:8px;font-size:12px;line-height:1.4}
-  .market-compare b{margin-top:10px;padding:7px 10px;font-size:10px}
+  .experience-gap{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .experience-copy h2{font-size:34px!important}
+  .experience-copy>p{margin-top:9px;font-size:12px;line-height:1.4}
+  .experience-message{margin-top:10px;padding:11px 13px;border-left-width:4px}
+  .experience-message strong{font-size:13px}.experience-message span{font-size:10px}
+  .people-meter{padding:15px;border-radius:18px}
+  .people-grid{gap:5px}
+  .people-meter>strong{margin-top:12px;font-size:22px}.people-meter>small{font-size:9px}
 
-  .port-role-grid{grid-template-columns:1fr;gap:8px}
-  .port-role-grid article{min-height:0;padding:15px 17px;border-radius:17px}
-  .port-role-grid strong{font-size:27px}
-  .port-role-grid span{margin-top:6px;font-size:12px;line-height:1.35}
-  .port-summary{margin-top:8px;padding:10px;font-size:11px}
+  .portcall-stage{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .portcall-copy h2{font-size:31px!important}
+  .portcall-copy>p{margin-top:9px;font-size:12px;line-height:1.4}
+  .portcall-names{margin-top:10px}.portcall-names b{min-height:28px;padding:0 9px;font-size:9px}
 
-  .korea-four-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr));gap:8px}
-  .korea-four-grid article{padding:12px 10px;border-radius:15px}
-  .korea-four-grid strong{font-size:17px}
-  .korea-four-grid span{font-size:11px;line-height:1.32}
-  .korea-four-grid b{font-size:10px}
+  .market-compare{grid-template-columns:1fr;gap:8px}
+  .market-compare article{padding:15px 17px;border-radius:17px}
+  .market-compare strong{font-size:28px}.market-compare p{margin-top:6px;font-size:11px}
+  .market-compare ul{gap:5px;margin-top:8px}.market-compare li{padding:7px 5px;font-size:9px}
+  .slide-bottom-message{margin-top:8px!important;padding:9px;font-size:10px!important}
 
-  .route-map{min-height:390px;border-radius:18px}
-  .route-node{min-width:118px;padding:11px 12px;border-radius:14px}
-  .route-node strong{font-size:14px}
-  .route-node small{font-size:8px}
-  .route-node.korea{min-width:145px}
-  .route-node.japan{right:4%;top:15%}
-  .route-node.china{left:4%;top:28%}
-  .route-node.island{right:7%;bottom:12%}
-  .route-conclusion{margin-top:9px!important;font-size:11px!important}
+  .port-economy{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .economy-copy h2{font-size:30px!important}.economy-copy>p{margin-top:8px;font-size:11px;line-height:1.4}
+  .port-fee-note{margin-top:9px;padding:10px 12px;border-radius:13px}.port-fee-note b{font-size:12px}.port-fee-note span{font-size:9px}
+  .economy-wheel{min-height:300px;border-radius:22px}
+  .wheel-center{width:110px;height:110px}.wheel-center strong{font-size:16px}.wheel-center span{font-size:8px}
+  .economy-wheel article{width:118px;padding:10px;border-radius:13px}.economy-wheel article b{font-size:12px}.economy-wheel article span{font-size:8px}
+  .wheel-a{left:3%;top:6%}.wheel-b{right:3%;top:6%}.wheel-c{left:3%;bottom:6%}.wheel-d{right:3%;bottom:6%}
 
-  .portrait-feature{grid-template-columns:1fr!important;grid-template-rows:minmax(0,40%) 1fr;gap:12px}
-  .portrait-photo-wrap{border-radius:18px}
-  .portrait-photo-wrap img{object-fit:contain!important;transform:none!important}
-  .portrait-feature-copy h2{font-size:28px!important}
-  .homeport-points{gap:7px;margin-top:12px}
-  .homeport-points article{padding:10px;border-radius:13px}
-  .homeport-points strong{font-size:14px}
-  .homeport-points span{font-size:10px}
+  .homeport-value{grid-template-columns:1fr!important;grid-template-rows:minmax(0,34%) 1fr;gap:10px}
+  .portrait-photo-wrap{border-radius:18px}.portrait-photo-wrap img{object-fit:contain!important}
+  .homeport-value-copy h2{font-size:29px!important}
+  .value-compare{gap:6px;margin-top:11px}.value-compare article{min-height:92px;padding:10px;border-radius:14px}.value-compare strong{font-size:14px}.value-compare span{font-size:9px}.value-compare i{font-size:16px}
+  .homeport-value-copy>p{margin-top:9px;font-size:10px}
 
-  .asia-signal{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
-  .asia-signal-copy h2{font-size:28px!important}
-  .asia-signal-copy p{margin-top:10px;font-size:12px;line-height:1.4}
+  .korea-potential{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .potential-main h2{font-size:32px!important}.potential-main p{margin-top:9px;font-size:12px}
+  .potential-grid{gap:8px}.potential-grid article{padding:12px;border-radius:15px}.potential-grid strong{font-size:16px}.potential-grid span{font-size:10px}
 
-  .roadmap-line{grid-template-columns:1fr;gap:6px}
-  .roadmap-line i{display:none}
-  .roadmap-line article{min-height:58px;display:grid;grid-template-columns:36px 1fr;grid-template-rows:auto auto;justify-items:start;padding:9px 12px;border-radius:14px;text-align:left}
-  .roadmap-line b{grid-row:1/3;width:34px;height:34px;border-radius:10px}
-  .roadmap-line strong{margin:0;font-size:15px}
-  .roadmap-line span{margin:2px 0 0;font-size:10px}
-  .roadmap-message{margin-top:8px!important;font-size:11px!important}
+  .early-market-title h2{font-size:31px!important}
+  .early-market-rail{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+  .early-market-rail article{padding:12px 10px;border-radius:15px;border-top-width:3px}.early-market-rail strong{margin-top:7px;font-size:16px}.early-market-rail span{margin-top:5px;font-size:10px}
 
-  .final-korea-copy h2{font-size:32px!important}
-  .final-korea-copy ol{gap:7px;margin-top:15px}
-  .final-korea-copy li{grid-template-columns:34px 1fr;min-height:54px;padding:8px 10px;border-radius:13px;font-size:12px}
-  .final-korea-copy li b{width:30px;height:30px;border-radius:9px;font-size:9px}
-  .industry-end-actions{gap:7px;margin-top:10px}
-  .industry-end-actions a{min-height:44px;padding:8px;font-size:11px;border-radius:12px}
+  .partner-timing{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .partner-timing-copy h2{font-size:30px!important}.partner-timing-copy p{margin-top:9px;font-size:11px;line-height:1.4}
+  .partner-timeline{gap:6px}.partner-timeline article{grid-template-columns:34px 1fr;min-height:54px;padding:8px 10px;border-radius:13px}.partner-timeline b{width:34px;height:34px;border-radius:10px}.partner-timeline strong{font-size:14px}.partner-timeline span{font-size:9px}
+
+  .final-korea-copy h2{font-size:38px!important}
+  .final-lines{gap:7px;margin-top:15px}.final-lines p{grid-template-columns:34px 1fr;min-height:53px;padding:8px 10px;border-radius:13px;font-size:12px}.final-lines b{width:30px;height:30px;border-radius:9px;font-size:9px}
+  .industry-end-actions{gap:7px;margin-top:10px}.industry-end-actions a{min-height:44px;padding:8px;font-size:11px;border-radius:12px}
 }
