@@ -45,6 +45,63 @@
 }
 
 @media(max-width:700px){
+  html.lesson-deck-ready,
+  html.lesson-deck-ready body{
+    height:100%!important;
+    overflow:hidden!important;
+  }
+
+  body.membership-page{
+    background:#e9eef6!important;
+    overscroll-behavior:none;
+  }
+
+  .membership-page .lesson-deck{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    scroll-snap-type:y proximity;
+    scroll-behavior:smooth;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y!important;
+  }
+
+  .membership-page .lesson-deck-slide,
+  .membership-page .lesson-deck-slide.is-active,
+  .membership-page .lesson-deck-slide.is-before{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    overflow:visible!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:none!important;
+    transition:none!important;
+    scroll-snap-align:start;
+  }
+
+  .membership-page .lesson-deck-slide-frame{
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    padding:12px 10px 18px!important;
+  }
+
+  .membership-page .lesson-deck-slide-hero{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
+  .membership-page .lesson-deck-slide-hero .lesson-hero,
+  .membership-page .lesson-deck-slide-hero .lesson-hero-inner{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
   .membership-page .lesson-deck-slide-hero .lesson-hero{
     background-position:center center;
   }
@@ -55,8 +112,7 @@
 
   .membership-page .lesson-deck-slide-hero .lesson-hero-inner{
     width:calc(100% - 28px)!important;
-    min-height:100%!important;
-    padding:32px 14px 84px!important;
+    padding:32px 14px 36px!important;
     align-items:flex-start!important;
     justify-content:flex-end!important;
     text-align:left!important;
@@ -79,6 +135,227 @@
     max-width:100%!important;
     font-size:clamp(45px,13vw,60px)!important;
     line-height:.98!important;
+  }
+
+  .membership-page .ppt-section{
+    width:100%!important;
+    height:auto!important;
+    min-height:calc(100dvh - 76px)!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    padding:24px 18px 28px!important;
+    overflow:visible!important;
+    border-radius:22px!important;
+    justify-content:flex-start!important;
+  }
+
+  .membership-page .ppt-head{
+    width:100%!important;
+    margin:0 0 18px!important;
+    padding:0 0 15px!important;
+    border-bottom:1px solid rgba(12,24,48,.11);
+  }
+
+  .membership-page .ppt-dark .ppt-head,
+  .membership-page .ppt-warning-slide .ppt-head{
+    border-bottom-color:rgba(255,255,255,.14);
+  }
+
+  .membership-page .ppt-head h2,
+  .membership-page .ppt-photo-copy h2,
+  .membership-page .ppt-end-slide h2{
+    margin-top:10px!important;
+    font-size:clamp(28px,8.2vw,36px)!important;
+    line-height:1.1!important;
+    letter-spacing:-.052em!important;
+  }
+
+  .membership-page .ppt-formula-box{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+
+  .membership-page .ppt-formula-box article{
+    min-height:106px!important;
+    padding:15px 16px!important;
+    border-radius:18px!important;
+  }
+
+  .membership-page .ppt-formula-box small{
+    font-size:12px!important;
+  }
+
+  .membership-page .ppt-formula-box strong{
+    margin-top:8px!important;
+    font-size:36px!important;
+  }
+
+  .membership-page .ppt-formula-box span{
+    margin-top:7px!important;
+    font-size:13px!important;
+    line-height:1.35!important;
+  }
+
+  .membership-page .ppt-formula-sign{
+    height:28px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:22px!important;
+    line-height:1!important;
+  }
+
+  .membership-page .ppt-ledger{
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+
+  .membership-page .ppt-ledger article{
+    min-height:0!important;
+    padding:18px!important;
+    border-radius:18px!important;
+  }
+
+  .membership-page .ppt-ledger strong{
+    margin-top:10px!important;
+    font-size:29px!important;
+  }
+
+  .membership-page .ppt-ledger ul{
+    gap:7px!important;
+    margin-top:13px!important;
+  }
+
+  .membership-page .ppt-ledger li{
+    font-size:14px!important;
+    line-height:1.42!important;
+  }
+
+  .membership-page .ppt-plan-grid,
+  .membership-page .ppt-metric-grid,
+  .membership-page .ppt-four-grid,
+  .membership-page .ppt-warning-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+
+  .membership-page .ppt-plan-grid article,
+  .membership-page .ppt-metric-grid article,
+  .membership-page .ppt-four-grid article,
+  .membership-page .ppt-warning-grid article{
+    min-height:132px!important;
+    padding:15px 13px!important;
+    border-radius:17px!important;
+  }
+
+  .membership-page .ppt-plan-grid strong{
+    font-size:29px!important;
+  }
+
+  .membership-page .ppt-plan-grid span,
+  .membership-page .ppt-four-grid span,
+  .membership-page .ppt-warning-grid span{
+    font-size:12px!important;
+    line-height:1.38!important;
+  }
+
+  .membership-page .ppt-step-list,
+  .membership-page .ppt-detail-grid,
+  .membership-page .ppt-detail-grid.three,
+  .membership-page .ppt-cost-grid,
+  .membership-page .ppt-fact-strip{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .membership-page .ppt-step-list article{
+    min-height:88px!important;
+    padding:14px 15px!important;
+    border-radius:16px!important;
+  }
+
+  .membership-page .ppt-detail-card{
+    min-height:0!important;
+    padding:17px!important;
+    border-radius:17px!important;
+  }
+
+  .membership-page .ppt-detail-card strong{
+    margin-top:8px!important;
+    font-size:21px!important;
+  }
+
+  .membership-page .ppt-detail-card span{
+    margin-top:6px!important;
+    font-size:14px!important;
+    line-height:1.42!important;
+  }
+
+  .membership-page .ppt-process-row{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+
+  .membership-page .ppt-process-row article{
+    min-height:124px!important;
+    padding:14px 10px!important;
+    border-radius:17px!important;
+  }
+
+  .membership-page .ppt-process-row article::after{
+    display:none!important;
+  }
+
+  .membership-page .ppt-plan-matrix{
+    width:100%!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .membership-page .ppt-plan-row{
+    min-width:680px!important;
+  }
+
+  .membership-page .ppt-note-line{
+    margin-top:12px!important;
+    padding:12px 14px!important;
+    font-size:13px!important;
+  }
+
+  .membership-page .ppt-photo-slide{
+    min-height:calc(100dvh - 76px)!important;
+  }
+
+  .membership-page .ppt-photo-copy{
+    width:100%!important;
+  }
+
+  .membership-page .ppt-end-links{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .membership-page .ppt-end-links a{
+    min-height:96px!important;
+  }
+
+  .membership-page .lesson-deck-controls,
+  .membership-page .lesson-deck-progress,
+  .membership-page .lesson-deck-hint{
+    display:none!important;
+  }
+
+  .membership-page .deck-reveal,
+  .membership-page .deck-reveal-card,
+  .membership-page .deck-reveal-visual,
+  .membership-page .deck-reveal-number{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    clip-path:none!important;
+    transition:none!important;
   }
 }
 
