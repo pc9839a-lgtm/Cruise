@@ -15,12 +15,13 @@
   const sourceNodes=[hero,...Array.from(content.children)];
   const deck=document.createElement('div');
   deck.className='lesson-deck';
-  deck.setAttribute('aria-label','아카데미 페이지 보기');
+  deck.setAttribute('aria-label','아카데미 슬라이드');
 
   const slides=sourceNodes.map((node,index)=>{
     const slide=document.createElement('section');
     slide.className='lesson-deck-slide';
     slide.dataset.page=String(index+1);
+    slide.dataset.title=node.dataset.slideTitle||node.querySelector('h1,h2')?.textContent.trim()||'';
 
     if(node===hero){
       slide.classList.add('lesson-deck-slide-hero');
@@ -42,7 +43,7 @@
 
   const controls=document.createElement('div');
   controls.className='lesson-deck-controls';
-  controls.innerHTML='\n    <button class="lesson-deck-button" type="button" data-deck-prev aria-label="이전 페이지">←</button>\n    <span class="lesson-deck-count"><strong data-deck-current>1</strong> / <span data-deck-total>'+slides.length+'</span></span>\n    <button class="lesson-deck-button" type="button" data-deck-next aria-label="다음 페이지">→</button>\n  ';
+  controls.innerHTML='\n    <button class="lesson-deck-button" type="button" data-deck-prev aria-label="이전 장">←</button>\n    <span class="lesson-deck-count"><strong data-deck-current>1</strong> / <span data-deck-total>'+slides.length+'</span></span>\n    <button class="lesson-deck-button" type="button" data-deck-next aria-label="다음 장">→</button>\n  ';
 
   const progress=document.createElement('div');
   progress.className='lesson-deck-progress';
@@ -50,7 +51,7 @@
 
   const hint=document.createElement('div');
   hint.className='lesson-deck-hint';
-  hint.textContent='휠 · 방향키 · 스와이프';
+  hint.textContent=window.matchMedia('(max-width:700px)').matches?'좌우로 넘기기':'휠 · 방향키';
 
   document.body.append(controls,progress,hint);
 
@@ -68,6 +69,11 @@
     return Math.max(0,Math.min(slides.length-1,value));
   }
 
+  function getScroller(slide){
+    const section=slide.querySelector('.ppt-section');
+    return section&&section.scrollHeight>section.clientHeight+4?section:slide;
+  }
+
   function render(nextIndex,resetScroll){
     const target=clamp(nextIndex);
     current=target;
@@ -76,7 +82,11 @@
       slide.classList.toggle('is-active',index===current);
       slide.classList.toggle('is-before',index<current);
       slide.setAttribute('aria-hidden',String(index!==current));
-      if(index===current&&resetScroll)slide.scrollTop=0;
+      if(index===current&&resetScroll){
+        slide.scrollTop=0;
+        const scroller=getScroller(slide);
+        if(scroller!==slide)scroller.scrollTop=0;
+      }
     });
 
     currentLabel.textContent=String(current+1);
@@ -94,15 +104,15 @@
     if(next===current||locked)return;
     locked=true;
     render(next,true);
-    window.setTimeout(()=>{locked=false;},430);
+    window.setTimeout(()=>{locked=false;},390);
   }
 
   function canChangeByWheel(delta){
-    const active=slides[current];
-    const maxScroll=active.scrollHeight-active.clientHeight;
+    const scroller=getScroller(slides[current]);
+    const maxScroll=scroller.scrollHeight-scroller.clientHeight;
     if(maxScroll<=4)return true;
-    if(delta>0)return active.scrollTop>=maxScroll-4;
-    return active.scrollTop<=4;
+    if(delta>0)return scroller.scrollTop>=maxScroll-4;
+    return scroller.scrollTop<=4;
   }
 
   prevButton.addEventListener('click',()=>move(-1));
@@ -145,8 +155,17 @@
     const touch=event.changedTouches[0];
     const diffY=touchStartY-touch.clientY;
     const diffX=touchStartX-touch.clientX;
-    if(Math.abs(diffY)<60||Math.abs(diffY)<Math.abs(diffX))return;
-    if(!canChangeByWheel(diffY))return;
+    const absX=Math.abs(diffX);
+    const absY=Math.abs(diffY);
+    const mobile=window.matchMedia('(max-width:700px)').matches;
+
+    if(mobile){
+      if(absX<48||absX<absY)return;
+      move(diffX>0?1:-1);
+      return;
+    }
+
+    if(absY<60||absY<absX||!canChangeByWheel(diffY))return;
     move(diffY>0?1:-1);
   },{passive:true});
 
