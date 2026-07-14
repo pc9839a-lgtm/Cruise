@@ -1,0 +1,420 @@
+/* Industry outlook deck: fixed presentation rhythm and consistent 2x2 grids */
+.industry-page .ppt-section{
+  justify-content:flex-start;
+  padding:44px 50px!important;
+}
+
+.industry-page .ppt-head{
+  flex:0 0 116px;
+  margin:0 0 24px;
+}
+
+.industry-page .ppt-head h2{
+  max-width:960px!important;
+  margin-top:12px!important;
+  font-size:clamp(40px,4.2vw,62px)!important;
+  line-height:1.04!important;
+}
+
+.industry-page .ppt-subline{
+  margin:12px 0 0;
+  color:#5d6f84;
+  font-size:18px;
+  font-weight:760;
+  line-height:1.5;
+  word-break:keep-all;
+}
+
+.industry-page .ppt-dark .ppt-subline,
+.industry-page .ppt-warning-slide .ppt-subline{
+  color:rgba(255,255,255,.72);
+}
+
+.industry-page .industry-conclusion-grid,
+.industry-page .industry-four-grid,
+.industry-page .industry-region-grid,
+.industry-page .industry-asia-grid,
+.industry-page .industry-risk-grid,
+.industry-page .industry-outlook-grid{
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.industry-page .industry-conclusion-grid article,
+.industry-page .industry-four-grid article,
+.industry-page .industry-region-grid article,
+.industry-page .industry-asia-grid article,
+.industry-page .industry-risk-grid article,
+.industry-page .industry-outlook-grid article{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:24px 26px;
+  border:1px solid rgba(12,24,48,.08);
+  border-radius:24px;
+  background:#f5f8fc;
+}
+
+.industry-page .ppt-dark .industry-conclusion-grid article,
+.industry-page .ppt-warning-slide .industry-risk-grid article{
+  border-color:rgba(255,255,255,.13);
+  background:rgba(255,255,255,.08);
+}
+
+.industry-page .industry-conclusion-grid b,
+.industry-page .industry-four-grid b,
+.industry-page .industry-region-grid b,
+.industry-page .industry-asia-grid b,
+.industry-page .industry-risk-grid b,
+.industry-page .industry-outlook-grid b{
+  color:#2f73ff;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.industry-page .ppt-dark .industry-conclusion-grid b,
+.industry-page .ppt-warning-slide .industry-risk-grid b{
+  color:#9ed6ff;
+}
+
+.industry-page .industry-conclusion-grid strong,
+.industry-page .industry-four-grid strong,
+.industry-page .industry-region-grid strong,
+.industry-page .industry-asia-grid strong,
+.industry-page .industry-risk-grid strong,
+.industry-page .industry-outlook-grid strong{
+  margin-top:8px;
+  color:#10203a;
+  font-size:clamp(23px,2.4vw,34px);
+  line-height:1.16;
+  letter-spacing:-.05em;
+  word-break:keep-all;
+}
+
+.industry-page .ppt-dark .industry-conclusion-grid strong,
+.industry-page .ppt-warning-slide .industry-risk-grid strong{
+  color:#fff;
+}
+
+.industry-page .industry-conclusion-grid span,
+.industry-page .industry-four-grid span,
+.industry-page .industry-region-grid span,
+.industry-page .industry-asia-grid span,
+.industry-page .industry-risk-grid span,
+.industry-page .industry-outlook-grid span{
+  margin-top:8px;
+  color:#63758a;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.45;
+  word-break:keep-all;
+}
+
+.industry-page .ppt-dark .industry-conclusion-grid span,
+.industry-page .ppt-warning-slide .industry-risk-grid span{
+  color:rgba(255,255,255,.7);
+}
+
+.industry-page .industry-conclusion-grid article:last-child{
+  grid-column:1 / -1;
+}
+
+.industry-page .industry-timeline{
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+  align-items:stretch;
+}
+
+.industry-page .industry-timeline article{
+  position:relative;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:22px 18px;
+  border-radius:22px;
+  color:#fff;
+  background:linear-gradient(145deg,#07111f,#17315f);
+  text-align:center;
+}
+
+.industry-page .industry-timeline article:not(:last-child)::after{
+  content:'→';
+  position:absolute;
+  right:-15px;
+  top:50%;
+  z-index:2;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  color:#fff;
+  background:#2f73ff;
+  font-size:14px;
+  font-weight:900;
+  transform:translateY(-50%);
+}
+
+.industry-page .industry-timeline small{
+  color:rgba(255,255,255,.6);
+  font-size:13px;
+  font-weight:900;
+}
+
+.industry-page .industry-timeline strong{
+  margin-top:12px;
+  font-size:clamp(27px,3vw,43px);
+  line-height:1;
+  letter-spacing:-.055em;
+}
+
+.industry-page .industry-timeline span{
+  margin-top:9px;
+  color:rgba(255,255,255,.72);
+  font-size:14px;
+  font-weight:700;
+}
+
+.industry-page .industry-source-row{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid rgba(12,24,48,.08);
+  color:#66778b;
+  font-size:13px;
+  font-weight:750;
+}
+
+.industry-page .industry-source-row a{
+  color:#245ed6;
+  font-weight:900;
+}
+
+.industry-page .industry-split{
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.industry-page .industry-split article{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:32px;
+  overflow:hidden;
+  border-radius:28px;
+  color:#fff;
+  background:#102544;
+}
+
+.industry-page .industry-split article:first-child{
+  background:linear-gradient(145deg,#07111f,#19417b);
+}
+
+.industry-page .industry-split article:last-child{
+  background:linear-gradient(145deg,#35215e,#7959b7);
+}
+
+.industry-page .industry-split small{
+  color:rgba(255,255,255,.65);
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.industry-page .industry-split strong{
+  margin-top:10px;
+  font-size:clamp(32px,3.5vw,52px);
+  line-height:1.05;
+  letter-spacing:-.06em;
+}
+
+.industry-page .industry-split span{
+  margin-top:12px;
+  color:rgba(255,255,255,.76);
+  font-size:17px;
+  font-weight:720;
+  line-height:1.5;
+}
+
+.industry-page .industry-final-points{
+  display:grid;
+  gap:14px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.industry-page .industry-final-points li{
+  display:grid;
+  grid-template-columns:52px 1fr;
+  align-items:center;
+  gap:18px;
+  min-height:92px;
+  padding:18px 22px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  font-size:21px;
+  font-weight:820;
+  line-height:1.4;
+}
+
+.industry-page .industry-final-points b{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  color:#10203a;
+  background:#fff;
+  font-size:15px;
+}
+
+.industry-page .industry-end-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+
+.industry-page .industry-end-actions a{
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  font-size:17px;
+  font-weight:900;
+}
+
+@media(max-width:980px){
+  .industry-page .ppt-section{padding:36px 38px!important}
+  .industry-page .ppt-head{flex-basis:104px}
+  .industry-page .industry-timeline{grid-template-columns:repeat(5,minmax(130px,1fr));overflow-x:auto;padding-bottom:8px}
+}
+
+@media(max-width:700px){
+  .industry-page .ppt-section{
+    height:calc(100dvh - 138px);
+    padding:20px 14px!important;
+  }
+
+  .industry-page .ppt-head{
+    flex:0 0 88px;
+    margin-bottom:12px;
+  }
+
+  .industry-page .ppt-head h2{
+    margin-top:8px!important;
+    font-size:30px!important;
+    line-height:1.05!important;
+  }
+
+  .industry-page .ppt-subline{font-size:14px;line-height:1.4}
+
+  .industry-page .industry-conclusion-grid,
+  .industry-page .industry-four-grid,
+  .industry-page .industry-region-grid,
+  .industry-page .industry-asia-grid,
+  .industry-page .industry-risk-grid,
+  .industry-page .industry-outlook-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:9px;
+  }
+
+  .industry-page .industry-conclusion-grid article,
+  .industry-page .industry-four-grid article,
+  .industry-page .industry-region-grid article,
+  .industry-page .industry-asia-grid article,
+  .industry-page .industry-risk-grid article,
+  .industry-page .industry-outlook-grid article{
+    padding:13px 11px;
+    border-radius:16px;
+  }
+
+  .industry-page .industry-conclusion-grid strong,
+  .industry-page .industry-four-grid strong,
+  .industry-page .industry-region-grid strong,
+  .industry-page .industry-asia-grid strong,
+  .industry-page .industry-risk-grid strong,
+  .industry-page .industry-outlook-grid strong{
+    margin-top:5px;
+    font-size:18px;
+    line-height:1.16;
+  }
+
+  .industry-page .industry-conclusion-grid span,
+  .industry-page .industry-four-grid span,
+  .industry-page .industry-region-grid span,
+  .industry-page .industry-asia-grid span,
+  .industry-page .industry-risk-grid span,
+  .industry-page .industry-outlook-grid span{
+    margin-top:5px;
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .industry-page .industry-timeline{
+    grid-template-columns:1fr;
+    gap:7px;
+    overflow:visible;
+  }
+
+  .industry-page .industry-timeline article{
+    min-height:58px;
+    display:grid;
+    grid-template-columns:54px 1fr auto;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    text-align:left;
+  }
+
+  .industry-page .industry-timeline article:not(:last-child)::after{display:none}
+  .industry-page .industry-timeline strong{margin:0;font-size:21px}
+  .industry-page .industry-timeline span{margin:0;font-size:11px;text-align:right}
+  .industry-page .industry-source-row{margin-top:10px;padding-top:9px;font-size:11px}
+
+  .industry-page .industry-split{gap:9px}
+  .industry-page .industry-split article{padding:18px 14px;border-radius:18px}
+  .industry-page .industry-split strong{font-size:25px}
+  .industry-page .industry-split span{font-size:13px;line-height:1.4}
+
+  .industry-page .industry-final-points{gap:8px}
+  .industry-page .industry-final-points li{
+    grid-template-columns:38px 1fr;
+    min-height:66px;
+    padding:11px 13px;
+    border-radius:15px;
+    font-size:15px;
+  }
+  .industry-page .industry-final-points b{width:38px;height:38px;border-radius:12px;font-size:12px}
+  .industry-page .industry-end-actions{gap:8px;margin-top:10px}
+  .industry-page .industry-end-actions a{min-height:50px;padding:10px;font-size:13px;border-radius:14px}
+}
