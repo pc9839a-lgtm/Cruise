@@ -1,0 +1,270 @@
+html.lesson-deck-ready,
+html.lesson-deck-ready body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body.lesson-deck-mode{
+  margin:0;
+  background:#eef2f8;
+}
+
+.lesson-deck-mode .lesson-header{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:1200;
+  height:68px;
+  background:rgba(7,17,31,.97);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+}
+
+.lesson-deck-mode .lesson-header-inner{
+  min-height:68px;
+  justify-content:center;
+}
+
+.lesson-deck-mode .lesson-brand{
+  font-size:14px;
+  letter-spacing:.1em;
+}
+
+.lesson-deck-mode .lesson-nav,
+.lesson-deck-mode .lesson-menu-button,
+.lesson-deck-mode .lesson-main,
+.lesson-deck-mode .lesson-footer{
+  display:none!important;
+}
+
+.lesson-deck{
+  position:fixed;
+  inset:68px 0 0;
+  z-index:10;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(47,115,255,.08),transparent 28%),
+    radial-gradient(circle at 90% 90%,rgba(112,92,255,.08),transparent 30%),
+    #eef2f8;
+}
+
+.lesson-deck-slide{
+  position:absolute;
+  inset:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateX(7%);
+  transition:opacity .34s ease,transform .42s cubic-bezier(.22,.8,.24,1),visibility .34s;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(45,73,111,.28) transparent;
+}
+
+.lesson-deck-slide::-webkit-scrollbar{width:8px}
+.lesson-deck-slide::-webkit-scrollbar-thumb{background:rgba(45,73,111,.25);border-radius:999px}
+
+.lesson-deck-slide.is-active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateX(0);
+}
+
+.lesson-deck-slide.is-before{
+  transform:translateX(-7%);
+}
+
+.lesson-deck-slide-frame{
+  width:100%;
+  min-height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:34px 24px 116px;
+}
+
+.lesson-deck-slide-hero{
+  overflow:hidden;
+  background:#07111f;
+}
+
+.lesson-deck-slide-hero .lesson-hero{
+  width:100%;
+  min-height:100%;
+  height:100%;
+}
+
+.lesson-deck-slide-hero .lesson-hero-inner{
+  min-height:100%;
+  padding:52px 24px 116px;
+}
+
+.lesson-deck-slide-hero .lesson-back{
+  margin-bottom:4px;
+}
+
+.lesson-deck-slide-hero .lesson-kicker{
+  margin-top:20px;
+}
+
+.lesson-deck-slide-hero .lesson-hero h1{
+  margin-top:18px;
+  font-size:clamp(54px,7vw,94px);
+}
+
+.lesson-deck-slide .lesson-summary,
+.lesson-deck-slide .lesson-section,
+.lesson-deck-slide .lesson-pagination{
+  width:min(100%,1040px);
+  margin:0 auto;
+}
+
+.lesson-deck-slide .lesson-section{
+  box-shadow:0 22px 70px rgba(11,29,58,.1);
+}
+
+.lesson-deck-slide .lesson-summary{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:18px;
+}
+
+.lesson-deck-slide .lesson-summary article{
+  min-height:180px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:28px 20px;
+  border-radius:26px;
+}
+
+.lesson-deck-slide .lesson-summary small{
+  font-size:15px;
+}
+
+.lesson-deck-slide .lesson-summary strong{
+  margin-top:14px;
+  font-size:clamp(25px,3vw,36px);
+}
+
+.lesson-deck-controls{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  z-index:1500;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px;
+  border:1px solid rgba(255,255,255,.68);
+  border-radius:999px;
+  background:rgba(7,17,31,.92);
+  box-shadow:0 18px 48px rgba(4,12,26,.28);
+  backdrop-filter:blur(18px);
+  transform:translateX(-50%);
+}
+
+.lesson-deck-button{
+  width:48px;
+  height:48px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:50%;
+  color:#fff;
+  background:rgba(255,255,255,.1);
+  font-size:24px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+  transition:background .2s ease,opacity .2s ease,transform .2s ease;
+}
+
+.lesson-deck-button:hover:not(:disabled){background:rgba(255,255,255,.2);transform:translateY(-1px)}
+.lesson-deck-button:disabled{opacity:.26;cursor:default}
+
+.lesson-deck-count{
+  min-width:76px;
+  color:rgba(255,255,255,.7);
+  font-size:14px;
+  font-weight:800;
+  text-align:center;
+  letter-spacing:.04em;
+}
+
+.lesson-deck-count strong{
+  color:#fff;
+  font-size:18px;
+}
+
+.lesson-deck-progress{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:1490;
+  height:4px;
+  background:rgba(7,17,31,.12);
+}
+
+.lesson-deck-progress span{
+  display:block;
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,#2f73ff 0%,#705cff 100%);
+  transition:width .32s ease;
+}
+
+.lesson-deck-hint{
+  position:fixed;
+  right:24px;
+  bottom:34px;
+  z-index:1490;
+  color:#66778d;
+  font-size:13px;
+  font-weight:750;
+}
+
+@media(max-width:920px){
+  .lesson-deck-slide .lesson-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lesson-deck-slide .lesson-summary article{min-height:150px}
+  .lesson-deck-hint{display:none}
+}
+
+@media(max-width:700px){
+  .lesson-deck-mode .lesson-header{height:60px}
+  .lesson-deck-mode .lesson-header-inner{min-height:60px}
+  .lesson-deck-mode .lesson-brand{font-size:12px}
+  .lesson-deck{inset:60px 0 0}
+  .lesson-deck-slide-frame{align-items:flex-start;padding:20px 14px 104px}
+  .lesson-deck-slide-hero .lesson-hero-inner{padding:42px 18px 104px}
+  .lesson-deck-slide-hero .lesson-hero h1{font-size:clamp(46px,13vw,66px)}
+  .lesson-deck-slide .lesson-section{padding:30px 20px;border-radius:26px}
+  .lesson-deck-slide .lesson-section h2{font-size:36px}
+  .lesson-deck-slide .lesson-section>p,
+  .lesson-deck-slide .lesson-copy{font-size:18px;line-height:1.82}
+  .lesson-deck-slide .lesson-summary{grid-template-columns:1fr;gap:12px}
+  .lesson-deck-slide .lesson-summary article{min-height:116px}
+  .lesson-deck-controls{bottom:16px}
+  .lesson-deck-button{width:44px;height:44px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .lesson-deck-slide,
+  .lesson-deck-progress span,
+  .lesson-deck-button{transition:none!important}
+}
+
+@media print{
+  html.lesson-deck-ready,
+  html.lesson-deck-ready body{height:auto;overflow:visible}
+  .lesson-deck-mode .lesson-header,
+  .lesson-deck-controls,
+  .lesson-deck-progress,
+  .lesson-deck-hint{display:none!important}
+  .lesson-deck{position:static;overflow:visible}
+  .lesson-deck-slide{position:relative;inset:auto;min-height:100vh;opacity:1;visibility:visible;pointer-events:auto;transform:none;page-break-after:always;overflow:visible}
+}
