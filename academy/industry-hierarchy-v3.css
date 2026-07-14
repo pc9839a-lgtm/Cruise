@@ -1,3 +1,5 @@
+@import url('/academy/industry-layout-v4.css?v=20260714-layout4');
+
 /* Stronger presentation hierarchy: title zone above, readable content zone below */
 .industry-page .ppt-section{
   padding:42px 52px!important;
@@ -49,7 +51,6 @@
   letter-spacing:.08em!important;
 }
 
-/* Title summaries are visually separate from evidence */
 .industry-page .korea-opening-copy p,
 .industry-page .experience-copy p,
 .industry-page .photo-message-copy p,
@@ -78,7 +79,6 @@
   font-size:clamp(38px,4vw,56px)!important;
 }
 
-/* Standard cards: card label -> key point -> one supporting line */
 .industry-page .simple-two,
 .industry-page .economy-grid{
   gap:18px!important;
@@ -132,7 +132,6 @@
   line-height:1.4!important;
 }
 
-/* Replace the awkward keyword panel with two meaningful content cards */
 .industry-page .partner-stage-v2{
   display:flex!important;
   flex-direction:column!important;
@@ -229,7 +228,6 @@
   text-align:center;
 }
 
-/* Final slide: title is distinct from the three conclusions */
 .industry-page .final-korea-copy h2{
   padding-bottom:0!important;
   border-bottom:0!important;
