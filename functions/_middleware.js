@@ -88,7 +88,7 @@ class SecurityScriptInjector {
   element(element) {
     let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
-      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v16" defer></script>';
+      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v17" defer></script>';
     }
     element.append(scripts, { html: true });
   }
@@ -96,7 +96,7 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-duplicates-v16');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-duplicates-v17');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
   }
