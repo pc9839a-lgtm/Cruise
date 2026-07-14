@@ -16,7 +16,7 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-color:#dfe7f2!important}
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-force-v10">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-force-v11">';
 
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
@@ -35,7 +35,7 @@ class SecurityScriptInjector {
   element(element) {
     let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
-      scripts += '<script src="/partner/partner-force-images-v10.js?v=20260714-force-v10" defer></script>';
+      scripts += '<script src="/partner/partner-force-images-v11.js?v=20260714-force-v11" defer></script>';
     }
     element.append(scripts, { html: true });
   }
@@ -43,7 +43,7 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-force-v10');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-force-v11');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
   }
