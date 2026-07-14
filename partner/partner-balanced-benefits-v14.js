@@ -1,14 +1,14 @@
 (function(){
   'use strict';
 
-  const VERSION='20260714-duplicates-v16-fix1';
+  const VERSION='20260714-duplicates-v17';
   const GRAPHICS={
     income:'/img/ChatGPT%20Image%202026%EB%85%84%207%EC%9B%94%2014%EC%9D%BC%20%EC%98%A4%ED%9B%84%2004_54_04.png',
     credit:'/img/ChatGPT%20Image%202026%EB%85%84%207%EC%9B%94%2014%EC%9D%BC%20%EC%98%A4%ED%9B%84%2004_54_06.png'
   };
   const KOREAN_IMAGES={
     internal:'/img/객실및내부시설12-1.png',
-    photozone:'/img/객실및내부시설9-1.png',
+    photozone:'/img/객실및내부시설7.png',
     lounge:'/img/객실및내부시설12-2.png',
     atrium:'/img/객실및내부시설9.png',
     performance:'/img/음식및엔터24.png',
@@ -68,7 +68,7 @@
     replaceFrameImage(
       introduceSection&&introduceSection.querySelector('.real-photo-frame,.actual-photo'),
       KOREAN_IMAGES.photozone,
-      '크루즈 선내 포토존'
+      '크루즈 객실 내부'
     );
 
     const gallery=document.querySelector('#proof .gallery-grid');
@@ -110,8 +110,8 @@
   }
 
   function applyBalancedBenefits(){
-    if(document.documentElement.dataset.partnerBalancedBenefitsV16Fix1==='1')return;
-    document.documentElement.dataset.partnerBalancedBenefitsV16Fix1='1';
+    if(document.documentElement.dataset.partnerBalancedBenefitsV17==='1')return;
+    document.documentElement.dataset.partnerBalancedBenefitsV17='1';
 
     setupKoreanBenefit('benefit-credit',0,'매월 무료 크레딧과 다음 여행비 혜택 안내');
     setupKoreanBenefit('benefit-income',1,'매월 달러 수익과 파트너 혜택 안내');
