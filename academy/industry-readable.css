@@ -1,0 +1,111 @@
+/* Readability layer over the previous Korea-focused presentation design */
+.industry-page .ppt-section{justify-content:center}
+.industry-page .ppt-head{margin-bottom:22px}
+.industry-page .ppt-head h2,.industry-page h2{max-width:900px!important}
+.cover-subcopy{margin:18px 0 0;color:rgba(255,255,255,.78);font-size:20px;font-weight:760}
+
+.two-proof{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:30px}
+.two-proof article{min-height:180px;display:flex;flex-direction:column;justify-content:center;padding:28px;border:1px solid rgba(255,255,255,.14);border-radius:26px;background:rgba(255,255,255,.08)}
+.two-proof small{color:#9ed6ff;font-size:13px;font-weight:900}
+.two-proof strong{margin-top:10px;color:#fff;font-size:clamp(38px,4vw,58px);line-height:1;letter-spacing:-.06em}
+.two-proof span{margin-top:10px;color:rgba(255,255,255,.66);font-size:15px;font-weight:720}
+
+.big-number-stage{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(320px,.86fr);gap:36px;align-items:stretch}
+.big-number-copy{display:flex;flex-direction:column;justify-content:center}
+.big-number-copy h2{font-size:clamp(40px,4.2vw,62px)!important}
+.big-stat{margin-top:28px;color:#0b1524;font-size:clamp(72px,8vw,112px);font-weight:950;line-height:.88;letter-spacing:-.08em}
+.big-stat small{display:block;margin-top:16px;color:#607086;font-size:18px;font-weight:850;letter-spacing:-.02em}
+.short-takeaway{margin:24px 0 0;max-width:650px;color:#53657b;font-size:19px;font-weight:760;line-height:1.5;word-break:keep-all}
+
+.experience-stage{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(340px,.9fr);gap:42px;align-items:center;background:linear-gradient(145deg,#f8fbff,#eef5ff)}
+.experience-copy{display:flex;flex-direction:column;justify-content:center}
+.experience-copy h2{font-size:clamp(46px,5vw,72px)!important}
+.experience-copy p{margin:22px 0 0;max-width:640px;color:#607086;font-size:19px;font-weight:740;line-height:1.5;word-break:keep-all}
+.experience-meter{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;padding:30px;border-radius:30px;background:#07111f;color:#fff}
+.people-ten{display:grid;grid-template-columns:repeat(5,42px);gap:16px}
+.people-ten i{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.14)}
+.people-ten i.active{background:linear-gradient(145deg,#2f73ff,#705cff);box-shadow:0 0 0 8px rgba(47,115,255,.14)}
+.experience-meter strong{margin-top:34px;font-size:34px;letter-spacing:-.055em}
+.experience-meter small{margin-top:10px;color:rgba(255,255,255,.58);font-size:12px;font-weight:750;text-align:center}
+
+.photo-message{display:grid!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px;align-items:stretch}
+.photo-message-copy{display:flex;flex-direction:column;justify-content:center}
+.photo-message-copy h2{font-size:clamp(42px,4.5vw,66px)!important}
+.photo-message-copy p{margin:22px 0 0;color:#607086;font-size:18px;font-weight:730;line-height:1.5;word-break:keep-all}
+.port-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.port-pills b{padding:10px 14px;border-radius:999px;color:#245ed6;background:#edf4ff;font-size:13px;letter-spacing:.08em}
+
+.simple-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;flex:1;min-height:0}
+.simple-two article{display:flex;flex-direction:column;justify-content:center;padding:34px;border-radius:30px;background:#f3f7fc;border:1px solid rgba(12,24,48,.07)}
+.simple-two article.dark{color:#fff;background:linear-gradient(145deg,#07111f,#1d447c)}
+.simple-two small{font-size:13px;font-weight:900;letter-spacing:.08em;opacity:.65}
+.simple-two strong{margin-top:12px;font-size:clamp(34px,3.8vw,54px);line-height:1;letter-spacing:-.06em}
+.simple-two p{margin:18px 0 0;color:#617287;font-size:17px;font-weight:720;line-height:1.48;word-break:keep-all}
+.simple-two article.dark p{color:rgba(255,255,255,.72)}
+.simple-two ul{display:grid;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.simple-two li{color:#52647a;font-size:16px;font-weight:760}
+.simple-two article.dark li{color:rgba(255,255,255,.76)}
+.simple-two li::before{content:'•';margin-right:9px;color:#2f73ff}
+
+.economy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:16px;flex:1;min-height:0}
+.economy-grid article{display:flex;flex-direction:column;justify-content:center;padding:26px;border-radius:24px;background:#f3f7fc;border:1px solid rgba(12,24,48,.07)}
+.economy-grid b{color:#2f73ff;font-size:13px;font-weight:900;letter-spacing:.06em}
+.economy-grid strong{margin-top:8px;color:#10203a;font-size:clamp(24px,2.5vw,34px);line-height:1.15;letter-spacing:-.05em}
+.economy-grid span{margin-top:8px;color:#63758a;font-size:15px;font-weight:720;line-height:1.4}
+
+.homeport-simple{display:grid!important;grid-template-columns:minmax(290px,.72fr) minmax(0,1.28fr);gap:38px;align-items:stretch;background:linear-gradient(145deg,#f8fbff,#eef5ff)}
+.homeport-simple .portrait-photo-wrap{min-height:0}
+.homeport-simple-copy{display:flex;flex-direction:column;justify-content:center}
+.homeport-simple-copy h2{font-size:clamp(42px,4.6vw,66px)!important}
+.homeport-simple-copy p{margin:22px 0 0;color:#607086;font-size:18px;font-weight:730;line-height:1.5}
+.three-points{display:grid;gap:12px;margin-top:26px}
+.three-points article{padding:18px 20px;border-radius:18px;background:#fff;border:1px solid #dce8f7}
+.three-points strong{display:block;color:#10203a;font-size:20px;letter-spacing:-.04em}
+.three-points span{display:block;margin-top:5px;color:#6a7a8e;font-size:13px;font-weight:720}
+
+.partner-stage{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:36px;align-items:center}
+.partner-copy{display:flex;flex-direction:column;justify-content:center}
+.partner-copy h2{font-size:clamp(48px,5.2vw,76px)!important}
+.partner-copy p{margin:24px 0 0;max-width:690px;color:rgba(255,255,255,.72);font-size:19px;font-weight:740;line-height:1.5}
+.partner-word{display:flex;align-items:center;justify-content:center;min-height:340px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);color:#fff;font-size:clamp(48px,5vw,72px);font-weight:950;letter-spacing:-.065em;text-align:center}
+
+.readable-roadmap .roadmap-line article{min-height:180px}
+.readable-roadmap .roadmap-message{font-size:18px!important}
+
+.final-korea-copy .final-three{display:grid;gap:14px;margin-top:30px}
+.final-korea-copy .final-three p{margin:0;padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:21px;font-weight:820;line-height:1.4}
+
+@media(max-width:700px){
+  .cover-subcopy{font-size:14px}
+  .two-proof{gap:8px;margin-top:15px}
+  .two-proof article{min-height:120px;padding:14px;border-radius:16px}
+  .two-proof strong{font-size:26px}
+  .two-proof small,.two-proof span{font-size:10px}
+  .big-number-stage,.experience-stage,.photo-message,.homeport-simple,.partner-stage{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;gap:12px}
+  .big-number-copy h2,.experience-copy h2,.photo-message-copy h2,.homeport-simple-copy h2,.partner-copy h2{font-size:30px!important}
+  .big-stat{margin-top:12px;font-size:56px}
+  .big-stat small{margin-top:8px;font-size:12px}
+  .short-takeaway,.experience-copy p,.photo-message-copy p,.homeport-simple-copy p,.partner-copy p{margin-top:10px;font-size:12px;line-height:1.4}
+  .experience-meter{min-height:220px;padding:18px;border-radius:18px}
+  .people-ten{grid-template-columns:repeat(5,28px);gap:10px}
+  .people-ten i{width:28px;height:28px}
+  .experience-meter strong{margin-top:18px;font-size:23px}
+  .simple-two{grid-template-columns:1fr;gap:9px}
+  .simple-two article{padding:17px;border-radius:18px}
+  .simple-two strong{font-size:28px}
+  .simple-two p{margin-top:8px;font-size:12px}
+  .simple-two ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin-top:10px}
+  .simple-two li{font-size:11px}
+  .economy-grid{gap:8px}
+  .economy-grid article{padding:12px 10px;border-radius:15px}
+  .economy-grid strong{font-size:17px}
+  .economy-grid span{font-size:11px}
+  .homeport-simple{grid-template-rows:minmax(0,38%) 1fr}
+  .three-points{gap:7px;margin-top:12px}
+  .three-points article{padding:10px;border-radius:12px}
+  .three-points strong{font-size:14px}
+  .three-points span{font-size:10px}
+  .partner-word{min-height:190px;border-radius:18px;font-size:36px}
+  .final-korea-copy .final-three{gap:8px;margin-top:16px}
+  .final-korea-copy .final-three p{padding:11px 12px;border-radius:13px;font-size:13px}
+}
