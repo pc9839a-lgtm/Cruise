@@ -14,7 +14,7 @@ const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" tit
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14">';
 
 const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -88,7 +88,7 @@ class SecurityScriptInjector {
   element(element) {
     let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
-      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script>';
+      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-balanced-v14" defer></script>';
     }
     element.append(scripts, { html: true });
   }
@@ -96,7 +96,7 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-originals-v13');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-balanced-v14');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
   }
