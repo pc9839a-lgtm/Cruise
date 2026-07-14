@@ -11,6 +11,7 @@
 
   const mobileQuery=window.matchMedia('(max-width:700px)');
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const supportsNativeMobile=document.body.classList.contains('industry-page');
 
   document.documentElement.classList.add('lesson-deck-ready');
   document.body.classList.add('lesson-deck-mode');
@@ -66,19 +67,12 @@
   let locked=false;
   let touchStartY=0;
   let touchStartX=0;
-  let touchLastY=0;
   let revealTimer=0;
+  let scrollFrame=0;
+  let modeFrame=0;
 
-  function syncDeviceMode(){
-    document.body.classList.toggle('lesson-deck-mobile',mobileQuery.matches);
-    hint.textContent=mobileQuery.matches?'위로 스크롤해 다음 장':'휠 · 방향키';
-  }
-
-  syncDeviceMode();
-  if(typeof mobileQuery.addEventListener==='function'){
-    mobileQuery.addEventListener('change',syncDeviceMode);
-  }else if(typeof mobileQuery.addListener==='function'){
-    mobileQuery.addListener(syncDeviceMode);
+  function isNativeMobile(){
+    return supportsNativeMobile&&mobileQuery.matches;
   }
 
   function clamp(value){
@@ -167,13 +161,52 @@
     void slide.offsetWidth;
     revealTimer=window.setTimeout(()=>{
       slide.classList.add('is-revealing');
-    },mobileQuery.matches?70:105);
+    },mobileQuery.matches?45:105);
+  }
+
+  function updateLabels(){
+    currentLabel.textContent=String(current+1);
+    prevButton.disabled=current===0;
+    nextButton.disabled=current===slides.length-1;
+    progressBar.style.width=((current+1)/slides.length*100)+'%';
+
+    const active=slides[current];
+    const anchor=active.querySelector('[id]');
+    history.replaceState(null,'',anchor?'#'+anchor.id:location.pathname);
+  }
+
+  function applyActiveState(nextIndex,reveal){
+    current=clamp(nextIndex);
+    const native=isNativeMobile();
+
+    slides.forEach((slide,index)=>{
+      slide.classList.toggle('is-active',index===current);
+      slide.classList.toggle('is-before',index<current);
+      slide.setAttribute('aria-hidden',native?'false':String(index!==current));
+    });
+
+    updateLabels();
+    if(reveal)replayReveal(slides[current]);
+  }
+
+  function scrollToNativeSlide(index,behavior){
+    const target=slides[clamp(index)];
+    deck.scrollTo({
+      top:target.offsetTop,
+      behavior:behavior||((reducedMotion.matches)?'auto':'smooth')
+    });
   }
 
   function render(nextIndex,resetScroll){
     const target=clamp(nextIndex);
-    current=target;
 
+    if(isNativeMobile()){
+      applyActiveState(target,true);
+      if(resetScroll)scrollToNativeSlide(target);
+      return;
+    }
+
+    current=target;
     slides.forEach((slide,index)=>{
       slide.classList.toggle('is-active',index===current);
       slide.classList.toggle('is-before',index<current);
@@ -185,15 +218,8 @@
       }
     });
 
-    currentLabel.textContent=String(current+1);
-    prevButton.disabled=current===0;
-    nextButton.disabled=current===slides.length-1;
-    progressBar.style.width=((current+1)/slides.length*100)+'%';
-
-    const active=slides[current];
-    const anchor=active.querySelector('[id]');
-    history.replaceState(null,'',anchor?'#'+anchor.id:location.pathname);
-    replayReveal(active);
+    updateLabels();
+    replayReveal(slides[current]);
   }
 
   function move(direction){
@@ -201,13 +227,65 @@
     if(next===current||locked)return;
     locked=true;
     render(next,true);
-    window.setTimeout(()=>{locked=false;},mobileQuery.matches?520:410);
+    window.setTimeout(()=>{locked=false;},isNativeMobile()?430:410);
+  }
+
+  function closestNativeSlide(){
+    const marker=deck.scrollTop+(deck.clientHeight*.38);
+    let closest=0;
+    let best=Infinity;
+
+    slides.forEach((slide,index)=>{
+      const distance=Math.abs(slide.offsetTop-marker);
+      if(distance<best){
+        best=distance;
+        closest=index;
+      }
+    });
+
+    return closest;
+  }
+
+  function handleNativeScroll(){
+    if(!isNativeMobile())return;
+    if(scrollFrame)return;
+    scrollFrame=window.requestAnimationFrame(()=>{
+      scrollFrame=0;
+      const next=closestNativeSlide();
+      if(next!==current)applyActiveState(next,true);
+    });
+  }
+
+  function syncDeviceMode(){
+    const native=isNativeMobile();
+    document.body.classList.toggle('lesson-deck-mobile',mobileQuery.matches);
+    document.body.classList.toggle('lesson-deck-native-scroll',native);
+    hint.textContent=native?'아래로 내려 다음 장':'휠 · 방향키';
+
+    window.cancelAnimationFrame(modeFrame);
+    modeFrame=window.requestAnimationFrame(()=>{
+      slides.forEach((slide,index)=>{
+        slide.setAttribute('aria-hidden',native?'false':String(index!==current));
+      });
+      if(native)scrollToNativeSlide(current,'auto');
+      else render(current,false);
+    });
+  }
+
+  syncDeviceMode();
+  if(typeof mobileQuery.addEventListener==='function'){
+    mobileQuery.addEventListener('change',syncDeviceMode);
+  }else if(typeof mobileQuery.addListener==='function'){
+    mobileQuery.addListener(syncDeviceMode);
   }
 
   prevButton.addEventListener('click',()=>move(-1));
   nextButton.addEventListener('click',()=>move(1));
 
+  deck.addEventListener('scroll',handleNativeScroll,{passive:true});
+
   deck.addEventListener('wheel',event=>{
+    if(isNativeMobile())return;
     if(Math.abs(event.deltaY)<18)return;
     if(!canChangeByDirection(event.deltaY))return;
     event.preventDefault();
@@ -235,36 +313,19 @@
   });
 
   deck.addEventListener('touchstart',event=>{
+    if(isNativeMobile())return;
     const touch=event.changedTouches[0];
     touchStartY=touch.clientY;
-    touchLastY=touch.clientY;
     touchStartX=touch.clientX;
   },{passive:true});
 
-  deck.addEventListener('touchmove',event=>{
-    if(!mobileQuery.matches)return;
-    const touch=event.changedTouches[0];
-    const diffY=touchLastY-touch.clientY;
-    const totalY=touchStartY-touch.clientY;
-    const totalX=touchStartX-touch.clientX;
-    touchLastY=touch.clientY;
-
-    if(Math.abs(totalY)<=Math.abs(totalX))return;
-    if(canChangeByDirection(diffY||totalY))event.preventDefault();
-  },{passive:false});
-
   deck.addEventListener('touchend',event=>{
+    if(isNativeMobile())return;
     const touch=event.changedTouches[0];
     const diffY=touchStartY-touch.clientY;
     const diffX=touchStartX-touch.clientX;
     const absX=Math.abs(diffX);
     const absY=Math.abs(diffY);
-
-    if(mobileQuery.matches){
-      if(absY<42||absY<absX||!canChangeByDirection(diffY))return;
-      move(diffY>0?1:-1);
-      return;
-    }
 
     if(absY<60||absY<absX||!canChangeByDirection(diffY))return;
     move(diffY>0?1:-1);
@@ -288,5 +349,8 @@
     if(found>=0)initial=found;
   }
 
-  render(initial,true);
+  applyActiveState(initial,true);
+  window.requestAnimationFrame(()=>{
+    if(isNativeMobile())scrollToNativeSlide(initial,'auto');
+  });
 })();
