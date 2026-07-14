@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  const VERSION='20260714-duplicates-v16';
+  const VERSION='20260714-duplicates-v16-fix1';
   const GRAPHICS={
     income:'/img/ChatGPT%20Image%202026%EB%85%84%207%EC%9B%94%2014%EC%9D%BC%20%EC%98%A4%ED%9B%84%2004_54_04.png',
     credit:'/img/ChatGPT%20Image%202026%EB%85%84%207%EC%9B%94%2014%EC%9D%BC%20%EC%98%A4%ED%9B%84%2004_54_06.png'
@@ -110,6 +110,9 @@
   }
 
   function applyBalancedBenefits(){
+    if(document.documentElement.dataset.partnerBalancedBenefitsV16Fix1==='1')return;
+    document.documentElement.dataset.partnerBalancedBenefitsV16Fix1='1';
+
     setupKoreanBenefit('benefit-credit',0,'매월 무료 크레딧과 다음 여행비 혜택 안내');
     setupKoreanBenefit('benefit-income',1,'매월 달러 수익과 파트너 혜택 안내');
 
@@ -121,15 +124,9 @@
     document.documentElement.classList.add('partner-balanced-benefits-ready');
   }
 
-  function init(){
-    applyBalancedBenefits();
-    window.setTimeout(applyBalancedBenefits,350);
-    window.setTimeout(applyBalancedBenefits,1000);
-  }
-
   if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',init,{once:true});
+    document.addEventListener('DOMContentLoaded',applyBalancedBenefits,{once:true});
   }else{
-    init();
+    applyBalancedBenefits();
   }
 }());
