@@ -12,10 +12,9 @@ const SECURITY_HEADERS = {
 const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);var n=new URLSearchParams();var rules={agent:40,utm_source:80,utm_medium:80,utm_campaign:80,inquiryType:40};Object.keys(rules).forEach(function(k){var v=(u.searchParams.get(k)||'').replace(/[\\u0000-\\u001f\\u007f<>]/g,'').trim().slice(0,rules[k]);if(!v)return;if(k==='agent'&&!/^[A-Za-z0-9_-]+$/.test(v))return;if(k==='inquiryType'&&!/^[A-Za-z0-9_-]+$/.test(v))return;n.set(k,v)});if(u.searchParams.get('openInquiry')==='1')n.set('openInquiry','1');var s=n.toString();var clean=u.pathname+(s?'?'+s:'')+u.hash;if(clean!==u.pathname+u.search+u.hash)history.replaceState(null,'',clean)}catch(e){}})();</script>`;
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
-.actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-color:#dfe7f2!important}
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-force-v11">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13">';
 
 const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -26,6 +25,7 @@ const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 
 const PASSTHROUGH_PATHS = new Set([
   '/sitemap.txt',
+  '/sitemap-2026.xml',
   '/robots.txt',
   '/rss.xml',
   '/feed.xml'
@@ -88,7 +88,7 @@ class SecurityScriptInjector {
   element(element) {
     let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
-      scripts += '<script src="/partner/partner-force-images-v11.js?v=20260714-force-v11" defer></script>';
+      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script>';
     }
     element.append(scripts, { html: true });
   }
@@ -96,7 +96,7 @@ class SecurityScriptInjector {
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-force-v11');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-originals-v13');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
   }
