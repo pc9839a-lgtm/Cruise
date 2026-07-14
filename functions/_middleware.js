@@ -16,7 +16,7 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .actual-photo,.benefit-visual{position:relative!important;overflow:hidden!important;background-color:#dfe7f2!important}
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-mobile-direct">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-direct-images-v6.css?v=20260714-force-v10">';
 
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
@@ -31,39 +31,21 @@ class HeadSecurityInjector {
 }
 
 class SecurityScriptInjector {
+  constructor(isPartner) { this.isPartner = isPartner; }
   element(element) {
-    element.append(
-      '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>',
-      { html: true }
-    );
+    let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
+    if (this.isPartner) {
+      scripts += '<script src="/partner/partner-force-images-v10.js?v=20260714-force-v10" defer></script>';
+    }
+    element.append(scripts, { html: true });
   }
 }
 
 class PartnerHeroInjector {
   element(element) {
-    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-mobile-direct');
+    element.setAttribute('src', '/img/partner/hero.webp?v=20260714-force-v10');
     element.setAttribute('loading', 'eager');
     element.setAttribute('decoding', 'async');
-  }
-}
-
-class PartnerPhotoInjector {
-  element(element) {
-    const alt = String(element.getAttribute('aria-label') || '크루즈 여행 실제 사진').replace(/"/g, '&quot;');
-    element.setInnerContent(
-      `<img class="partner-direct-photo" src="/img/partner/gallery.webp?v=20260714-mobile-direct" alt="${alt}" loading="lazy" decoding="async" />`,
-      { html: true }
-    );
-  }
-}
-
-class PartnerBenefitInjector {
-  element(element) {
-    const alt = String(element.getAttribute('aria-label') || '크루즈 파트너 혜택 이미지').replace(/"/g, '&quot;');
-    element.setInnerContent(
-      `<img class="partner-direct-benefit" src="/img/partner/benefits.webp?v=20260714-mobile-direct" alt="${alt}" loading="lazy" decoding="async" />`,
-      { html: true }
-    );
   }
 }
 
@@ -107,13 +89,10 @@ export async function onRequest(context) {
   if (contentType.includes('text/html')) {
     let rewriter = new HTMLRewriter()
       .on('head', new HeadSecurityInjector(isPartner))
-      .on('body', new SecurityScriptInjector());
+      .on('body', new SecurityScriptInjector(isPartner));
 
     if (isPartner) {
-      rewriter = rewriter
-        .on('.hero-bg', new PartnerHeroInjector())
-        .on('.actual-photo', new PartnerPhotoInjector())
-        .on('.benefit-visual', new PartnerBenefitInjector());
+      rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
     }
 
     securedResponse = rewriter.transform(securedResponse);
