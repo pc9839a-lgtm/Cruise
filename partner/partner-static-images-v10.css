@@ -1,0 +1,5 @@
+/* Force mobile body images visible as a final fallback */
+@media(max-width:700px){
+  .actual-photo,.benefit-visual{display:block!important;opacity:1!important;visibility:visible!important;min-height:260px!important;overflow:hidden!important;position:relative!important}
+  .actual-photo img,.benefit-visual img{display:block!important;opacity:1!important;visibility:visible!important}
+}
