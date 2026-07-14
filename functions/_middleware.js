@@ -25,6 +25,7 @@ const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 </urlset>`;
 
 const PASSTHROUGH_PATHS = new Set([
+  '/sitemap.txt',
   '/robots.txt',
   '/rss.xml',
   '/feed.xml'
