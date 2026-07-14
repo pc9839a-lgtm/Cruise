@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>크루즈플레이 아카데미</title>
-  <meta name="description" content="크루즈 멤버십과 파트너 활동을 과정별 카드로 확인하는 크루즈플레이 아카데미입니다." />
+  <meta name="description" content="크루즈여행, 멤버십, 리워드 포인트와 파트너 활동을 과정별로 배우는 크루즈플레이 아카데미입니다." />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="theme-color" content="#07111f" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="/academy/academy-v1.css?v=20260714-catalog" />
+  <link rel="stylesheet" href="/academy/academy-v1.css?v=20260714-lessons" />
 </head>
 <body>
   <header class="academy-header">
@@ -23,9 +23,8 @@
       </button>
       <nav class="academy-nav" id="academyNav" aria-label="아카데미 메뉴">
         <a href="#courses">전체 과정</a>
-        <a href="#membership">멤버십</a>
+        <a href="#travel">여행·멤버십</a>
         <a href="#partner">파트너</a>
-        <a href="#quick-links">바로가기</a>
         <a href="/partner/#partner-form" class="academy-nav-cta">문의하기</a>
       </nav>
     </div>
@@ -37,8 +36,8 @@
         <div class="academy-intro-card">
           <div class="academy-intro-copy">
             <span class="academy-eyebrow">CRUISEPLAY ACADEMY</span>
-            <h1>궁금한 과정부터.<br /><strong>하나씩 확인하세요.</strong></h1>
-            <p>처음 알아보는 사람과 가입한 파트너가 필요한 내용을 같은 곳에서 확인합니다.</p>
+            <h1>필요한 과정부터.<br /><strong>하나씩 배우세요.</strong></h1>
+            <p>크루즈여행부터 멤버십, 파트너 활동까지 아홉 개 과정으로 나누었습니다.</p>
           </div>
           <div class="academy-progress-card" aria-live="polite">
             <div class="academy-progress-head">
@@ -62,147 +61,117 @@
           </div>
           <div class="academy-filter-row" role="tablist" aria-label="과정 분류">
             <button type="button" class="is-active" data-filter="all" aria-selected="true">전체</button>
-            <button type="button" data-filter="membership" aria-selected="false">멤버십</button>
+            <button type="button" data-filter="travel" aria-selected="false">여행·멤버십</button>
             <button type="button" data-filter="partner" aria-selected="false">파트너</button>
             <button type="button" data-filter="required" aria-selected="false">필수 확인</button>
           </div>
         </div>
 
         <div class="academy-course-grid" id="academyCourseGrid">
-          <article class="academy-course-card" data-course-id="membership-overview" data-category="membership" id="membership">
+          <article class="academy-course-card" data-course-id="industry-outlook" data-category="travel" id="travel">
+            <img src="/img/partner/hero.webp" alt="대형 크루즈선" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>여행</span><em>01 · 산업</em></div>
+              <h3>크루즈여행의 산업전망</h3>
+              <strong class="academy-course-subtitle">세계는 이미 크루즈로 여행하고 있습니다</strong>
+              <p>세계 이용객과 신규 항로가 늘어나는 이유를 봅니다. 국내 시장의 현재 위치도 함께 확인합니다.</p>
+              <div class="academy-course-actions"><a href="/academy/01-industry/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="membership-overview" data-category="travel">
             <img src="/membership/img/KakaoTalk_20260405_150550057_03.jpg" alt="크루즈 오션뷰 라운지" loading="lazy" />
             <div class="academy-course-content">
-              <div class="academy-course-meta"><span>멤버십</span><em>01 · 7분</em></div>
-              <h3>크루즈 멤버십 한눈에</h3>
-              <p>어떤 서비스인지, 어디에 쓰는지 먼저 확인합니다.</p>
-              <div class="academy-course-tags"><span>크루즈</span><span>호텔</span><span>포인트</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="membership-overview">학습하기</button>
-                <label><input type="checkbox" data-complete-course="membership-overview" /><span>완료</span></label>
-              </div>
+              <div class="academy-course-meta"><span>멤버십</span><em>02 · 기초</em></div>
+              <h3>크루즈 멤버십이란?</h3>
+              <strong class="academy-course-subtitle">여행비를 포인트로 미리 준비하는 방법</strong>
+              <p>매월 포인트를 적립하고 크루즈·호텔 예약에 사용하는 멤버십의 기본을 배웁니다.</p>
+              <div class="academy-course-actions"><a href="/academy/02-membership/">학습하기</a><span class="academy-card-status">미완료</span></div>
             </div>
           </article>
 
-          <article class="academy-course-card" data-course-id="membership-plans" data-category="membership">
-            <img src="/membership/img/KakaoTalk_20260405_150550057_02.jpg" alt="크루즈 출항 풍경" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>멤버십</span><em>02 · 8분</em></div>
-              <h3>플랜과 비용</h3>
-              <p>무료부터 프리미엄까지 비용과 적립 차이를 봅니다.</p>
-              <div class="academy-course-tags"><span>게스트</span><span>클래식</span><span>프리미엄</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="membership-plans">학습하기</button>
-                <label><input type="checkbox" data-complete-course="membership-plans" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="membership-points" data-category="membership">
-            <img src="/membership/img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>멤버십</span><em>03 · 6분</em></div>
-              <h3>포인트 적립</h3>
-              <p>가입 혜택과 매월 적립 포인트를 플랜별로 확인합니다.</p>
-              <div class="academy-course-tags"><span>가입 혜택</span><span>2배 적립</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="membership-points">학습하기</button>
-                <label><input type="checkbox" data-complete-course="membership-points" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="membership-booking" data-category="membership required">
-            <img src="/membership/img/음식및엔터24.png" alt="크루즈 선내 공연" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>필수 확인</span><em>04 · 8분</em></div>
-              <h3>예약할 때 쓰는 법</h3>
-              <p>일반 예약과 270일 이후 출발 예약의 차이를 봅니다.</p>
-              <div class="academy-course-tags"><span>50%</span><span>270일</span><span>카드 결제</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="membership-booking">학습하기</button>
-                <label><input type="checkbox" data-complete-course="membership-booking" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="partner-role" data-category="partner" id="partner">
-            <img src="/membership/img/KakaoTalk_20260405_150550057_06.jpg" alt="크루즈 갑판 풍경" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>파트너</span><em>05 · 7분</em></div>
-              <h3>파트너는 무슨 일을 하나</h3>
-              <p>콘텐츠, 페이지 공유, 질문 안내까지 실제 활동을 봅니다.</p>
-              <div class="academy-course-tags"><span>콘텐츠</span><span>공유</span><span>안내</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="partner-role">학습하기</button>
-                <label><input type="checkbox" data-complete-course="partner-role" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="partner-content" data-category="partner">
-            <img src="/membership/img/객실및내부시설9-1.png" alt="크루즈 선내 포토존" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>파트너</span><em>06 · 8분</em></div>
-              <h3>첫 콘텐츠 올리기</h3>
-              <p>처음 올릴 사진과 글의 범위를 어렵지 않게 잡습니다.</p>
-              <div class="academy-course-tags"><span>사진</span><span>후기</span><span>SNS</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="partner-content">학습하기</button>
-                <label><input type="checkbox" data-complete-course="partner-content" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="partner-reply" data-category="partner">
-            <img src="/membership/img/음식및엔터11.png" alt="크루즈 레스토랑" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>파트너</span><em>07 · 7분</em></div>
-              <h3>문의가 왔을 때</h3>
-              <p>비용, 포인트, 활동 조건을 짧고 정확하게 답합니다.</p>
-              <div class="academy-course-tags"><span>비용</span><span>조건</span><span>FAQ</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="partner-reply">학습하기</button>
-                <label><input type="checkbox" data-complete-course="partner-reply" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="partner-signup" data-category="partner required">
-            <img src="/membership/img/KakaoTalk_20260405_150550057.jpg" alt="크루즈 야경" loading="lazy" />
-            <div class="academy-course-content">
-              <div class="academy-course-meta"><span>필수 확인</span><em>08 · 6분</em></div>
-              <h3>가입 연결 전 확인</h3>
-              <p>상대가 비용과 조건을 확인한 뒤 스스로 결정하도록 안내합니다.</p>
-              <div class="academy-course-tags"><span>가입</span><span>확인</span><span>후속 안내</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="partner-signup">학습하기</button>
-                <label><input type="checkbox" data-complete-course="partner-signup" /><span>완료</span></label>
-              </div>
-            </div>
-          </article>
-
-          <article class="academy-course-card" data-course-id="membership-caution" data-category="required">
+          <article class="academy-course-card" data-course-id="membership-before-signup" data-category="travel required">
             <img src="/membership/img/객실및내부시설12-2.png" alt="크루즈 라운지" loading="lazy" />
             <div class="academy-course-content">
-              <div class="academy-course-meta"><span>필수 확인</span><em>09 · 5분</em></div>
-              <h3>가입 전 유의사항</h3>
-              <p>환불, 해지, 본인 명의 카드, 멤버십 유지 조건을 봅니다.</p>
-              <div class="academy-course-tags"><span>환불</span><span>해지</span><span>유지 조건</span></div>
-              <div class="academy-course-actions">
-                <button type="button" data-open-course="membership-caution">학습하기</button>
-                <label><input type="checkbox" data-complete-course="membership-caution" /><span>완료</span></label>
-              </div>
+              <div class="academy-course-meta"><span>필수 확인</span><em>03 · 가입 전</em></div>
+              <h3>멤버십 가입 전 꼭 확인하세요</h3>
+              <strong class="academy-course-subtitle">혜택만큼 비용과 이용 조건도 중요합니다</strong>
+              <p>플랜 비용, 환불, 해지, 카드 명의와 멤버십 유지 조건을 확인합니다.</p>
+              <div class="academy-course-actions"><a href="/academy/03-before-signup/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="reward-points" data-category="travel">
+            <img src="/membership/img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>멤버십</span><em>04 · 포인트</em></div>
+              <h3>리워드 포인트 활용방법</h3>
+              <strong class="academy-course-subtitle">쌓는 것보다 제대로 쓰는 것이 중요합니다</strong>
+              <p>일반 예약과 270일 이후 예약에서 포인트가 어떻게 적용되는지 배웁니다.</p>
+              <div class="academy-course-actions"><a href="/academy/04-reward-points/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="monthly-destinations" data-category="travel">
+            <img src="/membership/img/KakaoTalk_20260405_150550057_02.jpg" alt="크루즈 출항 풍경" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>여행</span><em>05 · 12개월</em></div>
+              <h3>크루즈 여행지 추천</h3>
+              <strong class="academy-course-subtitle">계절에 맞는 바다를 선택하세요</strong>
+              <p>1월부터 12월까지 출항 시기별로 비교하기 좋은 지역을 한눈에 봅니다.</p>
+              <div class="academy-course-actions"><a href="/academy/05-monthly-destinations/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-benefits" data-category="partner" id="partner">
+            <img src="/membership/img/KakaoTalk_20260405_150550057_06.jpg" alt="크루즈 갑판" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>파트너</span><em>06 · 혜택</em></div>
+              <h3>파트너 혜택</h3>
+              <strong class="academy-course-subtitle">여행을 즐기는 것에서 활동이 시작됩니다</strong>
+              <p>교육, 안내 페이지, 여행 크레딧과 보상 기회를 어떤 조건에서 받는지 봅니다.</p>
+              <div class="academy-course-actions"><a href="/academy/06-partner-benefits/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-reward-rules" data-category="partner required">
+            <img src="/membership/img/음식및엔터24.png" alt="크루즈 선내 공연" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>필수 확인</span><em>07 · 보상</em></div>
+              <h3>파트너 보상의 기준</h3>
+              <strong class="academy-course-subtitle">가입만으로 보상이 생기지는 않습니다</strong>
+              <p>활동, 자격 유지, 추천과 팀 실적 등 보상에 영향을 주는 기준을 확인합니다.</p>
+              <div class="academy-course-actions"><a href="/academy/07-partner-rewards/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-work" data-category="partner">
+            <img src="/membership/img/객실및내부시설9-1.png" alt="크루즈 선내 포토존" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>파트너</span><em>08 · 활동</em></div>
+              <h3>파트너가 하는 일</h3>
+              <strong class="academy-course-subtitle">경험하고, 알리고, 궁금한 사람을 안내합니다</strong>
+              <p>콘텐츠 게시부터 페이지 안내, 질문 응대까지 실제 활동 범위를 배웁니다.</p>
+              <div class="academy-course-actions"><a href="/academy/08-partner-work/">학습하기</a><span class="academy-card-status">미완료</span></div>
+            </div>
+          </article>
+
+          <article class="academy-course-card" data-course-id="partner-rules" data-category="partner required">
+            <img src="/membership/img/음식및엔터11.png" alt="크루즈 레스토랑" loading="lazy" />
+            <div class="academy-course-content">
+              <div class="academy-course-meta"><span>필수 확인</span><em>09 · 주의사항</em></div>
+              <h3>파트너 활동 주의사항</h3>
+              <strong class="academy-course-subtitle">잘못된 홍보는 신뢰를 함께 떨어뜨립니다</strong>
+              <p>인그룹 로고, 가격 공개, 내부 자료와 수익 표현에서 지켜야 할 기준을 봅니다.</p>
+              <div class="academy-course-actions"><a href="/academy/09-partner-rules/">학습하기</a><span class="academy-card-status">미완료</span></div>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="academy-resource-section" id="quick-links">
+    <section class="academy-resource-section">
       <div class="academy-container">
-        <div class="academy-catalog-head academy-resource-head">
-          <div><span>QUICK LINK</span><h2>바로가기</h2></div>
-        </div>
         <div class="academy-resource-grid">
           <a href="/membership/"><small>멤버십 전체 내용</small><h3>멤버십 페이지</h3><strong>열기 →</strong></a>
           <a href="/partner/"><small>파트너 활동 안내</small><h3>파트너 페이지</h3><strong>열기 →</strong></a>
@@ -219,16 +188,6 @@
     </div>
   </footer>
 
-  <dialog class="academy-course-dialog" id="academyCourseDialog">
-    <div class="academy-dialog-shell">
-      <button type="button" class="academy-dialog-close" id="academyDialogClose" aria-label="닫기">×</button>
-      <span id="academyDialogKicker">ACADEMY</span>
-      <h2 id="academyDialogTitle">과정 제목</h2>
-      <div id="academyDialogBody"></div>
-      <div class="academy-dialog-actions" id="academyDialogActions"></div>
-    </div>
-  </dialog>
-
-  <script src="/academy/academy-v1.js?v=20260714-catalog" defer></script>
+  <script src="/academy/academy-v1.js?v=20260714-lessons" defer></script>
 </body>
 </html>
