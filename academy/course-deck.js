@@ -9,6 +9,9 @@
 
   if(!header||!hero||!main||!content)return;
 
+  const mobileQuery=window.matchMedia('(max-width:700px)');
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+
   document.documentElement.classList.add('lesson-deck-ready');
   document.body.classList.add('lesson-deck-mode');
 
@@ -51,7 +54,6 @@
 
   const hint=document.createElement('div');
   hint.className='lesson-deck-hint';
-  hint.textContent=window.matchMedia('(max-width:700px)').matches?'좌우로 넘기기':'휠 · 방향키';
 
   document.body.append(controls,progress,hint);
 
@@ -64,6 +66,20 @@
   let locked=false;
   let touchStartY=0;
   let touchStartX=0;
+  let touchLastY=0;
+  let revealTimer=0;
+
+  function syncDeviceMode(){
+    document.body.classList.toggle('lesson-deck-mobile',mobileQuery.matches);
+    hint.textContent=mobileQuery.matches?'위로 스크롤해 다음 장':'휠 · 방향키';
+  }
+
+  syncDeviceMode();
+  if(typeof mobileQuery.addEventListener==='function'){
+    mobileQuery.addEventListener('change',syncDeviceMode);
+  }else if(typeof mobileQuery.addListener==='function'){
+    mobileQuery.addListener(syncDeviceMode);
+  }
 
   function clamp(value){
     return Math.max(0,Math.min(slides.length-1,value));
@@ -72,6 +88,86 @@
   function getScroller(slide){
     const section=slide.querySelector('.ppt-section');
     return section&&section.scrollHeight>section.clientHeight+4?section:slide;
+  }
+
+  function canChangeByDirection(delta){
+    const scroller=getScroller(slides[current]);
+    const maxScroll=scroller.scrollHeight-scroller.clientHeight;
+    if(maxScroll<=4)return true;
+    if(delta>0)return scroller.scrollTop>=maxScroll-4;
+    return scroller.scrollTop<=4;
+  }
+
+  function collectRevealItems(slide){
+    const selector=[
+      '.lesson-back',
+      '.lesson-kicker',
+      '.lesson-hero h1',
+      '.cover-subcopy',
+      '.slide-label',
+      '.ppt-head>span',
+      'h2',
+      '.korea-opening-copy>p',
+      '.experience-copy>p',
+      '.photo-message-copy>p',
+      '.homeport-simple-copy>p',
+      '.partner-title>p',
+      '.short-takeaway',
+      '.big-stat',
+      '.source-link',
+      '.two-proof>article',
+      '.external-photo-card',
+      '.experience-meter',
+      '.port-pills',
+      '.simple-two>article',
+      '.economy-grid>article',
+      '.portrait-photo-wrap',
+      '.three-points>article',
+      '.partner-role-grid>article',
+      '.slide-footer-message',
+      '.roadmap-line>article',
+      '.roadmap-line>i',
+      '.roadmap-message',
+      '.final-three>p',
+      '.industry-end-actions>a'
+    ].join(',');
+
+    const seen=new Set();
+    return Array.from(slide.querySelectorAll(selector)).filter(element=>{
+      if(seen.has(element))return false;
+      seen.add(element);
+      return true;
+    });
+  }
+
+  slides.forEach(slide=>{
+    const items=collectRevealItems(slide);
+    items.forEach((element,index)=>{
+      element.classList.add('deck-reveal');
+      element.style.setProperty('--reveal-order',String(Math.min(index,9)));
+      if(element.matches('article,li,.slide-footer-message,.roadmap-message')){
+        element.classList.add('deck-reveal-card');
+      }
+      if(element.matches('.external-photo-card,.portrait-photo-wrap,.experience-meter')){
+        element.classList.add('deck-reveal-visual');
+      }
+      if(element.matches('.big-stat,.two-proof strong')){
+        element.classList.add('deck-reveal-number');
+      }
+    });
+  });
+
+  function replayReveal(slide){
+    window.clearTimeout(revealTimer);
+    slides.forEach(item=>item.classList.remove('is-revealing'));
+    if(reducedMotion.matches){
+      slide.classList.add('is-revealing');
+      return;
+    }
+    void slide.offsetWidth;
+    revealTimer=window.setTimeout(()=>{
+      slide.classList.add('is-revealing');
+    },mobileQuery.matches?70:105);
   }
 
   function render(nextIndex,resetScroll){
@@ -97,6 +193,7 @@
     const active=slides[current];
     const anchor=active.querySelector('[id]');
     history.replaceState(null,'',anchor?'#'+anchor.id:location.pathname);
+    replayReveal(active);
   }
 
   function move(direction){
@@ -104,15 +201,7 @@
     if(next===current||locked)return;
     locked=true;
     render(next,true);
-    window.setTimeout(()=>{locked=false;},390);
-  }
-
-  function canChangeByWheel(delta){
-    const scroller=getScroller(slides[current]);
-    const maxScroll=scroller.scrollHeight-scroller.clientHeight;
-    if(maxScroll<=4)return true;
-    if(delta>0)return scroller.scrollTop>=maxScroll-4;
-    return scroller.scrollTop<=4;
+    window.setTimeout(()=>{locked=false;},mobileQuery.matches?520:410);
   }
 
   prevButton.addEventListener('click',()=>move(-1));
@@ -120,7 +209,7 @@
 
   deck.addEventListener('wheel',event=>{
     if(Math.abs(event.deltaY)<18)return;
-    if(!canChangeByWheel(event.deltaY))return;
+    if(!canChangeByDirection(event.deltaY))return;
     event.preventDefault();
     move(event.deltaY>0?1:-1);
   },{passive:false});
@@ -148,8 +237,21 @@
   deck.addEventListener('touchstart',event=>{
     const touch=event.changedTouches[0];
     touchStartY=touch.clientY;
+    touchLastY=touch.clientY;
     touchStartX=touch.clientX;
   },{passive:true});
+
+  deck.addEventListener('touchmove',event=>{
+    if(!mobileQuery.matches)return;
+    const touch=event.changedTouches[0];
+    const diffY=touchLastY-touch.clientY;
+    const totalY=touchStartY-touch.clientY;
+    const totalX=touchStartX-touch.clientX;
+    touchLastY=touch.clientY;
+
+    if(Math.abs(totalY)<=Math.abs(totalX))return;
+    if(canChangeByDirection(diffY||totalY))event.preventDefault();
+  },{passive:false});
 
   deck.addEventListener('touchend',event=>{
     const touch=event.changedTouches[0];
@@ -157,15 +259,14 @@
     const diffX=touchStartX-touch.clientX;
     const absX=Math.abs(diffX);
     const absY=Math.abs(diffY);
-    const mobile=window.matchMedia('(max-width:700px)').matches;
 
-    if(mobile){
-      if(absX<48||absX<absY)return;
-      move(diffX>0?1:-1);
+    if(mobileQuery.matches){
+      if(absY<42||absY<absX||!canChangeByDirection(diffY))return;
+      move(diffY>0?1:-1);
       return;
     }
 
-    if(absY<60||absY<absX||!canChangeByWheel(diffY))return;
+    if(absY<60||absY<absX||!canChangeByDirection(diffY))return;
     move(diffY>0?1:-1);
   },{passive:true});
 
