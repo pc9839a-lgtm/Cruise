@@ -14,7 +14,7 @@ const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" tit
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
 </style>`;
-const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14">';
+const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 
 const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
