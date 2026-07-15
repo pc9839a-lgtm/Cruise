@@ -1,0 +1,142 @@
+/* Academy-wide contrast guard: keep text readable on every light and dark surface. */
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-four-grid article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-five-grid article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-process-row article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-question-list li,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-fit-columns article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-detail-card,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-flow-five article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-season-grid article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-cost-grid article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-step-list article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-check-strip article,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-formula-box article:not(.emphasis),
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-ledger article:first-child,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-plan-grid article:nth-child(-n+2){
+  color:#0b1524!important;
+}
+
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-four-grid strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-five-grid strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-process-row strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-question-list span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-fit-columns strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-detail-card strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-flow-five strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-season-grid strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-cost-grid strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-step-list strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-check-strip strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-formula-box article:not(.emphasis) strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-ledger article:first-child strong,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-plan-grid article:nth-child(-n+2) strong{
+  color:#0b1524!important;
+}
+
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-four-grid span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-fit-columns span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-detail-card span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-flow-five span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-season-grid span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-cost-grid span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-step-list span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-check-strip span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-formula-box article:not(.emphasis) span,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-ledger article:first-child li,
+.academy-detail-page .ppt-section:not(.ppt-dark):not(.ppt-warning-slide) .ppt-plan-grid article:nth-child(-n+2) span{
+  color:#56687e!important;
+}
+
+/* Dark cards must stay white even when a later generic component rule exists. */
+.academy-detail-page .ppt-dark .ppt-four-grid article,
+.academy-detail-page .ppt-dark .ppt-detail-card{
+  color:#fff!important;
+  border-color:rgba(255,255,255,.13)!important;
+  background:rgba(255,255,255,.08)!important;
+}
+
+.academy-detail-page .ppt-dark .ppt-four-grid strong,
+.academy-detail-page .ppt-dark .ppt-four-grid b,
+.academy-detail-page .ppt-dark .ppt-detail-card strong,
+.academy-detail-page .ppt-dark .ppt-detail-card b{
+  color:#fff!important;
+}
+
+.academy-detail-page .ppt-dark .ppt-four-grid span,
+.academy-detail-page .ppt-dark .ppt-detail-card span{
+  color:rgba(255,255,255,.74)!important;
+}
+
+.academy-detail-page .ppt-plan-grid article:nth-child(3),
+.academy-detail-page .ppt-plan-grid article:nth-child(4),
+.academy-detail-page .ppt-plan-grid article:nth-child(3) strong,
+.academy-detail-page .ppt-plan-grid article:nth-child(4) strong,
+.academy-detail-page .ppt-ledger article:last-child,
+.academy-detail-page .ppt-ledger article:last-child strong,
+.academy-detail-page .ppt-formula-box article.emphasis,
+.academy-detail-page .ppt-formula-box article.emphasis strong,
+.academy-detail-page .ppt-end-slide,
+.academy-detail-page .ppt-end-slide h2,
+.academy-detail-page .ppt-end-links strong{
+  color:#fff!important;
+}
+
+.academy-detail-page .ppt-plan-grid article:nth-child(3) span,
+.academy-detail-page .ppt-plan-grid article:nth-child(4) span,
+.academy-detail-page .ppt-ledger article:last-child li,
+.academy-detail-page .ppt-formula-box article.emphasis span{
+  color:rgba(255,255,255,.76)!important;
+}
+
+/* Page 10: these light panels live inside dark slides and previously inherited white text. */
+.first-steps-page .ppt-dark .passport-compare article:first-child,
+.first-steps-page .ppt-dark .passport-compare article:first-child small,
+.first-steps-page .ppt-dark .passport-compare article:first-child strong{
+  color:#0b1524!important;
+}
+
+.first-steps-page .ppt-dark .passport-compare article:first-child span{
+  color:#56687e!important;
+}
+
+.first-steps-page .ppt-dark .passport-compare article:last-child,
+.first-steps-page .ppt-dark .passport-compare article:last-child small,
+.first-steps-page .ppt-dark .passport-compare article:last-child strong{
+  color:#fff!important;
+}
+
+.first-steps-page .ppt-dark .passport-compare article:last-child span{
+  color:rgba(255,255,255,.76)!important;
+}
+
+.first-steps-page .ppt-dark .first-search-result,
+.first-steps-page .ppt-dark .first-search-result article,
+.first-steps-page .ppt-dark .first-search-result strong{
+  color:#0b1524!important;
+}
+
+.first-steps-page .ppt-dark .first-search-result span{
+  color:#66778b!important;
+}
+
+.first-steps-page .ppt-warning-slide .first-warning article,
+.first-steps-page .ppt-warning-slide .first-warning strong{
+  color:#0b1524!important;
+}
+
+.first-steps-page .ppt-warning-slide .first-warning article:first-child span{
+  color:#6a5b5b!important;
+}
+
+.first-steps-page .ppt-warning-slide .first-warning article:last-child span{
+  color:#566a84!important;
+}
+
+.first-steps-page .ppt-dark .first-steps-flow article,
+.first-steps-page .ppt-dark .first-steps-flow strong{
+  color:#fff!important;
+}
+
+.first-steps-page .ppt-dark .first-steps-flow span{
+  color:rgba(255,255,255,.74)!important;
+}
