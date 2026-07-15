@@ -64,7 +64,12 @@
       '.first-search-copy',
       '.first-search-result>article',
       '.first-warning>article',
-      '.first-done'
+      '.first-done',
+      '.partner-two-grid>article',
+      '.partner-stat-grid>article',
+      '.partner-flow-line>article',
+      '.partner-flow-sign',
+      '.partner-final'
     ].join(',');
 
     slides.forEach(slide=>{
