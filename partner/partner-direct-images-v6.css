@@ -34,7 +34,8 @@
 .actual-photo.photo-8>.partner-direct-photo{left:-300%!important;top:-100%!important}
 .actual-photo.photo-9>.partner-direct-photo{left:-400%!important;top:-100%!important}
 
-/* Square images created for the two partner benefit sections. */
+/* Square benefit images are linked directly in partner/index.html. */
+.benefit-visual>.partner-square-benefit,
 .benefit-visual>.partner-direct-benefit{
   position:absolute!important;
   z-index:5!important;
@@ -44,19 +45,12 @@
   height:100%!important;
   max-width:none!important;
   object-fit:cover!important;
+  object-position:center center!important;
   opacity:1!important;
   visibility:visible!important;
   transform:none!important;
   filter:none!important;
   pointer-events:none!important;
-}
-#benefit-credit .partner-direct-benefit{
-  content:url('/img/partner/benefit-credit-square.webp?v=20260715-square-benefits')!important;
-  object-position:center center!important;
-}
-#benefit-income .partner-direct-benefit{
-  content:url('/img/partner/benefit-income-square.webp?v=20260715-square-benefits')!important;
-  object-position:center center!important;
 }
 
 .actual-photo>.partner-photo-sheet,
@@ -74,7 +68,8 @@
 
 @media(max-width:700px){
   .actual-photo>.partner-direct-photo,
-  .benefit-visual>.partner-direct-benefit{
+  .benefit-visual>.partner-direct-benefit,
+  .benefit-visual>.partner-square-benefit{
     display:block!important;
     opacity:1!important;
     visibility:visible!important;
@@ -85,6 +80,4 @@
   .flow-card>.actual-photo{height:230px!important;min-height:230px!important}
   .gallery-item>.actual-photo{min-height:320px!important}
   .photo-impact{min-height:100%!important}
-  #benefit-credit .partner-direct-benefit{object-position:center center!important}
-  #benefit-income .partner-direct-benefit{object-position:center center!important}
 }
