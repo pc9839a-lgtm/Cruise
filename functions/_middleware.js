@@ -16,14 +16,8 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 </style>`;
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 
-const FALLBACK_SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://cruiseplay-dyt.pages.dev/</loc><lastmod>2026-07-14</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://cruiseplay-dyt.pages.dev/blog/</loc><lastmod>2026-07-14</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://cruiseplay-dyt.pages.dev/partner/</loc><lastmod>2026-07-14</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-</urlset>`;
-
 const PASSTHROUGH_PATHS = new Set([
+  '/sitemap.xml',
   '/sitemap.txt',
   '/sitemap-2026.xml',
   '/robots.txt',
@@ -33,42 +27,6 @@ const PASSTHROUGH_PATHS = new Set([
 
 function shouldBypassHtmlMiddleware(pathname) {
   return PASSTHROUGH_PATHS.has(pathname) || pathname.startsWith('/img/');
-}
-
-async function serveSitemap(context) {
-  let xml = '';
-
-  try {
-    if (context.env && context.env.ASSETS) {
-      const assetUrl = new URL('/sitemap.xml', context.request.url);
-      const assetRequest = new Request(assetUrl.toString(), {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/xml,text/xml;q=0.9,*/*;q=0.8'
-        }
-      });
-      const assetResponse = await context.env.ASSETS.fetch(assetRequest);
-      if (assetResponse.ok) {
-        xml = await assetResponse.text();
-      }
-    }
-  } catch (error) {
-    console.error('sitemap asset fetch failed', error);
-  }
-
-  const normalized = String(xml || '').trim();
-  const validXml = normalized.startsWith('<?xml') && normalized.includes('<urlset') && normalized.includes('</urlset>');
-  const body = validXml ? normalized : FALLBACK_SITEMAP;
-
-  return new Response(body, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/xml; charset=UTF-8',
-      'Cache-Control': 'public, max-age=300, must-revalidate, no-transform',
-      'X-Content-Type-Options': 'nosniff',
-      'Access-Control-Allow-Origin': '*'
-    }
-  });
 }
 
 class HeadSecurityInjector {
@@ -109,10 +67,6 @@ function applySecurityHeaders(headers) {
 
 export async function onRequest(context) {
   const pathname = new URL(context.request.url).pathname;
-
-  if (pathname === '/sitemap.xml') {
-    return serveSitemap(context);
-  }
 
   if (shouldBypassHtmlMiddleware(pathname)) {
     return context.next();
