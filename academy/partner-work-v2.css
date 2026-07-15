@@ -1,0 +1,122 @@
+.partner-work-flow,
+.partner-week-grid{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:12px;
+}
+
+.partner-work-flow article,
+.partner-week-grid article{
+  grid-column:span 2;
+  min-height:152px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:22px;
+  border:1px solid rgba(12,24,48,.08);
+  border-radius:23px;
+  background:#f6f8fc;
+}
+
+.partner-work-flow article:nth-child(5),
+.partner-week-grid article:nth-child(5){
+  grid-column:2 / span 2;
+}
+
+.partner-work-flow b,
+.partner-week-grid b{
+  color:#2f73ff;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.partner-work-flow strong,
+.partner-week-grid strong{
+  margin-top:12px;
+  font-size:21px;
+  line-height:1.25;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+
+.partner-work-flow span,
+.partner-week-grid span{
+  margin-top:7px;
+  color:#607086;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.5;
+  word-break:keep-all;
+}
+
+.ppt-dark .partner-work-flow article,
+.ppt-dark .partner-week-grid article{
+  border-color:rgba(255,255,255,.09);
+  background:rgba(255,255,255,.07);
+}
+
+.ppt-dark .partner-work-flow b,
+.ppt-dark .partner-week-grid b{
+  color:#75a7ff;
+}
+
+.ppt-dark .partner-work-flow span,
+.ppt-dark .partner-week-grid span{
+  color:rgba(255,255,255,.7);
+}
+
+.partner-work-definition{
+  margin:18px 0 0;
+  padding:15px 18px;
+  border-radius:17px;
+  color:#42546a;
+  background:#eef4ff;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.6;
+  text-align:center;
+  word-break:keep-all;
+}
+
+.ppt-dark .partner-work-definition{
+  color:rgba(255,255,255,.78);
+  background:rgba(255,255,255,.09);
+}
+
+@media(max-width:980px){
+  .partner-work-flow,
+  .partner-week-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .partner-work-flow article,
+  .partner-week-grid article,
+  .partner-work-flow article:nth-child(5),
+  .partner-week-grid article:nth-child(5){
+    grid-column:auto;
+  }
+}
+
+@media(max-width:700px){
+  .partner-work-flow,
+  .partner-week-grid{
+    grid-template-columns:1fr;
+  }
+
+  .partner-work-flow article,
+  .partner-week-grid article{
+    min-height:0;
+    padding:18px;
+  }
+
+  .partner-work-flow strong,
+  .partner-week-grid strong{
+    font-size:19px;
+  }
+
+  .partner-work-definition{
+    font-size:14px;
+    text-align:left;
+  }
+}
