@@ -7,6 +7,15 @@
   const mobileQuery=window.matchMedia('(max-width:700px)');
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  function loadContrastGuard(){
+    if(document.querySelector('link[data-academy-contrast]'))return;
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href='/academy/academy-contrast-v2.css?v=20260715-contrast2';
+    link.dataset.academyContrast='true';
+    document.head.appendChild(link);
+  }
+
   function updateCourseNavigation(){
     if(!window.location.pathname.includes('/academy/09-partner-rules/'))return;
     const links=document.querySelectorAll('.ppt-end-links>a');
@@ -121,6 +130,7 @@
     }
   }
 
+  loadContrastGuard();
   updateCourseNavigation();
   addRevealItems();
   setupMobile();
