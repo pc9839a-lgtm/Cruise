@@ -1,0 +1,312 @@
+.partner-benefits-page .benefit-main-grid article{
+  min-height:250px;
+}
+
+.benefit-credit-stage{
+  display:grid;
+  grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  gap:24px;
+  align-items:stretch;
+}
+
+.benefit-credit-number{
+  min-height:380px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:42px;
+  border-radius:32px;
+  color:#fff;
+  background:linear-gradient(145deg,#07111f 0%,#18315f 100%);
+}
+
+.benefit-credit-number small{
+  color:#8eb8ff;
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+
+.benefit-credit-number strong{
+  margin-top:22px;
+  font-size:clamp(54px,5.4vw,82px);
+  line-height:.96;
+  letter-spacing:-.065em;
+}
+
+.benefit-credit-number span{
+  margin-top:22px;
+  color:rgba(255,255,255,.74);
+  font-size:21px;
+  font-weight:750;
+  line-height:1.48;
+}
+
+.benefit-credit-uses{
+  display:grid;
+  gap:14px;
+  padding:22px;
+  border-radius:32px;
+  background:#f3f6fb;
+}
+
+.benefit-credit-uses article{
+  display:grid;
+  grid-template-columns:52px 1fr;
+  align-items:center;
+  gap:16px;
+  padding:21px 22px;
+  border-radius:22px;
+  color:#0b1524;
+  background:#fff;
+}
+
+.benefit-credit-uses b{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:52px;
+  height:52px;
+  grid-row:1 / span 2;
+  border-radius:17px;
+  color:#fff;
+  background:linear-gradient(135deg,#2f73ff,#705cff);
+  font-size:15px;
+}
+
+.benefit-credit-uses strong{
+  font-size:28px;
+  line-height:1.1;
+  letter-spacing:-.05em;
+}
+
+.benefit-credit-uses span{
+  color:#617287;
+  font-size:16px;
+  font-weight:750;
+}
+
+.benefit-condition-note{
+  margin:22px 0 0!important;
+  padding:16px 20px;
+  border-radius:18px;
+  color:#fff!important;
+  background:rgba(255,255,255,.1);
+  font-size:16px!important;
+  font-weight:800!important;
+  line-height:1.5!important;
+  text-align:center!important;
+}
+
+.benefit-condition-note.light{
+  color:#42566f!important;
+  background:#eef4ff;
+}
+
+.benefit-condition-note.dark{
+  color:rgba(255,255,255,.78)!important;
+}
+
+.benefit-free-stage{
+  min-height:500px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.benefit-free-stage small{
+  color:#8eb8ff;
+  font-size:16px;
+  font-weight:950;
+  letter-spacing:.14em;
+}
+
+.benefit-free-stage strong{
+  max-width:1040px;
+  margin-top:24px;
+  color:#fff;
+  font-size:clamp(48px,5.2vw,80px);
+  line-height:1.08;
+  letter-spacing:-.07em;
+}
+
+.benefit-free-stage strong em{
+  color:#8cc7ff;
+  font-style:normal;
+}
+
+.benefit-free-stage p{
+  max-width:880px;
+  margin:24px 0 0;
+  color:rgba(255,255,255,.74);
+  font-size:21px;
+  font-weight:750;
+  line-height:1.5;
+}
+
+.benefit-card-layout{
+  display:grid;
+  grid-template-columns:minmax(340px,.9fr) minmax(0,1.1fr);
+  gap:26px;
+  align-items:stretch;
+}
+
+.benefit-dollar-card{
+  min-height:360px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:34px;
+  border-radius:34px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 86% 12%,rgba(132,198,255,.4),transparent 28%),
+    linear-gradient(145deg,#07111f 0%,#143264 56%,#34276f 100%);
+  box-shadow:0 28px 70px rgba(10,31,69,.24);
+}
+
+.benefit-dollar-card small{
+  color:#a8d5ff;
+  font-size:14px;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+
+.benefit-dollar-card strong{
+  font-size:clamp(78px,8vw,124px);
+  line-height:.9;
+  letter-spacing:-.07em;
+}
+
+.benefit-dollar-card span,
+.benefit-dollar-card b{
+  font-size:16px;
+  font-weight:850;
+  letter-spacing:.08em;
+}
+
+.benefit-card-points{
+  display:grid;
+  gap:14px;
+  padding:22px;
+  border-radius:32px;
+  background:#f3f6fb;
+}
+
+.benefit-card-points article{
+  display:grid;
+  grid-template-columns:52px 1fr;
+  align-items:center;
+  gap:16px;
+  padding:21px 22px;
+  border-radius:22px;
+  color:#0b1524;
+  background:#fff;
+}
+
+.benefit-card-points b{
+  grid-row:1 / span 2;
+  color:#2f73ff;
+  font-size:15px;
+  font-weight:950;
+}
+
+.benefit-card-points strong{
+  font-size:27px;
+  line-height:1.1;
+  letter-spacing:-.05em;
+}
+
+.benefit-card-points span{
+  color:#617287;
+  font-size:16px;
+  font-weight:750;
+}
+
+.partner-benefits-page .benefit-final strong{
+  max-width:1080px;
+  font-size:clamp(43px,4.8vw,72px);
+}
+
+@media(max-width:980px){
+  .benefit-credit-stage,
+  .benefit-card-layout{
+    grid-template-columns:1fr;
+  }
+
+  .benefit-credit-number,
+  .benefit-dollar-card{
+    min-height:300px;
+  }
+}
+
+@media(max-width:700px){
+  .benefit-credit-stage,
+  .benefit-card-layout{
+    gap:12px;
+  }
+
+  .benefit-credit-number,
+  .benefit-dollar-card{
+    min-height:250px;
+    padding:26px;
+    border-radius:24px;
+  }
+
+  .benefit-credit-number strong{
+    font-size:52px;
+  }
+
+  .benefit-credit-number span,
+  .benefit-free-stage p{
+    font-size:17px;
+  }
+
+  .benefit-credit-uses,
+  .benefit-card-points{
+    padding:12px;
+    border-radius:22px;
+  }
+
+  .benefit-credit-uses article,
+  .benefit-card-points article{
+    grid-template-columns:42px 1fr;
+    padding:16px;
+    border-radius:17px;
+  }
+
+  .benefit-credit-uses b{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+  }
+
+  .benefit-credit-uses strong,
+  .benefit-card-points strong{
+    font-size:22px;
+  }
+
+  .benefit-credit-uses span,
+  .benefit-card-points span{
+    font-size:14px;
+  }
+
+  .benefit-free-stage{
+    min-height:350px;
+  }
+
+  .benefit-free-stage strong{
+    font-size:40px;
+  }
+
+  .benefit-dollar-card strong{
+    font-size:82px;
+  }
+
+  .benefit-condition-note{
+    font-size:13px!important;
+    text-align:left!important;
+  }
+}
