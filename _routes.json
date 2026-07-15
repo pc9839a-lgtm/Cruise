@@ -3,6 +3,7 @@
   "include": ["/*"],
   "exclude": [
     "/sitemap.xml",
+    "/sitemap-google.xml",
     "/sitemap-2026.xml",
     "/sitemap.txt",
     "/robots.txt",
