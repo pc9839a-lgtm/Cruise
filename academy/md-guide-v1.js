@@ -17,12 +17,10 @@
     const direct=Math.floor(numberValue('mdDirect'));
     const legs=[1,2,3,4,5].map(index=>Math.floor(numberValue('mdLeg'+index)));
     const total=legs.reduce((sum,value)=>sum+value,0);
-    const largest=Math.max(0,...legs);
-    const ratio=total>0?(largest/total)*100:0;
+    const qualifying=legs.reduce((sum,value)=>sum+Math.min(value,12),0);
     const directPass=direct>=5;
-    const totalPass=total>=30;
-    const ratioPass=total>0&&ratio<=40;
-    const passed=directPass&&totalPass&&ratioPass;
+    const teamPass=qualifying>=30;
+    const passed=directPass&&teamPass;
 
     const directOutput=document.getElementById('mdDirectOutput');
     const totalOutput=document.getElementById('mdTotalOutput');
@@ -31,21 +29,20 @@
 
     if(directOutput)directOutput.textContent=direct+'명';
     if(totalOutput)totalOutput.textContent=total+'명';
-    if(ratioOutput)ratioOutput.textContent=(total?ratio.toFixed(1):'0')+'%';
+    if(ratioOutput)ratioOutput.textContent=qualifying+'명';
 
     if(!status)return;
     status.classList.toggle('is-fail',!passed);
 
     if(passed){
-      status.textContent='MD 인원 기준 충족';
+      status.textContent='MD 인원 기준 충족 · 40% 적용 후 '+qualifying+'명 인정';
       return;
     }
 
     const reasons=[];
     if(!directPass)reasons.push('직추천 5명 필요');
-    if(!totalPass)reasons.push('팀 활성 유료 멤버 30명 필요');
-    if(total>0&&!ratioPass)reasons.push('최대 레그가 40% 초과');
     if(total===0)reasons.push('레그별 인원을 입력');
+    else if(!teamPass)reasons.push('40% 적용 후 인정 인원 '+qualifying+'명');
     status.textContent='미충족 · '+reasons.join(' · ');
   }
 
