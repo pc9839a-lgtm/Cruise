@@ -50,8 +50,14 @@
   filter:none!important;
   pointer-events:none!important;
 }
-#benefit-credit .partner-direct-benefit{object-position:center center!important}
-#benefit-income .partner-direct-benefit{object-position:center 38%!important}
+#benefit-credit .partner-direct-benefit{
+  content:url('/img/1781185493801.jpg?v=20260715-real-benefits')!important;
+  object-position:center center!important;
+}
+#benefit-income .partner-direct-benefit{
+  content:url('/img/20260610_093255.jpg?v=20260715-real-benefits')!important;
+  object-position:center 38%!important;
+}
 
 .actual-photo>.partner-photo-sheet,
 .actual-photo>.partner-real-photo,
