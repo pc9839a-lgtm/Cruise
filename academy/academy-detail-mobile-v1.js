@@ -28,7 +28,13 @@
       '.ppt-fit-columns>article',
       '.ppt-check-strip>article',
       '.ppt-note-line',
-      '.ppt-end-links>a'
+      '.ppt-end-links>a',
+      '.destination-month',
+      '.destination-copy h2',
+      '.destination-copy>p',
+      '.destination-tags',
+      '.destination-check',
+      '.destination-visual'
     ].join(',');
 
     slides.forEach(slide=>{
@@ -44,7 +50,8 @@
           item.classList.add('deck-reveal');
           item.style.setProperty('--reveal-order',String(Math.min(index,9)));
         }
-        if(item.matches('article,li,.ppt-note-line'))item.classList.add('deck-reveal-card');
+        if(item.matches('article,li,.ppt-note-line,.destination-tags,.destination-check'))item.classList.add('deck-reveal-card');
+        if(item.matches('.destination-visual'))item.classList.add('deck-reveal-visual');
         if(item.matches('strong'))item.classList.add('deck-reveal-number');
       });
     });
