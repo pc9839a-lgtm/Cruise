@@ -14,75 +14,67 @@
   };
 
   function updateQualification(){
-    const direct=Math.floor(numberValue('mdDirect'));
-    const legs=[1,2,3,4,5].map(index=>Math.floor(numberValue('mdLeg'+index)));
-    const total=legs.reduce((sum,value)=>sum+value,0);
-    const qualifying=legs.reduce((sum,value)=>sum+Math.min(value,12),0);
-    const directPass=direct>=5;
-    const teamPass=qualifying>=30;
-    const passed=directPass&&teamPass;
+    const legs=[1,2,3,4,5].map(index=>numberValue('mdLeg'+index+'Sales'));
+    const rawSales=legs.reduce((sum,value)=>sum+value,0);
+    const qualifiedSales=legs.reduce((sum,value)=>sum+Math.min(value,1200),0);
+    const excludedSales=Math.max(0,rawSales-qualifiedSales);
+    const passed=qualifiedSales>=3000;
 
-    const directOutput=document.getElementById('mdDirectOutput');
-    const totalOutput=document.getElementById('mdTotalOutput');
-    const ratioOutput=document.getElementById('mdRatioOutput');
+    const rawOutput=document.getElementById('mdRawSalesOutput');
+    const qualifiedOutput=document.getElementById('mdQualifiedSalesOutput');
+    const excludedOutput=document.getElementById('mdExcludedSalesOutput');
     const status=document.getElementById('mdQualificationStatus');
 
-    if(directOutput)directOutput.textContent=direct+'명';
-    if(totalOutput)totalOutput.textContent=total+'명';
-    if(ratioOutput){
-      ratioOutput.textContent=qualifying+'명';
-      const label=ratioOutput.parentElement?.querySelector('small');
-      if(label)label.textContent='40% 적용 후';
-    }
+    if(rawOutput)rawOutput.textContent=money(rawSales);
+    if(qualifiedOutput)qualifiedOutput.textContent=money(qualifiedSales);
+    if(excludedOutput)excludedOutput.textContent=money(excludedSales);
 
     if(!status)return;
     status.classList.toggle('is-fail',!passed);
+    status.textContent=passed
+      ?'MD 매출 기준 충족 · 인정 매출 '+money(qualifiedSales)
+      :'MD 매출 기준 미충족 · '+money(3000-qualifiedSales)+' 부족';
+  }
 
-    if(passed){
-      status.textContent='MD 인원 기준 충족 · 40% 적용 후 '+qualifying+'명 인정';
-      return;
-    }
+  function monthlyActivationRate(count,classic){
+    if(count>=10)return classic?40:100;
+    if(count>=5)return classic?30:75;
+    if(count>=3)return classic?20:50;
+    return 0;
+  }
 
-    const reasons=[];
-    if(!directPass)reasons.push('직추천 5명 필요');
-    if(total===0)reasons.push('레그별 인원을 입력');
-    else if(!teamPass)reasons.push('40% 적용 후 인정 인원 '+qualifying+'명');
-    status.textContent='미충족 · '+reasons.join(' · ');
+  function builderRate(sales){
+    if(sales>=30000)return .30;
+    if(sales>=10000)return .10;
+    if(sales>=5000)return .05;
+    return 0;
   }
 
   function updateCompensation(){
-    const classicMaintenance=Math.floor(numberValue('mdClassicMaintenance'));
-    const premiumMaintenance=Math.floor(numberValue('mdPremiumMaintenance'));
+    const qualifyingSales=numberValue('mdQualifyingSales');
+    const maintenanceSales=numberValue('mdMaintenanceSales');
     const newClassic=Math.floor(numberValue('mdNewClassic'));
     const newPremium=Math.floor(numberValue('mdNewPremium'));
-    const isMd=document.getElementById('mdQualified')?.checked!==false;
-    const includeFastStart=document.getElementById('mdFastStart')?.checked===true;
+    const weeklyMatch=numberValue('mdWeeklyMatch');
+    const builderSales=numberValue('mdBuilderSales');
 
-    const leadership=isMd?300:0;
-    const recurring=(classicMaintenance*5)+(premiumMaintenance*12.5);
+    const leadership=qualifyingSales>=3000?300:0;
+    const recurring=maintenanceSales*.05;
     const directActivation=(newClassic*20)+(newPremium*50);
-    const directTotal=newClassic+newPremium;
-
-    let classicMonthlyRate=0;
-    let premiumMonthlyRate=0;
-    if(directTotal>=10){
-      classicMonthlyRate=40;
-      premiumMonthlyRate=100;
-    }else if(directTotal>=5){
-      classicMonthlyRate=30;
-      premiumMonthlyRate=75;
-    }
-
-    const monthlyActivation=(newClassic*classicMonthlyRate)+(newPremium*premiumMonthlyRate);
-    const fastStart=includeFastStart?500:0;
-    const total=leadership+recurring+directActivation+monthlyActivation+fastStart;
+    const classicRate=monthlyActivationRate(newClassic,true);
+    const premiumRate=monthlyActivationRate(newPremium,false);
+    const monthlyActivation=(newClassic*classicRate)+(newPremium*premiumRate);
+    const currentBuilderRate=leadership>0?builderRate(builderSales):0;
+    const builderBonus=builderSales*currentBuilderRate;
+    const total=leadership+recurring+directActivation+monthlyActivation+weeklyMatch+builderBonus;
 
     const values={
       mdLeadershipResult:leadership,
       mdRecurringResult:recurring,
       mdDirectResult:directActivation,
       mdMonthlyResult:monthlyActivation,
-      mdFastResult:fastStart,
+      mdWeeklyResult:weeklyMatch,
+      mdBuilderResult:builderBonus,
       mdTotalResult:total
     };
 
@@ -91,9 +83,19 @@
       if(target)target.textContent=money(value);
     });
 
-    const tier=document.getElementById('mdMonthlyTier');
-    if(tier){
-      tier.textContent=directTotal>=10?'직추천 10명 이상 단가 적용':directTotal>=5?'직추천 5–9명 단가 적용':'월 활성화 보너스 기준 미달';
+    const monthlyTier=document.getElementById('mdMonthlyTier');
+    if(monthlyTier){
+      const parts=[];
+      if(classicRate)parts.push('CLASSIC '+newClassic+'명 × $'+classicRate);
+      if(premiumRate)parts.push('PREMIUM '+newPremium+'명 × $'+premiumRate);
+      monthlyTier.textContent=parts.length?parts.join(' · '):'월 활성화 보너스 없음';
+    }
+
+    const builderTier=document.getElementById('mdBuilderTier');
+    if(builderTier){
+      builderTier.textContent=currentBuilderRate
+        ?'빌더베이스 '+Math.round(currentBuilderRate*100)+'%'
+        :'빌더베이스 기준 미달';
     }
   }
 
