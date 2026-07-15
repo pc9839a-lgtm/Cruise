@@ -29,7 +29,11 @@
 
     if(directOutput)directOutput.textContent=direct+'명';
     if(totalOutput)totalOutput.textContent=total+'명';
-    if(ratioOutput)ratioOutput.textContent=qualifying+'명';
+    if(ratioOutput){
+      ratioOutput.textContent=qualifying+'명';
+      const label=ratioOutput.parentElement?.querySelector('small');
+      if(label)label.textContent='40% 적용 후';
+    }
 
     if(!status)return;
     status.classList.toggle('is-fail',!passed);
