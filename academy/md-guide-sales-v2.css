@@ -1,0 +1,64 @@
+/* Sales-volume correction for the MD guide */
+.md-guide-page .md-leg-example{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.md-guide-page .md-leg-example article{
+  min-height:230px;
+}
+
+.md-guide-page .ppt-dark .md-leg-example article,
+.md-guide-page .ppt-warning-slide .md-leg-example article{
+  border-color:rgba(255,255,255,.13);
+  background:rgba(255,255,255,.09);
+}
+
+.md-guide-page .ppt-dark .md-leg-example strong,
+.md-guide-page .ppt-warning-slide .md-leg-example strong{
+  color:#fff;
+}
+
+.md-guide-page .ppt-dark .md-leg-example span,
+.md-guide-page .ppt-warning-slide .md-leg-example span{
+  color:rgba(255,255,255,.7);
+}
+
+.md-guide-page .md-qualification-result{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.md-guide-page .md-form-grid{
+  align-items:end;
+}
+
+@media(max-width:980px){
+  .md-guide-page .md-leg-example{
+    grid-template-columns:repeat(3,minmax(150px,1fr));
+    overflow-x:auto;
+  }
+}
+
+@media(max-width:700px){
+  .md-guide-page .md-leg-example{
+    grid-template-columns:1fr;
+    overflow:visible;
+  }
+
+  .md-guide-page .md-leg-example article,
+  .md-guide-page .md-leg-example article:last-child{
+    grid-column:auto;
+    min-height:118px;
+  }
+
+  .md-guide-page .md-condition-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .md-guide-page .md-qualification-result{
+    grid-template-columns:1fr;
+  }
+
+  .md-guide-page .md-qualification-result article{
+    min-height:72px;
+  }
+}
