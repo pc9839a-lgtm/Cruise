@@ -1,0 +1,87 @@
+/* Staged slide reveals */
+.deck-reveal{
+  opacity:0;
+  transform:translate3d(0,18px,0);
+  filter:blur(2px);
+  transition:
+    opacity .52s ease,
+    transform .62s cubic-bezier(.22,.8,.24,1),
+    filter .52s ease;
+  transition-delay:calc(70ms + (var(--reveal-order,0) * 72ms));
+  will-change:opacity,transform,filter;
+}
+
+.lesson-deck-slide.is-revealing .deck-reveal{
+  opacity:1;
+  transform:translate3d(0,0,0);
+  filter:blur(0);
+}
+
+.deck-reveal-card{
+  transform:translate3d(0,22px,0) scale(.985);
+}
+
+.lesson-deck-slide.is-revealing .deck-reveal-card{
+  transform:translate3d(0,0,0) scale(1);
+}
+
+.deck-reveal-visual{
+  opacity:0;
+  transform:translate3d(26px,0,0) scale(.985);
+  clip-path:inset(0 10% 0 0 round 28px);
+  transition:
+    opacity .58s ease,
+    transform .72s cubic-bezier(.22,.8,.24,1),
+    clip-path .72s cubic-bezier(.22,.8,.24,1);
+}
+
+.lesson-deck-slide.is-revealing .deck-reveal-visual{
+  opacity:1;
+  transform:translate3d(0,0,0) scale(1);
+  clip-path:inset(0 0 0 0 round 28px);
+}
+
+.deck-reveal-number{
+  transform:translate3d(0,14px,0) scale(.94);
+  transform-origin:left bottom;
+}
+
+.lesson-deck-slide.is-revealing .deck-reveal-number{
+  transform:translate3d(0,0,0) scale(1);
+}
+
+@media(max-width:700px){
+  .deck-reveal{
+    transform:translate3d(0,12px,0);
+    filter:none;
+    transition-duration:.42s,.5s,.42s;
+    transition-delay:calc(45ms + (var(--reveal-order,0) * 48ms));
+  }
+
+  .deck-reveal-card{
+    transform:translate3d(0,14px,0) scale(.992);
+  }
+
+  .deck-reveal-visual{
+    transform:translate3d(0,16px,0) scale(.99);
+    clip-path:inset(8% 0 0 0 round 18px);
+    transition-delay:calc(70ms + (var(--reveal-order,0) * 48ms));
+  }
+
+  .lesson-deck-slide.is-revealing .deck-reveal-visual{
+    clip-path:inset(0 0 0 0 round 18px);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .deck-reveal,
+  .deck-reveal-card,
+  .deck-reveal-visual,
+  .deck-reveal-number{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    clip-path:none!important;
+    transition:none!important;
+  }
+}

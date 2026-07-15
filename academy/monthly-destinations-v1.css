@@ -1,0 +1,332 @@
+/* Monthly destination presentation */
+.monthly-destinations-page .lesson-deck-slide-hero .lesson-hero-bg{
+  object-fit:cover!important;
+  object-position:center!important;
+}
+
+.monthly-destinations-page .lesson-deck-slide-hero .lesson-hero-shade{
+  background:linear-gradient(90deg,rgba(7,17,31,.95) 0%,rgba(7,17,31,.74) 48%,rgba(7,17,31,.18) 100%)!important;
+}
+
+.monthly-destinations-page .lesson-deck-slide-hero .lesson-hero-inner{
+  justify-content:flex-end!important;
+}
+
+.monthly-destinations-page .cover-subcopy{
+  max-width:720px;
+  margin:20px 0 0;
+  color:rgba(255,255,255,.8);
+  font-size:20px;
+  font-weight:750;
+  line-height:1.55;
+}
+
+.destination-slide{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr)!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  gap:42px!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+}
+
+.destination-copy{
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.destination-month{
+  display:inline-flex;
+  align-items:center;
+  min-height:32px;
+  padding:0 12px;
+  border-radius:999px;
+  color:#245ed6;
+  background:#edf4ff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.09em;
+}
+
+.destination-slide.ppt-dark .destination-month{
+  color:#d8edff;
+  background:rgba(255,255,255,.1);
+}
+
+.destination-copy h2{
+  width:100%;
+  max-width:720px!important;
+  margin:16px 0 0!important;
+  padding:0 0 20px!important;
+  border-bottom:1px solid rgba(12,24,48,.12);
+  color:#0b1524;
+  font-size:clamp(42px,4.25vw,64px)!important;
+  line-height:1.06!important;
+  letter-spacing:-.064em!important;
+  text-align:left!important;
+  word-break:keep-all;
+}
+
+.destination-slide.ppt-dark .destination-copy h2{
+  color:#fff;
+  border-bottom-color:rgba(255,255,255,.14);
+}
+
+.destination-copy>p{
+  max-width:680px;
+  margin:20px 0 0;
+  color:#596b82;
+  font-size:19px;
+  font-weight:720;
+  line-height:1.55;
+  word-break:keep-all;
+}
+
+.destination-slide.ppt-dark .destination-copy>p{
+  color:rgba(255,255,255,.72);
+}
+
+.destination-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:24px;
+}
+
+.destination-tags b{
+  display:inline-flex;
+  align-items:center;
+  min-height:39px;
+  padding:0 15px;
+  border-radius:999px;
+  color:#245ed6;
+  background:#edf4ff;
+  font-size:14px;
+  font-weight:900;
+}
+
+.destination-slide.ppt-dark .destination-tags b{
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.09);
+}
+
+.destination-check{
+  width:100%;
+  max-width:680px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:14px;
+  align-items:center;
+  margin-top:24px;
+  padding:16px 18px;
+  border-radius:18px;
+  background:#f3f7fc;
+}
+
+.destination-check small{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:58px;
+  min-height:31px;
+  padding:0 10px;
+  border-radius:999px;
+  color:#fff;
+  background:linear-gradient(90deg,#2f73ff,#705cff);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+
+.destination-check strong{
+  color:#43566e;
+  font-size:16px;
+  font-weight:820;
+  line-height:1.45;
+}
+
+.destination-slide.ppt-dark .destination-check{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.08);
+}
+
+.destination-slide.ppt-dark .destination-check strong{
+  color:rgba(255,255,255,.78);
+}
+
+.destination-visual{
+  position:relative;
+  width:100%;
+  height:100%;
+  min-height:0;
+  margin:0;
+  overflow:hidden;
+  border-radius:30px;
+  background:#07111f;
+  box-shadow:0 24px 64px rgba(11,29,58,.18);
+}
+
+.destination-visual img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+.destination-visual::after{
+  content:'';
+  position:absolute;
+  inset:55% 0 0;
+  background:linear-gradient(180deg,transparent,rgba(7,17,31,.88));
+}
+
+.destination-visual figcaption{
+  position:absolute;
+  left:22px;
+  right:22px;
+  bottom:20px;
+  z-index:2;
+  color:#fff;
+  font-size:18px;
+  font-weight:850;
+  line-height:1.42;
+}
+
+.destination-overview .ppt-four-grid article{
+  min-height:195px;
+}
+
+.destination-overview .ppt-four-grid strong{
+  font-size:26px;
+}
+
+@media(max-width:980px){
+  .destination-slide{
+    grid-template-columns:minmax(0,1fr) minmax(300px,.8fr)!important;
+    gap:26px!important;
+  }
+
+  .destination-copy h2{
+    font-size:clamp(38px,4.7vw,54px)!important;
+  }
+}
+
+@media(max-width:700px){
+  .monthly-destinations-page .lesson-deck-slide-hero,
+  .monthly-destinations-page .lesson-deck-slide-hero .lesson-hero,
+  .monthly-destinations-page .lesson-deck-slide-hero .lesson-hero-inner{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
+  .monthly-destinations-page .lesson-deck-slide-hero .lesson-hero-inner{
+    width:calc(100% - 28px)!important;
+    padding:32px 14px 36px!important;
+  }
+
+  .monthly-destinations-page .lesson-deck-slide-hero .lesson-hero h1{
+    font-size:clamp(43px,12.5vw,58px)!important;
+    line-height:.98!important;
+  }
+
+  .monthly-destinations-page .cover-subcopy{
+    margin-top:13px;
+    font-size:15px;
+    line-height:1.45;
+  }
+
+  .destination-slide{
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto!important;
+    gap:18px!important;
+  }
+
+  .destination-copy{
+    height:auto;
+    justify-content:flex-start;
+  }
+
+  .destination-month{
+    min-height:26px;
+    padding:0 9px;
+    font-size:9.5px;
+  }
+
+  .destination-copy h2{
+    max-width:none!important;
+    margin-top:10px!important;
+    padding-bottom:13px!important;
+    font-size:clamp(29px,8.5vw,36px)!important;
+    line-height:1.09!important;
+  }
+
+  .destination-copy>p{
+    margin-top:12px;
+    font-size:14px;
+    line-height:1.48;
+  }
+
+  .destination-tags{
+    gap:7px;
+    margin-top:14px;
+  }
+
+  .destination-tags b{
+    min-height:33px;
+    padding:0 11px;
+    font-size:12px;
+  }
+
+  .destination-check{
+    gap:10px;
+    margin-top:14px;
+    padding:12px 13px;
+    border-radius:15px;
+  }
+
+  .destination-check small{
+    min-width:50px;
+    min-height:28px;
+    font-size:9px;
+  }
+
+  .destination-check strong{
+    font-size:13px;
+    line-height:1.4;
+  }
+
+  .destination-visual{
+    height:clamp(220px,34vh,330px);
+    min-height:220px;
+    border-radius:18px;
+  }
+
+  .destination-visual figcaption{
+    left:14px;
+    right:14px;
+    bottom:13px;
+    font-size:13px;
+  }
+
+  .destination-overview .ppt-four-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+
+  .destination-overview .ppt-four-grid article{
+    min-height:140px!important;
+    padding:15px 13px!important;
+  }
+
+  .destination-overview .ppt-four-grid strong{
+    font-size:20px!important;
+  }
+
+  .destination-overview .ppt-four-grid span{
+    font-size:12px!important;
+  }
+}

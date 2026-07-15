@@ -1,0 +1,109 @@
+/* Membership deck contrast fixes */
+.membership-page .ppt-ledger article,
+.membership-page .ppt-formula-box article,
+.membership-page .ppt-detail-card,
+.membership-page .ppt-cost-grid article,
+.membership-page .ppt-step-list article,
+.membership-page .ppt-season-grid article{
+  color:#0b1524!important;
+}
+
+.membership-page .ppt-ledger article small,
+.membership-page .ppt-ledger article strong,
+.membership-page .ppt-formula-box article small,
+.membership-page .ppt-formula-box article strong,
+.membership-page .ppt-detail-card strong,
+.membership-page .ppt-cost-grid article strong,
+.membership-page .ppt-step-list article strong,
+.membership-page .ppt-season-grid article strong{
+  color:#0b1524!important;
+}
+
+.membership-page .ppt-ledger article li,
+.membership-page .ppt-formula-box article span,
+.membership-page .ppt-detail-card span,
+.membership-page .ppt-cost-grid article span,
+.membership-page .ppt-step-list article span,
+.membership-page .ppt-season-grid article span{
+  color:#56687e!important;
+}
+
+.membership-page .ppt-ledger article:last-child,
+.membership-page .ppt-ledger article:last-child small,
+.membership-page .ppt-ledger article:last-child strong,
+.membership-page .ppt-formula-box article.emphasis,
+.membership-page .ppt-formula-box article.emphasis small,
+.membership-page .ppt-formula-box article.emphasis strong{
+  color:#fff!important;
+}
+
+.membership-page .ppt-ledger article:last-child li,
+.membership-page .ppt-formula-box article.emphasis span{
+  color:rgba(255,255,255,.76)!important;
+}
+
+.membership-page .ppt-dark .ppt-ledger article:first-child{
+  border:1px solid rgba(12,24,48,.08)!important;
+  background:#f6f8fc!important;
+}
+
+.membership-page .ppt-dark .ppt-ledger article:last-child{
+  border:1px solid rgba(255,255,255,.12)!important;
+  background:linear-gradient(145deg,#07111f,#18315f)!important;
+}
+
+.membership-page .ppt-warning-slide .ppt-formula-box article:not(.emphasis){
+  border:1px solid rgba(12,24,48,.08)!important;
+  background:#f6f8fc!important;
+}
+
+/* Booking order: passenger information must come before point application. */
+.membership-page #booking-steps .ppt-step-list article:nth-child(4){
+  order:5;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(5){
+  order:4;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(4) b,
+.membership-page #booking-steps .ppt-step-list article:nth-child(5) b{
+  font-size:0!important;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(4) b::after{
+  content:'05';
+  font-size:16px;
+}
+
+.membership-page #booking-steps .ppt-step-list article:nth-child(5) b::after{
+  content:'04';
+  font-size:16px;
+}
+
+@media(max-width:700px){
+  .membership-page .ppt-ledger article,
+  .membership-page .ppt-formula-box article{
+    min-height:0!important;
+  }
+
+  .membership-page .ppt-ledger small,
+  .membership-page .ppt-formula-box small{
+    font-size:13px!important;
+  }
+
+  .membership-page .ppt-ledger strong{
+    font-size:30px!important;
+  }
+
+  .membership-page .ppt-ledger li,
+  .membership-page .ppt-formula-box span{
+    font-size:14px!important;
+    line-height:1.45!important;
+  }
+
+  .membership-page #booking-steps .ppt-step-list article:nth-child(4) b::after,
+  .membership-page #booking-steps .ppt-step-list article:nth-child(5) b::after{
+    font-size:15px;
+  }
+}

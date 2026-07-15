@@ -1,0 +1,377 @@
+/* Shared presentation treatment for academy lessons 03 and 04. */
+.academy-detail-page .lesson-deck-slide-hero .lesson-hero-bg{
+  object-fit:cover!important;
+  object-position:center!important;
+}
+
+.academy-detail-page .lesson-deck-slide-hero .lesson-hero-shade{
+  background:linear-gradient(90deg,rgba(7,17,31,.95) 0%,rgba(7,17,31,.74) 48%,rgba(7,17,31,.18) 100%)!important;
+}
+
+.academy-detail-page .lesson-deck-slide-hero .lesson-hero-inner{
+  justify-content:flex-end!important;
+}
+
+.academy-detail-page .lesson-deck-slide-hero .lesson-hero h1{
+  max-width:880px!important;
+}
+
+.academy-detail-page .cover-subcopy{
+  max-width:700px;
+  margin:20px 0 0;
+  color:rgba(255,255,255,.78);
+  font-size:20px;
+  font-weight:750;
+  line-height:1.55;
+}
+
+.academy-detail-page .ppt-dark .ppt-four-grid article,
+.academy-detail-page .ppt-dark .ppt-detail-card{
+  border-color:rgba(255,255,255,.13);
+  color:#fff;
+  background:rgba(255,255,255,.08);
+}
+
+.academy-detail-page .ppt-dark .ppt-four-grid strong,
+.academy-detail-page .ppt-dark .ppt-detail-card strong,
+.academy-detail-page .ppt-dark .ppt-four-grid b,
+.academy-detail-page .ppt-dark .ppt-detail-card b{
+  color:#fff;
+}
+
+.academy-detail-page .ppt-dark .ppt-four-grid span,
+.academy-detail-page .ppt-dark .ppt-detail-card span{
+  color:rgba(255,255,255,.72);
+}
+
+.academy-detail-page .ppt-ledger article:first-child,
+.academy-detail-page .ppt-formula-box article:not(.emphasis),
+.academy-detail-page .ppt-detail-card,
+.academy-detail-page .ppt-step-list article{
+  color:#0b1524;
+}
+
+.academy-detail-page .ppt-ledger article:first-child small,
+.academy-detail-page .ppt-ledger article:first-child strong,
+.academy-detail-page .ppt-formula-box article:not(.emphasis) small,
+.academy-detail-page .ppt-formula-box article:not(.emphasis) strong,
+.academy-detail-page .ppt-detail-card strong,
+.academy-detail-page .ppt-step-list strong{
+  color:#0b1524;
+}
+
+.academy-detail-page .ppt-ledger article:first-child li,
+.academy-detail-page .ppt-formula-box article:not(.emphasis) span,
+.academy-detail-page .ppt-detail-card span,
+.academy-detail-page .ppt-step-list span{
+  color:#56687e;
+}
+
+.academy-detail-page .ppt-ledger article:last-child,
+.academy-detail-page .ppt-ledger article:last-child small,
+.academy-detail-page .ppt-ledger article:last-child strong,
+.academy-detail-page .ppt-formula-box article.emphasis,
+.academy-detail-page .ppt-formula-box article.emphasis small,
+.academy-detail-page .ppt-formula-box article.emphasis strong{
+  color:#fff;
+}
+
+.academy-detail-page .ppt-ledger article:last-child li,
+.academy-detail-page .ppt-formula-box article.emphasis span{
+  color:rgba(255,255,255,.76);
+}
+
+.academy-detail-page .ppt-question-list li{
+  min-height:118px;
+}
+
+.academy-detail-page .ppt-question-list span{
+  font-size:20px;
+}
+
+.academy-detail-page .ppt-warning-slide .ppt-warning-grid article{
+  min-height:190px;
+}
+
+.academy-detail-page .ppt-check-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+
+.academy-detail-page .ppt-check-strip article{
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:24px;
+  border-radius:23px;
+  background:#f6f8fc;
+}
+
+.academy-detail-page .ppt-check-strip b{
+  color:#2f73ff;
+  font-size:13px;
+  font-weight:900;
+}
+
+.academy-detail-page .ppt-check-strip strong{
+  margin-top:12px;
+  color:#0b1524;
+  font-size:28px;
+  line-height:1.15;
+  letter-spacing:-.05em;
+}
+
+.academy-detail-page .ppt-check-strip span{
+  margin-top:9px;
+  color:#5c6d82;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+@media(max-width:980px){
+  .academy-detail-page .ppt-check-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .academy-detail-page .ppt-check-strip article{min-height:150px}
+}
+
+@media(max-width:700px){
+  html.lesson-deck-ready,
+  html.lesson-deck-ready body{
+    height:100%!important;
+    overflow:hidden!important;
+  }
+
+  body.academy-detail-page{
+    background:#e9eef6!important;
+    overscroll-behavior:none;
+  }
+
+  .academy-detail-page .lesson-deck{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    scroll-snap-type:y proximity;
+    scroll-behavior:smooth;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y!important;
+  }
+
+  .academy-detail-page .lesson-deck-slide,
+  .academy-detail-page .lesson-deck-slide.is-active,
+  .academy-detail-page .lesson-deck-slide.is-before{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    overflow:visible!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:none!important;
+    transition:none!important;
+    scroll-snap-align:start;
+  }
+
+  .academy-detail-page .lesson-deck-slide-frame{
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    display:flex!important;
+    align-items:flex-start!important;
+    justify-content:center!important;
+    padding:12px 10px 18px!important;
+  }
+
+  .academy-detail-page .lesson-deck-slide-hero,
+  .academy-detail-page .lesson-deck-slide-hero .lesson-hero,
+  .academy-detail-page .lesson-deck-slide-hero .lesson-hero-inner{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
+  .academy-detail-page .lesson-deck-slide-hero .lesson-hero-shade{
+    background:linear-gradient(180deg,rgba(7,17,31,.12) 0%,rgba(7,17,31,.24) 36%,rgba(7,17,31,.92) 76%,#07111f 100%)!important;
+  }
+
+  .academy-detail-page .lesson-deck-slide-hero .lesson-hero-inner{
+    width:calc(100% - 28px)!important;
+    padding:32px 14px 36px!important;
+  }
+
+  .academy-detail-page .lesson-deck-slide-hero .lesson-back{
+    top:14px!important;
+    left:14px!important;
+    padding:7px 10px;
+    border-radius:999px;
+    background:rgba(7,17,31,.72);
+  }
+
+  .academy-detail-page .lesson-deck-slide-hero .lesson-hero h1{
+    font-size:clamp(43px,12.5vw,58px)!important;
+    line-height:.98!important;
+  }
+
+  .academy-detail-page .cover-subcopy{
+    margin-top:13px;
+    font-size:15px;
+    line-height:1.45;
+  }
+
+  .academy-detail-page .ppt-section{
+    width:100%!important;
+    height:auto!important;
+    min-height:calc(100dvh - 76px)!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    padding:24px 18px 28px!important;
+    overflow:visible!important;
+    border-radius:22px!important;
+    justify-content:flex-start!important;
+  }
+
+  .academy-detail-page .ppt-head{
+    width:100%!important;
+    margin:0 0 18px!important;
+    padding:0 0 15px!important;
+    border-bottom:1px solid rgba(12,24,48,.11);
+  }
+
+  .academy-detail-page .ppt-dark .ppt-head,
+  .academy-detail-page .ppt-warning-slide .ppt-head{
+    border-bottom-color:rgba(255,255,255,.14);
+  }
+
+  .academy-detail-page .ppt-head h2,
+  .academy-detail-page .ppt-photo-copy h2,
+  .academy-detail-page .ppt-end-slide h2{
+    margin-top:10px!important;
+    font-size:clamp(28px,8.2vw,36px)!important;
+    line-height:1.1!important;
+    letter-spacing:-.052em!important;
+  }
+
+  .academy-detail-page .ppt-formula-box{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+
+  .academy-detail-page .ppt-formula-box article{
+    min-height:106px!important;
+    padding:15px 16px!important;
+    border-radius:18px!important;
+  }
+
+  .academy-detail-page .ppt-formula-box strong{
+    margin-top:8px!important;
+    font-size:36px!important;
+  }
+
+  .academy-detail-page .ppt-formula-box span{
+    margin-top:7px!important;
+    font-size:13px!important;
+  }
+
+  .academy-detail-page .ppt-formula-sign{
+    height:28px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:22px!important;
+  }
+
+  .academy-detail-page .ppt-ledger,
+  .academy-detail-page .ppt-detail-grid,
+  .academy-detail-page .ppt-detail-grid.three,
+  .academy-detail-page .ppt-step-list,
+  .academy-detail-page .ppt-question-list,
+  .academy-detail-page .ppt-fit-columns{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .academy-detail-page .ppt-ledger article,
+  .academy-detail-page .ppt-detail-card,
+  .academy-detail-page .ppt-fit-columns article{
+    min-height:0!important;
+    padding:18px!important;
+    border-radius:18px!important;
+  }
+
+  .academy-detail-page .ppt-ledger strong{
+    font-size:29px!important;
+  }
+
+  .academy-detail-page .ppt-ledger li,
+  .academy-detail-page .ppt-detail-card span,
+  .academy-detail-page .ppt-fit-columns span{
+    font-size:14px!important;
+    line-height:1.42!important;
+  }
+
+  .academy-detail-page .ppt-step-list article{
+    min-height:88px!important;
+    padding:14px 15px!important;
+    border-radius:16px!important;
+  }
+
+  .academy-detail-page .ppt-four-grid,
+  .academy-detail-page .ppt-warning-grid,
+  .academy-detail-page .ppt-plan-grid,
+  .academy-detail-page .ppt-check-strip{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+
+  .academy-detail-page .ppt-four-grid article,
+  .academy-detail-page .ppt-warning-grid article,
+  .academy-detail-page .ppt-plan-grid article,
+  .academy-detail-page .ppt-check-strip article{
+    min-height:132px!important;
+    padding:15px 13px!important;
+    border-radius:17px!important;
+  }
+
+  .academy-detail-page .ppt-check-strip strong{
+    margin-top:7px;
+    font-size:21px;
+  }
+
+  .academy-detail-page .ppt-check-strip span{
+    margin-top:6px;
+    font-size:12px;
+    line-height:1.38;
+  }
+
+  .academy-detail-page .ppt-question-list li{
+    min-height:76px!important;
+    padding:13px 15px!important;
+    border-radius:16px!important;
+  }
+
+  .academy-detail-page .ppt-question-list span{
+    font-size:16px!important;
+  }
+
+  .academy-detail-page .ppt-note-line{
+    margin-top:12px!important;
+    padding:12px 14px!important;
+    font-size:13px!important;
+  }
+
+  .academy-detail-page .ppt-end-links{
+    grid-template-columns:1fr!important;
+    gap:9px!important;
+  }
+
+  .academy-detail-page .ppt-end-links a{
+    min-height:96px!important;
+  }
+
+  .academy-detail-page .lesson-deck-controls,
+  .academy-detail-page .lesson-deck-progress,
+  .academy-detail-page .lesson-deck-hint{
+    display:none!important;
+  }
+}

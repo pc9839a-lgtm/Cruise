@@ -1,0 +1,511 @@
+/* Native vertical mobile presentation for the Korea industry deck */
+@media(max-width:700px){
+  html.lesson-deck-ready,
+  html.lesson-deck-ready body{
+    height:100%;
+    overflow:hidden!important;
+  }
+
+  body.lesson-deck-native-scroll{
+    background:#e9eef6;
+    overscroll-behavior:none;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+    overscroll-behavior-y:contain;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    overflow:visible!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:none!important;
+    transition:none!important;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide.is-before,
+  body.lesson-deck-native-scroll .lesson-deck-slide.is-active{
+    transform:none!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide-frame{
+    width:100%!important;
+    min-height:calc(100dvh - 52px)!important;
+    height:auto!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:14px 10px 92px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide-hero{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide-hero .lesson-hero,
+  body.lesson-deck-native-scroll .lesson-deck-slide-hero .lesson-hero-inner{
+    min-height:calc(100dvh - 52px)!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide-hero .lesson-hero-inner{
+    width:calc(100% - 28px)!important;
+    padding:30px 14px 96px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-slide-hero .lesson-hero h1{
+    max-width:100%!important;
+    font-size:clamp(43px,13vw,60px)!important;
+    line-height:1!important;
+  }
+
+  body.lesson-deck-native-scroll .cover-subcopy{
+    margin-top:14px!important;
+    font-size:15px!important;
+    line-height:1.45!important;
+  }
+
+  body.lesson-deck-native-scroll .industry-page .ppt-section,
+  body.lesson-deck-native-scroll .ppt-section{
+    width:100%!important;
+    min-height:calc(100dvh - 132px)!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    margin:0!important;
+    padding:24px 18px 28px!important;
+    overflow:visible!important;
+    border-radius:22px!important;
+    box-shadow:0 16px 42px rgba(11,29,58,.13)!important;
+  }
+
+  body.lesson-deck-native-scroll .slide-label,
+  body.lesson-deck-native-scroll .ppt-head>span{
+    min-height:25px!important;
+    padding:0 9px!important;
+    font-size:9.5px!important;
+  }
+
+  body.lesson-deck-native-scroll .ppt-head{
+    margin:0 0 16px!important;
+    padding:0 0 14px!important;
+    border-bottom:1px solid rgba(12,24,48,.11)!important;
+  }
+
+  body.lesson-deck-native-scroll .ppt-dark .ppt-head,
+  body.lesson-deck-native-scroll .ppt-warning-slide .ppt-head{
+    border-bottom-color:rgba(255,255,255,.14)!important;
+  }
+
+  body.lesson-deck-native-scroll .ppt-head h2,
+  body.lesson-deck-native-scroll .industry-page h2{
+    margin-top:9px!important;
+    max-width:none!important;
+    font-size:clamp(28px,8vw,34px)!important;
+    line-height:1.1!important;
+    letter-spacing:-.052em!important;
+  }
+
+  body.lesson-deck-native-scroll .ppt-head::after,
+  body.lesson-deck-native-scroll h2::after{
+    display:none!important;
+  }
+
+  body.lesson-deck-native-scroll .korea-opening{
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:flex-start!important;
+  }
+
+  body.lesson-deck-native-scroll .korea-opening-copy{
+    padding-bottom:15px!important;
+  }
+
+  body.lesson-deck-native-scroll .korea-opening-copy h2{
+    font-size:clamp(31px,8.7vw,38px)!important;
+  }
+
+  body.lesson-deck-native-scroll .korea-opening-copy p,
+  body.lesson-deck-native-scroll .short-takeaway,
+  body.lesson-deck-native-scroll .experience-copy p,
+  body.lesson-deck-native-scroll .photo-message-copy p,
+  body.lesson-deck-native-scroll .homeport-simple-copy p,
+  body.lesson-deck-native-scroll .partner-title p{
+    margin-top:11px!important;
+    font-size:14px!important;
+    line-height:1.48!important;
+  }
+
+  body.lesson-deck-native-scroll .two-proof{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+    margin-top:16px!important;
+  }
+
+  body.lesson-deck-native-scroll .two-proof article{
+    min-height:145px!important;
+    padding:16px 14px!important;
+    border-radius:17px!important;
+  }
+
+  body.lesson-deck-native-scroll .two-proof small,
+  body.lesson-deck-native-scroll .two-proof span{
+    font-size:11px!important;
+  }
+
+  body.lesson-deck-native-scroll .two-proof strong{
+    font-size:28px!important;
+  }
+
+  /* Text above, visual below */
+  body.lesson-deck-native-scroll .ppt-section.big-number-stage,
+  body.lesson-deck-native-scroll .ppt-section.experience-stage,
+  body.lesson-deck-native-scroll .ppt-section.photo-message,
+  body.lesson-deck-native-scroll .ppt-section.homeport-simple{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto!important;
+    gap:18px!important;
+  }
+
+  body.lesson-deck-native-scroll .big-number-copy,
+  body.lesson-deck-native-scroll .experience-copy,
+  body.lesson-deck-native-scroll .photo-message-copy,
+  body.lesson-deck-native-scroll .homeport-simple-copy{
+    grid-column:1!important;
+    grid-row:1!important;
+    height:auto!important;
+    padding:0!important;
+    justify-content:flex-start!important;
+  }
+
+  body.lesson-deck-native-scroll .big-number-copy h2,
+  body.lesson-deck-native-scroll .experience-copy h2,
+  body.lesson-deck-native-scroll .photo-message-copy h2,
+  body.lesson-deck-native-scroll .homeport-simple-copy h2{
+    max-width:none!important;
+    margin-top:9px!important;
+    padding:0 0 13px!important;
+    font-size:clamp(28px,8vw,34px)!important;
+    border-bottom:1px solid rgba(12,24,48,.11)!important;
+  }
+
+  body.lesson-deck-native-scroll .big-number-stage>.external-photo-card,
+  body.lesson-deck-native-scroll .photo-message>.external-photo-card,
+  body.lesson-deck-native-scroll .experience-stage>.experience-meter,
+  body.lesson-deck-native-scroll .homeport-simple>.portrait-photo-wrap{
+    grid-column:1!important;
+    grid-row:2!important;
+    width:100%!important;
+    height:clamp(220px,34vh,330px)!important;
+    min-height:220px!important;
+    margin:0!important;
+    border-radius:18px!important;
+  }
+
+  body.lesson-deck-native-scroll .big-stat{
+    margin-top:14px!important;
+    font-size:58px!important;
+  }
+
+  body.lesson-deck-native-scroll .big-stat small{
+    margin-top:9px!important;
+    font-size:13px!important;
+  }
+
+  body.lesson-deck-native-scroll .source-link{
+    margin-top:11px!important;
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .external-photo-card>span{
+    left:14px!important;
+    right:14px!important;
+    bottom:13px!important;
+    font-size:13px!important;
+    line-height:1.4!important;
+  }
+
+  body.lesson-deck-native-scroll .port-pills{
+    gap:7px!important;
+    margin-top:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .port-pills b{
+    padding:7px 10px!important;
+    font-size:10px!important;
+  }
+
+  body.lesson-deck-native-scroll .experience-meter{
+    padding:22px!important;
+  }
+
+  body.lesson-deck-native-scroll .people-ten{
+    grid-template-columns:repeat(5,30px)!important;
+    gap:10px!important;
+  }
+
+  body.lesson-deck-native-scroll .people-ten i{
+    width:30px!important;
+    height:30px!important;
+  }
+
+  body.lesson-deck-native-scroll .experience-meter strong{
+    margin-top:20px!important;
+    font-size:25px!important;
+  }
+
+  body.lesson-deck-native-scroll .experience-meter small{
+    font-size:11px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto!important;
+    gap:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two article{
+    min-height:170px!important;
+    padding:20px!important;
+    border-radius:18px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two small{
+    font-size:10px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two strong{
+    margin-top:7px!important;
+    font-size:26px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two p{
+    margin-top:10px!important;
+    font-size:14px!important;
+    line-height:1.46!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two ul{
+    gap:7px 10px!important;
+    margin-top:10px!important;
+  }
+
+  body.lesson-deck-native-scroll .simple-two li{
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:auto auto!important;
+    gap:9px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid article{
+    min-height:145px!important;
+    padding:16px 14px!important;
+    border-radius:16px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid b{
+    font-size:9.5px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid strong{
+    margin-top:5px!important;
+    font-size:20px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid span{
+    margin-top:6px!important;
+    font-size:13px!important;
+    line-height:1.38!important;
+  }
+
+  body.lesson-deck-native-scroll .three-points{
+    gap:8px!important;
+    margin-top:13px!important;
+  }
+
+  body.lesson-deck-native-scroll .three-points article{
+    padding:12px 14px!important;
+    border-radius:13px!important;
+  }
+
+  body.lesson-deck-native-scroll .three-points strong{
+    font-size:16px!important;
+  }
+
+  body.lesson-deck-native-scroll .three-points span{
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-stage-v2{
+    padding:24px 18px 28px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-title{
+    margin:0 0 14px!important;
+    padding:0 0 14px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-title h2{
+    font-size:clamp(28px,8vw,34px)!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-role-grid{
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto!important;
+    gap:10px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-role-grid article{
+    min-height:160px!important;
+    padding:18px!important;
+    border-radius:17px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-role-grid small{
+    font-size:9.5px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-role-grid strong{
+    font-size:23px!important;
+  }
+
+  body.lesson-deck-native-scroll .partner-role-grid li{
+    font-size:13px!important;
+    line-height:1.42!important;
+  }
+
+  body.lesson-deck-native-scroll .slide-footer-message{
+    margin-top:11px!important;
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line i{
+    display:none!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line article{
+    min-height:72px!important;
+    display:grid!important;
+    grid-template-columns:38px 1fr!important;
+    grid-template-rows:auto auto!important;
+    padding:11px 13px!important;
+    border-radius:14px!important;
+    text-align:left!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line b{
+    grid-row:1/3!important;
+    width:36px!important;
+    height:36px!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line strong{
+    margin:0!important;
+    font-size:17px!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-line span{
+    margin:2px 0 0!important;
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .readable-roadmap .roadmap-message{
+    margin-top:11px!important;
+    font-size:13px!important;
+    line-height:1.42!important;
+  }
+
+  body.lesson-deck-native-scroll .final-korea-copy .final-three{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    margin-top:15px!important;
+  }
+
+  body.lesson-deck-native-scroll .final-korea-copy .final-three p{
+    min-height:68px!important;
+    padding:13px 14px!important;
+    border-radius:14px!important;
+    font-size:14px!important;
+  }
+
+  body.lesson-deck-native-scroll .industry-end-actions{
+    margin-top:14px!important;
+  }
+
+  body.lesson-deck-native-scroll .industry-end-actions a{
+    min-height:48px!important;
+    font-size:12px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-controls{
+    bottom:calc(10px + env(safe-area-inset-bottom))!important;
+    min-height:42px!important;
+    padding:4px 6px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-button{
+    width:34px!important;
+    height:34px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-count{
+    min-width:58px!important;
+    font-size:11px!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-hint{
+    display:none!important;
+  }
+
+  body.lesson-deck-native-scroll .lesson-deck-progress{
+    height:3px!important;
+  }
+}
+
+@media(max-width:390px){
+  body.lesson-deck-native-scroll .ppt-section{
+    padding:20px 15px 26px!important;
+  }
+
+  body.lesson-deck-native-scroll .ppt-head h2,
+  body.lesson-deck-native-scroll .industry-page h2{
+    font-size:27px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid article{
+    min-height:135px!important;
+    padding:14px 12px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid strong{
+    font-size:18px!important;
+  }
+
+  body.lesson-deck-native-scroll .economy-grid span{
+    font-size:12px!important;
+  }
+}

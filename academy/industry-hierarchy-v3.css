@@ -1,0 +1,321 @@
+@import url('/academy/industry-layout-v4.css?v=20260714-layout4');
+
+/* Stronger presentation hierarchy: title zone above, readable content zone below */
+.industry-page .ppt-section{
+  padding:42px 52px!important;
+}
+
+.industry-page .ppt-head{
+  margin:0 0 24px!important;
+  padding:0!important;
+  border-bottom:0!important;
+}
+
+.industry-page .ppt-head::after,
+.industry-page .korea-opening-copy h2::after,
+.industry-page .big-number-copy h2::after,
+.industry-page .experience-copy h2::after,
+.industry-page .photo-message-copy h2::after,
+.industry-page .homeport-simple-copy h2::after,
+.industry-page .partner-title h2::after,
+.industry-page .final-korea-copy h2::after{
+  content:'';
+  display:block;
+  width:74px;
+  height:4px;
+  margin-top:19px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#2f73ff,#705cff);
+}
+
+.industry-page .ppt-dark .ppt-head::after,
+.industry-page .ppt-warning-slide .ppt-head::after,
+.industry-page .ppt-dark h2::after{
+  background:linear-gradient(90deg,#72bcff,#8f82ff);
+}
+
+.industry-page .ppt-head h2,
+.industry-page h2{
+  max-width:900px!important;
+  margin-top:12px!important;
+  font-size:clamp(36px,3.55vw,52px)!important;
+  line-height:1.1!important;
+  letter-spacing:-.052em!important;
+}
+
+.industry-page .slide-label,
+.industry-page .ppt-head>span{
+  min-height:27px!important;
+  padding:0 10px!important;
+  font-size:10px!important;
+  letter-spacing:.08em!important;
+}
+
+.industry-page .korea-opening-copy p,
+.industry-page .experience-copy p,
+.industry-page .photo-message-copy p,
+.industry-page .homeport-simple-copy p,
+.industry-page .partner-title p,
+.industry-page .short-takeaway{
+  max-width:760px;
+  margin-top:15px!important;
+  font-size:16px!important;
+  line-height:1.46!important;
+}
+
+.industry-page .korea-opening-copy{
+  padding-bottom:22px!important;
+}
+
+.industry-page .two-proof{
+  margin-top:22px!important;
+}
+
+.industry-page .two-proof article{
+  padding:24px 28px!important;
+}
+
+.industry-page .two-proof strong{
+  font-size:clamp(38px,4vw,56px)!important;
+}
+
+.industry-page .simple-two,
+.industry-page .economy-grid{
+  gap:18px!important;
+}
+
+.industry-page .simple-two article,
+.industry-page .economy-grid article{
+  position:relative;
+  justify-content:flex-start!important;
+  padding:25px 27px!important;
+}
+
+.industry-page .simple-two article::before,
+.industry-page .economy-grid article::before{
+  content:'';
+  display:block;
+  width:34px;
+  height:3px;
+  margin-bottom:17px;
+  border-radius:999px;
+  background:#2f73ff;
+}
+
+.industry-page .simple-two article.dark::before{
+  background:#8fd0ff;
+}
+
+.industry-page .simple-two strong{
+  margin-top:8px!important;
+  font-size:clamp(29px,3vw,43px)!important;
+}
+
+.industry-page .simple-two p{
+  margin-top:13px!important;
+  font-size:16px!important;
+  line-height:1.43!important;
+}
+
+.industry-page .simple-two ul{
+  margin-top:15px!important;
+}
+
+.industry-page .economy-grid strong{
+  margin-top:7px!important;
+  font-size:clamp(24px,2.35vw,33px)!important;
+}
+
+.industry-page .economy-grid span{
+  margin-top:8px!important;
+  font-size:15px!important;
+  line-height:1.4!important;
+}
+
+.industry-page .partner-stage-v2{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:flex-start!important;
+}
+
+.industry-page .partner-title{
+  flex:0 0 auto;
+  margin:0 0 24px;
+  padding:0 0 20px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+
+.industry-page .partner-title h2{
+  max-width:900px!important;
+}
+
+.industry-page .partner-title p{
+  color:rgba(255,255,255,.7)!important;
+}
+
+.industry-page .partner-role-grid{
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.industry-page .partner-role-grid article{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:27px 29px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:24px;
+  background:rgba(255,255,255,.075);
+}
+
+.industry-page .partner-role-grid article::before{
+  content:'';
+  display:block;
+  width:38px;
+  height:3px;
+  margin-bottom:17px;
+  border-radius:999px;
+  background:#80c9ff;
+}
+
+.industry-page .partner-role-grid small{
+  color:#9ed6ff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+
+.industry-page .partner-role-grid strong{
+  margin-top:9px;
+  color:#fff;
+  font-size:clamp(27px,2.7vw,38px);
+  line-height:1.12;
+  letter-spacing:-.045em;
+}
+
+.industry-page .partner-role-grid ul{
+  display:grid;
+  gap:10px;
+  margin:18px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.industry-page .partner-role-grid li{
+  color:rgba(255,255,255,.73);
+  font-size:15px;
+  font-weight:720;
+  line-height:1.42;
+}
+
+.industry-page .partner-role-grid li::before{
+  content:'•';
+  margin-right:9px;
+  color:#80c9ff;
+}
+
+.industry-page .slide-footer-message{
+  flex:0 0 auto;
+  margin:17px 0 0!important;
+  color:rgba(255,255,255,.72)!important;
+  font-size:15px!important;
+  font-weight:780!important;
+  text-align:center;
+}
+
+.industry-page .final-korea-copy h2{
+  padding-bottom:0!important;
+  border-bottom:0!important;
+}
+
+.industry-page .final-korea-copy .final-three{
+  margin-top:23px!important;
+}
+
+@media(max-width:700px){
+  .industry-page .ppt-section{
+    padding:18px 14px!important;
+  }
+
+  .industry-page .ppt-head{
+    margin-bottom:12px!important;
+  }
+
+  .industry-page .ppt-head::after,
+  .industry-page .korea-opening-copy h2::after,
+  .industry-page .big-number-copy h2::after,
+  .industry-page .experience-copy h2::after,
+  .industry-page .photo-message-copy h2::after,
+  .industry-page .homeport-simple-copy h2::after,
+  .industry-page .partner-title h2::after,
+  .industry-page .final-korea-copy h2::after{
+    width:48px;
+    height:3px;
+    margin-top:10px;
+  }
+
+  .industry-page .ppt-head h2,
+  .industry-page h2{
+    font-size:26px!important;
+  }
+
+  .industry-page .partner-title{
+    margin-bottom:11px;
+    padding-bottom:11px;
+  }
+
+  .industry-page .partner-title p{
+    margin-top:8px!important;
+    font-size:11px!important;
+  }
+
+  .industry-page .partner-role-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .industry-page .partner-role-grid article{
+    padding:14px 15px;
+    border-radius:15px;
+  }
+
+  .industry-page .partner-role-grid article::before{
+    width:26px;
+    margin-bottom:9px;
+  }
+
+  .industry-page .partner-role-grid strong{
+    margin-top:5px;
+    font-size:20px;
+  }
+
+  .industry-page .partner-role-grid ul{
+    gap:5px;
+    margin-top:8px;
+  }
+
+  .industry-page .partner-role-grid li{
+    font-size:10px;
+  }
+
+  .industry-page .slide-footer-message{
+    margin-top:8px!important;
+    font-size:10px!important;
+  }
+
+  .industry-page .simple-two article,
+  .industry-page .economy-grid article{
+    padding:13px 14px!important;
+  }
+
+  .industry-page .simple-two article::before,
+  .industry-page .economy-grid article::before{
+    width:24px;
+    margin-bottom:9px;
+  }
+}
