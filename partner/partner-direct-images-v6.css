@@ -34,7 +34,7 @@
 .actual-photo.photo-8>.partner-direct-photo{left:-300%!important;top:-100%!important}
 .actual-photo.photo-9>.partner-direct-photo{left:-400%!important;top:-100%!important}
 
-/* Benefit sections use real uploaded cruise photos, not generated 3D artwork. */
+/* Square images created for the two partner benefit sections. */
 .benefit-visual>.partner-direct-benefit{
   position:absolute!important;
   z-index:5!important;
@@ -51,12 +51,12 @@
   pointer-events:none!important;
 }
 #benefit-credit .partner-direct-benefit{
-  content:url('/img/1781185493801.jpg?v=20260715-real-benefits')!important;
+  content:url('/img/partner/benefit-credit-square.webp?v=20260715-square-benefits')!important;
   object-position:center center!important;
 }
 #benefit-income .partner-direct-benefit{
-  content:url('/img/20260610_093255.jpg?v=20260715-real-benefits')!important;
-  object-position:center 38%!important;
+  content:url('/img/partner/benefit-income-square.webp?v=20260715-square-benefits')!important;
+  object-position:center center!important;
 }
 
 .actual-photo>.partner-photo-sheet,
