@@ -1,10 +1,10 @@
-/* Sales-volume correction for the MD guide */
+/* Simplified MD examples: plan counts, sales and three-leg distribution */
 .md-guide-page .md-leg-example{
   grid-template-columns:repeat(3,minmax(0,1fr));
 }
 
 .md-guide-page .md-leg-example article{
-  min-height:230px;
+  min-height:220px;
 }
 
 .md-guide-page .ppt-dark .md-leg-example article,
@@ -20,21 +20,70 @@
 
 .md-guide-page .ppt-dark .md-leg-example span,
 .md-guide-page .ppt-warning-slide .md-leg-example span{
-  color:rgba(255,255,255,.7);
+  color:rgba(255,255,255,.72);
 }
 
 .md-guide-page .md-qualification-result{
   grid-template-columns:repeat(3,minmax(0,1fr));
 }
 
-.md-guide-page .md-form-grid{
-  align-items:end;
+.md-plan-input-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:18px;
+}
+
+.md-plan-input-grid>article{
+  padding:16px;
+  border:1px solid rgba(12,24,48,.09);
+  border-radius:18px;
+  background:#fff;
+}
+
+.md-plan-input-grid>article>strong{
+  display:block;
+  margin-bottom:12px;
+  color:#0b1524;
+  font-size:16px;
+  font-weight:950;
+  letter-spacing:.02em;
+  text-align:center;
+}
+
+.md-plan-fields{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+
+.md-plan-fields .md-field label{
+  font-size:11px;
+  letter-spacing:.02em;
+}
+
+.md-plan-fields .md-field input{
+  height:46px;
+  text-align:center;
+}
+
+.md-guide-page #mdLegSummary{
+  font-size:13px!important;
+  line-height:1.5!important;
 }
 
 @media(max-width:980px){
   .md-guide-page .md-leg-example{
     grid-template-columns:repeat(3,minmax(150px,1fr));
     overflow-x:auto;
+  }
+
+  .md-plan-input-grid{
+    grid-template-columns:1fr;
+  }
+
+  .md-plan-fields{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 
@@ -47,7 +96,7 @@
   .md-guide-page .md-leg-example article,
   .md-guide-page .md-leg-example article:last-child{
     grid-column:auto;
-    min-height:118px;
+    min-height:116px;
   }
 
   .md-guide-page .md-condition-grid{
@@ -60,5 +109,35 @@
 
   .md-guide-page .md-qualification-result article{
     min-height:72px;
+  }
+
+  .md-plan-input-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .md-plan-input-grid>article{
+    padding:13px;
+    border-radius:15px;
+  }
+
+  .md-plan-input-grid>article>strong{
+    margin-bottom:8px;
+    font-size:14px;
+  }
+
+  .md-plan-fields{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+
+  .md-plan-fields .md-field input{
+    height:42px;
+    font-size:15px;
+  }
+
+  .md-guide-page #mdLegSummary{
+    font-size:11px!important;
   }
 }
