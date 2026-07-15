@@ -7,6 +7,16 @@
   const mobileQuery=window.matchMedia('(max-width:700px)');
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  function loadPageStyles(){
+    if(body.classList.contains('partner-benefits-page')&&!document.querySelector('link[data-partner-benefits-style]')){
+      const link=document.createElement('link');
+      link.rel='stylesheet';
+      link.href='/academy/partner-benefits-v3.css?v=20260715-benefit3';
+      link.dataset.partnerBenefitsStyle='true';
+      document.head.appendChild(link);
+    }
+  }
+
   function loadContrastGuard(){
     if(document.querySelector('link[data-academy-contrast]'))return;
     const link=document.createElement('link');
@@ -69,7 +79,13 @@
       '.partner-stat-grid>article',
       '.partner-flow-line>article',
       '.partner-flow-sign',
-      '.partner-final'
+      '.partner-final',
+      '.benefit-credit-number',
+      '.benefit-credit-uses>article',
+      '.benefit-dollar-card',
+      '.benefit-card-points>article',
+      '.benefit-free-stage',
+      '.benefit-condition-note'
     ].join(',');
 
     slides.forEach(slide=>{
@@ -85,8 +101,8 @@
           item.classList.add('deck-reveal');
           item.style.setProperty('--reveal-order',String(Math.min(index,9)));
         }
-        if(item.matches('article,li,.ppt-note-line,.destination-tags,.destination-check'))item.classList.add('deck-reveal-card');
-        if(item.matches('.destination-visual'))item.classList.add('deck-reveal-visual');
+        if(item.matches('article,li,.ppt-note-line,.destination-tags,.destination-check,.benefit-condition-note'))item.classList.add('deck-reveal-card');
+        if(item.matches('.destination-visual,.benefit-dollar-card'))item.classList.add('deck-reveal-visual');
         if(item.matches('strong'))item.classList.add('deck-reveal-number');
       });
     });
@@ -135,6 +151,7 @@
     }
   }
 
+  loadPageStyles();
   loadContrastGuard();
   updateCourseNavigation();
   addRevealItems();
