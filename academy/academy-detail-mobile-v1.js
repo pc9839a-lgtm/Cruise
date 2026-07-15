@@ -7,6 +7,18 @@
   const mobileQuery=window.matchMedia('(max-width:700px)');
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  function updateCourseNavigation(){
+    if(!window.location.pathname.includes('/academy/09-partner-rules/'))return;
+    const links=document.querySelectorAll('.ppt-end-links>a');
+    const next=links[1];
+    if(!next)return;
+    next.href='/academy/10-first-steps/';
+    const small=next.querySelector('small');
+    const strong=next.querySelector('strong');
+    if(small)small.textContent='10';
+    if(strong)strong.textContent='가입 후 바로 해야 할 일 →';
+  }
+
   function addRevealItems(){
     const slides=Array.from(document.querySelectorAll('.lesson-deck-slide'));
     const selector=[
@@ -34,7 +46,16 @@
       '.destination-copy>p',
       '.destination-tags',
       '.destination-check',
-      '.destination-visual'
+      '.destination-visual',
+      '.first-steps-flow>article',
+      '.first-focus-main',
+      '.first-focus-side>article',
+      '.passport-compare>article',
+      '.first-triple>article',
+      '.first-search-copy',
+      '.first-search-result>article',
+      '.first-warning>article',
+      '.first-done'
     ].join(',');
 
     slides.forEach(slide=>{
@@ -100,6 +121,7 @@
     }
   }
 
+  updateCourseNavigation();
   addRevealItems();
   setupMobile();
 
