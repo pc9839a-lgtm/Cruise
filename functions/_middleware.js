@@ -46,7 +46,7 @@ class SecurityScriptInjector {
   element(element) {
     let scripts = '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
-      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v17" defer></script><script src="/partner/partner-copy-v2.js?v=20260716-credit-unused-photo" defer></script>';
+      scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v17" defer></script><script src="/partner/partner-copy-v2.js?v=20260716-credit-dollar-unused-photos" defer></script>';
     }
     element.append(scripts, { html: true });
   }
