@@ -5,7 +5,7 @@ function loadContentStyle(){
  if(document.querySelector('link[data-partner-content-v4]'))return;
  const link=document.createElement('link');
  link.rel='stylesheet';
- link.href='/partner/partner-content-v4.css?v=20260716-credit-ship';
+ link.href='/partner/partner-content-v4.css?v=20260716-credit-unused-photo';
  link.setAttribute('data-partner-content-v4','true');
  document.head.appendChild(link);
 }
@@ -19,17 +19,18 @@ function findSection(labelText){
 function renderCreditShipImage(){
  const visual=document.querySelector('#benefit-credit .benefit-visual');
  if(!visual)return;
- if(visual.querySelector('.credit-ship-photo'))return;
+ const current=visual.querySelector('.credit-ship-photo img');
+ if(current&&String(current.getAttribute('src')||'').includes('객실및내부시설6.png'))return;
  visual.classList.add('credit-ship-visual');
  visual.replaceChildren();
  const frame=document.createElement('div');
- frame.className='actual-photo photo-9 credit-ship-photo';
+ frame.className='credit-ship-photo';
  frame.setAttribute('role','img');
- frame.setAttribute('aria-label','출항 전 크루즈선 실제 사진');
+ frame.setAttribute('aria-label','크루즈 선내 수영장 실제 사진');
  const image=document.createElement('img');
  image.className='partner-direct-photo';
- image.src='/img/partner/gallery.webp?v=20260714-static-direct';
- image.alt='출항 전 크루즈선 실제 사진';
+ image.src='/img/객실및내부시설6.png?v=20260716-credit-unused-photo';
+ image.alt='크루즈 선내 수영장 실제 사진';
  image.loading='eager';
  image.decoding='async';
  frame.appendChild(image);
