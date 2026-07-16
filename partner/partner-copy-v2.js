@@ -37,6 +37,62 @@ function renderCreditShipImage(){
  visual.appendChild(frame);
 }
 
+function renderDollarExperienceImage(){
+ const visual=document.querySelector('#benefit-income .benefit-visual');
+ if(!visual)return;
+ const current=visual.querySelector('.dollar-experience-photo img');
+ if(current&&String(current.getAttribute('src')||'').includes('음식및엔터24.png'))return;
+
+ visual.classList.add('dollar-experience-visual');
+ visual.replaceChildren();
+ Object.assign(visual.style,{
+  position:'relative',
+  overflow:'hidden',
+  background:'#07111f'
+ });
+
+ const frame=document.createElement('div');
+ frame.className='dollar-experience-photo';
+ frame.setAttribute('role','img');
+ frame.setAttribute('aria-label','크루즈 선내 엔터테인먼트 실제 사진');
+ Object.assign(frame.style,{
+  position:'absolute',
+  inset:'0',
+  width:'100%',
+  height:'100%'
+ });
+
+ const image=document.createElement('img');
+ image.className='partner-direct-photo';
+ image.src='/img/음식및엔터24.png?v=20260716-dollar-unused-photo';
+ image.alt='크루즈 선내 엔터테인먼트 실제 사진';
+ image.loading='eager';
+ image.decoding='async';
+ Object.assign(image.style,{
+  display:'block',
+  width:'100%',
+  height:'100%',
+  objectFit:'cover',
+  objectPosition:'center',
+  filter:'brightness(.76) saturate(1.05) contrast(1.04)'
+ });
+
+ const overlay=document.createElement('span');
+ overlay.className='dollar-experience-overlay';
+ overlay.setAttribute('aria-hidden','true');
+ Object.assign(overlay.style,{
+  position:'absolute',
+  inset:'0',
+  zIndex:'2',
+  background:'linear-gradient(90deg,rgba(18,31,84,.58) 0%,rgba(5,16,43,.18) 52%,rgba(3,12,30,.08) 100%)',
+  pointerEvents:'none'
+ });
+
+ frame.appendChild(image);
+ visual.appendChild(frame);
+ visual.appendChild(overlay);
+}
+
 function renderBenefitEmphasis(){
  const credit=document.getElementById('benefit-credit');
  if(credit){
@@ -135,17 +191,22 @@ function removeDecorativePeriods(){
  });
 }
 
+function renderBenefitImages(){
+ renderCreditShipImage();
+ renderDollarExperienceImage();
+}
+
 function applyPartnerCopy(){
  loadContentStyle();
  renderBenefitEmphasis();
- renderCreditShipImage();
+ renderBenefitImages();
  renderWhatWeDoCards();
  removePersonalPage();
  updateGalleryHeading();
  removeDecorativePeriods();
- window.setTimeout(renderCreditShipImage,0);
- window.setTimeout(renderCreditShipImage,250);
- window.setTimeout(renderCreditShipImage,800);
+ window.setTimeout(renderBenefitImages,0);
+ window.setTimeout(renderBenefitImages,250);
+ window.setTimeout(renderBenefitImages,800);
 }
 
 loadContentStyle();
