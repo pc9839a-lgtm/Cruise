@@ -25,7 +25,7 @@
   <div class="blog-shell">
     <header class="blog-topbar"><div class="blog-topbar-inner"><a class="blog-brand" href="/"><span class="blog-brand-dot"></span><strong>크루즈플레이</strong></a><nav class="blog-nav"><a href="/">홈</a><a href="/#schedule">추천 일정</a><a href="/blog/" class="is-current">콘텐츠</a><a href="/#reviews">여행 후기</a><a href="/#contact" class="blog-nav-cta">문의하기</a></nav></div></header>
     <main class="blog-main"><div class="blog-container">
-      <section class="blog-hero"><span class="blog-eyebrow">크루즈플레이 콘텐츠</span><h1>처음 크루즈를 준비하는 분을 위한<br />크루즈 여행 가이드</h1><p>비용, 선실, 준비물, 기항지 정보를 쉽게 확인해보세요.</p><div class="blog-hero-stats"><span>전체 글 <strong id="blogResultsCount">35</strong>개</span><span>현재 보는 분류 <strong id="blogActiveFilterText">전체</strong></span><span>필요한 주제를 검색할 수 있습니다</span></div></section>
+      <section class="blog-hero"><span class="blog-eyebrow">크루즈플레이 콘텐츠</span><h1>처음 크루즈를 준비하는 분을 위한<br />크루즈 여행 가이드</h1><p>비용, 선실, 준비물, 기항지 정보를 쉽게 확인해보세요.</p><div class="blog-hero-stats"><span>전체 글 <strong id="blogResultsCount">37</strong>개</span><span>현재 보는 분류 <strong id="blogActiveFilterText">전체</strong></span><span>필요한 주제를 검색할 수 있습니다</span></div></section>
       <section class="blog-section"><div class="blog-search-panel"><div class="blog-search-row"><input id="blogSearchInput" class="blog-search-input" type="search" placeholder="예: 크루즈 비용, 체크리스트, 하선, 영어" /></div><div class="blog-filter-row"><button type="button" class="blog-filter-btn is-active" data-category="all">전체</button></div><div class="blog-results-meta"><span>궁금한 크루즈 주제를 검색해주세요</span><span>카드를 누르면 자세한 안내 글로 이동합니다.</span></div></div></section>
       <section class="blog-section"><div class="blog-grid" id="blogGrid"></div><div class="blog-empty" id="blogEmptyState" style="display:none;">찾으시는 내용이 아직 없습니다. 검색어를 조금 다르게 입력해보세요.</div></section>
     </div></main>
@@ -49,7 +49,7 @@
       return '<article class="blog-card" data-category="' + category + '" data-title="' + title + '" data-summary="' + summary + '" data-tags="' + tags + '"><a class="blog-card-cover" href="' + href + '"><img src="' + image + '" alt="' + title + '" loading="lazy" /></a><div class="blog-card-body"><div class="blog-card-topline"><span class="blog-card-category">' + category + '</span><span class="blog-card-date">' + date(post.published_at) + '</span></div><h2 class="blog-card-title"><a href="' + href + '">' + title + '</a></h2><p class="blog-card-summary">' + summary + '</p><div class="blog-card-actions"><a class="blog-card-link" href="' + href + '">자세히 보기</a></div></div></article>';
     }
     try {
-      const response = await fetch('/content/blog-meta.json?v=20260716-content-35', { cache: 'no-store' });
+      const response = await fetch('/content/blog-meta.json?v=20260717-content-37', { cache: 'no-store' });
       if (!response.ok) throw new Error('blog meta load failed');
       const data = await response.json();
       const posts = Array.isArray(data.posts) ? data.posts.slice().sort(function (a,b) { return Number(a.sort_order || 0) - Number(b.sort_order || 0); }) : [];
@@ -61,7 +61,7 @@
       empty.style.display = 'block';
     }
     const script = document.createElement('script');
-    script.src = '/assets/js/blog-index.js?v=20260716-content-35';
+    script.src = '/assets/js/blog-index.js?v=20260717-content-37';
     document.body.appendChild(script);
   })();
   </script>
