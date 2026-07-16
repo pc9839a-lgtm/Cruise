@@ -5,7 +5,7 @@ function loadContentStyle(){
  if(document.querySelector('link[data-partner-content-v4]'))return;
  const link=document.createElement('link');
  link.rel='stylesheet';
- link.href='/partner/partner-content-v4.css?v=20260716-ppt-cards';
+ link.href='/partner/partner-content-v4.css?v=20260716-credit-ship';
  link.setAttribute('data-partner-content-v4','true');
  document.head.appendChild(link);
 }
@@ -14,6 +14,26 @@ function findSection(labelText){
  const label=[...document.querySelectorAll('.section-label')]
   .find((item)=>String(item.textContent||'').trim()===labelText);
  return label?label.closest('section'):null;
+}
+
+function renderCreditShipImage(){
+ const visual=document.querySelector('#benefit-credit .benefit-visual');
+ if(!visual)return;
+ if(visual.querySelector('.credit-ship-photo'))return;
+ visual.classList.add('credit-ship-visual');
+ visual.replaceChildren();
+ const frame=document.createElement('div');
+ frame.className='actual-photo photo-9 credit-ship-photo';
+ frame.setAttribute('role','img');
+ frame.setAttribute('aria-label','출항 전 크루즈선 실제 사진');
+ const image=document.createElement('img');
+ image.className='partner-direct-photo';
+ image.src='/img/partner/gallery.webp?v=20260714-static-direct';
+ image.alt='출항 전 크루즈선 실제 사진';
+ image.loading='eager';
+ image.decoding='async';
+ frame.appendChild(image);
+ visual.appendChild(frame);
 }
 
 function renderBenefitEmphasis(){
@@ -117,10 +137,14 @@ function removeDecorativePeriods(){
 function applyPartnerCopy(){
  loadContentStyle();
  renderBenefitEmphasis();
+ renderCreditShipImage();
  renderWhatWeDoCards();
  removePersonalPage();
  updateGalleryHeading();
  removeDecorativePeriods();
+ window.setTimeout(renderCreditShipImage,0);
+ window.setTimeout(renderCreditShipImage,250);
+ window.setTimeout(renderCreditShipImage,800);
 }
 
 loadContentStyle();
