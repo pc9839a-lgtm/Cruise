@@ -36,6 +36,13 @@
   Content-Type: text/plain; charset=UTF-8
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
+/ads.txt
+  Content-Type: text/plain; charset=UTF-8
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/partner/*
+  X-Robots-Tag: noindex, nofollow
+
 /assets/*
   Cache-Control: public, max-age=3600, must-revalidate
 
