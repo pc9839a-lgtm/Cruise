@@ -4,62 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사이트 소개 | 크루즈플레이</title>
-  <meta name="description" content="크루즈플레이 사이트 소개 페이지입니다." />
+  <meta name="description" content="크루즈플레이의 운영 목적, 제공 정보, 콘텐츠 작성 원칙과 문의 방법을 안내합니다." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/about/" />
   <style>
-    :root { --text:#111827; --muted:#6b7280; --line:#e5e7eb; --bg:#f8fafc; --card:#ffffff; --primary:#2563eb; }
+    :root { --text:#111827; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --card:#ffffff; --primary:#2563eb; }
     * { box-sizing:border-box; }
-    body { margin:0; font-family:Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    body { margin:0; font-family:Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:var(--bg); color:var(--text); line-height:1.75; }
     .wrap { max-width:900px; margin:0 auto; padding:24px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:32px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
-    .eyebrow { display:inline-block; padding:6px 12px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:13px; font-weight:700; }
-    h1 { margin:16px 0 8px; font-size:32px; line-height:1.25; }
-    h2 { margin:32px 0 12px; font-size:22px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:22px; padding:34px; box-shadow:0 10px 30px rgba(15,23,42,.05); }
+    .eyebrow { display:inline-block; padding:6px 12px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:13px; font-weight:800; }
+    h1 { margin:16px 0 8px; font-size:34px; line-height:1.25; letter-spacing:-.03em; }
+    h2 { margin:34px 0 12px; font-size:23px; letter-spacing:-.02em; }
     p, li { font-size:16px; }
+    li { margin:7px 0; }
     .meta { color:var(--muted); font-size:14px; }
-    .footnav { display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
-    a { color:#2563eb; text-decoration:none; }
+    .box { margin-top:22px; padding:20px; border-radius:17px; background:#eff6ff; border:1px solid #bfdbfe; }
+    .footnav { display:flex; gap:14px; flex-wrap:wrap; margin-top:30px; padding-top:22px; border-top:1px solid var(--line); }
+    a { color:var(--primary); text-decoration:none; }
     a:hover { text-decoration:underline; }
-    .box { margin-top:20px; padding:18px; border-radius:16px; background:#eff6ff; border:1px solid #bfdbfe; }
+    @media(max-width:640px){ .wrap{padding:14px}.card{padding:26px 20px}h1{font-size:29px} }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
+  <main class="wrap">
+    <article class="card">
       <span class="eyebrow">사이트 소개</span>
-      <h1>크루즈플레이 소개</h1>
-      <p class="meta">최종 수정일: 2026.04.09</p>
+      <h1>크루즈플레이는 어떤 사이트인가요?</h1>
+      <p class="meta">운영: 크루즈플레이 편집팀 · 최종 수정일: 2026년 7월 18일</p>
 
-      <p>크루즈플레이는 크루즈 여행이 처음인 분도 쉽게 이해할 수 있도록 일정, 비용, 준비물, 선실 차이, 승선 절차 같은 핵심 정보를 보기 쉽게 정리하는 안내형 콘텐츠 사이트입니다.</p>
+      <p>크루즈플레이는 크루즈 여행이 처음인 분도 일정, 비용, 선실, 승선 절차와 준비물을 이해할 수 있도록 설명하는 정보형 사이트입니다. 객실 가격만 보여주는 예약 페이지가 아니라, 실제로 출발하기 전 무엇을 확인해야 하는지 질문별로 나누어 안내합니다.</p>
 
-      <h2>무엇을 다루나요?</h2>
+      <h2>제공하는 정보</h2>
       <ul>
-        <li>크루즈 여행 초보 가이드</li>
-        <li>비용 구조와 추가 비용 이해</li>
-        <li>출발 전 준비물과 체크리스트</li>
-        <li>선실 차이, 식사, 기항지 정보</li>
-        <li>일정 문의 및 상담 연결</li>
+        <li>처음 타는 사람을 위한 승선 준비와 기본 용어</li>
+        <li>객실 요금 외 세금, 팁, 와이파이, 음료 등 추가 비용</li>
+        <li>인사이드·오션뷰·발코니 선실과 객실 위치 비교</li>
+        <li>여권, 체크인 서류, 수하물, 복장과 상비약 준비</li>
+        <li>선내 식사, 공연, 수영장, 앱과 결제 이용 방법</li>
+        <li>기항지 복귀 시간과 자유여행 시 확인사항</li>
       </ul>
 
-      <h2>사이트 운영 방향</h2>
-      <p>크루즈플레이는 단순 홍보 문구보다 실제로 많이 궁금해하는 질문에 답하는 방향을 우선합니다. 처음 타는 분이 헷갈릴 수 있는 부분을 쉽게 정리하고, 일정과 비용 정보를 보다 이해하기 쉬운 구조로 전달하는 것을 목표로 합니다.</p>
+      <h2>정보를 작성하는 방법</h2>
+      <p>이용자가 실제로 묻는 하나의 질문을 기준으로 글을 작성하고, 선사·선박·항로에 따라 달라지는 조건은 구분해 설명합니다. 탑승 제한, 안전, 여권·비자, 운항 일정처럼 변경 가능성이 높은 정보는 관련 공식 안내를 다시 확인하도록 명시합니다.</p>
+      <p>세부 작성 기준과 수정 원칙은 <a href="/editorial-policy/">콘텐츠 운영정책</a>에서 확인할 수 있습니다.</p>
+
+      <h2>사이트의 역할과 한계</h2>
+      <p>크루즈플레이는 여행 준비를 돕는 정보와 일정 문의 연결을 제공합니다. 선사 또는 여행사의 공식 홈페이지가 아니며, 운항 여부·가격·객실 재고·입국 조건을 보장하지 않습니다. 예약이나 출발 전에는 반드시 해당 선사와 공식 기관의 최신 조건을 확인해야 합니다.</p>
 
       <div class="box">
-        <strong>안내</strong>
-        <p style="margin:10px 0 0;">사이트 내 일부 링크는 일정 문의, 상담 연결, 제휴 또는 외부 안내 페이지로 이어질 수 있습니다. 실제 상품 조건은 시점에 따라 달라질 수 있으므로 최종 확인이 필요합니다.</p>
+        <strong>광고·제휴 안내</strong>
+        <p style="margin:10px 0 0;">사이트에는 Google AdSense 광고가 표시될 수 있고 일부 링크는 상담 또는 외부 안내 페이지로 연결될 수 있습니다. 광고와 관계없이 이용자가 확인해야 할 조건을 우선해 설명합니다.</p>
       </div>
 
-      <h2>문의</h2>
-      <p>문의 이메일: roadfor@kakao.com</p>
+      <h2>문의 및 정정 요청</h2>
+      <p>페이지 오류, 오래된 정보, 링크 문제 또는 권리 관련 요청은 페이지 주소와 함께 아래 이메일로 보내주세요.</p>
+      <p><strong>roadfor@kakao.com</strong></p>
 
-      <div class="footnav">
-        <a href="/">홈으로</a>
+      <nav class="footnav" aria-label="관련 페이지">
+        <a href="/">홈</a>
+        <a href="/blog/">전체 콘텐츠</a>
+        <a href="/editorial-policy/">콘텐츠 운영정책</a>
         <a href="/privacy/">개인정보처리방침</a>
         <a href="/terms/">이용약관</a>
         <a href="/contact/">문의하기</a>
-      </div>
-    </div>
-  </div>
+      </nav>
+    </article>
+  </main>
 </body>
 </html>
