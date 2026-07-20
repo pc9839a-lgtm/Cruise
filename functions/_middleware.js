@@ -17,6 +17,8 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 
 const PASSTHROUGH_PATHS = new Set([
+  '/ads.txt',
+  '/sitemap-google.xml',
   '/sitemap.xml',
   '/sitemap.txt',
   '/sitemap-2026.xml',
