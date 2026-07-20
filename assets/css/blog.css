@@ -785,211 +785,198 @@ body.blog-page {
 }
 
 /* =========================================================
-   BLOG INDEX CARD POLISH PATCH
-   현재 생성되는 카드 마크업(.blog-card-cover / .blog-card-title / .blog-card-summary)
-   기준으로 목록 카드 디자인을 정리하는 패치입니다.
-   blog.css 맨 아래에 그대로 붙여넣으세요.
+   BLOG INDEX CARD — CURRENT MARKUP
+   #blogGrid > article.blog-card > a > img + time + h2 + p
    ========================================================= */
 
-.blog-grid {
+#blogGrid.blog-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
+  gap: 24px;
   align-items: stretch;
 }
 
-.blog-card {
+#blogGrid .blog-card {
   position: relative;
   display: flex;
-  flex-direction: column;
+  min-width: 0;
   min-height: 100%;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(226, 232, 240, 0.96);
-  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
   overflow: hidden;
-  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
 }
 
-.blog-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(37, 99, 235, 0.18);
-  box-shadow: 0 28px 64px rgba(15, 23, 42, 0.14);
-}
-
-.blog-card-cover {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: linear-gradient(135deg, #dbeafe, #f8fbff);
-}
-
-.blog-card-cover::after {
-  content: "";
+#blogGrid .blog-card::before {
+  content: attr(data-category);
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(15, 23, 42, 0) 55%, rgba(15, 23, 42, 0.08) 100%);
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.78);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.16);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   pointer-events: none;
 }
 
-.blog-card-cover img {
+#blogGrid .blog-card:hover {
+  transform: translateY(-5px);
+  border-color: #bfdbfe;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.12);
+}
+
+#blogGrid .blog-card > a {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+#blogGrid .blog-card > a > img {
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  flex: 0 0 auto;
   object-fit: cover;
   object-position: center;
-  transform: scale(1);
-  transition: transform .5s ease;
+  background: #e2e8f0;
+  transition: transform .42s ease;
 }
 
-.blog-card:hover .blog-card-cover img {
-  transform: scale(1.04);
+#blogGrid .blog-card:hover > a > img {
+  transform: scale(1.025);
 }
 
-.blog-card-body {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  gap: 16px;
-  padding: 24px 24px 22px;
-}
-
-.blog-card-topline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.blog-card-category {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 11px;
-  border-radius: 999px;
-  background: #eff6ff;
-  color: var(--blog-primary);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-.blog-card-date {
+#blogGrid .blog-card > a > time {
+  display: block;
+  margin: 18px 20px 0;
   color: #64748b;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1.3;
 }
 
-.blog-card-title {
-  margin: 0;
-}
-
-.blog-card-title a {
+#blogGrid .blog-card > a > h2 {
   display: -webkit-box;
+  min-height: calc(1.42em * 2);
+  margin: 9px 20px 0;
   overflow: hidden;
   color: #0f172a;
-  text-decoration: none;
-  font-size: 21px;
-  line-height: 1.38;
-  letter-spacing: -0.03em;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 850;
+  line-height: 1.42;
+  letter-spacing: -0.035em;
   word-break: keep-all;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 
-.blog-card-title a:hover {
-  color: #1d4ed8;
-}
-
-.blog-card-summary {
-  margin: 0;
-  color: #475569;
-  font-size: 16px;
-  line-height: 1.78;
-  word-break: keep-all;
-
+#blogGrid .blog-card > a > p {
   display: -webkit-box;
+  min-height: calc(1.68em * 3);
+  margin: 11px 20px 0;
   overflow: hidden;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  min-height: calc(1.78em * 4);
-}
-
-.blog-card-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid #eef2f7;
-}
-
-.blog-card-actions .blog-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: auto;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--blog-primary);
-  box-shadow: none;
+  color: #526071;
   font-size: 15px;
+  line-height: 1.68;
+  letter-spacing: -0.015em;
+  word-break: keep-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+#blogGrid .blog-card > a::after {
+  content: "자세히 보기  →";
+  display: block;
+  margin: auto 20px 19px;
+  padding-top: 15px;
+  border-top: 1px solid #eef2f7;
+  color: #2563eb;
+  font-size: 14px;
   font-weight: 800;
-  text-decoration: none;
+  line-height: 1.3;
 }
 
-.blog-card-actions .blog-card-link::after {
-  content: "→";
-  transform: translateX(0);
-  transition: transform .2s ease;
-}
-
-.blog-card:hover .blog-card-actions .blog-card-link::after {
-  transform: translateX(3px);
-}
-
-.blog-card-actions .blog-card-link:hover {
-  color: #1d4ed8;
+#blogGrid .blog-card > a:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: -3px;
+  border-radius: 22px;
 }
 
 @media (max-width: 1100px) {
-  .blog-grid {
+  #blogGrid.blog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
+    gap: 20px;
   }
 }
 
-@media (max-width: 768px) {
-  .blog-grid {
+@media (max-width: 720px) {
+  #blogGrid.blog-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    gap: 16px;
   }
 
-  .blog-card {
-    border-radius: 24px;
+  #blogGrid .blog-card {
+    border-radius: 18px;
   }
 
-  .blog-card-cover {
-    aspect-ratio: 16 / 9;
+  #blogGrid .blog-card::before {
+    top: 12px;
+    left: 12px;
   }
 
-  .blog-card-body {
-    padding: 20px 20px 18px;
-    gap: 14px;
+  #blogGrid .blog-card > a > time {
+    margin: 16px 18px 0;
   }
 
-  .blog-card-title a {
-    font-size: 19px;
-  }
-
-  .blog-card-summary {
-    font-size: 15px;
+  #blogGrid .blog-card > a > h2 {
     min-height: auto;
-    -webkit-line-clamp: 5;
+    margin: 8px 18px 0;
+    font-size: 19px;
+    line-height: 1.4;
+  }
+
+  #blogGrid .blog-card > a > p {
+    min-height: auto;
+    margin: 10px 18px 0;
+    font-size: 15px;
+    line-height: 1.64;
+    -webkit-line-clamp: 3;
+  }
+
+  #blogGrid .blog-card > a::after {
+    margin: 16px 18px 17px;
+    padding-top: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #blogGrid .blog-card,
+  #blogGrid .blog-card > a > img {
+    transition: none;
+  }
+
+  #blogGrid .blog-card:hover {
+    transform: none;
+  }
+
+  #blogGrid .blog-card:hover > a > img {
+    transform: none;
   }
 }
