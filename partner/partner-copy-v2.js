@@ -160,6 +160,60 @@ function updateGalleryHeading(){
  }
 }
 
+function renderEligibilitySection(){
+ const section=document.getElementById('partner-check');
+ const content=section&&section.querySelector('.impact-content');
+ if(!section||!content)return;
+
+ if(!document.getElementById('partnerEligibilityStyle')){
+  const style=document.createElement('style');
+  style.id='partnerEligibilityStyle';
+  style.textContent='\
+#partner-check{min-height:auto;padding:112px 0;background:linear-gradient(135deg,#f6f9ff 0%,#eef3ff 52%,#f8f4ff 100%)}\
+#partner-check .impact-content{max-width:980px}\
+.partner-eligibility-lead{margin-top:20px!important;color:#4f6178!important;font-size:clamp(18px,2vw,23px)!important;font-weight:800!important}\
+.partner-eligibility-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:100%;max-width:860px;margin-top:42px}\
+.partner-eligibility-card{position:relative;display:flex;align-items:center;gap:18px;min-height:150px;padding:28px;border:1px solid rgba(47,115,255,.14);border-radius:24px;background:#fff;text-align:left;box-shadow:0 20px 58px rgba(24,67,145,.10)}\
+.partner-eligibility-number{display:grid;place-items:center;width:58px;height:58px;flex:0 0 58px;border-radius:18px;background:linear-gradient(135deg,#2f73ff,#705cff);color:#fff;font-size:18px;font-weight:950;box-shadow:0 12px 28px rgba(47,115,255,.24)}\
+.partner-eligibility-card strong{display:block;color:#0b1524;font-size:clamp(22px,2.2vw,30px);font-weight:950;letter-spacing:-.045em;line-height:1.2}\
+.partner-eligibility-card p{margin:8px 0 0!important;color:#64748b!important;font-size:15px!important;font-weight:750!important;line-height:1.5!important}\
+.partner-eligibility-answer{display:flex;align-items:center;justify-content:center;width:100%;max-width:860px;min-height:92px;margin-top:18px;padding:22px 28px;border-radius:24px;background:linear-gradient(135deg,#245fe8 0%,#654fe9 100%);color:#fff;font-size:clamp(24px,3vw,38px);font-weight:950;letter-spacing:-.055em;box-shadow:0 20px 48px rgba(59,72,200,.24)}\
+@media(max-width:700px){#partner-check{padding:84px 0}.partner-eligibility-grid{grid-template-columns:1fr;gap:12px;margin-top:30px}.partner-eligibility-card{min-height:118px;padding:20px;border-radius:20px;gap:15px}.partner-eligibility-number{width:50px;height:50px;flex-basis:50px;border-radius:15px}.partner-eligibility-card strong{font-size:23px}.partner-eligibility-card p{font-size:14px!important}.partner-eligibility-answer{min-height:78px;margin-top:12px;padding:18px 20px;border-radius:20px;font-size:27px}}';
+  document.head.appendChild(style);
+ }
+
+ section.classList.add('partner-eligibility-section');
+ const label=content.querySelector('.section-label');
+ const title=content.querySelector('h2');
+ if(label)label.textContent='가입 조건';
+ if(title)title.innerHTML='가입 조건은<br /><span class="accent-text">아주 간단합니다</span>';
+ content.querySelectorAll('.partner-eligibility-lead,.partner-eligibility-grid,.partner-eligibility-answer').forEach((element)=>element.remove());
+
+ const lead=document.createElement('p');
+ lead.className='partner-eligibility-lead reveal-item';
+ lead.textContent='아래 두 가지 조건만 충족하면 됩니다';
+
+ const grid=document.createElement('div');
+ grid.className='partner-eligibility-grid reveal-item';
+ grid.innerHTML='\
+  <article class="partner-eligibility-card">\
+   <span class="partner-eligibility-number">01</span>\
+   <div><strong>19세 이상 성인</strong><p>성인이면 누구나 신청할 수 있습니다</p></div>\
+  </article>\
+  <article class="partner-eligibility-card">\
+   <span class="partner-eligibility-number">02</span>\
+   <div><strong>해외여행에 결격사유가 없는 분</strong><p>해외 출국이 가능한 분이면 됩니다</p></div>\
+  </article>';
+
+ const answer=document.createElement('div');
+ answer.className='partner-eligibility-answer reveal-item';
+ answer.textContent='즉, 두 조건만 충족하면 누구나 가능합니다!';
+
+ title.insertAdjacentElement('afterend',lead);
+ lead.insertAdjacentElement('afterend',grid);
+ grid.insertAdjacentElement('afterend',answer);
+}
+
 function removeDecorativePeriods(){
  const selector=[
   '.hero-center h1',
@@ -232,6 +286,7 @@ function applyPartnerCopy(){
  renderWhatWeDoCards();
  removePersonalPage();
  updateGalleryHeading();
+ renderEligibilitySection();
  removeDecorativePeriods();
  renderKakaoConsultButton();
  window.setTimeout(renderBenefitImages,0);
