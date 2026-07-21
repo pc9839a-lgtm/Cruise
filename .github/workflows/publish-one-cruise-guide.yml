@@ -1,0 +1,323 @@
+name: Publish one cruise guide
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-one-cruise-guide.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.event.head_commit.message == 'Run one-time cruise content publisher'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish and validate one guide
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from difflib import SequenceMatcher
+          import html
+          import json
+          import re
+          import sys
+
+          TODAY = "2026-07-21"
+          DISPLAY_DATE = "2026.07.21"
+          RSS_DATE = "Tue, 21 Jul 2026 08:00:00 +0000"
+          BASE = "https://cruiseplay-dyt.pages.dev"
+          SLUG = "cruise-laundry-self-service-cost-guide"
+          CATEGORY = "여행팁"
+          TITLE = "크루즈에서 빨래는 어떻게 할까? 셀프 세탁실·세탁 서비스·비용 가이드"
+          SUMMARY = "크루즈 선사와 선박별 셀프 세탁실 유무, 세탁·건조·세제 비용, 발레 세탁 반환 시간, 마지막 날 제한과 한국에서 준비할 세탁용품을 정리했습니다."
+          TAGS = "크루즈세탁,셀프세탁실,선내세탁비용,크루즈빨래"
+          URL = f"{BASE}/blog/{SLUG}/"
+          AUTHOR = "크루즈플레이 편집팀"
+
+          root = Path.cwd()
+          meta_path = root / "content/blog-meta.json"
+          index_path = root / "blog/index.html"
+          sitemap_path = root / "sitemap.xml"
+          rss_path = root / "rss.xml"
+          feed_path = root / "feed.xml"
+          js_path = root / "assets/js/blog-index.js"
+          robots_path = root / "robots.txt"
+          sitemap_google_path = root / "sitemap-google.xml"
+          partner_path = root / "partner/index.html"
+
+          required = [meta_path, index_path, sitemap_path, rss_path, feed_path, js_path,
+                      robots_path, sitemap_google_path, partner_path]
+          missing = [str(p.relative_to(root)) for p in required if not p.exists()]
+          if missing:
+              raise SystemExit("필수 파일 누락: " + ", ".join(missing))
+
+          meta = json.loads(meta_path.read_text(encoding="utf-8"))
+          posts = meta.get("posts", [])
+          if not isinstance(posts, list) or not posts:
+              raise SystemExit("blog-meta.json posts가 비어 있음")
+          before_count = len(posts)
+
+          todays = [p for p in posts if p.get("published_at") == TODAY]
+          if todays:
+              raise SystemExit("당일 작성 글이 이미 존재함: " + ", ".join(p.get("slug", "") for p in todays))
+
+          def normalize(value):
+              return re.sub(r"[^0-9a-z가-힣]+", "", str(value).lower())
+
+          stopwords = {"크루즈", "가이드", "어떻게", "할까", "확인", "준비", "여행", "선내"}
+          def token_set(value):
+              words = re.findall(r"[0-9a-z가-힣]{2,}", str(value).lower())
+              return {w for w in words if w not in stopwords}
+
+          candidate_norm = normalize(TITLE + " " + SUMMARY)
+          candidate_tokens = token_set(TITLE + " " + SUMMARY + " " + TAGS)
+          comparisons = []
+          for post in posts:
+              existing_text = " ".join(str(post.get(k, "")) for k in ("title", "summary", "tag_text"))
+              ratio = SequenceMatcher(None, candidate_norm, normalize(existing_text)).ratio()
+              existing_tokens = token_set(existing_text)
+              union = candidate_tokens | existing_tokens
+              jaccard = len(candidate_tokens & existing_tokens) / len(union) if union else 0
+              comparisons.append((max(ratio, jaccard), ratio, jaccard, post.get("slug", ""), post.get("title", "")))
+          comparisons.sort(reverse=True)
+          best = comparisons[0]
+          if best[0] >= 0.70:
+              raise SystemExit(f"중복 기준 초과: {best[3]} score={best[0]:.3f}")
+          if any(p.get("slug") == SLUG for p in posts):
+              raise SystemExit("slug 중복")
+          if any(p.get("title") == TITLE for p in posts):
+              raise SystemExit("제목 중복")
+
+          page_titles = []
+          for page in sorted((root / "blog").glob("*/index.html")):
+              text = page.read_text(encoding="utf-8", errors="replace")
+              match = re.search(r"<h1[^>]*>(.*?)</h1>", text, re.S | re.I)
+              if match:
+                  page_titles.append(re.sub(r"<[^>]+>", "", match.group(1)).strip())
+          for old_title in page_titles:
+              ratio = SequenceMatcher(None, normalize(TITLE), normalize(old_title)).ratio()
+              if ratio >= 0.70:
+                  raise SystemExit(f"기존 상세페이지 제목과 중복: {old_title} ({ratio:.3f})")
+
+          used_images = {p.get("thumbnail_url", "") for p in posts}
+          image_candidates = [
+              "https://images.unsplash.com/photo-1545173168-9f1947eebb7f?q=80&w=1600&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?q=80&w=1600&auto=format&fit=crop",
+              "https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?q=80&w=1600&auto=format&fit=crop",
+          ]
+          IMAGE = next((u for u in image_candidates if u not in used_images), None)
+          if not IMAGE:
+              raise SystemExit("사용 가능한 고유 세탁 이미지 URL이 없음")
+
+          sort_values = [p.get("sort_order") for p in posts if isinstance(p.get("sort_order"), (int, float))]
+          new_sort_order = int(min(sort_values) - 1) if sort_values else -1
+          new_post = {
+              "slug": SLUG,
+              "category": CATEGORY,
+              "title": TITLE,
+              "summary": SUMMARY,
+              "thumbnail_url": IMAGE,
+              "tag_text": TAGS,
+              "published_at": TODAY,
+              "updated_at": TODAY,
+              "sort_order": new_sort_order,
+          }
+
+          related = [
+              ("cruise-prohibited-items-power-strip-guide", "멀티탭·다리미·드론 반입금지 확인"),
+              ("cruise-packing-by-season", "계절별 크루즈 짐 싸기"),
+              ("extra-cruise-costs", "예약금 외 추가 비용 확인"),
+          ]
+          for rel_slug, _ in related:
+              if not (root / "blog" / rel_slug / "index.html").exists():
+                  raise SystemExit(f"관련 내부링크 대상 누락: {rel_slug}")
+
+          page_template = r'''<!DOCTYPE html><html lang="ko" class="blog-page blog-post-page"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>__TITLE__ | 크루즈플레이</title><meta name="description" content="__SUMMARY__" /><meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" /><meta name="author" content="크루즈플레이 편집팀" /><link rel="canonical" href="__URL__" /><meta property="og:locale" content="ko_KR" /><meta property="og:type" content="article" /><meta property="og:site_name" content="크루즈플레이" /><meta property="og:title" content="__TITLE__ | 크루즈플레이" /><meta property="og:description" content="__SUMMARY__" /><meta property="og:url" content="__URL__" /><meta property="og:image" content="__IMAGE_HTML__" /><meta property="article:published_time" content="2026-07-21" /><meta property="article:modified_time" content="2026-07-21" /><link rel="preconnect" href="https://cdn.jsdelivr.net" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" /><link rel="stylesheet" href="/assets/css/styles.css" /><link rel="stylesheet" href="/assets/css/blog.css" /><style>.post-wrap{max-width:980px;margin:0 auto;padding:44px 20px 90px}.post-card{background:#fff;border:1px solid #e5e7eb;border-radius:28px;box-shadow:0 20px 70px rgba(15,23,42,.08);overflow:hidden}.post-head{padding:42px 42px 24px}.post-chip{display:inline-flex;align-items:center;padding:7px 13px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:13px;font-weight:800}.post-title{margin:18px 0 14px;font-size:42px;line-height:1.18;letter-spacing:-.04em;color:#0f172a}.post-summary{font-size:18px;line-height:1.75;color:#475569}.post-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;color:#64748b;font-size:14px}.post-cover{height:360px;background:#e5e7eb;overflow:hidden}.post-cover img{width:100%;height:100%;object-fit:cover;display:block}.post-body{padding:42px;line-height:1.9;color:#1f2937;font-size:17px}.post-body h2{margin:46px 0 16px;font-size:28px;line-height:1.35;letter-spacing:-.03em;color:#111827}.post-body h3{margin:28px 0 10px;font-size:21px;color:#111827}.post-body p{margin:0 0 18px}.post-body ul,.post-body ol{margin:10px 0 24px;padding-left:22px}.post-body li{margin:8px 0}.post-body blockquote{margin:24px 0;padding:20px 22px;border-left:4px solid #2563eb;background:#f8fafc;border-radius:16px;color:#334155;font-weight:700}.post-toc,.post-note,.post-sources{border:1px solid #dbeafe;background:#f8fbff;border-radius:22px;padding:22px;margin:28px 0}.post-toc a,.post-sources a{color:#1e3a8a;text-decoration:none;word-break:break-all}.post-note{border-color:#fde68a;background:#fffbeb}.post-table{width:100%;border-collapse:separate;border-spacing:0;margin:22px 0;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden}.post-table th,.post-table td{padding:15px 16px;border-bottom:1px solid #e5e7eb;vertical-align:top}.post-table th{background:#f8fafc;color:#0f172a;text-align:left}.post-table tr:last-child td{border-bottom:0}.post-check{margin:24px 0;padding:22px;border:1px solid #cbd5e1;border-radius:20px;background:#fff}.post-cta{margin-top:46px;padding:26px;border-radius:24px;background:#0f172a;color:#fff}.post-cta h2{color:#fff;margin-top:0}.post-cta p{color:#dbeafe}.post-cta a{display:inline-flex;margin-top:10px;background:#fff;color:#0f172a;border-radius:999px;padding:12px 18px;font-weight:800;text-decoration:none}.post-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}.post-tags span{background:#f1f5f9;color:#334155;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}.post-related{margin-top:38px}.post-related h2{margin-top:0}.post-related-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.post-related-grid a{border:1px solid #e5e7eb;border-radius:18px;padding:16px;text-decoration:none;color:#0f172a;background:#fff}.post-related-grid strong{display:block;line-height:1.5}.post-related-grid span{display:block;margin-top:8px;color:#64748b;font-size:13px}.site-policy-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:24px;font-size:14px}.site-policy-links a{color:#475569;text-decoration:none}@media(max-width:768px){.post-wrap{padding:24px 14px 70px}.post-head,.post-body{padding:28px 20px}.post-title{font-size:31px}.post-cover{height:230px}.post-table{font-size:14px;display:block;overflow-x:auto}.post-related-grid{grid-template-columns:1fr}}</style><script type="application/ld+json">__JSON_LD__</script></head><body class="blog-page blog-post-page"><div class="blog-shell"><header class="blog-topbar"><div class="blog-topbar-inner"><a class="blog-brand" href="/"><span class="blog-brand-dot"></span><strong>크루즈플레이</strong></a><nav class="blog-nav"><a href="/">홈</a><a href="/#schedule">추천 일정</a><a href="/blog/" class="is-current">콘텐츠</a><a href="/#reviews">여행 후기</a><a href="/#contact" class="blog-nav-cta">문의하기</a></nav></div></header><main class="post-wrap"><article class="post-card"><header class="post-head"><span class="post-chip">여행팁</span><h1 class="post-title">__TITLE__</h1><p class="post-summary">__SUMMARY__</p><div class="post-meta"><span>작성자 크루즈플레이 편집팀</span><span>게시일 2026.07.21</span><span>수정일 2026.07.21</span><span>읽는 시간 약 9분</span></div></header><div class="post-cover"><img src="__IMAGE_HTML__" alt="크루즈 여행 중 셀프 세탁실과 유료 세탁 서비스를 비교하며 옷을 정리하는 모습" width="1600" height="900" /></div><div class="post-body"><div class="post-toc"><strong>이 글에서 확인할 내용</strong><ol><li><a href="#answer">크루즈에서 빨래하는 세 가지 방식</a></li><li><a href="#compare">선사별 셀프 세탁실·유료 서비스 비교</a></li><li><a href="#cost">실제 비용과 예산 잡는 법</a></li><li><a href="#timing">맡기는 시간과 반환일 계산</a></li><li><a href="#korea">한국에서 준비할 세탁용품</a></li><li><a href="#schedule">항해 기간별 세탁 계획</a></li><li><a href="#caution">수축·이염·다리미 주의사항</a></li><li><a href="#checklist">출발 전 체크리스트</a></li></ol></div><p>크루즈에서 빨래하는 방법은 선박마다 다릅니다. 같은 선사라도 어떤 배에는 셀프 세탁실이 있고 다른 배에는 없을 수 있으며, 객실에서 직접 다리미나 스팀기를 사용하는 것은 화재 안전 때문에 금지되는 경우가 많습니다. 따라서 일반 호텔처럼 “세탁실이 당연히 있겠지”라고 생각하고 짐을 줄이면 곤란할 수 있습니다.</p><p>한국에서 출발하기 전에는 <strong>선사 이름이 아니라 실제 탑승 선박 이름</strong>을 기준으로 셀프 세탁실 유무, 세탁 봉투 가격, 반환 시간과 마지막 접수일을 확인해야 합니다. 아래 내용은 2026년 7월 21일 공식 자료를 확인해 정리했으며, 실제 항차의 앱·객실 안내문·게스트서비스 가격표가 최종 기준입니다.</p><blockquote>핵심은 세탁기가 있는지보다 “내 배에서 어떤 방식으로, 언제까지, 얼마에 맡길 수 있는지”를 확인하는 것입니다.</blockquote><h2 id="answer">1. 크루즈에서 빨래하는 세 가지 방식</h2><h3>셀프 세탁실</h3><p>승객이 세탁기와 건조기를 직접 사용하는 방식입니다. 세탁기·건조기·세제를 각각 결제하는 배가 있고, 선내 카드나 전용 토큰을 사용하는 배도 있습니다. 카니발은 대부분의 선박에 셀프 세탁실을 운영하지만 일부 신형·특정 선박에는 세탁기와 건조기가 없습니다. 프린세스는 공식 FAQ에서 셀프 세탁실과 세탁용품을 유료로 제공한다고 안내합니다.</p><h3>품목별 발레 세탁</h3><p>셔츠, 바지, 속옷 등 품목별 가격으로 세탁·프레스·드라이클리닝을 맡기는 방식입니다. 객실에 있는 세탁 봉투와 신청서를 작성하거나 객실 담당자에게 요청합니다. 흰 셔츠 한두 장이나 정장처럼 직접 세탁하기 어려운 옷에 적합하지만, 가족 빨래를 여러 벌 맡기면 총액이 빠르게 커질 수 있습니다.</p><h3>봉투 단위 세탁 패키지</h3><p>정해진 세탁 봉투에 티셔츠·속옷·양말처럼 비교적 작은 의류를 담아 고정 금액으로 맡기는 방식입니다. 로열캐리비안은 항해 중 세탁 후 접어주는 봉투형 특가를 운영하며, MSC는 객실당 최대 품목 수가 정해진 사전 구매 세탁 패키지를 안내합니다. 제공 시기와 가격은 항차별로 달라질 수 있습니다.</p><h2 id="compare">2. 선사별 셀프 세탁실과 서비스 비교</h2><table class="post-table"><thead><tr><th>선사</th><th>셀프 세탁실</th><th>공식 안내에서 확인할 핵심</th></tr></thead><tbody><tr><td>로열캐리비안</td><td>제공하지 않음</td><td>세탁·프레스·드라이클리닝과 봉투형 세탁 특가 운영. 객실 다리미 미제공</td></tr><tr><td>카니발</td><td>대부분 선박에 있음</td><td>일부 선박 제외. 세탁기·건조기·세제 비용과 카드·동전 결제 방식 확인</td></tr><tr><td>프린세스</td><td>셀프 세탁실 운영</td><td>세탁기·건조기·세탁용품과 토큰 구매 안내. 객실 내 다림질·개인 스팀기 사용 금지</td></tr><tr><td>MSC</td><td>공식 안내는 유료 세탁 서비스 중심</td><td>객실 가격표 또는 99번으로 확인. 패키지는 수거·반환 시간과 마지막 날 제한 확인</td></tr></tbody></table><div class="post-note"><strong>같은 선사라면 모두 같을까?</strong><p>아닙니다. 카니발도 셀프 세탁기가 없는 선박을 별도로 안내하고 있습니다. 예약 확인서에 표시된 선박 이름으로 공식 FAQ와 선박 편의시설을 다시 확인하세요.</p></div><h2 id="cost">3. 실제 비용은 어느 정도일까</h2><p>세탁 비용은 선사와 시점에 따라 바뀌므로 원화로 고정 예산을 잡기보다 달러 기준으로 여유를 두는 편이 안전합니다. 공식 자료에서 확인되는 예시는 다음과 같습니다.</p><ul><li><strong>카니발:</strong> 세탁기 1회 3.50달러, 건조기 1회 3.50달러, 세제·연수제 작은 상자 2달러로 안내합니다. 한 번의 완전한 세탁에 최소 9달러 정도가 들 수 있습니다.</li><li><strong>로열캐리비안:</strong> 작은 의류를 한 봉투에 담는 세탁·접기 특가를 34.99달러로 안내하지만, 제공 여부와 가격은 변경될 수 있습니다.</li><li><strong>MSC:</strong> 객실당 최대 40개 품목을 맡길 수 있는 패키지를 안내하며 실제 판매 가격은 예약 관리 화면에서 확인해야 합니다.</li><li><strong>프린세스:</strong> 셀프 세탁기·건조기·세탁용품을 소액 유료로 제공하고 메달리온으로 토큰을 구매할 수 있다고 안내합니다.</li></ul><p>한국 카드로 선내 계정을 등록했다면 세탁비도 다른 선내 구매와 함께 달러 또는 해당 선박의 선내 통화로 청구됩니다. 해외 결제 수수료와 환율을 고려해 최종 명세서를 확인하세요. 추가 비용 전체를 먼저 보고 싶다면 <a href="/blog/extra-cruise-costs/">크루즈 추가 비용 가이드</a>도 함께 확인하는 편이 좋습니다.</p><h2 id="timing">4. 맡기는 시간과 반환일을 계산하세요</h2><p>발레 세탁은 즉시 돌아오지 않습니다. 카니발의 일반 발레 서비스는 오전 9시 이전 접수 후 다음 날 오후 반환하는 방식이며, 특급 서비스는 추가 비용이 붙습니다. 프린세스는 일반적으로 48시간 이내, 특급은 당일 반환을 안내합니다. MSC 세탁 패키지는 정오 이전 수거 후 48시간 내 저녁 전 반환을 안내하고, 크루즈 마지막 날에는 서비스를 제공하지 않는다고 명시합니다.</p><p>따라서 하선 전날 입을 옷이나 공항 이동 때 필요한 옷을 마지막 순간에 맡기면 안 됩니다. 세탁 봉투에 넣기 전에 아래 세 가지를 계산하세요.</p><ol><li>오늘 접수하면 정확히 어느 날 몇 시에 돌아오는지</li><li>하선일 또는 정장 착용일보다 최소 하루 이상 여유가 있는지</li><li>특급 요금이 일반 요금보다 얼마나 비싼지</li></ol><h2 id="korea">5. 한국에서 무엇을 준비하면 좋을까</h2><table class="post-table"><thead><tr><th>준비물</th><th>가져갈 때 판단 기준</th></tr></thead><tbody><tr><td>소량 세제 또는 세제 시트</td><td>셀프 세탁실이 확인된 선박에서만 준비. 액체는 누수 방지를 위해 이중 포장</td></tr><tr><td>얼룩 제거 티슈</td><td>식사 중 생긴 작은 얼룩의 응급처치용. 섬유 변색 가능성을 먼저 확인</td></tr><tr><td>접이식 세탁망</td><td>속옷·양말 분리와 세탁물 운반에 유용</td></tr><tr><td>여분 지퍼백</td><td>젖은 수영복이나 오염된 옷을 귀국일까지 분리 보관</td></tr><tr><td>구김이 적은 옷</td><td>다리미·스팀기 반입 제한에 대비해 기능성 소재와 레이어드 중심으로 구성</td></tr></tbody></table><p>개인용 다리미나 의류 스팀기는 가져가지 않는 편이 안전합니다. 선사 공식 금지 품목에 포함될 수 있고, 보안 검색에서 보관 조치될 수 있습니다. 자세한 준비물 제한은 <a href="/blog/cruise-prohibited-items-power-strip-guide/">크루즈 반입금지 물품 가이드</a>에서 확인할 수 있습니다.</p><h2 id="schedule">6. 항해 기간별 현실적인 세탁 계획</h2><h3>3~4박 단기 크루즈</h3><p>세탁 서비스 반환을 기다리는 시간보다 여벌을 챙기는 편이 간단합니다. 속옷과 양말은 숙박일수에 하루분을 더하고, 수영복은 두 벌을 번갈아 말리는 구성이 실용적입니다.</p><h3>5~7박 크루즈</h3><p>중간 해상일 하루를 세탁일로 정하세요. 셀프 세탁실이 있다면 승객이 몰리는 저녁보다 기항지 체류 시간이나 이른 아침을 고려할 수 있습니다. 발레 세탁만 가능하다면 2~3일 차에 봉투형 특가가 나오는지 객실 안내와 앱을 확인합니다.</p><h3>8박 이상 또는 유럽 장거리 여행</h3><p>크루즈 전후 호텔 숙박까지 포함해 전체 여행일수를 계산해야 합니다. 승선 전 호텔 세탁과 선내 세탁 중 어느 쪽이 저렴하고 빠른지 비교하세요. 정장·원피스는 품목별 프레스, 속옷·티셔츠는 봉투형 세탁처럼 나누면 비용을 줄이기 쉽습니다. 계절별 옷 구성은 <a href="/blog/cruise-packing-by-season/">계절별 크루즈 짐 싸기</a>를 참고하세요.</p><h2 id="caution">7. 수축·이염과 객실 건조 주의사항</h2><ul><li>고온 건조에 약한 기능성 의류와 수영복은 세탁 신청서의 취급 조건을 확인합니다.</li><li>흰옷과 진한 색 옷은 봉투를 나누거나 객실 담당자에게 분리 가능 여부를 묻습니다.</li><li>고가 의류는 품목별 가격표와 분실·손상 보상 조건을 확인한 뒤 맡깁니다.</li><li>젖은 옷을 발코니 난간에 널지 않습니다. 바람에 날리거나 선박 안전 규정에 어긋날 수 있습니다.</li><li>객실 안에서 말릴 때는 욕실 빨랫줄 등 선박이 제공한 설비만 사용하고 통로·화재 감지 설비를 가리지 않습니다.</li></ul><h2 id="checklist">8. 출발 전 체크리스트</h2><div class="post-check"><ul><li>예약 확인서에서 정확한 선박 이름을 확인했다.</li><li>공식 FAQ 또는 선박 안내에서 셀프 세탁실 유무를 확인했다.</li><li>세탁기·건조기·세제 결제 방식이 카드인지 토큰인지 동전인지 확인했다.</li><li>발레 세탁의 일반·특급 반환 시간을 확인했다.</li><li>마지막 접수일과 하선일에 입을 옷을 따로 남겨두었다.</li><li>다리미·스팀기 반입 금지 여부를 확인했다.</li><li>세탁물 안에 현금, 영수증, 객실 카드가 없는지 확인한다.</li><li>세탁 신청서와 봉투를 제출하기 전 사진으로 남긴다.</li></ul></div><div class="post-sources"><strong>공식 자료 및 확인일</strong><ul><li><a href="https://www.royalcaribbean.com/faq/questions/onboard-laundry-guest-services" rel="noopener noreferrer">Royal Caribbean — What laundry services are available onboard?</a> · 2026년 7월 21일 확인</li><li><a href="https://help.carnival.com/app/answers/detail/a_id/1134" rel="noopener noreferrer">Carnival Cruise Line — Laundry Service</a> · 2026년 7월 21일 확인</li><li><a href="https://www.princess.com/faq/onboard-experience" rel="noopener noreferrer">Princess Cruises — Onboard Experience: Laundry Services</a> · 2026년 7월 21일 확인</li><li><a href="https://www.msccruises.com/int/manage-booking/before-you-go/laundry" rel="noopener noreferrer">MSC Cruises — Onboard Laundry Service Packages</a> · 2026년 7월 21일 확인</li></ul><p>선박별 시설, 가격, 접수 시간은 변경될 수 있습니다. 출항 직전 예약 관리 화면과 승선 후 객실 가격표를 다시 확인하세요.</p></div><div class="post-tags"><span>#크루즈세탁</span><span>#셀프세탁실</span><span>#선내세탁비용</span><span>#크루즈빨래</span></div><section class="post-related"><h2>함께 확인할 글</h2><div class="post-related-grid"><a href="/blog/cruise-prohibited-items-power-strip-guide/"><strong>크루즈 반입금지 물품 확인</strong><span>다리미·스팀기·멀티탭 규정을 확인합니다.</span></a><a href="/blog/cruise-packing-by-season/"><strong>계절별 크루즈 짐 싸기</strong><span>여행 기간과 날씨에 맞춰 옷 수량을 계산합니다.</span></a><a href="/blog/extra-cruise-costs/"><strong>크루즈 추가 비용</strong><span>세탁비를 포함한 선내 유료 항목을 정리합니다.</span></a></div></section><div class="post-cta"><h2>다른 준비 질문도 확인하세요</h2><p>비용·선실·준비물·기항지별 실전 정보를 크루즈플레이 콘텐츠에서 확인할 수 있습니다.</p><a href="/blog/">전체 크루즈 가이드 보기</a></div></div></article><nav class="site-policy-links" aria-label="사이트 정책"><a href="/about/">소개</a><a href="/editorial-policy/">편집정책</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav></main></div></body></html>'''
+
+          json_ld = {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              "headline": TITLE,
+              "description": SUMMARY,
+              "image": IMAGE,
+              "datePublished": TODAY,
+              "dateModified": TODAY,
+              "inLanguage": "ko-KR",
+              "mainEntityOfPage": URL,
+              "author": {"@type": "Organization", "name": AUTHOR},
+              "publisher": {"@type": "Organization", "name": "크루즈플레이", "url": BASE + "/"},
+          }
+          page_html = page_template
+          replacements = {
+              "__TITLE__": html.escape(TITLE),
+              "__SUMMARY__": html.escape(SUMMARY),
+              "__URL__": URL,
+              "__IMAGE_HTML__": html.escape(IMAGE, quote=True),
+              "__JSON_LD__": json.dumps(json_ld, ensure_ascii=False, separators=(",", ":")).replace("</", "<\/"),
+          }
+          for key, value in replacements.items():
+              page_html = page_html.replace(key, value)
+
+          page_dir = root / "blog" / SLUG
+          if page_dir.exists():
+              raise SystemExit("새 slug 디렉터리가 이미 존재함")
+          page_dir.mkdir(parents=True)
+          page_path = page_dir / "index.html"
+          page_path.write_text(page_html, encoding="utf-8")
+
+          posts.insert(0, new_post)
+          meta["posts"] = posts
+          meta_path.write_text(json.dumps(meta, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+          index_html = index_path.read_text(encoding="utf-8")
+          grid_marker = '<div class="blog-grid" id="blogGrid">'
+          if index_html.count(grid_marker) != 1:
+              raise SystemExit("blogGrid 마커 이상")
+          card = (
+              f'<article class="blog-card" data-category="{html.escape(CATEGORY)}">'
+              f'<a href="/blog/{SLUG}/"><img src="{html.escape(IMAGE, quote=True)}" '
+              f'alt="{html.escape(TITLE, quote=True)}" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high">'
+              f'<time>{TODAY}</time><h2>{html.escape(TITLE)}</h2><p>{html.escape(SUMMARY)}</p></a></article>'
+          )
+          index_html = index_html.replace(grid_marker, grid_marker + card, 1)
+          index_html, n_count = re.subn(
+              r'(<strong\s+id="blogResultsCount">)\d+(</strong>)',
+              lambda m: m.group(1) + str(len(posts)) + m.group(2),
+              index_html,
+              count=1,
+          )
+          if n_count != 1:
+              raise SystemExit("전체 글 수 표시 갱신 실패")
+          index_path.write_text(index_html, encoding="utf-8")
+
+          sitemap = sitemap_path.read_text(encoding="utf-8")
+          if "/partner/" in sitemap:
+              raise SystemExit("sitemap.xml에 partner 포함")
+          if URL in sitemap:
+              raise SystemExit("sitemap URL 중복")
+          sitemap_entry = f"<url><loc>{URL}</loc><lastmod>{TODAY}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>"
+          if "</urlset>" not in sitemap:
+              raise SystemExit("sitemap urlset 닫힘 태그 누락")
+          sitemap = sitemap.replace("</urlset>", sitemap_entry + "</urlset>", 1)
+          sitemap_path.write_text(sitemap, encoding="utf-8")
+
+          def update_rss(path):
+              text = path.read_text(encoding="utf-8")
+              text, changed = re.subn(r"<lastBuildDate>.*?</lastBuildDate>", f"<lastBuildDate>{RSS_DATE}</lastBuildDate>", text, count=1, flags=re.S)
+              if changed != 1:
+                  raise SystemExit(f"{path.name} lastBuildDate 갱신 실패")
+              item = (
+                  f"<item><title>{html.escape(TITLE)}</title><link>{URL}</link>"
+                  f"<guid isPermaLink=\"true\">{URL}</guid><description>{html.escape(SUMMARY)}</description>"
+                  f"<category>{html.escape(CATEGORY)}</category><dc:creator>{AUTHOR}</dc:creator><pubDate>{RSS_DATE}</pubDate></item>"
+              )
+              matches = list(re.finditer(r"<item>.*?</item>", text, flags=re.S))
+              if not matches:
+                  raise SystemExit(f"{path.name} 기존 item 없음")
+              prefix = text[:matches[0].start()]
+              old_items = [m.group(0) for m in matches if URL not in m.group(0)]
+              suffix = text[matches[-1].end():]
+              items = [item] + old_items
+              items = items[:20]
+              updated = prefix + "".join(items) + suffix
+              path.write_text(updated, encoding="utf-8")
+
+          update_rss(rss_path)
+          update_rss(feed_path)
+
+          saved_meta = json.loads(meta_path.read_text(encoding="utf-8"))
+          saved_posts = saved_meta["posts"]
+          saved_index = index_path.read_text(encoding="utf-8")
+          card_count = len(re.findall(r'<article\s+class="blog-card"\b', saved_index))
+          if card_count != len(saved_posts):
+              raise SystemExit(f"정적 카드와 메타 수 불일치: cards={card_count}, meta={len(saved_posts)}")
+          for post in saved_posts:
+              href = f'/blog/{post["slug"]}/'
+              if href not in saved_index:
+                  raise SystemExit("정적 목록 상세 URL 누락: " + href)
+          if f'href="/blog/{SLUG}/"' not in saved_index:
+              raise SystemExit("새 상세 URL 정적 링크 누락")
+          if f'data-category="{CATEGORY}"' not in card:
+              raise SystemExit("카테고리 data 속성 누락")
+          for required_link in ("/about/", "/editorial-policy/", "/privacy/", "/terms/", "/contact/"):
+              if required_link not in saved_index:
+                  raise SystemExit("blog index 정책 링크 누락: " + required_link)
+
+          js = js_path.read_text(encoding="utf-8")
+          if ".blog-card" not in js or "extractItemsFromDom" not in js:
+              raise SystemExit("blog-index.js가 DOM 정적 카드를 사용하지 않음")
+          if re.search(r"\bfetch\s*\(", js):
+              raise SystemExit("blog-index.js에서 JSON fetch 발견")
+
+          new_page = page_path.read_text(encoding="utf-8")
+          if new_page.count('<link rel="canonical"') != 1:
+              raise SystemExit("새 페이지 canonical 개수 오류")
+          if new_page.count('<meta name="robots"') != 1:
+              raise SystemExit("새 페이지 robots 개수 오류")
+          if '"@type":"BlogPosting"' not in new_page:
+              raise SystemExit("BlogPosting 구조화 데이터 누락")
+          for rel_slug, _ in related:
+              if f'/blog/{rel_slug}/' not in new_page:
+                  raise SystemExit("본문 내부링크 누락: " + rel_slug)
+
+          sitemap_check = sitemap_path.read_text(encoding="utf-8")
+          locs = re.findall(r"<loc>(.*?)</loc>", sitemap_check)
+          if len(locs) != len(set(locs)):
+              raise SystemExit("sitemap.xml 중복 URL")
+          if locs.count(URL) != 1 or "/partner/" in sitemap_check:
+              raise SystemExit("sitemap 새 URL 또는 partner 제외 검증 실패")
+
+          sitemap_google = sitemap_google_path.read_text(encoding="utf-8")
+          if f"{BASE}/sitemap.xml" not in sitemap_google or "/partner/" in sitemap_google:
+              raise SystemExit("sitemap-google.xml 인덱스 상태 오류")
+
+          robots = robots_path.read_text(encoding="utf-8")
+          if f"Sitemap: {BASE}/sitemap.xml" not in robots:
+              raise SystemExit("robots.txt sitemap 지시 누락")
+          if "Disallow: /partner/" not in robots:
+              raise SystemExit("robots.txt partner 제외 규칙 누락")
+
+          partner = partner_path.read_text(encoding="utf-8", errors="replace")
+          robots_meta = re.search(r'<meta[^>]+name=["\']robots["\'][^>]+content=["\']([^"\']+)', partner, re.I)
+          if not robots_meta or "noindex" not in robots_meta.group(1).lower() or "nofollow" not in robots_meta.group(1).lower():
+              raise SystemExit("partner noindex,nofollow 검증 실패")
+
+          for syndication in (rss_path, feed_path):
+              text = syndication.read_text(encoding="utf-8")
+              items = re.findall(r"<item>.*?</item>", text, re.S)
+              if len(items) != 20:
+                  raise SystemExit(f"{syndication.name} 최신 20개 규칙 실패: {len(items)}")
+              if URL not in items[0]:
+                  raise SystemExit(f"{syndication.name} 첫 item이 새 글이 아님")
+              if text.count(URL) != 2:
+                  raise SystemExit(f"{syndication.name} 새 URL link/guid 개수 오류")
+
+          print("PUBLISH_REPORT")
+          print(f"title={TITLE}")
+          print(f"url={URL}")
+          print(f"duplicate_best_slug={best[3]}")
+          print(f"duplicate_best_score={best[0]:.3f}")
+          print(f"cards={card_count}")
+          print(f"meta={len(saved_posts)}")
+          print("rss_items=20")
+          print("feed_items=20")
+          print("sitemap_new_url=1")
+          PY
+
+      - name: Commit validated content and remove one-time workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/publish-one-cruise-guide.yml
+          git config user.name "cruiseplay-content-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add content/blog-meta.json blog/index.html blog/cruise-laundry-self-service-cost-guide/index.html sitemap.xml rss.xml feed.xml .github/workflows/publish-one-cruise-guide.yml
+          git diff --cached --check
+          git commit -m "Publish cruise laundry service guide"
+          git push origin HEAD:main
