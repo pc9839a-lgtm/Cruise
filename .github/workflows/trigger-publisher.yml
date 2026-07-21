@@ -32,6 +32,13 @@ jobs:
           code_lines = lines[start:end]
           indent = min((len(line) - len(line.lstrip()) for line in code_lines if line.strip()), default=0)
           code = '\n'.join(line[indent:] if line.strip() else '' for line in code_lines)
+          patched = []
+          for line in code.splitlines():
+              if 'card_count = len(re.findall' in line:
+                  leading = line[:len(line) - len(line.lstrip())]
+                  line = leading + 'card_count = saved_index.count(\'<article class="blog-card"\')'
+              patched.append(line)
+          code = '\n'.join(patched)
           exec(compile(code, 'embedded-publisher.py', 'exec'))
           PY
           status=$?
