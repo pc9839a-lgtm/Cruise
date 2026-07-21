@@ -1,2 +1,2 @@
 one-time trigger for validated cruise content publication
-retry: 4
+retry: 5
