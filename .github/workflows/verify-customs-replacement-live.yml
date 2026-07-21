@@ -1,0 +1,96 @@
+name: Verify customs replacement live
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    if: github.event.pull_request.title == 'Verify customs replacement live'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          show-progress: false
+
+      - name: Verify deployed content bodies
+        shell: bash
+        run: |
+          set -euo pipefail
+          new_url="https://cruiseplay-dyt.pages.dev/blog/cruise-duty-free-customs-declaration-korea-guide/"
+          old_url="https://cruiseplay-dyt.pages.dev/blog/cruise-laundry-self-service-cost-guide/"
+          old_title="크루즈에서 빨래는 어떻게 할까? 셀프 세탁실·세탁 서비스·비용 가이드"
+          : > live-body-report.txt
+
+          new_code=$(curl -L -sS -o /tmp/new.html -w "%{http_code}" --connect-timeout 15 --max-time 30 "$new_url")
+          echo "new_status=$new_code" | tee -a live-body-report.txt
+          test "$new_code" = "200"
+          grep -Fq "크루즈 면세품은 한국 입국 때 어떻게 신고할까?" /tmp/new.html
+          grep -Fq "https://cruiseplay-dyt.pages.dev/blog/cruise-duty-free-customs-declaration-korea-guide/" /tmp/new.html
+          echo "new_title_and_canonical=PASS" | tee -a live-body-report.txt
+
+          old_code=$(curl -L -sS -o /tmp/old.html -w "%{http_code}" --connect-timeout 15 --max-time 30 "$old_url" || true)
+          echo "old_status=$old_code" | tee -a live-body-report.txt
+          if grep -Fq "$old_title" /tmp/old.html; then
+            echo "old_article_body=STILL_PRESENT" | tee -a live-body-report.txt
+            exit 1
+          fi
+          if grep -Fq "https://cruiseplay-dyt.pages.dev/blog/cruise-laundry-self-service-cost-guide/" /tmp/old.html; then
+            echo "old_canonical=STILL_PRESENT" | tee -a live-body-report.txt
+            exit 1
+          fi
+          old_page_title=$(python - <<'PY'
+          import re
+          from pathlib import Path
+          text=Path('/tmp/old.html').read_text(encoding='utf-8',errors='replace')
+          m=re.search(r'<title>(.*?)</title>',text,re.I|re.S)
+          print((m.group(1).strip() if m else 'NO_TITLE').replace('\n',' '))
+          PY
+          )
+          echo "old_response_title=$old_page_title" | tee -a live-body-report.txt
+          echo "old_article_removed=PASS" | tee -a live-body-report.txt
+
+          for url in \
+            "https://cruiseplay-dyt.pages.dev/blog/cruise-onboard-payment-guide/" \
+            "https://cruiseplay-dyt.pages.dev/blog/cruise-luggage-guide/" \
+            "https://cruiseplay-dyt.pages.dev/blog/cruise-passport-documents-check/"; do
+            code=$(curl -L -sS -o /dev/null -w "%{http_code}" --connect-timeout 15 --max-time 30 "$url")
+            test "$code" = "200"
+            echo "related_200=$url" | tee -a live-body-report.txt
+          done
+
+          curl -L -sS "https://cruiseplay-dyt.pages.dev/blog/" -o /tmp/index.html
+          grep -Fq '/blog/cruise-duty-free-customs-declaration-korea-guide/' /tmp/index.html
+          ! grep -Fq '/blog/cruise-laundry-self-service-cost-guide/' /tmp/index.html
+          curl -L -sS "https://cruiseplay-dyt.pages.dev/sitemap.xml" -o /tmp/sitemap.xml
+          test "$(grep -Fo "$new_url" /tmp/sitemap.xml | wc -l)" = "1"
+          test "$(grep -Fo "$old_url" /tmp/sitemap.xml | wc -l)" = "0"
+          curl -L -sS "https://cruiseplay-dyt.pages.dev/rss.xml" -o /tmp/rss.xml
+          grep -Fq "$new_url" /tmp/rss.xml
+          ! grep -Fq "$old_url" /tmp/rss.xml
+          echo "index_sitemap_rss=PASS" | tee -a live-body-report.txt
+          echo "LIVE_BODY_VALIDATION=PASS" | tee -a live-body-report.txt
+
+      - name: Upload live body report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: customs-replacement-live-${{ github.run_number }}
+          path: live-body-report.txt
+          retention-days: 1
+
+      - name: Remove one-time live check
+        if: success()
+        shell: bash
+        run: |
+          rm -f .github/workflows/verify-customs-replacement-live.yml
+          git config user.name "cruiseplay-content-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add .github/workflows/verify-customs-replacement-live.yml
+          git commit -m "Remove one-time customs replacement live check"
+          git push origin HEAD:main
