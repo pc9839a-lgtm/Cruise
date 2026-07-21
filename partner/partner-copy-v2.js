@@ -191,6 +191,35 @@ function removeDecorativePeriods(){
  });
 }
 
+function renderKakaoConsultButton(){
+ if(document.getElementById('partnerKakaoConsult'))return;
+
+ if(!document.getElementById('partnerKakaoConsultStyle')){
+  const style=document.createElement('style');
+  style.id='partnerKakaoConsultStyle';
+  style.textContent='\
+.partner-kakao-consult{position:fixed;right:24px;bottom:104px;z-index:9999;display:flex;align-items:center;gap:10px;min-height:58px;padding:10px 17px 10px 11px;border:1px solid rgba(25,25,25,.08);border-radius:999px;background:#fee500;color:#191919;text-decoration:none;font-family:inherit;box-shadow:0 14px 34px rgba(7,17,31,.24);transition:transform .2s ease,box-shadow .2s ease}\
+.partner-kakao-consult:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(7,17,31,.3)}\
+.partner-kakao-consult:focus-visible{outline:3px solid #fff;outline-offset:3px}\
+.partner-kakao-mark{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border-radius:50%;background:#191919;color:#fee500;font-size:18px;font-weight:950;line-height:1}\
+.partner-kakao-copy{display:flex;flex-direction:column;align-items:flex-start;gap:2px;white-space:nowrap;line-height:1.15}\
+.partner-kakao-copy strong{font-size:15px;font-weight:950;letter-spacing:-.03em}\
+.partner-kakao-copy small{font-size:11px;font-weight:750;opacity:.72}\
+@media(max-width:700px){.partner-kakao-consult{right:12px;bottom:calc(82px + env(safe-area-inset-bottom));min-height:54px;padding:9px 14px 9px 9px;gap:9px}.partner-kakao-mark{width:36px;height:36px;flex-basis:36px;font-size:17px}.partner-kakao-copy strong{font-size:14px}.partner-kakao-copy small{font-size:10px}}';
+  document.head.appendChild(style);
+ }
+
+ const button=document.createElement('a');
+ button.id='partnerKakaoConsult';
+ button.className='partner-kakao-consult';
+ button.href='https://open.kakao.com/o/sr5Qyjph';
+ button.target='_blank';
+ button.rel='noopener noreferrer';
+ button.setAttribute('aria-label','카카오톡 실시간 상담 열기');
+ button.innerHTML='<span class="partner-kakao-mark" aria-hidden="true">K</span><span class="partner-kakao-copy"><strong>실시간 상담</strong><small>카카오톡으로 바로 문의</small></span>';
+ document.body.appendChild(button);
+}
+
 function renderBenefitImages(){
  renderCreditShipImage();
  renderDollarExperienceImage();
@@ -204,6 +233,7 @@ function applyPartnerCopy(){
  removePersonalPage();
  updateGalleryHeading();
  removeDecorativePeriods();
+ renderKakaoConsultButton();
  window.setTimeout(renderBenefitImages,0);
  window.setTimeout(renderBenefitImages,250);
  window.setTimeout(renderBenefitImages,800);
