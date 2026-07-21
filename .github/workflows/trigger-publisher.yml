@@ -16,19 +16,36 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          show-progress: false
+
       - name: Execute embedded publisher
+        id: publisher
         shell: bash
         run: |
-          python - <<'PY'
+          set +e
+          python - <<'PY' > publisher.log 2>&1
           from pathlib import Path
           source = Path('.github/workflows/publish-one-cruise-guide.yml').read_text(encoding='utf-8')
-          marker = "          python - <<'PY'\n"
-          start = source.index(marker) + len(marker)
-          end = source.index("\n          PY\n", start)
-          code = "\n".join(line[10:] if line.startswith("          ") else line for line in source[start:end].splitlines())
+          lines = source.splitlines()
+          start = next(i for i, line in enumerate(lines) if line.strip() == "python - <<'PY'") + 1
+          end = next(i for i in range(start, len(lines)) if lines[i].strip() == 'PY')
+          code_lines = lines[start:end]
+          indent = min((len(line) - len(line.lstrip()) for line in code_lines if line.strip()), default=0)
+          code = '\n'.join(line[indent:] if line.strip() else '' for line in code_lines)
           exec(compile(code, 'embedded-publisher.py', 'exec'))
           PY
+          status=$?
+          echo "publisher_status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Show publisher result
+        shell: bash
+        run: |
+          cat publisher.log
+          test "${{ steps.publisher.outputs.publisher_status }}" = "0"
+
       - name: Commit validated content
+        if: steps.publisher.outputs.publisher_status == '0'
         shell: bash
         run: |
           rm -f .github/workflows/publish-one-cruise-guide.yml .github/workflows/trigger-publisher.yml
