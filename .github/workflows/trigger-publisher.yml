@@ -1,0 +1,40 @@
+name: Trigger cruise publisher
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: github.event.pull_request.title == 'Run cruise content publisher'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Execute embedded publisher
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          source = Path('.github/workflows/publish-one-cruise-guide.yml').read_text(encoding='utf-8')
+          marker = "          python - <<'PY'\n"
+          start = source.index(marker) + len(marker)
+          end = source.index("\n          PY\n", start)
+          code = "\n".join(line[10:] if line.startswith("          ") else line for line in source[start:end].splitlines())
+          exec(compile(code, 'embedded-publisher.py', 'exec'))
+          PY
+      - name: Commit validated content
+        shell: bash
+        run: |
+          rm -f .github/workflows/publish-one-cruise-guide.yml .github/workflows/trigger-publisher.yml
+          git config user.name "cruiseplay-content-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add content/blog-meta.json blog/index.html blog/cruise-laundry-self-service-cost-guide/index.html sitemap.xml rss.xml feed.xml .github/workflows/publish-one-cruise-guide.yml .github/workflows/trigger-publisher.yml
+          git diff --cached --check
+          git commit -m "Publish cruise laundry service guide"
+          git push origin HEAD:main
