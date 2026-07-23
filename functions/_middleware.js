@@ -13,6 +13,7 @@ const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 .hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
+#partnerKakaoConsult,.partner-kakao-consult{display:none!important}
 </style>`;
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 
