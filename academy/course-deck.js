@@ -13,6 +13,49 @@
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
   const supportsNativeMobile=document.body.classList.contains('industry-page');
 
+  const laptopFitStyle=document.createElement('style');
+  laptopFitStyle.id='academy-laptop-fit-v1';
+  laptopFitStyle.textContent=`
+@media (min-width:701px) and (max-height:860px){
+  .lesson-deck-mode .lesson-header{height:48px}
+  .lesson-deck-mode .lesson-header-inner{min-height:48px}
+  .lesson-deck{inset:48px 0 0}
+  .lesson-deck-slide-frame{align-items:flex-start;padding:8px 18px 62px}
+  .lesson-deck-slide-hero .lesson-hero-inner{padding:30px 24px 72px}
+  .lesson-deck-slide-hero .lesson-hero h1{font-size:clamp(46px,9vh,82px)}
+  .ppt-section{
+    width:min(1120px,calc((100dvh - 110px) * 1.7777),calc(100vw - 36px))!important;
+    max-height:calc(100dvh - 110px);
+    padding:clamp(20px,4vh,34px) clamp(26px,3.6vw,46px)!important;
+    border-radius:24px!important;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    justify-content:flex-start;
+    scrollbar-width:thin;
+  }
+  .ppt-head{margin-bottom:clamp(14px,2.4vh,24px)}
+  .ppt-head h2,.ppt-copy h2,.ppt-photo-copy h2,.ppt-end-slide h2{
+    font-size:clamp(30px,5.8vh,50px)!important;
+    line-height:1.04!important;
+  }
+  .ppt-metric-grid article,.ppt-four-grid article,.ppt-warning-grid article,.ppt-plan-grid article{min-height:0}
+  .ppt-number-compare article{min-height:180px}
+  .ppt-process-row article{min-height:160px}
+  .ppt-fit-columns article{min-height:220px}
+  .ppt-question-list li{min-height:100px}
+  .lesson-deck-controls{bottom:8px}
+  .lesson-deck-hint{bottom:18px}
+}
+@media (min-width:701px) and (max-height:720px){
+  .ppt-section{max-height:calc(100dvh - 96px);padding:18px 24px!important}
+  .ppt-head h2,.ppt-copy h2,.ppt-photo-copy h2,.ppt-end-slide h2{font-size:clamp(28px,5.3vh,42px)!important}
+  .ppt-four-grid strong,.ppt-warning-grid strong{font-size:20px}
+  .ppt-four-grid span,.ppt-warning-grid span{font-size:14px}
+  .ppt-metric-grid article,.ppt-four-grid article,.ppt-warning-grid article,.ppt-plan-grid article{padding:15px 14px}
+}
+`;
+  document.head.appendChild(laptopFitStyle);
+
   document.documentElement.classList.add('lesson-deck-ready');
   document.body.classList.add('lesson-deck-mode');
 
