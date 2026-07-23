@@ -14,7 +14,7 @@
     const legs=[1,2,3].map(index=>{
       const premium=numberValue('mdLeg'+index+'Premium');
       const classic=numberValue('mdLeg'+index+'Classic');
-      const sales=(premium*500)+(classic*250);
+      const sales=(premium*500)+(classic*200);
       return {premium,classic,sales,qualified:Math.min(sales,1200)};
     });
 
