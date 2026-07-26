@@ -1,0 +1,130 @@
+/* MD~BOD leadership and recurring income table */
+.md-rank-income-table{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:24px;
+  background:rgba(255,255,255,.06);
+}
+
+.md-rank-income-row{
+  display:grid;
+  grid-template-columns:.72fr 1.02fr 1.24fr .88fr .9fr .98fr;
+  min-width:980px;
+}
+
+.md-rank-income-row>div{
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 10px;
+  border-right:1px solid rgba(255,255,255,.1);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.82);
+  font-size:14px;
+  font-weight:800;
+  line-height:1.3;
+  text-align:center;
+}
+
+.md-rank-income-row>div:first-child{
+  align-items:flex-start;
+  flex-direction:column;
+  justify-content:center;
+  padding-left:16px;
+  text-align:left;
+}
+
+.md-rank-income-row>div:last-child{
+  border-right:0;
+}
+
+.md-rank-income-row:last-child>div{
+  border-bottom:0;
+}
+
+.md-rank-income-row.head>div{
+  min-height:64px;
+  color:#fff;
+  background:rgba(47,115,255,.2);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:-.01em;
+}
+
+.md-rank-income-row b{
+  color:#9ed6ff;
+  font-size:16px;
+  font-weight:950;
+}
+
+.md-rank-income-row small{
+  display:block;
+  margin-top:3px;
+  color:rgba(255,255,255,.48);
+  font-size:9px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.md-rank-income-row strong{
+  color:#fff;
+  font-size:17px;
+  font-weight:950;
+}
+
+.md-rank-income-note{
+  margin:14px 0 0!important;
+  color:rgba(255,255,255,.64)!important;
+  font-size:13px!important;
+  font-weight:760!important;
+  line-height:1.5!important;
+  text-align:center;
+}
+
+@media(max-width:1100px){
+  .md-rank-income-table{
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+  }
+}
+
+@media(max-width:700px){
+  .md-rank-income-table{
+    margin-right:-2px;
+    border-radius:18px;
+  }
+
+  .md-rank-income-row{
+    min-width:860px;
+    grid-template-columns:.68fr .98fr 1.22fr .86fr .88fr .96fr;
+  }
+
+  .md-rank-income-row>div{
+    min-height:52px;
+    padding:8px;
+    font-size:12px;
+  }
+
+  .md-rank-income-row.head>div{
+    min-height:58px;
+    font-size:10px;
+  }
+
+  .md-rank-income-row b{
+    font-size:14px;
+  }
+
+  .md-rank-income-row small{
+    font-size:8px;
+  }
+
+  .md-rank-income-row strong{
+    font-size:15px;
+  }
+
+  .md-rank-income-note{
+    margin-top:10px!important;
+    font-size:11px!important;
+  }
+}
