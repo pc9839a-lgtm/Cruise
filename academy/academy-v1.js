@@ -14,6 +14,16 @@
     if(description)description.textContent='다음 여행비, 무료 크루즈, 해외 달러 결제 카드와 파트너 보상 혜택을 확인합니다.';
   }
 
+  function addPartnerGuideQuickLink(){
+    const grid=document.querySelector('.academy-resource-grid');
+    if(!grid||grid.querySelector('a[href="/partner/guide/"]'))return;
+    const link=document.createElement('a');
+    link.href='/partner/guide/';
+    link.innerHTML='<small>활동 방식 · 가입 조건 · 비용</small><h3>크루즈 파트너 상세 안내</h3><strong>열기 →</strong>';
+    const partnerPage=grid.querySelector('a[href="/partner/"]');
+    grid.insertBefore(link,partnerPage||null);
+  }
+
   function applyFilter(filter){
     document.querySelectorAll('[data-filter]').forEach(button=>{
       const active=button.dataset.filter===filter;
@@ -50,6 +60,7 @@
   function init(){
     root.classList.add('js-enabled');
     updateCourseCopy();
+    addPartnerGuideQuickLink();
     bindMenu();
     document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>applyFilter(button.dataset.filter)));
     applyFilter('all');
