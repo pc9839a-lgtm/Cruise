@@ -16,6 +16,10 @@
   Content-Type: application/xml; charset=UTF-8
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
+/partner-sitemap.xml
+  Content-Type: application/xml; charset=UTF-8
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
 /sitemap-2026.xml
   Content-Type: application/xml; charset=UTF-8
   Cache-Control: public, max-age=300, must-revalidate, no-transform
