@@ -1,0 +1,85 @@
+name: Verify live cruise publication
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-live-cruise-publication.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check deployed URLs and feeds
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://cruiseplay-dyt.pages.dev'
+          urls=(
+            "$base/blog/cruise-terminal-arrival-time-checkin-guide/"
+            "$base/blog/pre-cruise-flight-hotel-arrival-guide/"
+            "$base/blog/cruise-booking-name-passport-match-guide/"
+            "$base/blog/cruise-luggage-guide/"
+            "$base/blog/cruise-boarding-process/"
+            "$base/blog/"
+            "$base/sitemap.xml"
+            "$base/rss.xml"
+            "$base/feed.xml"
+          )
+
+          success=0
+          for attempt in $(seq 1 30); do
+            success=1
+            for url in "${urls[@]}"; do
+              code=$(curl -L -sS --max-time 25 -A 'CruisePlay-Publication-Validator/1.0' -o /tmp/live-body -w '%{http_code}' "$url" || true)
+              if [ "$code" != '200' ]; then
+                echo "attempt=$attempt status=$code url=$url"
+                success=0
+                break
+              fi
+            done
+            if [ "$success" = '1' ]; then break; fi
+            sleep 10
+          done
+          [ "$success" = '1' ]
+
+          curl -L -fsS -A 'CruisePlay-Publication-Validator/1.0' "$base/blog/cruise-terminal-arrival-time-checkin-guide/" -o /tmp/article.html
+          grep -Fq '크루즈 터미널에는 몇 시에 도착해야 할까?' /tmp/article.html
+          grep -Fq 'rel="canonical" href="https://cruiseplay-dyt.pages.dev/blog/cruise-terminal-arrival-time-checkin-guide/"' /tmp/article.html
+
+          curl -L -fsS -A 'CruisePlay-Publication-Validator/1.0' "$base/blog/" -o /tmp/blog.html
+          cards=$(grep -o 'class="blog-card"' /tmp/blog.html | wc -l | tr -d ' ')
+          [ "$cards" = '60' ]
+          grep -Fq 'href="/blog/cruise-terminal-arrival-time-checkin-guide/"' /tmp/blog.html
+          if grep -Fq 'fetch(' /tmp/blog.html; then exit 1; fi
+
+          curl -L -fsS -A 'CruisePlay-Publication-Validator/1.0' "$base/sitemap.xml" -o /tmp/sitemap.xml
+          grep -Fq "$base/blog/cruise-terminal-arrival-time-checkin-guide/" /tmp/sitemap.xml
+          if grep -Fq '/partner/' /tmp/sitemap.xml; then exit 1; fi
+
+          for feed in rss.xml feed.xml; do
+            curl -L -fsS -A 'CruisePlay-Publication-Validator/1.0' "$base/$feed" -o "/tmp/$feed"
+            items=$(grep -o '<item>' "/tmp/$feed" | wc -l | tr -d ' ')
+            [ "$items" = '20' ]
+            grep -Fq "$base/blog/cruise-terminal-arrival-time-checkin-guide/" "/tmp/$feed"
+          done
+
+          echo "LIVE_VALIDATION_OK urls=${#urls[@]} cards=$cards rss_items=20"
+
+      - name: Remove one-time validator
+        shell: bash
+        run: |
+          rm -f .github/workflows/verify-live-cruise-publication.yml
+          git config user.name 'cruiseplay-content-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .github/workflows/verify-live-cruise-publication.yml
+          git commit -m 'Verify live cruise publication'
+          git pull --rebase origin main
+          git push origin HEAD:main
