@@ -1,0 +1,64 @@
+name: Diagnose live cruise URLs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/diagnose-live-cruise.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Probe public deployment and record result
+        shell: bash
+        run: |
+          set -u
+          base='https://cruiseplay-dyt.pages.dev'
+          probe() {
+            local url="$1"
+            local file="$2"
+            local code
+            code=$(curl -L -sS --max-time 25 -A 'CruisePlay-Live-Check/1.0' -o "$file" -w '%{http_code}' "$url" 2>/dev/null || true)
+            if [ -z "$code" ]; then code='000'; fi
+            printf '%s' "${code: -3}"
+          }
+
+          article=$(probe "$base/blog/cruise-terminal-arrival-time-checkin-guide/" /tmp/article.html)
+          blog=$(probe "$base/blog/" /tmp/blog.html)
+          i1=$(probe "$base/blog/pre-cruise-flight-hotel-arrival-guide/" /tmp/i1.html)
+          i2=$(probe "$base/blog/cruise-booking-name-passport-match-guide/" /tmp/i2.html)
+          i3=$(probe "$base/blog/cruise-luggage-guide/" /tmp/i3.html)
+          i4=$(probe "$base/blog/cruise-boarding-process/" /tmp/i4.html)
+          sitemap=$(probe "$base/sitemap.xml" /tmp/sitemap.xml)
+          rss=$(probe "$base/rss.xml" /tmp/rss.xml)
+          feed=$(probe "$base/feed.xml" /tmp/feed.xml)
+
+          cards=0
+          rss_items=0
+          feed_items=0
+          article_ok=0
+          sitemap_ok=0
+          if [ "$article" = '200' ] && grep -Fq '크루즈 터미널에는 몇 시에 도착해야 할까?' /tmp/article.html && grep -Fq 'rel="canonical" href="https://cruiseplay-dyt.pages.dev/blog/cruise-terminal-arrival-time-checkin-guide/"' /tmp/article.html; then article_ok=1; fi
+          if [ "$blog" = '200' ]; then cards=$(grep -o 'class="blog-card"' /tmp/blog.html | wc -l | tr -d ' '); fi
+          if [ "$sitemap" = '200' ] && grep -Fq "$base/blog/cruise-terminal-arrival-time-checkin-guide/" /tmp/sitemap.xml && ! grep -Fq '/partner/' /tmp/sitemap.xml; then sitemap_ok=1; fi
+          if [ "$rss" = '200' ]; then rss_items=$(grep -o '<item>' /tmp/rss.xml | wc -l | tr -d ' '); fi
+          if [ "$feed" = '200' ]; then feed_items=$(grep -o '<item>' /tmp/feed.xml | wc -l | tr -d ' '); fi
+
+          result='FAIL'
+          if [ "$article" = '200' ] && [ "$blog" = '200' ] && [ "$i1" = '200' ] && [ "$i2" = '200' ] && [ "$i3" = '200' ] && [ "$i4" = '200' ] && [ "$sitemap" = '200' ] && [ "$rss" = '200' ] && [ "$feed" = '200' ] && [ "$article_ok" = '1' ] && [ "$cards" = '60' ] && [ "$sitemap_ok" = '1' ] && [ "$rss_items" = '20' ] && [ "$feed_items" = '20' ]; then result='OK'; fi
+
+          rm -f .github/workflows/diagnose-live-cruise.yml
+          git config user.name 'cruiseplay-content-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .github/workflows/diagnose-live-cruise.yml
+          git commit -m "Live cruise check ${result} article=${article} blog=${blog} internal=${i1}-${i2}-${i3}-${i4} sitemap=${sitemap} rss=${rss} feed=${feed} cards=${cards} items=${rss_items}-${feed_items}"
+          git pull --rebase origin main
+          git push origin HEAD:main
