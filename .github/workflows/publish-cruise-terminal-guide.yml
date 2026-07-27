@@ -1,0 +1,322 @@
+name: Publish one cruise terminal arrival guide
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-cruise-terminal-guide.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate, repair and validate publication
+        shell: bash
+        run: |
+          git pull --rebase origin main
+          cat > /tmp/publish-cruise-terminal.mjs <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const DOMAIN = 'https://cruiseplay-dyt.pages.dev';
+          const DATE = '2026-07-27';
+          const SLUG = 'cruise-terminal-arrival-time-checkin-guide';
+          const TITLE = '크루즈 터미널에는 몇 시에 도착해야 할까? 체크인 시간·지각 대응 가이드';
+          const SUMMARY = '크루즈 승선일 도착 시간 슬롯과 최종 승선 마감의 차이, 부산·해외 출발 터미널 동선, 수하물·서류 준비와 늦을 때의 대응 순서를 정리했습니다.';
+          const IMAGE = 'https://images.unsplash.com/photo-1540946485063-a40da27545f8?q=80&w=1600&auto=format&fit=crop';
+          const URL = `${DOMAIN}/blog/${SLUG}/`;
+          const AUTHOR = '크루즈플레이 편집팀';
+
+          const required = [
+            'content/blog-meta.json', 'blog/index.html', 'sitemap.xml',
+            'sitemap-google.xml', 'rss.xml', 'feed.xml', 'robots.txt',
+            'assets/js/blog-index.js'
+          ];
+          for (const file of required) {
+            if (!fs.existsSync(file)) throw new Error(`필수 파일 없음: ${file}`);
+          }
+
+          const esc = value => String(value ?? '')
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+          const xml = esc;
+          const normalize = value => String(value ?? '')
+            .toLowerCase().replace(/[^0-9a-z가-힣]+/g, '');
+          const trigrams = value => {
+            const text = normalize(value);
+            const out = new Set();
+            if (text.length < 3) { if (text) out.add(text); return out; }
+            for (let i = 0; i <= text.length - 3; i += 1) out.add(text.slice(i, i + 3));
+            return out;
+          };
+          const similarity = (a, b) => {
+            const A = trigrams(a); const B = trigrams(b);
+            if (!A.size || !B.size) return 0;
+            let common = 0;
+            for (const item of A) if (B.has(item)) common += 1;
+            return (2 * common) / (A.size + B.size);
+          };
+
+          const metaPath = 'content/blog-meta.json';
+          const meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+          if (!Array.isArray(meta.posts)) throw new Error('blog-meta posts 형식 오류');
+          if (meta.posts.length !== 57) throw new Error(`예상 기존 글 수 57, 실제 ${meta.posts.length}`);
+          if (meta.posts.some(post => post.slug === SLUG)) throw new Error('신규 slug가 이미 존재함');
+          if (meta.posts.some(post => post.published_at === DATE)) throw new Error(`${DATE} 발행 글이 이미 존재함`);
+          if (meta.posts.some(post => post.thumbnail_url === IMAGE)) throw new Error('신규 이미지가 기존 글과 중복됨');
+
+          const candidateText = `${TITLE} ${SUMMARY}`;
+          let closest = { score: 0, slug: '' };
+          for (const post of meta.posts) {
+            const score = similarity(candidateText, `${post.title ?? ''} ${post.summary ?? ''}`);
+            if (score > closest.score) closest = { score, slug: post.slug };
+          }
+          if (closest.score >= 0.70) {
+            throw new Error(`기존 글과 70% 이상 중복: ${closest.slug} ${closest.score.toFixed(3)}`);
+          }
+
+          const repairs = [
+            {
+              slug: 'cruise-casino-onboard-guide', category: '선내생활',
+              title: '크루즈 카지노는 어떻게 이용할까? 운영시간·현금·복장 가이드',
+              summary: '크루즈 카지노의 운영시간, 연령 제한, 현금과 선상계정 사용, 복장, 흡연구역, 예산 관리와 초보 이용 순서를 정리했습니다.',
+              thumbnail_url: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop',
+              tag_text: '크루즈카지노,선내카지노,카지노운영시간,선상계정',
+              published_at: '2026-07-25', updated_at: '2026-07-25', sort_order: -42
+            },
+            {
+              slug: 'cruise-spa-massage-thermal-suite-guide', category: '선내생활',
+              title: '크루즈 스파는 어떻게 이용할까? 마사지·써멀스위트·예약 가이드',
+              summary: '크루즈 스파의 마사지와 페이셜, 써멀스위트 이용권, 예약 시간, 자동 팁, 취소 조건과 상품 권유 대응 방법을 정리했습니다.',
+              thumbnail_url: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1600&auto=format&fit=crop',
+              tag_text: '크루즈스파,마사지,써멀스위트,선내예약',
+              published_at: '2026-07-25', updated_at: '2026-07-25', sort_order: -41
+            }
+          ];
+          const knownSlugs = new Set(meta.posts.map(post => post.slug));
+          for (const repair of repairs) {
+            if (!knownSlugs.has(repair.slug)) {
+              if (!fs.existsSync(`blog/${repair.slug}/index.html`)) throw new Error(`복구 대상 상세페이지 없음: ${repair.slug}`);
+              meta.posts.push(repair);
+              knownSlugs.add(repair.slug);
+            }
+          }
+
+          const newPost = {
+            slug: SLUG,
+            category: '탑승절차',
+            title: TITLE,
+            summary: SUMMARY,
+            thumbnail_url: IMAGE,
+            tag_text: '크루즈터미널,체크인시간,승선마감,크루즈지각',
+            published_at: DATE,
+            updated_at: DATE,
+            sort_order: -43
+          };
+          meta.posts.push(newPost);
+          meta.posts.sort((a, b) => Number(a.sort_order ?? 999999) - Number(b.sort_order ?? 999999));
+          if (meta.posts.length !== 60) throw new Error(`복구 후 예상 글 수 60, 실제 ${meta.posts.length}`);
+          fs.writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`);
+
+          const articleLd = JSON.stringify({
+            '@context': 'https://schema.org', '@type': 'BlogPosting',
+            headline: TITLE, description: SUMMARY, image: [IMAGE],
+            datePublished: DATE, dateModified: DATE, inLanguage: 'ko-KR',
+            author: { '@type': 'Organization', name: AUTHOR },
+            publisher: { '@type': 'Organization', name: '크루즈플레이', url: `${DOMAIN}/` },
+            mainEntityOfPage: { '@type': 'WebPage', '@id': URL }
+          }).replace(/<\//g, '<\\/');
+
+          const article = `<!doctype html>
+          <html lang="ko" class="blog-page blog-post-page">
+          <head>
+            <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+            <title>${esc(TITLE)} | 크루즈플레이</title>
+            <meta name="description" content="${esc(SUMMARY)}">
+            <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+            <meta name="author" content="${AUTHOR}">
+            <link rel="canonical" href="${URL}">
+            <meta property="og:locale" content="ko_KR"><meta property="og:type" content="article"><meta property="og:site_name" content="크루즈플레이">
+            <meta property="og:title" content="${esc(TITLE)}"><meta property="og:description" content="${esc(SUMMARY)}">
+            <meta property="og:url" content="${URL}"><meta property="og:image" content="${esc(IMAGE)}">
+            <meta property="article:published_time" content="${DATE}"><meta property="article:modified_time" content="${DATE}">
+            <link rel="preconnect" href="https://cdn.jsdelivr.net">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+            <link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/blog.css">
+            <style>
+              .post-wrap{max-width:980px;margin:0 auto;padding:44px 20px 90px}.post-card{background:#fff;border:1px solid #e5e7eb;border-radius:28px;box-shadow:0 20px 70px rgba(15,23,42,.08);overflow:hidden}.post-head{padding:42px 42px 24px}.post-chip{display:inline-flex;padding:7px 13px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:13px;font-weight:800}.post-title{margin:18px 0 14px;font-size:42px;line-height:1.18;letter-spacing:-.04em;color:#0f172a}.post-summary{font-size:18px;line-height:1.75;color:#475569}.post-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;color:#64748b;font-size:14px}.post-cover{height:360px;background:#e5e7eb;overflow:hidden}.post-cover img{width:100%;height:100%;object-fit:cover}.post-body{padding:42px;line-height:1.9;color:#1f2937;font-size:17px}.post-body h2{margin:46px 0 16px;font-size:28px;color:#111827}.post-body h3{margin:28px 0 10px;font-size:21px}.post-body p{margin:0 0 18px}.post-body ul,.post-body ol{margin:10px 0 24px;padding-left:22px}.post-body li{margin:8px 0}.post-body blockquote{margin:24px 0;padding:20px 22px;border-left:4px solid #2563eb;background:#f8fafc;border-radius:16px;font-weight:700}.post-toc,.post-note{border:1px solid #dbeafe;background:#f8fbff;border-radius:22px;padding:22px;margin:28px 0}.post-toc a{color:#1e3a8a;text-decoration:none}.post-note{border-color:#fde68a;background:#fffbeb}.post-table{width:100%;border-collapse:separate;border-spacing:0;margin:22px 0;border:1px solid #e5e7eb;border-radius:18px;overflow:hidden}.post-table th,.post-table td{padding:15px 16px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}.post-table th{background:#f8fafc}.post-cta{margin-top:46px;padding:26px;border-radius:24px;background:#0f172a;color:#fff}.post-cta h2{color:#fff;margin-top:0}.post-cta a{display:inline-flex;margin-top:10px;background:#fff;color:#0f172a;border-radius:999px;padding:12px 18px;font-weight:800;text-decoration:none}.post-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}.post-tags span{background:#f1f5f9;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700}.post-nav{display:flex;justify-content:space-between;gap:12px;margin-top:38px}.post-nav a{border:1px solid #dbe3ee;border-radius:999px;padding:12px 18px;color:#0f172a;text-decoration:none;font-weight:800}.source-list a{overflow-wrap:anywhere}.site-policy-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}.site-policy-links a{color:#475569;text-decoration:none}@media(max-width:768px){.post-wrap{padding:24px 14px 70px}.post-head,.post-body{padding:28px 20px}.post-title{font-size:31px}.post-cover{height:230px}.post-table{font-size:14px;display:block;overflow-x:auto}}
+            </style>
+            <script type="application/ld+json">${articleLd}</script>
+          </head>
+          <body class="blog-page blog-post-page"><div class="blog-shell">
+            <header class="blog-topbar"><div class="blog-topbar-inner"><a class="blog-brand" href="/"><strong>크루즈플레이</strong></a><nav class="blog-nav"><a href="/">홈</a><a href="/blog/" class="is-current">콘텐츠</a><a href="/#contact" class="blog-nav-cta">문의하기</a></nav></div></header>
+            <main class="post-wrap"><article class="post-card">
+              <header class="post-head"><span class="post-chip">탑승절차</span><h1 class="post-title">${esc(TITLE)}</h1><p class="post-summary">${esc(SUMMARY)}</p><div class="post-meta"><span>작성자 ${AUTHOR}</span><span>게시일 2026.07.27</span><span>수정일 2026.07.27</span><span>읽는 시간 약 11분</span></div></header>
+              <div class="post-cover"><img src="${esc(IMAGE)}" alt="출항 전 크루즈 터미널에 정박한 선박과 승선 동선을 확인하는 여행자" width="1600" height="900"></div>
+              <div class="post-body">
+                <div class="post-toc"><strong>이 글에서 확인할 내용</strong><ol><li><a href="#times">도착 슬롯·최종 승선·출항 시각의 차이</a></li><li><a href="#arrival">터미널 도착 시간을 정하는 방법</a></li><li><a href="#korea">부산 등 한국 출발 때의 동선</a></li><li><a href="#overseas">해외 출발 때 항공편과 숙박 기준</a></li><li><a href="#late">예약 시간보다 늦을 때 대응</a></li><li><a href="#documents">서류와 수하물 준비</a></li><li><a href="#checklist">승선일 체크리스트</a></li></ol></div>
+                <p>크루즈 승선 안내서에는 여러 시간이 함께 표시됩니다. 터미널 도착 시간, 체크인 마감, 최종 승선 시간, 선박 출항 시간은 서로 같은 뜻이 아닙니다. 가장 위험한 실수는 출항 시각만 보고 그 직전까지 터미널에 도착하면 된다고 생각하는 것입니다.</p>
+                <p>선사는 출항 전 승객 명단 제출, 여권과 비자 확인, 보안검색, 출국심사, 수하물 탁송과 비상훈련 준비를 마쳐야 합니다. 따라서 승객에게 지정된 시간은 단순 권장 시간이 아니라 터미널 혼잡과 수속 마감을 반영한 운영 기준입니다. 선사 앱이나 보딩패스에 적힌 시간을 우선하고, 여행사에서 별도 집결 시간을 안내했다면 더 빠르더라도 그 시간을 따라야 합니다.</p>
+                <blockquote>출항 시각이 아니라 보딩패스의 도착 슬롯과 최종 승선 마감 시간을 기준으로 움직여야 합니다.</blockquote>
+
+                <h2 id="times">1. 도착 슬롯·최종 승선·출항 시간을 구분한다</h2>
+                <table class="post-table"><thead><tr><th>표시</th><th>의미</th><th>여행자가 할 일</th></tr></thead><tbody><tr><td>Arrival time·도착 슬롯</td><td>터미널에 들어와 체크인을 시작하도록 배정된 시간대</td><td>가능하면 해당 시간대 안에 도착하고 지나치게 일찍 줄을 서지 않는다.</td></tr><tr><td>Final boarding·최종 승선</td><td>수속을 끝내고 실제 선박 안에 있어야 하는 마감</td><td>이 시각을 넘기면 출항 전이라도 탑승이 거절될 수 있다.</td></tr><tr><td>Sailing time·출항</td><td>선박이 부두를 떠나는 예정 시각</td><td>터미널 도착 목표로 사용하지 않는다.</td></tr></tbody></table>
+                <p>로열캐리비안은 앱 체크인 때 선택한 도착 시간에 터미널로 오도록 안내합니다. 너무 일찍 도착하면 바로 탑승하지 못할 수 있고, 늦게 도착하면 수용 가능한 다음 그룹까지 기다릴 수 있습니다. 별도로 온라인 체크인 안내에서는 예정 출항 90분 전까지 체크인을 마쳐야 하며 늦으면 승선이 거절될 수 있다고 설명합니다. 실제 항만 운영시간과 마감은 항차마다 달라질 수 있으므로 보딩패스를 다시 확인해야 합니다.</p>
+                <p>카니발도 온라인 체크인 과정에서 Arrival Appointment를 선택하도록 하며, 예약 시간 전후에 도착하면 대기시간이 길어질 수 있다고 안내합니다. 그러나 예약 슬롯보다 늦었다고 해서 출항 시각까지 무조건 받아주는 것은 아닙니다. 보딩패스에 적힌 Final Boarding 시간이 절대적인 상한선입니다.</p>
+
+                <h2 id="arrival">2. 숙소 출발 시간은 도착 슬롯에서 역산한다</h2>
+                <p>가장 정확한 기준은 선사 앱이나 보딩패스에 적힌 도착 슬롯입니다. 여기에 숙소에서 터미널까지의 이동시간, 교통 지연, 터미널 입구 확인, 수하물 하차 시간을 더해 출발 시각을 정합니다. ‘항구에 도착하는 시간’과 ‘체크인 줄에 서는 시간’도 다르므로 택시 하차 지점이나 주차장 입구에서 헤매는 시간까지 잡아야 합니다.</p>
+                <h3>예시: 도착 슬롯이 12:30~13:00일 때</h3>
+                <ul><li>터미널 이동 예상 40분</li><li>주말·행사·항만 교통 여유 30분</li><li>잘못된 터미널이나 출입구를 찾는 여유 20분</li><li>수하물 하차와 동행자 합류 15분</li></ul>
+                <p>이 예시라면 숙소에서 10시 45분 전후 출발하도록 역산할 수 있습니다. 이는 계산 방법을 보여주는 예시일 뿐이며, 선사나 여행사가 더 이른 집결 시간을 지정하면 해당 안내가 우선입니다.</p>
+                <div class="post-note"><strong>중요:</strong> 같은 항구에서도 선박 크기, 출항일, 단체 승객 수와 보안 절차에 따라 체크인 시간이 달라집니다. 인터넷 후기에서 본 시간을 자신의 예약에 그대로 적용하지 마세요.</div>
+
+                <h2 id="korea">3. 부산 등 한국 출발은 터미널 전체 이름을 확인한다</h2>
+                <p>한국 출발 상품이라고 해서 모두 같은 건물에서 수속하는 것은 아닙니다. 부산항에는 부산항 국제여객터미널과 크루즈 선석이 있으므로 예약확인서에 적힌 터미널 명칭과 주소를 확인해야 합니다. 택시 기사에게 ‘부산항’만 말하지 말고 터미널 전체 명칭과 선박명을 함께 보여주는 편이 안전합니다.</p>
+                <p>부산항 국제여객터미널에는 선사 수속 공간과 세관·출입국·검역 절차를 위한 시설이 있습니다. 현장에서는 일반적으로 수하물 위탁, 예약 확인, 여권과 승선서류 확인, 보안검색과 출국심사, 탑승 대기 순으로 이동합니다. 크루즈 전세편이나 여행사 단체 상품은 선사 체크인 전에 인솔자 미팅과 명찰·서류 배부가 추가될 수 있습니다.</p>
+                <ul><li>예약확인서에서 정확한 터미널과 집결 장소 확인</li><li>여행사 단체는 선사 체크인 시간보다 집결 시간이 빠를 수 있음</li><li>여권은 캐리어가 아닌 휴대가방에 보관</li><li>수하물 태그는 집에서 출력했더라도 여분을 준비</li><li>주차 이용자는 다중 입항일과 행사일 혼잡을 고려</li></ul>
+                <p>부산항만공사의 국제여객선 출국 안내에는 터미널 혼잡을 고려해 출항 2시간 전 도착하도록 설명된 사례가 있습니다. 다만 크루즈는 선사와 항차별 수속 방식이 다르므로 ‘항상 출항 2시간 전’으로 단순화하지 말고 자신의 보딩패스와 여행사 안내를 최종 기준으로 삼아야 합니다.</p>
+
+                <h2 id="overseas">4. 해외 출발 크루즈는 전날 도착이 안전하다</h2>
+                <p>싱가포르, 일본, 유럽이나 미국에서 출발하는 크루즈는 항공 지연이 가장 큰 변수입니다. 출항 당일 비행기를 이용하면 결항·지연, 입국심사, 수하물 지연, 공항에서 항구까지의 교통체증 중 하나만 발생해도 최종 승선 마감을 놓칠 수 있습니다. 항공권을 별도로 구매했다면 선박이 개별 승객을 기다려준다고 기대해서는 안 됩니다.</p>
+                <p>가능하면 출항지에 전날 도착해 항구 접근이 쉬운 숙소에서 묵고, 승선일 아침에는 항공 이동을 하지 않는 편이 안전합니다. 자세한 준비는 <a href="/blog/pre-cruise-flight-hotel-arrival-guide/">해외 출발 크루즈의 항공권·전날 숙박 가이드</a>에서 확인할 수 있습니다.</p>
+                <table class="post-table"><thead><tr><th>상황</th><th>권장 계획</th><th>주요 위험</th></tr></thead><tbody><tr><td>국내 도시에서 부산 출발</td><td>장거리 이동이면 전날 부산 도착 검토</td><td>열차 지연, 도로 정체, 터미널 착오</td></tr><tr><td>일본·싱가포르 출발</td><td>최소 전날 현지 도착</td><td>항공 지연, 입국심사, 공항-항구 이동</td></tr><tr><td>유럽·미주 출발</td><td>시차와 환승을 고려해 1~2일 전 도착 검토</td><td>장거리 결항, 수하물 미도착, 피로</td></tr></tbody></table>
+
+                <h2 id="late">5. 예약 시간보다 늦어지면 이동하면서 바로 연락한다</h2>
+                <p>도착 슬롯을 조금 넘겼다면 먼저 선사 앱과 보딩패스에서 최종 승선 시간을 확인합니다. 로열캐리비안은 늦게 온 승객이 수용 가능한 다음 그룹까지 기다릴 수 있다고 안내하고, 카니발도 예약 시간 전후 도착 시 대기가 길어질 수 있다고 설명합니다. 이것은 늦어도 탑승을 보장한다는 뜻이 아닙니다.</p>
+                <ol><li>현재 위치와 예상 도착시간을 계산한다.</li><li>예약한 여행사 또는 선사 긴급 연락처로 즉시 연락한다.</li><li>단체 상품이면 인솔자에게 차량 위치와 동행자 이름을 전달한다.</li><li>여권, 보딩패스와 예약번호를 손에 들고 터미널에 도착한다.</li><li>수하물 위탁이 마감되었다면 직접 들고 탈 수 있는지 현장 직원 지시에 따른다.</li></ol>
+                <p>카니발은 위탁 수하물 서비스가 예정 출항 2시간 전까지 제공된다고 안내합니다. 이후에는 승객이 짐을 직접 운반해야 할 수 있지만, 이것도 최종 승선 허용을 뜻하지 않습니다. 최종 승선 시간이 지나면 출항 전이라도 탑승이 거절될 수 있습니다.</p>
+
+                <h2 id="documents">6. 여권과 보딩패스는 캐리어에 넣지 않는다</h2>
+                <p>터미널 입구부터 서류 확인이 시작될 수 있으므로 여권, 비자 또는 입국허가 자료, 보딩패스, 예약확인서, 여행자보험 증서와 미성년자 동의서 등은 한 개의 얇은 서류가방에 모아 휴대합니다. 예약 영문명이 여권과 다르면 현장에서 바로 해결되지 않을 수 있으므로 <a href="/blog/cruise-booking-name-passport-match-guide/">예약 영문 이름과 여권 일치 확인법</a>도 출발 전에 확인해야 합니다.</p>
+                <p>객실로 보내는 캐리어는 몇 시간 뒤 도착할 수 있습니다. 첫날 필요한 약, 휴대전화 충전기, 얇은 겉옷, 수영복과 귀중품은 휴대가방에 넣으세요. 캐리어 위탁과 객실 배송 과정은 <a href="/blog/cruise-luggage-guide/">크루즈 수하물·캐리어 가이드</a>에 따로 정리되어 있습니다.</p>
+
+                <h2 id="checklist">7. 승선일 최종 체크리스트</h2>
+                <ul><li>보딩패스의 터미널 주소, 도착 슬롯과 최종 승선 시간 캡처</li><li>선사 앱 로그인과 오프라인 보딩패스 저장</li><li>여권·비자·예약서류를 모든 승객별로 확인</li><li>택시 하차 지점 또는 주차장 입구 확인</li><li>캐리어마다 이름·객실번호가 있는 수하물 태그 부착</li><li>약과 귀중품은 휴대가방에 보관</li><li>여행사·선사 긴급 연락처 저장</li><li>출발 당일 터미널 변경 공지와 문자 확인</li></ul>
+                <p>승선 절차 전체 흐름은 <a href="/blog/cruise-boarding-process/">크루즈 탑승 절차 가이드</a>에서 이어서 확인할 수 있습니다.</p>
+
+                <h2>공식 자료 확인</h2>
+                <p>아래 공식 자료를 2026년 7월 27일 확인했습니다. 선사와 항만 규정은 예약 시점과 출항지에 따라 바뀔 수 있으므로 실제 여행 전 자신의 보딩패스와 예약관리 화면을 다시 확인하세요.</p>
+                <ul class="source-list"><li><a href="https://www.royalcaribbean.com/faq/questions/cruise-ship-port-arrival-time" rel="nofollow noopener">Royal Caribbean — When should I arrive at the cruise port terminal?</a></li><li><a href="https://www.royalcaribbean.com/faq/questions/online-checkin-boarding-pass-completion" rel="nofollow noopener">Royal Caribbean — When can I check-in for my cruise?</a></li><li><a href="https://help.carnival.com/app/answers/detail/a_id/3180" rel="nofollow noopener">Carnival Cruise Line — Online Check-in and Arrival Appointment</a></li><li><a href="https://help.carnival.com/app/answers/detail/a_id/2621" rel="nofollow noopener">Carnival Cruise Line — Embarkation and Departure</a></li><li><a href="https://www.busanpa.com/index.bpa?menuCd=DOM_000000401000000000" rel="nofollow noopener">부산항만공사 — 부산항 국제여객터미널 안내</a></li><li><a href="https://www.busanpa.com/index.bpa?menuCd=DOM_000000402003000000" rel="nofollow noopener">부산항만공사 — 출국·입국 절차 안내</a></li></ul>
+
+                <div class="post-cta"><h2>다음 준비 단계</h2><p>도착 시간을 정했다면 탑승 서류와 수하물 구성을 함께 점검하세요.</p><a href="/blog/">크루즈 여행 가이드 전체 보기</a></div>
+                <div class="post-tags"><span>#크루즈터미널</span><span>#체크인시간</span><span>#승선마감</span><span>#크루즈지각</span></div>
+                <nav class="post-nav"><a href="/blog/">← 전체 글</a><a href="/blog/cruise-boarding-process/">탑승 절차 보기 →</a></nav>
+              </div>
+            </article>
+            <div class="site-policy-links"><a href="/about/">소개</a><a href="/editorial-policy/">운영정책</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">연락처</a></div>
+            </main>
+          </div></body></html>`;
+
+          fs.mkdirSync(`blog/${SLUG}`, { recursive: true });
+          fs.writeFileSync(`blog/${SLUG}/index.html`, article.replace(/^          /gm, ''));
+
+          const card = (post, index) => {
+            const priority = index < 2 ? ' fetchpriority="high"' : '';
+            const loading = index < 4 ? 'eager' : 'lazy';
+            return `<article class="blog-card" data-category="${esc(post.category)}" data-title="${esc(post.title)}" data-summary="${esc(post.summary)}" data-tags="${esc(post.tag_text)}"><a href="/blog/${esc(post.slug)}/"><img src="${esc(post.thumbnail_url)}" alt="${esc(post.title)}" width="1600" height="900" loading="${loading}" decoding="async"${priority}><time>${esc(post.published_at)}</time><h2>${esc(post.title)}</h2><p>${esc(post.summary)}</p></a></article>`;
+          };
+          const cards = meta.posts.map(card).join('');
+          const indexHtml = `<!doctype html><html lang="ko" class="blog-page"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>크루즈 여행 가이드 | 크루즈플레이</title><meta name="description" content="처음 크루즈를 준비하는 분을 위한 비용, 선실, 준비물, 기항지 정보 가이드입니다."><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="${DOMAIN}/blog/"><link rel="stylesheet" href="/assets/css/styles.css"><link rel="stylesheet" href="/assets/css/blog.css"></head><body class="blog-page"><div class="blog-shell"><header class="blog-topbar"><div class="blog-topbar-inner"><a class="blog-brand" href="/"><strong>크루즈플레이</strong></a><nav class="blog-nav"><a href="/">홈</a><a href="/blog/">콘텐츠</a><a href="/#contact">문의하기</a></nav></div></header><main class="blog-main"><div class="blog-container"><section class="blog-hero"><h1>크루즈 여행 가이드</h1><p>실제 승선 준비에서 자주 묻는 질문을 정리했습니다.</p><p>전체 글 <strong id="blogResultsCount">${meta.posts.length}</strong>개 · <a href="/editorial-policy/">콘텐츠 작성·검수 기준</a></p></section><section class="blog-section"><div class="blog-grid" id="blogGrid">${cards}</div></section></div></main><footer class="blog-footer"><div class="blog-footer-inner"><a href="/about/">소개</a> · <a href="/editorial-policy/">운영정책</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/terms/">이용약관</a> · <a href="/contact/">연락처</a></div></footer></div></body></html>`;
+          fs.writeFileSync('blog/index.html', indexHtml);
+
+          const fixedPages = [
+            ['/', DATE], ['/blog/', DATE], ['/about/', '2026-07-18'],
+            ['/editorial-policy/', '2026-07-18'], ['/contact/', '2026-07-10'],
+            ['/privacy/', '2026-07-10'], ['/terms/', '2026-07-10']
+          ];
+          const sitemapUrls = [
+            ...fixedPages.map(([url, lastmod]) => `  <url><loc>${DOMAIN}${url}</loc><lastmod>${lastmod}</lastmod></url>`),
+            ...meta.posts.map(post => `  <url><loc>${DOMAIN}/blog/${xml(post.slug)}/</loc><lastmod>${xml(post.updated_at || post.published_at)}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`)
+          ];
+          fs.writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.join('\n')}\n</urlset>\n`);
+          fs.writeFileSync('sitemap-google.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${DOMAIN}/sitemap.xml</loc><lastmod>${DATE}</lastmod></sitemap>\n</sitemapindex>\n`);
+
+          const toRfc = (date, minute) => {
+            const [year, month, day] = date.split('-').map(Number);
+            return new Date(Date.UTC(year, month - 1, day, 0, minute, 0)).toUTCString();
+          };
+          const latest = meta.posts.slice(0, 20);
+          const items = latest.map((post, index) => {
+            const link = `${DOMAIN}/blog/${post.slug}/`;
+            return `<item><title>${xml(post.title)}</title><link>${link}</link><guid isPermaLink="true">${link}</guid><description>${xml(post.summary)}</description><category>${xml(post.category)}</category><dc:creator>${AUTHOR}</dc:creator><pubDate>${toRfc(post.published_at, Math.max(0, 59 - index))}</pubDate></item>`;
+          }).join('');
+          const makeFeed = self => `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>크루즈플레이</title><link>${DOMAIN}/blog/</link><description>처음 크루즈를 준비하는 분을 위한 비용, 선실, 준비물, 기항지 정보 가이드.</description><language>ko-KR</language><lastBuildDate>${toRfc(DATE, 0)}</lastBuildDate><atom:link href="${DOMAIN}/${self}" rel="self" type="application/rss+xml"/>${items}</channel></rss>\n`;
+          fs.writeFileSync('rss.xml', makeFeed('rss.xml'));
+          fs.writeFileSync('feed.xml', makeFeed('feed.xml'));
+
+          const finalMeta = JSON.parse(fs.readFileSync(metaPath, 'utf8')).posts;
+          const finalIndex = fs.readFileSync('blog/index.html', 'utf8');
+          const finalArticle = fs.readFileSync(`blog/${SLUG}/index.html`, 'utf8');
+          const sitemap = fs.readFileSync('sitemap.xml', 'utf8');
+          const robots = fs.readFileSync('robots.txt', 'utf8');
+          const cardCount = (finalIndex.match(/class="blog-card"/g) || []).length;
+          if (cardCount !== finalMeta.length || cardCount !== 60) throw new Error(`정적 카드 불일치: ${cardCount}/${finalMeta.length}`);
+          if (finalIndex.includes('fetch(') || finalIndex.includes('<noscript>콘텐츠 목록을 보려면')) throw new Error('목록이 JS 의존 구조임');
+          for (const post of finalMeta) {
+            if (!finalIndex.includes(`href="/blog/${post.slug}/"`)) throw new Error(`정적 링크 누락: ${post.slug}`);
+            if (!fs.existsSync(`blog/${post.slug}/index.html`)) throw new Error(`상세페이지 누락: ${post.slug}`);
+          }
+          if (new Set(finalMeta.map(post => post.slug)).size !== finalMeta.length) throw new Error('slug 중복');
+          if (finalMeta.filter(post => post.published_at === DATE).length !== 1) throw new Error('당일 글 수가 1편이 아님');
+          if (sitemap.includes('/partner/')) throw new Error('사이트맵에 /partner/ 포함');
+          if (!robots.includes('Disallow: /partner/') || !robots.includes(`${DOMAIN}/sitemap.xml`)) throw new Error('robots.txt 조건 불일치');
+          if ((finalArticle.match(/rel="canonical"/g) || []).length !== 1) throw new Error('canonical 중복');
+          if ((finalArticle.match(/name="robots"/g) || []).length !== 1) throw new Error('robots meta 중복');
+          if (!finalArticle.includes('"@type":"BlogPosting"') || !finalArticle.includes(AUTHOR)) throw new Error('BlogPosting 또는 작성자 누락');
+          for (const policy of ['/about/', '/editorial-policy/', '/privacy/', '/terms/', '/contact/']) {
+            if (!finalIndex.includes(policy) || !finalArticle.includes(policy)) throw new Error(`정책 링크 누락: ${policy}`);
+          }
+          for (const internal of ['pre-cruise-flight-hotel-arrival-guide', 'cruise-booking-name-passport-match-guide', 'cruise-luggage-guide', 'cruise-boarding-process']) {
+            if (!finalArticle.includes(`/blog/${internal}/`) || !fs.existsSync(`blog/${internal}/index.html`)) throw new Error(`내부링크 검증 실패: ${internal}`);
+          }
+          for (const feed of ['rss.xml', 'feed.xml']) {
+            const text = fs.readFileSync(feed, 'utf8');
+            if ((text.match(/<item>/g) || []).length !== 20) throw new Error(`${feed} 최신 20개 실패`);
+            if (!text.includes(URL)) throw new Error(`${feed} 신규 URL 누락`);
+          }
+          console.log(`VALIDATION_OK posts=${finalMeta.length} cards=${cardCount} rss=20 duplicate_max=${closest.score.toFixed(3)} duplicate_slug=${closest.slug}`);
+          NODE
+
+          node /tmp/publish-cruise-terminal.mjs
+
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          domain = 'https://cruiseplay-dyt.pages.dev'
+          slug = 'cruise-terminal-arrival-time-checkin-guide'
+          sitemap_root = ET.parse('sitemap.xml').getroot()
+          ns = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = [node.text for node in sitemap_root.findall('sm:url/sm:loc', ns)]
+          assert len(urls) == len(set(urls)), 'duplicate sitemap URL'
+          assert f'{domain}/blog/{slug}/' in urls, 'new URL missing in sitemap'
+          assert not any('/partner/' in url for url in urls), 'partner URL in sitemap'
+          index_root = ET.parse('sitemap-google.xml').getroot()
+          assert index_root.findtext('sm:sitemap/sm:loc', namespaces=ns) == f'{domain}/sitemap.xml'
+          for feed in ('rss.xml', 'feed.xml'):
+              root = ET.parse(feed).getroot()
+              assert root.tag == 'rss'
+              assert len(root.findall('./channel/item')) == 20
+          print('XML_VALIDATION_OK')
+          PY
+
+          rm -f .github/workflows/publish-cruise-terminal-guide.yml
+          git config user.name "cruiseplay-content-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add content/blog-meta.json blog/index.html blog/cruise-terminal-arrival-time-checkin-guide/index.html sitemap.xml sitemap-google.xml rss.xml feed.xml .github/workflows/publish-cruise-terminal-guide.yml
+          git commit -m "Publish cruise terminal arrival guide"
+          git pull --rebase origin main
+          git push origin HEAD:main
