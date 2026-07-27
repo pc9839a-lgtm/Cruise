@@ -1,0 +1,33 @@
+.rank-income-live-line{
+  display:inline-flex;
+  align-items:baseline;
+  justify-content:flex-start;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.rank-income-live-krw{
+  font-size:.36em;
+  font-weight:850;
+  line-height:1.15;
+  letter-spacing:-.045em;
+  white-space:nowrap;
+}
+
+.ppt-dark .rank-income-live-krw{
+  color:rgba(255,255,255,.64);
+}
+
+.ppt-section:not(.ppt-dark) .rank-income-live-krw{
+  color:rgba(9,25,48,.58);
+}
+
+@media(max-width:700px){
+  .rank-income-live-line{
+    gap:8px;
+  }
+
+  .rank-income-live-krw{
+    font-size:.34em;
+  }
+}
