@@ -1,0 +1,29 @@
+name: Capture live blog response
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/capture-live-blog.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Capture response
+        shell: bash
+        run: |
+          curl -L -fsS --max-time 30 -A 'CruisePlay-Diagnosis/1.0' 'https://cruiseplay-dyt.pages.dev/blog/?capture=20260727' -o live-blog-response.html
+          rm -f .github/workflows/capture-live-blog.yml
+          git config user.name 'cruiseplay-content-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add live-blog-response.html .github/workflows/capture-live-blog.yml
+          git commit -m 'Capture deployed blog HTML'
+          git pull --rebase origin main
+          git push origin HEAD:main
