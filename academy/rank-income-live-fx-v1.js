@@ -3,7 +3,7 @@
 
   const endpoint = 'https://fxapi.app/api/USD/KRW.json';
   const cacheKey = 'cruiseplay.usdkrw.latest';
-  const refreshMs = 10 * 60 * 1000;
+  const refreshMs = 5 * 60 * 1000;
   const maxCacheAgeMs = 24 * 60 * 60 * 1000;
   const targets = Array.from(document.querySelectorAll('[data-live-krw]'));
 
