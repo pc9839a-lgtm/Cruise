@@ -5,10 +5,22 @@
     return Boolean(root && root.querySelector('a[href="/partner/"], a[href="/partner"]'));
   }
 
+  function hasGuideLink(root) {
+    return Boolean(root && root.querySelector('a[href="/partner/guide/"], a[href="/partner/guide"]'));
+  }
+
   function makeLink(className) {
     const link = document.createElement('a');
     link.href = '/partner/';
     link.textContent = '파트너';
+    if (className) link.className = className;
+    return link;
+  }
+
+  function makeGuideLink(className) {
+    const link = document.createElement('a');
+    link.href = '/partner/guide/';
+    link.textContent = '크루즈 파트너 활동·가입 조건';
     if (className) link.className = className;
     return link;
   }
@@ -30,13 +42,23 @@
 
   function addFooterLink() {
     const footerLinks = document.querySelector('.footer-policy-links');
-    if (footerLinks && !hasPartnerLink(footerLinks)) {
-      footerLinks.append(document.createTextNode(' · '), makeLink('partner-entry-link'));
+    if (footerLinks) {
+      if (!hasPartnerLink(footerLinks)) {
+        footerLinks.append(document.createTextNode(' · '), makeLink('partner-entry-link'));
+      }
+      if (!hasGuideLink(footerLinks)) {
+        footerLinks.append(document.createTextNode(' · '), makeGuideLink('partner-guide-entry-link'));
+      }
     }
 
     document.querySelectorAll('.blog-footer p').forEach(function (paragraph) {
-      if (!paragraph.querySelector('a') || hasPartnerLink(paragraph)) return;
-      paragraph.append(document.createTextNode(' · '), makeLink('partner-entry-link'));
+      if (!paragraph.querySelector('a')) return;
+      if (!hasPartnerLink(paragraph)) {
+        paragraph.append(document.createTextNode(' · '), makeLink('partner-entry-link'));
+      }
+      if (!hasGuideLink(paragraph)) {
+        paragraph.append(document.createTextNode(' · '), makeGuideLink('partner-guide-entry-link'));
+      }
     });
   }
 
