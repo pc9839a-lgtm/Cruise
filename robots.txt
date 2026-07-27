@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /partner/
 
 Sitemap: https://cruiseplay-dyt.pages.dev/sitemap.xml
