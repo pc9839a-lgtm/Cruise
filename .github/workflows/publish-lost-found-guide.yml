@@ -1,0 +1,329 @@
+name: Publish one cruise guide
+
+on:
+  push:
+    paths:
+      - 'automation/publish-lost-found-guide.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Publish and validate one guide
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, re, html, sys
+          import xml.etree.ElementTree as ET
+          from email.utils import format_datetime
+          from datetime import datetime, timezone
+
+          ROOT = Path('.')
+          TODAY = '2026-07-28'
+          SLUG = 'cruise-lost-and-found-item-guide'
+          TITLE = '크루즈에서 물건을 잃어버렸다면? 선내 분실물·하선 후 신고 가이드'
+          SUMMARY = '크루즈 선내에서 휴대전화·지갑·여권·가방을 잃어버렸을 때 즉시 확인할 장소, Guest Services 신고, 하선 후 온라인 접수, 해외 배송비와 여권 분실 대응 순서를 정리했습니다.'
+          CATEGORY = '여행팁'
+          IMAGE = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop'
+          URL = f'https://cruiseplay-dyt.pages.dev/blog/{SLUG}/'
+
+          required = [
+              'content/blog-meta.json','blog/index.html','sitemap.xml','sitemap-google.xml',
+              'rss.xml','feed.xml','assets/js/blog-index.js','robots.txt'
+          ]
+          for rel in required:
+              if not (ROOT/rel).exists():
+                  raise SystemExit(f'MISSING_REQUIRED_FILE:{rel}')
+
+          meta_path = ROOT/'content/blog-meta.json'
+          data = json.loads(meta_path.read_text(encoding='utf-8'))
+          posts = data.get('posts', [])
+          if not isinstance(posts, list):
+              raise SystemExit('INVALID_BLOG_META')
+          if any(p.get('slug') == SLUG or p.get('title') == TITLE for p in posts):
+              raise SystemExit('DUPLICATE_SLUG_OR_TITLE')
+          if any(p.get('published_at') == TODAY for p in posts):
+              raise SystemExit('TODAY_ALREADY_HAS_A_POST')
+          corpus = ' '.join((p.get('slug','')+' '+p.get('title','')+' '+p.get('summary','')) for p in posts).lower()
+          if any(k in corpus for k in ['분실물', 'lost and found', 'lost-item', 'lost-item-guide']):
+              raise SystemExit('SEMANTIC_DUPLICATE_FOUND')
+
+          js = (ROOT/'assets/js/blog-index.js').read_text(encoding='utf-8')
+          if re.search(r'fetch\s*\([^)]*blog-meta\.json', js, re.I):
+              raise SystemExit('BLOG_INDEX_JS_GENERATES_FROM_JSON')
+
+          article_dir = ROOT/'blog'/SLUG
+          article_dir.mkdir(parents=True, exist_ok=False)
+          article = '''<!doctype html>
+          <html lang="ko">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <title>크루즈에서 물건을 잃어버렸다면? 분실물 신고 가이드 | 크루즈플레이</title>
+            <meta name="description" content="크루즈 선내와 하선 후 분실물 신고 방법, Guest Services 접수, 선사별 온라인 양식, 배송비, 여권·휴대전화 분실 시 대응 순서를 안내합니다.">
+            <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+            <link rel="canonical" href="https://cruiseplay-dyt.pages.dev/blog/cruise-lost-and-found-item-guide/">
+            <meta property="og:locale" content="ko_KR">
+            <meta property="og:type" content="article">
+            <meta property="og:site_name" content="크루즈플레이">
+            <meta property="og:title" content="크루즈에서 물건을 잃어버렸다면? 선내 분실물·하선 후 신고 가이드">
+            <meta property="og:description" content="휴대전화·지갑·여권·가방을 잃어버렸을 때 선내 신고부터 하선 후 온라인 접수와 해외 배송까지 순서대로 확인하세요.">
+            <meta property="og:url" content="https://cruiseplay-dyt.pages.dev/blog/cruise-lost-and-found-item-guide/">
+            <meta property="og:image" content="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop">
+            <meta property="article:published_time" content="2026-07-28T00:00:00+09:00">
+            <meta property="article:modified_time" content="2026-07-28T00:00:00+09:00">
+            <link rel="stylesheet" href="/assets/css/styles.css">
+            <link rel="stylesheet" href="/assets/css/blog.css">
+            <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"크루즈에서 물건을 잃어버렸다면? 선내 분실물·하선 후 신고 가이드","description":"크루즈 선내와 하선 후 분실물 신고 방법, Guest Services 접수, 선사별 온라인 양식, 배송비, 여권·휴대전화 분실 대응 순서를 안내합니다.","image":["https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop"],"datePublished":"2026-07-28T00:00:00+09:00","dateModified":"2026-07-28T00:00:00+09:00","author":{"@type":"Organization","name":"크루즈플레이 편집팀"},"publisher":{"@type":"Organization","name":"크루즈플레이"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://cruiseplay-dyt.pages.dev/blog/cruise-lost-and-found-item-guide/"}}</script>
+          </head>
+          <body class="blog-page">
+          <div class="blog-shell">
+            <header class="blog-topbar"><div class="blog-topbar-inner"><a class="blog-brand" href="/"><strong>크루즈플레이</strong></a><nav class="blog-nav"><a href="/">홈</a><a href="/blog/">콘텐츠</a><a href="/contact/">문의하기</a></nav></div></header>
+            <main class="blog-main"><article class="blog-article">
+              <div class="article-breadcrumb"><a href="/blog/">크루즈 여행 가이드</a> · 여행팁</div>
+              <header class="article-header">
+                <p class="article-category">여행팁</p>
+                <h1>크루즈에서 물건을 잃어버렸다면?<br>선내 분실물·하선 후 신고 가이드</h1>
+                <p class="article-lead">휴대전화가 안 보이거나, 하선 뒤 객실 금고에 지갑을 두고 온 사실을 알게 되면 당황하기 쉽습니다. 분실 장소와 발견 시점에 따라 연락할 곳이 달라지므로 <strong>선내에 있을 때, 터미널에 있을 때, 이미 귀국했을 때</strong>를 나눠 대응해야 합니다.</p>
+                <div class="article-meta"><span>작성자 크루즈플레이 편집팀</span><span>게시일 2026.07.28</span><span>수정일 2026.07.28</span></div>
+              </header>
+              <figure class="article-hero-image"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop" alt="크루즈 여행 중 분실하기 쉬운 휴대전화를 테이블 위에서 확인하는 모습" width="1600" height="1067" loading="eager" decoding="async"><figcaption>분실 사실을 알게 된 시점과 마지막으로 사용한 장소를 먼저 기록하면 신고가 빨라집니다.</figcaption></figure>
+
+              <nav class="article-toc" aria-label="목차"><strong>목차</strong><ol>
+                <li><a href="#first-10">처음 10분에 할 일</a></li>
+                <li><a href="#where">분실 장소별 신고처</a></li>
+                <li><a href="#items">물건 종류별 추가 대응</a></li>
+                <li><a href="#after">하선 후 온라인 신고 방법</a></li>
+                <li><a href="#shipping">찾았을 때 배송비와 통관</a></li>
+                <li><a href="#checklist">신고 전 체크리스트</a></li>
+              </ol></nav>
+
+              <section id="first-10"><h2>분실을 알아챈 뒤 처음 10분에 할 일</h2>
+                <p>무작정 배 전체를 돌아다니기보다 마지막 사용 시점부터 역순으로 확인하는 편이 낫습니다. 선내 시설은 운영팀이 다르고 습득물이 Guest Services로 전달되기까지 시간이 걸릴 수 있습니다.</p>
+                <ol>
+                  <li><strong>마지막 사용 시간과 장소를 메모합니다.</strong> 객실 번호, 식당명, 극장 좌석 구역, 수영장 데크, 기항지 셔틀 승하차 지점을 가능한 구체적으로 적습니다.</li>
+                  <li><strong>객실 안을 다시 확인합니다.</strong> 금고, 침대 아래, 소파 틈, 욕실 선반, 충전기 주변과 여행가방 안쪽 포켓을 봅니다.</li>
+                  <li><strong>해당 시설 직원에게 먼저 묻습니다.</strong> 식당·바·극장·스파에서 발견된 물건은 바로 중앙 분실물 창구로 이동하지 않았을 수 있습니다.</li>
+                  <li><strong>Guest Services에 정식 신고합니다.</strong> 물건의 색상, 브랜드, 케이스, 잠금화면, 고유 흠집처럼 본인 물건임을 구분할 정보를 전달합니다.</li>
+                  <li><strong>휴대전화나 카드의 원격 보호를 시작합니다.</strong> 위치 추적·분실 모드와 카드 일시정지는 하되, 찾을 가능성이 남아 있다면 기기 초기화는 서두르지 않습니다.</li>
+                </ol>
+                <div class="article-callout"><strong>중요</strong><p>선내에서 분실했다면 하선 전 신고하는 것이 가장 유리합니다. 로열캐리비안은 선내 분실 시 Guest Services의 분실물 서비스를 이용하도록 공식 안내합니다.</p></div>
+              </section>
+
+              <section id="where"><h2>어디에서 잃어버렸는지에 따라 신고처가 달라집니다</h2>
+                <div class="article-table-wrap"><table><thead><tr><th>상황</th><th>우선 신고처</th><th>준비할 정보</th></tr></thead><tbody>
+                  <tr><td>아직 선내에 있음</td><td>해당 시설 직원 → Guest Services</td><td>객실번호, 마지막 사용 장소·시간, 물건 특징</td></tr>
+                  <tr><td>하선했지만 터미널 안</td><td>선사 터미널 직원 또는 수하물 서비스 데스크</td><td>선박명, 항차, 수하물 태그, 연락 가능한 번호</td></tr>
+                  <tr><td>기항지 투어버스·관광지</td><td>투어 운영사와 선사 Shore Excursions 데스크</td><td>투어명, 버스번호, 가이드명, 좌석 위치</td></tr>
+                  <tr><td>택시·항공기·공항</td><td>해당 운송사 또는 공항 분실물 센터</td><td>영수증, 차량·항공편 번호, 이동시간</td></tr>
+                  <tr><td>귀국 후 알게 됨</td><td>선사의 공식 Post-cruise Lost &amp; Found 양식</td><td>예약번호, 선박명, 출항일, 객실번호, 상세 설명</td></tr>
+                </tbody></table></div>
+                <p>항구 터미널과 선박은 운영 주체가 다를 수 있습니다. 위탁수하물이 터미널에서 사라졌다면 선사 분실물 신고와 별도로 터미널 수하물 담당자에게도 접수번호를 받아두는 것이 좋습니다.</p>
+              </section>
+
+              <section id="items"><h2>물건 종류별로 추가 조치가 필요합니다</h2>
+                <h3>휴대전화·태블릿</h3>
+                <p>아이폰의 ‘나의 찾기’, 안드로이드의 기기 찾기에서 위치를 확인하고 분실 모드를 켭니다. 잠금화면에는 한국 국가번호를 포함한 연락처를 남깁니다. 해상에서는 위치가 갱신되지 않거나 마지막 접속 위치만 표시될 수 있으므로 지도만 보고 도난으로 단정하지 않습니다.</p>
+                <h3>신용카드·현금·지갑</h3>
+                <p>카드는 앱에서 즉시 일시정지하고 승인 알림을 확인합니다. 선내 계정에 등록한 카드까지 잃어버렸다면 Guest Services에 알려 결제수단 변경 여부를 확인합니다. 로열캐리비안은 일부 현금·카지노 칩·신용카드가 일반적인 방식으로 반환되지 않을 수 있다고 안내하므로, 카드사 보호조치를 먼저 진행해야 합니다.</p>
+                <h3>여권</h3>
+                <p>여권이 보이지 않으면 단순 분실물 문제로만 처리하면 안 됩니다. 선내 Guest Services와 보안팀에 즉시 알리고, 기항지에 나와 있다면 현지 경찰 신고와 가까운 대한민국 재외공관 안내를 받습니다. 외교부 여권안내는 분실 재발급의 기본 구비서류로 여권분실신고서, 여권발급신청서, 여권용 사진, 신분증 등을 안내합니다. 실제 해외 발급 방식과 귀국 일정은 재외공관에 확인해야 합니다.</p>
+                <h3>의약품·보조기기</h3>
+                <p>복용 시간이 임박했다면 분실물 수색과 별도로 선내 의료센터에 연락합니다. 처방전 사본, 영문 약품명, 복용량을 제시하고 대체 가능 여부를 의료진에게 확인합니다. 의료비와 약값은 유료일 수 있으므로 영수증을 보관합니다.</p>
+              </section>
+
+              <section id="after"><h2>이미 하선했다면 선사의 공식 양식으로 신고합니다</h2>
+                <p>예약 여행사에만 메시지를 남기기보다 선사의 공식 분실물 접수 양식을 함께 이용해야 추적번호를 받을 수 있습니다.</p>
+                <ul>
+                  <li><strong>로열캐리비안:</strong> 하선 후에는 Chargerback 분실물 요청 양식을 이용하며 한국어 양식도 제공합니다. 물건이 발견되면 배송비는 승객 부담이고, 세관 문제로 지연되거나 배송할 수 없는 품목이 있을 수 있다고 안내합니다.</li>
+                  <li><strong>노르웨지안 크루즈 라인:</strong> 공식 Lost &amp; Found 접수와 상태 조회 경로를 제공하며, 표준 응답시간을 접수 후 10영업일로 안내합니다. 발견 시 배송비가 적용됩니다.</li>
+                  <li><strong>카니발 크루즈 라인:</strong> Post-Cruise Inquiries의 Lost and Found 양식에 물건 설명을 제출하면 이메일로 상태 업데이트를 보내고, 발견 시 배송 또는 픽업을 조정한다고 안내합니다.</li>
+                </ul>
+                <h3>온라인 양식에 이렇게 적으세요</h3>
+                <div class="article-checklist"><ul>
+                  <li>영문 이름과 예약번호</li><li>선박명, 출항일, 하선일, 객실번호</li>
+                  <li>마지막으로 물건을 본 날짜·시간·장소</li><li>브랜드, 모델명, 색상, 크기, 케이스와 흠집</li>
+                  <li>휴대전화 IMEI 또는 전자기기 일련번호</li><li>물건 사진이나 구매 영수증</li>
+                  <li>한국 주소는 영문 표기와 우편번호 포함</li><li>국가번호 +82를 포함한 연락처</li>
+                </ul></div>
+                <p>“검은색 휴대전화”처럼 짧게 쓰기보다 “검은색 아이폰, 투명 케이스, 뒷면에 원형 자석 자국, 잠금화면은 가족사진”처럼 식별 가능한 특징을 적어야 합니다.</p>
+              </section>
+
+              <section id="shipping"><h2>물건을 찾았어도 해외 배송비와 통관을 확인해야 합니다</h2>
+                <p>선사가 물건을 찾았다는 연락을 보내면 바로 결제하기 전에 발송 국가, 택배사, 운임, 추적번호, 한국 통관 가능 여부를 확인합니다. 전자기기의 리튬배터리, 향수·화장품·술·담배·식품은 항공운송이나 세관 규정 때문에 배송이 제한될 수 있습니다.</p>
+                <div class="article-table-wrap"><table><thead><tr><th>확인 항목</th><th>질문할 내용</th></tr></thead><tbody>
+                  <tr><td>배송비</td><td>운임에 포장비·처리비가 포함되는지</td></tr>
+                  <tr><td>배송 방식</td><td>추적 가능한 국제특송인지, 예상 소요일은 얼마인지</td></tr>
+                  <tr><td>통관</td><td>품목명과 신고가액을 어떻게 기재하는지</td></tr>
+                  <tr><td>배터리 제품</td><td>휴대전화·보조배터리의 국제운송이 가능한지</td></tr>
+                  <tr><td>수령 실패</td><td>반송 시 추가 비용과 보관 기간이 있는지</td></tr>
+                </tbody></table></div>
+                <p>배송 견적이 물건 가치보다 높을 수도 있습니다. 중요한 데이터가 든 전자기기나 신분증은 비용 외에 개인정보 위험도 함께 고려해 결정합니다.</p>
+              </section>
+
+              <section id="checklist"><h2>신고 전에 마지막으로 확인할 체크리스트</h2>
+                <div class="article-checklist"><ul>
+                  <li>객실 금고와 충전기 주변을 다시 확인했다.</li>
+                  <li>마지막 사용 장소와 시간을 메모했다.</li>
+                  <li>Guest Services 또는 공식 온라인 양식으로 접수했다.</li>
+                  <li>접수번호와 제출 화면을 캡처했다.</li>
+                  <li>카드 일시정지와 휴대전화 분실 모드를 설정했다.</li>
+                  <li>여권 분실이면 선사·경찰·재외공관에 별도로 연락했다.</li>
+                  <li>여행자보험의 휴대품 손해 및 자기부담금 조건을 확인했다.</li>
+                  <li>배송 요청 전 운임·통관·배터리 제한을 확인했다.</li>
+                </ul></div>
+                <p>분실물 신고는 빨리 하는 것이 중요하지만, 선사별 보관 기간과 반환 가능 품목은 다릅니다. 출항 전에 이용 선사의 앱이나 홈페이지에서 ‘Lost &amp; Found’, ‘Post-cruise inquiries’를 저장해 두면 하선 후에도 빠르게 찾을 수 있습니다.</p>
+              </section>
+
+              <section class="article-related"><h2>함께 확인할 크루즈 준비 정보</h2><ul>
+                <li><a href="/blog/cruise-passport-documents-check/">크루즈 여권·필수서류 확인 가이드</a></li>
+                <li><a href="/blog/cruise-travel-insurance-guide/">크루즈 여행자보험 보장 범위 확인 가이드</a></li>
+                <li><a href="/blog/cruise-onboard-payment-guide/">크루즈 선내 결제와 카드 등록 가이드</a></li>
+                <li><a href="/blog/cruise-disembarkation-flight-time-guide/">하선일 항공편 시간 잡는 방법</a></li>
+              </ul></section>
+
+              <section class="article-sources"><h2>공식 자료 확인</h2><p>아래 자료를 2026년 7월 28일 확인했습니다. 선사 정책과 접수 경로는 변경될 수 있으므로 실제 신고 시 공식 페이지에서 다시 확인하세요.</p><ul>
+                <li><a href="https://www.royalcaribbean.com/gbr/en/faq/questions/lost-forgot-item-onboard" rel="noopener noreferrer">Royal Caribbean — How do I track down a lost or left behind item?</a></li>
+                <li><a href="https://www.royalcaribbean.com/aus/en/faq/questions/lost-forgot-item-onboard" rel="noopener noreferrer">Royal Caribbean — Lost item return and shipping restrictions</a></li>
+                <li><a href="https://www.ncl.com/ca/en/about/contact-us" rel="noopener noreferrer">Norwegian Cruise Line — Lost &amp; Found</a></li>
+                <li><a href="https://help.carnival.com/app/answers/detail/a_id/2563/~/lost-and-found-%28missing-items%29" rel="noopener noreferrer">Carnival Cruise Line — Lost and Found (Missing Items)</a></li>
+                <li><a href="https://www.passport.go.kr/home/kor/contents.do?menuPos=9" rel="noopener noreferrer">외교부 여권안내 — 여권 훼손·분실에 따른 재발급</a></li>
+              </ul></section>
+            </article></main>
+            <footer class="blog-footer"><div class="blog-container"><nav><a href="/about/">사이트 소개</a><a href="/editorial-policy/">편집 정책</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의</a></nav></div></footer>
+          </div>
+          </body></html>'''
+          article = re.sub(r'^          ', '', article, flags=re.M)
+          (article_dir/'index.html').write_text(article, encoding='utf-8')
+
+          new_post = {
+              'slug': SLUG, 'category': CATEGORY, 'title': TITLE, 'summary': SUMMARY,
+              'thumbnail_url': IMAGE,
+              'tag_text': '크루즈분실물,선내분실물,하선후신고,여권분실',
+              'published_at': TODAY, 'updated_at': TODAY,
+              'sort_order': min([p.get('sort_order',0) for p in posts] or [0]) - 1
+          }
+          posts.insert(0, new_post)
+          data['posts'] = posts
+          meta_path.write_text(json.dumps(data, ensure_ascii=False, separators=(',',':')), encoding='utf-8')
+
+          index_path = ROOT/'blog/index.html'
+          index = index_path.read_text(encoding='utf-8')
+          old_count = len(re.findall(r'class="blog-card"', index))
+          if old_count != len(posts)-1:
+              raise SystemExit(f'PREEXISTING_CARD_META_MISMATCH:{old_count}:{len(posts)-1}')
+          card = f'''<article class="blog-card" data-category="{CATEGORY}"><a href="/blog/{SLUG}/"><img src="{html.escape(IMAGE, quote=True)}" alt="크루즈 여행 중 분실한 휴대전화와 귀중품 신고 방법 안내" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high"><time>{TODAY}</time><h2>{TITLE}</h2><p>{SUMMARY}</p></a></article>'''
+          marker = '<div class="blog-grid" id="blogGrid">'
+          if marker not in index:
+              raise SystemExit('BLOG_GRID_MARKER_NOT_FOUND')
+          index = index.replace(marker, marker + card, 1)
+          index = re.sub(r'(<strong id="blogResultsCount">)\d+(</strong>)', rf'\g<1>{len(posts)}\g<2>', index, count=1)
+          index_path.write_text(index, encoding='utf-8')
+
+          ns = {'sm':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          ET.register_namespace('', ns['sm'])
+          sm_path = ROOT/'sitemap.xml'
+          tree = ET.parse(sm_path); root = tree.getroot()
+          seen = set()
+          for node in list(root):
+              loc = node.find('{%s}loc' % ns['sm'])
+              text = (loc.text or '').strip() if loc is not None else ''
+              if '/partner' in text or not text or text in seen:
+                  root.remove(node)
+              else:
+                  seen.add(text)
+          node = ET.Element('{%s}url' % ns['sm'])
+          ET.SubElement(node, '{%s}loc' % ns['sm']).text = URL
+          ET.SubElement(node, '{%s}lastmod' % ns['sm']).text = TODAY
+          ET.SubElement(node, '{%s}changefreq' % ns['sm']).text = 'monthly'
+          ET.SubElement(node, '{%s}priority' % ns['sm']).text = '0.6'
+          root.insert(2, node)
+          tree.write(sm_path, encoding='utf-8', xml_declaration=True)
+
+          (ROOT/'sitemap-google.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>https://cruiseplay-dyt.pages.dev/sitemap.xml</loc></sitemap>\n</sitemapindex>\n', encoding='utf-8')
+          (ROOT/'robots.txt').write_text('User-agent: *\nAllow: /\nDisallow: /partner/\nSitemap: https://cruiseplay-dyt.pages.dev/sitemap.xml\n', encoding='utf-8')
+
+          # Remove partner URLs from every remaining sitemap-like file.
+          for rel in ['sitemap.txt','sitemap-2026.xml']:
+              p = ROOT/rel
+              if p.exists():
+                  txt = p.read_text(encoding='utf-8')
+                  if rel.endswith('.txt'):
+                      lines = [x for x in txt.splitlines() if '/partner' not in x]
+                      if URL not in lines: lines.insert(2 if len(lines)>1 else len(lines), URL)
+                      p.write_text('\n'.join(lines).rstrip()+'\n', encoding='utf-8')
+                  else:
+                      try:
+                          t=ET.parse(p); r=t.getroot()
+                          for n in list(r):
+                              l=n.find('{%s}loc' % ns['sm'])
+                              if l is not None and '/partner' in (l.text or ''): r.remove(n)
+                          if not any((n.find('{%s}loc' % ns['sm']) is not None and (n.find('{%s}loc' % ns['sm']).text or '')==URL) for n in r):
+                              n=ET.Element('{%s}url' % ns['sm']); ET.SubElement(n,'{%s}loc'%ns['sm']).text=URL; ET.SubElement(n,'{%s}lastmod'%ns['sm']).text=TODAY; r.insert(0,n)
+                          t.write(p, encoding='utf-8', xml_declaration=True)
+                      except ET.ParseError:
+                          raise SystemExit(f'INVALID_XML:{rel}')
+          ps = ROOT/'partner-sitemap.xml'
+          if ps.exists(): ps.unlink()
+
+          headers_path = ROOT/'_headers'
+          if headers_path.exists():
+              hdr = headers_path.read_text(encoding='utf-8')
+              hdr = re.sub(r'\n/partner-sitemap\.xml\n(?:  .*\n)+', '\n', hdr)
+              if '/partner/*\n  X-Robots-Tag: noindex, nofollow' not in hdr:
+                  hdr += '\n/partner/*\n  X-Robots-Tag: noindex, nofollow\n  Cache-Control: no-store\n'
+              headers_path.write_text(hdr, encoding='utf-8')
+
+          def rss(posts20, self_url):
+              items=[]
+              for p in posts20:
+                  u=f"https://cruiseplay-dyt.pages.dev/blog/{p['slug']}/"
+                  dt=datetime.fromisoformat(p['published_at']).replace(tzinfo=timezone.utc)
+                  items.append(f"<item><title>{html.escape(p['title'])}</title><link>{u}</link><guid isPermaLink=\"true\">{u}</guid><description>{html.escape(p['summary'])}</description><category>{html.escape(p['category'])}</category><dc:creator>크루즈플레이 편집팀</dc:creator><pubDate>{format_datetime(dt)}</pubDate></item>")
+              build=format_datetime(datetime(2026,7,28,0,0,tzinfo=timezone.utc))
+              return '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>크루즈플레이</title><link>https://cruiseplay-dyt.pages.dev/blog/</link><description>처음 크루즈를 준비하는 분을 위한 비용, 선실, 준비물, 기항지 정보 가이드.</description><language>ko-KR</language><lastBuildDate>'+build+'</lastBuildDate><atom:link href="'+self_url+'" rel="self" type="application/rss+xml"/>'+''.join(items)+'</channel></rss>'
+          top20 = posts[:20]
+          (ROOT/'rss.xml').write_text(rss(top20,'https://cruiseplay-dyt.pages.dev/rss.xml'), encoding='utf-8')
+          (ROOT/'feed.xml').write_text(rss(top20,'https://cruiseplay-dyt.pages.dev/feed.xml'), encoding='utf-8')
+
+          # Final validation before commit.
+          final_meta = json.loads(meta_path.read_text(encoding='utf-8'))['posts']
+          final_index = index_path.read_text(encoding='utf-8')
+          card_count = len(re.findall(r'class="blog-card"', final_index))
+          hrefs = re.findall(r'<article class="blog-card"[^>]*>\s*<a href="([^"]+)"', final_index)
+          if card_count != len(final_meta) or len(hrefs) != len(final_meta):
+              raise SystemExit(f'FINAL_CARD_META_MISMATCH:{card_count}:{len(hrefs)}:{len(final_meta)}')
+          if len(hrefs) != len(set(hrefs)) or f'/blog/{SLUG}/' not in hrefs:
+              raise SystemExit('DUPLICATE_OR_MISSING_STATIC_URL')
+          art = (article_dir/'index.html').read_text(encoding='utf-8')
+          for token in ['rel="canonical"','name="robots"','property="og:title"','"@type":"BlogPosting"','크루즈플레이 편집팀','게시일 2026.07.28','수정일 2026.07.28']:
+              if token not in art: raise SystemExit('ARTICLE_SEO_VALIDATION_FAILED:'+token)
+          for internal in ['cruise-passport-documents-check','cruise-travel-insurance-guide','cruise-onboard-payment-guide','cruise-disembarkation-flight-time-guide']:
+              if not (ROOT/'blog'/internal/'index.html').exists(): raise SystemExit('MISSING_INTERNAL_LINK:'+internal)
+          sitemap_text = sm_path.read_text(encoding='utf-8')
+          if sitemap_text.count(URL) != 1 or '/partner/' in sitemap_text:
+              raise SystemExit('SITEMAP_VALIDATION_FAILED')
+          if '/partner/' in (ROOT/'sitemap-google.xml').read_text(encoding='utf-8'):
+              raise SystemExit('GOOGLE_SITEMAP_PARTNER_FOUND')
+          for rel in ['rss.xml','feed.xml']:
+              txt=(ROOT/rel).read_text(encoding='utf-8')
+              if txt.count('<item>') != 20 or txt.count(URL) != 3:
+                  raise SystemExit('RSS_VALIDATION_FAILED:'+rel)
+          print(json.dumps({'title':TITLE,'url':URL,'cards':card_count,'meta':len(final_meta),'rss_items':20}, ensure_ascii=False))
+          PY
+      - name: Remove one-time workflow files and commit
+        shell: bash
+        run: |
+          rm -f .github/workflows/publish-lost-found-guide.yml automation/publish-lost-found-guide.trigger
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "크루즈 분실물 신고 가이드 1편 발행"
+          git push origin HEAD:main
