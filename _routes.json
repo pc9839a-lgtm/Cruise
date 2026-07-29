@@ -2,6 +2,7 @@
   "version": 1,
   "include": ["/*"],
   "exclude": [
+    "/ads.txt",
     "/sitemap.xml",
     "/sitemap-google.xml",
     "/partner-sitemap.xml",
