@@ -1,8 +1,8 @@
 window.APP_CONFIG = {
-  // 구글시트 API는 일정, 후기, FAQ, 선실 등 운영 데이터용으로 사용합니다.
-  // 블로그/콘텐츠 발행은 GitHub 정적 파일 기반으로 관리합니다.
-  // deploy check: 2026-07-10T13:40:00+09:00
-  apiUrl: 'https://script.google.com/macros/s/AKfycbwcgILUioi3I3ndTIrnlZ9KtdN-YxpwCQaLEcradUc1vDZfsa-jSwllYfSdOju4vj8/exec',
+  // 홈페이지 콘텐츠는 저장소의 정적 데이터(/assets/data/bootstrap-fallback.json)만 사용합니다.
+  // Google Apps Script는 /api/contact를 통한 문의/파트너 입력 저장 용도로만 유지합니다.
+  // 2026-08-09: Google Sheets CMS 동기화 제거.
+  apiUrl: '/api/content',
   useMockOnly: false,
   submitTimeout: 30000
 };
