@@ -6,7 +6,7 @@ const SECURITY_HEADERS = {
   'X-Permitted-Cross-Domain-Policies': 'none',
   'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
   'Strict-Transport-Security': 'max-age=31536000',
-  'Content-Security-Policy': "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src-attr 'none'; upgrade-insecure-requests"
+  'Content-Security-Policy': "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src-attr 'none'; upgrade-insecure-requests'
 };
 
 const ADSENSE_CLIENT = 'ca-pub-1906196934401001';
@@ -144,7 +144,7 @@ export async function onRequest(context) {
 
     if (isBlog) {
       rewriter = rewriter
-        .on('.blog-hero p:last-child', new BlogHeroMetaInjector())
+        .on('.blog-hero p:nth-of-type(2)', new BlogHeroMetaInjector())
         .on('.post-header-actions', new RemoveElement())
         .on('.post-bottom-cta', new RemoveElement())
         .on('.blog-footer-inner', new BlogPolicyLinksInjector());
