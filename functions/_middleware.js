@@ -13,10 +13,7 @@ const ADSENSE_CLIENT = 'ca-pub-1906196934401001';
 const ADSENSE_CONNECT_SCRIPT = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
 const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);var n=new URLSearchParams();var rules={agent:40,utm_source:80,utm_medium:80,utm_campaign:80,inquiryType:40};Object.keys(rules).forEach(function(k){var v=(u.searchParams.get(k)||'').replace(/[\u0000-\u001f\u007f<>]/g,'').trim().slice(0,rules[k]);if(!v)return;if(k==='agent'&&!/^[A-Za-z0-9_-]+$/.test(v))return;if(k==='inquiryType'&&!/^[A-Za-z0-9_-]+$/.test(v))return;n.set(k,v)});if(u.searchParams.get('openInquiry')==='1')n.set('openInquiry','1');var s=n.toString();var clean=u.pathname+(s?'?'+s:'')+u.hash;if(clean!==u.pathname+u.search+u.hash)history.replaceState(null,'',clean)}catch(e){}})();</script>`;
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
-const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
-.hero-bg{display:block!important;opacity:1!important;visibility:visible!important}
-#partnerKakaoConsult,.partner-kakao-consult{display:none!important}
-</style>`;
+const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">\n.hero-bg{display:block!important;opacity:1!important;visibility:visible!important}\n#partnerKakaoConsult,.partner-kakao-consult{display:none!important}\n</style>`;
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 
 const HOMEPAGE_CONTENT_CARDS = `
@@ -30,14 +27,8 @@ const HOMEPAGE_CONTENT_CARDS = `
 const BLOG_POLICY_LINKS = `<nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:14px"><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
 
 const PASSTHROUGH_PATHS = new Set([
-  '/ads.txt',
-  '/sitemap-google.xml',
-  '/sitemap.xml',
-  '/sitemap.txt',
-  '/sitemap-2026.xml',
-  '/robots.txt',
-  '/rss.xml',
-  '/feed.xml'
+  '/ads.txt', '/sitemap-google.xml', '/sitemap.xml', '/sitemap.txt',
+  '/sitemap-2026.xml', '/robots.txt', '/rss.xml', '/feed.xml'
 ]);
 
 function shouldBypassHtmlMiddleware(pathname) {
@@ -60,9 +51,7 @@ class HeadSecurityInjector {
 class SecurityScriptInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
   element(element) {
-    let scripts = this.isPartner
-      ? '<script src="/partner/partner-routing-fix.js?v=20260723-agent-route-v1" defer></script>'
-      : '';
+    let scripts = this.isPartner ? '<script src="/partner/partner-routing-fix.js?v=20260723-agent-route-v1" defer></script>' : '';
     scripts += '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
       scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v17" defer></script><script src="/partner/partner-copy-v2.js?v=20260716-credit-dollar-unused-photos" defer></script>';
@@ -79,21 +68,9 @@ class PartnerHeroInjector {
   }
 }
 
-class RemoveElement {
-  element(element) { element.remove(); }
-}
-
-class HomepageContentInjector {
-  element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); }
-}
-
-class BlogPolicyLinksInjector {
-  element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); }
-}
-
-class BlogHeroMetaInjector {
-  element(element) { element.setInnerContent('전체 글 <strong id="blogResultsCount">60</strong>개', { html: true }); }
-}
+class RemoveElement { element(element) { element.remove(); } }
+class HomepageContentInjector { element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); } }
+class BlogPolicyLinksInjector { element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); } }
 
 function applySecurityHeaders(headers) {
   Object.entries(SECURITY_HEADERS).forEach(([name, value]) => headers.set(name, value));
@@ -102,10 +79,7 @@ function applySecurityHeaders(headers) {
 
 export async function onRequest(context) {
   const pathname = new URL(context.request.url).pathname;
-
-  if (shouldBypassHtmlMiddleware(pathname)) {
-    return context.next();
-  }
+  if (shouldBypassHtmlMiddleware(pathname)) return context.next();
 
   const response = await context.next();
   const headers = applySecurityHeaders(new Headers(response.headers));
@@ -132,9 +106,7 @@ export async function onRequest(context) {
       .on('body', new SecurityScriptInjector(isPartner))
       .on('a[href="/editorial-policy/"]', new RemoveElement());
 
-    if (isPartner) {
-      rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
-    }
+    if (isPartner) rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
 
     if (isHomepage) {
       rewriter = rewriter
@@ -142,9 +114,10 @@ export async function onRequest(context) {
         .on('#contentGrid', new HomepageContentInjector());
     }
 
+    // Blog content is static HTML. Only simple class selectors remain here;
+    // no positional selector or content reconstruction is used at the edge.
     if (isBlog) {
       rewriter = rewriter
-        .on('.blog-hero p:nth-of-type(2)', new BlogHeroMetaInjector())
         .on('.post-header-actions', new RemoveElement())
         .on('.post-bottom-cta', new RemoveElement())
         .on('.blog-footer-inner', new BlogPolicyLinksInjector());
