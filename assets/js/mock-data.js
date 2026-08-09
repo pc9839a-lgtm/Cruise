@@ -6,7 +6,7 @@ window.MOCK_BOOTSTRAP_DATA = {};
   'assets/js/site-content-reviews.js?v=20260809-sheet-snapshot-1',
   'assets/js/site-content-guides.js?v=20260809-sheet-snapshot-1',
   'assets/js/site-content-links.js?v=20260809-sheet-snapshot-1',
-  'assets/js/site-content-images.js?v=20260809-basic-images-1'
+  'assets/js/site-content-images.js?v=20260809-basic-images-2'
 ].forEach(function (src) {
   document.write('<script src="' + src + '"></' + 'script>');
 });
