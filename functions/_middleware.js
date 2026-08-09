@@ -91,6 +91,10 @@ class BlogPolicyLinksInjector {
   element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); }
 }
 
+class BlogHeroMetaInjector {
+  element(element) { element.setInnerContent('전체 글 <strong id="blogResultsCount">60</strong>개', { html: true }); }
+}
+
 function applySecurityHeaders(headers) {
   Object.entries(SECURITY_HEADERS).forEach(([name, value]) => headers.set(name, value));
   return headers;
@@ -125,7 +129,8 @@ export async function onRequest(context) {
   if (contentType.includes('text/html')) {
     let rewriter = new HTMLRewriter()
       .on('head', new HeadSecurityInjector(isPartner))
-      .on('body', new SecurityScriptInjector(isPartner));
+      .on('body', new SecurityScriptInjector(isPartner))
+      .on('a[href="/editorial-policy/"]', new RemoveElement());
 
     if (isPartner) {
       rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
@@ -139,6 +144,7 @@ export async function onRequest(context) {
 
     if (isBlog) {
       rewriter = rewriter
+        .on('.blog-hero p:last-child', new BlogHeroMetaInjector())
         .on('.post-header-actions', new RemoveElement())
         .on('.post-bottom-cta', new RemoveElement())
         .on('.blog-footer-inner', new BlogPolicyLinksInjector());
