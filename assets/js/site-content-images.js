@@ -13,57 +13,65 @@
     if (images[item.section_key]) item.image_url = images[item.section_key];
   });
 
-  function replaceProcessWithMembershipTeaser() {
-    var section = document.getElementById('processSection');
-    if (!section) return false;
+  // Keep the existing homepage process-card design and replace only the content.
+  data.process_steps = [
+    {
+      step_id: 'MEMBERSHIP01',
+      is_active: 'Y',
+      sort_order: 1,
+      step_title: '매달 쌓고',
+      step_desc: '',
+      highlight_text: '여행 전에 준비'
+    },
+    {
+      step_id: 'MEMBERSHIP02',
+      is_active: 'Y',
+      sort_order: 2,
+      step_title: '크루즈에 쓰고',
+      step_desc: '',
+      highlight_text: '모은 포인트로 예약'
+    },
+    {
+      step_id: 'MEMBERSHIP03',
+      is_active: 'Y',
+      sort_order: 3,
+      step_title: '왜 더 유리할까?',
+      step_desc: '',
+      highlight_text: '멤버십 보기 →'
+    }
+  ];
 
+  var section = document.getElementById('processSection');
+  if (section) {
     var label = section.querySelector('.sheet-extra-label');
     var title = section.querySelector('.sheet-extra-title');
-    var grid = document.getElementById('processGrid');
-    if (!grid) return false;
-
-    // Keep the homepage's original section/card design. Only replace copy and destination.
     if (label) label.textContent = 'CRUISE MEMBERSHIP';
-    if (title) title.textContent = '크루즈 여행비, 매번 한 번에 내야 할까요?';
-
-    grid.className = 'sheet-extra-grid sheet-extra-grid-steps';
-    grid.innerHTML = `
-      <article class="sheet-extra-card sheet-extra-step-card">
-        <span class="sheet-extra-step-no">MEMBERSHIP 01</span>
-        <h3>여행을 떠나기 전부터<br>준비하는 방법이 있습니다.</h3>
-        <p>큰 여행비를 한 번에 준비하는 방식 말고, 크루즈를 준비하는 또 다른 방법이 있습니다.</p>
-        <div class="sheet-extra-highlight">여행도 구독할 수 있다면?</div>
-      </article>
-
-      <article class="sheet-extra-card sheet-extra-step-card">
-        <span class="sheet-extra-step-no">MEMBERSHIP 02</span>
-        <h3>같은 여행비인데<br>쌓이는 방식이 다르다면?</h3>
-        <p>멤버십 이용자는 여행을 예약하기 전부터 다음 크루즈를 위한 준비를 시작합니다.</p>
-        <div class="sheet-extra-highlight">왜 더 유리해지는지 확인</div>
-      </article>
-
-      <article class="sheet-extra-card sheet-extra-step-card">
-        <span class="sheet-extra-step-no">MEMBERSHIP 03</span>
-        <h3>크루즈를 자주 타는 사람은<br>예약 방식부터 다릅니다.</h3>
-        <p>포인트가 어떻게 쌓이고 실제 크루즈 예약에 어떻게 쓰이는지 상세 페이지에서 확인해보세요.</p>
-        <div class="sheet-extra-action">
-          <a href="/membership/" class="btn">멤버십이 뭐길래? →</a>
-        </div>
-      </article>
-    `;
-
-    return true;
+    if (title) title.textContent = '크루즈, 여행비를 모아서 떠난다면?';
   }
 
+  // main.js renders the original cards. Make only the last card act as the CTA.
   window.setTimeout(function () {
-    if (replaceProcessWithMembershipTeaser()) return;
+    var grid = document.getElementById('processGrid');
+    if (!grid) return;
+    var cards = grid.querySelectorAll('.sheet-extra-step-card');
+    var lastCard = cards[cards.length - 1];
+    if (!lastCard) return;
 
-    var attempts = 0;
-    var timer = window.setInterval(function () {
-      attempts += 1;
-      if (replaceProcessWithMembershipTeaser() || attempts >= 10) {
-        window.clearInterval(timer);
+    lastCard.setAttribute('role', 'link');
+    lastCard.setAttribute('tabindex', '0');
+    lastCard.setAttribute('aria-label', '크루즈 멤버십 소개 보기');
+    lastCard.style.cursor = 'pointer';
+
+    function openMembership() {
+      window.location.href = '/membership/';
+    }
+
+    lastCard.addEventListener('click', openMembership);
+    lastCard.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openMembership();
       }
-    }, 100);
+    });
   }, 0);
 })();
