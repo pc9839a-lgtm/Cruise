@@ -44,6 +44,15 @@
   Content-Type: text/plain; charset=UTF-8
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 
+/assets/js/config.js
+  Cache-Control: no-store, max-age=0
+
+/assets/js/mock-data.js
+  Cache-Control: no-store, max-age=0
+
+/assets/js/site-content-*.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/*
   Cache-Control: public, max-age=3600, must-revalidate
 
