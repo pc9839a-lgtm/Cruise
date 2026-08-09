@@ -9,6 +9,8 @@ const SECURITY_HEADERS = {
   'Content-Security-Policy': "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src-attr 'none'; upgrade-insecure-requests"
 };
 
+const ADSENSE_CLIENT = 'ca-pub-1906196934401001';
+const ADSENSE_CONNECT_SCRIPT = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>`;
 const EARLY_QUERY_GUARD = `<script>(function(){try{var u=new URL(location.href);var n=new URLSearchParams();var rules={agent:40,utm_source:80,utm_medium:80,utm_campaign:80,inquiryType:40};Object.keys(rules).forEach(function(k){var v=(u.searchParams.get(k)||'').replace(/[\u0000-\u001f\u007f<>]/g,'').trim().slice(0,rules[k]);if(!v)return;if(k==='agent'&&!/^[A-Za-z0-9_-]+$/.test(v))return;if(k==='inquiryType'&&!/^[A-Za-z0-9_-]+$/.test(v))return;n.set(k,v)});if(u.searchParams.get('openInquiry')==='1')n.set('openInquiry','1');var s=n.toString();var clean=u.pathname+(s?'?'+s:'')+u.hash;if(clean!==u.pathname+u.search+u.hash)history.replaceState(null,'',clean)}catch(e){}})();</script>`;
 const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" title="크루즈플레이 콘텐츠 RSS" href="/rss.xml" />';
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
@@ -16,6 +18,28 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">
 #partnerKakaoConsult,.partner-kakao-consult{display:none!important}
 </style>`;
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
+
+const HOMEPAGE_CONTENT_CARDS = `
+<article class="sheet-extra-card"><div class="sheet-extra-chip">승선 준비</div><h3>크루즈 터미널에는 몇 시에 도착해야 할까?</h3><p>도착 슬롯, 최종 승선 마감, 출항 시각의 차이와 부산·해외 출발 시 준비 기준을 공식 자료와 함께 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-terminal-arrival-time-checkin-guide/" class="btn">가이드 보기</a></div></article>
+<article class="sheet-extra-card"><div class="sheet-extra-chip">초보 가이드</div><h3>첫 크루즈 여행, 무엇부터 비교해야 할까?</h3><p>처음 예약할 때 놓치기 쉬운 일정, 선실, 포함 비용, 기항지 동선을 한 번에 확인할 수 있도록 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/first-cruise-guide/" class="btn">가이드 보기</a></div></article>
+<article class="sheet-extra-card"><div class="sheet-extra-chip">비용</div><h3>크루즈 비용은 객실 가격이 전부가 아닙니다</h3><p>항만세, 서비스 요금, 음료, 와이파이, 기항지 이동비 등 실제 여행 예산에 들어가는 항목을 나눠 설명합니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-cost-breakdown/" class="btn">비용 가이드 보기</a></div></article>
+<article class="sheet-extra-card"><div class="sheet-extra-chip">선실 선택</div><h3>발코니 객실이 꼭 필요한지 판단하는 기준</h3><p>인사이드·오션뷰·발코니 객실의 차이를 예산과 여행 스타일 기준으로 비교해 선택 기준을 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-balcony-cabin-guide/" class="btn">선실 가이드 보기</a></div></article>
+<article class="sheet-extra-card"><div class="sheet-extra-chip">수하물</div><h3>크루즈 수하물과 캐리어 준비 방법</h3><p>위탁 수하물과 휴대가방을 나누는 방법, 승선 첫날 바로 필요한 물품과 준비 순서를 확인할 수 있습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-luggage-guide/" class="btn">수하물 가이드 보기</a></div></article>
+<article class="sheet-extra-card"><div class="sheet-extra-chip">여행지 선택</div><h3>한국인이 첫 크루즈로 가기 좋은 여행지</h3><p>일본·대만, 오키나와, 싱가포르와 한국 출발 일정을 첫 크루즈 관점에서 비교해 선택 포인트를 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/best-first-cruise-destinations-for-koreans/" class="btn">여행지 가이드 보기</a></div></article>`;
+
+const EDITORIAL_TRUST_SECTION = `
+<section class="sheet-extra-section" id="editorialTrustSection">
+  <div class="sheet-extra-wrap">
+    <div class="sheet-extra-head"><span class="sheet-extra-label">EDITORIAL STANDARD</span><h2 class="sheet-extra-title">정보를 확인하고 업데이트합니다</h2></div>
+    <div class="sheet-extra-grid">
+      <article class="sheet-extra-card"><div class="sheet-extra-chip">공식 자료 우선</div><h3>선사·항만·공공기관 자료를 먼저 확인합니다</h3><p>탑승 조건, 운영시간, 비용처럼 바뀔 수 있는 내용은 가능한 한 공식 안내를 기준으로 확인합니다.</p></article>
+      <article class="sheet-extra-card"><div class="sheet-extra-chip">게시·수정일 표시</div><h3>언제 작성하고 고쳤는지 공개합니다</h3><p>콘텐츠마다 게시일 또는 수정일을 표시하고, 운영 방식이 바뀐 내용은 기존 글을 다시 검토합니다.</p></article>
+      <article class="sheet-extra-card"><div class="sheet-extra-chip">정정 요청</div><h3>오류 제보를 받고 근거를 다시 확인합니다</h3><p>내용 오류나 링크 문제를 발견하면 편집 문의로 알려주세요. 확인 가능한 자료를 다시 검토해 수정합니다.</p><div class="sheet-extra-action"><a href="/editorial-policy/" class="btn">콘텐츠 운영정책 보기</a></div></article>
+    </div>
+  </div>
+</section>`;
+
+const BLOG_POLICY_LINKS = `<nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:14px"><a href="/about/">사이트 소개</a><a href="/editorial-policy/">콘텐츠 운영정책</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
 
 const PASSTHROUGH_PATHS = new Set([
   '/ads.txt',
@@ -35,6 +59,7 @@ function shouldBypassHtmlMiddleware(pathname) {
 class HeadSecurityInjector {
   constructor(isPartner) { this.isPartner = isPartner; }
   element(element) {
+    if (!this.isPartner) element.prepend(ADSENSE_CONNECT_SCRIPT, { html: true });
     element.prepend(EARLY_QUERY_GUARD, { html: true });
     element.append(RSS_DISCOVERY_LINK, { html: true });
     if (this.isPartner) {
@@ -66,6 +91,26 @@ class PartnerHeroInjector {
   }
 }
 
+class RemoveElement {
+  element(element) { element.remove(); }
+}
+
+class HomepageContentInjector {
+  element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); }
+}
+
+class EditorialTrustInjector {
+  element(element) { element.before(EDITORIAL_TRUST_SECTION, { html: true }); }
+}
+
+class FooterEditorialPolicyInjector {
+  element(element) { element.append(' · <a href="/editorial-policy/">콘텐츠 운영정책</a>', { html: true }); }
+}
+
+class BlogPolicyLinksInjector {
+  element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); }
+}
+
 function applySecurityHeaders(headers) {
   Object.entries(SECURITY_HEADERS).forEach(([name, value]) => headers.set(name, value));
   return headers;
@@ -82,6 +127,8 @@ export async function onRequest(context) {
   const headers = applySecurityHeaders(new Headers(response.headers));
   const contentType = String(headers.get('Content-Type') || '').toLowerCase();
   const isPartner = pathname === '/partner' || pathname === '/partner/';
+  const isHomepage = pathname === '/';
+  const isBlog = pathname === '/blog' || pathname === '/blog/' || pathname.startsWith('/blog/');
 
   if (isPartner) {
     headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
@@ -102,6 +149,21 @@ export async function onRequest(context) {
 
     if (isPartner) {
       rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
+    }
+
+    if (isHomepage) {
+      rewriter = rewriter
+        .on('.sticky-inquiry-bar', new RemoveElement())
+        .on('#contentGrid', new HomepageContentInjector())
+        .on('#contact', new EditorialTrustInjector())
+        .on('.footer-policy-links', new FooterEditorialPolicyInjector());
+    }
+
+    if (isBlog) {
+      rewriter = rewriter
+        .on('.post-header-actions', new RemoveElement())
+        .on('.post-bottom-cta', new RemoveElement())
+        .on('.blog-footer-inner', new BlogPolicyLinksInjector());
     }
 
     securedResponse = rewriter.transform(securedResponse);
