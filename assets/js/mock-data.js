@@ -7,5 +7,5 @@ window.MOCK_BOOTSTRAP_DATA = {};
   'assets/js/site-content-guides.js?v=20260809-sheet-snapshot-1',
   'assets/js/site-content-links.js?v=20260809-sheet-snapshot-1'
 ].forEach(function (src) {
-  document.write('<script src="' + src + '"><\\/script>');
+  document.write('<script src="' + src + '"></' + 'script>');
 });
