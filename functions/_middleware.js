@@ -27,19 +27,7 @@ const HOMEPAGE_CONTENT_CARDS = `
 <article class="sheet-extra-card"><div class="sheet-extra-chip">수하물</div><h3>크루즈 수하물과 캐리어 준비 방법</h3><p>위탁 수하물과 휴대가방을 나누는 방법, 승선 첫날 바로 필요한 물품과 준비 순서를 확인할 수 있습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-luggage-guide/" class="btn">수하물 가이드 보기</a></div></article>
 <article class="sheet-extra-card"><div class="sheet-extra-chip">여행지 선택</div><h3>한국인이 첫 크루즈로 가기 좋은 여행지</h3><p>일본·대만, 오키나와, 싱가포르와 한국 출발 일정을 첫 크루즈 관점에서 비교해 선택 포인트를 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/best-first-cruise-destinations-for-koreans/" class="btn">여행지 가이드 보기</a></div></article>`;
 
-const EDITORIAL_TRUST_SECTION = `
-<section class="sheet-extra-section" id="editorialTrustSection">
-  <div class="sheet-extra-wrap">
-    <div class="sheet-extra-head"><span class="sheet-extra-label">EDITORIAL STANDARD</span><h2 class="sheet-extra-title">정보를 확인하고 업데이트합니다</h2></div>
-    <div class="sheet-extra-grid">
-      <article class="sheet-extra-card"><div class="sheet-extra-chip">공식 자료 우선</div><h3>선사·항만·공공기관 자료를 먼저 확인합니다</h3><p>탑승 조건, 운영시간, 비용처럼 바뀔 수 있는 내용은 가능한 한 공식 안내를 기준으로 확인합니다.</p></article>
-      <article class="sheet-extra-card"><div class="sheet-extra-chip">게시·수정일 표시</div><h3>언제 작성하고 고쳤는지 공개합니다</h3><p>콘텐츠마다 게시일 또는 수정일을 표시하고, 운영 방식이 바뀐 내용은 기존 글을 다시 검토합니다.</p></article>
-      <article class="sheet-extra-card"><div class="sheet-extra-chip">정정 요청</div><h3>오류 제보를 받고 근거를 다시 확인합니다</h3><p>내용 오류나 링크 문제를 발견하면 편집 문의로 알려주세요. 확인 가능한 자료를 다시 검토해 수정합니다.</p><div class="sheet-extra-action"><a href="/editorial-policy/" class="btn">콘텐츠 운영정책 보기</a></div></article>
-    </div>
-  </div>
-</section>`;
-
-const BLOG_POLICY_LINKS = `<nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:14px"><a href="/about/">사이트 소개</a><a href="/editorial-policy/">콘텐츠 운영정책</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
+const BLOG_POLICY_LINKS = `<nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:14px"><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
 
 const PASSTHROUGH_PATHS = new Set([
   '/ads.txt',
@@ -99,14 +87,6 @@ class HomepageContentInjector {
   element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); }
 }
 
-class EditorialTrustInjector {
-  element(element) { element.before(EDITORIAL_TRUST_SECTION, { html: true }); }
-}
-
-class FooterEditorialPolicyInjector {
-  element(element) { element.append(' · <a href="/editorial-policy/">콘텐츠 운영정책</a>', { html: true }); }
-}
-
 class BlogPolicyLinksInjector {
   element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); }
 }
@@ -154,9 +134,7 @@ export async function onRequest(context) {
     if (isHomepage) {
       rewriter = rewriter
         .on('.sticky-inquiry-bar', new RemoveElement())
-        .on('#contentGrid', new HomepageContentInjector())
-        .on('#contact', new EditorialTrustInjector())
-        .on('.footer-policy-links', new FooterEditorialPolicyInjector());
+        .on('#contentGrid', new HomepageContentInjector());
     }
 
     if (isBlog) {
