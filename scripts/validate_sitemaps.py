@@ -10,8 +10,8 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://cruiseplay-dyt.pages.dev"
 NS = "http://www.sitemaps.org/schemas/sitemap/0.9"
-CORE_PATHS = ["/", "/blog/", "/membership/", "/about/", "/contact/", "/privacy/", "/terms/"]
-EXCLUDED_PREFIXES = ("/partner/", "/academy/", "/api/")
+CORE_PATHS = ["/", "/blog/", "/about/", "/contact/", "/privacy/", "/terms/"]
+EXCLUDED_PREFIXES = ("/partner/", "/academy/", "/membership/", "/api/")
 
 
 def fail(message: str) -> None:
@@ -151,7 +151,7 @@ def main() -> None:
     validate_robots()
     validate_routes()
     validate_headers()
-    print(f"OK: validated {len(urls)} canonical URLs, coverage, routing, headers, and sitemap fallbacks")
+    print(f"OK: validated {len(urls)} editorial canonical URLs, coverage, routing, headers, and sitemap fallbacks")
 
 
 if __name__ == "__main__":
