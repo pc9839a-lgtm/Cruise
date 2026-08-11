@@ -1,4 +1,4 @@
-name: Sitemap Integrity
+name: Search and AdSense Integrity
 
 on:
   push:
@@ -8,15 +8,21 @@ on:
       - 'sitemap-google.xml'
       - 'sitemap.txt'
       - 'robots.txt'
+      - 'ads.txt'
       - '_headers'
       - '_routes.json'
+      - 'functions/_middleware.js'
       - 'blog/**/index.html'
+      - 'blog/templates/**'
       - 'membership/index.html'
+      - 'partner/**/index.html'
+      - 'academy/**/index.html'
       - 'about/index.html'
       - 'contact/index.html'
       - 'privacy/index.html'
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
+      - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
   pull_request:
     paths:
@@ -24,15 +30,21 @@ on:
       - 'sitemap-google.xml'
       - 'sitemap.txt'
       - 'robots.txt'
+      - 'ads.txt'
       - '_headers'
       - '_routes.json'
+      - 'functions/_middleware.js'
       - 'blog/**/index.html'
+      - 'blog/templates/**'
       - 'membership/index.html'
+      - 'partner/**/index.html'
+      - 'academy/**/index.html'
       - 'about/index.html'
       - 'contact/index.html'
       - 'privacy/index.html'
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
+      - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
 
 permissions:
@@ -50,3 +62,5 @@ jobs:
           python-version: '3.12'
       - name: Validate sitemap files
         run: python scripts/validate_sitemaps.py
+      - name: Validate AdSense readiness
+        run: python scripts/validate_adsense_readiness.py
