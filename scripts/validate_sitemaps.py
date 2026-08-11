@@ -10,6 +10,8 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://cruiseplay-dyt.pages.dev"
 NS = "http://www.sitemaps.org/schemas/sitemap/0.9"
+CORE_PATHS = ["/", "/blog/", "/membership/", "/about/", "/contact/", "/privacy/", "/terms/"]
+EXCLUDED_PREFIXES = ("/partner/", "/academy/", "/api/")
 
 
 def fail(message: str) -> None:
@@ -60,11 +62,26 @@ def validate_xml_sitemap() -> list[str]:
         fail("sitemap.xml contains duplicate URLs")
 
     for url in urls:
+        parsed = urlsplit(url)
+        if parsed.path.startswith(EXCLUDED_PREFIXES):
+            fail(f"non-editorial/private area must not be in canonical sitemap: {url}")
         repo_path = url_to_repo_path(url)
         if not repo_path.exists():
             fail(f"sitemap URL has no matching static file: {url} -> {repo_path.relative_to(ROOT)}")
 
     return urls
+
+
+def validate_coverage(urls: list[str]) -> None:
+    url_set = set(urls)
+    required = {f"{BASE}{path}" for path in CORE_PATHS}
+    for index_file in sorted((ROOT / "blog").glob("*/index.html")):
+        slug = index_file.parent.name
+        required.add(f"{BASE}/blog/{slug}/")
+
+    missing = sorted(required - url_set)
+    if missing:
+        fail(f"published canonical pages missing from sitemap.xml: {missing}")
 
 
 def validate_text_sitemap(xml_urls: list[str]) -> None:
@@ -128,12 +145,13 @@ def validate_headers() -> None:
 
 def main() -> None:
     urls = validate_xml_sitemap()
+    validate_coverage(urls)
     validate_text_sitemap(urls)
     validate_legacy_index()
     validate_robots()
     validate_routes()
     validate_headers()
-    print(f"OK: validated {len(urls)} canonical URLs across XML and text sitemaps")
+    print(f"OK: validated {len(urls)} canonical URLs, coverage, routing, headers, and sitemap fallbacks")
 
 
 if __name__ == "__main__":
