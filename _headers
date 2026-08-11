@@ -10,11 +10,21 @@
 
 /sitemap.xml
   Content-Type: application/xml; charset=UTF-8
-  Cache-Control: public, max-age=0, must-revalidate, no-transform
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  ! Content-Security-Policy
+  ! X-Frame-Options
+  ! Permissions-Policy
+  ! Cross-Origin-Opener-Policy
+  ! X-Permitted-Cross-Domain-Policies
 
 /sitemap-google.xml
   Content-Type: application/xml; charset=UTF-8
-  Cache-Control: public, max-age=0, must-revalidate, no-transform
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  ! Content-Security-Policy
+  ! X-Frame-Options
+  ! Permissions-Policy
+  ! Cross-Origin-Opener-Policy
+  ! X-Permitted-Cross-Domain-Policies
 
 /partner-sitemap.xml
   Content-Type: application/xml; charset=UTF-8
@@ -38,7 +48,7 @@
 
 /robots.txt
   Content-Type: text/plain; charset=UTF-8
-  Cache-Control: public, max-age=0, must-revalidate, no-transform
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
 
 /ads.txt
   Content-Type: text/plain; charset=UTF-8
