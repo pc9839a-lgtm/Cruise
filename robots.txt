@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://cruiseplay-dyt.pages.dev/sitemap.xml
+Sitemap: https://cruiseplay-dyt.pages.dev/sitemap.txt
