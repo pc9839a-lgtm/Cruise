@@ -24,7 +24,8 @@ const HOMEPAGE_CONTENT_CARDS = `
 <article class="sheet-extra-card"><div class="sheet-extra-chip">수하물</div><h3>크루즈 수하물과 캐리어 준비 방법</h3><p>위탁 수하물과 휴대가방을 나누는 방법, 승선 첫날 바로 필요한 물품과 준비 순서를 확인할 수 있습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-luggage-guide/" class="btn">수하물 가이드 보기</a></div></article>
 <article class="sheet-extra-card"><div class="sheet-extra-chip">여행지 선택</div><h3>한국인이 첫 크루즈로 가기 좋은 여행지</h3><p>일본·대만, 오키나와, 싱가포르와 한국 출발 일정을 첫 크루즈 관점에서 비교해 선택 포인트를 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/best-first-cruise-destinations-for-koreans/" class="btn">여행지 가이드 보기</a></div></article>`;
 
-const BLOG_POLICY_LINKS = `<nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:14px"><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
+const BLOG_NAV = `<a href="/">홈</a><a href="/blog/" class="is-current">콘텐츠</a><a href="/about/">사이트 소개</a><a href="/contact/">문의 안내</a>`;
+const BLOG_FOOTER = `<div><strong>크루즈플레이 콘텐츠</strong><span>크루즈 여행 준비에 필요한 정보를 공식 자료와 실제 준비 흐름을 기준으로 정리합니다.</span></div><nav aria-label="사이트 정책" style="display:flex;gap:12px;flex-wrap:wrap"><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a><a href="/contact/">문의 안내</a></nav>`;
 
 const PASSTHROUGH_PATHS = new Set([
   '/ads.txt', '/sitemap-google.xml', '/sitemap.xml', '/sitemap.txt',
@@ -36,9 +37,12 @@ function shouldBypassHtmlMiddleware(pathname) {
 }
 
 class HeadSecurityInjector {
-  constructor(isPartner) { this.isPartner = isPartner; }
+  constructor(isPartner, includeAdsense) {
+    this.isPartner = isPartner;
+    this.includeAdsense = includeAdsense;
+  }
   element(element) {
-    if (!this.isPartner) element.prepend(ADSENSE_CONNECT_SCRIPT, { html: true });
+    if (this.includeAdsense) element.prepend(ADSENSE_CONNECT_SCRIPT, { html: true });
     element.prepend(EARLY_QUERY_GUARD, { html: true });
     element.append(RSS_DISCOVERY_LINK, { html: true });
     if (this.isPartner) {
@@ -49,10 +53,14 @@ class HeadSecurityInjector {
 }
 
 class SecurityScriptInjector {
-  constructor(isPartner) { this.isPartner = isPartner; }
+  constructor(isPartner, includePartnerLink) {
+    this.isPartner = isPartner;
+    this.includePartnerLink = includePartnerLink;
+  }
   element(element) {
     let scripts = this.isPartner ? '<script src="/partner/partner-routing-fix.js?v=20260723-agent-route-v1" defer></script>' : '';
-    scripts += '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script><script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
+    scripts += '<script src="/assets/js/security-guard.js?v=20260712-security" defer></script>';
+    if (this.includePartnerLink) scripts += '<script src="/assets/js/partner-link.js?v=20260712-partner-entry" defer></script>';
     if (this.isPartner) {
       scripts += '<script src="/partner/partner-original-photos-v13.js?v=20260714-originals-v13" defer></script><script src="/partner/partner-balanced-benefits-v14.js?v=20260714-duplicates-v17" defer></script><script src="/partner/partner-copy-v2.js?v=20260716-credit-dollar-unused-photos" defer></script>';
     }
@@ -70,7 +78,8 @@ class PartnerHeroInjector {
 
 class RemoveElement { element(element) { element.remove(); } }
 class HomepageContentInjector { element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); } }
-class BlogPolicyLinksInjector { element(element) { element.append(BLOG_POLICY_LINKS, { html: true }); } }
+class BlogNavInjector { element(element) { element.setInnerContent(BLOG_NAV, { html: true }); } }
+class BlogFooterInjector { element(element) { element.setInnerContent(BLOG_FOOTER, { html: true }); } }
 
 function applySecurityHeaders(headers) {
   Object.entries(SECURITY_HEADERS).forEach(([name, value]) => headers.set(name, value));
@@ -84,9 +93,18 @@ export async function onRequest(context) {
   const response = await context.next();
   const headers = applySecurityHeaders(new Headers(response.headers));
   const contentType = String(headers.get('Content-Type') || '').toLowerCase();
-  const isPartner = pathname === '/partner' || pathname === '/partner/';
+  const isPartner = pathname === '/partner' || pathname.startsWith('/partner/');
+  const isAcademy = pathname === '/academy' || pathname.startsWith('/academy/');
+  const isMembership = pathname === '/membership' || pathname.startsWith('/membership/');
+  const isCommercial = isPartner || isAcademy || isMembership;
   const isHomepage = pathname === '/';
   const isBlog = pathname === '/blog' || pathname === '/blog/' || pathname.startsWith('/blog/');
+  const includeAdsense = isHomepage || isBlog;
+  const includePartnerLink = isMembership;
+
+  if (isCommercial) {
+    headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  }
 
   if (isPartner) {
     headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
@@ -102,8 +120,8 @@ export async function onRequest(context) {
 
   if (contentType.includes('text/html')) {
     let rewriter = new HTMLRewriter()
-      .on('head', new HeadSecurityInjector(isPartner))
-      .on('body', new SecurityScriptInjector(isPartner))
+      .on('head', new HeadSecurityInjector(isPartner, includeAdsense))
+      .on('body', new SecurityScriptInjector(isPartner, includePartnerLink))
       .on('a[href="/editorial-policy/"]', new RemoveElement());
 
     if (isPartner) rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
@@ -114,13 +132,13 @@ export async function onRequest(context) {
         .on('#contentGrid', new HomepageContentInjector());
     }
 
-    // Blog content is static HTML. Only simple class selectors remain here;
-    // no positional selector or content reconstruction is used at the edge.
     if (isBlog) {
       rewriter = rewriter
+        .on('.blog-nav', new BlogNavInjector())
+        .on('.blog-footer-inner', new BlogFooterInjector())
         .on('.post-header-actions', new RemoveElement())
         .on('.post-bottom-cta', new RemoveElement())
-        .on('.blog-footer-inner', new BlogPolicyLinksInjector());
+        .on('a.cta', new RemoveElement());
     }
 
     securedResponse = rewriter.transform(securedResponse);
