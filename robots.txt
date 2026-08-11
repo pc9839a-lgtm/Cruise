@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cruiseplay-dyt.pages.dev/sitemap-google.xml
 Sitemap: https://cruiseplay-dyt.pages.dev/sitemap.xml
