@@ -6,6 +6,8 @@ on:
     paths:
       - 'sitemap.xml'
       - 'sitemap-google.xml'
+      - 'sitemap-2026.xml'
+      - 'partner-sitemap.xml'
       - 'sitemap.txt'
       - 'robots.txt'
       - 'ads.txt'
@@ -28,6 +30,8 @@ on:
     paths:
       - 'sitemap.xml'
       - 'sitemap-google.xml'
+      - 'sitemap-2026.xml'
+      - 'partner-sitemap.xml'
       - 'sitemap.txt'
       - 'robots.txt'
       - 'ads.txt'
