@@ -12,6 +12,7 @@ BASE = "https://cruiseplay-dyt.pages.dev"
 NS = "http://www.sitemaps.org/schemas/sitemap/0.9"
 CORE_PATHS = ["/", "/blog/", "/about/", "/contact/", "/privacy/", "/terms/"]
 EXCLUDED_PREFIXES = ("/partner/", "/academy/", "/membership/", "/api/")
+LEGACY_SITEMAP_ALIASES = ["sitemap-google.xml", "partner-sitemap.xml", "sitemap-2026.xml"]
 
 
 def fail(message: str) -> None:
@@ -92,21 +93,22 @@ def validate_text_sitemap(xml_urls: list[str]) -> None:
         fail(f"sitemap.txt must exactly mirror sitemap.xml; missing={missing}, extra={extra}")
 
 
-def validate_legacy_index() -> None:
-    try:
-        tree = ET.parse(ROOT / "sitemap-google.xml")
-    except ET.ParseError as exc:
-        fail(f"sitemap-google.xml is not well-formed XML: {exc}")
-    root = tree.getroot()
-    if root.tag != f"{{{NS}}}sitemapindex":
-        fail("sitemap-google.xml must be a sitemapindex")
-    locs = [
-        (node.text or "").strip()
-        for node in root.findall(f"{{{NS}}}sitemap/{{{NS}}}loc")
-    ]
+def validate_legacy_indexes() -> None:
     expected = [f"{BASE}/sitemap.xml"]
-    if locs != expected:
-        fail(f"sitemap-google.xml must point only to {expected[0]}, got {locs}")
+    for filename in LEGACY_SITEMAP_ALIASES:
+        try:
+            tree = ET.parse(ROOT / filename)
+        except ET.ParseError as exc:
+            fail(f"{filename} is not well-formed XML: {exc}")
+        root = tree.getroot()
+        if root.tag != f"{{{NS}}}sitemapindex":
+            fail(f"{filename} must be a sitemapindex")
+        locs = [
+            (node.text or "").strip()
+            for node in root.findall(f"{{{NS}}}sitemap/{{{NS}}}loc")
+        ]
+        if locs != expected:
+            fail(f"{filename} must point only to {expected[0]}, got {locs}")
 
 
 def validate_robots() -> None:
@@ -118,14 +120,18 @@ def validate_robots() -> None:
     for directive in required:
         if directive not in robots:
             fail(f"robots.txt missing directive: {directive}")
-    if f"Sitemap: {BASE}/sitemap-google.xml" in robots:
-        fail("robots.txt must not advertise the legacy sitemap-google.xml")
+    for filename in LEGACY_SITEMAP_ALIASES:
+        if f"Sitemap: {BASE}/{filename}" in robots:
+            fail(f"robots.txt must not advertise legacy sitemap alias: {filename}")
 
 
 def validate_routes() -> None:
     data = json.loads(read_text("_routes.json"))
     excluded = set(data.get("exclude", []))
-    required = {"/sitemap.xml", "/sitemap-google.xml", "/sitemap.txt", "/robots.txt"}
+    required = {
+        "/sitemap.xml", "/sitemap-google.xml", "/sitemap.txt", "/robots.txt",
+        "/partner-sitemap.xml", "/sitemap-2026.xml"
+    }
     missing = required - excluded
     if missing:
         fail(f"_routes.json must bypass Pages Functions for: {sorted(missing)}")
@@ -147,11 +153,11 @@ def main() -> None:
     urls = validate_xml_sitemap()
     validate_coverage(urls)
     validate_text_sitemap(urls)
-    validate_legacy_index()
+    validate_legacy_indexes()
     validate_robots()
     validate_routes()
     validate_headers()
-    print(f"OK: validated {len(urls)} editorial canonical URLs, coverage, routing, headers, and sitemap fallbacks")
+    print(f"OK: validated {len(urls)} editorial canonical URLs, legacy aliases, coverage, routing, headers, and sitemap fallbacks")
 
 
 if __name__ == "__main__":
