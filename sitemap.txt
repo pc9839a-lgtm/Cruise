@@ -1,7 +1,14 @@
 https://cruiseplay-dyt.pages.dev/
 https://cruiseplay-dyt.pages.dev/blog/
-https://cruiseplay-dyt.pages.dev/partner/
-https://cruiseplay-dyt.pages.dev/partner/guide/
+https://cruiseplay-dyt.pages.dev/membership/
+https://cruiseplay-dyt.pages.dev/about/
+https://cruiseplay-dyt.pages.dev/contact/
+https://cruiseplay-dyt.pages.dev/privacy/
+https://cruiseplay-dyt.pages.dev/terms/
+https://cruiseplay-dyt.pages.dev/blog/cruise-terminal-arrival-time-checkin-guide/
+https://cruiseplay-dyt.pages.dev/blog/cruise-casino-onboard-guide/
+https://cruiseplay-dyt.pages.dev/blog/cruise-spa-massage-thermal-suite-guide/
+https://cruiseplay-dyt.pages.dev/blog/cruise-duty-free-customs-declaration-korea-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-room-service-fee-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-food-allergy-dietary-request-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-specialty-dining-package-guide/
@@ -17,10 +24,6 @@ https://cruiseplay-dyt.pages.dev/blog/cruise-itinerary-change-port-cancellation-
 https://cruiseplay-dyt.pages.dev/blog/cruise-cellular-at-sea-roaming-esim-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-tender-port-water-shuttle-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-gratuities-service-charge-guide/
-https://cruiseplay-dyt.pages.dev/about/
-https://cruiseplay-dyt.pages.dev/contact/
-https://cruiseplay-dyt.pages.dev/privacy/
-https://cruiseplay-dyt.pages.dev/terms/
 https://cruiseplay-dyt.pages.dev/blog/cruise-booking-name-passport-match-guide/
 https://cruiseplay-dyt.pages.dev/blog/pre-cruise-flight-hotel-arrival-guide/
 https://cruiseplay-dyt.pages.dev/blog/cruise-pool-jacuzzi-guide/
