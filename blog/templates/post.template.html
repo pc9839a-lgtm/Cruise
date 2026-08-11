@@ -33,12 +33,11 @@ __BLOG_POSTING_JSON_LD__
           <span class="blog-brand-dot"></span>
           <strong>__SITE_NAME__</strong>
         </a>
-        <nav class="blog-nav">
+        <nav class="blog-nav" aria-label="콘텐츠 메뉴">
           <a href="/">홈</a>
-          <a href="/#schedule">추천 일정</a>
           <a href="/blog/" class="is-current">콘텐츠</a>
-          <a href="/#reviews">여행 후기</a>
-          <a href="/#contact" class="blog-nav-cta">문의하기</a>
+          <a href="/about/">사이트 소개</a>
+          <a href="/contact/">문의 안내</a>
         </nav>
       </div>
     </header>
@@ -58,10 +57,6 @@ __BLOG_POSTING_JSON_LD__
             </div>
             <h1 class="post-title">__TITLE__</h1>
             <p class="post-summary">__SUMMARY__</p>
-            <div class="post-header-actions">
-              <a class="post-cta post-cta-primary" href="__CTA_PRIMARY_URL__">__CTA_PRIMARY_LABEL__</a>
-              <a class="post-cta post-cta-secondary" href="__CTA_SECONDARY_URL__">__CTA_SECONDARY_LABEL__</a>
-            </div>
             <div class="post-meta-strip">
               <span>분류 <strong>__CATEGORY__</strong></span>
               <span>관련 태그 <strong>__TAG_COUNT__개</strong></span>
@@ -73,17 +68,6 @@ __BLOG_POSTING_JSON_LD__
           <div class="post-body">
             __POST_BODY__
           </div>
-
-          <section class="post-bottom-cta">
-            <div class="post-bottom-cta-text">
-              <strong>더 궁금한 일정이나 준비 과정이 있다면 확인해보세요.</strong>
-              <p>읽어보신 뒤 더 자세한 안내가 필요하시면 원하는 일정과 함께 문의하실 수 있습니다.</p>
-            </div>
-            <div class="post-bottom-cta-actions">
-              <a class="post-cta post-cta-primary" href="__CTA_PRIMARY_URL__">__CTA_PRIMARY_LABEL__</a>
-              <a class="post-cta post-cta-secondary" href="__CTA_SECONDARY_URL__">__CTA_SECONDARY_LABEL__</a>
-            </div>
-          </section>
 
           <section class="post-tags-section">
             <h2 class="post-section-title">함께 많이 보는 주제</h2>
@@ -107,9 +91,14 @@ __BLOG_POSTING_JSON_LD__
       <div class="blog-footer-inner">
         <div>
           <strong>__SITE_NAME__ 콘텐츠</strong>
-          <span>처음 타는 분도 쉽게 이해할 수 있도록 크루즈 정보를 정리합니다.</span>
+          <span>크루즈 여행 준비에 필요한 정보를 공식 자료와 실제 준비 흐름을 기준으로 정리합니다.</span>
         </div>
-        <div><span>문의 연결: <a href="/#contact">문의하기</a></span></div>
+        <nav aria-label="사이트 정책">
+          <a href="/about/">사이트 소개</a>
+          <a href="/privacy/">개인정보처리방침</a>
+          <a href="/terms/">이용약관</a>
+          <a href="/contact/">문의 안내</a>
+        </nav>
       </div>
     </footer>
   </div>
