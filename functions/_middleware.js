@@ -20,20 +20,17 @@ const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">\n.hero-bg{displa
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 const HOMEPAGE_CAFE_NAV = `<a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer">네이버 카페</a>`;
 const HOMEPAGE_CAFE_STYLE = `<style id="homepage-cafe-section-style">
-.cafe-community-inline{margin-top:64px;padding-top:42px;border-top:1px solid #e8ebee}
-.cafe-community-inline .sheet-extra-head{margin-bottom:18px}
-.cafe-community-row{display:flex;align-items:flex-end;justify-content:space-between;gap:32px}
-.cafe-community-copy{max-width:720px;margin:0;font-size:16px;line-height:1.8;color:#697078}
-.cafe-community-action{flex:0 0 auto}
-@media (max-width:768px){.cafe-community-inline{margin-top:46px;padding-top:34px}.cafe-community-row{display:block}.cafe-community-copy{font-size:15px}.cafe-community-action{margin-top:22px}.cafe-community-action .btn{width:100%}}
+.cafe-community-inline{margin-top:82px;padding-top:78px;border-top:1px solid #dfe6ef}
+.cafe-community-inline .section-description{max-width:760px}
+.cafe-community-action{margin-top:4px}
+.cafe-community-action .btn{min-width:180px}
+@media (max-width:768px){.cafe-community-inline{margin-top:64px;padding-top:60px}.cafe-community-inline .section-description{max-width:100%}.cafe-community-action{width:100%;display:flex;justify-content:center}.cafe-community-action .btn{min-width:168px}}
 </style>`;
 const HOMEPAGE_CAFE_SECTION = `<section class="cafe-community-inline" id="cafeCommunity" aria-labelledby="cafeCommunityTitle">
-  <div class="sheet-extra-head">
-    <span class="sheet-extra-label">NAVER CAFE</span>
-    <h2 class="sheet-extra-title" id="cafeCommunityTitle">오케이크루즈 네이버 카페</h2>
-  </div>
-  <div class="cafe-community-row">
-    <p class="cafe-community-copy">크루즈 일정과 실제 여행 후기, 준비하면서 궁금한 내용은 네이버 카페에서도 확인할 수 있습니다.</p>
+  <div class="section-head center">
+    <span class="section-label">NAVER CAFE</span>
+    <h2 class="section-title center-title" id="cafeCommunityTitle">오케이크루즈 네이버 카페</h2>
+    <p class="section-description">크루즈를 준비하면서 생기는 질문이나 실제 여행 후기는 네이버 카페에서도 확인할 수 있습니다.</p>
     <div class="cafe-community-action">
       <a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer" class="btn">카페 바로가기</a>
     </div>
@@ -183,7 +180,7 @@ export async function onRequest(context) {
         .on('.sticky-inquiry-bar', new RemoveElement())
         .on('#mainNav', new HomepageNavInjector())
         .on('#contentGrid', new HomepageContentInjector())
-        .on('#contentSection .sheet-extra-wrap', new HomepageCafeSectionInjector());
+        .on('#reviews .review-wrap', new HomepageCafeSectionInjector());
     }
 
     if (isBlog) {
