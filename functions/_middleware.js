@@ -21,19 +21,47 @@ const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-ori
 const HOMEPAGE_CAFE_NAV = `<a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer">네이버 카페</a>`;
 const HOMEPAGE_CAFE_STYLE = `<style id="homepage-cafe-section-style">
 .cafe-community-inline{margin-top:82px;padding-top:78px;border-top:1px solid #dfe6ef}
-.cafe-community-inline .section-description{max-width:760px}
-.cafe-community-action{margin-top:4px}
-.cafe-community-action .btn{min-width:180px}
-@media (max-width:768px){.cafe-community-inline{margin-top:64px;padding-top:60px}.cafe-community-inline .section-description{max-width:100%}.cafe-community-action{width:100%;display:flex;justify-content:center}.cafe-community-action .btn{min-width:168px}}
+.cafe-community-inline .sheet-extra-head{margin-bottom:36px}
+.cafe-community-intro{max-width:760px;margin:18px auto 0;color:#5f6b7c;font-size:17px;line-height:1.8;word-break:keep-all}
+.cafe-community-grid{margin-top:0}
+.cafe-community-grid .sheet-extra-card{min-height:220px;text-align:left}
+.cafe-community-grid .sheet-extra-card h3{font-size:24px}
+.cafe-community-grid .sheet-extra-card p{font-size:16px}
+.cafe-community-bottom{margin-top:28px;padding:28px 30px;border:1px solid #e3eaf3;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;box-shadow:0 14px 34px rgba(15,23,42,.05)}
+.cafe-community-bottom-copy strong{display:block;color:#091a3b;font-size:20px;line-height:1.35;letter-spacing:-.03em}
+.cafe-community-bottom-copy p{margin:8px 0 0;color:#5f6b7c;font-size:15px;line-height:1.7}
+.cafe-community-bottom .btn{flex:0 0 auto;min-width:210px}
+@media (max-width:768px){.cafe-community-inline{margin-top:64px;padding-top:60px}.cafe-community-inline .sheet-extra-head{margin-bottom:28px}.cafe-community-intro{font-size:16px}.cafe-community-grid{grid-template-columns:1fr}.cafe-community-grid .sheet-extra-card{min-height:0}.cafe-community-bottom{display:block;padding:24px}.cafe-community-bottom .btn{width:100%;margin-top:20px}.cafe-community-bottom-copy strong{font-size:19px}}
 </style>`;
 const HOMEPAGE_CAFE_SECTION = `<section class="cafe-community-inline" id="cafeCommunity" aria-labelledby="cafeCommunityTitle">
-  <div class="section-head center">
-    <span class="section-label">NAVER CAFE</span>
-    <h2 class="section-title center-title" id="cafeCommunityTitle">오케이크루즈 네이버 카페</h2>
-    <p class="section-description">크루즈를 준비하면서 생기는 질문이나 실제 여행 후기는 네이버 카페에서도 확인할 수 있습니다.</p>
-    <div class="cafe-community-action">
-      <a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer" class="btn">카페 바로가기</a>
+  <div class="sheet-extra-head">
+    <span class="sheet-extra-label">NAVER CAFE</span>
+    <h2 class="sheet-extra-title" id="cafeCommunityTitle">오케이크루즈 네이버 카페</h2>
+    <p class="cafe-community-intro">크루즈를 준비할 때 궁금한 내용부터 실제 여행 후기까지, 카페에서 조금 더 자세히 확인해보세요.</p>
+  </div>
+  <div class="sheet-extra-grid cafe-community-grid">
+    <article class="sheet-extra-card">
+      <div class="sheet-extra-chip">여행 후기</div>
+      <h3>실제 여행 사진과 후기</h3>
+      <p>어떤 선실을 골랐는지, 배 안은 어땠는지 실제 크루즈 여행 이야기를 확인해보세요.</p>
+    </article>
+    <article class="sheet-extra-card">
+      <div class="sheet-extra-chip">크루즈 소식</div>
+      <h3>새로운 출항 소식</h3>
+      <p>국내외 크루즈 일정과 여행 전에 알아두면 좋은 소식을 카페에서도 함께 확인할 수 있습니다.</p>
+    </article>
+    <article class="sheet-extra-card">
+      <div class="sheet-extra-chip">준비 정보</div>
+      <h3>가기 전에 궁금한 것들</h3>
+      <p>여권, 선실, 복장, 결제, 기항지처럼 준비하면서 자주 생기는 궁금증을 확인해보세요.</p>
+    </article>
+  </div>
+  <div class="cafe-community-bottom">
+    <div class="cafe-community-bottom-copy">
+      <strong>크루즈가 더 궁금하다면 카페에서 확인해보세요.</strong>
+      <p>여행 후기와 크루즈 관련 내용을 한곳에서 볼 수 있습니다.</p>
     </div>
+    <a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer" class="btn">네이버 카페 들어가기</a>
   </div>
 </section>`;
 
