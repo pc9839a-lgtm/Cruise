@@ -19,6 +19,57 @@ const RSS_DISCOVERY_LINK = '<link rel="alternate" type="application/rss+xml" tit
 const PARTNER_EDGE_STYLE = `<style id="partner-edge-image-fix">\n.hero-bg{display:block!important;opacity:1!important;visibility:visible!important}\n#partnerKakaoConsult,.partner-kakao-consult{display:none!important}\n</style>`;
 const PARTNER_DIRECT_ASSETS = '<link rel="stylesheet" href="/partner/partner-original-photos-v13.css?v=20260714-originals-v13"><link rel="stylesheet" href="/partner/partner-balanced-benefits-v14.css?v=20260714-balanced-v14"><link rel="stylesheet" href="/partner/partner-mobile-fix-v18.css?v=20260714-mobile-v18">';
 const HOMEPAGE_CAFE_NAV = `<a href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer">네이버 카페</a>`;
+const HOMEPAGE_CAFE_STYLE = `<style id="homepage-cafe-section-style">
+.cafe-community-section{padding:96px 24px;background:#f5faf7}
+.cafe-community-wrap{max-width:1180px;margin:0 auto}
+.cafe-community-card{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);overflow:hidden;background:#fff;border:1px solid rgba(3,199,90,.16);border-radius:28px;box-shadow:0 18px 50px rgba(20,56,35,.08)}
+.cafe-community-copy{padding:58px 60px}
+.cafe-community-label{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;font-size:12px;font-weight:800;letter-spacing:.14em;color:#03a94f}
+.cafe-community-label:before{content:'';width:8px;height:8px;border-radius:50%;background:#03c75a}
+.cafe-community-title{margin:0;font-size:38px;line-height:1.28;letter-spacing:-.045em;color:#151a17}
+.cafe-community-desc{margin:22px 0 0;max-width:680px;font-size:17px;line-height:1.8;color:#5d6660}
+.cafe-community-points{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.cafe-community-point{display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border-radius:999px;background:#f0f7f3;font-size:14px;font-weight:700;color:#34423a}
+.cafe-community-actions{display:flex;align-items:center;gap:14px;margin-top:34px;flex-wrap:wrap}
+.cafe-community-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border-radius:14px;background:#03c75a;color:#fff!important;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 10px 24px rgba(3,199,90,.2);transition:transform .2s ease,box-shadow .2s ease}
+.cafe-community-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(3,199,90,.26)}
+.cafe-community-note{font-size:13px;color:#8a928d}
+.cafe-community-visual{display:flex;align-items:center;justify-content:center;min-height:100%;padding:42px;background:linear-gradient(145deg,#e9f8ef 0%,#f8fcfa 100%)}
+.cafe-community-mark{display:flex;flex-direction:column;align-items:center;text-align:center}
+.cafe-community-n{display:flex;align-items:center;justify-content:center;width:112px;height:112px;border-radius:28px;background:#03c75a;color:#fff;font-size:58px;font-weight:900;line-height:1;box-shadow:0 18px 38px rgba(3,199,90,.24)}
+.cafe-community-mark strong{margin-top:22px;font-size:20px;color:#18221c}
+.cafe-community-mark span{margin-top:7px;font-size:14px;color:#647069}
+@media (max-width:820px){.cafe-community-section{padding:64px 18px}.cafe-community-card{grid-template-columns:1fr}.cafe-community-copy{padding:38px 28px}.cafe-community-title{font-size:30px}.cafe-community-desc{font-size:15px}.cafe-community-visual{min-height:240px;padding:34px}.cafe-community-n{width:92px;height:92px;border-radius:24px;font-size:48px}}
+@media (max-width:480px){.cafe-community-section{padding:52px 16px}.cafe-community-copy{padding:32px 22px}.cafe-community-title{font-size:27px}.cafe-community-points{gap:8px}.cafe-community-point{font-size:13px}.cafe-community-btn{width:100%}.cafe-community-note{width:100%;text-align:center}}
+</style>`;
+const HOMEPAGE_CAFE_SECTION = `<section class="cafe-community-section" id="cafeCommunity" aria-labelledby="cafeCommunityTitle">
+  <div class="cafe-community-wrap">
+    <div class="cafe-community-card">
+      <div class="cafe-community-copy">
+        <span class="cafe-community-label">OKAY CRUISE COMMUNITY</span>
+        <h2 class="cafe-community-title" id="cafeCommunityTitle">오케이크루즈 네이버 카페에서<br>더 많은 크루즈 이야기를 만나보세요.</h2>
+        <p class="cafe-community-desc">출항 소식부터 실제 여행 후기, 준비 팁과 자주 묻는 질문까지. 홈페이지에서 다 담지 못한 크루즈 정보를 네이버 카페에서 더 편하게 확인할 수 있습니다.</p>
+        <div class="cafe-community-points" aria-label="카페 주요 콘텐츠">
+          <span class="cafe-community-point">최신 크루즈 소식</span>
+          <span class="cafe-community-point">실제 여행 후기</span>
+          <span class="cafe-community-point">여행 준비 정보</span>
+          <span class="cafe-community-point">질문 · 정보 공유</span>
+        </div>
+        <div class="cafe-community-actions">
+          <a class="cafe-community-btn" href="${NAVER_CAFE_URL}" target="_blank" rel="noopener noreferrer">네이버 카페 바로가기 →</a>
+          <span class="cafe-community-note">새 창에서 열립니다.</span>
+        </div>
+      </div>
+      <div class="cafe-community-visual" aria-hidden="true">
+        <div class="cafe-community-mark">
+          <div class="cafe-community-n">N</div>
+          <strong>오케이크루즈</strong>
+          <span>NAVER CAFE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
 
 const HOMEPAGE_CONTENT_CARDS = `
 <article class="sheet-extra-card"><div class="sheet-extra-chip">승선 준비</div><h3>크루즈 터미널에는 몇 시에 도착해야 할까?</h3><p>도착 슬롯, 최종 승선 마감, 출항 시각의 차이와 부산·해외 출발 시 준비 기준을 공식 자료와 함께 정리했습니다.</p><div class="sheet-extra-action"><a href="/blog/cruise-terminal-arrival-time-checkin-guide/" class="btn">가이드 보기</a></div></article>
@@ -50,14 +101,16 @@ function shouldRewriteBrand(contentType) {
 }
 
 class HeadSecurityInjector {
-  constructor(isPartner, includeAdsense) {
+  constructor(isPartner, includeAdsense, isHomepage) {
     this.isPartner = isPartner;
     this.includeAdsense = includeAdsense;
+    this.isHomepage = isHomepage;
   }
   element(element) {
     if (this.includeAdsense) element.prepend(ADSENSE_CONNECT_SCRIPT, { html: true });
     element.prepend(EARLY_QUERY_GUARD, { html: true });
     element.append(RSS_DISCOVERY_LINK, { html: true });
+    if (this.isHomepage) element.append(HOMEPAGE_CAFE_STYLE, { html: true });
     if (this.isPartner) {
       element.append(PARTNER_EDGE_STYLE, { html: true });
       element.append(PARTNER_DIRECT_ASSETS, { html: true });
@@ -92,6 +145,7 @@ class PartnerHeroInjector {
 class RemoveElement { element(element) { element.remove(); } }
 class HomepageContentInjector { element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); } }
 class HomepageNavInjector { element(element) { element.append(HOMEPAGE_CAFE_NAV, { html: true }); } }
+class HomepageCafeSectionInjector { element(element) { element.before(HOMEPAGE_CAFE_SECTION, { html: true }); } }
 class BlogNavInjector { element(element) { element.setInnerContent(BLOG_NAV, { html: true }); } }
 class BlogFooterInjector { element(element) { element.setInnerContent(BLOG_FOOTER, { html: true }); } }
 
@@ -150,7 +204,7 @@ export async function onRequest(context) {
 
   if (contentType.includes('text/html')) {
     let rewriter = new HTMLRewriter()
-      .on('head', new HeadSecurityInjector(isPartner, includeAdsense))
+      .on('head', new HeadSecurityInjector(isPartner, includeAdsense, isHomepage))
       .on('body', new SecurityScriptInjector(isPartner, includePartnerLink))
       .on('a[href="/editorial-policy/"]', new RemoveElement());
 
@@ -160,7 +214,8 @@ export async function onRequest(context) {
       rewriter = rewriter
         .on('.sticky-inquiry-bar', new RemoveElement())
         .on('#mainNav', new HomepageNavInjector())
-        .on('#contentGrid', new HomepageContentInjector());
+        .on('#contentGrid', new HomepageContentInjector())
+        .on('#contact', new HomepageCafeSectionInjector());
     }
 
     if (isBlog) {
