@@ -1,3 +1,4 @@
+# Validates search, indexing, and AdSense separation changes.
 name: Search and AdSense Integrity
 
 on:
