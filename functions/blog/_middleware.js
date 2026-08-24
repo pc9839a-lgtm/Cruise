@@ -163,24 +163,20 @@ export async function onRequest(context) {
     return response;
   }
 
+  const isIndex = pathname === '/blog' || pathname === '/blog/';
+  const isPost = /^\/blog\/[^/]+\/?$/.test(pathname) && !isIndex;
+
+  // The static blog hub is much larger than an individual post. Running a second
+  // HTMLRewriter pass on that document exceeded the Pages runtime budget and
+  // produced HTTP 500. Keep the hub on the existing root middleware until its
+  // SEO additions are folded into that single pass; preserve post enhancements.
+  if (isIndex) return response;
+
   let rewritten = new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
     headers: response.headers
   });
-
-  const isIndex = pathname === '/blog' || pathname === '/blog/';
-  const isPost = /^\/blog\/[^/]+\/?$/.test(pathname) && !isIndex;
-
-  if (isIndex) {
-    rewritten = new HTMLRewriter()
-      .on('title', new ReplaceText(INDEX_TITLE))
-      .on('meta[name="description"]', new MetaDescription())
-      .on('head', new BlogIndexHeadInjector())
-      .on('.blog-hero', new BlogIndexTopicInjector())
-      .transform(rewritten);
-    return rewritten;
-  }
 
   if (isPost) {
     rewritten = new HTMLRewriter()
