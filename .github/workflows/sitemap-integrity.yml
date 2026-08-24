@@ -74,6 +74,7 @@ jobs:
           node-version: '22'
       - name: Validate SEO middleware syntax
         run: |
+          node --check functions/_middleware.js
           node --check functions/blog/_middleware.js
           node --check functions/about/_middleware.js
       - name: Validate sitemap files
