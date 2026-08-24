@@ -91,10 +91,27 @@ def check_middleware_separation() -> None:
 
 
 def check_blog_seo_hierarchy() -> None:
-    js = read("functions/blog/_middleware.js")
-    required = [
+    root_js = read("functions/_middleware.js")
+    post_js = read("functions/blog/_middleware.js")
+
+    root_required = [
+        "BLOG_INDEX_TITLE",
+        "BLOG_INDEX_DESCRIPTION",
+        "BLOG_INDEX_GUIDES",
         "CollectionPage",
         "BreadcrumbList",
+        "ItemList",
+        "blog-index-map",
+        "const isBlogIndex = pathname === '/blog' || pathname === '/blog/';",
+        ".on('title', new BlogIndexTitleInjector())",
+        ".on('meta[name=\"description\"]', new BlogIndexDescriptionInjector())",
+        ".on('.blog-hero', new BlogIndexHeroInjector())",
+    ]
+    for token in root_required:
+        if token not in root_js:
+            fail(f"blog hub single-pass SEO guard missing: {token}")
+
+    post_required = [
         "CORE_GUIDES",
         "blog-topic-map",
         "/blog/first-cruise-guide/",
@@ -103,15 +120,17 @@ def check_blog_seo_hierarchy() -> None:
         "/blog/cruise-passport-documents-check/",
         "/blog/cruise-boarding-process/",
         "/blog/shore-excursion-guide/",
+        "if (isIndex) return response;",
     ]
-    for token in required:
-        if token not in js:
-            fail(f"blog SEO hierarchy guard missing: {token}")
+    for token in post_required:
+        if token not in post_js:
+            fail(f"blog post SEO hierarchy guard missing: {token}")
 
     forbidden = ["/partner/", "/membership/", "/academy/", "/#contact", "상담하기"]
-    for token in forbidden:
-        if token in js:
-            fail(f"commercial link/copy leaked into blog SEO middleware: {token}")
+    for path, js in (("functions/blog/_middleware.js", post_js),):
+        for token in forbidden:
+            if token in js:
+                fail(f"commercial link/copy leaked into editorial SEO middleware {path}: {token}")
 
 
 def check_about_structured_data() -> None:
@@ -166,7 +185,7 @@ def main() -> None:
     check_static_noindex_guards()
     check_blog_templates()
     check_about_transparency()
-    print("OK: AdSense readiness guards passed (identity, trust, editorial scope, SEO hierarchy, navigation, commercial isolation)")
+    print("OK: AdSense readiness guards passed (identity, trust, editorial scope, single-pass hub SEO, post hierarchy, navigation, commercial isolation)")
 
 
 if __name__ == "__main__":
