@@ -90,6 +90,37 @@ def check_middleware_separation() -> None:
             fail(f"editorial/commercial separation guard missing from middleware: {token}")
 
 
+def check_blog_seo_hierarchy() -> None:
+    js = read("functions/blog/_middleware.js")
+    required = [
+        "CollectionPage",
+        "BreadcrumbList",
+        "CORE_GUIDES",
+        "blog-topic-map",
+        "/blog/first-cruise-guide/",
+        "/blog/cruise-cost-breakdown/",
+        "/blog/cabin-type-comparison/",
+        "/blog/cruise-passport-documents-check/",
+        "/blog/cruise-boarding-process/",
+        "/blog/shore-excursion-guide/",
+    ]
+    for token in required:
+        if token not in js:
+            fail(f"blog SEO hierarchy guard missing: {token}")
+
+    forbidden = ["/partner/", "/membership/", "/academy/", "/#contact", "상담하기"]
+    for token in forbidden:
+        if token in js:
+            fail(f"commercial link/copy leaked into blog SEO middleware: {token}")
+
+
+def check_about_structured_data() -> None:
+    js = read("functions/about/_middleware.js")
+    for token in ("AboutPage", "BreadcrumbList", "Organization", "오케이크루즈"):
+        if token not in js:
+            fail(f"about structured-data guard missing: {token}")
+
+
 def check_static_noindex_guards() -> None:
     headers = read("_headers")
     for prefix in ("/partner/*", "/membership/*", "/academy/*"):
@@ -130,10 +161,12 @@ def main() -> None:
     check_trust_pages()
     check_editorial_sitemap_scope()
     check_middleware_separation()
+    check_blog_seo_hierarchy()
+    check_about_structured_data()
     check_static_noindex_guards()
     check_blog_templates()
     check_about_transparency()
-    print("OK: AdSense readiness guards passed (identity, trust, editorial scope, navigation, commercial isolation)")
+    print("OK: AdSense readiness guards passed (identity, trust, editorial scope, SEO hierarchy, navigation, commercial isolation)")
 
 
 if __name__ == "__main__":
