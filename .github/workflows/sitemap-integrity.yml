@@ -14,6 +14,8 @@ on:
       - '_headers'
       - '_routes.json'
       - 'functions/_middleware.js'
+      - 'functions/blog/_middleware.js'
+      - 'functions/about/_middleware.js'
       - 'blog/**/index.html'
       - 'blog/templates/**'
       - 'membership/index.html'
@@ -38,6 +40,8 @@ on:
       - '_headers'
       - '_routes.json'
       - 'functions/_middleware.js'
+      - 'functions/blog/_middleware.js'
+      - 'functions/about/_middleware.js'
       - 'blog/**/index.html'
       - 'blog/templates/**'
       - 'membership/index.html'
@@ -64,6 +68,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate SEO middleware syntax
+        run: |
+          node --check functions/blog/_middleware.js
+          node --check functions/about/_middleware.js
       - name: Validate sitemap files
         run: python scripts/validate_sitemaps.py
       - name: Validate AdSense readiness

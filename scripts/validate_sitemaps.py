@@ -113,16 +113,14 @@ def validate_legacy_indexes() -> None:
 
 def validate_robots() -> None:
     robots = read_text("robots.txt")
-    required = [
-        f"Sitemap: {BASE}/sitemap.xml",
-        f"Sitemap: {BASE}/sitemap.txt",
-    ]
-    for directive in required:
-        if directive not in robots:
-            fail(f"robots.txt missing directive: {directive}")
-    for filename in LEGACY_SITEMAP_ALIASES:
+    canonical = f"Sitemap: {BASE}/sitemap.xml"
+    if canonical not in robots:
+        fail(f"robots.txt missing canonical sitemap directive: {canonical}")
+
+    redundant = ["sitemap.txt", *LEGACY_SITEMAP_ALIASES]
+    for filename in redundant:
         if f"Sitemap: {BASE}/{filename}" in robots:
-            fail(f"robots.txt must not advertise legacy sitemap alias: {filename}")
+            fail(f"robots.txt must advertise only the canonical XML sitemap, found: {filename}")
 
 
 def validate_routes() -> None:
@@ -140,13 +138,14 @@ def validate_routes() -> None:
 def validate_headers() -> None:
     headers = read_text("_headers")
     required_tokens = [
-        "/sitemap.xml\n  Content-Type: application/xml; charset=UTF-8",
-        "/sitemap-google.xml\n  Content-Type: application/xml; charset=UTF-8",
-        "/sitemap.txt\n  Content-Type: text/plain; charset=UTF-8",
+        "/sitemap.xml\n  Content-Type: application/xml; charset=UTF-8\n  Cache-Control: public, max-age=300, must-revalidate, no-transform",
+        "/sitemap-google.xml\n  Content-Type: application/xml; charset=UTF-8\n  Cache-Control: public, max-age=300, must-revalidate, no-transform",
+        "/sitemap.txt\n  Content-Type: text/plain; charset=UTF-8\n  Cache-Control: public, max-age=300, must-revalidate, no-transform",
+        "/robots.txt\n  Content-Type: text/plain; charset=UTF-8\n  Cache-Control: public, max-age=300, must-revalidate, no-transform",
     ]
     for token in required_tokens:
         if token not in headers:
-            fail(f"_headers missing crawler-safe sitemap rule: {token.splitlines()[0]}")
+            fail(f"_headers missing crawler-safe metadata rule: {token.splitlines()[0]}")
 
 
 def main() -> None:
@@ -157,7 +156,7 @@ def main() -> None:
     validate_robots()
     validate_routes()
     validate_headers()
-    print(f"OK: validated {len(urls)} editorial canonical URLs, legacy aliases, coverage, routing, headers, and sitemap fallbacks")
+    print(f"OK: validated {len(urls)} editorial canonical URLs, one advertised sitemap, coverage, routing, and crawler-safe headers")
 
 
 if __name__ == "__main__":
