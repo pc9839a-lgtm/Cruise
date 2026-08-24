@@ -19,7 +19,7 @@
 
 /sitemap.xml
   Content-Type: application/xml; charset=UTF-8
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  Cache-Control: public, max-age=300, must-revalidate, no-transform
   ! Content-Security-Policy
   ! X-Frame-Options
   ! Permissions-Policy
@@ -28,7 +28,7 @@
 
 /sitemap-google.xml
   Content-Type: application/xml; charset=UTF-8
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  Cache-Control: public, max-age=300, must-revalidate, no-transform
   ! Content-Security-Policy
   ! X-Frame-Options
   ! Permissions-Policy
@@ -37,7 +37,7 @@
 
 /partner-sitemap.xml
   Content-Type: application/xml; charset=UTF-8
-  Cache-Control: public, max-age=0, must-revalidate, no-transform
+  Cache-Control: public, max-age=300, must-revalidate, no-transform
 
 /sitemap-2026.xml
   Content-Type: application/xml; charset=UTF-8
@@ -45,7 +45,7 @@
 
 /sitemap.txt
   Content-Type: text/plain; charset=UTF-8
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  Cache-Control: public, max-age=300, must-revalidate, no-transform
   ! Content-Security-Policy
   ! X-Frame-Options
   ! Permissions-Policy
@@ -62,7 +62,7 @@
 
 /robots.txt
   Content-Type: text/plain; charset=UTF-8
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0, no-transform
+  Cache-Control: public, max-age=300, must-revalidate, no-transform
 
 /ads.txt
   Content-Type: text/plain; charset=UTF-8
