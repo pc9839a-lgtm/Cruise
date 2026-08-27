@@ -179,6 +179,46 @@ function appendForwardedField(output, name, value) {
   if (value !== '' && value != null) output.set(name, String(value));
 }
 
+function getAppsScriptRedirectUrl(response) {
+  if (!response || response.status < 300 || response.status >= 400) return '';
+  const location = response.headers.get('Location');
+  if (!location) return '';
+
+  try {
+    const parsed = new URL(location, UPSTREAM_URL);
+    if (parsed.protocol !== 'https:') return '';
+    if (parsed.hostname !== 'script.googleusercontent.com') return '';
+    return parsed.toString();
+  } catch (error) {
+    return '';
+  }
+}
+
+async function postToAppsScript(formData) {
+  const initialResponse = await fetch(UPSTREAM_URL, {
+    method: 'POST',
+    body: formData,
+    redirect: 'manual',
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+
+  const redirectUrl = getAppsScriptRedirectUrl(initialResponse);
+  if (!redirectUrl) return initialResponse;
+
+  // Apps Script ContentService는 실행 후 script.googleusercontent.com으로
+  // 302 리디렉션한다. Worker가 POST 리디렉션을 자동 추적하면서 최종
+  // 응답을 4xx/5xx로 오판하는 경우를 피하기 위해 명시적으로 GET한다.
+  return fetch(redirectUrl, {
+    method: 'GET',
+    redirect: 'follow',
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+}
+
 export async function onRequestPost(context) {
   const { request } = context;
 
@@ -296,11 +336,7 @@ export async function onRequestPost(context) {
 
   let upstreamResponse;
   try {
-    upstreamResponse = await fetch(UPSTREAM_URL, {
-      method: 'POST',
-      body: forwarded,
-      redirect: 'follow'
-    });
+    upstreamResponse = await postToAppsScript(forwarded);
   } catch (error) {
     return jsonResponse({ success: false, message: '접수 서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.' }, 502);
   }
