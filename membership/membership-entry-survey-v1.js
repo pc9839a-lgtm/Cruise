@@ -49,8 +49,7 @@
   style.id = 'cruise-membership-entry-survey-style';
   style.textContent = `
     :root {
-      --cms-bg: #f4f7fc;
-      --cms-surface: rgba(255,255,255,.94);
+      --cms-surface: rgba(255,255,255,.96);
       --cms-text: #0f1931;
       --cms-muted: #637393;
       --cms-blue: #2e66ff;
@@ -77,7 +76,7 @@
     }
 
     .cms-survey-shell {
-      width: min(calc(100% - 32px), 1080px);
+      width: min(calc(100% - 32px),1080px);
       min-height: 100vh;
       min-height: 100dvh;
       margin: 0 auto;
@@ -88,24 +87,20 @@
 
     .cms-survey-top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 18px;
       margin-bottom: 20px;
     }
 
-    .cms-survey-brand {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: -.03em;
-      color: var(--cms-blue-strong);
+    .cms-survey-brand,
+    .cms-survey-progress-text {
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 950;
     }
 
-    .cms-survey-progress-text {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--cms-text);
-    }
+    .cms-survey-brand { color: var(--cms-blue-strong); }
 
     .cms-survey-progress {
       width: 100%;
@@ -120,7 +115,7 @@
       height: 100%;
       border-radius: inherit;
       background: linear-gradient(90deg,var(--cms-blue),var(--cms-blue-strong));
-      transition: width .28s ease;
+      transition: width .25s ease;
     }
 
     .cms-survey-panel {
@@ -128,12 +123,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 44px 0 24px;
+      padding: 42px 0 24px;
     }
 
-    .cms-survey-card {
+    .cms-survey-card,
+    .cms-result {
       width: 100%;
-      animation: cmsIn .26s ease both;
+      animation: cmsIn .24s ease both;
     }
 
     @keyframes cmsIn {
@@ -142,21 +138,19 @@
     }
 
     .cms-survey-title {
+      max-width: 900px;
       margin: 0 auto 46px;
-      max-width: 880px;
       text-align: center;
       white-space: pre-line;
-      font-size: clamp(52px,7vw,86px);
-      line-height: 1.03;
+      font-size: clamp(54px,7vw,88px);
+      line-height: 1.02;
       letter-spacing: -.065em;
       font-weight: 950;
       word-break: keep-all;
     }
 
-    .cms-survey-title::first-line { color: var(--cms-text); }
-
     .cms-survey-options {
-      width: min(100%, 920px);
+      width: min(100%,920px);
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(2,minmax(0,1fr));
@@ -167,21 +161,21 @@
       appearance: none;
       width: 100%;
       min-height: 190px;
+      padding: 28px;
       border: 1px solid var(--cms-line);
       border-radius: 34px;
       background: var(--cms-surface);
       box-shadow: var(--cms-shadow);
-      padding: 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 18px;
       color: var(--cms-text);
-      cursor: pointer;
-      transition: transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease;
-      font: inherit;
       text-align: center;
+      font: inherit;
+      cursor: pointer;
+      transition: transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease;
     }
 
     .cms-survey-option:hover,
@@ -205,8 +199,8 @@
 
     .cms-survey-option-title {
       display: block;
-      font-size: clamp(26px,3vw,34px);
-      line-height: 1.2;
+      font-size: clamp(28px,3vw,36px);
+      line-height: 1.18;
       letter-spacing: -.045em;
       font-weight: 950;
       word-break: keep-all;
@@ -215,53 +209,56 @@
     .cms-survey-back {
       display: block;
       margin: 30px auto 0;
-      padding: 14px 18px;
+      padding: 14px 20px;
       border: 0;
       background: transparent;
       color: var(--cms-muted);
       font: inherit;
-      font-size: 20px;
-      font-weight: 850;
+      font-size: 22px;
+      font-weight: 900;
       cursor: pointer;
-    }
-
-    .cms-result {
-      width: 100%;
-      animation: cmsIn .3s ease both;
     }
 
     .cms-result-kicker {
       display: block;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       text-align: center;
       color: var(--cms-blue-strong);
-      font-size: clamp(22px,2.4vw,30px);
+      font-size: clamp(24px,2.5vw,32px);
+      line-height: 1.2;
       font-weight: 950;
       letter-spacing: -.04em;
     }
 
     .cms-result-title {
-      margin: 0 0 36px;
+      max-width: 950px;
+      margin: 0 auto 34px;
       text-align: center;
-      font-size: clamp(44px,6vw,72px);
-      line-height: 1.04;
+      white-space: pre-line;
+      font-size: clamp(48px,6.5vw,78px);
+      line-height: 1.03;
       letter-spacing: -.065em;
       font-weight: 950;
       word-break: keep-all;
     }
 
     .cms-price-grid {
-      width: min(100%, 980px);
+      width: min(100%,980px);
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(2,minmax(0,1fr));
       gap: 22px;
     }
 
+    .cms-price-grid.is-single {
+      width: min(100%,720px);
+      grid-template-columns: 1fr;
+    }
+
     .cms-price-card {
       min-height: 250px;
       border-radius: 34px;
-      padding: 34px 26px;
+      padding: 32px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -277,19 +274,23 @@
       background: linear-gradient(180deg,#fff,#f4f7ff);
     }
 
+    .cms-price-card.is-guide {
+      border: 2px solid rgba(15,25,49,.14);
+    }
+
     .cms-price-label {
       display: block;
       margin-bottom: 14px;
-      font-size: clamp(22px,2.3vw,28px);
+      font-size: clamp(24px,2.5vw,30px);
       line-height: 1.2;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -.04em;
     }
 
     .cms-price {
       display: block;
-      font-size: clamp(64px,9vw,112px);
-      line-height: .95;
+      font-size: clamp(66px,9vw,116px);
+      line-height: .94;
       letter-spacing: -.08em;
       font-weight: 950;
       white-space: nowrap;
@@ -298,10 +299,10 @@
     .cms-price-card.is-direct .cms-price { color: var(--cms-blue); }
 
     .cms-saving {
-      width: min(100%, 980px);
-      margin: 26px auto 0;
-      border-radius: 34px;
-      padding: 30px 24px;
+      width: min(100%,980px);
+      margin: 24px auto 0;
+      padding: 28px 22px;
+      border-radius: 30px;
       text-align: center;
       background: var(--cms-text);
       color: #fff;
@@ -309,99 +310,71 @@
 
     .cms-saving-main {
       display: block;
-      font-size: clamp(36px,5vw,64px);
-      line-height: 1.08;
+      font-size: clamp(40px,5.5vw,68px);
+      line-height: 1.05;
       letter-spacing: -.06em;
       font-weight: 950;
     }
 
-    .cms-saving-main strong { color: #7ca2ff; }
+    .cms-saving-main strong { color: #8aaaff; }
 
     .cms-saving-sub {
       display: block;
-      margin-top: 12px;
-      font-size: clamp(26px,3vw,38px);
-      line-height: 1.15;
-      letter-spacing: -.05em;
-      font-weight: 900;
-    }
-
-    .cms-result-bridge {
-      margin: 34px auto 0;
-      text-align: center;
-      font-size: clamp(30px,4vw,48px);
-      line-height: 1.18;
-      letter-spacing: -.055em;
-      font-weight: 950;
-      word-break: keep-all;
-    }
-
-    .cms-result-bridge strong {
-      display: block;
       margin-top: 8px;
-      color: var(--cms-blue);
+      font-size: clamp(28px,3.2vw,40px);
+      line-height: 1.1;
+      letter-spacing: -.05em;
+      font-weight: 950;
     }
 
     .cms-result-actions {
-      width: min(100%, 680px);
-      margin: 30px auto 0;
+      width: min(100%,680px);
+      margin: 28px auto 0;
       display: grid;
-      gap: 14px;
+      gap: 10px;
     }
 
     .cms-survey-primary,
     .cms-survey-secondary {
-      min-height: 76px;
-      border-radius: 999px;
-      padding: 0 26px;
+      appearance: none;
       border: 0;
       font: inherit;
-      font-size: clamp(22px,2.6vw,30px);
       font-weight: 950;
       cursor: pointer;
     }
 
     .cms-survey-primary {
+      min-height: 80px;
+      padding: 0 28px;
+      border-radius: 999px;
       background: linear-gradient(135deg,var(--cms-blue),var(--cms-blue-strong));
       color: #fff;
       box-shadow: 0 18px 38px rgba(46,102,255,.24);
+      font-size: clamp(24px,2.8vw,32px);
     }
 
     .cms-survey-secondary {
-      min-height: 58px;
+      min-height: 54px;
       background: transparent;
       color: var(--cms-muted);
-      font-size: 20px;
+      font-size: 21px;
     }
 
     @media (max-width: 720px) {
       .cms-survey-shell {
-        width: min(calc(100% - 24px), 680px);
+        width: min(calc(100% - 24px),680px);
         padding: 20px 0 28px;
       }
 
       .cms-survey-brand,
-      .cms-survey-progress-text { font-size: 17px; }
-
+      .cms-survey-progress-text { font-size: 18px; }
       .cms-survey-progress { height: 8px; }
-
-      .cms-survey-panel {
-        align-items: flex-start;
-        padding: 52px 0 18px;
-      }
-
-      .cms-survey-title {
-        margin-bottom: 34px;
-        font-size: clamp(42px,12vw,60px);
-      }
-
-      .cms-survey-options {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
+      .cms-survey-panel { align-items: flex-start; padding: 48px 0 18px; }
+      .cms-survey-title { margin-bottom: 34px; font-size: clamp(44px,12vw,62px); }
+      .cms-survey-options { grid-template-columns: 1fr; gap: 16px; }
 
       .cms-survey-option {
-        min-height: 130px;
+        min-height: 132px;
         border-radius: 26px;
         padding: 22px 18px;
         flex-direction: row;
@@ -411,19 +384,16 @@
 
       .cms-survey-option-icon {
         flex: 0 0 auto;
-        width: 58px;
+        width: 60px;
         font-size: 40px;
         text-align: center;
       }
 
-      .cms-survey-option-title {
-        font-size: 26px;
-      }
-
-      .cms-price-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+      .cms-survey-option-title { font-size: 27px; }
+      .cms-result-kicker { font-size: 24px; }
+      .cms-result-title { margin-bottom: 28px; font-size: clamp(40px,10.5vw,56px); }
+      .cms-price-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .cms-price-grid.is-single { grid-template-columns: 1fr; }
 
       .cms-price-card {
         min-height: 180px;
@@ -431,32 +401,33 @@
         padding: 22px 10px;
       }
 
-      .cms-price-label { font-size: 20px; }
-      .cms-price { font-size: clamp(47px,14vw,72px); }
+      .cms-price-grid.is-single .cms-price-card { min-height: 220px; }
+      .cms-price-label { font-size: 21px; }
+      .cms-price { font-size: clamp(48px,14vw,74px); }
 
       .cms-saving {
         margin-top: 14px;
         border-radius: 24px;
-        padding: 24px 16px;
+        padding: 22px 14px;
       }
 
-      .cms-saving-main { font-size: clamp(34px,9vw,48px); }
-      .cms-saving-sub { font-size: clamp(26px,7vw,34px); }
-      .cms-result-title { font-size: clamp(36px,10vw,52px); }
-      .cms-result-bridge { font-size: clamp(30px,8vw,40px); }
-      .cms-survey-primary { min-height: 72px; font-size: 24px; }
+      .cms-saving-main { font-size: clamp(36px,9vw,50px); }
+      .cms-saving-sub { font-size: clamp(27px,7vw,36px); }
+      .cms-survey-primary { min-height: 74px; font-size: 25px; }
+      .cms-survey-secondary { font-size: 20px; }
     }
 
     @media (max-width: 430px) {
       .cms-survey-panel { padding-top: 38px; }
       .cms-survey-title { font-size: 44px; }
-      .cms-survey-option { min-height: 122px; }
-      .cms-survey-option-title { font-size: 24px; }
-      .cms-price-label { font-size: 18px; }
+      .cms-survey-option { min-height: 124px; }
+      .cms-survey-option-title { font-size: 25px; }
+      .cms-result-kicker { font-size: 22px; }
+      .cms-result-title { font-size: 40px; }
+      .cms-price-label { font-size: 19px; }
       .cms-price { font-size: 48px; }
-      .cms-saving-main { font-size: 34px; }
-      .cms-saving-sub { font-size: 27px; }
-      .cms-result-kicker { font-size: 20px; }
+      .cms-saving-main { font-size: 35px; }
+      .cms-saving-sub { font-size: 28px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -481,8 +452,7 @@
     overlay.className = 'cms-survey-overlay';
     overlay.setAttribute('role','dialog');
     overlay.setAttribute('aria-modal','true');
-    overlay.setAttribute('aria-label','크루즈 여행 성향 설문');
-
+    overlay.setAttribute('aria-label','크루즈 여행 설문');
     overlay.innerHTML = `
       <div class="cms-survey-shell">
         <div class="cms-survey-top">
@@ -543,7 +513,7 @@
           } else {
             renderResult();
           }
-        },130);
+        },120);
       });
     });
 
@@ -554,11 +524,98 @@
     });
   }
 
+  function getResult() {
+    const experienced = answers.experience === 'yes';
+
+    if (answers.guide === 'guide' && answers.priority === 'comfort') {
+      return {
+        id: 'guided-comfort',
+        kicker: experienced ? '크루즈 경험자 · 편안함 우선' : '크루즈 처음 · 편안함 우선',
+        title: '가이드가 있는 여행이\n더 잘 맞습니다',
+        layout: 'guide',
+        cta: '멤버십도 비교해보기'
+      };
+    }
+
+    if (answers.guide === 'self' && answers.priority === 'value') {
+      return {
+        id: 'direct-value',
+        kicker: experienced ? '크루즈 경험자 · 가성비 우선' : '크루즈 처음 · 가성비 우선',
+        title: experienced ? '가이드 없이 가면\n훨씬 저렴합니다' : '자유여행이 괜찮다면\n가격 차이가 큽니다',
+        layout: 'saving',
+        cta: '크루즈 멤버십 보기'
+      };
+    }
+
+    if (answers.guide === 'guide' && answers.priority === 'value') {
+      return {
+        id: 'guided-value',
+        kicker: experienced ? '크루즈 경험자 · 가격도 중요' : '크루즈 처음 · 가격도 중요',
+        title: '가이드는 필요하지만\n80만원 차이',
+        layout: 'compare',
+        cta: '가격 차이 더 알아보기'
+      };
+    }
+
+    return {
+      id: 'direct-comfort',
+      kicker: experienced ? '크루즈 경험자 · 자유여행 가능' : '크루즈 처음 · 자유여행 가능',
+      title: '가이드 없이도\n편하게 가고 싶다면',
+      layout: 'direct',
+      cta: '가이드 없는 방법 보기'
+    };
+  }
+
+  function resultBody(result) {
+    if (result.layout === 'guide') {
+      return `
+        <div class="cms-price-grid is-single">
+          <div class="cms-price-card is-guide">
+            <span class="cms-price-label">4박 5일 아시아 크루즈 · 가이드 포함 예시</span>
+            <strong class="cms-price">약 200만원</strong>
+          </div>
+        </div>
+      `;
+    }
+
+    if (result.layout === 'direct') {
+      return `
+        <div class="cms-price-grid is-single">
+          <div class="cms-price-card is-direct">
+            <span class="cms-price-label">4박 5일 아시아 크루즈 · 가이드 없이 예시</span>
+            <strong class="cms-price">약 120만원</strong>
+          </div>
+        </div>
+        <div class="cms-saving">
+          <span class="cms-saving-main">가이드 포함보다 <strong>80만원 ↓</strong></span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="cms-price-grid">
+        <div class="cms-price-card is-guide">
+          <span class="cms-price-label">가이드 포함</span>
+          <strong class="cms-price">200만원</strong>
+        </div>
+        <div class="cms-price-card is-direct">
+          <span class="cms-price-label">가이드 없이</span>
+          <strong class="cms-price">120만원</strong>
+        </div>
+      </div>
+      <div class="cms-saving">
+        <span class="cms-saving-main">1인 <strong>80만원 차이</strong></span>
+        ${result.layout === 'saving' ? '<span class="cms-saving-sub">2명이면 160만원 차이</span>' : ''}
+      </div>
+    `;
+  }
+
   function renderResult() {
     updateProgress(questions.length - 1,true);
+    const result = getResult();
 
     const payload = {
-      result: answers.guide === 'self' || answers.priority === 'value' ? 'value' : 'comfort',
+      result: result.id,
       answers: { ...answers },
       completedAt: new Date().toISOString()
     };
@@ -568,6 +625,7 @@
     if (Array.isArray(window.dataLayer)) {
       window.dataLayer.push({
         event: 'membership_travel_survey_complete',
+        survey_result: result.id,
         survey_experience: answers.experience,
         survey_guide: answers.guide,
         survey_priority: answers.priority
@@ -576,32 +634,11 @@
 
     panel.innerHTML = `
       <div class="cms-result">
-        <span class="cms-result-kicker">4박 5일 아시아 크루즈 · 1인 예시</span>
-        <h1 class="cms-result-title">여행 방식에 따라<br>금액이 이렇게 달라집니다</h1>
-
-        <div class="cms-price-grid">
-          <div class="cms-price-card">
-            <span class="cms-price-label">가이드 포함</span>
-            <strong class="cms-price">200만원</strong>
-          </div>
-          <div class="cms-price-card is-direct">
-            <span class="cms-price-label">가이드 없이</span>
-            <strong class="cms-price">120만원</strong>
-          </div>
-        </div>
-
-        <div class="cms-saving">
-          <span class="cms-saving-main">1인 <strong>80만원 차이</strong></span>
-          <span class="cms-saving-sub">2명이면 160만원 차이</span>
-        </div>
-
-        <div class="cms-result-bridge">
-          가이드가 꼭 필요하지 않다면?
-          <strong>더 합리적인 방법이 있습니다.</strong>
-        </div>
-
+        <span class="cms-result-kicker">${esc(result.kicker)}</span>
+        <h1 class="cms-result-title">${esc(result.title)}</h1>
+        ${resultBody(result)}
         <div class="cms-result-actions">
-          <button type="button" class="cms-survey-primary">크루즈 멤버십 보기</button>
+          <button type="button" class="cms-survey-primary">${esc(result.cta)}</button>
           <button type="button" class="cms-survey-secondary">다시 선택</button>
         </div>
       </div>
