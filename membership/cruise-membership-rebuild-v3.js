@@ -357,6 +357,172 @@ async function loadMembershipSignupUrl() {
   }
 }
 
+function injectConversionSections() {
+  if (document.getElementById('conversion-sections-style')) return;
+
+  const style = document.createElement('style');
+  style.id = 'conversion-sections-style';
+  style.textContent = `
+    .cv-section{position:relative;padding:92px 0;overflow:hidden}.cv-section *{box-sizing:border-box}.cv-dark{background:#0f1931;color:#fff}.cv-blue{background:linear-gradient(135deg,#1e4f98 0%,#173766 100%);color:#fff}.cv-soft{background:#f3f6fb}.cv-head{max-width:900px;margin:0 auto 40px;text-align:center}.cv-kicker{display:inline-block;margin-bottom:14px;color:#2e66ff;font-size:14px;font-weight:900;letter-spacing:-.02em}.cv-dark .cv-kicker,.cv-blue .cv-kicker{color:#91b7ff}.cv-head h2{margin:0;font-size:clamp(36px,5vw,66px);line-height:1.02;letter-spacing:-.065em;font-weight:950}.cv-head p{margin:16px 0 0;font-size:20px;line-height:1.5;font-weight:750;color:#667085}.cv-dark .cv-head p,.cv-blue .cv-head p{color:rgba(255,255,255,.76)}
+    .cv-price-stage{max-width:1000px;margin:0 auto;text-align:center}.cv-price-line{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}.cv-old-price{font-size:clamp(44px,7vw,88px);font-weight:950;letter-spacing:-.07em;color:rgba(255,255,255,.48);text-decoration:line-through;text-decoration-thickness:5px}.cv-arrow{font-size:clamp(34px,5vw,64px);font-weight:900;color:#7aa7ff}.cv-new-price{font-size:clamp(60px,9vw,118px);line-height:.9;font-weight:950;letter-spacing:-.08em;color:#fff}.cv-diff-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:720px;margin:38px auto 0}.cv-diff{padding:24px;border:1px solid rgba(255,255,255,.13);border-radius:24px;background:rgba(255,255,255,.08)}.cv-diff span{display:block;font-size:15px;font-weight:800;color:rgba(255,255,255,.68)}.cv-diff strong{display:block;margin-top:7px;font-size:clamp(30px,4vw,46px);letter-spacing:-.055em}.cv-cta{display:inline-flex;align-items:center;justify-content:center;min-height:62px;margin-top:30px;padding:0 30px;border:0;border-radius:999px;background:#2e66ff;color:#fff;font-size:19px;font-weight:950;cursor:pointer;box-shadow:0 16px 34px rgba(46,102,255,.3)}
+    .cv-identity{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;max-width:1000px;margin:0 auto}.cv-identity-main{padding:38px;border-radius:30px;background:#0f1931;color:#fff}.cv-identity-main span{font-size:15px;font-weight:850;color:#9db8e4}.cv-identity-main strong{display:block;margin-top:14px;font-size:clamp(38px,5vw,62px);line-height:1.02;letter-spacing:-.065em}.cv-steps{display:grid;gap:12px}.cv-step{display:grid;grid-template-columns:58px 1fr;align-items:center;gap:18px;padding:22px 24px;border-radius:22px;background:#fff;border:1px solid rgba(12,24,48,.08)}.cv-step b{display:flex;width:58px;height:58px;align-items:center;justify-content:center;border-radius:18px;background:#eaf1ff;color:#2e66ff;font-size:22px}.cv-step strong{display:block;font-size:23px;letter-spacing:-.04em}.cv-step span{display:block;margin-top:4px;color:#667085;font-size:15px;font-weight:700}
+    .cv-freedom-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:980px;margin:0 auto}.cv-freedom-item{padding:30px 22px;border-radius:26px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.13);text-align:center}.cv-freedom-item span{display:block;font-size:15px;font-weight:800;color:rgba(255,255,255,.65)}.cv-freedom-item strong{display:block;margin-top:9px;font-size:clamp(27px,3vw,38px);letter-spacing:-.055em}.cv-freedom-punch{margin:34px auto 0;text-align:center;font-size:clamp(32px,5vw,58px);font-weight:950;letter-spacing:-.065em}.cv-freedom-punch em{font-style:normal;color:#8db4ff}
+    .cv-pay-wrap{max-width:1000px;margin:0 auto}.cv-pay-card{padding:36px;border-radius:30px;background:#fff;border:1px solid rgba(12,24,48,.08);box-shadow:0 20px 50px rgba(15,25,49,.08)}.cv-pay-label{text-align:center;color:#667085;font-size:16px;font-weight:850}.cv-pay-total{text-align:center;margin-top:8px;font-size:clamp(44px,7vw,76px);font-weight:950;letter-spacing:-.065em}.cv-pay-split{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;margin-top:30px}.cv-pay-half{padding:28px;border-radius:24px;background:#eef3fb;text-align:center}.cv-pay-half.blue{background:#1f4f96;color:#fff}.cv-pay-half span{display:block;font-size:15px;font-weight:850;color:#667085}.cv-pay-half.blue span{color:rgba(255,255,255,.7)}.cv-pay-half strong{display:block;margin-top:8px;font-size:clamp(36px,5vw,58px);letter-spacing:-.055em}.cv-plus{font-size:38px;font-weight:900;color:#9aa5b5}.cv-pay-caption{text-align:center;margin-top:20px;font-size:22px;font-weight:950;color:#1f4f96}.cv-accum-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.cv-accum{padding:28px;border-radius:26px;background:#fff;border:1px solid rgba(12,24,48,.08)}.cv-accum h3{margin:0 0 18px;font-size:25px;letter-spacing:-.045em}.cv-accum-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid #e8ecf2}.cv-accum-row span{font-size:15px;font-weight:800;color:#667085}.cv-accum-row strong{font-size:24px;font-weight:950;letter-spacing:-.04em}.cv-accum-row:last-child strong{color:#2e66ff;font-size:31px}
+    .cv-use-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:1000px;margin:0 auto}.cv-use-step{position:relative;padding:28px 22px;border-radius:24px;background:#fff;border:1px solid rgba(12,24,48,.08)}.cv-use-step b{display:block;color:#2e66ff;font-size:13px}.cv-use-step strong{display:block;margin-top:14px;font-size:23px;line-height:1.18;letter-spacing:-.045em}.cv-use-step span{display:block;margin-top:8px;color:#667085;font-size:15px;font-weight:700}.cv-use-step:not(:last-child)::after{content:'→';position:absolute;right:-13px;top:50%;z-index:2;transform:translateY(-50%);font-size:24px;font-weight:900;color:#2e66ff}
+    .cv-final-box{max-width:1000px;margin:0 auto;padding:54px 34px;border-radius:34px;background:linear-gradient(135deg,#0f1931 0%,#214f94 100%);color:#fff;text-align:center}.cv-final-box h2{margin:0;font-size:clamp(38px,6vw,72px);line-height:1.02;letter-spacing:-.07em}.cv-final-points{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:30px}.cv-final-points span{padding:14px 20px;border-radius:999px;background:rgba(255,255,255,.1);font-size:17px;font-weight:900}.cv-final-box .cv-cta{background:#fff;color:#1f4f96}
+    @media(max-width:780px){.cv-section{padding:68px 0}.cv-head{margin-bottom:28px}.cv-head h2{font-size:38px}.cv-head p{font-size:17px}.cv-price-line{gap:12px}.cv-old-price{font-size:42px}.cv-arrow{font-size:32px}.cv-new-price{font-size:68px}.cv-diff-grid,.cv-identity,.cv-freedom-grid,.cv-accum-grid,.cv-use-flow{grid-template-columns:1fr}.cv-identity-main{padding:28px 24px}.cv-step{grid-template-columns:48px 1fr;padding:18px}.cv-step b{width:48px;height:48px}.cv-freedom-item{padding:24px 18px}.cv-pay-card{padding:26px 18px}.cv-pay-split{grid-template-columns:1fr;gap:10px}.cv-plus{transform:rotate(90deg);font-size:28px}.cv-use-step:not(:last-child)::after{content:'↓';right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}.cv-final-box{padding:40px 22px;border-radius:28px}.cv-cta{width:100%;margin-top:24px}}
+  `;
+  document.head.appendChild(style);
+
+  const insertAfter = (selector, html) => {
+    const anchor = document.querySelector(selector);
+    if (!anchor) return;
+    anchor.insertAdjacentHTML('afterend', html);
+  };
+
+  insertAfter('.review-flow-section', `
+    <section id="cv-price-proof" class="cv-section cv-dark">
+      <div class="container">
+        <div class="cv-head reveal reveal-rise">
+          <span class="cv-kicker">예약 가격 비교 예시</span>
+          <h2>같은 크루즈라도<br>예약가는 달라집니다</h2>
+        </div>
+        <div class="cv-price-stage reveal reveal-scale">
+          <div class="cv-price-line">
+            <span class="cv-old-price">200만원</span>
+            <span class="cv-arrow">→</span>
+            <strong class="cv-new-price">120만원</strong>
+          </div>
+          <div class="cv-diff-grid">
+            <div class="cv-diff"><span>1인 기준 차이</span><strong>80만원</strong></div>
+            <div class="cv-diff"><span>2인 기준 차이</span><strong>160만원</strong></div>
+          </div>
+          <button type="button" class="cv-cta cv-scroll-plans">80만원 아끼는 방법 보기</button>
+        </div>
+      </div>
+    </section>
+  `);
+
+  insertAfter('#why-direct', `
+    <section id="cv-identity" class="cv-section cv-soft">
+      <div class="container">
+        <div class="cv-head reveal reveal-rise">
+          <span class="cv-kicker">인크루즈가 뭔가요?</span>
+          <h2>크루즈 예약 멤버십입니다</h2>
+        </div>
+        <div class="cv-identity">
+          <div class="cv-identity-main reveal reveal-left">
+            <span>inCruises</span>
+            <strong>매달 쌓고<br>여행할 때 씁니다</strong>
+          </div>
+          <div class="cv-steps">
+            <div class="cv-step reveal reveal-right"><b>1</b><div><strong>멤버십 결제</strong><span>클래식 $100 · 프리미엄 $250</span></div></div>
+            <div class="cv-step reveal reveal-right"><b>2</b><div><strong>포인트 적립</strong><span>매월 200P · 500P</span></div></div>
+            <div class="cv-step reveal reveal-right"><b>3</b><div><strong>크루즈 예약</strong><span>쌓인 포인트를 예약에 사용</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `);
+
+  insertAfter('#plans', `
+    <section id="cv-no-contract" class="cv-section cv-blue">
+      <div class="container">
+        <div class="cv-head reveal reveal-rise">
+          <span class="cv-kicker">구독 부담은 낮게</span>
+          <h2>매월 구독하지만<br>묶이지 않습니다</h2>
+        </div>
+        <div class="cv-freedom-grid">
+          <div class="cv-freedom-item reveal reveal-left"><span>의무 유지기간</span><strong>약정 없음</strong></div>
+          <div class="cv-freedom-item reveal reveal-scale"><span>중도 해지 비용</span><strong>해지 위약금 없음</strong></div>
+          <div class="cv-freedom-item reveal reveal-right"><span>여행이 끝난 뒤</span><strong>해지 가능</strong></div>
+        </div>
+        <div class="cv-freedom-punch reveal reveal-pop">여행 다녀온 뒤 <em>해지해도 됩니다</em></div>
+      </div>
+    </section>
+  `);
+
+  insertAfter('#earn-points', `
+    <section id="cv-point-value" class="cv-section cv-soft">
+      <div class="container">
+        <div class="cv-head reveal reveal-rise">
+          <span class="cv-kicker">포인트가 실제로 줄이는 비용</span>
+          <h2>쌓일수록<br>카드로 낼 돈이 줄어듭니다</h2>
+        </div>
+        <div class="cv-pay-wrap">
+          <div class="cv-pay-card reveal reveal-scale">
+            <div class="cv-pay-label">크루즈 $2,000 예약 예시</div>
+            <div class="cv-pay-total">$2,000</div>
+            <div class="cv-pay-split">
+              <div class="cv-pay-half blue"><span>포인트 50%</span><strong>1,000P</strong></div>
+              <div class="cv-plus">+</div>
+              <div class="cv-pay-half"><span>카드 50%</span><strong>$1,000</strong></div>
+            </div>
+            <div class="cv-pay-caption">50% 포인트 + 50% 카드 결제</div>
+          </div>
+
+          <div class="cv-accum-grid">
+            <div class="cv-accum reveal reveal-left">
+              <h3>클래식 · 매월 200P</h3>
+              <div class="cv-accum-row"><span>1개월</span><strong>200P</strong></div>
+              <div class="cv-accum-row"><span>3개월</span><strong>600P</strong></div>
+              <div class="cv-accum-row"><span>6개월</span><strong>1,200P</strong></div>
+              <div class="cv-accum-row"><span>12개월</span><strong>2,400P</strong></div>
+            </div>
+            <div class="cv-accum reveal reveal-right">
+              <h3>프리미엄 · 매월 500P</h3>
+              <div class="cv-accum-row"><span>1개월</span><strong>500P</strong></div>
+              <div class="cv-accum-row"><span>3개월</span><strong>1,500P</strong></div>
+              <div class="cv-accum-row"><span>6개월</span><strong>3,000P</strong></div>
+              <div class="cv-accum-row"><span>12개월</span><strong>6,000P</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `);
+
+  insertAfter('#calculator', `
+    <section id="cv-use-flow" class="cv-section">
+      <div class="container">
+        <div class="cv-head reveal reveal-rise">
+          <span class="cv-kicker">실제 이용 순서</span>
+          <h2>원하는 크루즈를 고르고<br>포인트를 쓰면 됩니다</h2>
+        </div>
+        <div class="cv-use-flow">
+          <div class="cv-use-step reveal"><b>STEP 1</b><strong>크루즈 선택</strong><span>날짜 · 선사 · 객실</span></div>
+          <div class="cv-use-step reveal"><b>STEP 2</b><strong>포인트 적용</strong><span>쌓인 포인트 사용</span></div>
+          <div class="cv-use-step reveal"><b>STEP 3</b><strong>나머지 카드 결제</strong><span>일반 예약 50%</span></div>
+          <div class="cv-use-step reveal"><b>STEP 4</b><strong>여행 후 해지 가능</strong><span>약정 · 해지 위약금 없음</span></div>
+        </div>
+      </div>
+    </section>
+  `);
+
+  insertAfter('#hotel-benefit', `
+    <section id="cv-final" class="cv-section">
+      <div class="container">
+        <div class="cv-final-box reveal reveal-scale">
+          <h2>미리 쌓을수록<br>크루즈는 더 저렴해집니다</h2>
+          <div class="cv-final-points">
+            <span>$100 → 매월 200P</span>
+            <span>$250 → 매월 500P</span>
+            <span>약정 없음</span>
+            <span>여행 후 해지 가능</span>
+          </div>
+          <button type="button" class="cv-cta cv-scroll-plans">80만원 아끼는 방법 보기</button>
+        </div>
+      </div>
+    </section>
+  `);
+
+  document.querySelectorAll('.cv-scroll-plans').forEach((button) => {
+    button.addEventListener('click', () => {
+      document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+}
+
 function setupPlansFloatingCtaObserver() {
   const plansSection = document.getElementById('plans');
   const floatingCta = document.querySelector('.floating-cta');
@@ -437,6 +603,7 @@ function observeReveals() {
 
 async function init() {
   renderNotices();
+  injectConversionSections();
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
