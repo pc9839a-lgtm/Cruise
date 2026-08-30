@@ -63,16 +63,21 @@ function syncPlanGridColumns() {
   if (!wrap) return;
 
   const isMobile = window.matchMedia('(max-width: 720px)').matches;
+
   wrap.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))';
-  wrap.style.maxWidth = isMobile ? '100%' : '920px';
+  wrap.style.maxWidth = isMobile ? '100%' : '1000px';
+  wrap.style.gap = isMobile ? '14px' : '18px';
   wrap.style.margin = '0 auto';
+
+  wrap.querySelectorAll('.plan-feature-group').forEach((group) => {
+    group.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))';
+    group.style.gap = isMobile ? '10px' : '12px';
+  });
 }
 
 function renderPlans() {
   const wrap = document.getElementById('planCards');
   if (!wrap) return;
-
-  syncPlanGridColumns();
 
   const plansHeading = document.querySelector('#plans .membership-section-head h2');
   if (plansHeading) {
@@ -80,19 +85,23 @@ function renderPlans() {
   }
 
   wrap.innerHTML = plans.map((plan) => {
-    const monthlyKrw = plan.monthlyUsd === 0 ? '없음' : formatKrw(plan.monthlyUsd * state.exchangeRate);
-    const startKrw = plan.startUsd === 0 ? '없음' : formatKrw(plan.startUsd * state.exchangeRate);
+    const monthlyKrw = formatKrw(plan.monthlyUsd * state.exchangeRate);
+    const startKrw = formatKrw(plan.startUsd * state.exchangeRate);
     const signupHref = state.membershipSignupUrl || '#';
     const signupAttrs = state.membershipSignupUrl
       ? 'target="_blank" rel="noopener"'
       : '';
 
-    return `
-      <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}">
-        <span class="plan-tag">${plan.tag}</span>
-        <div class="plan-name">${plan.name}</div>
+    const statBorder = plan.recommended
+      ? 'rgba(255,255,255,.16)'
+      : 'rgba(15,25,49,.10)';
 
-        <div class="plan-price-row">
+    return `
+      <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}" style="padding:28px;">
+        <span class="plan-tag">${plan.tag}</span>
+        <div class="plan-name" style="margin-top:20px;">${plan.name}</div>
+
+        <div class="plan-price-row" style="margin-bottom:22px;">
           <div class="plan-price">${formatUsd(plan.monthlyUsd)}</div>
           <div class="plan-price-unit">/월</div>
         </div>
@@ -112,33 +121,34 @@ function renderPlans() {
           </div>
         </div>
 
-        <div class="plan-top-stats">
-          <div class="plan-stat">
+        <div class="plan-top-stats" style="gap:0;margin-bottom:20px;border-top:1px solid ${statBorder};">
+          <div class="plan-stat" style="min-height:58px;padding:14px 2px;border:0;border-bottom:1px solid ${statBorder};border-radius:0;background:transparent;">
             <span class="label">월 비용</span>
             <div class="value">${monthlyKrw}</div>
           </div>
-          <div class="plan-stat">
+          <div class="plan-stat" style="min-height:58px;padding:14px 2px;border:0;border-bottom:1px solid ${statBorder};border-radius:0;background:transparent;">
             <span class="label">시작 비용</span>
             <div class="value">${startKrw}</div>
           </div>
         </div>
 
         <div class="plan-feature-group">
-          <div class="plan-feature">
+          <div class="plan-feature" style="min-height:112px;padding:18px;border-radius:18px;">
             <span class="plan-mini-label">가입 시 리워드</span>
             <strong>${formatPoint(plan.rewardPoint)}</strong>
           </div>
-          <div class="plan-feature">
+          <div class="plan-feature" style="min-height:112px;padding:18px;border-radius:18px;">
             <span class="plan-mini-label">매월 적립 포인트</span>
             <strong>${formatPoint(plan.monthlyPoint)}</strong>
           </div>
         </div>
 
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>멤버십 가입하기</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs} style="margin-top:18px;min-height:58px;">멤버십 가입하기</a>
       </article>
     `;
   }).join('');
 
+  syncPlanGridColumns();
   observeReveals();
 }
 
