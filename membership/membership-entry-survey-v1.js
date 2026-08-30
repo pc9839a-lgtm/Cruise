@@ -93,7 +93,7 @@
     .cms-question-saving{margin:0 auto 28px;text-align:center;font-size:clamp(34px,4vw,52px);font-weight:950;letter-spacing:-.055em}
     .cms-question-saving strong{color:var(--cms-blue)}
 
-    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;font-size:clamp(48px,6.6vw,80px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;white-space:pre-line;font-size:clamp(48px,6.6vw,80px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
     .cms-result-compare{width:min(100%,960px);margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
     .cms-result-card{min-height:230px;padding:26px;border:2px solid var(--cms-line);border-radius:32px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
     .cms-result-card.active{border:4px solid var(--cms-blue);background:linear-gradient(180deg,#fff,#f2f6ff)}
@@ -240,35 +240,35 @@
     if(agency&&!save){
       return{
         id:'agency-comfort',
-        title:'편하게 맡기는 여행이 맞습니다',
+        title:'편하게 맡기는 여행이\n더 잘 맞습니다',
         active:'agency',
-        cta:'최저가도 비교해보기'
+        cta:'멤버십 방식 보기'
       };
     }
 
     if(!agency&&save){
       return{
         id:'direct-saving',
-        title:'80만원 아끼는 쪽이 맞습니다',
+        title:'직접 예약하고\n80만원 아끼는 쪽이 맞습니다',
         active:'direct',
-        cta:'최저가 크루즈 보기'
+        cta:'크루즈 멤버십 보기'
       };
     }
 
     if(agency&&save){
       return{
         id:'agency-saving',
-        title:'80만원 차이면 직접 예약',
+        title:'맡기는 게 편하지만\n80만원은 아끼고 싶으시네요',
         active:'direct',
-        cta:'최저가 크루즈 보기'
+        cta:'크루즈 멤버십 보기'
       };
     }
 
     return{
       id:'direct-comfort',
-      title:'직접 예약 가능, 편안함 우선',
+      title:'직접 예약은 가능하지만\n80만원 차이여도 편안함이 우선이네요',
       active:'agency',
-      cta:'최저가도 비교해보기'
+      cta:'멤버십 방식 보기'
     };
   }
 
