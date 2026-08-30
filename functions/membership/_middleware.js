@@ -1,9 +1,10 @@
 const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-13"></script>';
 const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-sections-v2.js?v=20260830-3"></script>';
+const PHASE2_SCRIPT = '<script src="/membership/membership-conversion-phase2.js?v=20260830-1"></script>';
 
 class MembershipScriptInjector {
   element(element) {
-    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT, { html: true });
+    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT + PHASE2_SCRIPT, { html: true });
   }
 }
 
