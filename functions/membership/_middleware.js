@@ -1,9 +1,90 @@
 const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-14"></script>';
 const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-v3.js?v=20260830-7"></script>';
 
+const FLOW_POLISH = `
+<style>
+  .pmx-section,.pmx-section *{box-sizing:border-box}
+  .pmx-section{position:relative;overflow:hidden;isolation:isolate}
+  .pmx-inner{width:min(1040px,calc(100% - 40px));margin:0 auto;text-align:center}
+
+  #price-match.pmx-section{min-height:650px;display:flex;align-items:center;padding:100px 0;background:#0c1730;color:#fff}
+  #price-match .pmx-kicker{display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;padding:10px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);color:#dbe7ff;font-size:clamp(19px,2vw,24px);font-weight:600;letter-spacing:-.03em}
+  #price-match .pmx-title{max-width:950px;margin:0 auto;font-size:clamp(44px,6vw,78px);line-height:1.08;letter-spacing:-.06em;font-weight:560;word-break:keep-all;text-wrap:balance}
+  #price-match .pmx-title strong{font-weight:900;color:#fff}
+  #price-match .pmx-main{margin:42px 0 0;font-size:clamp(86px,12vw,154px);line-height:.88;letter-spacing:-.08em;font-weight:920;color:#c8d9ff}
+  #price-match .pmx-copy{max-width:850px;margin:30px auto 0;font-size:clamp(24px,3vw,34px);line-height:1.38;letter-spacing:-.035em;font-weight:470;color:rgba(255,255,255,.82);word-break:keep-all}
+  #price-match .pmx-copy strong{font-weight:780;color:#fff}
+  #price-match .pmx-rule{width:0;height:3px;margin:40px auto 0;background:#4d7fff;border-radius:999px;transition:width .9s cubic-bezier(.22,1,.36,1)}
+  #price-match.pmx-visible .pmx-rule{width:min(220px,32vw)}
+
+  #hotel-benefit.pmx-section{min-height:540px;display:flex;align-items:center;padding:88px 0;background:#fff;color:#10182b;border-top:1px solid #e6eaf0}
+  #hotel-benefit .pmx-title{max-width:900px;margin:0 auto;font-size:clamp(40px,5.2vw,68px);line-height:1.09;letter-spacing:-.055em;font-weight:560;word-break:keep-all;text-wrap:balance}
+  #hotel-benefit .pmx-title strong{font-weight:880}
+  #hotel-benefit .pmx-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:0;max-width:980px;margin:54px auto 0;border-top:1px solid #dfe5ef;border-bottom:1px solid #dfe5ef}
+  #hotel-benefit .pmx-benefit{min-height:150px;display:flex;align-items:center;justify-content:center;padding:26px 18px;font-size:clamp(27px,3vw,38px);line-height:1.15;letter-spacing:-.045em;font-weight:650;word-break:keep-all}
+  #hotel-benefit .pmx-benefit + .pmx-benefit{border-left:1px solid #dfe5ef}
+
+  .pmx-enter{opacity:0;transform:translateY(42px);filter:blur(7px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1),filter .65s ease}
+  .pmx-visible .pmx-enter{opacity:1;transform:none;filter:none}
+  .pmx-visible .pmx-enter:nth-child(2){transition-delay:.10s}
+  .pmx-visible .pmx-enter:nth-child(3){transition-delay:.20s}
+  .pmx-visible .pmx-enter:nth-child(4){transition-delay:.30s}
+  #hotel-benefit .pmx-benefit{opacity:0;transform:translateY(26px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+  #hotel-benefit.pmx-visible .pmx-benefit{opacity:1;transform:none}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(1){transition-delay:.14s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(2){transition-delay:.24s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(3){transition-delay:.34s}
+
+  @media(max-width:780px){
+    #price-match.pmx-section{min-height:590px;padding:78px 0}
+    #price-match .pmx-title{font-size:clamp(37px,10vw,46px);line-height:1.12}
+    #price-match .pmx-main{margin-top:34px;font-size:clamp(82px,24vw,118px)}
+    #price-match .pmx-copy{font-size:clamp(22px,6vw,27px);line-height:1.4}
+    #hotel-benefit.pmx-section{min-height:500px;padding:72px 0}
+    #hotel-benefit .pmx-title{font-size:clamp(35px,9.5vw,43px);line-height:1.13}
+    #hotel-benefit .pmx-benefits{grid-template-columns:1fr;margin-top:38px}
+    #hotel-benefit .pmx-benefit{min-height:90px;font-size:27px}
+    #hotel-benefit .pmx-benefit + .pmx-benefit{border-left:0;border-top:1px solid #dfe5ef}
+  }
+  @media(prefers-reduced-motion:reduce){.pmx-enter,#hotel-benefit .pmx-benefit{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+</style>
+<script>
+(function(){
+  function polish(){
+    ['why-save','why-direct','how-it-works','travel-subscribe','earn-points','membership-summary'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.remove();
+      document.querySelectorAll('.hero-nav-track a[href="#'+id+'"]').forEach(function(a){a.remove();});
+    });
+
+    var pm=document.getElementById('price-match');
+    if(pm){
+      pm.className='pmx-section';
+      pm.innerHTML='<div class="pmx-inner"><span class="pmx-kicker pmx-enter">최저가 보장제</span><h2 class="pmx-title pmx-enter">같은 조건의 크루즈를<br><strong>더 저렴하게 찾으셨나요?</strong></h2><div class="pmx-main pmx-enter">$100+</div><p class="pmx-copy pmx-enter">동일 크루즈 · 일정 · 객실 기준으로 <strong>$100 이상 차이</strong>가 나면<br>조건 확인 후 <strong>가격을 조정합니다.</strong></p><div class="pmx-rule" aria-hidden="true"></div></div>';
+      var routes=document.getElementById('ig8-routes');
+      if(routes) routes.insertAdjacentElement('afterend',pm);
+    }
+
+    var hotel=document.getElementById('hotel-benefit');
+    if(hotel){
+      hotel.className='pmx-section';
+      hotel.innerHTML='<div class="pmx-inner"><h2 class="pmx-title pmx-enter">크루즈뿐 아니라<br><strong>여행 전후 일정도 한 번에</strong></h2><div class="pmx-benefits"><div class="pmx-benefit">전세계 호텔</div><div class="pmx-benefit">현지 투어</div><div class="pmx-benefit">출발 전후 1박</div></div></div>';
+    }
+
+    document.querySelectorAll('.hero-nav-track a[href="#price-match"] span').forEach(function(s){s.textContent='최저가 보장';});
+    document.querySelectorAll('.hero-nav-track a[href="#hotel-benefit"] span').forEach(function(s){s.textContent='호텔 · 투어';});
+
+    var nodes=[pm,hotel].filter(Boolean);
+    if(!('IntersectionObserver' in window)){nodes.forEach(function(n){n.classList.add('pmx-visible');});return;}
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('pmx-visible');io.unobserve(entry.target);}});},{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+    nodes.forEach(function(n){io.observe(n);});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',polish,{once:true}); else polish();
+})();
+</script>`;
+
 class MembershipScriptInjector {
   element(element) {
-    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT, { html: true });
+    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT + FLOW_POLISH, { html: true });
   }
 }
 
