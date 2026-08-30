@@ -28,15 +28,6 @@
         { value: 'agency', icon: '🙋', title: '여행사에 맡기는 게 편해요' },
         { value: 'direct', icon: '🔎', title: '직접 비교·예약해도 괜찮아요' }
       ]
-    },
-    {
-      id: 'priceChoice',
-      title: '가이드는 없습니다.\n대신, 전세계 최저가로 갑니다.',
-      priceCompare: true,
-      options: [
-        { value: 'comfort', icon: '🛎️', title: '그래도 편하게 맡길래요' },
-        { value: 'save', icon: '💰', title: '80만원 아낄래요' }
-      ]
     }
   ];
 
@@ -73,7 +64,7 @@
     .cms-survey-card,.cms-result{width:100%;animation:cmsIn .22s ease both}
     @keyframes cmsIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .cms-survey-title{max-width:980px;margin:0 auto 44px;text-align:center;white-space:pre-line;font-size:clamp(54px,7vw,90px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+    .cms-survey-title{max-width:980px;margin:0 auto 44px;text-align:center;white-space:pre-line;font-size:clamp(54px,7vw,90px);line-height:1.03;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
     .cms-survey-options{width:min(100%,920px);margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
     .cms-survey-option{appearance:none;width:100%;min-height:190px;padding:28px;border:1px solid var(--cms-line);border-radius:34px;background:rgba(255,255,255,.96);box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--cms-text);text-align:center;font:inherit;cursor:pointer;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease}
     .cms-survey-option:hover,.cms-survey-option:focus-visible{outline:none;transform:translateY(-3px);border-color:rgba(46,102,255,.42);box-shadow:0 24px 64px rgba(46,102,255,.16)}
@@ -82,18 +73,18 @@
     .cms-survey-option-title{display:block;font-size:clamp(28px,3vw,36px);line-height:1.18;letter-spacing:-.045em;font-weight:950;word-break:keep-all}
     .cms-survey-back{display:block;margin:30px auto 0;padding:14px 20px;border:0;background:transparent;color:var(--cms-muted);font:inherit;font-size:22px;font-weight:900;cursor:pointer}
 
-    .cms-question-price{width:min(100%,960px);margin:-10px auto 24px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
-    .cms-question-price-card{min-height:180px;padding:24px;border:1px solid var(--cms-line);border-radius:30px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-    .cms-question-price-card.direct{border:3px solid rgba(46,102,255,.40);background:linear-gradient(180deg,#fff,#f3f7ff)}
-    .cms-question-price-label{font-size:clamp(24px,2.5vw,30px);font-weight:950;letter-spacing:-.04em}
+    .cms-question-price{width:min(100%,960px);margin:-8px auto 22px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+    .cms-question-price-card{min-height:180px;padding:24px;border:2px solid var(--cms-line);border-radius:30px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .cms-question-price-card.direct{border:4px solid rgba(46,102,255,.38);background:linear-gradient(180deg,#fff,#f3f7ff)}
+    .cms-question-price-label{font-size:clamp(24px,2.5vw,30px);font-weight:950;letter-spacing:-.04em;word-break:keep-all}
     .cms-question-price-value{margin-top:8px;font-size:clamp(58px,8vw,98px);line-height:.95;letter-spacing:-.075em;font-weight:950;white-space:nowrap}
     .cms-question-price-card.direct .cms-question-price-value{color:var(--cms-blue)}
     .cms-question-price-badge{display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;padding:8px 14px;border-radius:999px;background:rgba(46,102,255,.10);color:var(--cms-blue-strong);font-size:20px;font-weight:950}
-    .cms-question-price-vs{font-size:26px;font-weight:950;color:var(--cms-muted)}
-    .cms-question-saving{margin:0 auto 28px;text-align:center;font-size:clamp(34px,4vw,52px);font-weight:950;letter-spacing:-.055em}
+    .cms-question-price-vs{font-size:28px;font-weight:950;color:var(--cms-muted)}
+    .cms-question-saving{margin:0 auto 28px;text-align:center;font-size:clamp(36px,4.3vw,56px);font-weight:950;letter-spacing:-.055em}
     .cms-question-saving strong{color:var(--cms-blue)}
 
-    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;white-space:pre-line;font-size:clamp(48px,6.6vw,80px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;white-space:pre-line;font-size:clamp(48px,6.6vw,80px);line-height:1.03;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
     .cms-result-compare{width:min(100%,960px);margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
     .cms-result-card{min-height:230px;padding:26px;border:2px solid var(--cms-line);border-radius:32px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
     .cms-result-card.active{border:4px solid var(--cms-blue);background:linear-gradient(180deg,#fff,#f2f6ff)}
@@ -124,7 +115,7 @@
       .cms-question-price-badge{font-size:17px;padding:6px 10px;margin-bottom:7px}
       .cms-question-price-label{font-size:19px}
       .cms-question-price-value{font-size:clamp(42px,13vw,62px)}
-      .cms-question-saving{font-size:clamp(30px,8vw,40px)}
+      .cms-question-saving{font-size:clamp(30px,8vw,42px)}
       .cms-result-title{font-size:clamp(40px,10.5vw,56px);margin-bottom:24px}
       .cms-result-card{min-height:170px;border-radius:22px;padding:16px 8px}
       .cms-result-card-label{font-size:19px}
@@ -136,7 +127,7 @@
 
     @media(max-width:430px){
       .cms-survey-panel{padding-top:34px}
-      .cms-survey-title{font-size:43px}
+      .cms-survey-title{font-size:42px}
       .cms-survey-option{min-height:122px}
       .cms-survey-option-title{font-size:25px}
       .cms-question-price-badge{font-size:16px}
@@ -180,8 +171,8 @@
     const text=overlay.querySelector('.cms-survey-progress-text');
     const bar=overlay.querySelector('.cms-survey-progress>span');
     if(isResult){text.textContent='결과';bar.style.width='100%';return}
-    text.textContent=`${step+1} / ${questions.length}`;
-    bar.style.width=`${((step+1)/questions.length)*100}%`;
+    text.textContent=`${step+1} / 3`;
+    bar.style.width=`${((step+1)/3)*100}%`;
   }
 
   function pricePreview(){
@@ -194,23 +185,45 @@
         <span class="cms-question-price-vs">VS</span>
         <div class="cms-question-price-card direct">
           <span class="cms-question-price-badge">전세계 최저가</span>
-          <span class="cms-question-price-label">직접 예약 예시</span>
+          <span class="cms-question-price-label">가이드 없이</span>
           <strong class="cms-question-price-value">120만원</strong>
         </div>
       </div>
       <div class="cms-question-saving">1인 <strong>80만원 차이</strong></div>`;
   }
 
+  function thirdStep(){
+    if(answers.booking==='agency'){
+      return{
+        title:'여행사에 맡기는 게 편하시군요.\n그런데 1인 80만원 차이라면?',
+        options:[
+          {value:'comfort',icon:'🛎️',title:'그래도 편하게 맡길래요'},
+          {value:'save',icon:'💰',title:'80만원이면 직접 해볼래요'}
+        ]
+      };
+    }
+
+    return{
+      title:'직접 예약도 괜찮으시군요.\n그럼 1인 80만원 아낄 수 있다면?',
+      options:[
+        {value:'save',icon:'💰',title:'최저가로 직접 예약할래요'},
+        {value:'comfort',icon:'🛎️',title:'그래도 편한 게 더 중요해요'}
+      ]
+    };
+  }
+
   function renderQuestion(){
-    const q=questions[current];
+    const isThird=current===2;
+    const q=isThird?thirdStep():questions[current];
     updateProgress(current);
+
     panel.innerHTML=`
       <div class="cms-survey-card">
         <h1 class="cms-survey-title">${esc(q.title)}</h1>
-        ${q.priceCompare?pricePreview():''}
+        ${isThird?pricePreview():''}
         <div class="cms-survey-options">
           ${q.options.map(option=>`
-            <button type="button" class="cms-survey-option${answers[q.id]===option.value?' is-selected':''}" data-value="${esc(option.value)}">
+            <button type="button" class="cms-survey-option${answers[isThird?'priceChoice':q.id]===option.value?' is-selected':''}" data-value="${esc(option.value)}">
               <span class="cms-survey-option-icon" aria-hidden="true">${esc(option.icon)}</span>
               <strong class="cms-survey-option-title">${esc(option.title)}</strong>
             </button>`).join('')}
@@ -220,11 +233,13 @@
 
     panel.querySelectorAll('.cms-survey-option').forEach(button=>{
       button.addEventListener('click',()=>{
-        answers[q.id]=button.dataset.value;
+        if(isThird) answers.priceChoice=button.dataset.value;
+        else answers[q.id]=button.dataset.value;
+
         panel.querySelectorAll('.cms-survey-option').forEach(el=>el.classList.remove('is-selected'));
         button.classList.add('is-selected');
         window.setTimeout(()=>{
-          if(current<questions.length-1){current+=1;renderQuestion()}else{renderResult()}
+          if(current<2){current+=1;renderQuestion()}else{renderResult()}
         },120);
       });
     });
@@ -240,7 +255,7 @@
     if(agency&&!save){
       return{
         id:'agency-comfort',
-        title:'편하게 맡기는 여행이\n더 잘 맞습니다',
+        title:'역시 편하게 맡기는 여행이 맞습니다',
         active:'agency',
         cta:'멤버십 방식 보기'
       };
@@ -249,7 +264,7 @@
     if(!agency&&save){
       return{
         id:'direct-saving',
-        title:'직접 예약하고\n80만원 아끼는 쪽이 맞습니다',
+        title:'직접 예약해서 80만원 아끼는 쪽이 맞습니다',
         active:'direct',
         cta:'크루즈 멤버십 보기'
       };
@@ -258,7 +273,7 @@
     if(agency&&save){
       return{
         id:'agency-saving',
-        title:'맡기는 게 편하지만\n80만원은 아끼고 싶으시네요',
+        title:'80만원 차이면 직접 예약도 괜찮으시네요',
         active:'direct',
         cta:'크루즈 멤버십 보기'
       };
@@ -266,14 +281,14 @@
 
     return{
       id:'direct-comfort',
-      title:'직접 예약은 가능하지만\n80만원 차이여도 편안함이 우선이네요',
+      title:'직접 예약은 가능해도\n편한 게 더 중요하네요',
       active:'agency',
       cta:'멤버십 방식 보기'
     };
   }
 
   function renderResult(){
-    updateProgress(questions.length-1,true);
+    updateProgress(2,true);
     const result=getResult();
     const payload={result:result.id,answers:{...answers},completedAt:new Date().toISOString()};
     try{sessionStorage.setItem(RESULT_KEY,JSON.stringify(payload))}catch(_){}
