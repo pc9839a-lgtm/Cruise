@@ -16,8 +16,11 @@ const FINAL_PATCH = `<style>
       image.style.objectPosition='center 52%';
     }
 
-    var oldFinal=document.getElementById('ig8-final');
-    if(oldFinal) oldFinal.remove();
+    ['join-faq','ig8-rule','ig8-final'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el) el.remove();
+    });
+
     var oldCustom=document.getElementById('pmx-bottom-cta');
     if(oldCustom) oldCustom.remove();
 
@@ -35,7 +38,10 @@ const FINAL_PATCH = `<style>
 
     document.querySelectorAll('#pmx-bottom-cta svg').forEach(function(svg){svg.remove();});
   }
-  function run(){setTimeout(patchMembershipBottom,140);}
+  function run(){
+    setTimeout(patchMembershipBottom,140);
+    setTimeout(patchMembershipBottom,700);
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run,{once:true}); else run();
 })();
 </script>`;
