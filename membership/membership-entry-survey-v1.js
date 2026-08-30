@@ -31,7 +31,7 @@
       title: '여행 준비는\n어떤 편이세요?',
       options: [
         { value: 'agency', icon: '🙋', title: '여행사에 맡기는 게 편해요' },
-        { value: 'direct', icon: '🔎', title: '직접 비교·예약해도 괜찮아요' }
+        { value: 'direct', icon: '🔎', title: '직접 예약해도 괜찮아요' }
       ]
     }
   ];
@@ -54,10 +54,10 @@
     .cms-survey-option-icon{font-size:48px}.cms-survey-option-title{font-size:clamp(28px,3vw,36px);line-height:1.18;letter-spacing:-.045em;font-weight:950;word-break:keep-all}
     .cms-survey-back{display:block;margin:28px auto 0;padding:12px 20px;border:0;background:transparent;color:var(--cms-muted);font:inherit;font-size:21px;font-weight:900;cursor:pointer}
     .cms-price-box{width:min(100%,880px);margin:0 auto 28px;padding:30px 24px;border-radius:32px;background:linear-gradient(135deg,#24519c,#2e66ff);color:#fff;text-align:center;box-shadow:var(--cms-shadow)}
-    .cms-price-label{display:block;font-size:clamp(23px,2.7vw,32px);font-weight:950}.cms-price-value{display:block;margin-top:8px;font-size:clamp(58px,8vw,100px);line-height:.95;letter-spacing:-.075em;font-weight:950}.cms-price-note{display:block;margin-top:10px;font-size:clamp(21px,2.4vw,27px);font-weight:900;color:rgba(255,255,255,.86)}
+    .cms-price-value{display:block;font-size:clamp(58px,8vw,100px);line-height:.95;letter-spacing:-.075em;font-weight:950}.cms-price-note{display:block;margin-top:10px;font-size:clamp(21px,2.4vw,27px);font-weight:900;color:rgba(255,255,255,.86)}
     .cms-result{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.cms-result-title{font-size:clamp(48px,6.4vw,78px);margin-bottom:14px}.cms-result-sub{max-width:760px;margin:0;color:var(--cms-muted);font-size:clamp(22px,2.5vw,30px);line-height:1.35;font-weight:850;word-break:keep-all}.cms-result-actions{width:min(100%,680px);margin:30px auto 0;display:grid;gap:6px}
     .cms-survey-primary,.cms-survey-secondary{appearance:none;border:0;font:inherit;font-weight:950;cursor:pointer}.cms-survey-primary{min-height:80px;padding:0 28px;border-radius:999px;background:linear-gradient(135deg,var(--cms-blue),var(--cms-blue-strong));color:#fff;box-shadow:0 18px 38px rgba(46,102,255,.24);font-size:clamp(24px,2.8vw,32px)}.cms-survey-secondary{min-height:48px;background:transparent;color:var(--cms-muted);font-size:20px}
-    @media(max-width:720px){.cms-survey-shell{width:min(calc(100% - 24px),680px);padding:20px 0 28px}.cms-survey-brand,.cms-survey-progress-text{font-size:18px}.cms-survey-progress{height:8px}.cms-survey-panel{align-items:flex-start;padding-top:46px}.cms-survey-title{font-size:clamp(44px,12vw,62px);margin-bottom:30px}.cms-survey-options{grid-template-columns:1fr;gap:16px}.cms-survey-option{min-height:132px;border-radius:26px;padding:22px 18px;flex-direction:row;justify-content:flex-start;text-align:left}.cms-survey-option-icon{width:60px;font-size:40px;text-align:center}.cms-survey-option-title{font-size:27px}.cms-price-box{padding:24px 14px;border-radius:24px}.cms-price-label{font-size:24px}.cms-price-value{font-size:clamp(54px,15vw,78px)}.cms-price-note{font-size:22px}.cms-result-title{font-size:clamp(40px,10.5vw,56px)}.cms-result-sub{font-size:21px}.cms-survey-primary{min-height:74px;font-size:25px}}
+    @media(max-width:720px){.cms-survey-shell{width:min(calc(100% - 24px),680px);padding:20px 0 28px}.cms-survey-brand,.cms-survey-progress-text{font-size:18px}.cms-survey-progress{height:8px}.cms-survey-panel{align-items:flex-start;padding-top:46px}.cms-survey-title{font-size:clamp(44px,12vw,62px);margin-bottom:30px}.cms-survey-options{grid-template-columns:1fr;gap:16px}.cms-survey-option{min-height:132px;border-radius:26px;padding:22px 18px;flex-direction:row;justify-content:flex-start;text-align:left}.cms-survey-option-icon{width:60px;font-size:40px;text-align:center}.cms-survey-option-title{font-size:27px}.cms-price-box{padding:24px 14px;border-radius:24px}.cms-price-value{font-size:clamp(54px,15vw,78px)}.cms-price-note{font-size:22px}.cms-result-title{font-size:clamp(40px,10.5vw,56px)}.cms-result-sub{font-size:21px}.cms-survey-primary{min-height:74px;font-size:25px}}
     @media(max-width:430px){.cms-survey-panel{padding-top:34px}.cms-survey-title{font-size:42px}.cms-survey-option{min-height:122px}.cms-survey-option-title{font-size:25px}.cms-result-title{font-size:39px}}
     @media(prefers-reduced-motion:reduce){.cms-survey-card,.cms-result{animation:none}.cms-survey-progress span{transition:none}}
   `;
@@ -90,7 +90,7 @@
     const experienced = answers.experience === 'yes';
     return {
       id:'priceChoice',
-      title: experienced ? '이미 타봤다면\n가격 차이도 보시겠어요?' : '처음이라 여행사가 편하시군요\n가격 차이가 이 정도라면?',
+      title: experienced ? '이미 타봤다면\n가격 차이도 보시겠어요?' : '처음이라 여행사가 편하시군요.\n가격 차이가 이 정도라면?',
       options:[
         {value:'comfort',icon:'🛎️',title:'그래도 여행사에 맡길래요'},
         {value:'save',icon:'💰',title:experienced?'80만원이면 직접 예약할래요':'80만원이면 직접 해볼래요'}
@@ -101,7 +101,7 @@
   function renderQuestion(){
     const q = step === 2 ? thirdQuestion() : QUESTIONS[step];
     updateProgress(false);
-    panel.innerHTML = `<div class="cms-survey-card"><h1 class="cms-survey-title">${esc(q.title)}</h1>${step===2?'<div class="cms-price-box"><span class="cms-price-label">같은 크루즈 예시</span><strong class="cms-price-value">200 → 120만원</strong><span class="cms-price-note">1인 80만원 차이</span></div>':''}<div class="cms-survey-options">${q.options.map(o=>`<button type="button" class="cms-survey-option" data-value="${esc(o.value)}"><span class="cms-survey-option-icon">${esc(o.icon)}</span><strong class="cms-survey-option-title">${esc(o.title)}</strong></button>`).join('')}</div>${step>0?'<button type="button" class="cms-survey-back">← 이전</button>':''}</div>`;
+    panel.innerHTML = `<div class="cms-survey-card"><h1 class="cms-survey-title">${esc(q.title)}</h1>${step===2?'<div class="cms-price-box"><strong class="cms-price-value">200 → 120만원</strong><span class="cms-price-note">1인 80만원 차이</span></div>':''}<div class="cms-survey-options">${q.options.map(o=>`<button type="button" class="cms-survey-option" data-value="${esc(o.value)}"><span class="cms-survey-option-icon">${esc(o.icon)}</span><strong class="cms-survey-option-title">${esc(o.title)}</strong></button>`).join('')}</div>${step>0?'<button type="button" class="cms-survey-back">← 이전</button>':''}</div>`;
 
     panel.querySelectorAll('.cms-survey-option').forEach(btn=>btn.addEventListener('click',()=>{
       answers[q.id] = btn.dataset.value;
@@ -127,14 +127,14 @@
     if(direct){
       return experienced ? {
         id:'exp-direct-ready',
-        title:'이미 타봤고 직접 예약도 괜찮다면',
-        sub:'전세계 최저가로, 1인 80만원까지 차이',
+        title:'이미 타봤다면? 이번에는',
+        sub:'전세계 최저가로',
         cta:'80만원 아끼는 방법 보기',
         target:'#why-direct'
       } : {
         id:'new-direct-ready',
-        title:'처음이어도 직접 예약 괜찮다면',
-        sub:'가이드 없이 최저가로, 1인 80만원까지 차이',
+        title:'가이드 없이 최저가로',
+        sub:'',
         cta:'80만원 아끼는 방법 보기',
         target:'#why-direct'
       };
@@ -143,8 +143,8 @@
     if(save){
       return experienced ? {
         id:'exp-agency-save',
-        title:'80만원 차이면 직접 예약이 낫습니다',
-        sub:'이미 경험이 있다면 더 간단합니다',
+        title:'이미 경험이 있다면 더 간단합니다',
+        sub:'',
         cta:'80만원 아끼는 방법 보기',
         target:'#why-direct'
       } : {
@@ -178,7 +178,7 @@
     try{sessionStorage.setItem(RESULT_KEY,JSON.stringify(payload));}catch(_){}
     if(Array.isArray(window.dataLayer)) window.dataLayer.push({event:'membership_travel_survey_complete',survey_result:result.id,survey_experience:answers.experience,survey_booking:answers.booking,survey_price_choice:answers.priceChoice||'skipped_direct'});
 
-    panel.innerHTML = `<div class="cms-result"><h1 class="cms-result-title">${esc(result.title)}</h1><p class="cms-result-sub">${esc(result.sub)}</p><div class="cms-result-actions"><button type="button" class="cms-survey-primary">${esc(result.cta)}</button><button type="button" class="cms-survey-secondary">다시 선택</button></div></div>`;
+    panel.innerHTML = `<div class="cms-result"><h1 class="cms-result-title">${esc(result.title)}</h1>${result.sub?`<p class="cms-result-sub">${esc(result.sub)}</p>`:''}<div class="cms-result-actions"><button type="button" class="cms-survey-primary">${esc(result.cta)}</button><button type="button" class="cms-survey-secondary">다시 선택</button></div></div>`;
 
     panel.querySelector('.cms-survey-primary').addEventListener('click',()=>finish(result.target));
     panel.querySelector('.cms-survey-secondary').addEventListener('click',()=>{Object.keys(answers).forEach(k=>delete answers[k]);step=0;renderQuestion();});
