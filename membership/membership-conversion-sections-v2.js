@@ -32,13 +32,6 @@
       .ig1-step{padding:34px 24px;border-radius:28px;background:#fff;border:1px solid rgba(12,24,48,.1);color:#0f1931}
       .ig1-step b{display:flex;width:58px;height:58px;align-items:center;justify-content:center;margin:0 auto 20px;border-radius:50%;background:#eaf1ff;color:#2e66ff;font-size:24px;font-weight:950}
       .ig1-step strong{display:block;font-size:clamp(27px,3vw,36px);line-height:1.3;letter-spacing:-.04em;font-weight:950}
-      .ig1-plan{max-width:820px;margin:46px auto 0;padding:42px 34px;border-radius:34px;background:#fff;color:#0f1931}
-      .ig1-plan-name{font-size:clamp(30px,3.5vw,44px);font-weight:950}
-      .ig1-plan-flow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;margin-top:30px}
-      .ig1-plan-box{padding:28px 18px;border-radius:26px;background:#eef3fb}
-      .ig1-plan-box strong{display:block;font-size:clamp(44px,6vw,72px);line-height:.95;font-weight:950;letter-spacing:-.06em}
-      .ig1-plan-box span{display:block;margin-top:12px;font-size:clamp(24px,2.6vw,30px);font-weight:900}
-      .ig1-plan-box.point{background:#1f4f96;color:#fff}
       .ig1-stack{max-width:820px;margin:42px auto 0;text-align:left}
       .ig1-row{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:end;padding:26px 4px;border-top:1px solid rgba(12,24,48,.13)}
       .ig1-dark .ig1-row,.ig1-blue .ig1-row{border-color:rgba(255,255,255,.18)}
@@ -49,17 +42,16 @@
       .ig1-row.total span,.ig1-row.total strong{color:#2e66ff}
       .ig1-dark .ig1-row.total span,.ig1-dark .ig1-row.total strong,.ig1-blue .ig1-row.total span,.ig1-blue .ig1-row.total strong{color:#a9c5ff}
       .ig1-choice{display:grid;gap:18px;max-width:800px;margin:44px auto 0}
-      .ig1-choice div{padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(12,24,48,.1);font-size:clamp(30px,3.6vw,44px);line-height:1.25;font-weight:950;letter-spacing:-.045em}
-      .ig1-badge{display:inline-block;margin-bottom:24px;padding:12px 22px;border-radius:999px;background:#eaf1ff;color:#2e66ff;font-size:clamp(22px,2.5vw,28px);font-weight:950}
+      .ig1-choice div{padding:28px 24px;border-radius:26px;background:#fff;border:1px solid rgba(12,24,48,.1);font-size:clamp(30px,3.6vw,44px);line-height:1.25;font-weight:950;letter-spacing:-.045em;color:#0f1931}
+      .ig1-badge{display:inline-block;margin-bottom:24px;padding:14px 24px;border-radius:999px;background:#eaf1ff;color:#2e66ff;font-size:clamp(24px,2.6vw,30px);font-weight:950}
       .ig1-dark .ig1-badge,.ig1-blue .ig1-badge{background:rgba(255,255,255,.12);color:#fff}
       @media(max-width:780px){
         .ig1-section{min-height:560px;padding:72px 0}
         .ig1-title{font-size:40px}.ig1-lead{font-size:25px}
-        .ig1-compare,.ig1-plan-flow{grid-template-columns:1fr;gap:12px}
+        .ig1-compare{grid-template-columns:1fr;gap:12px}
         .ig1-symbol{transform:rotate(90deg);font-size:32px}
         .ig1-steps{grid-template-columns:1fr}
         .ig1-row{grid-template-columns:1fr;gap:8px;text-align:center}
-        .ig1-plan{padding:34px 20px}
       }
     `;
     document.head.appendChild(style);
@@ -112,85 +104,86 @@
 
     after('#why-direct',
       section('ig1-difference','ig1-white',`
-        <div class="ig1-badge">가장 중요한 차이</div>
-        <h2 class="ig1-title">월마다 돈 내는<br>크루즈 상품은 많습니다</h2>
-        <div class="ig1-lead">그런데 인그룹은<br><span class="ig1-accent">낸 금액의 2배를 포인트로 적립합니다</span></div>`)
+        <div class="ig1-badge">월납 크루즈 상품과 가장 큰 차이</div>
+        <h2 class="ig1-title">월마다 내는 상품은 많습니다</h2>
+        <div class="ig1-lead">하지만 <span class="ig1-accent">2배 적립은 인그룹만</span></div>`)
     );
 
     after('#ig1-difference',
       section('ig1-double','ig1-blue',`
-        <h2 class="ig1-title">이게 인그룹의<br>핵심 강점입니다</h2>
+        <h2 class="ig1-title">$100을 내면<br>100P가 아니라 200P</h2>
         <div class="ig1-compare">
           <div class="ig1-card"><strong>$100</strong><span>내가 매월 납부</span></div>
           <div class="ig1-symbol">→</div>
-          <div class="ig1-card"><strong>200P</strong><span>매월 적립</span></div>
+          <div class="ig1-card"><strong>200P</strong><span>인그룹 매월 적립</span></div>
         </div>
-        <div class="ig1-number">2배 적립</div>`)
+        <div class="ig1-number">2배</div>`)
     );
 
     after('#ig1-double',
       section('ig1-double-premium','ig1-dark',`
-        <h2 class="ig1-title">프리미엄도 같습니다</h2>
+        <h2 class="ig1-title">$250을 내면<br>500P가 쌓입니다</h2>
         <div class="ig1-compare">
           <div class="ig1-card"><strong>$250</strong><span>내가 매월 납부</span></div>
           <div class="ig1-symbol">→</div>
-          <div class="ig1-card"><strong>500P</strong><span>매월 적립</span></div>
+          <div class="ig1-card"><strong>500P</strong><span>인그룹 매월 적립</span></div>
         </div>
-        <div class="ig1-number ig1-accent">2배 적립</div>`)
+        <div class="ig1-number ig1-accent">2배</div>`)
     );
 
     after('#how-it-works',
       section('ig1-identity','ig1-soft',`
-        <h2 class="ig1-title">인그룹은<br>크루즈 예약 멤버십입니다</h2>
+        <h2 class="ig1-title">그래서 인그룹은<br>크루즈 예약 멤버십입니다</h2>
         <div class="ig1-steps">
           <div class="ig1-step"><b>1</b><strong>매월 멤버십 결제</strong></div>
-          <div class="ig1-step"><b>2</b><strong>2배 포인트 적립</strong></div>
+          <div class="ig1-step"><b>2</b><strong>낸 금액의 2배 적립</strong></div>
           <div class="ig1-step"><b>3</b><strong>포인트로 크루즈 예약</strong></div>
         </div>`)
     );
 
     before('#plans',
       section('ig1-classic','ig1-white',`
-        <h2 class="ig1-title">클래식은<br>5개월이면 이렇게 됩니다</h2>
+        <h2 class="ig1-title">클래식을 5개월 이용하면?</h2>
         <div class="ig1-stack">
-          <div class="ig1-row"><span>매월 납부</span><strong>$100</strong></div>
-          <div class="ig1-row"><span>5개월 동안 내가 낸 돈</span><strong>$500</strong></div>
-          <div class="ig1-row total"><span>쌓인 포인트</span><strong>1,000P</strong></div>
+          <div class="ig1-row"><span>매월 내가 내는 돈</span><strong>$100</strong></div>
+          <div class="ig1-row"><span>5개월 동안 실제 납부</span><strong>$500</strong></div>
+          <div class="ig1-row total"><span>그동안 쌓이는 포인트</span><strong>1,000P</strong></div>
         </div>`)
       +
       section('ig1-no-point','ig1-soft',`
-        <h2 class="ig1-title">포인트가 없다면<br>$2,000 크루즈는?</h2>
+        <h2 class="ig1-title">포인트가 하나도 없다면?</h2>
+        <div class="ig1-lead">$2,000짜리 크루즈를 예약할 때</div>
         <div class="ig1-number">카드 $2,000</div>
-        <div class="ig1-lead">전액 카드로 결제합니다</div>`)
+        <div class="ig1-lead">전액 카드로 냅니다</div>`)
       +
       section('ig1-use-point','ig1-blue',`
         <h2 class="ig1-title">그런데 1,000P가<br>쌓여 있다면?</h2>
         <div class="ig1-compare">
-          <div class="ig1-card"><strong>1,000P</strong><span>포인트 사용</span></div>
+          <div class="ig1-card"><strong>1,000P</strong><span>쌓아둔 포인트 사용</span></div>
           <div class="ig1-symbol">+</div>
-          <div class="ig1-card"><strong>$1,000</strong><span>카드 결제</span></div>
+          <div class="ig1-card"><strong>$1,000</strong><span>나머지만 카드 결제</span></div>
         </div>
-        <div class="ig1-lead">$2,000 크루즈 예약 완료</div>`)
+        <div class="ig1-lead">같은 $2,000 크루즈 예약</div>`)
       +
       section('ig1-real-spend','ig1-white',`
-        <h2 class="ig1-title">그럼 내가 실제로<br>쓴 돈은 얼마일까요?</h2>
+        <h2 class="ig1-title">그럼 실제로 내 통장에서<br>나간 돈은 얼마일까요?</h2>
         <div class="ig1-stack">
           <div class="ig1-row"><span>5개월 멤버십 비용</span><strong>$500</strong></div>
-          <div class="ig1-row"><span>예약할 때 카드 결제</span><strong>$1,000</strong></div>
+          <div class="ig1-row"><span>크루즈 예약 카드 결제</span><strong>$1,000</strong></div>
           <div class="ig1-row total"><span>실제 총지출</span><strong>$1,500</strong></div>
         </div>
-        <div class="ig1-number ig1-accent">$500 절감</div>`)
+        <div class="ig1-number ig1-accent">$500 적게 지출</div>`)
       +
       section('ig1-krw','ig1-dark',`
-        <h2 class="ig1-title">원화로 보면<br>더 바로 이해됩니다</h2>
+        <h2 class="ig1-title">원화로 보면<br>더 쉽게 체감됩니다</h2>
         <div class="ig1-stack">
-          <div class="ig1-row"><span>$2,000 크루즈</span><strong data-krw-usd="2000">계산 중</strong></div>
-          <div class="ig1-row"><span>포인트로 줄인 카드 결제분</span><strong data-krw-usd="1000">계산 중</strong></div>
-          <div class="ig1-row total"><span>5개월 멤버십까지 포함한 실제 지출</span><strong data-krw-usd="1500">계산 중</strong></div>
+          <div class="ig1-row"><span>$2,000 크루즈 가격</span><strong data-krw-usd="2000">계산 중</strong></div>
+          <div class="ig1-row"><span>포인트가 없을 때 카드 결제</span><strong data-krw-usd="2000">계산 중</strong></div>
+          <div class="ig1-row total"><span>5개월 멤버십 포함 실제 지출</span><strong data-krw-usd="1500">계산 중</strong></div>
         </div>`)
       +
       section('ig1-accum','ig1-soft',`
-        <h2 class="ig1-title">여행 전에 오래 쌓을수록<br>쓸 수 있는 포인트가 커집니다</h2>
+        <h2 class="ig1-title">여행 전에 쌓아둘수록<br>사용할 포인트가 커집니다</h2>
         <div class="ig1-stack">
           <div class="ig1-row"><span>클래식 3개월</span><strong>600P</strong></div>
           <div class="ig1-row"><span>클래식 6개월</span><strong>1,200P</strong></div>
@@ -198,7 +191,7 @@
         </div>`)
       +
       section('ig1-no-contract','ig1-blue',`
-        <h2 class="ig1-title">매월 결제하지만<br>묶여 있는 상품은 아닙니다</h2>
+        <h2 class="ig1-title">매월 결제하지만<br>장기 약정 상품은 아닙니다</h2>
         <div class="ig1-choice">
           <div>약정기간 없음</div>
           <div>해지 위약금 없음</div>
