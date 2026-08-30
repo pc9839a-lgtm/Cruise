@@ -63,7 +63,7 @@
   `;
   document.head.appendChild(style);
 
-  const esc = value => String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  const esc = value => String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#039;');
 
   function buildShell(){
     overlay = document.createElement('div');
@@ -180,20 +180,19 @@
 
     panel.innerHTML = `<div class="cms-result"><h1 class="cms-result-title">${esc(result.title)}</h1>${result.sub?`<p class="cms-result-sub">${esc(result.sub)}</p>`:''}<div class="cms-result-actions"><button type="button" class="cms-survey-primary">${esc(result.cta)}</button><button type="button" class="cms-survey-secondary">다시 선택</button></div></div>`;
 
-    panel.querySelector('.cms-survey-primary').addEventListener('click',()=>finish(result.target));
+    panel.querySelector('.cms-survey-primary').addEventListener('click',finish);
     panel.querySelector('.cms-survey-secondary').addEventListener('click',()=>{Object.keys(answers).forEach(k=>delete answers[k]);step=0;renderQuestion();});
   }
 
-  function finish(target){
+  function finish(){
     try{sessionStorage.setItem(SESSION_KEY,'1');}catch(_){}
     overlay.style.opacity='0';
     overlay.style.transition='opacity .2s ease';
     setTimeout(()=>{
       overlay.remove();
       document.body.style.overflow = previousOverflow;
-      const section = document.querySelector(target);
-      if(section) section.scrollIntoView({behavior:'smooth',block:'start'});
-      else scrollTo({top:0,left:0,behavior:'auto'});
+      window.scrollTo({top:0,left:0,behavior:'auto'});
+      requestAnimationFrame(()=>window.scrollTo(0,0));
     },200);
   }
 
