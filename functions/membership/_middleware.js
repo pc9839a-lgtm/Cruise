@@ -1,5 +1,5 @@
 const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-14"></script>';
-const FINAL_RENDERER = '<script src="/membership/membership-polish-v9.js?v=20260831-3"></script>';
+const FINAL_RENDERER = '<script src="/membership/membership-polish-v9.js?v=20260831-4"></script>';
 
 class MembershipScriptInjector {
   element(element) {
