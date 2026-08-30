@@ -14,8 +14,6 @@ const FLOW_POLISH = `
   #price-match .pmx-main{margin:42px 0 0;font-size:clamp(86px,12vw,154px);line-height:.88;letter-spacing:-.08em;font-weight:920;color:#c8d9ff}
   #price-match .pmx-copy{max-width:850px;margin:30px auto 0;font-size:clamp(24px,3vw,34px);line-height:1.38;letter-spacing:-.035em;font-weight:470;color:rgba(255,255,255,.82);word-break:keep-all}
   #price-match .pmx-copy strong{font-weight:780;color:#fff}
-  #price-match .pmx-rule{width:0;height:3px;margin:40px auto 0;background:#4d7fff;border-radius:999px;transition:width .9s cubic-bezier(.22,1,.36,1)}
-  #price-match.pmx-visible .pmx-rule{width:min(220px,32vw)}
 
   #hotel-benefit.pmx-section{min-height:540px;display:flex;align-items:center;padding:88px 0;background:#fff;color:#10182b;border-top:1px solid #e6eaf0}
   #hotel-benefit .pmx-title{max-width:900px;margin:0 auto;font-size:clamp(40px,5.2vw,68px);line-height:1.09;letter-spacing:-.055em;font-weight:560;word-break:keep-all;text-wrap:balance}
@@ -51,6 +49,8 @@ const FLOW_POLISH = `
 <script>
 (function(){
   function polish(){
+    document.querySelectorAll('.ig8-line').forEach(function(line){line.remove();});
+
     ['why-save','why-direct','how-it-works','travel-subscribe','earn-points','membership-summary'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.remove();
       document.querySelectorAll('.hero-nav-track a[href="#'+id+'"]').forEach(function(a){a.remove();});
@@ -59,7 +59,7 @@ const FLOW_POLISH = `
     var pm=document.getElementById('price-match');
     if(pm){
       pm.className='pmx-section';
-      pm.innerHTML='<div class="pmx-inner"><span class="pmx-kicker pmx-enter">최저가 보장제</span><h2 class="pmx-title pmx-enter">같은 조건의 크루즈를<br><strong>더 저렴하게 찾으셨나요?</strong></h2><div class="pmx-main pmx-enter">$100+</div><p class="pmx-copy pmx-enter">동일 크루즈 · 일정 · 객실 기준으로 <strong>$100 이상 차이</strong>가 나면<br>조건 확인 후 <strong>가격을 조정합니다.</strong></p><div class="pmx-rule" aria-hidden="true"></div></div>';
+      pm.innerHTML='<div class="pmx-inner"><span class="pmx-kicker pmx-enter">최저가 보장제</span><h2 class="pmx-title pmx-enter">같은 조건의 크루즈를<br><strong>더 저렴하게 찾으셨나요?</strong></h2><div class="pmx-main pmx-enter">$100+</div><p class="pmx-copy pmx-enter">동일 크루즈 · 일정 · 객실 기준으로 <strong>$100 이상 차이</strong>가 나면<br>조건 확인 후 <strong>가격을 조정합니다.</strong></p></div>';
       var routes=document.getElementById('ig8-routes');
       if(routes) routes.insertAdjacentElement('afterend',pm);
     }
