@@ -1,9 +1,11 @@
 (() => {
-  const STYLE_ID = 'ingroup-conversion-story-v4-style';
+  const STYLE_ID = 'ingroup-conversion-story-v5-style';
 
   const section = (id, tone, body) => `
-    <section id="${id}" class="ig4-section ${tone} ig4-reveal">
-      <div class="container"><div class="ig4-wrap">${body}</div></div>
+    <section id="${id}" class="ig5-section ${tone} ig5-reveal">
+      <div class="ig5-orb ig5-orb-a" aria-hidden="true"></div>
+      <div class="ig5-orb ig5-orb-b" aria-hidden="true"></div>
+      <div class="container"><div class="ig5-wrap">${body}</div></div>
     </section>`;
 
   function addStyles() {
@@ -11,87 +13,112 @@
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent = `
-      .ig4-section,.ig4-section *{box-sizing:border-box}
-      .ig4-section{min-height:620px;display:flex;align-items:center;padding:96px 0;overflow:hidden}
-      .ig4-white{background:#fff;color:#111a2e}.ig4-soft{background:#f4f6fa;color:#111a2e}.ig4-dark{background:#101a31;color:#fff}.ig4-blue{background:linear-gradient(135deg,#214f96,#173765);color:#fff}
-      .ig4-wrap{width:min(980px,100%);margin:0 auto;text-align:center}
-      .ig4-eyebrow{display:inline-block;margin-bottom:22px;font-size:clamp(22px,2.4vw,28px);font-weight:600;color:#3569bb}
-      .ig4-dark .ig4-eyebrow,.ig4-blue .ig4-eyebrow{color:#b8ceff}
-      .ig4-title{margin:0;font-size:clamp(44px,5.7vw,76px);line-height:1.06;letter-spacing:-.06em;font-weight:760}
-      .ig4-title strong{font-weight:920}
-      .ig4-lead{margin:30px auto 0;max-width:860px;font-size:clamp(27px,3.2vw,40px);line-height:1.38;letter-spacing:-.035em;font-weight:480}
-      .ig4-lead strong{font-weight:820}
-      .ig4-accent{color:#2e66ff}.ig4-dark .ig4-accent,.ig4-blue .ig4-accent{color:#b9ceff}
-      .ig4-number{margin-top:42px;font-size:clamp(76px,10vw,132px);line-height:.92;letter-spacing:-.075em;font-weight:920}
-      .ig4-number-sub{margin-top:22px;font-size:clamp(27px,3vw,38px);font-weight:520;line-height:1.35}
+      .ig5-section,.ig5-section *{box-sizing:border-box}
+      .ig5-section{position:relative;min-height:620px;display:flex;align-items:center;padding:96px 0;overflow:hidden;isolation:isolate}
+      .ig5-white{background:#fff;color:#10182b}.ig5-soft{background:#f3f6fb;color:#10182b}.ig5-dark{background:#0d1730;color:#fff}.ig5-blue{background:linear-gradient(135deg,#2658ad 0%,#17396b 58%,#0f2446 100%);color:#fff}
+      .ig5-wrap{position:relative;z-index:2;width:min(1040px,100%);margin:0 auto;text-align:center}
+      .ig5-section h2,.ig5-section p,.ig5-section span,.ig5-section strong{word-break:keep-all}
+      .ig5-title{max-width:930px;margin:0 auto;font-size:clamp(42px,5.5vw,72px);line-height:1.08;letter-spacing:-.055em;font-weight:720;text-wrap:balance}
+      .ig5-title strong{font-weight:900}
+      .ig5-lead{max-width:820px;margin:28px auto 0;font-size:clamp(25px,3vw,36px);line-height:1.42;letter-spacing:-.03em;font-weight:470;text-wrap:balance}
+      .ig5-lead strong{font-weight:800}
+      .ig5-accent{color:#2c69ff}.ig5-dark .ig5-accent,.ig5-blue .ig5-accent{color:#b8d0ff}
+      .ig5-kicker{display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;padding:12px 20px;border-radius:999px;background:#eaf1ff;color:#2c63bd;font-size:clamp(20px,2.2vw,25px);font-weight:650}
+      .ig5-dark .ig5-kicker,.ig5-blue .ig5-kicker{background:rgba(255,255,255,.11);color:#d9e5ff}
+      .ig5-mega{margin-top:42px;font-size:clamp(78px,10.5vw,138px);line-height:.9;letter-spacing:-.075em;font-weight:920}
+      .ig5-mega-note{margin-top:24px;font-size:clamp(25px,2.9vw,34px);line-height:1.35;font-weight:500}
+      .ig5-mega-note strong{font-weight:820}
 
-      .ig4-arrow{margin:34px 0;font-size:50px;font-weight:700;color:#83a6e7}
-      .ig4-two{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px;max-width:880px;margin:48px auto 0}
-      .ig4-box{padding:34px 26px;border-radius:30px;background:#fff;border:1px solid rgba(12,24,48,.1);color:#111a2e}
-      .ig4-dark .ig4-box,.ig4-blue .ig4-box{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16);color:#fff}
-      .ig4-box span{display:block;font-size:clamp(24px,2.6vw,30px);font-weight:500;line-height:1.3}
-      .ig4-box strong{display:block;margin-top:14px;font-size:clamp(52px,6.6vw,86px);line-height:.95;letter-spacing:-.065em;font-weight:900}
-      .ig4-symbol{font-size:44px;font-weight:700;color:#83a6e7}
+      .ig5-pair{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px;max-width:900px;margin:48px auto 0}
+      .ig5-pair-card{padding:34px 26px;border-radius:30px;background:#fff;border:1px solid rgba(15,30,60,.1);box-shadow:0 18px 50px rgba(21,45,85,.08);color:#10182b}
+      .ig5-dark .ig5-pair-card,.ig5-blue .ig5-pair-card{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);box-shadow:none;color:#fff}
+      .ig5-pair-card span{display:block;font-size:clamp(22px,2.5vw,29px);line-height:1.3;font-weight:500}
+      .ig5-pair-card strong{display:block;margin-top:14px;font-size:clamp(52px,6.6vw,86px);line-height:.95;letter-spacing:-.06em;font-weight:900}
+      .ig5-symbol{font-size:46px;font-weight:650;color:#83a7eb}
 
-      .ig4-stack{max-width:840px;margin:46px auto 0;text-align:left}
-      .ig4-row{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding:28px 4px;border-top:1px solid rgba(12,24,48,.13)}
-      .ig4-dark .ig4-row,.ig4-blue .ig4-row{border-color:rgba(255,255,255,.18)}
-      .ig4-row:first-child{border-top:0}
-      .ig4-row span{font-size:clamp(25px,2.9vw,34px);line-height:1.35;font-weight:480}
-      .ig4-row strong{font-size:clamp(40px,5vw,62px);line-height:1;font-weight:840;letter-spacing:-.05em}
-      .ig4-row.total{margin-top:8px;padding-top:32px;border-top:3px solid #2e66ff}
-      .ig4-row.total span{font-weight:680}.ig4-row.total strong{color:#2e66ff;font-weight:920}
-      .ig4-dark .ig4-row.total strong,.ig4-blue .ig4-row.total strong{color:#b9ceff}
+      .ig5-ledger{max-width:850px;margin:46px auto 0;text-align:left}
+      .ig5-ledger-row{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding:26px 4px;border-top:1px solid rgba(17,31,56,.13)}
+      .ig5-dark .ig5-ledger-row,.ig5-blue .ig5-ledger-row{border-color:rgba(255,255,255,.17)}
+      .ig5-ledger-row:first-child{border-top:0}
+      .ig5-ledger-row span{font-size:clamp(24px,2.8vw,32px);line-height:1.35;font-weight:480}
+      .ig5-ledger-row strong{font-size:clamp(38px,4.8vw,58px);line-height:1;font-weight:830;letter-spacing:-.045em}
+      .ig5-ledger-row.total{margin-top:6px;padding-top:30px;border-top:3px solid #2c69ff}
+      .ig5-ledger-row.total span{font-weight:680}.ig5-ledger-row.total strong{color:#2c69ff;font-weight:920}
+      .ig5-dark .ig5-ledger-row.total strong,.ig5-blue .ig5-ledger-row.total strong{color:#b8d0ff}
 
-      .ig4-rule{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:48px auto 0}
-      .ig4-rule-card{padding:38px 30px;border-radius:30px;background:#fff;border:1px solid rgba(12,24,48,.1);color:#111a2e}
-      .ig4-rule-card strong{display:block;font-size:clamp(42px,5vw,64px);font-weight:900;line-height:1.05}
-      .ig4-rule-card span{display:block;margin-top:18px;font-size:clamp(25px,2.9vw,34px);font-weight:500;line-height:1.35}
+      .ig5-rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:48px auto 0}
+      .ig5-rule-card{padding:38px 28px;border-radius:30px;background:#fff;border:1px solid rgba(15,30,60,.1);box-shadow:0 18px 48px rgba(21,45,85,.07);color:#10182b}
+      .ig5-rule-card strong{display:block;font-size:clamp(48px,6vw,78px);line-height:1;font-weight:900}
+      .ig5-rule-card span{display:block;margin-top:18px;font-size:clamp(24px,2.8vw,32px);line-height:1.35;font-weight:500}
 
-      .ig4-example{max-width:900px;margin:48px auto 0;padding:38px 34px;border-radius:34px;background:#fff;border:1px solid rgba(12,24,48,.1);color:#111a2e;text-align:left}
-      .ig4-example-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:28px;border-bottom:1px solid rgba(12,24,48,.12)}
-      .ig4-example-head h3{margin:0;font-size:clamp(36px,4.3vw,54px);font-weight:760;letter-spacing:-.05em}
-      .ig4-example-head strong{font-size:clamp(46px,5.8vw,72px);font-weight:920;line-height:1}
-      .ig4-example-rows{display:grid;gap:0}
-      .ig4-example-row{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:24px 0;border-top:1px solid rgba(12,24,48,.1)}
-      .ig4-example-row:first-child{border-top:0}
-      .ig4-example-row span{font-size:clamp(25px,2.9vw,33px);font-weight:480;line-height:1.3}
-      .ig4-example-row strong{font-size:clamp(34px,4.3vw,52px);font-weight:820}
-      .ig4-saving{margin-top:28px;padding-top:28px;border-top:3px solid #2e66ff;text-align:center}
-      .ig4-saving span{display:block;font-size:clamp(25px,2.9vw,34px);font-weight:520}
-      .ig4-saving strong{display:block;margin-top:12px;color:#2e66ff;font-size:clamp(58px,7.2vw,92px);line-height:.95;font-weight:920}
+      .ig5-result{max-width:900px;margin:48px auto 0;padding:40px 34px;border-radius:34px;background:#fff;border:1px solid rgba(15,30,60,.1);box-shadow:0 22px 58px rgba(21,45,85,.09);color:#10182b}
+      .ig5-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+      .ig5-result-box{padding:30px 22px;border-radius:26px;background:#f5f7fb}
+      .ig5-result-box span{display:block;font-size:clamp(22px,2.5vw,28px);font-weight:500}
+      .ig5-result-box strong{display:block;margin-top:14px;font-size:clamp(44px,5.5vw,68px);line-height:1;font-weight:880;letter-spacing:-.05em}
+      .ig5-saving{margin-top:28px;padding-top:28px;border-top:3px solid #2c69ff}
+      .ig5-saving strong{display:block;color:#2c69ff;font-size:clamp(64px,8vw,102px);line-height:.95;font-weight:920;letter-spacing:-.06em}
+      .ig5-saving span{display:block;margin-top:14px;font-size:clamp(25px,2.9vw,34px);line-height:1.35;font-weight:520}
 
-      .ig4-checks{display:grid;gap:18px;max-width:840px;margin:46px auto 0}
-      .ig4-check{padding:30px 26px;border-radius:28px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);font-size:clamp(30px,3.6vw,44px);line-height:1.25;font-weight:560}
-      .ig4-check strong{font-weight:880}
+      .ig5-routes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1040px;margin:46px auto 0}
+      .ig5-route{position:relative;min-height:320px;padding:30px 22px;border-radius:28px;background:linear-gradient(165deg,#fff 0%,#f5f8ff 100%);border:1px solid rgba(15,30,60,.1);box-shadow:0 18px 48px rgba(21,45,85,.08);overflow:hidden;text-align:left;color:#10182b}
+      .ig5-route::after{content:'';position:absolute;right:-46px;bottom:-54px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(46,105,255,.22),rgba(46,105,255,0) 68%)}
+      .ig5-route h3{position:relative;z-index:2;margin:0;font-size:clamp(28px,2.6vw,36px);line-height:1.15;font-weight:760;letter-spacing:-.04em}
+      .ig5-route-price{position:relative;z-index:2;display:block;margin-top:20px;font-size:clamp(38px,4vw,52px);line-height:1;font-weight:900;letter-spacing:-.05em}
+      .ig5-route-flow{position:relative;z-index:2;margin-top:26px;font-size:clamp(21px,2vw,25px);line-height:1.55;font-weight:500}
+      .ig5-route-flow strong{display:block;color:#2c69ff;font-size:clamp(27px,2.7vw,34px);font-weight:850}
+      .ig5-route-save{position:relative;z-index:2;display:inline-flex;margin-top:22px;padding:10px 14px;border-radius:999px;background:#e8f0ff;color:#245bb9;font-size:clamp(20px,1.9vw,23px);font-weight:760}
 
-      .ig4-final{max-width:940px;margin:0 auto;padding:58px 38px;border-radius:36px;background:#101a31;color:#fff}
-      .ig4-final strong{display:block;font-size:clamp(48px,6vw,78px);line-height:1.04;letter-spacing:-.06em;font-weight:820}
-      .ig4-final p{margin:28px auto 0;font-size:clamp(27px,3.2vw,38px);line-height:1.38;font-weight:480;color:#dce7ff}
-      .ig4-btn{display:inline-flex;align-items:center;justify-content:center;min-height:74px;margin-top:40px;padding:0 42px;border:0;border-radius:18px;background:#fff;color:#173766;font-size:clamp(26px,2.9vw,34px);font-weight:760;cursor:pointer}
+      .ig5-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:940px;margin:46px auto 0}
+      .ig5-check{padding:32px 24px;border-radius:28px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);font-size:clamp(27px,3vw,36px);line-height:1.25;font-weight:560}
+      .ig5-check strong{font-weight:860}
+      .ig5-btn{display:inline-flex;align-items:center;justify-content:center;min-height:72px;margin-top:42px;padding:0 42px;border:0;border-radius:18px;background:#fff;color:#173766;font-size:clamp(25px,2.8vw,32px);font-weight:760;cursor:pointer;box-shadow:0 16px 36px rgba(0,0,0,.15);transition:transform .2s ease,box-shadow .2s ease}
+      .ig5-btn:hover{transform:translateY(-3px);box-shadow:0 20px 42px rgba(0,0,0,.2)}
 
-      .ig4-reveal{opacity:0;transform:translateY(42px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
-      .ig4-reveal.is-visible{opacity:1;transform:none}
-      .ig4-reveal .ig4-eyebrow,.ig4-reveal .ig4-title,.ig4-reveal .ig4-lead,.ig4-reveal .ig4-number,.ig4-reveal .ig4-number-sub,.ig4-reveal .ig4-box,.ig4-reveal .ig4-row,.ig4-reveal .ig4-rule-card,.ig4-reveal .ig4-example,.ig4-reveal .ig4-check,.ig4-reveal .ig4-btn{opacity:0;transform:translateY(22px);transition:opacity .56s cubic-bezier(.22,1,.36,1),transform .56s cubic-bezier(.22,1,.36,1)}
-      .ig4-reveal.is-visible .ig4-eyebrow,.ig4-reveal.is-visible .ig4-title{opacity:1;transform:none;transition-delay:.06s}
-      .ig4-reveal.is-visible .ig4-lead,.ig4-reveal.is-visible .ig4-number,.ig4-reveal.is-visible .ig4-number-sub{opacity:1;transform:none;transition-delay:.14s}
-      .ig4-reveal.is-visible .ig4-box,.ig4-reveal.is-visible .ig4-rule-card,.ig4-reveal.is-visible .ig4-example,.ig4-reveal.is-visible .ig4-check,.ig4-reveal.is-visible .ig4-btn{opacity:1;transform:none;transition-delay:.2s}
-      .ig4-reveal.is-visible .ig4-row{opacity:1;transform:none;transition-delay:.18s}
-      .ig4-reveal.is-visible .ig4-row:nth-child(2){transition-delay:.25s}.ig4-reveal.is-visible .ig4-row:nth-child(3){transition-delay:.32s}.ig4-reveal.is-visible .ig4-row:nth-child(4){transition-delay:.39s}
+      .ig5-orb{position:absolute;z-index:0;border-radius:50%;filter:blur(2px);opacity:0;transform:scale(.65);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.22,1,.36,1)}
+      .ig5-orb-a{width:420px;height:420px;left:-180px;top:-140px;background:radial-gradient(circle,rgba(61,116,255,.22),rgba(61,116,255,0) 68%)}
+      .ig5-orb-b{width:360px;height:360px;right:-140px;bottom:-120px;background:radial-gradient(circle,rgba(122,173,255,.18),rgba(122,173,255,0) 68%)}
+      .ig5-reveal.is-visible .ig5-orb{opacity:1;transform:scale(1)}
+
+      .ig5-reveal{opacity:0;transform:translateY(46px) scale(.985);filter:blur(7px);transition:opacity .78s cubic-bezier(.22,1,.36,1),transform .78s cubic-bezier(.22,1,.36,1),filter .78s ease}
+      .ig5-reveal.is-visible{opacity:1;transform:none;filter:none}
+      .ig5-reveal .ig5-kicker,.ig5-reveal .ig5-title,.ig5-reveal .ig5-lead,.ig5-reveal .ig5-mega,.ig5-reveal .ig5-mega-note,.ig5-reveal .ig5-pair-card,.ig5-reveal .ig5-ledger-row,.ig5-reveal .ig5-rule-card,.ig5-reveal .ig5-result-box,.ig5-reveal .ig5-saving,.ig5-reveal .ig5-route,.ig5-reveal .ig5-check,.ig5-reveal .ig5-btn{opacity:0;transform:translateY(28px) scale(.97);transition:opacity .62s cubic-bezier(.22,1,.36,1),transform .62s cubic-bezier(.22,1,.36,1)}
+      .ig5-reveal.is-visible .ig5-kicker,.ig5-reveal.is-visible .ig5-title{opacity:1;transform:none;transition-delay:.06s}
+      .ig5-reveal.is-visible .ig5-lead,.ig5-reveal.is-visible .ig5-mega,.ig5-reveal.is-visible .ig5-mega-note{opacity:1;transform:none;transition-delay:.15s}
+      .ig5-reveal.is-visible .ig5-pair-card:nth-child(1),.ig5-reveal.is-visible .ig5-rule-card:nth-child(1),.ig5-reveal.is-visible .ig5-result-box:nth-child(1),.ig5-reveal.is-visible .ig5-route:nth-child(1),.ig5-reveal.is-visible .ig5-check:nth-child(1){opacity:1;transform:none;transition-delay:.18s}
+      .ig5-reveal.is-visible .ig5-pair-card:nth-child(3),.ig5-reveal.is-visible .ig5-rule-card:nth-child(2),.ig5-reveal.is-visible .ig5-result-box:nth-child(2),.ig5-reveal.is-visible .ig5-route:nth-child(2),.ig5-reveal.is-visible .ig5-check:nth-child(2){opacity:1;transform:none;transition-delay:.28s}
+      .ig5-reveal.is-visible .ig5-result-box:nth-child(3),.ig5-reveal.is-visible .ig5-route:nth-child(3),.ig5-reveal.is-visible .ig5-check:nth-child(3){opacity:1;transform:none;transition-delay:.38s}
+      .ig5-reveal.is-visible .ig5-result-box:nth-child(4),.ig5-reveal.is-visible .ig5-route:nth-child(4){opacity:1;transform:none;transition-delay:.48s}
+      .ig5-reveal.is-visible .ig5-saving,.ig5-reveal.is-visible .ig5-btn{opacity:1;transform:none;transition-delay:.52s}
+      .ig5-reveal.is-visible .ig5-ledger-row{opacity:1;transform:none;transition-delay:.18s}
+      .ig5-reveal.is-visible .ig5-ledger-row:nth-child(2){transition-delay:.28s}.ig5-reveal.is-visible .ig5-ledger-row:nth-child(3){transition-delay:.38s}.ig5-reveal.is-visible .ig5-ledger-row:nth-child(4){transition-delay:.48s}
+
+      @keyframes ig5Float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+      .ig5-reveal.is-visible .ig5-route:nth-child(odd){animation:ig5Float 5s ease-in-out 1.1s infinite}
+      .ig5-reveal.is-visible .ig5-route:nth-child(even){animation:ig5Float 5.8s ease-in-out 1.35s infinite reverse}
 
       @media(max-width:780px){
-        .ig4-section{min-height:560px;padding:74px 0}.ig4-title{font-size:40px}.ig4-lead{font-size:25px}
-        .ig4-two,.ig4-rule{grid-template-columns:1fr;gap:14px}.ig4-symbol{transform:rotate(90deg);font-size:30px}
-        .ig4-row,.ig4-example-row{grid-template-columns:1fr;gap:8px;text-align:center}.ig4-example-head{display:block;text-align:center}.ig4-example-head strong{display:block;margin-top:16px}
-        .ig4-example{padding:32px 22px}.ig4-btn{width:100%}
+        .ig5-section{min-height:560px;padding:74px 0}
+        .ig5-title{font-size:clamp(37px,10.2vw,44px);line-height:1.12;letter-spacing:-.05em}
+        .ig5-lead{font-size:clamp(23px,6vw,28px);line-height:1.42}
+        .ig5-kicker{font-size:20px;margin-bottom:20px}
+        .ig5-pair,.ig5-rule-grid{grid-template-columns:1fr;gap:14px}.ig5-symbol{transform:rotate(90deg);font-size:30px}
+        .ig5-ledger-row{grid-template-columns:1fr;gap:8px;text-align:center}
+        .ig5-result{padding:30px 18px}.ig5-result-grid{grid-template-columns:1fr 1fr;gap:10px}.ig5-result-box{padding:24px 12px}.ig5-result-box span{font-size:19px}.ig5-result-box strong{font-size:34px}
+        .ig5-routes{grid-template-columns:repeat(2,1fr);gap:10px}.ig5-route{min-height:270px;padding:24px 14px;border-radius:22px}.ig5-route h3{font-size:25px}.ig5-route-price{font-size:32px}.ig5-route-flow{font-size:18px;line-height:1.45}.ig5-route-flow strong{font-size:23px}.ig5-route-save{font-size:17px;padding:8px 10px}
+        .ig5-checks{grid-template-columns:1fr;gap:12px}.ig5-check{font-size:27px;padding:28px 20px}
+        .ig5-btn{width:100%}
       }
-      @media(prefers-reduced-motion:reduce){.ig4-reveal,.ig4-reveal *{opacity:1!important;transform:none!important;transition:none!important}}
+      @media(max-width:420px){
+        .ig5-title{font-size:36px}.ig5-mega{font-size:76px}.ig5-routes{gap:8px}.ig5-route{padding:22px 12px}.ig5-route h3{font-size:23px}.ig5-route-price{font-size:29px}.ig5-route-flow{font-size:17px}.ig5-route-flow strong{font-size:21px}
+      }
+      @media(prefers-reduced-motion:reduce){.ig5-reveal,.ig5-reveal *{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important}}
     `;
     document.head.appendChild(style);
   }
 
   function initReveal() {
-    const nodes = document.querySelectorAll('.ig4-reveal');
+    const nodes = document.querySelectorAll('.ig5-reveal');
     if (!('IntersectionObserver' in window)) {
       nodes.forEach((node) => node.classList.add('is-visible'));
       return;
@@ -100,118 +127,129 @@
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('is-visible');
+        animateCounts(entry.target);
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.13, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: 0.13, rootMargin: '0px 0px -7% 0px' });
     nodes.forEach((node) => io.observe(node));
   }
 
-  function buildExample(id, tone, name, cruisePrice, months, points, usedPoints, card, actual, saved, percent) {
-    return section(id, tone, `
-      <span class="ig4-eyebrow">${name} 예시</span>
-      <h2 class="ig4-title">미리 준비했을 때<br><strong>얼마나 달라질까요?</strong></h2>
-      <div class="ig4-example">
-        <div class="ig4-example-head"><h3>${name}</h3><strong>$${cruisePrice.toLocaleString()}</strong></div>
-        <div class="ig4-example-rows">
-          <div class="ig4-example-row"><span>${months}개월 동안 납부</span><strong>$${(months * 100).toLocaleString()}</strong></div>
-          <div class="ig4-example-row"><span>쌓인 포인트</span><strong>${points.toLocaleString()}P</strong></div>
-          <div class="ig4-example-row"><span>예약 시 사용</span><strong>${usedPoints.toLocaleString()}P + 카드 $${card.toLocaleString()}</strong></div>
-          <div class="ig4-example-row"><span>멤버십 포함 실제 지출</span><strong>$${actual.toLocaleString()}</strong></div>
-        </div>
-        <div class="ig4-saving"><span>그냥 $${cruisePrice.toLocaleString()} 결제할 때보다</span><strong>$${saved.toLocaleString()} 절감</strong><span>약 ${percent}% 낮아지는 예시</span></div>
-      </div>`);
+  function animateCounts(root) {
+    root.querySelectorAll('[data-count]').forEach((el) => {
+      if (el.dataset.counted === '1') return;
+      el.dataset.counted = '1';
+      const target = Number(el.dataset.count || 0);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const decimals = Number(el.dataset.decimals || 0);
+      const start = performance.now();
+      const duration = 900;
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const value = target * eased;
+        const formatted = decimals ? value.toFixed(decimals) : Math.round(value).toLocaleString('en-US');
+        el.textContent = `${prefix}${formatted}${suffix}`;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
   }
 
   function inject() {
-    if (document.getElementById('ig4-problem')) return;
+    if (document.getElementById('ig5-problem')) return;
     addStyles();
-
     const review = document.querySelector('.review-flow-section');
     if (!review) return;
 
     const html =
-      section('ig4-problem','ig4-dark',`
-        <span class="ig4-eyebrow">크루즈는 가고 싶은데</span>
-        <h2 class="ig4-title">부담되는 럭셔리 크루즈 여행 가격<br><strong>최저가로 갈 수 있는 방법 없을까요?</strong></h2>`)
-      + section('ig4-answer','ig4-blue',`
-        <span class="ig4-eyebrow">방법은 단순합니다</span>
-        <h2 class="ig4-title">여행 직전에 결제하지 말고<br><strong>미리 준비하세요</strong></h2>
-        <div class="ig4-number">약 25%</div>
-        <div class="ig4-number-sub">미리 쌓아두면 실제 지출을 크게 줄일 수 있습니다</div>`)
-      + section('ig4-how','ig4-white',`
-        <span class="ig4-eyebrow">어떻게?</span>
-        <h2 class="ig4-title">매월 <strong>$100</strong>을 납부합니다</h2>
-        <div class="ig4-two">
-          <div class="ig4-box"><span>내가 납부</span><strong>$100</strong></div>
-          <div class="ig4-symbol">→</div>
-          <div class="ig4-box"><span>매월 적립</span><strong class="ig4-accent">200P</strong></div>
-        </div>
-        <div class="ig4-lead">낸 금액이 그대로 쌓이는 게 아니라<br><strong>2배 포인트로 적립됩니다</strong></div>`)
-      + section('ig4-rule','ig4-soft',`
-        <span class="ig4-eyebrow">포인트는 어떻게 쓰나요?</span>
-        <h2 class="ig4-title">쌓인 포인트는<br><strong>크루즈 예약에 사용합니다</strong></h2>
-        <div class="ig4-rule">
-          <div class="ig4-rule-card"><strong>100%</strong><span>내가 보유한 포인트는 사용 가능</span></div>
-          <div class="ig4-rule-card"><strong>최대 50%</strong><span>한 번 예약할 때 크루즈 가격의 절반까지 포인트 적용</span></div>
+      section('ig5-problem','ig5-dark',`
+        <span class="ig5-kicker">크루즈는 가고 싶은데</span>
+        <h2 class="ig5-title">부담되는 럭셔리 크루즈 여행 가격<br><strong>조금이라도 더 저렴하게 탈 수 없을까요?</strong></h2>`)
+      + section('ig5-promise','ig5-blue',`
+        <span class="ig5-kicker">미리 준비하면 달라집니다</span>
+        <h2 class="ig5-title">여행비를 한 번에 내기 전에<br><strong>포인트부터 쌓아두세요</strong></h2>
+        <div class="ig5-mega ig5-accent" data-count="25" data-suffix="%">25%</div>
+        <div class="ig5-mega-note">대표 계산 예시 기준 <strong>약 25% 낮은 실지출</strong></div>`)
+      + section('ig5-start','ig5-white',`
+        <span class="ig5-kicker">시작부터 포인트가 있습니다</span>
+        <h2 class="ig5-title">클래식 가입 시<br><strong>350P부터 시작</strong></h2>
+        <div class="ig5-mega ig5-accent" data-count="350" data-suffix="P">350P</div>`)
+      + section('ig5-monthly','ig5-soft',`
+        <span class="ig5-kicker">그 다음 매월</span>
+        <h2 class="ig5-title"><strong>$100</strong>을 납부하면<br><strong>200P</strong>가 적립됩니다</h2>
+        <div class="ig5-pair">
+          <div class="ig5-pair-card"><span>매월 납부</span><strong>$100</strong></div>
+          <div class="ig5-symbol">→</div>
+          <div class="ig5-pair-card"><span>매월 적립</span><strong class="ig5-accent">200P</strong></div>
         </div>`)
-      + section('ig4-eight','ig4-white',`
-        <span class="ig4-eyebrow">그럼 실제로 계산해보겠습니다</span>
-        <h2 class="ig4-title">$100씩 <strong>8개월</strong> 준비했다면?</h2>
-        <div class="ig4-stack">
-          <div class="ig4-row"><span>매월 납부</span><strong>$100</strong></div>
-          <div class="ig4-row"><span>8개월 동안 납부한 금액</span><strong>$800</strong></div>
-          <div class="ig4-row total"><span>쌓인 포인트</span><strong>1,600P</strong></div>
+      + section('ig5-rule','ig5-white',`
+        <span class="ig5-kicker">쌓은 포인트는 여행할 때 사용</span>
+        <h2 class="ig5-title">보유 포인트는 사용할 수 있고<br><strong>한 예약에서는 최대 50%</strong></h2>
+        <div class="ig5-rule-grid">
+          <div class="ig5-rule-card"><strong>100%</strong><span>내가 보유한 포인트 사용 가능</span></div>
+          <div class="ig5-rule-card"><strong>50%</strong><span>크루즈 예약금액 기준 사용 한도</span></div>
         </div>`)
-      + section('ig4-3000','ig4-blue',`
-        <span class="ig4-eyebrow">이제 $3,000 크루즈를 예약합니다</span>
-        <h2 class="ig4-title">크루즈 가격의 50%까지<br><strong>포인트를 사용할 수 있습니다</strong></h2>
-        <div class="ig4-two">
-          <div class="ig4-box"><span>포인트 사용</span><strong>1,500P</strong></div>
-          <div class="ig4-symbol">+</div>
-          <div class="ig4-box"><span>카드 결제</span><strong>$1,500</strong></div>
-        </div>
-        <div class="ig4-lead">1,600P 중 1,500P 사용<br><strong>남은 100P는 그대로 보유</strong></div>`)
-      + section('ig4-real','ig4-white',`
-        <span class="ig4-eyebrow">그래서 실제 지출은?</span>
-        <h2 class="ig4-title">$3,000을 전부 카드로 내는 대신</h2>
-        <div class="ig4-stack">
-          <div class="ig4-row"><span>8개월 멤버십 납부</span><strong>$800</strong></div>
-          <div class="ig4-row"><span>크루즈 예약 카드 결제</span><strong>$1,500</strong></div>
-          <div class="ig4-row total"><span>실제 총지출</span><strong>$2,300</strong></div>
-        </div>
-        <div class="ig4-number ig4-accent">$700 절감</div>
-        <div class="ig4-number-sub">$3,000 → $2,300 · 약 23% 낮아지는 계산</div>`)
-      + section('ig4-why25','ig4-dark',`
-        <span class="ig4-eyebrow">핵심은 여기입니다</span>
-        <h2 class="ig4-title">포인트를 많이 쌓는 게 목적이 아니라<br><strong>여행할 때 내 돈을 덜 쓰는 것</strong></h2>
-        <div class="ig4-lead">여행 날짜가 멀수록 준비할 시간이 생기고<br>그만큼 <strong class="ig4-accent">카드로 낼 금액을 줄일 수 있습니다</strong></div>`)
-      + buildExample('ig4-asia','ig4-soft','아시아 크루즈',2000,5,1000,1000,1000,1500,500,25)
-      + buildExample('ig4-med','ig4-white','지중해 크루즈',3000,8,1600,1500,1500,2300,700,23)
-      + buildExample('ig4-north','ig4-soft','북유럽 크루즈',4000,10,2000,2000,2000,3000,1000,25)
-      + buildExample('ig4-disney','ig4-white','디즈니 크루즈',4800,12,2400,2400,2400,3600,1200,25)
-      + section('ig4-freedom','ig4-blue',`
-        <span class="ig4-eyebrow">매월 납부가 부담될까 걱정된다면</span>
-        <h2 class="ig4-title">장기 약정으로 묶이는 상품이 아닙니다</h2>
-        <div class="ig4-checks">
-          <div class="ig4-check"><strong>약정기간 없음</strong></div>
-          <div class="ig4-check"><strong>해지 위약금 없음</strong></div>
-          <div class="ig4-check">여행 다녀온 뒤 <strong>해지 가능</strong></div>
+      + section('ig5-eight','ig5-dark',`
+        <span class="ig5-kicker">그럼 실제로 계산해보겠습니다</span>
+        <h2 class="ig5-title"><strong>8개월</strong> 동안 클래식을 이용하면?</h2>
+        <div class="ig5-ledger">
+          <div class="ig5-ledger-row"><span>가입 시 시작 포인트</span><strong>350P</strong></div>
+          <div class="ig5-ledger-row"><span>8개월 × 매월 200P</span><strong>1,600P</strong></div>
+          <div class="ig5-ledger-row total"><span>8개월 뒤 보유 포인트</span><strong data-count="1950" data-suffix="P">1,950P</strong></div>
         </div>`)
-      + section('ig4-final','ig4-white',`
-        <div class="ig4-final">
-          <strong>크루즈를 몇 달 뒤에 갈 계획이라면<br>준비는 지금 시작하는 게 유리합니다</strong>
-          <p>$100 → 200P<br>미리 쌓고, 여행할 때 카드 결제를 줄이는 방식입니다.</p>
-          <button type="button" class="ig4-btn">멤버십 플랜 확인하기</button>
-        </div>`);
+      + section('ig5-cruise','ig5-soft',`
+        <span class="ig5-kicker">예를 들어</span>
+        <h2 class="ig5-title"><strong>$3,000</strong>짜리 크루즈를<br>예약한다고 가정해보겠습니다</h2>
+        <div class="ig5-mega" data-count="3000" data-prefix="$">$3,000</div>`)
+      + section('ig5-payment','ig5-blue',`
+        <span class="ig5-kicker">예약할 때는 이렇게 결제</span>
+        <h2 class="ig5-title">예약가의 절반을 포인트로<br><strong>나머지만 카드로</strong></h2>
+        <div class="ig5-pair">
+          <div class="ig5-pair-card"><span>포인트 사용</span><strong data-count="1500" data-suffix="P">1,500P</strong></div>
+          <div class="ig5-symbol">+</div>
+          <div class="ig5-pair-card"><span>카드 결제</span><strong data-count="1500" data-prefix="$">$1,500</strong></div>
+        </div>`)
+      + section('ig5-real','ig5-white',`
+        <span class="ig5-kicker">내가 실제로 쓴 돈</span>
+        <h2 class="ig5-title">크루즈 가격은 $3,000이지만<br><strong>실지출은 $2,300</strong></h2>
+        <div class="ig5-result">
+          <div class="ig5-result-grid">
+            <div class="ig5-result-box"><span>8개월 월 납부</span><strong>$800</strong></div>
+            <div class="ig5-result-box"><span>예약 카드 결제</span><strong>$1,500</strong></div>
+          </div>
+          <div class="ig5-saving"><strong data-count="2300" data-prefix="$">$2,300</strong><span>$3,000 대비 <strong>$700 절감 · 약 23.3%</strong><br>즉, 약 25% 낮아지는 계산 예시</span></div>
+        </div>`)
+      + section('ig5-routes','ig5-soft',`
+        <span class="ig5-kicker">크루즈 가격대별로 보면</span>
+        <h2 class="ig5-title">대표 크루즈 4가지<br><strong>한눈에 비교</strong></h2>
+        <div class="ig5-routes">
+          <article class="ig5-route"><h3>아시아</h3><span class="ig5-route-price">$2,000</span><div class="ig5-route-flow">5개월 준비<strong>$1,500 실지출</strong></div><span class="ig5-route-save">$500 · 25% 절감</span></article>
+          <article class="ig5-route"><h3>지중해</h3><span class="ig5-route-price">$3,000</span><div class="ig5-route-flow">8개월 준비<strong>$2,300 실지출</strong></div><span class="ig5-route-save">$700 · 약 23%</span></article>
+          <article class="ig5-route"><h3>북유럽</h3><span class="ig5-route-price">$4,000</span><div class="ig5-route-flow">10개월 준비<strong>$3,000 실지출</strong></div><span class="ig5-route-save">$1,000 · 25% 절감</span></article>
+          <article class="ig5-route"><h3>디즈니</h3><span class="ig5-route-price">$4,800</span><div class="ig5-route-flow">12개월 준비<strong>$3,600 실지출</strong></div><span class="ig5-route-save">$1,200 · 25% 절감</span></article>
+        </div>`)
+      + section('ig5-freedom','ig5-dark',`
+        <span class="ig5-kicker">그리고 계속 유지할 필요도 없습니다</span>
+        <h2 class="ig5-title">필요한 기간 동안 준비하고<br><strong>여행 후 해지할 수 있습니다</strong></h2>
+        <div class="ig5-checks">
+          <div class="ig5-check"><strong>약정기간</strong><br>없음</div>
+          <div class="ig5-check"><strong>해지 위약금</strong><br>없음</div>
+          <div class="ig5-check"><strong>여행 후</strong><br>해지 가능</div>
+        </div>`)
+      + section('ig5-final','ig5-blue',`
+        <span class="ig5-kicker">여행 계획이 있다면</span>
+        <h2 class="ig5-title">출발 직전에 큰돈을 내기보다<br><strong>지금부터 여행비를 낮춰두세요</strong></h2>
+        <button type="button" class="ig5-btn">멤버십 플랜 확인하기</button>`);
 
     review.insertAdjacentHTML('afterend', html);
 
-    const btn = document.querySelector('.ig4-btn');
-    if (btn) btn.addEventListener('click', () => document.querySelector('#plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    const button = document.querySelector('.ig5-btn');
+    if (button) button.addEventListener('click', () => document.querySelector('#plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 
     initReveal();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inject, { once: true });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inject, { once:true });
   else inject();
 })();
