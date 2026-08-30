@@ -88,7 +88,6 @@
     .cms-result-impact-value{display:block;margin-top:8px;font-size:clamp(64px,9vw,112px);line-height:.94;font-weight:950;letter-spacing:-.08em;color:#8aaaff;white-space:pre-line}
     .cms-result-impact.is-saving .cms-result-impact-value{color:#fff}
     .cms-result-proof{width:min(100%,900px);margin:16px auto 0;padding:18px 20px;border-radius:22px;background:#fff;border:1px solid var(--cms-line);box-shadow:var(--cms-shadow);text-align:center;font-size:clamp(23px,2.7vw,30px);font-weight:950;letter-spacing:-.04em;word-break:keep-all}
-    .cms-result-proof strong{color:var(--cms-blue);font-size:1.2em}
     .cms-result-actions{width:min(100%,680px);margin:24px auto 0;display:grid;gap:6px}
     .cms-survey-primary,.cms-survey-secondary{appearance:none;border:0;font:inherit;font-weight:950;cursor:pointer}
     .cms-survey-primary{min-height:80px;padding:0 28px;border-radius:999px;background:linear-gradient(135deg,var(--cms-blue),var(--cms-blue-strong));color:#fff;box-shadow:0 18px 38px rgba(46,102,255,.24);font-size:clamp(24px,2.8vw,32px)}
@@ -132,7 +131,7 @@
   document.head.appendChild(style);
 
   function esc(value){
-    return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#039;');
   }
 
   function buildShell(){
@@ -160,57 +159,28 @@
     const text=overlay.querySelector('.cms-survey-progress-text');
     const bar=overlay.querySelector('.cms-survey-progress>span');
     if(isResult){text.textContent='결과';bar.style.width='100%';return}
-    text.textContent=`${step+1} / 3`;
-    bar.style.width=`${((step+1)/3)*100}%`;
+    const total=answers.booking==='agency' || step < 1 ? 3 : 2;
+    text.textContent=`${step+1} / ${total}`;
+    bar.style.width=`${((step+1)/total)*100}%`;
   }
 
   function thirdStep(){
     const exp=answers.experience==='yes';
-    const agency=answers.booking==='agency';
-
-    if(!exp && agency){
-      return{
-        id:'priceChoice',
-        title:'처음이라면\n가이드가 더 안심되죠',
-        impact:{label:'그 안심 비용이',value:'+80만원',note:'이라면 어떠세요?',tone:'plain'},
-        options:[
-          {value:'comfort',icon:'🛎️',title:'80만원 더 내도 안심이 중요해요'},
-          {value:'save',icon:'💰',title:'80만원이면 직접 해볼래요'}
-        ]
-      };
-    }
-
-    if(exp && agency){
-      return{
-        id:'priceChoice',
-        title:'이미 타봤다면\n가이드에 더 낼 이유는?',
-        impact:{label:'같은 크루즈',value:'200 → 120만원',note:'1인 80만원 차이',tone:'blue'},
-        options:[
-          {value:'comfort',icon:'🛎️',title:'그래도 맡기는 게 편해요'},
-          {value:'save',icon:'💰',title:'그럼 직접 예약할래요'}
-        ]
-      };
-    }
-
-    if(!exp && !agency){
-      return{
-        id:'priceChoice',
-        title:'처음이어도\n직접 예약할 수 있다면',
-        impact:{label:'가이드 없이 최저가',value:'120만원',note:'패키지보다 80만원 절약',tone:'blue'},
-        options:[
-          {value:'comfort',icon:'🛎️',title:'복잡하면 그냥 편하게 갈래요'},
-          {value:'save',icon:'💰',title:'80만원이면 직접 할래요'}
-        ]
-      };
-    }
-
-    return{
+    return exp ? {
       id:'priceChoice',
-      title:'타봤고 직접 예약도 가능하다면\n굳이 더 낼까요?',
-      impact:{label:'2인 기준',value:'160만원 절약',note:'가이드 없이 최저가 예약 시',tone:'blue'},
+      title:'이미 타봤다면\n가격 차이도 보시겠어요?',
+      impact:{label:'같은 크루즈 예시',value:'200 → 120만원',note:'1인 80만원 차이',tone:'blue'},
       options:[
-        {value:'comfort',icon:'🛎️',title:'그래도 편한 게 더 중요해요'},
-        {value:'save',icon:'💰',title:'굳이 더 안 낼래요'}
+        {value:'comfort',icon:'🛎️',title:'그래도 여행사에 맡길래요'},
+        {value:'save',icon:'💰',title:'80만원이면 직접 예약할래요'}
+      ]
+    } : {
+      id:'priceChoice',
+      title:'처음이라 여행사가 편하시군요\n가격 차이가 이 정도라면?',
+      impact:{label:'같은 크루즈 예시',value:'200 → 120만원',note:'1인 80만원 차이',tone:'blue'},
+      options:[
+        {value:'comfort',icon:'🛎️',title:'그래도 여행사에 맡길래요'},
+        {value:'save',icon:'💰',title:'80만원이면 직접 해볼래요'}
       ]
     };
   }
@@ -247,7 +217,21 @@
         panel.querySelectorAll('.cms-survey-option').forEach(el=>el.classList.remove('is-selected'));
         button.classList.add('is-selected');
         window.setTimeout(()=>{
-          if(current<2){current+=1;renderQuestion()}else{renderResult()}
+          if(current===0){
+            current=1;
+            renderQuestion();
+            return;
+          }
+          if(current===1){
+            if(answers.booking==='direct'){
+              renderResult();
+            }else{
+              current=2;
+              renderQuestion();
+            }
+            return;
+          }
+          renderResult();
         },120);
       });
     });
@@ -261,32 +245,70 @@
     const agency=answers.booking==='agency';
     const save=answers.priceChoice==='save';
 
-    if(!exp && agency && !save){
-      return{ id:'new-agency-comfort',title:'처음이라면\n안심을 선택하는 것도 맞습니다',label:'안심을 위해',value:'+80만원',tone:'comfort',proof:'패키지 예시 200만원',cta:'멤버십 방식 보기' };
+    if(!agency){
+      if(exp){
+        return{
+          id:'exp-direct-ready',
+          title:'이미 타봤고 직접 예약도 가능하다면\n멤버십이 가장 잘 맞습니다',
+          label:'전세계 최저가 예시',
+          value:'120만원',
+          tone:'saving',
+          proof:'패키지 예시 200만원 → 1인 80만원 차이',
+          cta:'크루즈 멤버십 보기'
+        };
+      }
+      return{
+        id:'new-direct-ready',
+        title:'처음이어도 직접 예약할 수 있다면\n멤버십이 잘 맞습니다',
+        label:'전세계 최저가 예시',
+        value:'120만원',
+        tone:'saving',
+        proof:'패키지 예시 200만원 → 1인 80만원 차이',
+        cta:'크루즈 멤버십 보기'
+      };
     }
-    if(exp && agency && !save){
-      return{ id:'exp-agency-comfort',title:'이미 알아도\n편한 게 더 중요하네요',label:'편의를 위해',value:'+80만원',tone:'comfort',proof:'패키지 예시 200만원',cta:'멤버십 방식 보기' };
+
+    if(!save){
+      return exp ? {
+        id:'exp-agency-comfort',
+        title:'여행사에 맡기는 편안함이\n더 중요하시네요',
+        label:'패키지 예시',
+        value:'200만원',
+        tone:'comfort',
+        proof:'그래도 멤버십 가격은 비교해볼 수 있습니다',
+        cta:'멤버십 가격 비교하기'
+      } : {
+        id:'new-agency-comfort',
+        title:'처음이라면\n여행사에 맡기는 것도 좋은 선택입니다',
+        label:'패키지 예시',
+        value:'200만원',
+        tone:'comfort',
+        proof:'멤버십과 가격 차이만 확인해보세요',
+        cta:'가격 차이 확인하기'
+      };
     }
-    if(!exp && agency && save){
-      return{ id:'new-agency-save',title:'처음이어도\n80만원 차이는 크죠',label:'같은 크루즈',value:'200 → 120만원',tone:'saving',proof:'가이드 없이 전세계 최저가',cta:'80만원 아끼는 방법' };
-    }
-    if(exp && agency && save){
-      return{ id:'exp-agency-save',title:'타봤다면\n직접 예약이 더 합리적입니다',label:'1인 절감',value:'-80만원',tone:'saving',proof:'200만원 → 120만원',cta:'최저가 크루즈 보기' };
-    }
-    if(!exp && !agency && !save){
-      return{ id:'new-direct-comfort',title:'직접 예약은 가능해도\n복잡한 건 싫으시네요',label:'최저가 기준',value:'120만원',tone:'comfort',proof:'패키지보다 80만원 낮은 예시',cta:'멤버십 방식 보기' };
-    }
-    if(exp && !agency && !save){
-      return{ id:'exp-direct-comfort',title:'직접 갈 수 있어도\n편한 게 우선이네요',label:'편의를 위해',value:'+80만원',tone:'comfort',proof:'패키지 선택 시 예시',cta:'멤버십 방식 보기' };
-    }
-    if(!exp && !agency && save){
-      return{ id:'new-direct-save',title:'처음이어도\n직접 아끼는 타입입니다',label:'1인 절감',value:'-80만원',tone:'saving',proof:'최저가 예시 120만원',cta:'전세계 최저가 보기' };
-    }
-    return{ id:'exp-direct-save',title:'이미 타봤고 직접 예약도 된다면\n더 비싸게 갈 이유 없습니다',label:'2인 절감',value:'-160만원',tone:'saving',proof:'1인 80만원 × 2명',cta:'전세계 최저가 보기' };
+
+    return exp ? {
+      id:'exp-agency-save',
+      title:'80만원 차이라면\n직접 예약도 괜찮으시네요',
+      label:'1인 차이',
+      value:'80만원',
+      tone:'saving',
+      proof:'200만원 → 120만원 예시',
+      cta:'크루즈 멤버십 보기'
+    } : {
+      id:'new-agency-save',
+      title:'처음이어도 80만원 차이면\n직접 예약을 고려할 만합니다',
+      label:'1인 차이',
+      value:'80만원',
+      tone:'saving',
+      proof:'200만원 → 120만원 예시',
+      cta:'80만원 아끼는 방법 보기'
+    };
   }
 
   function renderResult(){
-    updateProgress(2,true);
+    updateProgress(current,true);
     const result=getResult();
     const payload={result:result.id,answers:{...answers},completedAt:new Date().toISOString()};
     try{sessionStorage.setItem(RESULT_KEY,JSON.stringify(payload))}catch(_){}
@@ -297,7 +319,7 @@
         survey_result:result.id,
         survey_experience:answers.experience,
         survey_booking:answers.booking,
-        survey_price_choice:answers.priceChoice
+        survey_price_choice:answers.priceChoice || 'skipped_direct'
       });
     }
 
