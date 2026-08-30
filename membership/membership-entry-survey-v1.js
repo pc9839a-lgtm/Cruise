@@ -64,7 +64,7 @@
     .cms-survey-card,.cms-result{width:100%;animation:cmsIn .22s ease both}
     @keyframes cmsIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .cms-survey-title{max-width:980px;margin:0 auto 44px;text-align:center;white-space:pre-line;font-size:clamp(54px,7vw,90px);line-height:1.03;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+    .cms-survey-title{max-width:980px;margin:0 auto 38px;text-align:center;white-space:pre-line;font-size:clamp(54px,7vw,90px);line-height:1.03;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
     .cms-survey-options{width:min(100%,920px);margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
     .cms-survey-option{appearance:none;width:100%;min-height:190px;padding:28px;border:1px solid var(--cms-line);border-radius:34px;background:rgba(255,255,255,.96);box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--cms-text);text-align:center;font:inherit;cursor:pointer;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease}
     .cms-survey-option:hover,.cms-survey-option:focus-visible{outline:none;transform:translateY(-3px);border-color:rgba(46,102,255,.42);box-shadow:0 24px 64px rgba(46,102,255,.16)}
@@ -73,27 +73,22 @@
     .cms-survey-option-title{display:block;font-size:clamp(28px,3vw,36px);line-height:1.18;letter-spacing:-.045em;font-weight:950;word-break:keep-all}
     .cms-survey-back{display:block;margin:30px auto 0;padding:14px 20px;border:0;background:transparent;color:var(--cms-muted);font:inherit;font-size:22px;font-weight:900;cursor:pointer}
 
-    .cms-question-price{width:min(100%,960px);margin:-8px auto 22px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
-    .cms-question-price-card{min-height:180px;padding:24px;border:2px solid var(--cms-line);border-radius:30px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-    .cms-question-price-card.direct{border:4px solid rgba(46,102,255,.38);background:linear-gradient(180deg,#fff,#f3f7ff)}
-    .cms-question-price-label{font-size:clamp(24px,2.5vw,30px);font-weight:950;letter-spacing:-.04em;word-break:keep-all}
-    .cms-question-price-value{margin-top:8px;font-size:clamp(58px,8vw,98px);line-height:.95;letter-spacing:-.075em;font-weight:950;white-space:nowrap}
-    .cms-question-price-card.direct .cms-question-price-value{color:var(--cms-blue)}
-    .cms-question-price-badge{display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;padding:8px 14px;border-radius:999px;background:rgba(46,102,255,.10);color:var(--cms-blue-strong);font-size:20px;font-weight:950}
-    .cms-question-price-vs{font-size:28px;font-weight:950;color:var(--cms-muted)}
-    .cms-question-saving{margin:0 auto 28px;text-align:center;font-size:clamp(36px,4.3vw,56px);font-weight:950;letter-spacing:-.055em}
-    .cms-question-saving strong{color:var(--cms-blue)}
+    .cms-branch-impact{width:min(100%,880px);margin:0 auto 28px;border-radius:32px;padding:30px 24px;text-align:center;background:#fff;border:1px solid var(--cms-line);box-shadow:var(--cms-shadow)}
+    .cms-branch-impact.blue{background:linear-gradient(135deg,#24519c,#2e66ff);color:#fff;border:0}
+    .cms-branch-label{display:block;font-size:clamp(24px,2.8vw,34px);font-weight:950;letter-spacing:-.045em;word-break:keep-all}
+    .cms-branch-value{display:block;margin-top:8px;font-size:clamp(58px,8vw,100px);line-height:.95;font-weight:950;letter-spacing:-.075em;white-space:pre-line}
+    .cms-branch-impact.blue .cms-branch-value{color:#fff}
+    .cms-branch-note{display:block;margin-top:10px;color:var(--cms-muted);font-size:clamp(22px,2.4vw,28px);font-weight:900;word-break:keep-all}
+    .cms-branch-impact.blue .cms-branch-note{color:rgba(255,255,255,.86)}
 
     .cms-result-title{max-width:960px;margin:0 auto 26px;text-align:center;white-space:pre-line;font-size:clamp(48px,6.6vw,80px);line-height:1.03;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
-    .cms-result-impact{width:min(100%,900px);margin:0 auto;padding:30px 22px;border-radius:32px;background:var(--cms-text);color:#fff;text-align:center;box-shadow:var(--cms-shadow)}
+    .cms-result-impact{width:min(100%,900px);margin:0 auto;padding:32px 22px;border-radius:32px;background:var(--cms-text);color:#fff;text-align:center;box-shadow:var(--cms-shadow)}
+    .cms-result-impact.is-saving{background:linear-gradient(135deg,#24519c,#2e66ff)}
     .cms-result-impact-label{display:block;font-size:clamp(26px,3vw,36px);line-height:1.1;font-weight:950;letter-spacing:-.05em}
     .cms-result-impact-value{display:block;margin-top:8px;font-size:clamp(64px,9vw,112px);line-height:.94;font-weight:950;letter-spacing:-.08em;color:#8aaaff;white-space:pre-line}
-    .cms-result-impact.is-saving{background:linear-gradient(135deg,#24519c,#2e66ff)}
     .cms-result-impact.is-saving .cms-result-impact-value{color:#fff}
-    .cms-result-compare-line{width:min(100%,900px);margin:16px auto 0;padding:20px 22px;border-radius:24px;background:#fff;border:1px solid var(--cms-line);box-shadow:var(--cms-shadow);display:flex;align-items:center;justify-content:center;gap:18px;text-align:center;font-size:clamp(22px,2.6vw,30px);font-weight:950;letter-spacing:-.04em;word-break:keep-all}
-    .cms-result-compare-line strong{font-size:clamp(30px,4vw,46px);letter-spacing:-.06em}
-    .cms-result-compare-line .to{color:var(--cms-muted)}
-    .cms-result-compare-line .low{color:var(--cms-blue)}
+    .cms-result-proof{width:min(100%,900px);margin:16px auto 0;padding:18px 20px;border-radius:22px;background:#fff;border:1px solid var(--cms-line);box-shadow:var(--cms-shadow);text-align:center;font-size:clamp(23px,2.7vw,30px);font-weight:950;letter-spacing:-.04em;word-break:keep-all}
+    .cms-result-proof strong{color:var(--cms-blue);font-size:1.2em}
     .cms-result-actions{width:min(100%,680px);margin:24px auto 0;display:grid;gap:6px}
     .cms-survey-primary,.cms-survey-secondary{appearance:none;border:0;font:inherit;font-weight:950;cursor:pointer}
     .cms-survey-primary{min-height:80px;padding:0 28px;border-radius:999px;background:linear-gradient(135deg,var(--cms-blue),var(--cms-blue-strong));color:#fff;box-shadow:0 18px 38px rgba(46,102,255,.24);font-size:clamp(24px,2.8vw,32px)}
@@ -104,24 +99,20 @@
       .cms-survey-brand,.cms-survey-progress-text{font-size:18px}
       .cms-survey-progress{height:8px}
       .cms-survey-panel{align-items:flex-start;padding:46px 0 18px}
-      .cms-survey-title{margin-bottom:32px;font-size:clamp(44px,12vw,62px)}
+      .cms-survey-title{margin-bottom:30px;font-size:clamp(44px,12vw,62px)}
       .cms-survey-options{grid-template-columns:1fr;gap:16px}
       .cms-survey-option{min-height:132px;border-radius:26px;padding:22px 18px;flex-direction:row;justify-content:flex-start;text-align:left}
       .cms-survey-option-icon{flex:0 0 auto;width:60px;font-size:40px;text-align:center}
       .cms-survey-option-title{font-size:27px}
-      .cms-question-price{grid-template-columns:1fr 1fr;gap:10px}
-      .cms-question-price-vs{display:none}
-      .cms-question-price-card{min-height:150px;padding:14px 8px;border-radius:22px}
-      .cms-question-price-badge{font-size:17px;padding:6px 10px;margin-bottom:7px}
-      .cms-question-price-label{font-size:19px}
-      .cms-question-price-value{font-size:clamp(42px,13vw,62px)}
-      .cms-question-saving{font-size:clamp(30px,8vw,42px)}
+      .cms-branch-impact{padding:24px 14px;border-radius:24px;margin-bottom:22px}
+      .cms-branch-label{font-size:24px}
+      .cms-branch-value{font-size:clamp(54px,15vw,78px)}
+      .cms-branch-note{font-size:22px}
       .cms-result-title{font-size:clamp(40px,10.5vw,56px);margin-bottom:22px}
       .cms-result-impact{padding:26px 14px;border-radius:26px}
       .cms-result-impact-label{font-size:clamp(25px,6.5vw,34px)}
       .cms-result-impact-value{font-size:clamp(58px,16vw,84px)}
-      .cms-result-compare-line{gap:10px;padding:18px 10px;border-radius:20px;font-size:19px;flex-wrap:wrap}
-      .cms-result-compare-line strong{font-size:30px}
+      .cms-result-proof{font-size:21px;padding:16px 12px;border-radius:20px}
       .cms-survey-primary{min-height:74px;font-size:25px}
       .cms-survey-secondary{font-size:19px}
     }
@@ -131,9 +122,6 @@
       .cms-survey-title{font-size:42px}
       .cms-survey-option{min-height:122px}
       .cms-survey-option-title{font-size:25px}
-      .cms-question-price-badge{font-size:16px}
-      .cms-question-price-label{font-size:18px}
-      .cms-question-price-value{font-size:42px}
       .cms-result-title{font-size:39px}
       .cms-result-impact-value{font-size:60px}
     }
@@ -176,45 +164,64 @@
     bar.style.width=`${((step+1)/3)*100}%`;
   }
 
-  function pricePreview(){
-    return `
-      <div class="cms-question-price" aria-label="4박 5일 아시아 크루즈 가격 예시">
-        <div class="cms-question-price-card">
-          <span class="cms-question-price-label">가이드 패키지 예시</span>
-          <strong class="cms-question-price-value">200만원</strong>
-        </div>
-        <span class="cms-question-price-vs">VS</span>
-        <div class="cms-question-price-card direct">
-          <span class="cms-question-price-badge">전세계 최저가</span>
-          <span class="cms-question-price-label">가이드 없이</span>
-          <strong class="cms-question-price-value">120만원</strong>
-        </div>
-      </div>
-      <div class="cms-question-saving">1인 <strong>80만원 차이</strong></div>`;
-  }
-
   function thirdStep(){
-    if(answers.booking==='agency'){
+    const exp=answers.experience==='yes';
+    const agency=answers.booking==='agency';
+
+    if(!exp && agency){
       return{
         id:'priceChoice',
-        title:'여행사에 맡기는 게 편하시군요.\n그런데 1인 80만원 차이라면?',
-        priceCompare:true,
+        title:'처음이라면\n가이드가 더 안심되죠',
+        impact:{label:'그 안심 비용이',value:'+80만원',note:'이라면 어떠세요?',tone:'plain'},
         options:[
-          {value:'comfort',icon:'🛎️',title:'그래도 편하게 맡길래요'},
+          {value:'comfort',icon:'🛎️',title:'80만원 더 내도 안심이 중요해요'},
           {value:'save',icon:'💰',title:'80만원이면 직접 해볼래요'}
+        ]
+      };
+    }
+
+    if(exp && agency){
+      return{
+        id:'priceChoice',
+        title:'이미 타봤다면\n가이드에 더 낼 이유는?',
+        impact:{label:'같은 크루즈',value:'200 → 120만원',note:'1인 80만원 차이',tone:'blue'},
+        options:[
+          {value:'comfort',icon:'🛎️',title:'그래도 맡기는 게 편해요'},
+          {value:'save',icon:'💰',title:'그럼 직접 예약할래요'}
+        ]
+      };
+    }
+
+    if(!exp && !agency){
+      return{
+        id:'priceChoice',
+        title:'처음이어도\n직접 예약할 수 있다면',
+        impact:{label:'가이드 없이 최저가',value:'120만원',note:'패키지보다 80만원 절약',tone:'blue'},
+        options:[
+          {value:'comfort',icon:'🛎️',title:'복잡하면 그냥 편하게 갈래요'},
+          {value:'save',icon:'💰',title:'80만원이면 직접 할래요'}
         ]
       };
     }
 
     return{
       id:'priceChoice',
-      title:'직접 예약도 괜찮으시군요.\n그럼 1인 80만원 아낄 수 있다면?',
-      priceCompare:true,
+      title:'타봤고 직접 예약도 가능하다면\n굳이 더 낼까요?',
+      impact:{label:'2인 기준',value:'160만원 절약',note:'가이드 없이 최저가 예약 시',tone:'blue'},
       options:[
-        {value:'comfort',icon:'🛎️',title:'그래도 편한 게 중요해요'},
-        {value:'save',icon:'💰',title:'80만원 아낄래요'}
+        {value:'comfort',icon:'🛎️',title:'그래도 편한 게 더 중요해요'},
+        {value:'save',icon:'💰',title:'굳이 더 안 낼래요'}
       ]
     };
+  }
+
+  function branchImpact(impact){
+    return `
+      <div class="cms-branch-impact${impact.tone==='blue'?' blue':''}">
+        <span class="cms-branch-label">${esc(impact.label)}</span>
+        <strong class="cms-branch-value">${esc(impact.value)}</strong>
+        <span class="cms-branch-note">${esc(impact.note)}</span>
+      </div>`;
   }
 
   function renderQuestion(){
@@ -223,7 +230,7 @@
     panel.innerHTML=`
       <div class="cms-survey-card">
         <h1 class="cms-survey-title">${esc(q.title)}</h1>
-        ${q.priceCompare?pricePreview():''}
+        ${q.impact?branchImpact(q.impact):''}
         <div class="cms-survey-options">
           ${q.options.map(option=>`
             <button type="button" class="cms-survey-option${answers[q.id]===option.value?' is-selected':''}" data-value="${esc(option.value)}">
@@ -255,90 +262,27 @@
     const save=answers.priceChoice==='save';
 
     if(!exp && agency && !save){
-      return{
-        id:'new-agency-comfort',
-        title:'처음이라면,\n맡기는 게 편합니다',
-        label:'편안함을 선택한 비용',
-        value:'+80만원',
-        tone:'comfort',
-        cta:'가격 차이 확인하기'
-      };
+      return{ id:'new-agency-comfort',title:'처음이라면\n안심을 선택하는 것도 맞습니다',label:'안심을 위해',value:'+80만원',tone:'comfort',proof:'패키지 예시 200만원',cta:'멤버십 방식 보기' };
     }
-
     if(exp && agency && !save){
-      return{
-        id:'exp-agency-comfort',
-        title:'타봤어도,\n편한 게 우선이네요',
-        label:'패키지를 선택한 비용',
-        value:'+80만원',
-        tone:'comfort',
-        cta:'가격 차이 확인하기'
-      };
+      return{ id:'exp-agency-comfort',title:'이미 알아도\n편한 게 더 중요하네요',label:'편의를 위해',value:'+80만원',tone:'comfort',proof:'패키지 예시 200만원',cta:'멤버십 방식 보기' };
     }
-
     if(!exp && agency && save){
-      return{
-        id:'new-agency-save',
-        title:'편한 건 좋지만,\n80만원은 큽니다',
-        label:'같은 크루즈',
-        value:'200 → 120만원',
-        tone:'saving',
-        cta:'80만원 아끼는 방법'
-      };
+      return{ id:'new-agency-save',title:'처음이어도\n80만원 차이는 크죠',label:'같은 크루즈',value:'200 → 120만원',tone:'saving',proof:'가이드 없이 전세계 최저가',cta:'80만원 아끼는 방법' };
     }
-
     if(exp && agency && save){
-      return{
-        id:'exp-agency-save',
-        title:'같은 크루즈라면,\n직접 예약도 괜찮습니다',
-        label:'1인 절감',
-        value:'-80만원',
-        tone:'saving',
-        cta:'최저가 비교하기'
-      };
+      return{ id:'exp-agency-save',title:'타봤다면\n직접 예약이 더 합리적입니다',label:'1인 절감',value:'-80만원',tone:'saving',proof:'200만원 → 120만원',cta:'최저가 크루즈 보기' };
     }
-
     if(!exp && !agency && !save){
-      return{
-        id:'new-direct-comfort',
-        title:'직접 예약은 가능,\n복잡한 건 싫으시네요',
-        label:'최저가로는',
-        value:'120만원',
-        tone:'comfort',
-        cta:'멤버십 방식 보기'
-      };
+      return{ id:'new-direct-comfort',title:'직접 예약은 가능해도\n복잡한 건 싫으시네요',label:'최저가 기준',value:'120만원',tone:'comfort',proof:'패키지보다 80만원 낮은 예시',cta:'멤버십 방식 보기' };
     }
-
     if(exp && !agency && !save){
-      return{
-        id:'exp-direct-comfort',
-        title:'직접 갈 수 있어도,\n편한 게 우선이네요',
-        label:'편안함을 위해',
-        value:'+80만원 감수',
-        tone:'comfort',
-        cta:'멤버십 방식 보기'
-      };
+      return{ id:'exp-direct-comfort',title:'직접 갈 수 있어도\n편한 게 우선이네요',label:'편의를 위해',value:'+80만원',tone:'comfort',proof:'패키지 선택 시 예시',cta:'멤버십 방식 보기' };
     }
-
     if(!exp && !agency && save){
-      return{
-        id:'new-direct-save',
-        title:'처음이어도,\n직접 아끼는 쪽이 맞습니다',
-        label:'1인 절감',
-        value:'-80만원',
-        tone:'saving',
-        cta:'전세계 최저가 보기'
-      };
+      return{ id:'new-direct-save',title:'처음이어도\n직접 아끼는 타입입니다',label:'1인 절감',value:'-80만원',tone:'saving',proof:'최저가 예시 120만원',cta:'전세계 최저가 보기' };
     }
-
-    return{
-      id:'exp-direct-save',
-      title:'이미 타봤다면,\n더 비싸게 갈 이유 없습니다',
-      label:'2인 기준',
-      value:'-160만원',
-      tone:'saving',
-      cta:'전세계 최저가 보기'
-    };
+    return{ id:'exp-direct-save',title:'이미 타봤고 직접 예약도 된다면\n더 비싸게 갈 이유 없습니다',label:'2인 절감',value:'-160만원',tone:'saving',proof:'1인 80만원 × 2명',cta:'전세계 최저가 보기' };
   }
 
   function renderResult(){
@@ -364,11 +308,7 @@
           <span class="cms-result-impact-label">${esc(result.label)}</span>
           <strong class="cms-result-impact-value">${esc(result.value)}</strong>
         </div>
-        <div class="cms-result-compare-line" aria-label="가격 비교">
-          <span>가이드 패키지</span><strong>200만원</strong>
-          <span class="to">→</span>
-          <span>전세계 최저가</span><strong class="low">120만원</strong>
-        </div>
+        <div class="cms-result-proof">${esc(result.proof)}</div>
         <div class="cms-result-actions">
           <button type="button" class="cms-survey-primary">${esc(result.cta)}</button>
           <button type="button" class="cms-survey-secondary">다시 선택</button>
