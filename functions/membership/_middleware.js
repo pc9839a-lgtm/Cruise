@@ -7,6 +7,8 @@ const FLOW_POLISH = `
   .pmx-section{position:relative;overflow:hidden;isolation:isolate}
   .pmx-inner{width:min(1040px,calc(100% - 40px));margin:0 auto;text-align:center}
 
+  #plans .membership-section-head .section-kicker{display:none!important}
+
   #price-match.pmx-section{min-height:650px;display:flex;align-items:center;padding:100px 0;background:#0c1730;color:#fff}
   #price-match .pmx-kicker{display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;padding:10px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);color:#dbe7ff;font-size:clamp(19px,2vw,24px);font-weight:600;letter-spacing:-.03em}
   #price-match .pmx-title{max-width:950px;margin:0 auto;font-size:clamp(44px,6vw,78px);line-height:1.08;letter-spacing:-.06em;font-weight:560;word-break:keep-all;text-wrap:balance}
@@ -43,13 +45,44 @@ const FLOW_POLISH = `
     #hotel-benefit .pmx-benefits{grid-template-columns:1fr;margin-top:38px}
     #hotel-benefit .pmx-benefit{min-height:90px;font-size:27px}
     #hotel-benefit .pmx-benefit + .pmx-benefit{border-left:0;border-top:1px solid #dfe5ef}
+
+    #calculator.ig8-calculator>.container{width:min(calc(100% - 20px),680px)!important}
+    #calculator.ig8-calculator .calculator-card{padding:22px 14px!important;border-radius:22px!important}
+    #calculator.ig8-calculator .calculator-head{gap:10px!important}
+    #calculator.ig8-calculator .calculator-head strong{font-size:20px!important}
+    #calculator.ig8-calculator #rangeValue{font-size:44px!important}
+    #calculator.ig8-calculator .calculator-mode{width:100%!important;margin-bottom:22px!important}
+    #calculator.ig8-calculator .mode-btn{font-size:17px!important;min-height:50px!important}
+    #calculator.ig8-calculator .result-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+    #calculator.ig8-calculator .result-box{min-width:0!important;min-height:128px!important;padding:20px 10px!important;border-radius:20px!important;text-align:center!important}
+    #calculator.ig8-calculator .result-box span{font-size:18px!important;line-height:1.25!important;word-break:keep-all!important}
+    #calculator.ig8-calculator .result-box strong{margin-top:10px!important;font-size:clamp(31px,9.5vw,42px)!important;line-height:.98!important;letter-spacing:-.055em!important;white-space:nowrap!important}
+    #calculator.ig8-calculator .result-box.highlight{grid-column:1/-1!important;width:100%!important;min-height:142px!important;padding:24px 16px!important}
+    #calculator.ig8-calculator .result-box.highlight span{font-size:21px!important}
+    #calculator.ig8-calculator .result-box.highlight strong{font-size:clamp(46px,13vw,60px)!important}
   }
+
+  @media(max-width:420px){
+    #calculator.ig8-calculator>.container{width:min(calc(100% - 16px),680px)!important}
+    #calculator.ig8-calculator .calculator-card{padding:20px 10px!important}
+    #calculator.ig8-calculator .result-grid{gap:8px!important}
+    #calculator.ig8-calculator .result-box{min-height:120px!important;padding:18px 8px!important}
+    #calculator.ig8-calculator .result-box span{font-size:16px!important}
+    #calculator.ig8-calculator .result-box strong{font-size:clamp(28px,8.8vw,36px)!important}
+    #calculator.ig8-calculator .result-box.highlight{min-height:136px!important}
+    #calculator.ig8-calculator .result-box.highlight span{font-size:19px!important}
+    #calculator.ig8-calculator .result-box.highlight strong{font-size:clamp(44px,13vw,56px)!important}
+  }
+
   @media(prefers-reduced-motion:reduce){.pmx-enter,#hotel-benefit .pmx-benefit{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
 </style>
 <script>
 (function(){
   function polish(){
     document.querySelectorAll('.ig8-line').forEach(function(line){line.remove();});
+
+    var planKicker=document.querySelector('#plans .membership-section-head .section-kicker');
+    if(planKicker) planKicker.remove();
 
     ['why-save','why-direct','how-it-works','travel-subscribe','earn-points','membership-summary'].forEach(function(id){
       var el=document.getElementById(id); if(el) el.remove();
