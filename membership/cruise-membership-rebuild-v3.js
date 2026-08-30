@@ -8,7 +8,8 @@ const plans = [
     monthlyUsd: 100,
     startUsd: 200,
     rewardPoint: 350,
-    monthlyPoint: 200
+    monthlyPoint: 200,
+    fit: '1~2년에 한 번 크루즈를 계획하는 분'
   },
   {
     tag: '추천',
@@ -17,6 +18,7 @@ const plans = [
     startUsd: 500,
     rewardPoint: 800,
     monthlyPoint: 500,
+    fit: '더 빠르게 포인트를 모으고 싶은 분',
     recommended: true
   }
 ];
@@ -94,7 +96,7 @@ function renderPlans() {
 
   const plansHeading = document.querySelector('#plans .membership-section-head h2');
   if (plansHeading) {
-    plansHeading.innerHTML = '클래식부터<br class="mobile-break" />프리미엄까지!';
+    plansHeading.innerHTML = '내 여행 계획에 맞는<br class="mobile-break" />멤버십을 선택하세요';
   }
 
   wrap.innerHTML = plans.map((plan) => {
@@ -108,18 +110,23 @@ function renderPlans() {
     const statBorder = plan.recommended
       ? 'rgba(255,255,255,.18)'
       : 'rgba(15,25,49,.12)';
+    const fitColor = plan.recommended
+      ? 'rgba(255,255,255,.84)'
+      : '#55627a';
 
     return `
       <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}" style="padding:30px;">
         <span class="plan-tag" style="font-size:16px;font-weight:900;">${plan.tag}</span>
 
-        <div class="plan-main-line" style="margin:24px 0 28px;">
+        <div class="plan-main-line" style="margin:24px 0 18px;">
           <div class="plan-name" style="margin:0;line-height:1;font-weight:950;">${plan.name}</div>
           <div class="plan-price-row" style="display:flex;align-items:baseline;gap:4px;margin:14px 0 0;white-space:nowrap;">
             <div class="plan-price" style="line-height:.88;font-weight:950;">${formatUsd(plan.monthlyUsd)}</div>
             <div class="plan-price-unit" style="margin:0;font-weight:900;">/월</div>
           </div>
         </div>
+
+        <p class="plan-fit" style="margin:0 0 24px;color:${fitColor};font-size:20px;line-height:1.35;font-weight:650;letter-spacing:-.03em;word-break:keep-all;">${plan.fit}</p>
 
         <div class="plan-mobile-summary" aria-label="모바일 멤버십 요약">
           <div class="plan-mobile-line plan-mobile-line-main">
@@ -158,7 +165,7 @@ function renderPlans() {
           </div>
         </div>
 
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs} style="margin-top:20px;min-height:62px;font-size:20px;">멤버십 가입하기</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs} style="margin-top:20px;min-height:62px;font-size:20px;">이 플랜으로 준비 시작하기</a>
       </article>
     `;
   }).join('');
