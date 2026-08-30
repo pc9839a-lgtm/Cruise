@@ -12,7 +12,7 @@ const FLOW_POLISH = `
   .pmx-inner{width:min(1040px,calc(100% - 40px));margin:0 auto;text-align:center}
   #plans .membership-section-head .section-kicker{display:none!important}
 
-  /* 전체 타이포 시스템 */
+  /* 전체 타이포 */
   .pmx-big-title,.ig8-title,#calculator .section-head h2,#plans .membership-section-head h2{
     max-width:940px;margin-left:auto;margin-right:auto;
     font-size:clamp(42px,5.5vw,72px)!important;line-height:1.09!important;
@@ -26,7 +26,7 @@ const FLOW_POLISH = `
     line-height:1.2;font-weight:680!important;letter-spacing:-.025em
   }
 
-  /* 배경은 항상 표시, 콘텐츠만 등장 */
+  /* 배경은 고정, 내용만 등장 */
   .ig8-reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
   .ig8-reveal .ig8-kicker,.ig8-reveal .ig8-title,.ig8-reveal .ig8-sub,.ig8-reveal .ig8-mega,
   .ig8-reveal .ig8-card,.ig8-reveal .ig8-rule,.ig8-reveal .ig8-ledger-row,.ig8-reveal .ig8-equation-part,
@@ -39,7 +39,6 @@ const FLOW_POLISH = `
   .ig8-reveal.is-visible .ig8-eq-symbol,.ig8-reveal.is-visible .ig8-route,.ig8-reveal.is-visible .ig8-check,.ig8-reveal.is-visible .ig8-btn{
     opacity:1!important;transform:none!important
   }
-
   .pmx-enter{opacity:0;transform:translateY(22px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
   .pmx-visible .pmx-enter{opacity:1;transform:none}
   .pmx-visible .pmx-enter:nth-child(2){transition-delay:.06s}
@@ -48,7 +47,6 @@ const FLOW_POLISH = `
 
   /* 신뢰 */
   #trust-proof{min-height:620px;display:flex;align-items:center;padding:92px 0;background:#fff;color:#10182b;border-bottom:1px solid #e7ebf0}
-  #trust-proof .pmx-kicker{display:inline-flex}
   .pmx-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);max-width:1000px;margin:52px auto 0;border-top:1px solid #dfe5ef;border-bottom:1px solid #dfe5ef}
   .pmx-trust-grid article{min-height:188px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 18px;opacity:0;transform:translateY(28px) scale(.98);transition:opacity .56s cubic-bezier(.22,1,.36,1),transform .56s cubic-bezier(.22,1,.36,1)}
   #trust-proof.pmx-visible .pmx-trust-grid article{opacity:1;transform:none}
@@ -60,11 +58,11 @@ const FLOW_POLISH = `
   .pmx-trust-grid span{margin-top:12px;font-size:clamp(22px,2.5vw,29px);font-weight:650;color:#33425f;word-break:keep-all}
   .pmx-trust-grid em{margin-top:7px;font-style:normal;font-size:clamp(18px,1.9vw,21px);color:#6e7d98;font-weight:500;word-break:keep-all}
 
-  /* 여행 욕구 */
+  /* 크루즈 비주얼 */
   #travel-desire{padding:92px 0;background:#f5f6f8;color:#10182b}
   #travel-desire .pmx-big-title{max-width:930px}
   .pmx-photo{width:min(1080px,100%);height:clamp(360px,52vw,620px);margin:42px auto 0;border-radius:28px;overflow:hidden;background:#dfe4eb}
-  .pmx-photo img{width:100%;height:100%;display:block;object-fit:cover}
+  .pmx-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
 
   /* 가격 결과 */
   #quick-result{min-height:620px;display:flex;align-items:center;padding:92px 0;background:#fff;color:#10182b}
@@ -76,6 +74,12 @@ const FLOW_POLISH = `
   .pmx-arrow{font-size:44px;color:#7890b8;font-weight:500}
   .pmx-save{margin-top:34px;font-size:clamp(30px,4vw,48px);font-weight:760;letter-spacing:-.045em}
   .pmx-save strong{font-weight:920;color:#245fc4}
+
+  /* 구독 브릿지 */
+  #subscribe-bridge{min-height:430px;display:flex;align-items:center;padding:78px 0;background:#1f4f96;color:#fff}
+  #subscribe-bridge .pmx-big-title{max-width:900px;color:#fff;font-weight:560!important}
+  #subscribe-bridge .pmx-big-title strong{color:#fff;font-weight:900!important}
+  #subscribe-bridge .pmx-bridge-overline{display:block;margin-bottom:18px;font-size:clamp(21px,2.3vw,27px);font-weight:560;letter-spacing:-.03em;color:rgba(255,255,255,.72)}
 
   /* 계산 CTA */
   #calculator .pmx-calc-cta{display:flex;align-items:center;justify-content:center;width:min(560px,100%);min-height:68px;margin:24px auto 0;padding:0 28px;border:0;border-radius:18px;background:#10182b;color:#fff;font-size:clamp(22px,2.4vw,28px);font-weight:760;letter-spacing:-.035em;cursor:pointer}
@@ -103,19 +107,21 @@ const FLOW_POLISH = `
   .pmx-step strong{margin-top:10px;font-size:clamp(28px,3.3vw,40px);font-weight:820;word-break:keep-all}
   .pmx-step-arrow{font-size:34px;color:#8498bb}
 
-  /* Q&A */
-  #join-faq{padding:90px 0;background:#fff;color:#10182b}
-  .pmx-faq{max-width:900px;margin:46px auto 0;text-align:left;border-top:1px solid #dce2ea}
-  .pmx-faq details{border-bottom:1px solid #dce2ea}
-  .pmx-faq summary{list-style:none;cursor:pointer;padding:26px 4px;font-size:clamp(24px,2.8vw,31px);font-weight:720;letter-spacing:-.035em}
-  .pmx-faq summary::-webkit-details-marker{display:none}
-  .pmx-faq p{margin:0;padding:0 4px 27px;font-size:clamp(21px,2.3vw,26px);line-height:1.5;color:#53617a;font-weight:470;word-break:keep-all}
-
-  /* 호텔 */
-  #hotel-benefit{min-height:520px;display:flex;align-items:center;padding:84px 0;background:#f5f6f8;color:#10182b}
-  .pmx-benefits{display:grid;grid-template-columns:repeat(3,1fr);max-width:980px;margin:48px auto 0;border-top:1px solid #d9e0e8;border-bottom:1px solid #d9e0e8}
-  .pmx-benefits div{min-height:138px;display:flex;align-items:center;justify-content:center;padding:24px;font-size:clamp(26px,2.9vw,36px);font-weight:640;word-break:keep-all}
-  .pmx-benefits div+div{border-left:1px solid #d9e0e8}
+  /* 호텔/투어 - 카드 대신 하나의 여행 확장 흐름 */
+  #hotel-benefit{min-height:620px;display:flex;align-items:center;padding:94px 0;background:#0c1730;color:#fff}
+  #hotel-benefit .pmx-big-title{max-width:920px;color:#fff}
+  #hotel-benefit .pmx-hotel-overline{display:block;margin-bottom:20px;font-size:clamp(21px,2.3vw,27px);font-weight:560;color:#aebfdb;letter-spacing:-.03em}
+  .pmx-hotel-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:22px;max-width:1040px;margin:58px auto 0}
+  .pmx-hotel-flow strong,.pmx-hotel-flow i{opacity:0;transform:translateY(24px);transition:opacity .52s cubic-bezier(.22,1,.36,1),transform .52s cubic-bezier(.22,1,.36,1)}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow strong,#hotel-benefit.pmx-visible .pmx-hotel-flow i{opacity:1;transform:none}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow strong:nth-child(1){transition-delay:.12s}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow i:nth-child(2){transition-delay:.20s}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow strong:nth-child(3){transition-delay:.28s}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow i:nth-child(4){transition-delay:.36s}
+  #hotel-benefit.pmx-visible .pmx-hotel-flow strong:nth-child(5){transition-delay:.44s}
+  .pmx-hotel-flow strong{display:block;font-size:clamp(30px,3.8vw,48px);line-height:1.12;font-weight:760;letter-spacing:-.045em;color:#fff;word-break:keep-all}
+  .pmx-hotel-flow i{font-style:normal;font-size:clamp(30px,3.5vw,44px);font-weight:400;color:#6f8fbe}
+  .pmx-hotel-bottom{margin:42px auto 0;font-size:clamp(23px,2.7vw,31px);line-height:1.4;font-weight:470;color:#c5d1e4;letter-spacing:-.03em;word-break:keep-all}
 
   @media(max-width:780px){
     .pmx-inner{width:min(100% - 24px,680px)}
@@ -123,12 +129,12 @@ const FLOW_POLISH = `
     .pmx-kicker,.ig8-kicker{font-size:18px!important;margin-bottom:18px}
     #trust-proof{min-height:560px;padding:72px 0}
     .pmx-trust-grid{grid-template-columns:1fr;margin-top:36px}.pmx-trust-grid article{min-height:120px}.pmx-trust-grid article+article{border-left:0;border-top:1px solid #dfe5ef}.pmx-trust-grid strong{font-size:50px}.pmx-trust-grid span{font-size:23px}.pmx-trust-grid em{font-size:18px}
-    #travel-desire{padding:70px 0}.pmx-photo{height:58vw;min-height:300px;border-radius:22px;margin-top:32px}
+    #travel-desire{padding:70px 0}.pmx-photo{height:60vw;min-height:300px;border-radius:22px;margin-top:32px}
     #quick-result{min-height:540px;padding:72px 0}.pmx-compare{grid-template-columns:1fr;gap:10px;margin-top:34px}.pmx-arrow{transform:rotate(90deg);font-size:30px}.pmx-price-side{padding:24px 14px}.pmx-price-side strong{font-size:58px}.pmx-save{font-size:32px;margin-top:26px}
+    #subscribe-bridge{min-height:340px;padding:64px 0}#subscribe-bridge .pmx-bridge-overline{font-size:20px}
     #price-match{min-height:570px;padding:76px 0}#price-match .pmx-main{font-size:clamp(82px,24vw,114px)}#price-match .pmx-copy{font-size:22px}
     .pmx-step-grid{grid-template-columns:1fr;gap:8px;margin-top:34px}.pmx-step{min-height:105px}.pmx-step-arrow{transform:rotate(90deg);font-size:24px}
-    #join-faq{padding:72px 0}.pmx-faq{margin-top:34px}.pmx-faq summary{font-size:23px;padding:23px 2px}.pmx-faq p{font-size:20px;padding-bottom:24px}
-    #hotel-benefit{min-height:470px;padding:70px 0}.pmx-benefits{grid-template-columns:1fr;margin-top:34px}.pmx-benefits div{min-height:86px;font-size:25px}.pmx-benefits div+div{border-left:0;border-top:1px solid #d9e0e8}
+    #hotel-benefit{min-height:540px;padding:76px 0}.pmx-hotel-flow{grid-template-columns:1fr;gap:12px;margin-top:40px}.pmx-hotel-flow i{font-size:27px}.pmx-hotel-flow strong{font-size:34px}.pmx-hotel-bottom{font-size:22px;margin-top:34px}
 
     #calculator.ig8-calculator>.container{width:min(calc(100% - 20px),680px)!important}
     #calculator.ig8-calculator .calculator-card{padding:22px 14px!important;border-radius:22px!important}
@@ -159,7 +165,7 @@ const FLOW_POLISH = `
     #calculator.ig8-calculator .result-box.highlight strong{font-size:clamp(44px,13vw,56px)!important}
   }
 
-  @media(prefers-reduced-motion:reduce){.pmx-enter,.ig8-reveal,.ig8-reveal *,.pmx-trust-grid article,.pmx-step,.pmx-step-arrow{opacity:1!important;transform:none!important;transition:none!important}}
+  @media(prefers-reduced-motion:reduce){.pmx-enter,.ig8-reveal,.ig8-reveal *,.pmx-trust-grid article,.pmx-step,.pmx-step-arrow,.pmx-hotel-flow strong,.pmx-hotel-flow i{opacity:1!important;transform:none!important;transition:none!important}}
 </style>
 <script>
 (function(){
@@ -184,6 +190,10 @@ const FLOW_POLISH = `
 
   function polish(){
     document.querySelectorAll('.ig8-line').forEach(function(line){line.remove()});
+    document.querySelectorAll('#hotel-benefit svg,#ig8-final svg,footer svg,.site-footer svg').forEach(function(svg){svg.remove()});
+    var oldFaq=document.getElementById('join-faq');if(oldFaq)oldFaq.remove();
+    var oldFinal=document.getElementById('ig8-final');if(oldFinal)oldFinal.remove();
+    var floating=document.querySelector('.floating-cta');if(floating)floating.remove();
     var planKicker=document.querySelector('#plans .membership-section-head .section-kicker');if(planKicker)planKicker.remove();
 
     ['why-save','why-direct','how-it-works','travel-subscribe','earn-points','membership-summary','ig8-problem-a','ig8-problem-b','ig8-promise','ig8-cruise','ig8-membership-spend','ig8-total','ig8-saving','ig8-freedom'].forEach(function(id){var el=document.getElementById(id);if(el)el.remove()});
@@ -200,7 +210,7 @@ const FLOW_POLISH = `
 
     var desire=document.getElementById('travel-desire');
     if(trust&&!desire){
-      desire=make('section','travel-desire','<div class="pmx-inner"><span class="pmx-kicker pmx-enter">7박 크루즈 예시</span><h2 class="pmx-big-title pmx-enter"><strong>$3,500짜리 크루즈</strong><br>그대로 결제하지 마세요</h2><div class="pmx-photo pmx-enter"><img src="/membership/img/KakaoTalk_20260405_150550057_02.jpg" alt="크루즈 여행 풍경"></div></div>','pmx-section');
+      desire=make('section','travel-desire','<div class="pmx-inner"><span class="pmx-kicker pmx-enter">7박 크루즈 예시</span><h2 class="pmx-big-title pmx-enter"><strong>$3,500짜리 크루즈</strong><br>그대로 결제하지 마세요</h2><div class="pmx-photo pmx-enter"><img src="https://images.unsplash.com/photo-1648996961412-be39cc77cb31?auto=format&fit=crop&w=1800&q=85" alt="바다를 항해하는 대형 크루즈"></div></div>','pmx-section');
       trust.insertAdjacentElement('afterend',desire);
     }
 
@@ -210,8 +220,14 @@ const FLOW_POLISH = `
       desire.insertAdjacentElement('afterend',result);
     }
 
+    var bridge=document.getElementById('subscribe-bridge');
+    if(result&&!bridge){
+      bridge=make('section','subscribe-bridge','<div class="pmx-inner"><span class="pmx-bridge-overline pmx-enter">크루즈 여행도 이제는 미리 준비</span><h2 class="pmx-big-title pmx-enter">크루즈 여행,<br><strong>구독해서 더 저렴하게 가세요</strong></h2></div>','pmx-section');
+      result.insertAdjacentElement('afterend',bridge);
+    }
+
     var start=document.getElementById('ig8-start'),monthly=document.getElementById('ig8-monthly'),rule=document.getElementById('ig8-rule'),seven=document.getElementById('ig8-seven'),payment=document.getElementById('ig8-payment'),routes=document.getElementById('ig8-routes'),calc=document.getElementById('calculator');
-    var cursor=result;[start,monthly,rule,seven,payment,routes,calc].forEach(function(el){if(el&&cursor){cursor.insertAdjacentElement('afterend',el);cursor=el}});
+    var cursor=bridge||result;[start,monthly,rule,seven,payment,routes,calc].forEach(function(el){if(el&&cursor){cursor.insertAdjacentElement('afterend',el);cursor=el}});
 
     if(calc&&!calc.querySelector('.pmx-calc-cta')){var card=calc.querySelector('.calculator-card');if(card){var btn=document.createElement('button');btn.type='button';btn.className='pmx-calc-cta';btn.textContent='이 금액으로 준비 시작하기';btn.addEventListener('click',function(){var p=document.getElementById('plans');if(p)p.scrollIntoView({behavior:'smooth',block:'start'})});card.appendChild(btn)}}
 
@@ -223,17 +239,14 @@ const FLOW_POLISH = `
     var steps=document.getElementById('signup-steps');
     if(plans&&!steps){steps=make('section','signup-steps','<div class="pmx-inner"><h2 class="pmx-big-title pmx-enter">가입은<br><strong>3단계면 끝</strong></h2><div class="pmx-step-grid"><div class="pmx-step"><b>01</b><strong>플랜 선택</strong></div><div class="pmx-step-arrow">→</div><div class="pmx-step"><b>02</b><strong>멤버십 가입</strong></div><div class="pmx-step-arrow">→</div><div class="pmx-step"><b>03</b><strong>포인트 적립</strong></div></div></div>','pmx-section');plans.insertAdjacentElement('afterend',steps)}
 
-    var faq=document.getElementById('join-faq');
-    if(steps&&!faq){faq=make('section','join-faq','<div class="pmx-inner"><h2 class="pmx-big-title pmx-enter">가입 전에<br><strong>이것만 확인하세요</strong></h2><div class="pmx-faq pmx-enter"><details><summary>약정기간이 있나요?</summary><p>별도의 장기 약정기간 없이 이용할 수 있습니다.</p></details><details><summary>해지는 어떻게 하나요?</summary><p>필요한 기간 이용 후 해지할 수 있습니다. 해지 시 2배 적립분은 사라지고 원금 기준 포인트만 남습니다.</p></details><details><summary>포인트 유효기간이 있나요?</summary><p>포인트 자체의 유효기간은 없습니다. 다만 멤버십 상태에 따라 적립 혜택 조건이 달라질 수 있습니다.</p></details><details><summary>예약 후에도 멤버십을 유지해야 하나요?</summary><p>예약한 크루즈를 실제 이용하려면 출발 시점까지 필요한 멤버십 조건을 유지해야 합니다.</p></details></div></div>','pmx-section');steps.insertAdjacentElement('afterend',faq)}
-
     var hotel=document.getElementById('hotel-benefit');
-    if(hotel){hotel.className='pmx-section';hotel.innerHTML='<div class="pmx-inner"><span class="pmx-kicker pmx-enter">크루즈 그 이상</span><h2 class="pmx-big-title pmx-enter">호텔부터 투어까지<br><strong>한 번에 준비</strong></h2><div class="pmx-benefits"><div>전세계 호텔</div><div>현지 투어</div><div>출발 전후 1박</div></div></div>';if(faq)faq.insertAdjacentElement('afterend',hotel)}
+    if(hotel){
+      hotel.className='pmx-section';
+      hotel.innerHTML='<div class="pmx-inner"><span class="pmx-hotel-overline pmx-enter">CRUISE + STAY + TOUR</span><h2 class="pmx-big-title pmx-enter">크루즈 한 번 예약하고<br><strong>여행 전체를 이어서 준비</strong></h2><div class="pmx-hotel-flow"><strong>전세계 호텔</strong><i>+</i><strong>현지 투어</strong><i>+</i><strong>출발 전후 1박</strong></div><p class="pmx-hotel-bottom pmx-enter">크루즈 전후 일정까지 한 번에 연결해서 준비할 수 있습니다.</p></div>';
+      if(steps)steps.insertAdjacentElement('afterend',hotel);
+    }
 
-    var finalSection=document.getElementById('ig8-final');if(finalSection&&hotel)hotel.insertAdjacentElement('afterend',finalSection);
-    var finalBtn=document.querySelector('#ig8-final .ig8-btn');if(finalBtn)finalBtn.textContent='내 여행비 미리 준비하기';
-    var floating=document.querySelector('.floating-cta');if(floating)floating.textContent='내 여행비 미리 준비하기';
-
-    visibleObserve([trust,desire,result,pm,steps,faq,hotel]);
+    visibleObserve([trust,desire,result,bridge,pm,steps,hotel]);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',polish,{once:true});else polish();
 })();
