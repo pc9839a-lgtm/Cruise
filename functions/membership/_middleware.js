@@ -1,4 +1,4 @@
-const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-13"></script>';
+const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-14"></script>';
 const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-v3.js?v=20260830-4"></script>';
 
 class MembershipScriptInjector {
