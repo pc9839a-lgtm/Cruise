@@ -1,8 +1,9 @@
 const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-13"></script>';
+const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-sections.js?v=20260830-1"></script>';
 
-class MembershipSurveyInjector {
+class MembershipScriptInjector {
   element(element) {
-    element.prepend(SURVEY_SCRIPT, { html: true });
+    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT, { html: true });
   }
 }
 
@@ -24,7 +25,7 @@ export async function onRequest(context) {
   if (!isMembershipLanding) return response;
 
   return new HTMLRewriter()
-    .on('body', new MembershipSurveyInjector())
+    .on('body', new MembershipScriptInjector())
     .on('.hero-benefit-row', new RemoveElement())
     .on('.hero-actions', new RemoveElement())
     .transform(response);
