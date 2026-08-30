@@ -44,6 +44,22 @@ const FLOW_POLISH = `
     transform:none!important;
   }
 
+  /* 신뢰 섹션 */
+  #trust-proof.pmx-section{min-height:600px;display:flex;align-items:center;padding:92px 0;background:#fff;color:#10182b;border-top:1px solid #e8ebf0;border-bottom:1px solid #e8ebf0}
+  #trust-proof .pmx-trust-kicker{display:block;margin-bottom:20px;color:#2b5da8;font-size:clamp(20px,2vw,24px);font-weight:720;letter-spacing:-.03em}
+  #trust-proof .pmx-title{max-width:940px;margin:0 auto;font-size:clamp(43px,5.7vw,74px);line-height:1.08;letter-spacing:-.06em;font-weight:590;word-break:keep-all;text-wrap:balance}
+  #trust-proof .pmx-title strong{font-weight:900}
+  #trust-proof .pmx-trust-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-width:1000px;margin:54px auto 0;border-top:1px solid #dfe5ef;border-bottom:1px solid #dfe5ef}
+  #trust-proof .pmx-trust-stat{min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px}
+  #trust-proof .pmx-trust-stat + .pmx-trust-stat{border-left:1px solid #dfe5ef}
+  #trust-proof .pmx-trust-stat strong{display:block;font-size:clamp(48px,6vw,76px);line-height:.95;letter-spacing:-.06em;font-weight:920;color:#10182b}
+  #trust-proof .pmx-trust-stat span{display:block;margin-top:13px;font-size:clamp(22px,2.5vw,29px);line-height:1.2;font-weight:600;color:#33425f;word-break:keep-all}
+  #trust-proof .pmx-trust-stat em{display:block;margin-top:8px;font-style:normal;font-size:clamp(18px,2vw,22px);line-height:1.25;font-weight:520;color:#70809d;word-break:keep-all}
+
+  /* 계산 직후 CTA */
+  #calculator .pmx-calc-cta{display:flex;align-items:center;justify-content:center;width:min(560px,100%);min-height:68px;margin:24px auto 0;padding:0 28px;border:0;border-radius:18px;background:#10182b;color:#fff;font-size:clamp(22px,2.4vw,28px);font-weight:780;letter-spacing:-.035em;cursor:pointer;transition:transform .2s ease,opacity .2s ease}
+  #calculator .pmx-calc-cta:hover{transform:translateY(-2px)}
+
   #price-match.pmx-section{min-height:650px;display:flex;align-items:center;padding:100px 0;background:#0c1730;color:#fff}
   #price-match .pmx-kicker{display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;padding:10px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);color:#dbe7ff;font-size:clamp(19px,2vw,24px);font-weight:600;letter-spacing:-.03em}
   #price-match .pmx-title{max-width:950px;margin:0 auto;font-size:clamp(44px,6vw,78px);line-height:1.08;letter-spacing:-.06em;font-weight:560;word-break:keep-all;text-wrap:balance}
@@ -64,13 +80,23 @@ const FLOW_POLISH = `
   .pmx-visible .pmx-enter:nth-child(2){transition-delay:.05s}
   .pmx-visible .pmx-enter:nth-child(3){transition-delay:.10s}
   .pmx-visible .pmx-enter:nth-child(4){transition-delay:.15s}
-  #hotel-benefit .pmx-benefit{opacity:0;transform:translateY(18px);transition:opacity .45s ease-out,transform .45s ease-out}
-  #hotel-benefit.pmx-visible .pmx-benefit{opacity:1;transform:none}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(1){transition-delay:.06s}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(2){transition-delay:.12s}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(3){transition-delay:.18s}
+  .pmx-visible .pmx-enter:nth-child(5){transition-delay:.20s}
+  #hotel-benefit .pmx-benefit,#trust-proof .pmx-trust-stat{opacity:0;transform:translateY(18px);transition:opacity .45s ease-out,transform .45s ease-out}
+  #hotel-benefit.pmx-visible .pmx-benefit,#trust-proof.pmx-visible .pmx-trust-stat{opacity:1;transform:none}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(1),#trust-proof.pmx-visible .pmx-trust-stat:nth-child(1){transition-delay:.06s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(2),#trust-proof.pmx-visible .pmx-trust-stat:nth-child(2){transition-delay:.12s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(3),#trust-proof.pmx-visible .pmx-trust-stat:nth-child(3){transition-delay:.18s}
 
   @media(max-width:780px){
+    #trust-proof.pmx-section{min-height:560px;padding:74px 0}
+    #trust-proof .pmx-title{font-size:clamp(36px,9.7vw,44px);line-height:1.12}
+    #trust-proof .pmx-trust-stats{grid-template-columns:1fr;margin-top:38px}
+    #trust-proof .pmx-trust-stat{min-height:126px;padding:22px 14px}
+    #trust-proof .pmx-trust-stat + .pmx-trust-stat{border-left:0;border-top:1px solid #dfe5ef}
+    #trust-proof .pmx-trust-stat strong{font-size:52px}
+    #trust-proof .pmx-trust-stat span{font-size:24px;margin-top:8px}
+    #trust-proof .pmx-trust-stat em{font-size:19px;margin-top:6px}
+
     #price-match.pmx-section{min-height:590px;padding:78px 0}
     #price-match .pmx-title{font-size:clamp(37px,10vw,46px);line-height:1.12}
     #price-match .pmx-main{margin-top:34px;font-size:clamp(82px,24vw,118px)}
@@ -95,6 +121,7 @@ const FLOW_POLISH = `
     #calculator.ig8-calculator .result-box.highlight{grid-column:1/-1!important;width:100%!important;min-height:142px!important;padding:24px 16px!important}
     #calculator.ig8-calculator .result-box.highlight span{font-size:21px!important}
     #calculator.ig8-calculator .result-box.highlight strong{font-size:clamp(46px,13vw,60px)!important}
+    #calculator .pmx-calc-cta{min-height:62px;margin-top:16px;font-size:22px;border-radius:16px}
   }
 
   @media(max-width:420px){
@@ -110,7 +137,7 @@ const FLOW_POLISH = `
   }
 
   @media(prefers-reduced-motion:reduce){
-    .ig8-reveal,.ig8-reveal *, .pmx-enter,#hotel-benefit .pmx-benefit{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+    .ig8-reveal,.ig8-reveal *, .pmx-enter,#hotel-benefit .pmx-benefit,#trust-proof .pmx-trust-stat{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
   }
 </style>
 <script>
@@ -140,6 +167,29 @@ const FLOW_POLISH = `
     setNavItem('#price-match','03','최저가 보장');
     setNavItem('#hotel-benefit','04','호텔 · 투어');
 
+    var review=document.querySelector('.review-flow-section');
+    var trust=document.getElementById('trust-proof');
+    if(review && !trust){
+      trust=document.createElement('section');
+      trust.id='trust-proof';
+      trust.className='pmx-section';
+      trust.innerHTML='<div class="pmx-inner"><span class="pmx-trust-kicker pmx-enter">INGROUP · INCRUISES</span><h2 class="pmx-title pmx-enter"><strong>2015년부터 이어진</strong><br>글로벌 여행 멤버십</h2><div class="pmx-trust-stats"><div class="pmx-trust-stat"><strong>10년+</strong><span>운영 이력</span><em>2015년 설립</em></div><div class="pmx-trust-stat"><strong>100만+</strong><span>회원 · 파트너</span><em>전 세계 190개국+</em></div><div class="pmx-trust-stat"><strong>CLIA</strong><span>공식 회원</span><em>#00027506</em></div></div></div>';
+      review.insertAdjacentElement('afterend',trust);
+    }
+
+    var calc=document.getElementById('calculator');
+    if(calc && !calc.querySelector('.pmx-calc-cta')){
+      var calcCard=calc.querySelector('.calculator-card');
+      if(calcCard){
+        var calcBtn=document.createElement('button');
+        calcBtn.type='button';
+        calcBtn.className='pmx-calc-cta';
+        calcBtn.textContent='이 금액으로 여행 준비 시작하기';
+        calcBtn.addEventListener('click',function(){document.getElementById('plans')?.scrollIntoView({behavior:'smooth',block:'start'});});
+        calcCard.appendChild(calcBtn);
+      }
+    }
+
     var pm=document.getElementById('price-match');
     if(pm){
       pm.className='pmx-section';
@@ -148,13 +198,22 @@ const FLOW_POLISH = `
       if(routes) routes.insertAdjacentElement('afterend',pm);
     }
 
+    /* 관심이 가장 높은 시점에 플랜 노출 */
+    var plans=document.getElementById('plans');
+    if(plans && pm) pm.insertAdjacentElement('afterend',plans);
+
     var hotel=document.getElementById('hotel-benefit');
     if(hotel){
       hotel.className='pmx-section';
       hotel.innerHTML='<div class="pmx-inner"><h2 class="pmx-title pmx-enter">크루즈뿐 아니라<br><strong>여행 전후 일정도 한 번에</strong></h2><div class="pmx-benefits"><div class="pmx-benefit">전세계 호텔</div><div class="pmx-benefit">현지 투어</div><div class="pmx-benefit">출발 전후 1박</div></div></div>';
+      var finalSection=document.getElementById('ig8-final');
+      if(finalSection) finalSection.insertAdjacentElement('beforebegin',hotel);
     }
 
-    var nodes=[pm,hotel].filter(Boolean);
+    var finalBtn=document.querySelector('#ig8-final .ig8-btn');
+    if(finalBtn) finalBtn.textContent='멤버십으로 여행 준비 시작하기';
+
+    var nodes=[trust,pm,hotel].filter(Boolean);
     if(!('IntersectionObserver' in window)){nodes.forEach(function(n){n.classList.add('pmx-visible');});return;}
     var io=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('pmx-visible');io.unobserve(entry.target);}});},{threshold:.14,rootMargin:'0px 0px -5% 0px'});
     nodes.forEach(function(n){io.observe(n);});
