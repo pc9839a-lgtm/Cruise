@@ -22,19 +22,20 @@
       ]
     },
     {
-      id: 'guide',
-      title: '가이드가\n꼭 필요하세요?',
+      id: 'booking',
+      title: '여행 준비는\n어떤 편이세요?',
       options: [
-        { value: 'guide', icon: '🧭', title: '네, 필요해요' },
-        { value: 'self', icon: '🗺️', title: '아니요, 자유여행 가능' }
+        { value: 'agency', icon: '🙋', title: '여행사에 맡기는 게 편해요' },
+        { value: 'direct', icon: '🔎', title: '직접 비교·예약해도 괜찮아요' }
       ]
     },
     {
-      id: 'priority',
-      title: '어떤 여행이\n더 좋으세요?',
+      id: 'priceChoice',
+      title: '같은 크루즈라면\n어떤 쪽이세요?',
+      priceCompare: true,
       options: [
-        { value: 'comfort', icon: '🛎️', title: '조금 비싸도 편하게' },
-        { value: 'value', icon: '💰', title: '가성비 좋게 저렴하게' }
+        { value: 'comfort', icon: '🛎️', title: '그래도 편하게 맡길래요' },
+        { value: 'save', icon: '💰', title: '직접 예약하고 아낄래요' }
       ]
     }
   ];
@@ -139,7 +140,7 @@
 
     .cms-survey-title {
       max-width: 900px;
-      margin: 0 auto 46px;
+      margin: 0 auto 42px;
       text-align: center;
       white-space: pre-line;
       font-size: clamp(54px,7vw,88px);
@@ -219,9 +220,60 @@
       cursor: pointer;
     }
 
+    .cms-question-price {
+      width: min(100%,920px);
+      margin: -12px auto 28px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cms-question-price-card {
+      min-height: 150px;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid var(--cms-line);
+      box-shadow: var(--cms-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .cms-question-price-card.direct {
+      border: 2px solid rgba(46,102,255,.35);
+      background: linear-gradient(180deg,#fff,#f4f7ff);
+    }
+
+    .cms-question-price-label {
+      font-size: clamp(22px,2.2vw,28px);
+      font-weight: 950;
+      line-height: 1.15;
+      letter-spacing: -.04em;
+    }
+
+    .cms-question-price-value {
+      margin-top: 8px;
+      font-size: clamp(48px,6vw,74px);
+      font-weight: 950;
+      line-height: .95;
+      letter-spacing: -.07em;
+    }
+
+    .cms-question-price-card.direct .cms-question-price-value { color: var(--cms-blue); }
+
+    .cms-question-price-vs {
+      font-size: 26px;
+      font-weight: 950;
+      color: var(--cms-muted);
+    }
+
     .cms-result-kicker {
       display: block;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       text-align: center;
       color: var(--cms-blue-strong);
       font-size: clamp(24px,2.5vw,32px);
@@ -231,16 +283,18 @@
     }
 
     .cms-result-title {
-      max-width: 950px;
-      margin: 0 auto 34px;
+      max-width: 980px;
+      margin: 0 auto 30px;
       text-align: center;
       white-space: pre-line;
-      font-size: clamp(48px,6.5vw,78px);
-      line-height: 1.03;
+      font-size: clamp(52px,7vw,84px);
+      line-height: 1.02;
       letter-spacing: -.065em;
       font-weight: 950;
       word-break: keep-all;
     }
+
+    .cms-result-title strong { color: var(--cms-blue); }
 
     .cms-price-grid {
       width: min(100%,980px);
@@ -256,9 +310,9 @@
     }
 
     .cms-price-card {
-      min-height: 250px;
+      min-height: 240px;
       border-radius: 34px;
-      padding: 32px 24px;
+      padding: 30px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -272,10 +326,6 @@
     .cms-price-card.is-direct {
       border: 2px solid rgba(46,102,255,.38);
       background: linear-gradient(180deg,#fff,#f4f7ff);
-    }
-
-    .cms-price-card.is-guide {
-      border: 2px solid rgba(15,25,49,.14);
     }
 
     .cms-price-label {
@@ -300,8 +350,8 @@
 
     .cms-saving {
       width: min(100%,980px);
-      margin: 24px auto 0;
-      padding: 28px 22px;
+      margin: 22px auto 0;
+      padding: 26px 22px;
       border-radius: 30px;
       text-align: center;
       background: var(--cms-text);
@@ -329,7 +379,7 @@
 
     .cms-result-actions {
       width: min(100%,680px);
-      margin: 28px auto 0;
+      margin: 26px auto 0;
       display: grid;
       gap: 10px;
     }
@@ -361,20 +411,15 @@
     }
 
     @media (max-width: 720px) {
-      .cms-survey-shell {
-        width: min(calc(100% - 24px),680px);
-        padding: 20px 0 28px;
-      }
-
-      .cms-survey-brand,
-      .cms-survey-progress-text { font-size: 18px; }
+      .cms-survey-shell { width: min(calc(100% - 24px),680px); padding: 20px 0 28px; }
+      .cms-survey-brand,.cms-survey-progress-text { font-size: 18px; }
       .cms-survey-progress { height: 8px; }
-      .cms-survey-panel { align-items: flex-start; padding: 48px 0 18px; }
-      .cms-survey-title { margin-bottom: 34px; font-size: clamp(44px,12vw,62px); }
+      .cms-survey-panel { align-items: flex-start; padding: 46px 0 18px; }
+      .cms-survey-title { margin-bottom: 32px; font-size: clamp(44px,12vw,62px); }
       .cms-survey-options { grid-template-columns: 1fr; gap: 16px; }
 
       .cms-survey-option {
-        min-height: 132px;
+        min-height: 130px;
         border-radius: 26px;
         padding: 22px 18px;
         flex-direction: row;
@@ -382,52 +427,43 @@
         text-align: left;
       }
 
-      .cms-survey-option-icon {
-        flex: 0 0 auto;
-        width: 60px;
-        font-size: 40px;
-        text-align: center;
-      }
-
+      .cms-survey-option-icon { flex: 0 0 auto; width: 60px; font-size: 40px; text-align: center; }
       .cms-survey-option-title { font-size: 27px; }
-      .cms-result-kicker { font-size: 24px; }
-      .cms-result-title { margin-bottom: 28px; font-size: clamp(40px,10.5vw,56px); }
+
+      .cms-question-price { grid-template-columns: 1fr 1fr; gap: 10px; margin: -8px auto 22px; }
+      .cms-question-price-vs { display: none; }
+      .cms-question-price-card { min-height: 142px; padding: 16px 8px; border-radius: 22px; }
+      .cms-question-price-label { font-size: 20px; }
+      .cms-question-price-value { font-size: clamp(43px,13vw,62px); }
+
+      .cms-result-kicker { font-size: 23px; }
+      .cms-result-title { margin-bottom: 26px; font-size: clamp(42px,11vw,58px); }
       .cms-price-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .cms-price-grid.is-single { grid-template-columns: 1fr; }
-
-      .cms-price-card {
-        min-height: 180px;
-        border-radius: 24px;
-        padding: 22px 10px;
-      }
-
-      .cms-price-grid.is-single .cms-price-card { min-height: 220px; }
-      .cms-price-label { font-size: 21px; }
-      .cms-price { font-size: clamp(48px,14vw,74px); }
-
-      .cms-saving {
-        margin-top: 14px;
-        border-radius: 24px;
-        padding: 22px 14px;
-      }
-
-      .cms-saving-main { font-size: clamp(36px,9vw,50px); }
-      .cms-saving-sub { font-size: clamp(27px,7vw,36px); }
+      .cms-price-card { min-height: 178px; border-radius: 24px; padding: 20px 10px; }
+      .cms-price-grid.is-single .cms-price-card { min-height: 210px; }
+      .cms-price-label { font-size: 20px; }
+      .cms-price { font-size: clamp(46px,14vw,72px); }
+      .cms-saving { margin-top: 14px; border-radius: 24px; padding: 22px 14px; }
+      .cms-saving-main { font-size: clamp(35px,9vw,49px); }
+      .cms-saving-sub { font-size: clamp(27px,7vw,35px); }
       .cms-survey-primary { min-height: 74px; font-size: 25px; }
       .cms-survey-secondary { font-size: 20px; }
     }
 
     @media (max-width: 430px) {
-      .cms-survey-panel { padding-top: 38px; }
+      .cms-survey-panel { padding-top: 36px; }
       .cms-survey-title { font-size: 44px; }
-      .cms-survey-option { min-height: 124px; }
+      .cms-survey-option { min-height: 122px; }
       .cms-survey-option-title { font-size: 25px; }
-      .cms-result-kicker { font-size: 22px; }
-      .cms-result-title { font-size: 40px; }
-      .cms-price-label { font-size: 19px; }
-      .cms-price { font-size: 48px; }
-      .cms-saving-main { font-size: 35px; }
-      .cms-saving-sub { font-size: 28px; }
+      .cms-question-price-label { font-size: 18px; }
+      .cms-question-price-value { font-size: 42px; }
+      .cms-result-kicker { font-size: 21px; }
+      .cms-result-title { font-size: 41px; }
+      .cms-price-label { font-size: 18px; }
+      .cms-price { font-size: 47px; }
+      .cms-saving-main { font-size: 34px; }
+      .cms-saving-sub { font-size: 27px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -482,6 +518,22 @@
     bar.style.width = `${((step + 1) / questions.length) * 100}%`;
   }
 
+  function pricePreview() {
+    return `
+      <div class="cms-question-price" aria-label="4박 5일 아시아 크루즈 가격 예시">
+        <div class="cms-question-price-card">
+          <span class="cms-question-price-label">여행사 패키지</span>
+          <strong class="cms-question-price-value">200만원</strong>
+        </div>
+        <span class="cms-question-price-vs">VS</span>
+        <div class="cms-question-price-card direct">
+          <span class="cms-question-price-label">직접 예약</span>
+          <strong class="cms-question-price-value">120만원</strong>
+        </div>
+      </div>
+    `;
+  }
+
   function renderQuestion() {
     const q = questions[current];
     updateProgress(current);
@@ -489,6 +541,7 @@
     panel.innerHTML = `
       <div class="cms-survey-card">
         <h1 class="cms-survey-title">${esc(q.title)}</h1>
+        ${q.priceCompare ? pricePreview() : ''}
         <div class="cms-survey-options">
           ${q.options.map(option => `
             <button type="button" class="cms-survey-option${answers[q.id] === option.value ? ' is-selected' : ''}" data-value="${esc(option.value)}">
@@ -526,86 +579,89 @@
 
   function getResult() {
     const experienced = answers.experience === 'yes';
+    const agencyHabit = answers.booking === 'agency';
+    const choseSaving = answers.priceChoice === 'save';
 
-    if (answers.guide === 'guide' && answers.priority === 'comfort') {
+    if (agencyHabit && !choseSaving) {
       return {
-        id: 'guided-comfort',
-        kicker: experienced ? '크루즈 경험자 · 편안함 우선' : '크루즈 처음 · 편안함 우선',
-        title: '가이드가 있는 여행이\n더 잘 맞습니다',
-        layout: 'guide',
-        cta: '멤버십도 비교해보기'
+        id: 'agency-comfort',
+        kicker: experienced ? '크루즈 경험자 · 여행사 선호' : '크루즈 처음 · 여행사 선호',
+        titleHtml: '가격보다<br><strong>편하게 맡기는 여행</strong>이 맞습니다',
+        layout: 'agency',
+        cta: '최저가 방식도 비교해보기'
       };
     }
 
-    if (answers.guide === 'self' && answers.priority === 'value') {
+    if (!agencyHabit && choseSaving) {
       return {
-        id: 'direct-value',
-        kicker: experienced ? '크루즈 경험자 · 가성비 우선' : '크루즈 처음 · 가성비 우선',
-        title: experienced ? '가이드 없이 가면\n훨씬 저렴합니다' : '자유여행이 괜찮다면\n가격 차이가 큽니다',
+        id: 'direct-saving',
+        kicker: experienced ? '크루즈 경험자 · 직접 예약형' : '크루즈 처음 · 가성비형',
+        titleHtml: '가이드는 없습니다.<br><strong>대신, 전세계 최저가로 갑니다.</strong>',
         layout: 'saving',
-        cta: '크루즈 멤버십 보기'
+        cta: '최저가 크루즈 멤버십 보기'
       };
     }
 
-    if (answers.guide === 'guide' && answers.priority === 'value') {
+    if (agencyHabit && choseSaving) {
       return {
-        id: 'guided-value',
+        id: 'agency-saving',
         kicker: experienced ? '크루즈 경험자 · 가격도 중요' : '크루즈 처음 · 가격도 중요',
-        title: '가이드는 필요하지만\n80만원 차이',
-        layout: 'compare',
-        cta: '가격 차이 더 알아보기'
+        titleHtml: '80만원 차이라면<br><strong>직접 예약도 생각해볼 만합니다</strong>',
+        layout: 'saving',
+        cta: '최저가 크루즈 멤버십 보기'
       };
     }
 
     return {
       id: 'direct-comfort',
-      kicker: experienced ? '크루즈 경험자 · 자유여행 가능' : '크루즈 처음 · 자유여행 가능',
-      title: '가이드 없이도\n편하게 가고 싶다면',
-      layout: 'direct',
-      cta: '가이드 없는 방법 보기'
+      kicker: experienced ? '크루즈 경험자 · 직접 예약 가능' : '크루즈 처음 · 직접 예약 가능',
+      titleHtml: '직접 예약은 가능하지만<br><strong>편한 여행이 더 중요합니다</strong>',
+      layout: 'direct-comfort',
+      cta: '최저가 방식 비교해보기'
     };
   }
 
   function resultBody(result) {
-    if (result.layout === 'guide') {
+    if (result.layout === 'agency') {
       return `
         <div class="cms-price-grid is-single">
-          <div class="cms-price-card is-guide">
-            <span class="cms-price-label">4박 5일 아시아 크루즈 · 가이드 포함 예시</span>
+          <div class="cms-price-card">
+            <span class="cms-price-label">여행사 패키지 예시</span>
             <strong class="cms-price">약 200만원</strong>
           </div>
         </div>
       `;
     }
 
-    if (result.layout === 'direct') {
+    if (result.layout === 'direct-comfort') {
       return `
-        <div class="cms-price-grid is-single">
-          <div class="cms-price-card is-direct">
-            <span class="cms-price-label">4박 5일 아시아 크루즈 · 가이드 없이 예시</span>
-            <strong class="cms-price">약 120만원</strong>
+        <div class="cms-price-grid">
+          <div class="cms-price-card">
+            <span class="cms-price-label">여행사 패키지</span>
+            <strong class="cms-price">200만원</strong>
           </div>
-        </div>
-        <div class="cms-saving">
-          <span class="cms-saving-main">가이드 포함보다 <strong>80만원 ↓</strong></span>
+          <div class="cms-price-card is-direct">
+            <span class="cms-price-label">직접 예약</span>
+            <strong class="cms-price">120만원</strong>
+          </div>
         </div>
       `;
     }
 
     return `
       <div class="cms-price-grid">
-        <div class="cms-price-card is-guide">
-          <span class="cms-price-label">가이드 포함</span>
+        <div class="cms-price-card">
+          <span class="cms-price-label">여행사 패키지</span>
           <strong class="cms-price">200만원</strong>
         </div>
         <div class="cms-price-card is-direct">
-          <span class="cms-price-label">가이드 없이</span>
+          <span class="cms-price-label">직접 예약</span>
           <strong class="cms-price">120만원</strong>
         </div>
       </div>
       <div class="cms-saving">
         <span class="cms-saving-main">1인 <strong>80만원 차이</strong></span>
-        ${result.layout === 'saving' ? '<span class="cms-saving-sub">2명이면 160만원 차이</span>' : ''}
+        <span class="cms-saving-sub">2명이면 160만원 차이</span>
       </div>
     `;
   }
@@ -627,15 +683,15 @@
         event: 'membership_travel_survey_complete',
         survey_result: result.id,
         survey_experience: answers.experience,
-        survey_guide: answers.guide,
-        survey_priority: answers.priority
+        survey_booking: answers.booking,
+        survey_price_choice: answers.priceChoice
       });
     }
 
     panel.innerHTML = `
       <div class="cms-result">
         <span class="cms-result-kicker">${esc(result.kicker)}</span>
-        <h1 class="cms-result-title">${esc(result.title)}</h1>
+        <h1 class="cms-result-title">${result.titleHtml}</h1>
         ${resultBody(result)}
         <div class="cms-result-actions">
           <button type="button" class="cms-survey-primary">${esc(result.cta)}</button>
