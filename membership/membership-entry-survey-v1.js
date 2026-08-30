@@ -49,7 +49,7 @@
   const style = document.createElement('style');
   style.id = 'cruise-membership-entry-survey-style';
   style.textContent = `
-    :root {
+    :root{
       --cms-text:#0f1931;
       --cms-muted:#637393;
       --cms-blue:#2e66ff;
@@ -57,19 +57,13 @@
       --cms-line:rgba(12,24,48,.09);
       --cms-shadow:0 22px 60px rgba(17,30,64,.10);
     }
-
     .cms-survey-overlay,.cms-survey-overlay *{box-sizing:border-box}
     .cms-survey-overlay{
       position:fixed;inset:0;z-index:2147483000;width:100%;min-height:100vh;min-height:100dvh;
-      overflow-y:auto;color:var(--cms-text);
-      background:linear-gradient(180deg,#fbfcff 0%,#f5f7fb 56%,#eef3fa 100%);
-      font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-      -webkit-font-smoothing:antialiased;
+      overflow-y:auto;color:var(--cms-text);background:linear-gradient(180deg,#fbfcff 0%,#f5f7fb 56%,#eef3fa 100%);
+      font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;
     }
-    .cms-survey-shell{
-      width:min(calc(100% - 32px),1080px);min-height:100vh;min-height:100dvh;margin:0 auto;padding:30px 0 44px;
-      display:flex;flex-direction:column;
-    }
+    .cms-survey-shell{width:min(calc(100% - 32px),1080px);min-height:100vh;min-height:100dvh;margin:0 auto;padding:30px 0 44px;display:flex;flex-direction:column}
     .cms-survey-top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px}
     .cms-survey-brand,.cms-survey-progress-text{font-size:20px;line-height:1.2;font-weight:950}
     .cms-survey-brand{color:var(--cms-blue-strong)}
@@ -79,56 +73,40 @@
     .cms-survey-card,.cms-result{width:100%;animation:cmsIn .22s ease both}
     @keyframes cmsIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-    .cms-survey-title{
-      max-width:980px;margin:0 auto 44px;text-align:center;white-space:pre-line;
-      font-size:clamp(54px,7vw,90px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all;
-    }
+    .cms-survey-title{max-width:980px;margin:0 auto 44px;text-align:center;white-space:pre-line;font-size:clamp(54px,7vw,90px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
     .cms-survey-options{width:min(100%,920px);margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-    .cms-survey-option{
-      appearance:none;width:100%;min-height:190px;padding:28px;border:1px solid var(--cms-line);border-radius:34px;
-      background:rgba(255,255,255,.96);box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;
-      gap:18px;color:var(--cms-text);text-align:center;font:inherit;cursor:pointer;
-      transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease;
-    }
+    .cms-survey-option{appearance:none;width:100%;min-height:190px;padding:28px;border:1px solid var(--cms-line);border-radius:34px;background:rgba(255,255,255,.96);box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--cms-text);text-align:center;font:inherit;cursor:pointer;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease,background .15s ease}
     .cms-survey-option:hover,.cms-survey-option:focus-visible{outline:none;transform:translateY(-3px);border-color:rgba(46,102,255,.42);box-shadow:0 24px 64px rgba(46,102,255,.16)}
     .cms-survey-option.is-selected{border-color:var(--cms-blue);background:#f5f8ff;box-shadow:0 0 0 5px rgba(46,102,255,.10),0 24px 64px rgba(46,102,255,.16)}
     .cms-survey-option-icon{font-size:48px;line-height:1}
     .cms-survey-option-title{display:block;font-size:clamp(28px,3vw,36px);line-height:1.18;letter-spacing:-.045em;font-weight:950;word-break:keep-all}
     .cms-survey-back{display:block;margin:30px auto 0;padding:14px 20px;border:0;background:transparent;color:var(--cms-muted);font:inherit;font-size:22px;font-weight:900;cursor:pointer}
 
-    .cms-question-price{
-      width:min(100%,960px);margin:-10px auto 28px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;
-    }
-    .cms-question-price-card{
-      min-height:180px;padding:24px;border:1px solid var(--cms-line);border-radius:30px;background:#fff;box-shadow:var(--cms-shadow);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    }
+    .cms-question-price{width:min(100%,960px);margin:-10px auto 24px;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+    .cms-question-price-card{min-height:180px;padding:24px;border:1px solid var(--cms-line);border-radius:30px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
     .cms-question-price-card.direct{border:3px solid rgba(46,102,255,.40);background:linear-gradient(180deg,#fff,#f3f7ff)}
     .cms-question-price-label{font-size:clamp(24px,2.5vw,30px);font-weight:950;letter-spacing:-.04em}
     .cms-question-price-value{margin-top:8px;font-size:clamp(58px,8vw,98px);line-height:.95;letter-spacing:-.075em;font-weight:950;white-space:nowrap}
     .cms-question-price-card.direct .cms-question-price-value{color:var(--cms-blue)}
     .cms-question-price-badge{display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px;padding:8px 14px;border-radius:999px;background:rgba(46,102,255,.10);color:var(--cms-blue-strong);font-size:20px;font-weight:950}
     .cms-question-price-vs{font-size:26px;font-weight:950;color:var(--cms-muted)}
-    .cms-question-saving{margin:-6px auto 30px;text-align:center;font-size:clamp(32px,4vw,50px);font-weight:950;letter-spacing:-.055em}
+    .cms-question-saving{margin:0 auto 28px;text-align:center;font-size:clamp(34px,4vw,52px);font-weight:950;letter-spacing:-.055em}
     .cms-question-saving strong{color:var(--cms-blue)}
 
-    .cms-result-kicker{display:block;margin-bottom:14px;text-align:center;color:var(--cms-blue-strong);font-size:clamp(24px,2.5vw,32px);font-weight:950;letter-spacing:-.04em}
-    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;font-size:clamp(50px,6.8vw,82px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
-    .cms-result-title strong{color:var(--cms-blue)}
-    .cms-result-big{
-      width:min(100%,900px);margin:0 auto;padding:36px 24px;border-radius:34px;background:var(--cms-text);color:#fff;text-align:center;
-    }
-    .cms-result-big span{display:block;font-size:clamp(30px,3.8vw,46px);font-weight:950;letter-spacing:-.05em}
-    .cms-result-big strong{display:block;margin-top:8px;font-size:clamp(58px,8vw,102px);line-height:.95;letter-spacing:-.075em;color:#8aaaff}
-    .cms-result-mini{width:min(100%,900px);margin:18px auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    .cms-result-mini>div{min-height:150px;border-radius:28px;background:#fff;border:1px solid var(--cms-line);box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
-    .cms-result-mini span{font-size:22px;font-weight:900}
-    .cms-result-mini strong{margin-top:6px;font-size:clamp(40px,5vw,62px);font-weight:950;letter-spacing:-.06em}
-    .cms-result-mini .direct strong{color:var(--cms-blue)}
-    .cms-result-actions{width:min(100%,680px);margin:28px auto 0;display:grid;gap:8px}
+    .cms-result-title{max-width:980px;margin:0 auto 34px;text-align:center;font-size:clamp(48px,6.6vw,80px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+    .cms-result-compare{width:min(100%,960px);margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+    .cms-result-card{min-height:230px;padding:26px;border:2px solid var(--cms-line);border-radius:32px;background:#fff;box-shadow:var(--cms-shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .cms-result-card.active{border:4px solid var(--cms-blue);background:linear-gradient(180deg,#fff,#f2f6ff)}
+    .cms-result-card-label{font-size:clamp(24px,2.4vw,30px);font-weight:950;letter-spacing:-.04em}
+    .cms-result-card-price{margin-top:10px;font-size:clamp(66px,8vw,104px);line-height:.94;letter-spacing:-.08em;font-weight:950;white-space:nowrap}
+    .cms-result-card.active .cms-result-card-price{color:var(--cms-blue)}
+    .cms-result-vs{font-size:28px;font-weight:950;color:var(--cms-muted)}
+    .cms-result-gap{width:min(100%,960px);margin:18px auto 0;padding:24px 18px;border-radius:28px;background:var(--cms-text);color:#fff;text-align:center;font-size:clamp(38px,5vw,64px);line-height:1;font-weight:950;letter-spacing:-.06em}
+    .cms-result-gap strong{color:#8aaaff}
+    .cms-result-actions{width:min(100%,680px);margin:26px auto 0;display:grid;gap:6px}
     .cms-survey-primary,.cms-survey-secondary{appearance:none;border:0;font:inherit;font-weight:950;cursor:pointer}
     .cms-survey-primary{min-height:80px;padding:0 28px;border-radius:999px;background:linear-gradient(135deg,var(--cms-blue),var(--cms-blue-strong));color:#fff;box-shadow:0 18px 38px rgba(46,102,255,.24);font-size:clamp(24px,2.8vw,32px)}
-    .cms-survey-secondary{min-height:52px;background:transparent;color:var(--cms-muted);font-size:21px}
+    .cms-survey-secondary{min-height:48px;background:transparent;color:var(--cms-muted);font-size:20px}
 
     @media(max-width:720px){
       .cms-survey-shell{width:min(calc(100% - 24px),680px);padding:20px 0 28px}
@@ -140,24 +118,20 @@
       .cms-survey-option{min-height:132px;border-radius:26px;padding:22px 18px;flex-direction:row;justify-content:flex-start;text-align:left}
       .cms-survey-option-icon{flex:0 0 auto;width:60px;font-size:40px;text-align:center}
       .cms-survey-option-title{font-size:27px}
-      .cms-question-price{grid-template-columns:1fr 1fr;gap:10px;margin:-6px auto 18px}
-      .cms-question-price-vs{display:none}
+      .cms-question-price,.cms-result-compare{grid-template-columns:1fr 1fr;gap:10px}
+      .cms-question-price-vs,.cms-result-vs{display:none}
       .cms-question-price-card{min-height:150px;padding:14px 8px;border-radius:22px}
       .cms-question-price-badge{font-size:17px;padding:6px 10px;margin-bottom:7px}
       .cms-question-price-label{font-size:19px}
       .cms-question-price-value{font-size:clamp(42px,13vw,62px)}
-      .cms-question-saving{margin:0 auto 24px;font-size:clamp(30px,8vw,40px)}
-      .cms-result-kicker{font-size:22px}
-      .cms-result-title{font-size:clamp(42px,11vw,58px);margin-bottom:26px}
-      .cms-result-big{padding:28px 16px;border-radius:26px}
-      .cms-result-big span{font-size:clamp(28px,7vw,36px)}
-      .cms-result-big strong{font-size:clamp(56px,16vw,82px)}
-      .cms-result-mini{grid-template-columns:1fr 1fr;gap:10px}
-      .cms-result-mini>div{min-height:130px;border-radius:22px;padding:14px 8px}
-      .cms-result-mini span{font-size:18px}
-      .cms-result-mini strong{font-size:clamp(36px,11vw,52px)}
+      .cms-question-saving{font-size:clamp(30px,8vw,40px)}
+      .cms-result-title{font-size:clamp(40px,10.5vw,56px);margin-bottom:24px}
+      .cms-result-card{min-height:170px;border-radius:22px;padding:16px 8px}
+      .cms-result-card-label{font-size:19px}
+      .cms-result-card-price{font-size:clamp(44px,13vw,64px)}
+      .cms-result-gap{margin-top:12px;border-radius:22px;padding:20px 12px;font-size:clamp(34px,9vw,46px)}
       .cms-survey-primary{min-height:74px;font-size:25px}
-      .cms-survey-secondary{font-size:20px}
+      .cms-survey-secondary{font-size:19px}
     }
 
     @media(max-width:430px){
@@ -166,10 +140,10 @@
       .cms-survey-option{min-height:122px}
       .cms-survey-option-title{font-size:25px}
       .cms-question-price-badge{font-size:16px}
-      .cms-question-price-label{font-size:18px}
-      .cms-question-price-value{font-size:42px}
-      .cms-result-title{font-size:40px}
-      .cms-result-mini strong{font-size:40px}
+      .cms-question-price-label,.cms-result-card-label{font-size:18px}
+      .cms-question-price-value,.cms-result-card-price{font-size:42px}
+      .cms-result-title{font-size:39px}
+      .cms-result-gap{font-size:34px}
     }
 
     @media(prefers-reduced-motion:reduce){.cms-survey-card,.cms-result{animation:none}.cms-survey-option,.cms-survey-progress>span{transition:none}}
@@ -219,12 +193,12 @@
         </div>
         <span class="cms-question-price-vs">VS</span>
         <div class="cms-question-price-card direct">
-          <span class="cms-question-price-badge">전세계 최저가 보장</span>
+          <span class="cms-question-price-badge">전세계 최저가</span>
           <span class="cms-question-price-label">직접 예약 예시</span>
           <strong class="cms-question-price-value">120만원</strong>
         </div>
       </div>
-      <div class="cms-question-saving">같은 크루즈, <strong>1인 80만원 차이</strong></div>`;
+      <div class="cms-question-saving">1인 <strong>80만원 차이</strong></div>`;
   }
 
   function renderQuestion(){
@@ -260,75 +234,42 @@
   }
 
   function getResult(){
-    const experienced=answers.experience==='yes';
     const agency=answers.booking==='agency';
     const save=answers.priceChoice==='save';
 
     if(agency&&!save){
       return{
         id:'agency-comfort',
-        kicker:experienced?'크루즈 경험자 · 편의 우선':'크루즈 처음 · 편의 우선',
-        title:'당신은\n여행사 패키지가 더 잘 맞습니다',
-        type:'comfort',
-        bigLabel:'가격보다 편안함이 우선',
-        bigValue:'약 200만원',
-        cta:'그래도 최저가 비교해보기'
+        title:'편하게 맡기는 여행이 맞습니다',
+        active:'agency',
+        cta:'최저가도 비교해보기'
       };
     }
 
     if(!agency&&save){
       return{
         id:'direct-saving',
-        kicker:experienced?'크루즈 경험자 · 최저가 자유여행형':'크루즈 처음 · 최저가 자유여행형',
-        title:'당신은\n크루즈 멤버십이 잘 맞습니다',
-        type:'saving',
-        bigLabel:'가이드는 없지만',
-        bigValue:'전세계 최저가',
-        cta:'전세계 최저가 크루즈 보기'
+        title:'80만원 아끼는 쪽이 맞습니다',
+        active:'direct',
+        cta:'최저가 크루즈 보기'
       };
     }
 
     if(agency&&save){
       return{
         id:'agency-saving',
-        kicker:experienced?'크루즈 경험자 · 가격 비교형':'크루즈 처음 · 가격 비교형',
-        title:'80만원 차이라면\n직접 예약도 괜찮으시네요',
-        type:'saving',
-        bigLabel:'1인',
-        bigValue:'80만원 ↓',
-        cta:'최저가 크루즈 멤버십 보기'
+        title:'80만원 차이면 직접 예약',
+        active:'direct',
+        cta:'최저가 크루즈 보기'
       };
     }
 
     return{
       id:'direct-comfort',
-      kicker:experienced?'크루즈 경험자 · 편의 중심 자유여행형':'크루즈 처음 · 편의 중심 자유여행형',
-      title:'직접 예약은 가능하지만\n편한 여행이 더 중요합니다',
-      type:'comfort',
-      bigLabel:'가격보다 편안함이 우선',
-      bigValue:'직접 선택',
-      cta:'최저가 방식도 비교해보기'
+      title:'직접 예약 가능, 편안함 우선',
+      active:'agency',
+      cta:'최저가도 비교해보기'
     };
-  }
-
-  function resultBody(result){
-    if(result.type==='saving'){
-      return `
-        <div class="cms-result-big">
-          <span>${esc(result.bigLabel)}</span>
-          <strong>${esc(result.bigValue)}</strong>
-        </div>
-        <div class="cms-result-mini">
-          <div><span>가이드 패키지</span><strong>200만원</strong></div>
-          <div class="direct"><span>최저가 직접 예약</span><strong>120만원</strong></div>
-        </div>`;
-    }
-
-    return `
-      <div class="cms-result-big">
-        <span>${esc(result.bigLabel)}</span>
-        <strong>${esc(result.bigValue)}</strong>
-      </div>`;
   }
 
   function renderResult(){
@@ -349,9 +290,19 @@
 
     panel.innerHTML=`
       <div class="cms-result">
-        <span class="cms-result-kicker">${esc(result.kicker)}</span>
         <h1 class="cms-result-title">${esc(result.title)}</h1>
-        ${resultBody(result)}
+        <div class="cms-result-compare">
+          <div class="cms-result-card${result.active==='agency'?' active':''}">
+            <span class="cms-result-card-label">가이드 패키지</span>
+            <strong class="cms-result-card-price">200만원</strong>
+          </div>
+          <span class="cms-result-vs">VS</span>
+          <div class="cms-result-card${result.active==='direct'?' active':''}">
+            <span class="cms-result-card-label">전세계 최저가</span>
+            <strong class="cms-result-card-price">120만원</strong>
+          </div>
+        </div>
+        <div class="cms-result-gap">1인 <strong>80만원 차이</strong></div>
         <div class="cms-result-actions">
           <button type="button" class="cms-survey-primary">${esc(result.cta)}</button>
           <button type="button" class="cms-survey-secondary">다시 선택</button>
@@ -361,7 +312,8 @@
     panel.querySelector('.cms-survey-primary').addEventListener('click',finishSurvey);
     panel.querySelector('.cms-survey-secondary').addEventListener('click',()=>{
       Object.keys(answers).forEach(key=>delete answers[key]);
-      current=0;renderQuestion();
+      current=0;
+      renderQuestion();
     });
   }
 
@@ -378,7 +330,8 @@
 
   function start(){
     if(!document.body||document.querySelector('.cms-survey-overlay'))return;
-    buildShell();renderQuestion();
+    buildShell();
+    renderQuestion();
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
