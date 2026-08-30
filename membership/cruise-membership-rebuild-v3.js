@@ -8,8 +8,7 @@ const plans = [
     monthlyUsd: 100,
     startUsd: 200,
     rewardPoint: 350,
-    monthlyPoint: 200,
-    caption: '무난하게 꾸준히 쌓고 싶은 분'
+    monthlyPoint: 200
   },
   {
     tag: '추천',
@@ -18,7 +17,6 @@ const plans = [
     startUsd: 500,
     rewardPoint: 800,
     monthlyPoint: 500,
-    caption: '여행 계획이 분명하고 빨리 쌓고 싶은 분',
     recommended: true
   }
 ];
@@ -136,9 +134,7 @@ function renderPlans() {
           </div>
         </div>
 
-        <p class="plan-caption">${plan.caption}</p>
         <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>멤버십 가입하기</a>
-        <div class="plan-disclaimer">환율 기준 원화는 자동 계산됩니다.</div>
       </article>
     `;
   }).join('');
