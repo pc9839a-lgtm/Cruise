@@ -3,24 +3,6 @@ const RATE_API_URL = 'https://open.er-api.com/v6/latest/USD';
 
 const plans = [
   {
-    tag: '무료',
-    name: '게스트',
-    monthlyUsd: 0,
-    startUsd: 0,
-    rewardPoint: 50,
-    monthlyPoint: 0,
-    caption: '부담 없이 먼저 보고 싶은 분'
-  },
-  {
-    tag: '입문',
-    name: '스타터',
-    monthlyUsd: 50,
-    startUsd: 50,
-    rewardPoint: 100,
-    monthlyPoint: 50,
-    caption: '가볍게 시작하고 싶은 분'
-  },
-  {
     tag: '일반',
     name: '클래식',
     monthlyUsd: 100,
@@ -78,9 +60,26 @@ function updateRangeBackground(range) {
   range.style.background = `linear-gradient(90deg, #2e66ff 0%, #2e66ff ${percent}%, rgba(12,24,48,0.16) ${percent}%, rgba(12,24,48,0.16) 100%)`;
 }
 
+function syncPlanGridColumns() {
+  const wrap = document.getElementById('planCards');
+  if (!wrap) return;
+
+  const isMobile = window.matchMedia('(max-width: 720px)').matches;
+  wrap.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))';
+  wrap.style.maxWidth = isMobile ? '100%' : '920px';
+  wrap.style.margin = '0 auto';
+}
+
 function renderPlans() {
   const wrap = document.getElementById('planCards');
   if (!wrap) return;
+
+  syncPlanGridColumns();
+
+  const plansHeading = document.querySelector('#plans .membership-section-head h2');
+  if (plansHeading) {
+    plansHeading.innerHTML = '클래식부터<br class="mobile-break" />프리미엄까지!';
+  }
 
   wrap.innerHTML = plans.map((plan) => {
     const monthlyKrw = plan.monthlyUsd === 0 ? '없음' : formatKrw(plan.monthlyUsd * state.exchangeRate);
@@ -216,7 +215,6 @@ async function fetchExchangeRate() {
     const response = await fetch(RATE_API_URL, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-
     if (data?.result !== 'success' || !data?.rates?.KRW) {
       throw new Error('Invalid exchange response');
     }
@@ -338,8 +336,6 @@ async function loadMembershipSignupUrl() {
   }
 }
 
-
-
 function setupPlansFloatingCtaObserver() {
   const plansSection = document.getElementById('plans');
   const floatingCta = document.querySelector('.floating-cta');
@@ -392,6 +388,8 @@ function bindEvents() {
       document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  window.addEventListener('resize', syncPlanGridColumns);
 }
 
 let revealObserver;
