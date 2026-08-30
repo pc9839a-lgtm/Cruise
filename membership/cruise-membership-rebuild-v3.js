@@ -75,13 +75,16 @@ function syncPlanGridColumns() {
   });
 
   wrap.querySelectorAll('.plan-main-line').forEach((line) => {
-    line.style.gap = isMobile ? '10px' : '18px';
     const name = line.querySelector('.plan-name');
     const price = line.querySelector('.plan-price');
     const unit = line.querySelector('.plan-price-unit');
-    if (name) name.style.fontSize = isMobile ? '27px' : '36px';
-    if (price) price.style.fontSize = isMobile ? '44px' : '58px';
-    if (unit) unit.style.fontSize = isMobile ? '16px' : '20px';
+    if (name) name.style.fontSize = isMobile ? '29px' : '36px';
+    if (price) price.style.fontSize = isMobile ? '48px' : '58px';
+    if (unit) unit.style.fontSize = isMobile ? '17px' : '20px';
+  });
+
+  wrap.querySelectorAll('.plan-feature-monthly strong').forEach((value) => {
+    value.style.fontSize = isMobile ? '60px' : '72px';
   });
 }
 
@@ -105,20 +108,14 @@ function renderPlans() {
     const statBorder = plan.recommended
       ? 'rgba(255,255,255,.18)'
       : 'rgba(15,25,49,.12)';
-    const monthlyBg = plan.recommended
-      ? 'rgba(255,255,255,.20)'
-      : '#e5eeff';
-    const monthlyBorder = plan.recommended
-      ? 'rgba(255,255,255,.36)'
-      : 'rgba(46,102,255,.26)';
 
     return `
       <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}" style="padding:30px;">
         <span class="plan-tag" style="font-size:16px;font-weight:900;">${plan.tag}</span>
 
-        <div class="plan-main-line" style="display:flex;align-items:baseline;flex-wrap:nowrap;white-space:nowrap;margin:24px 0 28px;">
+        <div class="plan-main-line" style="margin:24px 0 28px;">
           <div class="plan-name" style="margin:0;line-height:1;font-weight:950;">${plan.name}</div>
-          <div class="plan-price-row" style="display:flex;align-items:baseline;gap:4px;margin:0;white-space:nowrap;">
+          <div class="plan-price-row" style="display:flex;align-items:baseline;gap:4px;margin:14px 0 0;white-space:nowrap;">
             <div class="plan-price" style="line-height:.88;font-weight:950;">${formatUsd(plan.monthlyUsd)}</div>
             <div class="plan-price-unit" style="margin:0;font-weight:900;">/월</div>
           </div>
@@ -155,9 +152,9 @@ function renderPlans() {
             <span class="plan-mini-label" style="font-size:16px;font-weight:850;">가입 시 리워드</span>
             <strong style="margin-top:12px;font-size:44px;font-weight:950;">${formatPoint(plan.rewardPoint)}</strong>
           </div>
-          <div class="plan-feature plan-feature-monthly" style="min-height:128px;padding:20px;border-radius:18px;background:${monthlyBg};border:2px solid ${monthlyBorder};">
-            <span class="plan-mini-label" style="font-size:18px;font-weight:950;">매월 적립 포인트</span>
-            <strong style="margin-top:10px;font-size:52px;font-weight:950;letter-spacing:-.06em;">${formatPoint(plan.monthlyPoint)}</strong>
+          <div class="plan-feature plan-feature-monthly" style="min-height:128px;padding:20px;border-radius:18px;">
+            <span class="plan-mini-label" style="font-size:16px;font-weight:850;">매월 적립 포인트</span>
+            <strong style="margin-top:8px;font-size:72px;font-weight:950;letter-spacing:-.065em;line-height:.95;">${formatPoint(plan.monthlyPoint)}</strong>
           </div>
         </div>
 
