@@ -4,10 +4,45 @@ const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-v3.js?
 const FLOW_POLISH = `
 <style>
   .pmx-section,.pmx-section *{box-sizing:border-box}
-  .pmx-section{position:relative;overflow:hidden;isolation:isolate}
+  .pmx-section{position:relative;overflow:hidden;isolation:isolate;transition:none!important}
   .pmx-inner{width:min(1040px,calc(100% - 40px));margin:0 auto;text-align:center}
 
   #plans .membership-section-head .section-kicker{display:none!important}
+
+  /* 섹션 배경은 항상 보이고, 콘텐츠만 짧게 등장 */
+  .ig8-reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  .ig8-reveal .ig8-kicker,
+  .ig8-reveal .ig8-title,
+  .ig8-reveal .ig8-sub,
+  .ig8-reveal .ig8-mega,
+  .ig8-reveal .ig8-card,
+  .ig8-reveal .ig8-rule,
+  .ig8-reveal .ig8-ledger-row,
+  .ig8-reveal .ig8-equation-part,
+  .ig8-reveal .ig8-eq-symbol,
+  .ig8-reveal .ig8-route,
+  .ig8-reveal .ig8-check,
+  .ig8-reveal .ig8-btn{
+    opacity:0!important;
+    transform:translateY(20px)!important;
+    filter:none!important;
+    transition:opacity .48s ease-out,transform .48s ease-out!important;
+  }
+  .ig8-reveal.is-visible .ig8-kicker,
+  .ig8-reveal.is-visible .ig8-title,
+  .ig8-reveal.is-visible .ig8-sub,
+  .ig8-reveal.is-visible .ig8-mega,
+  .ig8-reveal.is-visible .ig8-card,
+  .ig8-reveal.is-visible .ig8-rule,
+  .ig8-reveal.is-visible .ig8-ledger-row,
+  .ig8-reveal.is-visible .ig8-equation-part,
+  .ig8-reveal.is-visible .ig8-eq-symbol,
+  .ig8-reveal.is-visible .ig8-route,
+  .ig8-reveal.is-visible .ig8-check,
+  .ig8-reveal.is-visible .ig8-btn{
+    opacity:1!important;
+    transform:none!important;
+  }
 
   #price-match.pmx-section{min-height:650px;display:flex;align-items:center;padding:100px 0;background:#0c1730;color:#fff}
   #price-match .pmx-kicker{display:inline-flex;align-items:center;justify-content:center;margin-bottom:28px;padding:10px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.08);color:#dbe7ff;font-size:clamp(19px,2vw,24px);font-weight:600;letter-spacing:-.03em}
@@ -24,16 +59,16 @@ const FLOW_POLISH = `
   #hotel-benefit .pmx-benefit{min-height:150px;display:flex;align-items:center;justify-content:center;padding:26px 18px;font-size:clamp(27px,3vw,38px);line-height:1.15;letter-spacing:-.045em;font-weight:650;word-break:keep-all}
   #hotel-benefit .pmx-benefit + .pmx-benefit{border-left:1px solid #dfe5ef}
 
-  .pmx-enter{opacity:0;transform:translateY(42px);filter:blur(7px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1),filter .65s ease}
-  .pmx-visible .pmx-enter{opacity:1;transform:none;filter:none}
-  .pmx-visible .pmx-enter:nth-child(2){transition-delay:.10s}
-  .pmx-visible .pmx-enter:nth-child(3){transition-delay:.20s}
-  .pmx-visible .pmx-enter:nth-child(4){transition-delay:.30s}
-  #hotel-benefit .pmx-benefit{opacity:0;transform:translateY(26px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+  .pmx-enter{opacity:0;transform:translateY(20px);filter:none;transition:opacity .48s ease-out,transform .48s ease-out}
+  .pmx-visible .pmx-enter{opacity:1;transform:none}
+  .pmx-visible .pmx-enter:nth-child(2){transition-delay:.05s}
+  .pmx-visible .pmx-enter:nth-child(3){transition-delay:.10s}
+  .pmx-visible .pmx-enter:nth-child(4){transition-delay:.15s}
+  #hotel-benefit .pmx-benefit{opacity:0;transform:translateY(18px);transition:opacity .45s ease-out,transform .45s ease-out}
   #hotel-benefit.pmx-visible .pmx-benefit{opacity:1;transform:none}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(1){transition-delay:.14s}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(2){transition-delay:.24s}
-  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(3){transition-delay:.34s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(1){transition-delay:.06s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(2){transition-delay:.12s}
+  #hotel-benefit.pmx-visible .pmx-benefit:nth-child(3){transition-delay:.18s}
 
   @media(max-width:780px){
     #price-match.pmx-section{min-height:590px;padding:78px 0}
@@ -74,10 +109,21 @@ const FLOW_POLISH = `
     #calculator.ig8-calculator .result-box.highlight strong{font-size:clamp(44px,13vw,56px)!important}
   }
 
-  @media(prefers-reduced-motion:reduce){.pmx-enter,#hotel-benefit .pmx-benefit{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+  @media(prefers-reduced-motion:reduce){
+    .ig8-reveal,.ig8-reveal *, .pmx-enter,#hotel-benefit .pmx-benefit{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  }
 </style>
 <script>
 (function(){
+  function setNavItem(href,number,label){
+    document.querySelectorAll('.hero-nav-track a[href="'+href+'"]').forEach(function(a){
+      var n=a.querySelector('strong');
+      var s=a.querySelector('span');
+      if(n)n.textContent=number;
+      if(s)s.textContent=label;
+    });
+  }
+
   function polish(){
     document.querySelectorAll('.ig8-line').forEach(function(line){line.remove();});
 
@@ -88,6 +134,11 @@ const FLOW_POLISH = `
       var el=document.getElementById(id); if(el) el.remove();
       document.querySelectorAll('.hero-nav-track a[href="#'+id+'"]').forEach(function(a){a.remove();});
     });
+
+    setNavItem('#plans','01','멤버십 플랜');
+    setNavItem('#calculator','02','직접 계산');
+    setNavItem('#price-match','03','최저가 보장');
+    setNavItem('#hotel-benefit','04','호텔 · 투어');
 
     var pm=document.getElementById('price-match');
     if(pm){
@@ -103,12 +154,9 @@ const FLOW_POLISH = `
       hotel.innerHTML='<div class="pmx-inner"><h2 class="pmx-title pmx-enter">크루즈뿐 아니라<br><strong>여행 전후 일정도 한 번에</strong></h2><div class="pmx-benefits"><div class="pmx-benefit">전세계 호텔</div><div class="pmx-benefit">현지 투어</div><div class="pmx-benefit">출발 전후 1박</div></div></div>';
     }
 
-    document.querySelectorAll('.hero-nav-track a[href="#price-match"] span').forEach(function(s){s.textContent='최저가 보장';});
-    document.querySelectorAll('.hero-nav-track a[href="#hotel-benefit"] span').forEach(function(s){s.textContent='호텔 · 투어';});
-
     var nodes=[pm,hotel].filter(Boolean);
     if(!('IntersectionObserver' in window)){nodes.forEach(function(n){n.classList.add('pmx-visible');});return;}
-    var io=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('pmx-visible');io.unobserve(entry.target);}});},{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('pmx-visible');io.unobserve(entry.target);}});},{threshold:.14,rootMargin:'0px 0px -5% 0px'});
     nodes.forEach(function(n){io.observe(n);});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',polish,{once:true}); else polish();
