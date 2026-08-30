@@ -6,6 +6,12 @@ class MembershipSurveyInjector {
   }
 }
 
+class RemoveElement {
+  element(element) {
+    element.remove();
+  }
+}
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   const response = await context.next();
@@ -19,5 +25,7 @@ export async function onRequest(context) {
 
   return new HTMLRewriter()
     .on('body', new MembershipSurveyInjector())
+    .on('.hero-benefit-row', new RemoveElement())
+    .on('.hero-actions', new RemoveElement())
     .transform(response);
 }
