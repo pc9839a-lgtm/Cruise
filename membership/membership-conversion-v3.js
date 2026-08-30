@@ -164,8 +164,7 @@
       section('ig7-problem-a','ig7-dark',`
         <h2 class="ig7-title"><strong>크루즈는 가고 싶은데</strong></h2>`, 'ig7-compact')
       + section('ig7-problem-b','ig7-white',`
-        <span class="ig7-kicker">가격이 부담된다면</span>
-        <h2 class="ig7-title">부담되는 럭셔리 크루즈 여행 가격<br><strong>최저가로 갈 수 있는 방법 없을까요?</strong></h2>`)
+        <h2 class="ig7-title"><strong>최저가로 갈 수 있는 방법 없을까요?</strong></h2>`, 'ig7-compact')
       + section('ig7-promise','ig7-blue',`
         <span class="ig7-kicker">방법은 미리 준비하는 것</span>
         <h2 class="ig7-title">미리미리 준비하면<br><strong>남들보다 약 25% 저렴하게</strong></h2>
