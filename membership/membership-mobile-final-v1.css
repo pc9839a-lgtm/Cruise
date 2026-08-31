@@ -1,0 +1,113 @@
+/* Membership mobile final pass — readability, spacing, dedupe */
+@media (max-width:780px){
+  html,body{overflow-x:hidden!important;background:#fff!important}
+
+  /* Sticky nav: one clean horizontal row, no duplicated marquee */
+  .sticky-menu-bar{height:auto!important;min-height:0!important;background:rgba(247,249,252,.98)!important;border-bottom:1px solid #dce4ef!important;box-shadow:0 6px 18px rgba(11,23,48,.06)!important}
+  .sticky-menu-bar .container{width:100%!important;max-width:none!important;padding:0!important}
+  .hero-nav-marquee{overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;padding:8px 10px!important}
+  .hero-nav-marquee::-webkit-scrollbar{display:none!important}
+  .hero-nav-track{display:flex!important;width:max-content!important;gap:8px!important;transform:none!important;animation:none!important;margin:0!important;padding:0!important}
+  .hero-nav-track>a:nth-child(n+7){display:none!important}
+  .hero-nav-track>a{flex:0 0 auto!important;min-width:auto!important;height:54px!important;padding:0 18px!important;border-radius:18px!important;background:#fff!important;border:1px solid #e0e7f0!important;box-shadow:none!important;color:#0b1730!important;gap:9px!important}
+  .hero-nav-track>a strong{font-size:14px!important;color:#2c5fa7!important;opacity:1!important}
+  .hero-nav-track>a span{font-size:15px!important;line-height:1!important;color:#0b1730!important;font-weight:850!important;white-space:nowrap!important}
+
+  /* Mobile animation safety: content is never left faded or shifted */
+  .af-gsap-ready,.mid-gsap-ready,.late-gsap-ready,.mx-reveal,.m2-visual,
+  #price-pain .mv2-kicker,#price-pain .mv2-title,#price-pain .mv2-mega,#price-pain .mv2-save,
+  #price-bridge .pb-lead,#price-bridge .pb-direct,#price-bridge .pb-pair,#price-bridge .pb-diff,
+  #same-cruise .mv2-kicker,#same-cruise .mv2-title,#same-cruise .mv2-four>*{
+    opacity:1!important;visibility:visible!important;filter:none!important;transform:none!important;translate:none!important;scale:1!important;
+  }
+  .af-gsap-ready,.mid-gsap-ready,.late-gsap-ready,.mx-reveal,.m2-visual{animation:none!important;transition:none!important}
+
+  /* Price story: compact, high contrast, no dead air */
+  #price-story-band,#price-pain,#price-bridge,#same-cruise{background:#07111f!important;background-color:#07111f!important;color:#fff!important}
+  #price-pain,#price-bridge,#same-cruise{min-height:0!important;height:auto!important}
+  #price-pain{padding:72px 0 64px!important}
+  #price-bridge{padding:72px 0 78px!important}
+  #same-cruise{padding:72px 0 84px!important}
+  #price-pain .mv2-inner,#price-bridge .pb-inner,#same-cruise .mv2-inner{width:calc(100% - 36px)!important;max-width:640px!important}
+
+  #price-pain .mv2-kicker{color:#d9ebff!important;background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.22)!important;font-size:12px!important}
+  #price-pain .mv2-title{margin-top:18px!important;color:#fff!important;font-size:34px!important;line-height:1.05!important;font-weight:900!important}
+  #price-pain .mv2-title,#price-pain .mv2-title *{color:#fff!important;opacity:1!important}
+  #price-pain .mv2-mega{margin-top:24px!important;color:#fff!important;font-size:64px!important;line-height:.92!important;font-weight:950!important;text-shadow:none!important}
+  #price-pain .mv2-save,#price-pain .mv2-save strong{margin-top:18px!important;color:#8bd5ff!important;font-size:18px!important;opacity:1!important}
+
+  #price-bridge .pb-lead{margin-bottom:12px!important;color:#dce7f4!important;font-size:17px!important}
+  #price-bridge .pb-direct{margin:0 auto 34px!important;color:#fff!important;font-size:38px!important;line-height:1.05!important;letter-spacing:-.05em!important}
+  #price-bridge .pb-direct strong{color:#45b9ff!important}
+  #price-bridge .pb-pair{grid-template-columns:1fr!important;gap:0!important;padding:0!important;border-top:1px solid rgba(255,255,255,.18)!important;border-bottom:1px solid rgba(255,255,255,.18)!important}
+  #price-bridge .pb-price{padding:26px 8px!important;text-align:center!important}
+  #price-bridge .pb-price+.pb-price{border-top:1px solid rgba(255,255,255,.15)!important}
+  #price-bridge .pb-price span{margin-bottom:9px!important;color:#d5dfeb!important;font-size:15px!important}
+  #price-bridge .pb-price.old{opacity:1!important}
+  #price-bridge .pb-price.old strong{color:#d8e0eb!important;opacity:.62!important;font-size:54px!important}
+  #price-bridge .pb-price.new strong{color:#45b9ff!important;font-size:68px!important}
+  #price-bridge .pb-diff{margin-top:34px!important}
+  #price-bridge .pb-diff span{color:#d7e3ef!important;font-size:15px!important}
+  #price-bridge .pb-diff strong{color:#fff!important;font-size:46px!important;line-height:1!important}
+
+  #same-cruise .mv2-kicker{color:#d9ebff!important;background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.22)!important}
+  #same-cruise .mv2-title,#same-cruise .mv2-title *{color:#fff!important;font-size:34px!important;line-height:1.06!important}
+  #same-cruise .mv2-four{margin-top:32px!important;grid-template-columns:1fr 1fr!important}
+  #same-cruise .mv2-four div{min-height:76px!important;padding:14px 8px!important;color:#fff!important;font-size:18px!important;line-height:1.18!important}
+
+  /* Stage-2 duplicate visuals: desktop only. Mobile already has the same information above. */
+  #m2-price-story,#m2-payment-flow{display:none!important}
+
+  /* Expansion rhythm */
+  .mx-chapter{min-height:0!important;padding:68px 0!important}
+  .mx-expand-section{padding:72px 0!important}
+  .mx-inner{width:calc(100% - 36px)!important}
+  .mx-title{font-size:34px!important;line-height:1.08!important;margin-top:14px!important}
+  .mx-eyebrow{min-height:32px!important;padding:0 12px!important;font-size:13px!important}
+
+  /* Moving hotel: photo first, compact cards under it */
+  .mx-hotel-layout{grid-template-columns:1fr!important;gap:14px!important;margin-top:34px!important}
+  .mx-hotel-visual{min-height:360px!important;border-radius:24px!important}
+  .mx-hotel-caption{left:20px!important;right:20px!important;bottom:20px!important}
+  .mx-hotel-caption span{font-size:15px!important}
+  .mx-hotel-caption strong{font-size:36px!important;line-height:1.04!important}
+  .mx-hotel-points{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mx-hotel-point{min-height:128px!important;padding:18px!important;border-radius:20px!important;justify-content:center!important}
+  .mx-hotel-point b{font-size:13px!important}
+  .mx-hotel-point strong{font-size:24px!important;line-height:1.12!important;word-break:keep-all!important}
+  #m2-hotel-route{margin-top:30px!important;padding:20px 14px!important}
+  #m2-hotel-route .m2-route-line{display:none!important}
+  #m2-hotel-route .m2-route-title:first-child{display:none!important}
+
+  /* 270 / point + card: one column, no broken words */
+  #mx-use-rules{padding:72px 0!important}
+  #mx-use-rules .mx-dual{grid-template-columns:1fr!important;gap:14px!important;margin-top:34px!important}
+  #mx-use-rules .mx-dual-card{min-height:0!important;padding:26px 20px!important;border-radius:24px!important}
+  #mx-use-rules .mx-dual-card .mx-mini{font-size:15px!important;color:rgba(255,255,255,.72)!important}
+  #mx-use-rules .mx-dual-card h3{margin-top:14px!important;font-size:34px!important;line-height:1.08!important;word-break:keep-all!important}
+  #mx-use-rules .mx-dual-card h3 strong{color:#8bd5ff!important}
+  #mx-use-rules .mx-equation{display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:center!important;gap:8px!important;margin-top:24px!important;font-size:30px!important;line-height:1!important;white-space:nowrap!important}
+  #mx-use-rules .mx-equation strong{white-space:nowrap!important;word-break:keep-all!important;font-size:30px!important}
+  #mx-use-rules .mx-equation span{font-size:28px!important;color:#b8c5d5!important}
+
+  /* Point timeline stays useful, but compact */
+  #m2-point-timeline{padding:22px 14px 26px!important;border-radius:22px!important}
+  #m2-point-timeline .m2-visual-head strong{font-size:28px!important}
+  #m2-point-timeline .m2-timeline-points{gap:4px!important}
+  #m2-point-timeline .m2-time-point strong{font-size:29px!important}
+  #m2-point-timeline .m2-point-to-trip{margin-top:24px!important;padding-top:22px!important}
+
+  /* Plan chooser/cards */
+  #m2-plan-chooser{padding:20px 14px!important;margin-top:30px!important}
+  .m2-choice-question{font-size:19px!important}
+  .m2-choice-buttons button{min-height:70px!important}
+  .mx-speed-grid,.mx-fit-grid{grid-template-columns:1fr!important;gap:12px!important;margin-top:34px!important}
+  .mx-speed-card,.mx-fit-box{min-height:0!important;padding:24px 20px!important;border-radius:22px!important}
+
+  /* Never allow Korean labels to break character-by-character */
+  .mv2-title,.mv2-mega,.pb-direct,.pb-price strong,.pb-diff strong,
+  .mx-title,.mx-chapter-copy h2,.mx-card strong,.mx-hotel-point strong,
+  .mx-dual-card h3,.mx-equation strong,.mx-speed-card h3,.mx-fit-box h3,.mx-faq-q span{
+    word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;
+  }
+}
