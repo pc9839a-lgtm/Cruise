@@ -4,6 +4,21 @@ export async function onRequest(context) {
   if (!type.includes('text/html')) return response;
 
   return new HTMLRewriter()
+    .on('script[src*="membership-entry-survey-v1.js"]', {
+      element(element) { element.remove(); }
+    })
+    .on('script[src*="membership-entry-survey-v2.js"]', {
+      element(element) { element.remove(); }
+    })
+    .on('script[src*="membership-page-v2.js"]', {
+      element(element) { element.remove(); }
+    })
+    .on('#membership-inquiry', {
+      element(element) { element.remove(); }
+    })
+    .on('.floating-cta', {
+      element(element) { element.remove(); }
+    })
     .on('head', {
       element(element) {
         element.append(
@@ -11,7 +26,8 @@ export async function onRequest(context) {
           '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
           '<link rel="stylesheet" href="/membership/membership-price-clean-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">',
+          '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
+          '<link rel="stylesheet" href="/membership/membership-mobile-compact-v1.css?v=20260831-1">',
           { html: true }
         );
       }
@@ -19,6 +35,7 @@ export async function onRequest(context) {
     .on('body', {
       element(element) {
         element.append(
+          '<script defer src="/membership/membership-hero-restore-v1.js?v=20260831-1"></script>' +
           '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
           '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>' +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260831-10"></script>' +
