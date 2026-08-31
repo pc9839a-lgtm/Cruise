@@ -61,9 +61,7 @@ export async function onRequest(context) {
           '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-ux-hotfix-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-mobile-contrast-hotfix-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-mobile-final-v1.css?v=20260831-1">',
+          '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260831-1">',
           { html: true }
         );
       }
@@ -79,8 +77,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-2"></script>' +
           '<script defer src="/membership/membership-expansion-v1.js?v=20260831-1"></script>' +
           '<script defer src="/membership/membership-expansion-v2.js?v=20260831-2"></script>' +
-          '<script defer src="/membership/membership-ux-hotfix-v1.js?v=20260831-1"></script>' +
-          '<script defer src="/membership/membership-mobile-final-v1.js?v=20260831-1"></script>',
+          '<script defer src="/membership/membership-mobile-final-v1.js?v=20260831-2"></script>',
           { html: true }
         );
       }
