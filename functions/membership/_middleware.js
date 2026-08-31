@@ -20,12 +20,6 @@ export async function onRequest(context) {
     .on('script[src*="membership-page-v2.js"]', {
       element(element) { element.remove(); }
     })
-    .on('#membership-inquiry', {
-      element(element) { element.remove(); }
-    })
-    .on('.floating-cta', {
-      element(element) { element.remove(); }
-    })
     .on('#real-cost', {
       element(element) {
         element.setAttribute('style', lateSectionStyle);
