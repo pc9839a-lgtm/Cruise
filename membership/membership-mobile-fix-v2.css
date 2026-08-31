@@ -1,4 +1,5 @@
 /* Mobile readability + survey optimization */
+/* pages-rebuild: 2026-08-31 runtime recovery */
 
 /* USD only: remove KRW/exchange display */
 #calculator .exchange-bar{display:none!important}
