@@ -1,3 +1,4 @@
+#calculator .exchange-bar,#cruiseKrw,#pointKrw,#cashKrw,#coverageText,#plans .plan-top-stats{display:none!important}
 #m3-savings-use,#m3-booking,#m3-cases,#m3-selector{font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 .m3-section{padding:88px 0}
 .m3-inner{width:min(1040px,calc(100% - 48px));margin:0 auto}
