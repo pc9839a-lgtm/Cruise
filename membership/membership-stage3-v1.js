@@ -3,31 +3,32 @@
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const setText = (s, text, r = document) => { const el = $(s, r); if (el) el.textContent = text; };
-  const setHtml = (s, html, r = document) => { const el = $(s, r); if (el) el.innerHTML = html; };
+  const setText = (s, text, r = document) => { const el = $(s, r); if (el && el.textContent !== text) el.textContent = text; };
+  const setHtml = (s, html, r = document) => { const el = $(s, r); if (el && el.innerHTML !== html) el.innerHTML = html; };
   const remove = (s, r = document) => $$(s, r).forEach((el) => el.remove());
 
   function stripKrw() {
     const exchange = $('#calculator .exchange-bar');
     if (exchange) {
-      exchange.style.display = 'none';
-      exchange.setAttribute('aria-hidden', 'true');
+      if (exchange.style.display !== 'none') exchange.style.display = 'none';
+      if (exchange.getAttribute('aria-hidden') !== 'true') exchange.setAttribute('aria-hidden', 'true');
     }
 
     ['#cruiseKrw', '#pointKrw', '#cashKrw', '#coverageText'].forEach((s) => {
       const el = $(s);
       if (!el) return;
-      el.textContent = '';
-      el.style.display = 'none';
-      el.setAttribute('aria-hidden', 'true');
+      if (el.textContent) el.textContent = '';
+      if (el.style.display !== 'none') el.style.display = 'none';
+      if (el.getAttribute('aria-hidden') !== 'true') el.setAttribute('aria-hidden', 'true');
     });
 
     remove('#plans .plan-top-stats');
 
     const desc = $('#modeDescription');
-    if (desc) desc.textContent = $('.mode-btn.active')?.dataset.mode === 'early'
-      ? '270일+ · 포인트 활용 확대'
-      : '포인트 + 카드';
+    if (desc) {
+      const text = $('.mode-btn.active')?.dataset.mode === 'early' ? '270일+ · 포인트 활용 확대' : '포인트 + 카드';
+      if (desc.textContent !== text) desc.textContent = text;
+    }
   }
 
   function cleanCoreCopy() {
@@ -57,6 +58,7 @@
 
     setText('#price-match .mv2-kicker', '가격 비교');
     setHtml('#price-match .mv2-title', '<strong>최저가 보장</strong>');
+    setText('#price-match .mv2-sub', '동일 크루즈 · 일정 · 객실 조건');
   }
 
   function cleanExpansionCopy() {
@@ -135,19 +137,32 @@
       const heads = $$('.mx-fit-box h3', fit);
       if (heads[0]) heads[0].textContent = 'YES';
       if (heads[1]) heads[1].textContent = 'NO';
+      const items = $$('.mx-fit-item span', fit);
+      const copy = ['1~2년 안에 출발', '부부 · 가족 여행', '직접 예약 가능', '다음 크루즈 계획', '여행 일정 미정', '가이드 패키지만 선호', '가까운 날짜 바로 출발'];
+      items.forEach((el, i) => { if (copy[i] && el.textContent !== copy[i]) el.textContent = copy[i]; });
     }
 
     const faq = $('#mx-faq-section');
     if (faq) {
       setText('.mx-eyebrow', 'FAQ', faq);
       setHtml('.mx-title', '가입 전 <strong>5문답</strong>', faq);
+      const questions = ['같은 크루즈인가요?', '포인트가 부족하면?', '가이드 없이 가능한가요?', 'CLASSIC · PREMIUM?', '가입 전 확인?'];
+      const answers = ['선사 · 일정 · 객실 조건 기준 비교', '포인트 + 카드', '승선 5단계 확인', '적립 속도 차이', '환불 · 결제 · 유지 · 해지 조건'];
+      $$('.mx-faq-item', faq).forEach((item, i) => {
+        if (questions[i]) setText('.mx-faq-q span', questions[i], item);
+        if (answers[i]) setText('.mx-faq-a p', answers[i], item);
+      });
     }
 
     const recap = $('#mx-recap');
     if (recap) {
       setText('.mx-eyebrow', '3줄 요약', recap);
       setHtml('.mx-title', '가격 · 포인트 · <strong>예약</strong>', recap);
-      $$('.mx-recap-card span', recap).forEach((el) => el.remove());
+      const summary = ['예약 방식 → 가격 차이', '$100 → 200P', '포인트 → 크루즈 예약'];
+      $$('.mx-recap-card', recap).forEach((card, i) => {
+        if (summary[i]) setText('strong', summary[i], card);
+        remove('span', card);
+      });
     }
 
     const final = $('#mx-final-choice');
@@ -155,7 +170,7 @@
       setHtml('h2', 'CLASSIC <strong>VS</strong> PREMIUM', final);
       remove('p', final);
       const a = $('a', final);
-      if (a) a.textContent = '플랜 보기';
+      if (a && a.textContent !== '플랜 보기') a.textContent = '플랜 보기';
     }
   }
 
@@ -166,7 +181,8 @@
     setHtml('.mv2-title', '<strong>같은 크루즈</strong>', root);
     const labels = ['배', '객실', '식사', '공연'];
     $$('.mv2-four > div', root).forEach((el, i) => {
-      el.innerHTML = `<b>SAME</b><span>${labels[i] || ''}</span>`;
+      const html = `<b>SAME</b><span>${labels[i] || ''}</span>`;
+      if (el.innerHTML !== html) el.innerHTML = html;
     });
   }
 
@@ -211,7 +227,7 @@
       <section id="m3-cases" class="m3-section m3-light">
         <div class="m3-inner">
           <span class="m3-kicker">3가지 여행</span>
-          <h2><strong>내 여행에 대입</strong></h2>
+          <h2><strong>여행 유형</strong></h2>
           <div class="m3-cases">
             <article><b>CASE 01</b><strong>첫 크루즈 · 부부</strong><span>CLASSIC</span></article>
             <article><b>CASE 02</b><strong>1년 뒤 · 가족</strong><span>CLASSIC</span></article>
@@ -252,7 +268,8 @@
 
         const result = $('#m3-selector .m3-result strong');
         if (result && state.time && state.freq) {
-          result.textContent = state.freq === 'high' ? 'PREMIUM' : (state.time === 'unknown' ? '여행 계획 먼저' : 'CLASSIC');
+          const text = state.freq === 'high' ? 'PREMIUM' : (state.time === 'unknown' ? '여행 일정 먼저' : 'CLASSIC');
+          if (result.textContent !== text) result.textContent = text;
         }
         return;
       }
@@ -280,9 +297,15 @@
     if (run() || tries > 20) clearInterval(timer);
   }, 180);
 
+  let scheduled = false;
   const observer = new MutationObserver(() => {
-    stripKrw();
-    cleanCoreCopy();
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      stripKrw();
+      cleanCoreCopy();
+    });
   });
   observer.observe(document.documentElement, { childList: true, subtree: true });
 })();
