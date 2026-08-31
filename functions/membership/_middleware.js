@@ -1,7 +1,6 @@
 const SURVEY_SCRIPT = '<script src="/membership/membership-entry-survey-v1.js?v=20260830-14"></script>';
 const CONVERSION_SCRIPT = '<script src="/membership/membership-conversion-v3.js?v=20260830-8"></script>';
 const POLISH_SCRIPT = '<script src="/membership/membership-polish-v9.js?v=20260830-2"></script>';
-const PAGE_PATCH = '<script src="/membership/membership-page-patch-v1.js?v=20260831-1"></script>';
 const FINAL_PATCH = `<script>
 (function(){
   function patchMembershipBottom(){
@@ -30,7 +29,7 @@ const FINAL_PATCH = `<script>
 
 class MembershipScriptInjector {
   element(element) {
-    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT + POLISH_SCRIPT + FINAL_PATCH + PAGE_PATCH, { html: true });
+    element.prepend(SURVEY_SCRIPT + CONVERSION_SCRIPT + POLISH_SCRIPT + FINAL_PATCH, { html: true });
   }
 }
 
