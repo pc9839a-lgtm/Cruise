@@ -10,7 +10,7 @@ export async function onRequest(context) {
           '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' +
           '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
           '<link rel="stylesheet" href="/membership/membership-price-clean-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-guide-section-v1.css?v=20260831-1">',
+          '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">',
           { html: true }
         );
       }
@@ -22,7 +22,7 @@ export async function onRequest(context) {
           '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>' +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260831-10"></script>' +
           '<script defer src="/membership/membership-adflow-1-4-v1.js?v=20260831-11"></script>' +
-          '<script defer src="/membership/membership-guide-section-v1.js?v=20260831-1"></script>',
+          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-1"></script>',
           { html: true }
         );
       }
