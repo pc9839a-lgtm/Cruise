@@ -18,7 +18,7 @@
           </div>
           <div class="pb-arrow" aria-hidden="true">→</div>
           <div class="pb-price new">
-            <span>해외직구 직접 예약</span>
+            <span>해외직구로 직접 예약</span>
             <strong>120만원</strong>
           </div>
         </div>
