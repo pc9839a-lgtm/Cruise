@@ -26,7 +26,7 @@
     $('.mv2-title', real).innerHTML = '<strong>실제 나가는 돈</strong>';
     const boxes = $$('.mv2-paybox', real);
     if (boxes[0]) {
-      $('span', boxes[0]).textContent = '그냥 결제';
+      $('span', boxes[0]).textContent = '일반 결제';
       $('strong', boxes[0]).textContent = '$2,000';
     }
     if (boxes[1]) {
@@ -42,8 +42,48 @@
   function applyCalculator() {
     const calc = $('#calculator');
     if (!calc) return;
+
     const head = $('.section-head', calc);
-    if (head) head.innerHTML = '<span class="section-kicker">내 금액으로 확인</span><h2><strong>$1,000 ~ $10,000</strong></h2>';
+    if (head) {
+      head.innerHTML = '<span class="section-kicker">내 금액으로 확인</span><h2><strong>내 크루즈 가격</strong></h2>';
+    }
+
+    $('.exchange-bar', calc)?.remove();
+
+    const calculatorHeadLabel = $('.calculator-head strong', calc);
+    if (calculatorHeadLabel) calculatorHeadLabel.textContent = '선택한 크루즈 금액';
+
+    const pointLabel = $('#pointLabel', calc);
+    const cashLabel = $('#cashLabel', calc);
+    const coverageLabel = $('.total-pay-box > span', calc);
+    const coverageSubtext = $('#coverageSubtext', calc);
+
+    if (pointLabel) pointLabel.textContent = '필요 포인트';
+    if (cashLabel) cashLabel.textContent = '예약 시 카드 결제';
+    if (coverageLabel) coverageLabel.textContent = '총 실제 납입';
+    if (coverageSubtext) coverageSubtext.textContent = '포인트 적립분 + 카드 결제';
+  }
+
+  function syncCalculatorCopy() {
+    const calc = $('#calculator');
+    if (!calc) return;
+    const pointLabel = $('#pointLabel', calc);
+    const cashLabel = $('#cashLabel', calc);
+    const coverageLabel = $('.total-pay-box > span', calc);
+    const coverageSubtext = $('#coverageSubtext', calc);
+
+    if (pointLabel) pointLabel.textContent = '필요 포인트';
+    if (cashLabel) cashLabel.textContent = '예약 시 카드 결제';
+    if (coverageLabel) coverageLabel.textContent = '총 실제 납입';
+    if (coverageSubtext) coverageSubtext.textContent = '포인트 적립분 + 카드 결제';
+  }
+
+  function watchCalculatorCopy() {
+    const calc = $('#calculator');
+    if (!calc) return;
+    syncCalculatorCopy();
+    const observer = new MutationObserver(() => syncCalculatorCopy());
+    observer.observe(calc, { childList:true, subtree:true, characterData:true });
   }
 
   function applyPlanHeading() {
@@ -135,7 +175,7 @@
     const terms = $('#membership-terms');
 
     entrance(real, [$('.mv2-kicker',real), $('.mv2-title',real), ...$$('.mv2-paybox',real), $('.mv2-save',real)]);
-    entrance(calc, [$('.section-head',calc), $('.exchange-bar',calc), $('.calculator-card',calc)]);
+    entrance(calc, [$('.section-head',calc), $('.calculator-card',calc)]);
     entrance(plans, [$('.membership-section-head',plans), ...$$('.plan-card',plans)]);
     entrance(terms, [$('.mv2-kicker',terms), $('.mv2-title',terms), ...$$('.mv2-term',terms)]);
 
@@ -196,14 +236,20 @@
     if (range && amount) {
       range.addEventListener('input', () => {
         gsap.fromTo(amount, {scale:.96}, {scale:1.06, duration:.18, yoyo:true, repeat:1, ease:'power2.out'});
+        window.setTimeout(syncCalculatorCopy, 0);
       });
     }
+
+    $$('.mode-btn', calc).forEach(btn => {
+      btn.addEventListener('click', () => window.setTimeout(syncCalculatorCopy, 0));
+    });
   }
 
   function init() {
     if (!wrapBand()) return;
     applyRealCost();
     applyCalculator();
+    watchCalculatorCopy();
     watchPlans();
     applyTerms();
     initMotion();
