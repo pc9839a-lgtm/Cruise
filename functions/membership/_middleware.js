@@ -52,6 +52,10 @@ export async function onRequest(context) {
     })
     .on('head', {
       element(element) {
+        element.prepend(
+          '<script src="/assets/js/agent-persistence.js?v=20260831-1"></script>',
+          { html: true }
+        );
         element.append(
           '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' +
           '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
