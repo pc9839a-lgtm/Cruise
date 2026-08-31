@@ -79,7 +79,8 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-2"></script>' +
           '<script defer src="/membership/membership-expansion-v1.js?v=20260831-1"></script>' +
           '<script defer src="/membership/membership-expansion-v2.js?v=20260831-2"></script>' +
-          '<script defer src="/membership/membership-ux-hotfix-v1.js?v=20260831-1"></script>',
+          '<script defer src="/membership/membership-ux-hotfix-v1.js?v=20260831-1"></script>' +
+          '<script defer src="/membership/membership-mobile-final-v1.js?v=20260831-1"></script>',
           { html: true }
         );
       }
