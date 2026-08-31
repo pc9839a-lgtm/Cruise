@@ -4,6 +4,58 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  function cleanupVerboseCopy() {
+    const chapterTitles = {
+      '#mx-chapter-1 .mx-chapter-copy h2': '같은 크루즈<br><strong>왜 160만원 차이?</strong>',
+      '#mx-chapter-2 .mx-chapter-copy h2': '가이드 없이<br><strong>가능할까?</strong>',
+      '#mx-chapter-3 .mx-chapter-copy h2': '매월 $100<br><strong>→ 200P</strong>',
+      '#mx-chapter-4 .mx-chapter-copy h2': '$2,000 크루즈<br><strong>실제 부담은?</strong>',
+      '#mx-chapter-5 .mx-chapter-copy h2': 'CLASSIC<br><strong>VS PREMIUM</strong>',
+      '#mx-chapter-6 .mx-chapter-copy h2': '가입 전<br><strong>5가지만 확인</strong>'
+    };
+
+    Object.entries(chapterTitles).forEach(([selector, html]) => {
+      const el = $(selector);
+      if (el) el.innerHTML = html;
+    });
+
+    $$('.mx-chapter-copy p').forEach((el) => el.remove());
+    $('#mx-cost-structure .mx-sub')?.remove();
+    $$('#mx-cost-structure .mx-card span').forEach((el) => el.remove());
+    $('#mx-moving-hotel .mx-sub')?.remove();
+    $('#mx-point-use .mx-sub')?.remove();
+    $$('#mx-use-rules .mx-dual-card p').forEach((el) => el.remove());
+    $$('#mx-plan-guide .mx-speed-card p').forEach((el) => el.remove());
+    $$('#mx-recap .mx-recap-card span').forEach((el) => el.remove());
+    $('#mx-final-choice p')?.remove();
+
+    const movingEyebrow = $('#mx-moving-hotel .mx-eyebrow');
+    if (movingEyebrow) movingEyebrow.textContent = '크루즈는';
+
+    const fitTitle = $('#mx-fit-check .mx-title');
+    if (fitTitle) fitTitle.innerHTML = '내 여행 계획과<br><strong>맞나요?</strong>';
+
+    const faqTitle = $('#mx-faq-section .mx-title');
+    if (faqTitle) faqTitle.innerHTML = '자주 묻는 질문<br><strong>5가지</strong>';
+
+    const recapTitle = $('#mx-recap .mx-title');
+    if (recapTitle) recapTitle.innerHTML = '<strong>3가지만 기억하세요</strong>';
+
+    const finalTitle = $('#mx-final-choice h2');
+    if (finalTitle) finalTitle.innerHTML = '비교하고<br><strong>결정하세요</strong>';
+
+    const faqAnswers = [
+      '같은 선사·일정·객실 등급 기준으로 비교합니다.',
+      '포인트 적용 후 남은 금액은 카드로 결제할 수 있습니다.',
+      '항구·승선·선내·기항지·하선 순서만 알면 됩니다.',
+      '천천히 모으면 클래식, 빠르게 모으면 프리미엄.',
+      '환불·본인결제·멤버십 유지·해지 시 포인트 기준을 확인하세요.'
+    ];
+    $$('#mx-faq-section .mx-faq-a p').forEach((p, i) => {
+      if (faqAnswers[i]) p.textContent = faqAnswers[i];
+    });
+  }
+
   function addPriceStory() {
     const host = $('#mx-cost-structure .mx-inner');
     if (!host || $('#m2-price-story')) return;
@@ -13,8 +65,8 @@
     el.className = 'm2-visual m2-price-story';
     el.innerHTML = `
       <div class="m2-visual-head">
-        <span>2명 기준 예시</span>
-        <strong>400만원이 어떻게 240만원이 될까요?</strong>
+        <span>2명 기준</span>
+        <strong>400만원 → 240만원</strong>
       </div>
       <div class="m2-price-stack">
         <div class="m2-price-total">
@@ -22,14 +74,14 @@
           <strong><i data-m2-count="400">400</i>만원</strong>
         </div>
         <div class="m2-price-bar" aria-label="가격 구조 시각화">
-          <div class="m2-price-core"><span>크루즈 직접예약 예시</span><strong>240만원</strong></div>
-          <div class="m2-price-extra"><span>포함 서비스·운영 차이</span><strong>160만원 차이</strong></div>
+          <div class="m2-price-core"><span>직접예약</span><strong>240만원</strong></div>
+          <div class="m2-price-extra"><span>차이</span><strong>160만원</strong></div>
         </div>
         <div class="m2-service-tags">
           <span>가이드</span><span>단체 이동</span><span>패키지 운영</span><span>예약 대행</span>
         </div>
         <div class="m2-price-conclusion">
-          <span>핵심</span><strong>배가 달라진 게 아니라<br>예약 방식이 달라집니다</strong>
+          <strong>같은 크루즈<br>다른 예약 방식</strong>
         </div>
       </div>`;
     if (cardGrid) host.insertBefore(el, cardGrid); else host.appendChild(el);
@@ -42,13 +94,13 @@
     el.id = 'm2-hotel-route';
     el.className = 'm2-visual m2-hotel-route';
     el.innerHTML = `
-      <div class="m2-route-title"><span>일반 자유여행</span><strong>도시가 바뀔 때마다 호텔도 이동</strong></div>
+      <div class="m2-route-title"><span>일반 여행</span><strong>호텔도 이동</strong></div>
       <div class="m2-route-line m2-land-route">
         <div class="m2-node"><b>호텔 1</b><span>짐 풀기</span></div><i>→</i>
-        <div class="m2-node"><b>이동</b><span>짐 들고 이동</span></div><i>→</i>
-        <div class="m2-node"><b>호텔 2</b><span>다시 체크인</span></div>
+        <div class="m2-node"><b>이동</b><span>짐 이동</span></div><i>→</i>
+        <div class="m2-node"><b>호텔 2</b><span>체크인</span></div>
       </div>
-      <div class="m2-route-title cruise"><span>크루즈 여행</span><strong>내 객실은 그대로, 배가 도시를 이동</strong></div>
+      <div class="m2-route-title cruise"><span>크루즈</span><strong>객실은 그대로</strong></div>
       <div class="m2-sea-route">
         <div class="m2-port">도시 A</div>
         <div class="m2-sea-track"><div class="m2-ship">🚢</div></div>
@@ -65,7 +117,7 @@
     el.id = 'm2-point-timeline';
     el.className = 'm2-visual m2-point-timeline';
     el.innerHTML = `
-      <div class="m2-visual-head"><span>클래식 월 적립 예시</span><strong>시간이 지나면 이렇게 쌓입니다</strong></div>
+      <div class="m2-visual-head"><span>CLASSIC</span><strong>$100씩 12개월</strong></div>
       <div class="m2-timeline-track"><div class="m2-timeline-fill"></div></div>
       <div class="m2-timeline-points">
         <div class="m2-time-point"><b>1개월</b><strong><i data-m2-count="200">200</i>P</strong></div>
@@ -73,12 +125,11 @@
         <div class="m2-time-point"><b>12개월</b><strong><i data-m2-count="2400">2,400</i>P</strong></div>
       </div>
       <div class="m2-point-to-trip">
-        <div class="m2-point-bubble"><strong>2,400P</strong><span>모으고 끝이 아니라</span></div>
+        <div class="m2-point-bubble"><strong>2,400P</strong><span>12개월</span></div>
         <div class="m2-point-arrow">→</div>
-        <div class="m2-trip-card"><strong>크루즈 예약</strong><span>조건에 맞춰 포인트 적용</span></div>
+        <div class="m2-trip-card"><strong>크루즈 예약</strong><span>포인트 사용</span></div>
       </div>`;
-    const sub = $('.mx-sub', host);
-    if (sub) host.insertBefore(el, sub); else host.appendChild(el);
+    host.appendChild(el);
   }
 
   function addPaymentFlow() {
@@ -88,15 +139,15 @@
     el.id = 'm2-payment-flow';
     el.className = 'm2-visual m2-payment-flow';
     el.innerHTML = `
-      <div class="m2-visual-head"><span>예약할 때는</span><strong>두 통로가 한 결제로 합쳐집니다</strong></div>
+      <div class="m2-visual-head"><span>예약</span><strong>POINT + CARD</strong></div>
       <div class="m2-pay-pipes">
-        <div class="m2-pay-source point"><span>보유 포인트</span><strong>POINT</strong></div>
+        <div class="m2-pay-source point"><span>보유</span><strong>POINT</strong></div>
         <div class="m2-pay-pipe"><i></i></div>
-        <div class="m2-pay-merge"><span>예약금액</span><strong>크루즈</strong></div>
+        <div class="m2-pay-merge"><span>예약</span><strong>크루즈</strong></div>
         <div class="m2-pay-pipe reverse"><i></i></div>
         <div class="m2-pay-source card"><span>남은 금액</span><strong>CARD</strong></div>
       </div>
-      <div class="m2-pay-caption"><strong>포인트가 부족해도 멈추지 않습니다</strong><span>사용 가능한 포인트 + 남은 카드 결제로 예약하는 방식이 있습니다.</span></div>`;
+      <div class="m2-pay-caption"><strong>포인트 + 카드</strong></div>`;
     host.appendChild(el);
   }
 
@@ -107,12 +158,12 @@
     el.id = 'm2-plan-chooser';
     el.className = 'm2-plan-chooser';
     el.innerHTML = `
-      <div class="m2-choice-question">나는 어떤 쪽에 가까운가요?</div>
+      <div class="m2-choice-question">준비 속도</div>
       <div class="m2-choice-buttons" role="group" aria-label="멤버십 준비 속도 선택">
-        <button type="button" data-m2-plan="classic"><span>천천히 준비</span><strong>월 부담 낮게</strong></button>
-        <button type="button" data-m2-plan="premium"><span>빠르게 준비</span><strong>포인트 더 빠르게</strong></button>
+        <button type="button" data-m2-plan="classic"><span>천천히</span><strong>CLASSIC</strong></button>
+        <button type="button" data-m2-plan="premium"><span>빠르게</span><strong>PREMIUM</strong></button>
       </div>
-      <div class="m2-choice-result" aria-live="polite"><span>버튼을 눌러보세요</span><strong>아래 플랜을 바로 비교할 수 있습니다</strong></div>`;
+      <div class="m2-choice-result" aria-live="polite"><strong>CLASSIC · PREMIUM</strong></div>`;
     const grid = $('.mx-speed-grid', host);
     if (grid) host.insertBefore(el, grid); else host.appendChild(el);
 
@@ -124,8 +175,9 @@
       const cards = $$('.mx-speed-card', host);
       cards.forEach((card, index) => card.classList.toggle('m2-selected', type === 'classic' ? index === 0 : index === 1));
       const result = $('.m2-choice-result', el);
-      if (type === 'classic') result.innerHTML = '<span>추천 방향</span><strong>CLASSIC · 월 $100 / 매월 200P</strong>';
-      else result.innerHTML = '<span>추천 방향</span><strong>PREMIUM · 월 $250 / 매월 500P</strong>';
+      result.innerHTML = type === 'classic'
+        ? '<strong>CLASSIC · $100 / 200P</strong>'
+        : '<strong>PREMIUM · $250 / 500P</strong>';
     });
   }
 
@@ -184,6 +236,7 @@
 
   function init() {
     if ($('#m2-price-story')) return;
+    cleanupVerboseCopy();
     addPriceStory();
     addMovingHotelRoute();
     addPointTimeline();
