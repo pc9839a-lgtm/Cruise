@@ -20,6 +20,33 @@ export async function onRequest(context) {
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
 
+  const mobileStyles =
+    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-1">' +
+    '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260901-1">' +
+    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v2.css?v=20260901-1">';
+
+  const desktopStyles =
+    '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
+    '<link rel="stylesheet" href="/membership/membership-price-clean-v1.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260831-1">' +
+    '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260831-1">';
+
+  const extraStyles = isMobile ? mobileStyles : desktopStyles;
+
+  const applyDesktopLateStyle = (element) => {
+    if (isMobile) {
+      element.removeAttribute('style');
+      element.setAttribute('data-mobile-canonical', '1');
+      return;
+    }
+    element.setAttribute('style', lateSectionStyle);
+    element.setAttribute('data-late-static', '1');
+  };
+
   return new HTMLRewriter()
     .on('script[src*="membership-entry-survey-v1.js"]', {
       element(element) { element.remove(); }
@@ -28,28 +55,16 @@ export async function onRequest(context) {
       element(element) { element.remove(); }
     })
     .on('#real-cost', {
-      element(element) {
-        element.setAttribute('style', lateSectionStyle);
-        element.setAttribute('data-late-static', '1');
-      }
+      element(element) { applyDesktopLateStyle(element); }
     })
     .on('#calculator', {
-      element(element) {
-        element.setAttribute('style', lateSectionStyle);
-        element.setAttribute('data-late-static', '1');
-      }
+      element(element) { applyDesktopLateStyle(element); }
     })
     .on('#plans', {
-      element(element) {
-        element.setAttribute('style', lateSectionStyle);
-        element.setAttribute('data-late-static', '1');
-      }
+      element(element) { applyDesktopLateStyle(element); }
     })
     .on('#membership-terms', {
-      element(element) {
-        element.setAttribute('style', lateSectionStyle);
-        element.setAttribute('data-late-static', '1');
-      }
+      element(element) { applyDesktopLateStyle(element); }
     })
     .on('head', {
       element(element) {
@@ -58,16 +73,7 @@ export async function onRequest(context) {
           { html: true }
         );
         element.append(
-          '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' +
-          '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
-          '<link rel="stylesheet" href="/membership/membership-price-clean-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-mobile-stable-v1.css?v=20260831-1">',
+          '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' + extraStyles,
           { html: true }
         );
       }
@@ -78,11 +84,11 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260831-1"></script>' +
           motionScripts +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260831-10"></script>' +
-          '<script defer src="/membership/membership-adflow-1-4-v1.js?v=20260831-11"></script>' +
-          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-2"></script>' +
-          '<script defer src="/membership/membership-expansion-v1.js?v=20260831-1"></script>' +
-          '<script defer src="/membership/membership-expansion-v2.js?v=20260831-2"></script>' +
-          '<script defer src="/membership/membership-mobile-final-v1.js?v=20260831-3"></script>',
+          '<script defer src="/membership/membership-adflow-1-4-v1.js?v=20260901-1"></script>' +
+          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260901-1"></script>' +
+          '<script defer src="/membership/membership-expansion-v1.js?v=20260901-1"></script>' +
+          '<script defer src="/membership/membership-expansion-v2.js?v=20260901-1"></script>' +
+          (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-1"></script>' : ''),
           { html: true }
         );
       }
