@@ -3,6 +3,16 @@ export async function onRequest(context) {
   const type = response.headers.get('content-type') || '';
   if (!type.includes('text/html')) return response;
 
+  const lateSectionStyle = [
+    'margin:0!important',
+    'border:0!important',
+    'background:#07111f!important',
+    'background-color:#07111f!important',
+    'background-image:none!important',
+    'color:#fff!important',
+    'box-shadow:none!important'
+  ].join(';');
+
   return new HTMLRewriter()
     .on('script[src*="membership-entry-survey-v1.js"]', {
       element(element) { element.remove(); }
@@ -16,6 +26,30 @@ export async function onRequest(context) {
     .on('.floating-cta', {
       element(element) { element.remove(); }
     })
+    .on('#real-cost', {
+      element(element) {
+        element.setAttribute('style', lateSectionStyle);
+        element.setAttribute('data-late-static', '1');
+      }
+    })
+    .on('#calculator', {
+      element(element) {
+        element.setAttribute('style', lateSectionStyle);
+        element.setAttribute('data-late-static', '1');
+      }
+    })
+    .on('#plans', {
+      element(element) {
+        element.setAttribute('style', lateSectionStyle);
+        element.setAttribute('data-late-static', '1');
+      }
+    })
+    .on('#membership-terms', {
+      element(element) {
+        element.setAttribute('style', lateSectionStyle);
+        element.setAttribute('data-late-static', '1');
+      }
+    })
     .on('head', {
       element(element) {
         element.append(
@@ -25,7 +59,7 @@ export async function onRequest(context) {
           '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-mobile-compact-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-mobile-fix-v2.css?v=20260831-1">' +
+          '<link rel="stylesheet" href="/membership/membership-mobile-fix-v2.css?v=20260831-2">' +
           '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">',
           { html: true }
         );
