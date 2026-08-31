@@ -13,18 +13,16 @@
         <div class="pb-direct"><strong>해외직구로</strong> 직접 예약하면</div>
         <div class="pb-pair">
           <div class="pb-price old">
-            <span>여행사 · 가이드 포함</span>
-            <strong>200만원</strong>
+            <span>2명 여행사 · 가이드 포함</span>
+            <strong>400만원</strong>
           </div>
           <div class="pb-arrow" aria-hidden="true">→</div>
           <div class="pb-price new">
-            <span>해외직구로 직접 예약</span>
-            <strong>120만원</strong>
+            <span>2명 해외직구로 직접 예약</span>
+            <strong>240만원</strong>
           </div>
         </div>
-        <div class="pb-diff">
-          <strong style="font-size:clamp(38px,4.7vw,68px);line-height:1.05;letter-spacing:-.06em;word-break:keep-all;">1인 80만원 · 둘이 160만원 차이</strong>
-        </div>
+        <div class="pb-diff"><span>2명 기준</span><strong>160만원 차이</strong></div>
       </div>
     `;
 
