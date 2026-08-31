@@ -39,8 +39,7 @@ export async function onRequest(context) {
           '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>' +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260831-10"></script>' +
           '<script defer src="/membership/membership-adflow-1-4-v1.js?v=20260831-11"></script>' +
-          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-2"></script>' +
-          '<script defer src="/membership/membership-lateflow-8-10-v2.js?v=20260831-1"></script>',
+          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260831-2"></script>',
           { html: true }
         );
       }
