@@ -1,7 +1,25 @@
 (() => {
   'use strict';
 
+  function restoreNav() {
+    const track = document.querySelector('.hero-nav-track');
+    if (!track) return;
+    const items = [
+      ['01', '가격 비교', '#price-compare'],
+      ['02', '가이드 없이', '#guide-question'],
+      ['03', '$100 → 200P', '#membership-point'],
+      ['04', '내 금액 계산', '#calculator'],
+      ['05', '멤버십 선택', '#plans'],
+      ['06', '내 가격 확인', '#membership-inquiry']
+    ];
+    track.innerHTML = [...items, ...items]
+      .map(([no, label, href]) => `<a href="${href}"><strong>${no}</strong><span>${label}</span></a>`)
+      .join('');
+  }
+
   function init() {
+    restoreNav();
+
     const pain = document.querySelector('#price-pain');
     const bridge = document.querySelector('#price-bridge');
     const compare = document.querySelector('#price-compare');
@@ -123,6 +141,69 @@
       .af-reveal.af-pop{translate:0 18px;scale:.88}
       .af-reveal.af-visible{opacity:1!important;translate:0 0;scale:1}
 
+      #price-pain.af-live .mv2-mega{animation:afPricePulse 3.2s ease-in-out infinite}
+      #price-pain.af-live .mv2-save{animation:afSoftLift 4.2s ease-in-out .45s infinite}
+
+      #price-bridge.af-live .pb-price.old{animation:afOldPrice 6s ease-in-out infinite}
+      #price-bridge.af-live .pb-arrow{animation:afArrowMove 2.2s ease-in-out .45s infinite}
+      #price-bridge.af-live .pb-price.new{animation:afNewPrice 6s ease-in-out .9s infinite}
+      #price-bridge.af-live .pb-diff{animation:afDiffPulse 3.3s ease-in-out 1.2s infinite}
+
+      #price-compare.af-live .mv2-price:first-child{animation:afCompareLeft 6.4s ease-in-out infinite}
+      #price-compare.af-live .mv2-arrow{animation:afArrowMove 2.2s ease-in-out .35s infinite}
+      #price-compare.af-live .mv2-price.good{animation:afCompareRight 6.4s ease-in-out .75s infinite}
+      #price-compare.af-live .mv2-mega{animation:afDiffPulse 3.2s ease-in-out 1s infinite}
+
+      #same-cruise.af-live .mv2-title{animation:afSoftLift 4.4s ease-in-out infinite}
+      #same-cruise.af-live .mv2-four div{animation:afTileGlow 5.2s ease-in-out infinite}
+      #same-cruise.af-live .mv2-four div:nth-child(2){animation-delay:.42s}
+      #same-cruise.af-live .mv2-four div:nth-child(3){animation-delay:.84s}
+      #same-cruise.af-live .mv2-four div:nth-child(4){animation-delay:1.26s}
+
+      @keyframes afPricePulse{
+        0%,72%,100%{transform:scale(1)}
+        82%{transform:scale(1.055)}
+        90%{transform:scale(.992)}
+      }
+      @keyframes afSoftLift{
+        0%,68%,100%{transform:translateY(0)}
+        80%{transform:translateY(-7px)}
+      }
+      @keyframes afArrowMove{
+        0%,100%{transform:translateX(0);opacity:.62}
+        50%{transform:translateX(10px);opacity:1}
+      }
+      @keyframes afOldPrice{
+        0%,18%,100%{opacity:.92;transform:scale(1)}
+        30%,52%{opacity:.58;transform:scale(.985)}
+        68%{opacity:.9;transform:scale(1)}
+      }
+      @keyframes afNewPrice{
+        0%,24%,100%{transform:scale(1)}
+        38%{transform:scale(1.065)}
+        48%{transform:scale(1)}
+      }
+      @keyframes afDiffPulse{
+        0%,68%,100%{transform:scale(1);opacity:1}
+        80%{transform:scale(1.045);opacity:1}
+        88%{transform:scale(.994);opacity:.92}
+      }
+      @keyframes afCompareLeft{
+        0%,20%,100%{transform:translateX(0);opacity:1}
+        32%,46%{transform:translateX(-10px);opacity:.7}
+        62%{transform:translateX(0);opacity:1}
+      }
+      @keyframes afCompareRight{
+        0%,24%,100%{transform:translateX(0) scale(1)}
+        38%{transform:translateX(8px) scale(1.035)}
+        52%{transform:translateX(0) scale(1)}
+      }
+      @keyframes afTileGlow{
+        0%,62%,100%{background:transparent;transform:translateY(0)}
+        72%{background:rgba(159,192,255,.09);transform:translateY(-5px)}
+        82%{background:transparent;transform:translateY(0)}
+      }
+
       @media(max-width:780px){
         #price-pain{padding-top:118px!important;padding-bottom:118px!important}
         #price-bridge{padding-top:118px!important;padding-bottom:118px!important;min-height:620px!important}
@@ -135,6 +216,10 @@
       }
       @media(prefers-reduced-motion:reduce){
         .af-reveal{opacity:1!important;translate:0 0!important;scale:1!important;transition:none!important}
+        #price-pain.af-live .mv2-mega,#price-pain.af-live .mv2-save,
+        #price-bridge.af-live .pb-price.old,#price-bridge.af-live .pb-arrow,#price-bridge.af-live .pb-price.new,#price-bridge.af-live .pb-diff,
+        #price-compare.af-live .mv2-price,#price-compare.af-live .mv2-arrow,#price-compare.af-live .mv2-mega,
+        #same-cruise.af-live .mv2-title,#same-cruise.af-live .mv2-four div{animation:none!important}
       }
     `;
     document.head.appendChild(style);
@@ -174,19 +259,29 @@
     add(sameTitle, '', 110);
     same.querySelectorAll('.mv2-four div').forEach((el, index) => add(el, 'af-pop', 220 + index * 110));
 
+    const sections = [pain, bridge, compare, same].filter(Boolean);
+
     if (!('IntersectionObserver' in window)) {
       targets.forEach((el) => el.classList.add('af-visible'));
+      sections.forEach((el) => el.classList.add('af-live'));
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('af-visible');
-        observer.unobserve(entry.target);
+        revealObserver.unobserve(entry.target);
       });
     }, { threshold:.16, rootMargin:'0px 0px -8% 0px' });
-    targets.forEach((el) => observer.observe(el));
+    targets.forEach((el) => revealObserver.observe(el));
+
+    const loopObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('af-live', entry.isIntersecting);
+      });
+    }, { threshold:.28 });
+    sections.forEach((el) => loopObserver.observe(el));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once:true });
