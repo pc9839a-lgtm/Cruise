@@ -1,0 +1,362 @@
+/* Membership UX hotfix v1 — final readability/layout override */
+:root{
+  --ux-ink:#0b1730;
+  --ux-muted:#52657f;
+  --ux-blue:#245fc4;
+  --ux-sky:#8bd5ff;
+  --ux-navy:#07111f;
+  --ux-soft:#f4f7fb;
+  --ux-line:#d9e3ef;
+}
+
+html,body{max-width:100%;overflow-x:hidden}
+body{background:#fff;color:var(--ux-ink)}
+
+/* ---------- universal readable labels ---------- */
+.mv2-kicker,.mx-eyebrow,.section-kicker{
+  opacity:1!important;
+  text-shadow:none!important;
+}
+.mv2-section.light .mv2-kicker,
+.mv2-section.soft .mv2-kicker,
+.mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-eyebrow{
+  background:#eaf1fb!important;
+  color:#214b83!important;
+  border:1px solid #d7e3f1!important;
+}
+.mv2-section.dark .mv2-kicker,
+.mv2-section.blue .mv2-kicker,
+.mx-dark .mx-eyebrow,
+.mx-blue .mx-eyebrow{
+  background:rgba(255,255,255,.12)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.2)!important;
+}
+
+/* ---------- chapter openers ---------- */
+.mx-chapter{
+  min-height:0!important;
+  padding:clamp(88px,8vw,128px) 0!important;
+  background:var(--ux-navy)!important;
+  color:#fff!important;
+}
+.mx-chapter-grid{
+  grid-template-columns:minmax(120px,170px) minmax(0,1fr)!important;
+  gap:clamp(34px,5vw,72px)!important;
+  width:min(1040px,calc(100% - 64px))!important;
+}
+.mx-chapter-no{
+  font-size:clamp(104px,12vw,168px)!important;
+  line-height:.78!important;
+  color:rgba(139,213,255,.2)!important;
+  letter-spacing:-.08em!important;
+}
+.mx-chapter-copy{min-width:0!important}
+.mx-chapter-copy small{
+  color:#a9dcff!important;
+  font-size:15px!important;
+  line-height:1.3!important;
+  letter-spacing:.12em!important;
+}
+.mx-chapter-copy h2{
+  max-width:820px!important;
+  margin-top:14px!important;
+  color:#fff!important;
+  font-size:clamp(50px,6vw,78px)!important;
+  line-height:1.02!important;
+  letter-spacing:-.065em!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+.mx-chapter-copy h2 strong{color:var(--ux-sky)!important}
+.mx-chapter-copy p{display:none!important}
+.mx-chapter-index{margin-top:24px!important;color:rgba(255,255,255,.68)!important}
+
+/* ---------- expansion section rhythm ---------- */
+.mx-expand-section{
+  padding:clamp(88px,8vw,128px) 0!important;
+}
+.mx-inner{width:min(1040px,calc(100% - 56px))!important}
+.mx-title{
+  max-width:920px!important;
+  font-size:clamp(44px,5.4vw,70px)!important;
+  line-height:1.04!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+.mx-sub{color:var(--ux-muted)!important}
+.mx-dark .mx-sub,.mx-blue .mx-sub{color:rgba(255,255,255,.78)!important}
+
+/* ---------- price pain ---------- */
+#price-story-band{background:#fff!important;color:var(--ux-ink)!important}
+#price-pain{
+  padding:clamp(84px,8vw,120px) 0!important;
+  background:#fff!important;
+  color:var(--ux-ink)!important;
+}
+#price-pain .mv2-inner{width:min(980px,calc(100% - 56px))!important}
+#price-pain .mv2-kicker{
+  background:#eaf1fb!important;
+  color:#214b83!important;
+  border:1px solid #d7e3f1!important;
+  font-size:16px!important;
+  font-weight:850!important;
+}
+#price-pain .mv2-title{
+  margin-top:16px!important;
+  color:var(--ux-ink)!important;
+  font-size:clamp(42px,5vw,64px)!important;
+  line-height:1.04!important;
+}
+#price-pain .mv2-title strong{color:var(--ux-ink)!important}
+#price-pain .mv2-mega{
+  margin-top:28px!important;
+  color:var(--ux-ink)!important;
+  font-size:clamp(88px,10vw,140px)!important;
+  line-height:.9!important;
+}
+#price-pain .mv2-save{
+  margin-top:22px!important;
+  color:var(--ux-muted)!important;
+  font-size:20px!important;
+}
+#price-pain .mv2-save strong{color:var(--ux-muted)!important}
+
+/* ---------- price visual ---------- */
+#m2-price-story{
+  width:100%!important;
+  max-width:1040px!important;
+  padding:34px!important;
+  border:1px solid var(--ux-line)!important;
+  border-radius:28px!important;
+  box-shadow:none!important;
+}
+#m2-price-story .m2-visual-head{margin-bottom:28px!important}
+#m2-price-story .m2-visual-head span{color:var(--ux-muted)!important;font-size:16px!important}
+#m2-price-story .m2-visual-head strong{
+  color:var(--ux-ink)!important;
+  font-size:clamp(42px,5vw,64px)!important;
+  line-height:1!important;
+}
+.m2-price-total{padding-bottom:20px!important}
+.m2-price-total span{color:var(--ux-muted)!important;font-size:18px!important}
+.m2-price-total strong{color:var(--ux-ink)!important}
+.m2-price-bar{min-height:146px!important;border-radius:22px!important}
+.m2-price-core{background:#1f4b87!important}
+.m2-price-extra{background:#dbe8fb!important;color:#173f73!important}
+.m2-price-core span,.m2-price-extra span{font-size:16px!important;opacity:.9!important}
+.m2-service-tags span{
+  background:#eaf1fb!important;
+  color:#1f4f8d!important;
+  font-size:14px!important;
+  border:1px solid #dce6f3!important;
+}
+.m2-price-conclusion{
+  display:block!important;
+  grid-template-columns:none!important;
+  width:100%!important;
+  margin-top:26px!important;
+  padding-top:24px!important;
+  text-align:center!important;
+}
+.m2-price-conclusion strong{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  color:var(--ux-ink)!important;
+  font-size:clamp(32px,4vw,48px)!important;
+  line-height:1.08!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  white-space:normal!important;
+}
+
+/* ---------- generic white card contrast ---------- */
+.mx-card,.mx-hotel-point,.mx-speed-card,.mx-fit-box,.mx-recap-card,
+.m2-price-story,.m2-point-timeline,.m2-plan-chooser{
+  color:var(--ux-ink)!important;
+}
+.mx-card strong,.mx-hotel-point strong,.mx-speed-card h3,.mx-fit-box h3,.mx-recap-card strong{
+  color:var(--ux-ink)!important;
+}
+.mx-card span,.mx-speed-card p,.mx-recap-card span,.mx-fit-item span{
+  color:var(--ux-muted)!important;
+}
+
+/* ---------- same cruise ---------- */
+#same-cruise{
+  background:var(--ux-navy)!important;
+  color:#fff!important;
+  padding:clamp(88px,8vw,124px) 0!important;
+}
+#same-cruise .mv2-title,#same-cruise .mv2-title strong{color:#fff!important}
+#same-cruise .mv2-kicker{color:#fff!important;background:rgba(255,255,255,.12)!important}
+#same-cruise .mv2-four{border-color:rgba(255,255,255,.22)!important}
+#same-cruise .mv2-four div{color:#fff!important;font-size:clamp(23px,2.5vw,32px)!important}
+
+/* ---------- guide / mid flow ---------- */
+#guide-question{color:#fff!important}
+#guide-question .mv2-title,#guide-question .mv2-title strong{color:#fff!important}
+#guide-question .guide-worry span,
+#guide-question .mv2-step span strong{color:#fff!important}
+#guide-question .guide-worry,
+#guide-question .mv2-step{opacity:1!important}
+#guide-question .guide-worry span em,
+#guide-question .mv2-step span em{color:rgba(255,255,255,.72)!important}
+
+#membership-point,#points-by-time{color:#fff!important}
+#membership-point .mv2-title,#membership-point .mv2-title strong,
+#points-by-time .mv2-title,#points-by-time .mv2-title strong{color:#fff!important}
+#membership-point .mv2-sub{color:rgba(255,255,255,.8)!important}
+#points-by-time .mv2-row span{color:rgba(255,255,255,.74)!important}
+#points-by-time .mv2-row strong{color:#fff!important}
+#points-by-time .mv2-row.total strong{color:var(--ux-sky)!important}
+
+/* ---------- moving hotel ---------- */
+.mx-hotel-layout{gap:22px!important}
+.mx-hotel-visual{min-height:500px!important}
+.mx-hotel-point{min-height:220px!important;border-color:var(--ux-line)!important}
+.mx-hotel-point b{color:var(--ux-blue)!important}
+.m2-hotel-route{background:var(--ux-navy)!important}
+.m2-route-title span{color:rgba(255,255,255,.7)!important}
+.m2-route-title strong{color:#fff!important}
+.m2-route-title.cruise strong{color:var(--ux-sky)!important}
+.m2-node{color:#fff!important}
+.m2-node span{color:rgba(255,255,255,.7)!important}
+
+/* ---------- point visual ---------- */
+.m2-point-timeline{border-color:var(--ux-line)!important;box-shadow:none!important}
+.m2-time-point b{color:var(--ux-muted)!important}
+.m2-time-point strong{color:var(--ux-ink)!important}
+.m2-point-bubble{background:#eaf1ff!important;color:#1f4f92!important}
+.m2-trip-card{background:var(--ux-navy)!important;color:#fff!important}
+
+/* ---------- use rules / payment ---------- */
+#mx-use-rules{background:var(--ux-navy)!important;color:#fff!important}
+#mx-use-rules .mx-title{color:#fff!important}
+#mx-use-rules .mx-title strong{color:var(--ux-sky)!important}
+.mx-dual-card{border-color:rgba(255,255,255,.2)!important;background:rgba(255,255,255,.055)!important}
+.mx-dual-card .mx-mini{color:rgba(255,255,255,.7)!important}
+.mx-dual-card h3{color:#fff!important}
+.mx-dual-card h3 strong{color:var(--ux-sky)!important}
+.m2-pay-caption strong{color:#fff!important}
+.m2-pay-caption span{color:rgba(255,255,255,.74)!important}
+
+/* ---------- plans ---------- */
+#mx-plan-guide{background:var(--ux-soft)!important}
+.mx-speed-card{border-color:var(--ux-line)!important;box-shadow:none!important}
+.mx-speed-card b{color:var(--ux-blue)!important}
+.mx-speed-number span{color:var(--ux-muted)!important}
+.mx-speed-number strong{color:var(--ux-blue)!important}
+.m2-choice-question{color:var(--ux-ink)!important}
+.m2-choice-buttons button{color:var(--ux-ink)!important;background:#f7f9fc!important}
+.m2-choice-buttons button span{color:var(--ux-muted)!important}
+.m2-choice-buttons button.active{background:#1d4c86!important;color:#fff!important}
+.m2-choice-buttons button.active span{color:rgba(255,255,255,.78)!important}
+.m2-choice-result span{color:var(--ux-muted)!important}
+.m2-choice-result strong{color:var(--ux-blue)!important}
+
+/* ---------- fit / FAQ / recap ---------- */
+#mx-fit-check{background:#fff!important;color:var(--ux-ink)!important}
+#mx-fit-check .mx-title{color:var(--ux-ink)!important}
+.mx-fit-item span{font-size:20px!important;line-height:1.35!important}
+#mx-faq-section{background:var(--ux-navy)!important;color:#fff!important}
+#mx-faq-section .mx-title{color:#fff!important}
+#mx-faq-section .mx-title strong{color:var(--ux-sky)!important}
+.mx-faq-q span{color:#fff!important}
+.mx-faq-a p{color:rgba(255,255,255,.78)!important}
+#mx-recap{background:var(--ux-soft)!important}
+#mx-recap .mx-title{color:var(--ux-ink)!important}
+.mx-recap-card{min-height:220px!important;border-color:var(--ux-line)!important;box-shadow:none!important}
+
+/* ---------- current calculator/plans/terms ---------- */
+#real-cost,#calculator,#plans,#membership-terms{color:#fff!important}
+#real-cost .mv2-title,#calculator .section-head h2,#plans .membership-section-head h2,#membership-terms .mv2-title{color:#fff!important}
+#calculator .result-box span,#calculator .result-box em,#calculator .result-box small,
+#plans .plan-mini-label,#membership-terms .mv2-term span{opacity:1!important}
+#calculator .result-box span,#plans .plan-mini-label{color:rgba(255,255,255,.72)!important}
+#calculator .result-box em,#calculator .result-box small{color:rgba(255,255,255,.64)!important}
+#membership-terms .mv2-term span{color:rgba(255,255,255,.82)!important}
+
+/* ---------- final ---------- */
+.mx-final{padding:clamp(90px,9vw,140px) 0!important;background:#fff!important;color:var(--ux-ink)!important}
+.mx-final h2{color:var(--ux-ink)!important;word-break:keep-all!important}
+.mx-final h2 strong{color:var(--ux-blue)!important}
+.mx-action{background:var(--ux-ink)!important;color:#fff!important}
+
+/* ---------- desktop anti-wrap rules ---------- */
+@media(min-width:781px){
+  .m2-price-conclusion strong br{display:none!important}
+  #price-pain .mv2-title br{display:none!important}
+  .mx-chapter-copy h2 br{display:block}
+  .mx-card-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
+  .mx-card{min-width:0!important;padding:25px 20px!important}
+  .mx-card strong{font-size:clamp(25px,2.35vw,32px)!important;word-break:keep-all!important}
+}
+
+/* ---------- mobile ---------- */
+@media(max-width:780px){
+  .mx-inner,#price-pain .mv2-inner{width:min(100% - 28px,680px)!important}
+  .mx-chapter{padding:76px 0 82px!important}
+  .mx-chapter-grid{width:min(100% - 30px,680px)!important;grid-template-columns:1fr!important;gap:20px!important}
+  .mx-chapter-no{font-size:78px!important;line-height:.8!important}
+  .mx-chapter-copy small{font-size:12px!important;margin-bottom:10px!important}
+  .mx-chapter-copy h2{font-size:clamp(40px,11vw,52px)!important;line-height:1.02!important;margin-top:8px!important}
+  .mx-chapter-index{margin-top:18px!important}
+
+  .mx-expand-section{padding:76px 0!important}
+  .mx-title{font-size:clamp(38px,10vw,48px)!important;line-height:1.05!important}
+  .mx-eyebrow,.mv2-kicker{font-size:14px!important;min-height:36px!important;padding:0 14px!important}
+
+  #price-pain{padding:74px 0 82px!important}
+  #price-pain .mv2-title{font-size:40px!important}
+  #price-pain .mv2-mega{font-size:clamp(78px,22vw,104px)!important;margin-top:24px!important}
+  #price-pain .mv2-save{font-size:17px!important}
+
+  #m2-price-story{padding:20px 14px!important;border-radius:20px!important}
+  #m2-price-story .m2-visual-head strong{font-size:38px!important}
+  .m2-price-total{text-align:center!important}
+  .m2-price-total span{font-size:15px!important}
+  .m2-price-total strong{font-size:64px!important}
+  .m2-price-bar{grid-template-columns:1fr!important;min-height:0!important}
+  .m2-price-core,.m2-price-extra{min-height:108px!important;align-items:center!important;text-align:center!important;padding:20px 14px!important}
+  .m2-price-extra{transform:none!important}
+  .m2-service-tags{justify-content:center!important}
+  .m2-price-conclusion{padding-top:20px!important}
+  .m2-price-conclusion strong{font-size:32px!important;line-height:1.08!important}
+
+  .mx-card-grid{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mx-card{min-height:126px!important;padding:18px 14px!important;border-radius:18px!important}
+  .mx-card strong{margin-top:14px!important;font-size:22px!important}
+  .mx-card span{display:none!important}
+
+  .mx-hotel-layout{grid-template-columns:1fr!important;gap:12px!important}
+  .mx-hotel-visual{min-height:380px!important;border-radius:22px!important}
+  .mx-hotel-points{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mx-hotel-point{min-height:126px!important;padding:18px 14px!important;border-radius:18px!important}
+  .mx-hotel-point strong{font-size:24px!important}
+
+  .m2-route-title strong{font-size:22px!important}
+  .m2-route-line{grid-template-columns:1fr!important}
+  .m2-route-line i{transform:rotate(90deg)}
+
+  .m2-timeline-points{gap:4px!important}
+  .m2-time-point b{font-size:13px!important}
+  .m2-time-point strong{font-size:29px!important}
+  .m2-point-to-trip{grid-template-columns:1fr!important}
+
+  .mx-dual,.mx-speed-grid,.mx-fit-grid{grid-template-columns:1fr!important}
+  .mx-dual-card,.mx-speed-card,.mx-fit-box{padding:24px 18px!important;border-radius:22px!important;min-height:0!important}
+  .mx-dual-card h3{font-size:38px!important}
+  .mx-equation{font-size:42px!important}
+
+  .m2-pay-pipes{grid-template-columns:1fr!important}
+  .m2-pay-pipe{width:6px!important;height:38px!important;margin:auto!important}
+  .m2-choice-buttons{grid-template-columns:1fr!important}
+
+  .mx-recap-grid{grid-template-columns:1fr!important;gap:10px!important}
+  .mx-recap-card{min-height:150px!important}
+  .mx-faq-q{min-height:76px!important}
+  .mx-faq-q span{font-size:20px!important}
+  .mx-faq-a p{font-size:18px!important;padding-right:8px!important}
+}
