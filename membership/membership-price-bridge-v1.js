@@ -22,7 +22,9 @@
             <strong>120만원</strong>
           </div>
         </div>
-        <div class="pb-diff"><span>1인</span><strong>80만원 차이</strong></div>
+        <div class="pb-diff">
+          <strong style="font-size:clamp(38px,4.7vw,68px);line-height:1.05;letter-spacing:-.06em;word-break:keep-all;">1인 80만원 · 둘이 160만원 차이</strong>
+        </div>
       </div>
     `;
 
