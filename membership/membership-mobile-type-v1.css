@@ -1,0 +1,53 @@
+@media(max-width:780px){
+  html,body,button,input,select,textarea,
+  .sticky-menu-bar,.hero-nav-track,.mv2-section,.mv2-inner,.pb-inner,
+  .mx-chapter,.mx-expand-section,.mx-inner,.m3-section,.m3-inner,
+  .calculator-card,.plan-card{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+    font-synthesis:none!important;
+  }
+
+  h1,h2,h3,h4,
+  .mv2-title,.pb-direct,.mx-title,.mx-chapter-copy h2,.m3-section h2,
+  #calculator .section-head h2,#plans .membership-section-head h2{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+    font-weight:900!important;
+    letter-spacing:-.05em!important;
+  }
+
+  .mv2-kicker,.mx-eyebrow,.m3-kicker,
+  #price-bridge .pb-lead,#price-bridge .pb-price span,#price-bridge .pb-diff span,
+  .mx-chapter-copy small,.calculator-head,.mode-btn,
+  .plan-tag,.plan-mini-label,.m3-cases b,.m3-steps b,.m3-four b{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+    font-weight:800!important;
+    letter-spacing:-.025em!important;
+  }
+
+  #price-bridge .pb-direct,#price-bridge .pb-direct strong{
+    font-weight:900!important;
+  }
+
+  #price-pain .mv2-mega,
+  #price-bridge .pb-price strong,
+  #price-bridge .pb-diff strong,
+  #membership-point .mv2-title,
+  #points-by-time .mv2-title strong,
+  #real-cost .mv2-paybox strong,
+  #calculator .result-box strong,
+  #plans .plan-price,
+  #plans .plan-feature strong,
+  .mx-count-big,
+  .m3-result strong{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+    font-weight:900!important;
+    letter-spacing:-.055em!important;
+  }
+
+  #price-bridge .pb-direct{font-size:30px!important;line-height:1.12!important}
+  #price-bridge .pb-lead{font-size:15px!important}
+  #price-bridge .pb-price span{font-size:14px!important}
+  #price-bridge .pb-price.old strong{font-size:44px!important}
+  #price-bridge .pb-price.new strong{font-size:56px!important}
+  #price-bridge .pb-diff strong{font-size:40px!important}
+}
