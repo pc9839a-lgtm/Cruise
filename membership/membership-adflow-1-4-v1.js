@@ -4,6 +4,22 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+  function wrapPriceBand() {
+    if ($('#price-story-band')) return $('#price-story-band');
+
+    const pain = $('#price-pain');
+    const bridge = $('#price-bridge');
+    const compare = $('#price-compare');
+    const same = $('#same-cruise');
+    if (!pain || !bridge || !compare || !same) return null;
+
+    const band = document.createElement('div');
+    band.id = 'price-story-band';
+    pain.parentNode.insertBefore(band, pain);
+    band.append(pain, bridge, compare, same);
+    return band;
+  }
+
   function applyCopy() {
     const pain = $('#price-pain');
     const bridge = $('#price-bridge');
@@ -18,7 +34,7 @@
     if (painKicker) painKicker.textContent = '4박 5일 아시아 크루즈';
     if (painTitle) painTitle.innerHTML = '<strong>둘이 가면</strong>';
     if (painMega) painMega.textContent = '400만원';
-    if (painSave) painSave.innerHTML = '<strong>1인 200만원 × 2명</strong>';
+    if (painSave) painSave.innerHTML = '<strong>2명 기준</strong>';
 
     const sameKicker = $('.mv2-kicker', same);
     const sameTitle = $('.mv2-title', same);
@@ -56,7 +72,7 @@
     if (!pain || !bridge || !same) return;
 
     const mobile = window.matchMedia('(max-width: 780px)').matches;
-    const enterY = mobile ? 24 : 36;
+    const enterY = mobile ? 22 : 34;
 
     const makeEntrance = (section, targets, options = {}) => {
       const els = targets.filter(Boolean);
@@ -65,24 +81,24 @@
       gsap.from(els, {
         scrollTrigger: { trigger: section, start: 'top 78%', once: true },
         y: options.y ?? enterY,
-        scale: options.scale ?? .98,
+        scale: options.scale ?? .985,
         opacity: 0,
-        duration: mobile ? .58 : .76,
-        stagger: mobile ? .06 : .09,
+        duration: mobile ? .56 : .72,
+        stagger: mobile ? .055 : .085,
         ease: 'power3.out',
         clearProps: 'transform,opacity'
       });
     };
 
-    makeEntrance(pain, [$('.mv2-kicker', pain), $('.mv2-title', pain), $('.mv2-mega', pain), $('.mv2-save', pain)], { scale: .96 });
-    makeEntrance(bridge, [$('.pb-lead', bridge), $('.pb-direct', bridge), $('.pb-pair', bridge), $('.pb-diff', bridge)], { scale: .97 });
-    makeEntrance(same, [$('.mv2-kicker', same), $('.mv2-title', same), ...$$('.mv2-four div', same)], { scale: .97 });
+    makeEntrance(pain, [$('.mv2-kicker', pain), $('.mv2-title', pain), $('.mv2-mega', pain), $('.mv2-save', pain)], { scale: .97 });
+    makeEntrance(bridge, [$('.pb-lead', bridge), $('.pb-direct', bridge), $('.pb-pair', bridge), $('.pb-diff', bridge)], { scale: .975 });
+    makeEntrance(same, [$('.mv2-kicker', same), $('.mv2-title', same), ...$$('.mv2-four div', same)], { scale: .98 });
 
     const painMega = $('.mv2-mega', pain);
-    const painLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.5 })
-      .to(painMega, { scale: mobile ? 1.022 : 1.04, y: mobile ? -2 : -5, duration: .44, ease: 'power2.out' })
-      .to(painMega, { scale: 1, y: 0, duration: .66, ease: 'expo.out' })
-      .to({}, { duration: 1.3 });
+    const painLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.6 })
+      .to(painMega, { scale: mobile ? 1.018 : 1.034, y: mobile ? -2 : -4, duration: .42, ease: 'power2.out' })
+      .to(painMega, { scale: 1, y: 0, duration: .64, ease: 'expo.out' })
+      .to({}, { duration: 1.35 });
 
     const direct = $('.pb-direct', bridge);
     const oldPrice = $('.pb-price.old', bridge);
@@ -92,37 +108,37 @@
     const newPrice = $('.pb-price.new', bridge);
     const diff = $('.pb-diff', bridge);
 
-    const bridgeLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.25 })
+    const bridgeLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.35 })
       .set([direct, oldPrice, bridgeArrow, newPrice, diff], { clearProps: 'transform,opacity' })
       .set(strike, { scaleX: 0 })
-      .to(direct, { scale: mobile ? 1.01 : 1.02, duration: .32, ease: 'power2.out' })
-      .to(direct, { scale: 1, duration: .42, ease: 'expo.out' })
-      .fromTo(oldPrice, { opacity: .38 }, { opacity: 1, duration: .5, ease: 'power2.out' }, '-=.08')
-      .to(strike, { scaleX: 1, duration: .48, ease: 'power3.inOut' }, '+=.12')
-      .to(oldStrong, { opacity: .42, duration: .35, ease: 'power2.out' }, '<')
-      .fromTo(bridgeArrow, { opacity: 0, x: mobile ? -5 : -14 }, { opacity: 1, x: mobile ? 4 : 10, duration: .46, ease: 'expo.out' }, '-=.1')
-      .fromTo(newPrice, { opacity: 0, scale: .9 }, { opacity: 1, scale: mobile ? 1.025 : 1.05, duration: .52, ease: 'back.out(1.35)' }, '-=.2')
-      .to(newPrice, { scale: 1, duration: .32, ease: 'power2.out' })
-      .fromTo(diff, { opacity: 0, y: mobile ? 16 : 26, scale: .94 }, { opacity: 1, y: 0, scale: 1, duration: .54, ease: 'expo.out' }, '-=.12')
-      .to(diff, { scale: mobile ? 1.012 : 1.025, duration: .26, ease: 'power2.out' })
-      .to(diff, { scale: 1, duration: .38, ease: 'power2.inOut' })
-      .to({}, { duration: 1.4 });
+      .to(direct, { scale: mobile ? 1.008 : 1.016, duration: .3, ease: 'power2.out' })
+      .to(direct, { scale: 1, duration: .4, ease: 'expo.out' })
+      .fromTo(oldPrice, { opacity: .34 }, { opacity: 1, duration: .48, ease: 'power2.out' }, '-=.06')
+      .to(strike, { scaleX: 1, duration: .46, ease: 'power3.inOut' }, '+=.12')
+      .to(oldStrong, { opacity: .4, duration: .34, ease: 'power2.out' }, '<')
+      .fromTo(bridgeArrow, { opacity: 0, x: mobile ? -4 : -12 }, { opacity: 1, x: mobile ? 3 : 8, duration: .44, ease: 'expo.out' }, '-=.1')
+      .fromTo(newPrice, { opacity: 0, scale: .92 }, { opacity: 1, scale: mobile ? 1.02 : 1.045, duration: .5, ease: 'back.out(1.3)' }, '-=.18')
+      .to(newPrice, { scale: 1, duration: .3, ease: 'power2.out' })
+      .fromTo(diff, { opacity: 0, y: mobile ? 14 : 22, scale: .95 }, { opacity: 1, y: 0, scale: 1, duration: .52, ease: 'expo.out' }, '-=.1')
+      .to(diff, { scale: mobile ? 1.01 : 1.022, duration: .25, ease: 'power2.out' })
+      .to(diff, { scale: 1, duration: .36, ease: 'power2.inOut' })
+      .to({}, { duration: 1.5 });
 
     const sameTitle = $('.mv2-title', same);
     const sameItems = $$('.mv2-four div', same);
-    const sameLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.6 })
-      .to(sameTitle, { y: mobile ? -2 : -4, scale: mobile ? 1.008 : 1.018, duration: .42, ease: 'power2.out' })
-      .to(sameTitle, { y: 0, scale: 1, duration: .52, ease: 'expo.out' });
+    const sameLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.7 })
+      .to(sameTitle, { y: mobile ? -2 : -3, scale: mobile ? 1.006 : 1.014, duration: .4, ease: 'power2.out' })
+      .to(sameTitle, { y: 0, scale: 1, duration: .5, ease: 'expo.out' });
 
     sameItems.forEach((item, index) => {
       sameLoop
         .fromTo(item,
-          { y: mobile ? 4 : 8, opacity: .6, backgroundColor: 'rgba(133,210,255,0)' },
-          { y: mobile ? -2 : -4, opacity: 1, backgroundColor: 'rgba(133,210,255,.10)', duration: .38, ease: 'power3.out' },
-          index === 0 ? '-=.12' : '-=.16')
-        .to(item, { y: 0, backgroundColor: 'rgba(133,210,255,0)', duration: .46, ease: 'power2.inOut' });
+          { y: mobile ? 3 : 7, opacity: .62, backgroundColor: 'rgba(133,210,255,0)' },
+          { y: mobile ? -1 : -3, opacity: 1, backgroundColor: 'rgba(133,210,255,.08)', duration: .36, ease: 'power3.out' },
+          index === 0 ? '-=.1' : '-=.15')
+        .to(item, { y: 0, backgroundColor: 'rgba(133,210,255,0)', duration: .44, ease: 'power2.inOut' });
     });
-    sameLoop.to({}, { duration: 1.3 });
+    sameLoop.to({}, { duration: 1.35 });
 
     const bindLoop = (section, timeline) => {
       ScrollTrigger.create({
@@ -142,6 +158,7 @@
   }
 
   function init() {
+    if (!wrapPriceBand()) return;
     if (!applyCopy()) return;
     addStrike();
     initMotion();
