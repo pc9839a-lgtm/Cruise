@@ -1,0 +1,59 @@
+#m3-savings-use,#m3-booking,#m3-cases,#m3-selector{font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.m3-section{padding:88px 0}
+.m3-inner{width:min(1040px,calc(100% - 48px));margin:0 auto}
+.m3-light{background:#fff;color:#0b1730}
+.m3-soft{background:#f4f7fb;color:#0b1730}
+.m3-dark{background:#07111f;color:#fff}
+.m3-kicker{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:900;letter-spacing:-.02em;background:#eaf1fb;color:#214b83;border:1px solid #d7e3f1}
+.m3-dark .m3-kicker{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2)}
+.m3-section h2{margin:18px 0 34px;font-size:52px;line-height:1;letter-spacing:-.055em;font-weight:950;word-break:keep-all}
+.m3-section h2 strong{color:#2868d7}
+.m3-dark h2,.m3-dark h2 strong{color:#fff}
+.m3-four{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.m3-four>div,.m3-steps>div{min-height:148px;padding:22px;border:1px solid #dbe4ef;border-radius:22px;background:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.m3-four b,.m3-steps b,.m3-cases b{font-size:13px;color:#2868d7;font-weight:950}
+.m3-four strong,.m3-steps strong{font-size:24px;line-height:1.1;color:#0b1730;word-break:keep-all}
+.m3-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.m3-dark .m3-steps>div{background:#0f1b2d;border-color:rgba(255,255,255,.14)}
+.m3-dark .m3-steps b{color:#72d0ff}
+.m3-dark .m3-steps strong{color:#fff}
+.m3-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.m3-cases article{min-height:210px;padding:26px;border:1px solid #dbe4ef;border-radius:24px;background:#fff;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.m3-cases article strong{font-size:28px;line-height:1.08;color:#0b1730;word-break:keep-all}
+.m3-cases article span{font-size:20px;font-weight:950;color:#2868d7}
+.m3-select-block{display:grid;grid-template-columns:90px 1fr;align-items:center;gap:18px;padding:22px 0;border-top:1px solid #dbe4ef}
+.m3-select-block>b{font-size:18px;color:#0b1730}
+.m3-buttons{display:flex;flex-wrap:wrap;gap:10px}
+.m3-buttons button{min-height:50px;padding:0 20px;border:1px solid #dbe4ef;border-radius:15px;background:#fff;color:#0b1730;font-size:16px;font-weight:900;cursor:pointer}
+.m3-buttons button.active{background:#2868d7;border-color:#2868d7;color:#fff}
+.m3-result{margin-top:10px;padding:24px;border-radius:22px;background:#07111f;color:#fff;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}
+.m3-result span{font-size:14px;color:rgba(255,255,255,.7);font-weight:850}
+.m3-result strong{font-size:30px;line-height:1;color:#72d0ff}
+.m3-result button{min-height:50px;padding:0 18px;border:0;border-radius:14px;background:#fff;color:#0b1730;font-weight:900;cursor:pointer}
+#same-cruise .mv2-four>div b{display:block;margin-bottom:8px;color:#72d0ff;font-size:12px;font-weight:950;letter-spacing:.08em}
+#same-cruise .mv2-four>div span{display:block;color:inherit;font-size:inherit;font-weight:900}
+@media(max-width:780px){
+  .m3-section{padding:54px 0}
+  .m3-inner{width:calc(100% - 36px)}
+  .m3-kicker{min-height:32px;padding:0 12px;font-size:13px}
+  .m3-section h2{margin:14px 0 26px;font-size:34px;line-height:1.04}
+  .m3-four{grid-template-columns:1fr 1fr;gap:10px}
+  .m3-four>div{min-height:104px;padding:16px;border-radius:18px}
+  .m3-four strong{font-size:19px}
+  .m3-steps{grid-template-columns:1fr;gap:8px}
+  .m3-steps>div{min-height:68px;padding:14px 16px;border-radius:16px;flex-direction:row;align-items:center;justify-content:flex-start;gap:18px}
+  .m3-steps b{flex:0 0 32px}
+  .m3-steps strong{font-size:20px}
+  .m3-cases{grid-template-columns:1fr;gap:10px}
+  .m3-cases article{min-height:104px;padding:18px 20px;border-radius:18px;gap:8px}
+  .m3-cases article strong{font-size:23px}
+  .m3-cases article span{font-size:17px}
+  .m3-select-block{grid-template-columns:1fr;gap:10px;padding:18px 0}
+  .m3-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .m3-select-block[data-select='freq'] .m3-buttons{grid-template-columns:1fr 1fr}
+  .m3-buttons button{min-height:48px;padding:0 8px;font-size:14px}
+  .m3-result{grid-template-columns:1fr auto;padding:18px;border-radius:18px;gap:8px 12px}
+  .m3-result span{grid-column:1/-1}
+  .m3-result strong{font-size:24px}
+  .m3-result button{min-height:46px}
+}
