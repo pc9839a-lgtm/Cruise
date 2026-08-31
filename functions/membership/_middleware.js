@@ -23,7 +23,7 @@ export async function onRequest(context) {
   const mobileStyles =
     '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260901-2">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-1">' +
+    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-1">';
 
   const desktopStyles =
@@ -35,7 +35,7 @@ export async function onRequest(context) {
     '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-1">';
+    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-2">';
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
 
