@@ -1,0 +1,41 @@
+@media(max-width:780px){
+  #cms-survey-v2{background:#f7f9fc!important;color:#0b1730!important}
+  #cms-survey-v2 .cms2-shell{width:calc(100% - 28px)!important;max-width:430px!important;min-height:100dvh!important;padding:14px 0 18px!important}
+  #cms-survey-v2 .cms2-top{margin:0 0 8px!important;gap:10px!important}
+  #cms-survey-v2 .cms2-brand{font-size:12px!important;line-height:1!important;font-weight:850!important;letter-spacing:-.02em!important;color:#2b568f!important}
+  #cms-survey-v2 .cms2-count{font-size:12px!important;line-height:1!important;font-weight:800!important;color:#75839a!important}
+  #cms-survey-v2 .cms2-progress{height:3px!important;border-radius:99px!important;background:#e3eaf4!important}
+  #cms-survey-v2 .cms2-progress span{background:#2868d7!important}
+
+  #cms-survey-v2 .cms2-panel{align-items:flex-start!important;justify-content:center!important;padding:clamp(34px,8vh,66px) 0 8px!important}
+  #cms-survey-v2 .cms2-card,#cms-survey-v2 .cms2-result{width:100%!important;max-width:400px!important;margin:0 auto!important}
+
+  #cms-survey-v2 .cms2-title{max-width:330px!important;margin:0 auto 20px!important;font-size:27px!important;line-height:1.12!important;letter-spacing:-.045em!important;font-weight:850!important;text-align:center!important;word-break:keep-all!important}
+
+  #cms-survey-v2 .cms2-options{width:100%!important;max-width:400px!important;grid-template-columns:1fr!important;gap:8px!important}
+  #cms-survey-v2 .cms2-option{min-height:68px!important;padding:11px 14px!important;border-radius:16px!important;border:1px solid #dfe6ef!important;background:#fff!important;box-shadow:0 6px 18px rgba(24,45,84,.045)!important;display:grid!important;grid-template-columns:34px 1fr!important;align-items:center!important;justify-items:start!important;gap:10px!important;text-align:left!important}
+  #cms-survey-v2 .cms2-option:hover,#cms-survey-v2 .cms2-option:focus-visible{transform:none!important;box-shadow:0 8px 22px rgba(24,45,84,.07)!important}
+  #cms-survey-v2 .cms2-option:active{transform:scale(.985)!important;background:#f5f8fd!important}
+  #cms-survey-v2 .cms2-icon{width:34px!important;font-size:22px!important;line-height:1!important;text-align:center!important}
+  #cms-survey-v2 .cms2-option strong{font-size:16px!important;line-height:1.2!important;letter-spacing:-.025em!important;font-weight:800!important;word-break:keep-all!important}
+
+  #cms-survey-v2 .cms2-back{margin:10px auto 0!important;padding:8px 14px!important;font-size:12px!important;font-weight:750!important;color:#78869a!important}
+
+  #cms-survey-v2 .cms2-price{max-width:400px!important;margin:0 auto 12px!important;padding:17px 14px!important;border-radius:18px!important;box-shadow:0 10px 26px rgba(40,104,215,.14)!important}
+  #cms-survey-v2 .cms2-price strong{font-size:39px!important;line-height:1!important;letter-spacing:-.06em!important;font-weight:900!important;white-space:nowrap!important}
+  #cms-survey-v2 .cms2-price span{margin-top:5px!important;font-size:14px!important;line-height:1.2!important;font-weight:800!important}
+
+  #cms-survey-v2 .cms2-result h1{max-width:330px!important;margin:0 auto!important;font-size:27px!important;line-height:1.12!important;letter-spacing:-.045em!important;font-weight:850!important;word-break:keep-all!important}
+  #cms-survey-v2 .cms2-result p{max-width:340px!important;margin:9px auto 0!important;font-size:14px!important;line-height:1.42!important;font-weight:650!important;color:#6f7d91!important;word-break:keep-all!important}
+  #cms-survey-v2 .cms2-primary{width:100%!important;max-width:400px!important;min-height:50px!important;margin:16px auto 0!important;padding:0 18px!important;border-radius:14px!important;font-size:16px!important;font-weight:850!important;box-shadow:0 8px 20px rgba(40,104,215,.16)!important}
+  #cms-survey-v2 .cms2-reset{margin:5px auto 0!important;padding:8px 14px!important;font-size:12px!important;font-weight:750!important}
+}
+
+@media(max-width:380px){
+  #cms-survey-v2 .cms2-shell{width:calc(100% - 22px)!important}
+  #cms-survey-v2 .cms2-panel{padding-top:30px!important}
+  #cms-survey-v2 .cms2-title,#cms-survey-v2 .cms2-result h1{font-size:25px!important}
+  #cms-survey-v2 .cms2-option{min-height:64px!important;padding:10px 12px!important}
+  #cms-survey-v2 .cms2-option strong{font-size:15px!important}
+  #cms-survey-v2 .cms2-price strong{font-size:35px!important}
+}
