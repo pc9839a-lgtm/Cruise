@@ -60,7 +60,8 @@ export async function onRequest(context) {
           '<link rel="stylesheet" href="/membership/membership-mobile-fix-v2.css?v=20260831-2">' +
           '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
           '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260831-1">' +
-          '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260831-1">',
+          '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260831-1">' +
+          '<link rel="stylesheet" href="/membership/membership-ux-hotfix-v1.css?v=20260831-1">',
           { html: true }
         );
       }
