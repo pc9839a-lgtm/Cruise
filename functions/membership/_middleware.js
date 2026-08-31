@@ -9,7 +9,7 @@ export async function onRequest(context) {
         element.append(
           '<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
           '<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>' +
-          '<script src="/membership/membership-price-bridge-v1.js?v=20260831-4"></script>' +
+          '<script src="/membership/membership-price-bridge-v1.js?v=20260831-5"></script>' +
           '<script src="/membership/membership-adflow-1-4-v1.js?v=20260831-7"></script>',
           { html: true }
         );
