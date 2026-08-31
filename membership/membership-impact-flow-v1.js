@@ -2,6 +2,7 @@
   'use strict';
 
   const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   function replacePriceBridge() {
     const old = $('#price-bridge');
@@ -13,24 +14,12 @@
       <div class="impact-inner">
         <div class="impact-label">4박 5일 · 2명 예시</div>
         <h2 class="impact-title">같은 여행인데<br><strong>왜 160만원 차이?</strong></h2>
-
         <div class="impact-price-stage">
-          <article class="impact-price-card impact-price-old" data-impact-card>
-            <span>여행사 · 가이드 포함</span>
-            <strong>400만원</strong>
-          </article>
+          <article class="impact-price-card impact-price-old" data-impact-card><span>여행사 · 가이드 포함</span><strong>400만원</strong></article>
           <div class="impact-price-arrow" aria-hidden="true"><i></i><b>→</b></div>
-          <article class="impact-price-card impact-price-direct" data-impact-card>
-            <span>직접 예약</span>
-            <strong>240만원</strong>
-          </article>
+          <article class="impact-price-card impact-price-direct" data-impact-card><span>직접 예약</span><strong>240만원</strong></article>
         </div>
-
-        <div class="impact-diff" data-impact-diff>
-          <small>2명 기준</small>
-          <strong>160만원</strong>
-          <b>차이</b>
-        </div>
+        <div class="impact-diff" data-impact-diff><small>2명 기준</small><strong>160만원</strong><b>차이</b></div>
       </div>`;
     old.replaceWith(section);
   }
@@ -72,10 +61,7 @@
           <div class="impact-cost-line"><span>+</span><strong>패키지 운영</strong></div>
           <div class="impact-cost-line"><span>+</span><strong>예약 대행</strong></div>
         </div>
-        <div class="impact-cost-result">
-          <span>직접 하면</span>
-          <strong>필요한 것만 결제</strong>
-        </div>
+        <div class="impact-cost-result"><span>직접 하면</span><strong>필요한 것만 결제</strong></div>
       </div>`;
     old.replaceWith(section);
   }
@@ -127,6 +113,18 @@
       </section>`);
   }
 
+  function syncAnchors() {
+    const map = {
+      '#price-bridge': '#impact-price',
+      '#price-compare': '#impact-price',
+      '#same-cruise': '#impact-same',
+      '#guide-question': '#impact-guide'
+    };
+    Object.entries(map).forEach(([from,to]) => {
+      $$(`a[href="${from}"]`).forEach((a) => a.setAttribute('href', to));
+    });
+  }
+
   function removeOldDupes() {
     ['#m3-savings-use'].forEach((s) => $(s)?.remove());
   }
@@ -138,6 +136,7 @@
     replaceGuide();
     addMediterranean();
     removeOldDupes();
+    syncAnchors();
   }
 
   let tries = 0;
