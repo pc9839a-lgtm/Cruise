@@ -1,0 +1,145 @@
+/* Mobile readability + survey optimization */
+
+/* USD only: remove KRW/exchange display */
+#calculator .exchange-bar{display:none!important}
+#calculator .result-box em{display:none!important}
+
+@media(max-width:780px){
+  /* Keep compact, but readable */
+  #price-pain,#price-bridge,#same-cruise,
+  #guide-question,#membership-point,#points-by-time,
+  #real-cost,#calculator,#plans,#membership-terms{
+    padding-top:82px!important;
+    padding-bottom:82px!important;
+  }
+
+  #price-pain .mv2-kicker,#same-cruise .mv2-kicker,
+  #guide-question .mv2-kicker,#membership-point .mv2-kicker,#points-by-time .mv2-kicker,
+  #real-cost .mv2-kicker,#membership-terms .mv2-kicker,#calculator .section-kicker{
+    min-height:30px!important;
+    padding:0 11px!important;
+    font-size:13px!important;
+    letter-spacing:.04em!important;
+  }
+
+  #price-pain .mv2-title,#same-cruise .mv2-title,
+  #guide-question .mv2-title,#membership-point .mv2-title,#points-by-time .mv2-title,
+  #real-cost .mv2-title,#calculator .section-head h2,#plans .membership-section-head h2,#membership-terms .mv2-title{
+    font-size:clamp(32px,9vw,40px)!important;
+    line-height:1.08!important;
+  }
+
+  #price-pain .mv2-mega{font-size:clamp(52px,14vw,64px)!important}
+  #price-bridge .pb-direct{font-size:clamp(32px,9vw,40px)!important}
+  #price-bridge .pb-price span{font-size:16px!important;color:rgba(255,255,255,.78)!important}
+  #price-bridge .pb-price.old strong{font-size:clamp(44px,12vw,54px)!important}
+  #price-bridge .pb-price.new strong{font-size:clamp(52px,14vw,62px)!important}
+  #price-bridge .pb-diff span{font-size:16px!important;color:rgba(255,255,255,.78)!important}
+  #price-bridge .pb-diff strong{font-size:clamp(38px,10.5vw,46px)!important}
+
+  #guide-question .mv2-title strong,#membership-point .mv2-title strong,#points-by-time .mv2-title strong,
+  #membership-terms .mv2-title strong{
+    font-size:clamp(44px,12.5vw,56px)!important;
+  }
+  #guide-question .mv2-step{font-size:18px!important;color:rgba(255,255,255,.82)!important}
+  #membership-point .mv2-sub{font-size:17px!important;color:rgba(255,255,255,.78)!important}
+  #points-by-time .mv2-row span{font-size:17px!important;color:rgba(255,255,255,.78)!important}
+
+  /* calculator */
+  #calculator .calculator-card{
+    margin-top:34px!important;
+    padding:22px 16px!important;
+  }
+  #calculator .calculator-head strong{font-size:17px!important;color:#fff!important}
+  #calculator #rangeValue{font-size:40px!important}
+  #calculator .mode-btn{font-size:16px!important;min-height:46px!important}
+  #calculator .result-grid{margin-top:22px!important}
+  #calculator .result-box{
+    min-height:112px!important;
+    padding:18px 10px!important;
+  }
+  #calculator .result-box span{
+    color:rgba(255,255,255,.82)!important;
+    font-size:15px!important;
+    line-height:1.25!important;
+  }
+  #calculator .result-box strong{
+    margin-top:8px!important;
+    font-size:clamp(27px,7.8vw,34px)!important;
+    line-height:1!important;
+  }
+  #calculator .result-box small{
+    margin-top:7px!important;
+    color:rgba(255,255,255,.72)!important;
+    font-size:13px!important;
+    line-height:1.25!important;
+  }
+
+  /* plans */
+  #plans .plan-name{font-size:31px!important}
+  #plans .plan-price{font-size:48px!important}
+  #plans .plan-price-unit{font-size:16px!important;color:rgba(255,255,255,.72)!important}
+  #plans .late-plan-start{font-size:17px!important;color:rgba(255,255,255,.76)!important}
+  #plans .plan-mini-label{font-size:14px!important;color:rgba(255,255,255,.76)!important}
+  #plans .plan-cta{font-size:17px!important}
+
+  /* terms */
+  #membership-terms .mv2-term span{font-size:17px!important;color:rgba(255,255,255,.82)!important}
+  #membership-terms .mv2-term b{font-size:24px!important}
+}
+
+/* Entry survey: keep it, just make mobile size sane */
+@media(max-width:720px){
+  #cms-survey-v2 .cms2-shell{
+    width:min(calc(100% - 28px),560px)!important;
+    min-height:100dvh!important;
+    padding:18px 0 24px!important;
+  }
+  #cms-survey-v2 .cms2-top{margin-bottom:12px!important}
+  #cms-survey-v2 .cms2-brand,#cms-survey-v2 .cms2-count{font-size:15px!important}
+  #cms-survey-v2 .cms2-progress{height:6px!important}
+  #cms-survey-v2 .cms2-panel{
+    align-items:flex-start!important;
+    padding:34px 0 18px!important;
+  }
+  #cms-survey-v2 .cms2-title{
+    margin:0 auto 24px!important;
+    font-size:clamp(32px,9.5vw,42px)!important;
+    line-height:1.08!important;
+  }
+  #cms-survey-v2 .cms2-options{gap:12px!important}
+  #cms-survey-v2 .cms2-option{
+    min-height:92px!important;
+    padding:16px 14px!important;
+    border-radius:20px!important;
+    gap:10px!important;
+  }
+  #cms-survey-v2 .cms2-icon{
+    width:42px!important;
+    font-size:28px!important;
+  }
+  #cms-survey-v2 .cms2-option strong{
+    font-size:19px!important;
+    line-height:1.22!important;
+  }
+  #cms-survey-v2 .cms2-back{
+    margin-top:16px!important;
+    padding:9px 14px!important;
+    font-size:16px!important;
+  }
+  #cms-survey-v2 .cms2-price{
+    margin-bottom:18px!important;
+    padding:18px 12px!important;
+    border-radius:18px!important;
+  }
+  #cms-survey-v2 .cms2-price strong{font-size:42px!important}
+  #cms-survey-v2 .cms2-price span{margin-top:7px!important;font-size:17px!important}
+  #cms-survey-v2 .cms2-result h1{font-size:clamp(32px,9vw,40px)!important}
+  #cms-survey-v2 .cms2-result p{margin-top:12px!important;font-size:18px!important}
+  #cms-survey-v2 .cms2-primary{
+    min-height:56px!important;
+    margin-top:22px!important;
+    font-size:19px!important;
+  }
+  #cms-survey-v2 .cms2-reset{font-size:16px!important}
+}
