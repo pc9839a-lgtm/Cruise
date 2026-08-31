@@ -16,7 +16,6 @@
             <span>2명 여행사 · 가이드 포함</span>
             <strong>400만원</strong>
           </div>
-          <div class="pb-arrow" aria-hidden="true">→</div>
           <div class="pb-price new">
             <span>2명 해외직구로 직접 예약</span>
             <strong>240만원</strong>
