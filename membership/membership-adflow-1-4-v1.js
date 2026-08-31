@@ -104,20 +104,18 @@
     const oldPrice = $('.pb-price.old', bridge);
     const oldStrong = $('.pb-price.old strong', bridge);
     const strike = $('.af-strike', bridge);
-    const bridgeArrow = $('.pb-arrow', bridge);
     const newPrice = $('.pb-price.new', bridge);
     const diff = $('.pb-diff', bridge);
 
     const bridgeLoop = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.35 })
-      .set([direct, oldPrice, bridgeArrow, newPrice, diff], { clearProps: 'transform,opacity' })
+      .set([direct, oldPrice, newPrice, diff], { clearProps: 'transform,opacity' })
       .set(strike, { scaleX: 0 })
       .to(direct, { scale: mobile ? 1.008 : 1.016, duration: .3, ease: 'power2.out' })
       .to(direct, { scale: 1, duration: .4, ease: 'expo.out' })
       .fromTo(oldPrice, { opacity: .34 }, { opacity: 1, duration: .48, ease: 'power2.out' }, '-=.06')
       .to(strike, { scaleX: 1, duration: .46, ease: 'power3.inOut' }, '+=.12')
       .to(oldStrong, { opacity: .4, duration: .34, ease: 'power2.out' }, '<')
-      .fromTo(bridgeArrow, { opacity: 0, x: mobile ? -4 : -12 }, { opacity: 1, x: mobile ? 3 : 8, duration: .44, ease: 'expo.out' }, '-=.1')
-      .fromTo(newPrice, { opacity: 0, scale: .92 }, { opacity: 1, scale: mobile ? 1.02 : 1.045, duration: .5, ease: 'back.out(1.3)' }, '-=.18')
+      .fromTo(newPrice, { opacity: 0, scale: .92 }, { opacity: 1, scale: mobile ? 1.02 : 1.045, duration: .5, ease: 'back.out(1.3)' }, '-=.12')
       .to(newPrice, { scale: 1, duration: .3, ease: 'power2.out' })
       .fromTo(diff, { opacity: 0, y: mobile ? 14 : 22, scale: .95 }, { opacity: 1, y: 0, scale: 1, duration: .52, ease: 'expo.out' }, '-=.1')
       .to(diff, { scale: mobile ? 1.01 : 1.022, duration: .25, ease: 'power2.out' })
