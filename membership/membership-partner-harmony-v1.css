@@ -4,17 +4,39 @@
   --cp-blue:#2f73ff;
   --cp-sky:#85d2ff;
   --cp-line:rgba(255,255,255,.18);
+  --cp-muted:rgba(255,255,255,.72);
 }
 
-/* Partner page visual DNA only. No partner layout cloning. */
+/* Same brand language as /partner/, without cloning its layout. */
+#price-pain::before,
+#price-pain::after,
+#price-compare::before,
+#same-cruise::before,
+#same-cruise::after{display:none!important}
+
 #price-pain,
 #price-bridge,
 #price-compare,
 #same-cruise{
+  margin:0!important;
   background:var(--cp-navy)!important;
   background-image:none!important;
   color:#fff!important;
+  box-shadow:none!important;
+  overflow:hidden;
 }
+
+#price-pain{padding:clamp(150px,13vw,220px) 0!important}
+#price-bridge{
+  position:relative;
+  min-height:clamp(720px,88vh,930px)!important;
+  padding:clamp(132px,12vw,196px) 0!important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#price-compare{padding:clamp(150px,13vw,220px) 0!important}
+#same-cruise{padding:clamp(160px,14vw,230px) 0!important}
 
 #price-pain .mv2-inner,
 #price-compare .mv2-inner,
@@ -24,6 +46,7 @@
   margin-left:auto!important;
   margin-right:auto!important;
 }
+#price-bridge .pb-inner{text-align:center}
 
 #price-pain .mv2-kicker,
 #price-compare .mv2-kicker,
@@ -56,130 +79,228 @@
 #price-pain .mv2-title,
 #price-compare .mv2-title,
 #same-cruise .mv2-title{
+  color:#fff!important;
   font-size:clamp(48px,6vw,78px)!important;
   font-weight:860!important;
 }
+#price-pain .mv2-title{margin-top:18px!important}
+#same-cruise .mv2-title{margin-top:16px!important;animation:none!important}
 
 #price-pain .mv2-mega{
+  margin-top:46px!important;
+  color:#fff!important;
   font-size:clamp(104px,14vw,196px)!important;
   line-height:.88!important;
   letter-spacing:-.08em!important;
   font-weight:950!important;
+  text-shadow:none!important;
+  animation:none!important;
 }
-
 #price-pain .mv2-save{
+  margin-top:34px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:#fff!important;
   font-size:clamp(24px,2.6vw,34px)!important;
   font-weight:760!important;
+  animation:none!important;
 }
+#price-pain .mv2-save strong{color:var(--cp-sky)!important}
 
+/* Price bridge */
 #price-bridge .pb-lead{
-  margin-bottom:16px!important;
+  margin:0 0 16px!important;
   color:#d8edff!important;
   font-size:clamp(20px,2vw,26px)!important;
+  line-height:1!important;
   font-weight:800!important;
   letter-spacing:.02em!important;
 }
-
 #price-bridge .pb-direct{
-  margin-bottom:clamp(56px,6vw,84px)!important;
+  margin-bottom:clamp(60px,6.5vw,92px)!important;
   color:#fff!important;
-  font-size:clamp(46px,6vw,82px)!important;
+  font-size:clamp(50px,6.3vw,86px)!important;
   font-weight:900!important;
 }
-
+#price-bridge .pb-direct strong{
+  position:relative;
+  display:inline-block;
+  color:var(--cp-sky)!important;
+  font-weight:950!important;
+}
+#price-bridge .pb-direct strong::after{
+  content:"";
+  position:absolute;
+  left:2%;right:0;bottom:-10px;
+  height:4px;
+  background:var(--cp-sky);
+  transform:scaleX(.12);
+  transform-origin:left center;
+  opacity:.38;
+  animation:cpDirectLine 3.8s cubic-bezier(.16,1,.3,1) infinite;
+}
 #price-bridge .pb-pair{
-  padding:clamp(28px,3vw,42px) 0!important;
+  display:grid;
+  grid-template-columns:minmax(0,.92fr) auto minmax(0,1.08fr);
+  align-items:center;
+  gap:clamp(24px,3.4vw,52px);
+  padding:clamp(32px,3.5vw,48px) 0!important;
   border-top:1px solid var(--cp-line)!important;
   border-bottom:1px solid var(--cp-line)!important;
 }
-
+#price-bridge .pb-price{min-width:0}
 #price-bridge .pb-price span{
-  color:rgba(255,255,255,.72)!important;
+  display:block;
+  margin-bottom:16px;
+  color:var(--cp-muted)!important;
   font-size:clamp(18px,1.9vw,24px)!important;
+  line-height:1.2;
   font-weight:760!important;
+  letter-spacing:-.04em;
+  opacity:1!important;
 }
-
 #price-bridge .pb-price strong{
+  position:relative;
+  display:block;
+  color:#fff!important;
   font-size:clamp(92px,11vw,160px)!important;
   line-height:.86!important;
   letter-spacing:-.085em!important;
   font-weight:950!important;
+  white-space:nowrap;
 }
-
-#price-bridge .pb-price.new strong{
-  color:var(--cp-sky)!important;
-}
-
+#price-bridge .pb-price.old strong{color:rgba(255,255,255,.78)!important}
+#price-bridge .pb-price.old strong::after{display:none!important}
+#price-bridge .pb-price.new strong{color:var(--cp-sky)!important}
 #price-bridge .pb-arrow{
   color:var(--cp-sky)!important;
   font-size:clamp(48px,5.5vw,72px)!important;
+  line-height:1;
+  font-weight:950!important;
+  animation:none!important;
 }
-
 #price-bridge .pb-diff{
-  margin-top:clamp(54px,6vw,82px)!important;
+  margin-top:clamp(58px,6vw,86px)!important;
+  line-height:.94;
+  letter-spacing:-.07em;
+}
+#price-bridge .pb-diff span{
+  display:block;
+  margin-bottom:10px;
+  color:var(--cp-muted)!important;
+  font-size:clamp(20px,2.3vw,30px)!important;
+  font-weight:800!important;
+}
+#price-bridge .pb-diff strong{
+  display:block;
   color:#fff!important;
-  font-size:clamp(54px,7vw,96px)!important;
-  line-height:.96!important;
-  letter-spacing:-.065em!important;
+  font-size:clamp(62px,8vw,112px)!important;
   font-weight:950!important;
 }
+#price-bridge .af-strike{
+  position:absolute;
+  left:-3%;right:-3%;top:51%;
+  height:clamp(5px,.55vw,8px);
+  display:block;
+  background:var(--cp-sky);
+  transform:scaleX(0);
+  transform-origin:left center;
+  pointer-events:none;
+}
 
+/* Two-person comparison */
+#price-compare .mv2-inner{display:flex;flex-direction:column;align-items:center}
+#price-compare .mv2-kicker{order:1}
+#price-compare .mv2-title{order:2;margin-top:16px!important}
 #price-compare .mv2-compare{
+  order:3;
+  width:100%;
+  margin-top:56px!important;
   border-top:1px solid var(--cp-line)!important;
   border-bottom:1px solid var(--cp-line)!important;
 }
-
 #price-compare .mv2-price{
   border:0!important;
   background:transparent!important;
+  box-shadow:none!important;
+  animation:none!important;
 }
-
 #price-compare .mv2-price span{
+  color:var(--cp-muted)!important;
   font-size:clamp(18px,1.9vw,24px)!important;
   font-weight:760!important;
-  color:rgba(255,255,255,.72)!important;
 }
-
 #price-compare .mv2-price strong{
+  color:#fff!important;
   font-size:clamp(74px,8.5vw,122px)!important;
   line-height:.9!important;
   letter-spacing:-.075em!important;
   font-weight:950!important;
 }
-
-#price-compare .mv2-price.good strong,
+#price-compare .mv2-price.good strong{color:var(--cp-sky)!important}
+#price-compare .mv2-arrow{color:var(--cp-sky)!important;animation:none!important}
 #price-compare .mv2-mega{
+  order:4;
+  margin-top:46px!important;
   color:var(--cp-sky)!important;
-}
-
-#price-compare .mv2-mega{
   font-size:clamp(82px,10.5vw,150px)!important;
   line-height:.9!important;
   letter-spacing:-.075em!important;
   font-weight:950!important;
+  animation:none!important;
 }
+#price-compare .mv2-save{order:5}
 
+/* Same cruise */
 #same-cruise .mv2-four{
+  margin-top:64px!important;
   border-top:1px solid var(--cp-line)!important;
   border-bottom:1px solid var(--cp-line)!important;
+  border-color:var(--cp-line)!important;
 }
-
 #same-cruise .mv2-four div{
   min-height:138px!important;
-  background:transparent!important;
   color:#fff!important;
+  background:transparent!important;
+  border-color:var(--cp-line)!important;
   font-size:clamp(24px,2.6vw,34px)!important;
   font-weight:820!important;
-  border-color:var(--cp-line)!important;
+  animation:none!important;
+  box-shadow:inset 0 0 0 0 rgba(133,210,255,0);
+  will-change:transform,opacity,background-color;
+}
+#same-cruise .mv2-four div+div{border-color:var(--cp-line)!important}
+#same-cruise .mv2-four div::after{display:none!important}
+
+/* Kill older one-shot animation layers; GSAP owns these sections now. */
+#price-pain .s14-anim,
+#price-compare .s14-anim,
+#same-cruise .s14-anim{
+  opacity:1!important;
+  translate:0 0!important;
+  scale:1!important;
+  filter:none!important;
+  transition:none!important;
+}
+.af-gsap-ready{will-change:transform,opacity}
+
+@keyframes cpDirectLine{
+  0%,20%,100%{transform:scaleX(.12);opacity:.28}
+  48%,72%{transform:scaleX(1);opacity:.82}
 }
 
 @media(max-width:780px){
+  #price-pain{padding:118px 0!important}
+  #price-bridge{min-height:700px!important;padding:110px 0!important}
+  #price-compare{padding:122px 0!important}
+  #same-cruise{padding:126px 0 140px!important}
+
   #price-pain .mv2-inner,
   #price-compare .mv2-inner,
   #same-cruise .mv2-inner,
-  #price-bridge .pb-inner{
-    width:min(100% - 28px,680px)!important;
-  }
+  #price-bridge .pb-inner{width:min(100% - 28px,680px)!important}
+
   #price-pain .mv2-kicker,
   #price-compare .mv2-kicker,
   #same-cruise .mv2-kicker{
@@ -194,30 +315,36 @@
     line-height:1.12!important;
     letter-spacing:-.05em!important;
   }
-  #price-pain .mv2-mega{
-    font-size:clamp(88px,27vw,132px)!important;
-  }
+  #price-pain .mv2-mega{font-size:clamp(88px,27vw,132px)!important}
+
+  #price-bridge .pb-lead{font-size:20px!important}
   #price-bridge .pb-direct{
-    font-size:clamp(38px,11.5vw,54px)!important;
     margin-bottom:52px!important;
+    font-size:clamp(38px,11.5vw,54px)!important;
+    line-height:1.03!important;
   }
+  #price-bridge .pb-direct strong::after{bottom:-7px;height:3px}
   #price-bridge .pb-pair{
-    padding:28px 0!important;
+    grid-template-columns:1fr;
+    gap:24px;
+    padding:30px 0!important;
   }
-  #price-bridge .pb-price strong{
-    font-size:clamp(82px,24vw,116px)!important;
-  }
-  #price-bridge .pb-diff{
-    font-size:clamp(46px,13vw,64px)!important;
-  }
-  #price-compare .mv2-price strong{
-    font-size:clamp(58px,17vw,82px)!important;
-  }
-  #price-compare .mv2-mega{
-    font-size:clamp(64px,18vw,92px)!important;
-  }
-  #same-cruise .mv2-four div{
-    min-height:104px!important;
-    font-size:clamp(22px,6.8vw,30px)!important;
-  }
+  #price-bridge .pb-price span{font-size:18px!important;margin-bottom:9px}
+  #price-bridge .pb-price strong{font-size:clamp(78px,23vw,108px)!important}
+  #price-bridge .pb-arrow{font-size:38px!important;transform:rotate(90deg)}
+  #price-bridge .pb-diff{margin-top:48px!important}
+  #price-bridge .pb-diff span{font-size:19px!important}
+  #price-bridge .pb-diff strong{font-size:clamp(50px,15vw,70px)!important}
+
+  #price-compare .mv2-compare{margin-top:42px!important}
+  #price-compare .mv2-price strong{font-size:clamp(58px,17vw,82px)!important}
+  #price-compare .mv2-mega{font-size:clamp(64px,18vw,92px)!important;margin-top:34px!important}
+  #same-cruise .mv2-four{margin-top:48px!important}
+  #same-cruise .mv2-four div{min-height:104px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #price-bridge .pb-direct strong::after{transform:scaleX(1)!important;animation:none!important}
+  #price-bridge .af-strike{transform:scaleX(1)!important}
+  .af-gsap-ready{will-change:auto!important}
 }
