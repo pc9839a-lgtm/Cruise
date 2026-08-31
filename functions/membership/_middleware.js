@@ -22,6 +22,7 @@ export async function onRequest(context) {
 
   const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-2">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
+  const calcPlansStyle = '<link rel="stylesheet" href="/membership/membership-calc-plans-v2.css?v=20260901-1">';
 
   const mobileStyles =
     '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
@@ -31,7 +32,8 @@ export async function onRequest(context) {
     '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-1">' +
     impactStyle +
-    surveyMobileStyle;
+    surveyMobileStyle +
+    calcPlansStyle;
 
   const desktopStyles =
     '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
@@ -107,6 +109,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-stage3-v1.js?v=20260901-2"></script>' +
           '<script defer src="/membership/membership-cleanup-v1.js?v=20260901-1"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-2"></script>' +
+          (isMobile ? '<script defer src="/membership/membership-calc-plans-v2.js?v=20260901-1"></script>' : '') +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-1"></script>' : '') +
           '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-2"></script>',
           { html: true }
