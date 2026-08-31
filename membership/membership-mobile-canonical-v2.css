@@ -1,0 +1,204 @@
+/* Membership mobile canonical v2 — single mobile visual system */
+@media (max-width:780px){
+  :root{
+    --mc-navy:#07111f;
+    --mc-navy2:#0f1b2d;
+    --mc-ink:#0b1730;
+    --mc-blue:#2868d7;
+    --mc-sky:#72d0ff;
+    --mc-soft:#f4f7fb;
+    --mc-line:#dbe4ef;
+    --mc-muted:#5a6d86;
+    --mc-white:#fff;
+  }
+
+  html,body{max-width:100%!important;overflow-x:hidden!important}
+  body{background:#fff!important;color:var(--mc-ink)!important;font-size:16px!important}
+
+  /* no hidden animation states on mobile */
+  .reveal,.reveal-rise,.reveal-scale,.reveal-pop,.s14-anim,
+  .af-gsap-ready,.mid-gsap-ready,.late-gsap-ready,.mx-reveal,.m2-visual{
+    opacity:1!important;visibility:visible!important;filter:none!important;
+    transform:none!important;translate:none!important;scale:1!important;
+    animation:none!important;transition:none!important;
+  }
+
+  /* navigation */
+  .sticky-menu-bar{background:#f7f9fc!important;border-bottom:1px solid #dce4ef!important;box-shadow:none!important;height:auto!important}
+  .sticky-menu-bar .container{width:100%!important;max-width:none!important;padding:0!important}
+  .hero-nav-marquee{overflow-x:auto!important;overflow-y:hidden!important;padding:10px 14px!important;scrollbar-width:none!important}
+  .hero-nav-marquee::-webkit-scrollbar{display:none!important}
+  .hero-nav-track{display:flex!important;width:max-content!important;gap:8px!important;animation:none!important;transform:none!important;margin:0!important}
+  .hero-nav-track>a:nth-child(n+7){display:none!important}
+  .hero-nav-track>a{flex:0 0 auto!important;height:54px!important;padding:0 18px!important;border-radius:18px!important;background:#fff!important;border:1px solid #e0e7f0!important;color:var(--mc-ink)!important;box-shadow:none!important}
+  .hero-nav-track>a strong{color:var(--mc-blue)!important;opacity:1!important}
+  .hero-nav-track>a span{color:var(--mc-ink)!important;font-size:15px!important;font-weight:850!important;white-space:nowrap!important;opacity:1!important}
+
+  /* universal mobile rhythm */
+  .mv2-inner,.mx-inner,.pb-inner,.container{max-width:640px}
+  .mx-inner,#price-pain .mv2-inner,#price-bridge .pb-inner,#same-cruise .mv2-inner,
+  #guide-question .mv2-inner,#membership-point .mv2-inner,#points-by-time .mv2-inner,
+  #real-cost .mv2-inner,#membership-terms .mv2-inner,#calculator .container,#plans .container{
+    width:calc(100% - 36px)!important;margin-inline:auto!important;
+  }
+  .mx-expand-section,.mx-chapter,#price-pain,#price-bridge,#same-cruise,
+  #guide-question,#membership-point,#points-by-time,#real-cost,#calculator,#plans,#membership-terms,#price-match{
+    min-height:0!important;height:auto!important;padding-top:64px!important;padding-bottom:64px!important;
+  }
+  h1,h2,h3,h4,.mv2-title,.mx-title,.mx-chapter-copy h2,.pb-direct,.pb-price strong,.pb-diff strong,
+  .mx-card strong,.mx-hotel-point strong,.mx-dual-card h3,.mx-speed-card h3,.mx-fit-box h3{
+    word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;
+  }
+
+  /* chapter openers: compact dark separators */
+  .mx-chapter{background:var(--mc-navy)!important;color:#fff!important;border-top:1px solid rgba(255,255,255,.06)!important}
+  .mx-chapter-grid{width:calc(100% - 36px)!important;grid-template-columns:1fr!important;gap:12px!important}
+  .mx-chapter-no{display:none!important}
+  .mx-chapter-copy small{color:var(--mc-sky)!important;font-size:13px!important;opacity:1!important}
+  .mx-chapter-copy h2{font-size:36px!important;line-height:1.05!important;color:#fff!important;margin-top:10px!important}
+  .mx-chapter-copy h2 strong{color:var(--mc-sky)!important}
+  .mx-chapter-copy p{display:none!important}
+  .mx-chapter-index{margin-top:16px!important;color:#fff!important;opacity:1!important}
+  .mx-chapter-index span{color:rgba(255,255,255,.62)!important}
+
+  /* 02 price intro */
+  #price-story-band{background:var(--mc-navy)!important;color:#fff!important}
+  #price-pain{background:var(--mc-navy)!important;color:#fff!important;text-align:center!important;padding-bottom:42px!important}
+  #price-pain .mv2-kicker{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.2)!important;color:#dceeff!important;font-size:12px!important}
+  #price-pain .mv2-title,#price-pain .mv2-title *{color:#fff!important;opacity:1!important;font-size:34px!important;line-height:1.04!important}
+  #price-pain .mv2-mega{color:#fff!important;opacity:1!important;font-size:66px!important;line-height:.94!important;margin-top:22px!important}
+  #price-pain .mv2-save,#price-pain .mv2-save *{color:var(--mc-sky)!important;opacity:1!important;font-size:18px!important;margin-top:14px!important}
+
+  /* 03 price compare: distinct cards */
+  #price-bridge{background:#eef3f8!important;color:var(--mc-ink)!important;padding-top:54px!important;padding-bottom:54px!important}
+  #price-bridge .pb-lead{color:var(--mc-muted)!important;font-size:16px!important;margin-bottom:8px!important;opacity:1!important}
+  #price-bridge .pb-direct{color:var(--mc-ink)!important;font-size:34px!important;line-height:1.05!important;margin:0 auto 28px!important}
+  #price-bridge .pb-direct strong{color:var(--mc-blue)!important}
+  #price-bridge .pb-pair{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;padding:0!important;border:0!important;background:transparent!important}
+  #price-bridge .pb-price{border-radius:22px!important;padding:24px 18px!important;text-align:left!important;border:1px solid var(--mc-line)!important;box-shadow:none!important;opacity:1!important}
+  #price-bridge .pb-price.old{background:#fff!important}
+  #price-bridge .pb-price.new{background:var(--mc-blue)!important;border-color:var(--mc-blue)!important}
+  #price-bridge .pb-price.old span{color:var(--mc-muted)!important}
+  #price-bridge .pb-price.old strong{color:#738197!important;font-size:48px!important;opacity:1!important;text-decoration:line-through;text-decoration-thickness:4px;text-decoration-color:#9aa8b8!important}
+  #price-bridge .pb-price.new span{color:rgba(255,255,255,.78)!important}
+  #price-bridge .pb-price.new strong{color:#fff!important;font-size:62px!important;opacity:1!important}
+  #price-bridge .pb-price span{font-size:15px!important;margin-bottom:8px!important;display:block!important;opacity:1!important}
+  #price-bridge .af-strike{display:none!important}
+  #price-bridge .pb-diff{margin-top:14px!important;border-radius:22px!important;background:#fff!important;border:2px solid var(--mc-blue)!important;padding:22px 16px!important;text-align:center!important;opacity:1!important}
+  #price-bridge .pb-diff span{color:var(--mc-muted)!important;font-size:14px!important;opacity:1!important}
+  #price-bridge .pb-diff strong{color:var(--mc-ink)!important;font-size:44px!important;line-height:1!important;opacity:1!important}
+
+  /* 04 same cruise: back to dark */
+  #same-cruise{background:var(--mc-navy)!important;color:#fff!important}
+  #same-cruise .mv2-kicker{background:rgba(255,255,255,.1)!important;color:#dceeff!important;border-color:rgba(255,255,255,.2)!important}
+  #same-cruise .mv2-title,#same-cruise .mv2-title *{color:#fff!important;font-size:34px!important;line-height:1.05!important;opacity:1!important}
+  #same-cruise .mv2-four{margin-top:28px!important;display:grid!important;grid-template-columns:1fr 1fr!important;border:0!important;gap:10px!important}
+  #same-cruise .mv2-four div{min-height:88px!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:18px!important;background:var(--mc-navy2)!important;color:#fff!important;font-size:18px!important;line-height:1.15!important;padding:14px 10px!important;opacity:1!important}
+
+  /* 05 guide: light section */
+  #guide-question{background:#fff!important;color:var(--mc-ink)!important}
+  #guide-question .mv2-kicker{background:#eaf1fb!important;color:#214b83!important;border-color:#d7e3f1!important}
+  #guide-question .mv2-title,#guide-question .mv2-title *{color:var(--mc-ink)!important;opacity:1!important}
+  #guide-question .mv2-title strong{color:var(--mc-blue)!important}
+  #guide-question .guide-worry,#guide-question .mv2-step{background:#f6f8fb!important;border-color:var(--mc-line)!important;opacity:1!important;color:var(--mc-ink)!important}
+  #guide-question .guide-worry b,#guide-question .mv2-step b{color:var(--mc-blue)!important}
+  #guide-question .guide-worry span,#guide-question .mv2-step span strong{color:var(--mc-ink)!important}
+  #guide-question .mv2-step span em{color:var(--mc-muted)!important}
+  #guide-question .guide-answer-head span{color:var(--mc-muted)!important}
+  #guide-question .guide-answer-head strong{color:var(--mc-ink)!important}
+
+  /* 06 points: dark */
+  #membership-mid-band,#membership-point,#points-by-time{background:var(--mc-navy)!important;color:#fff!important}
+  #membership-point .mv2-kicker,#points-by-time .mv2-kicker{background:rgba(255,255,255,.1)!important;color:#dceeff!important;border-color:rgba(255,255,255,.2)!important}
+  #membership-point .mv2-title,#membership-point .mv2-title *,#points-by-time .mv2-title,#points-by-time .mv2-title *{color:#fff!important;opacity:1!important}
+  #membership-point .mv2-title strong,#points-by-time .mv2-title strong{color:var(--mc-sky)!important}
+  #membership-point .mv2-sub,#membership-point .mv2-sub *{color:#dce6f2!important;opacity:1!important}
+  #points-by-time .mv2-row{border-color:rgba(255,255,255,.15)!important;opacity:1!important}
+  #points-by-time .mv2-row span{color:#cfd9e6!important;opacity:1!important}
+  #points-by-time .mv2-row strong{color:#fff!important;opacity:1!important}
+  #points-by-time .mv2-row:last-child strong{color:var(--mc-sky)!important}
+
+  /* light expansion sections */
+  #mx-cost-structure,#mx-moving-hotel,#mx-point-use,#mx-plan-guide,#mx-fit-check,#mx-recap,#price-match,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue){background:#fff!important;color:var(--mc-ink)!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-title,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) h2,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) h3{color:var(--mc-ink)!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-title strong{color:var(--mc-blue)!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-eyebrow{background:#eaf1fb!important;color:#214b83!important;border-color:#d7e3f1!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) p,.mx-expand-section:not(.mx-dark):not(.mx-blue) em,.mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-sub{color:var(--mc-muted)!important}
+  .mx-card,.mx-hotel-point,.mx-flow-step,.mx-speed-card,.mx-fit-box,.mx-recap-card,.m2-point-timeline,.m2-plan-chooser{background:#fff!important;color:var(--mc-ink)!important;border:1px solid var(--mc-line)!important;box-shadow:none!important}
+
+  /* moving hotel */
+  .mx-hotel-layout{grid-template-columns:1fr!important;gap:14px!important;margin-top:30px!important}
+  .mx-hotel-visual{min-height:340px!important;border-radius:22px!important}
+  .mx-hotel-caption span,.mx-hotel-caption strong{color:#fff!important;opacity:1!important}
+  .mx-hotel-caption strong{font-size:34px!important;line-height:1.04!important}
+  .mx-hotel-points{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mx-hotel-point{min-height:120px!important;padding:16px!important}
+  .mx-hotel-point b{color:var(--mc-blue)!important}
+  .mx-hotel-point strong{color:var(--mc-ink)!important;font-size:22px!important;line-height:1.12!important}
+  #m2-hotel-route,#m2-price-story,#m2-payment-flow{display:none!important}
+
+  /* dark expansion sections */
+  .mx-dark,#mx-prepare-money,#mx-use-rules,#mx-faq-section,#mx-final-choice{background:var(--mc-navy)!important;color:#fff!important}
+  .mx-dark .mx-title,.mx-dark .mx-title strong,.mx-dark h2,.mx-dark h3{color:#fff!important}
+  .mx-dark .mx-title strong,.mx-dark h3 strong{color:var(--mc-sky)!important}
+  .mx-dark .mx-eyebrow{background:rgba(255,255,255,.1)!important;color:#fff!important;border-color:rgba(255,255,255,.2)!important}
+  .mx-dark .mx-dual-card,.mx-dark .mx-prepare-box,.mx-dark .mx-faq-item{background:var(--mc-navy2)!important;border-color:rgba(255,255,255,.15)!important;color:#fff!important;box-shadow:none!important}
+  .mx-dark p,.mx-dark em,.mx-dark .mx-mini,.mx-dark .mx-faq-a p{color:#cbd6e3!important;opacity:1!important}
+  #mx-use-rules .mx-dual{grid-template-columns:1fr!important;gap:14px!important;margin-top:30px!important}
+  #mx-use-rules .mx-dual-card{padding:24px 20px!important}
+  #mx-use-rules .mx-equation{display:flex!important;justify-content:center!important;align-items:center!important;gap:12px!important;white-space:nowrap!important}
+  #mx-use-rules .mx-equation strong{color:#fff!important;font-size:28px!important;white-space:nowrap!important}
+  #mx-use-rules .mx-equation span{color:#aebccd!important}
+
+  /* real cost: light to separate from dark chapters */
+  #real-cost{background:#f4f7fb!important;color:var(--mc-ink)!important}
+  #real-cost .mv2-title,#real-cost .mv2-title *{color:var(--mc-ink)!important;opacity:1!important}
+  #real-cost .mv2-title strong,#real-cost .mv2-save,#real-cost .mv2-save *{color:var(--mc-blue)!important}
+  #real-cost .mv2-paybox{background:#fff!important;border:1px solid var(--mc-line)!important;color:var(--mc-ink)!important;box-shadow:none!important}
+  #real-cost .mv2-paybox span{color:var(--mc-muted)!important}
+  #real-cost .mv2-paybox strong{color:var(--mc-ink)!important}
+
+  /* calculator: dark shell + white working card */
+  #calculator{background:var(--mc-navy)!important;color:#fff!important}
+  #calculator h2,#calculator .section-head h2{color:#fff!important}
+  #calculator .calculator-card{background:#fff!important;color:var(--mc-ink)!important;border:1px solid var(--mc-line)!important;box-shadow:none!important}
+  #calculator .calculator-card span,#calculator .calculator-card label,#calculator .calculator-card small,#calculator .calculator-card em{color:var(--mc-muted)!important}
+  #calculator .calculator-card strong,#calculator #rangeValue{color:var(--mc-ink)!important}
+  #calculator .result-box{background:#f5f7fa!important;border-color:var(--mc-line)!important;color:var(--mc-ink)!important}
+  #calculator .result-box strong{color:var(--mc-blue)!important}
+
+  /* plans: light background, distinct cards */
+  #plans{background:#f4f7fb!important;color:var(--mc-ink)!important}
+  #plans .membership-section-head h2,#plans .membership-section-head strong{color:var(--mc-ink)!important}
+  #plans .plan-card{background:#fff!important;color:var(--mc-ink)!important;border:1px solid var(--mc-line)!important;box-shadow:none!important}
+  #plans .plan-card p,#plans .plan-card span,#plans .plan-card small,#plans .plan-card em{color:var(--mc-muted)!important}
+  #plans .plan-card strong,#plans .plan-name,#plans .plan-price{color:var(--mc-ink)!important}
+  #plans .plan-feature{background:#f6f8fb!important;border-color:var(--mc-line)!important}
+  #plans .plan-feature strong{color:var(--mc-blue)!important}
+  #plans .plan-cta{background:var(--mc-blue)!important;color:#fff!important;border-color:var(--mc-blue)!important}
+
+  /* terms + FAQ dark */
+  #membership-terms,#mx-faq-section{background:var(--mc-navy)!important;color:#fff!important}
+  #membership-terms .mv2-title,#membership-terms .mv2-title *,#mx-faq-section .mx-title,#mx-faq-section .mx-title *{color:#fff!important}
+  #membership-terms .mv2-title strong,#mx-faq-section .mx-title strong{color:var(--mc-sky)!important}
+  #membership-terms .mv2-term{border-color:rgba(255,255,255,.15)!important}
+  #membership-terms .mv2-term b{color:var(--mc-sky)!important}
+  #membership-terms .mv2-term span{color:#d6e0eb!important}
+  #mx-faq-section .mx-faq-q,#mx-faq-section .mx-faq-q span{color:#fff!important}
+  #mx-faq-section .mx-faq-a p{color:#cbd6e3!important}
+
+  /* typography sizes */
+  .mx-title,.mx-chapter-copy h2,#guide-question .mv2-title,#membership-point .mv2-title,#points-by-time .mv2-title,
+  #real-cost .mv2-title,#membership-terms .mv2-title,#calculator .section-head h2,#plans .membership-section-head h2{
+    font-size:34px!important;line-height:1.07!important;letter-spacing:-.05em!important;
+  }
+
+  /* stage-2 point timeline compact */
+  #m2-point-timeline{padding:20px 14px 24px!important;border-radius:20px!important}
+  #m2-point-timeline .m2-visual-head span{color:var(--mc-muted)!important}
+  #m2-point-timeline .m2-visual-head strong{color:var(--mc-ink)!important;font-size:28px!important}
+  #m2-point-timeline .m2-time-point strong{font-size:28px!important;color:var(--mc-ink)!important}
+}
