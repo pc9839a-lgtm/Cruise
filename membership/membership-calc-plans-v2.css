@@ -1,0 +1,62 @@
+@media(max-width:780px){
+  /* CALCULATOR V2 */
+  #calculator{padding:54px 0!important;background:#07111f!important}
+  #calculator .container{width:calc(100% - 32px)!important;max-width:560px!important}
+  #calculator .section-head{margin:0 0 22px!important}
+  #calculator .section-kicker{display:inline-flex!important;min-height:30px!important;padding:0 11px!important;margin:0 auto 10px!important;background:rgba(114,208,255,.12)!important;border:1px solid rgba(114,208,255,.2)!important;color:#72d0ff!important;font-size:12px!important;font-weight:900!important}
+  #calculator .section-head h2,#calculator .section-head h2 strong{margin:0!important;font-size:31px!important;line-height:1.05!important;color:#fff!important;font-weight:900!important;letter-spacing:-.045em!important}
+
+  #calculator .calculator-card{margin:0!important;padding:20px 16px 18px!important;border:1px solid rgba(255,255,255,.13)!important;border-radius:22px!important;background:#0f1b2d!important;box-shadow:0 18px 44px rgba(0,0,0,.14)!important}
+  #calculator .calculator-head{display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:12px!important;margin:0 2px 16px!important}
+  #calculator .calculator-head strong{font-size:15px!important;color:#cbd6e3!important;font-weight:850!important}
+  #calculator #rangeValue{font-size:36px!important;line-height:1!important;color:#fff!important;font-weight:900!important;letter-spacing:-.05em!important}
+  #calculator .price-range{height:8px!important;margin:4px 2px 20px!important;border-radius:999px!important}
+  #calculator .price-range::-webkit-slider-thumb{width:30px!important;height:30px!important;border:4px solid #fff!important;border-radius:50%!important;background:#2e66ff!important;box-shadow:0 5px 16px rgba(46,102,255,.35)!important}
+
+  #calculator .calculator-mode{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;margin:0!important;padding:5px!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:16px!important;background:#091524!important}
+  #calculator .mode-btn{min-height:48px!important;padding:0 8px!important;border:0!important;border-radius:12px!important;background:transparent!important;color:#9aabc0!important;font-size:15px!important;font-weight:900!important;opacity:1!important;box-shadow:none!important;white-space:nowrap!important}
+  #calculator .mode-btn.active{background:#2e66ff!important;color:#fff!important;box-shadow:0 8px 20px rgba(46,102,255,.28)!important}
+
+  #calculator #modeDescription{min-height:42px!important;margin:10px 0 0!important;padding:0 12px!important;border:0!important;border-radius:12px!important;background:rgba(255,255,255,.055)!important;color:#cbd6e3!important;font-size:13px!important;font-weight:800!important;display:flex!important;align-items:center!important;justify-content:center!important}
+
+  #calculator .result-grid{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:16px!important}
+  #calculator .result-box{min-height:72px!important;height:auto!important;padding:13px 15px!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:15px!important;background:#fff!important;color:#0b1730!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;text-align:left!important;box-shadow:none!important}
+  #calculator .result-box.calc-price-dup{display:none!important}
+  #calculator .result-box span{margin:0!important;font-size:13px!important;color:#63738a!important;font-weight:850!important;text-align:left!important}
+  #calculator .result-box strong{margin:0!important;font-size:28px!important;line-height:1!important;color:#2868d7!important;font-weight:900!important;text-align:right!important;white-space:nowrap!important}
+  #calculator .result-box em,#calculator .result-box small,#calculator #cruiseKrw,#calculator #pointKrw,#calculator #cashKrw,#calculator #coverageText{display:none!important}
+  #calculator .result-box.highlight{background:#2e66ff!important;border-color:#2e66ff!important}
+  #calculator .result-box.highlight span,#calculator .result-box.highlight strong{color:#fff!important}
+  #calculator .exchange-bar{display:none!important}
+
+  /* PLANS V2 */
+  #plans{padding:56px 0!important;background:#f3f6fa!important}
+  #plans .container{width:calc(100% - 32px)!important;max-width:560px!important}
+  #plans .membership-section-head{margin:0 0 20px!important}
+  #plans .membership-section-head h2,#plans .membership-section-head h2 strong{margin:0!important;font-size:31px!important;line-height:1.03!important;color:#0b1730!important;font-weight:900!important;letter-spacing:-.045em!important}
+  #plans .membership-section-head p,#plans .mv2-early,#plans .plan-fit,#plans .plan-top-stats,#plans .plan-mobile-summary,#plans .plan-feature-group{display:none!important}
+  #plans #planCards{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;margin:0!important}
+  #plans .plan-card{position:relative!important;padding:20px!important;border:1px solid #dbe4ef!important;border-radius:21px!important;background:#fff!important;color:#0b1730!important;box-shadow:0 10px 30px rgba(15,30,55,.055)!important;overflow:hidden!important;text-align:center!important}
+  #plans .plan-card.recommended{border-color:#2868d7!important;background:#07111f!important;color:#fff!important;box-shadow:0 16px 38px rgba(7,17,31,.18)!important}
+  #plans .plan-tag{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:28px!important;padding:0 10px!important;border-radius:999px!important;background:#eaf1fb!important;color:#2868d7!important;font-size:11px!important;font-weight:900!important}
+  #plans .recommended .plan-tag{background:rgba(114,208,255,.14)!important;color:#72d0ff!important}
+  #plans .plan-main-line{margin:15px 0 14px!important;text-align:center!important}
+  #plans .plan-name{font-size:25px!important;line-height:1!important;color:#0b1730!important;font-weight:900!important}
+  #plans .recommended .plan-name{color:#fff!important}
+  #plans .plan-price-row{display:flex!important;justify-content:center!important;align-items:baseline!important;gap:4px!important;margin:10px 0 0!important}
+  #plans .plan-price{font-size:46px!important;line-height:.95!important;color:#0b1730!important;font-weight:900!important}
+  #plans .plan-price-unit{font-size:14px!important;color:#68778c!important;font-weight:850!important}
+  #plans .recommended .plan-price{color:#fff!important}
+  #plans .recommended .plan-price-unit{color:#cbd6e3!important}
+  #plans .plan-quick{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-top:14px!important}
+  #plans .plan-quick>div{min-height:78px!important;padding:12px 8px!important;border:1px solid #e0e7f0!important;border-radius:14px!important;background:#f6f8fb!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important}
+  #plans .recommended .plan-quick>div{background:rgba(255,255,255,.075)!important;border-color:rgba(255,255,255,.12)!important}
+  #plans .plan-quick span{font-size:11px!important;color:#6b7a90!important;font-weight:850!important}
+  #plans .plan-quick strong{font-size:19px!important;line-height:1.05!important;color:#2868d7!important;font-weight:900!important;white-space:nowrap!important}
+  #plans .recommended .plan-quick span{color:#aebdd0!important}
+  #plans .recommended .plan-quick strong{color:#72d0ff!important}
+  #plans .plan-cta{display:flex!important;align-items:center!important;justify-content:center!important;min-height:50px!important;margin-top:12px!important;border-radius:13px!important;background:#2868d7!important;color:#fff!important;font-size:15px!important;font-weight:900!important;text-decoration:none!important}
+  #plans .recommended .plan-cta{background:#fff!important;color:#07111f!important}
+  #plans .plan-card.recommended::after{content:'';position:absolute;inset:-40% -60%;background:linear-gradient(110deg,transparent 42%,rgba(114,208,255,.09) 50%,transparent 58%);transform:translateX(-55%);animation:planSweep 4.8s ease-in-out infinite;pointer-events:none}
+  @keyframes planSweep{0%,55%{transform:translateX(-55%)}85%,100%{transform:translateX(55%)}}
+}
