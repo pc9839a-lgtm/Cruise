@@ -1,0 +1,217 @@
+/* Membership mobile stable v1 — one final mobile rule set */
+@media (max-width:780px){
+  :root{
+    --m-bg:#07111f;
+    --m-panel:#101b2b;
+    --m-white:#ffffff;
+    --m-blue:#70ccff;
+    --m-text:#0b1730;
+    --m-muted:#52657f;
+    --m-line:rgba(255,255,255,.18);
+    --m-light:#f5f8fc;
+    --m-light-line:#dbe4ef;
+  }
+
+  html,body{max-width:100%!important;overflow-x:hidden!important}
+  body{background:#fff!important;color:var(--m-text)!important}
+
+  /* Stop all content from being left in an animation pre-state */
+  .af-gsap-ready,.mid-gsap-ready,.late-gsap-ready,.mx-reveal,.m2-visual,
+  .s14-anim,.reveal,.reveal-rise,.reveal-scale,.reveal-pop{
+    opacity:1!important;
+    visibility:visible!important;
+    filter:none!important;
+    transform:none!important;
+    translate:none!important;
+    scale:1!important;
+    animation:none!important;
+    transition:none!important;
+  }
+
+  /* Top navigation */
+  .sticky-menu-bar{
+    min-height:0!important;height:auto!important;
+    background:#f7f9fc!important;
+    border-bottom:1px solid #dce4ef!important;
+    box-shadow:none!important;
+  }
+  .sticky-menu-bar .container{width:100%!important;max-width:none!important;padding:0!important}
+  .hero-nav-marquee{
+    overflow-x:auto!important;overflow-y:hidden!important;
+    -webkit-overflow-scrolling:touch!important;scrollbar-width:none!important;
+    padding:10px 14px!important;
+  }
+  .hero-nav-marquee::-webkit-scrollbar{display:none!important}
+  .hero-nav-track{
+    width:max-content!important;display:flex!important;gap:8px!important;
+    margin:0!important;padding:0!important;animation:none!important;transform:none!important;
+  }
+  .hero-nav-track>a:nth-child(n+7){display:none!important}
+  .hero-nav-track>a{
+    flex:0 0 auto!important;height:54px!important;min-width:0!important;
+    padding:0 18px!important;border-radius:18px!important;
+    background:#fff!important;border:1px solid #e0e7f0!important;box-shadow:none!important;
+    color:var(--m-text)!important;gap:9px!important;
+  }
+  .hero-nav-track>a strong{color:#2862ad!important;opacity:1!important;font-size:14px!important}
+  .hero-nav-track>a span{color:var(--m-text)!important;opacity:1!important;font-size:15px!important;font-weight:850!important;white-space:nowrap!important}
+
+  /* One readable type system */
+  h1,h2,h3,h4,.mv2-title,.mx-title,.mx-chapter-copy h2,.pb-direct,
+  .pb-price strong,.pb-diff strong,.m2-visual-head strong{
+    word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;
+  }
+  .mx-title,.mx-chapter-copy h2{font-size:34px!important;line-height:1.08!important;letter-spacing:-.045em!important}
+  .mx-expand-section{padding:64px 0!important}
+  .mx-inner{width:calc(100% - 36px)!important;max-width:640px!important}
+  .mx-chapter{min-height:0!important;padding:62px 0!important;background:var(--m-bg)!important;color:#fff!important}
+  .mx-chapter-grid{width:calc(100% - 36px)!important;grid-template-columns:1fr!important;gap:18px!important}
+  .mx-chapter-no{display:none!important}
+  .mx-chapter-copy small{color:#a8ddff!important;opacity:1!important}
+  .mx-chapter-copy h2,.mx-chapter-copy h2 strong{color:#fff!important}
+  .mx-chapter-copy h2 strong{color:var(--m-blue)!important}
+  .mx-chapter-copy p{display:none!important}
+  .mx-chapter-index{margin-top:16px!important;color:#fff!important;opacity:1!important}
+  .mx-chapter-index span{color:rgba(255,255,255,.7)!important}
+
+  /* DARK sections: white + blue only */
+  #price-story-band,#price-pain,#price-bridge,#same-cruise,
+  #guide-question,#membership-point,#points-by-time,
+  #real-cost,#calculator,#plans,#membership-terms,
+  #membership-mid-band,.mx-dark,#mx-prepare-money,#mx-use-rules,#mx-faq-section,#mx-final-choice{
+    background:var(--m-bg)!important;background-color:var(--m-bg)!important;color:#fff!important;
+  }
+  #price-story-band *,#guide-question *,#membership-point *,#points-by-time *,
+  #real-cost *,#calculator *,#plans *,#membership-terms *,
+  .mx-dark *{text-shadow:none!important}
+
+  /* Price story: no dimmed numbers */
+  #price-pain,#price-bridge,#same-cruise{min-height:0!important;height:auto!important}
+  #price-pain{padding:62px 0 50px!important}
+  #price-bridge{padding:50px 0 58px!important}
+  #same-cruise{padding:58px 0 68px!important}
+  #price-pain .mv2-inner,#price-bridge .pb-inner,#same-cruise .mv2-inner{width:calc(100% - 36px)!important;max-width:640px!important}
+  #price-pain .mv2-kicker,#same-cruise .mv2-kicker{
+    color:#dcecff!important;background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.22)!important;
+    opacity:1!important;font-size:12px!important;
+  }
+  #price-pain .mv2-title,#price-pain .mv2-title *,#same-cruise .mv2-title,#same-cruise .mv2-title *{
+    color:#fff!important;opacity:1!important;
+  }
+  #price-pain .mv2-title,#same-cruise .mv2-title{font-size:34px!important;line-height:1.06!important;margin-top:16px!important}
+  #price-pain .mv2-mega{margin-top:22px!important;color:#fff!important;opacity:1!important;font-size:64px!important;line-height:.92!important}
+  #price-pain .mv2-save,#price-pain .mv2-save *{margin-top:16px!important;color:var(--m-blue)!important;opacity:1!important;font-size:18px!important}
+
+  #price-bridge .pb-lead{color:#e4ebf4!important;opacity:1!important;font-size:17px!important;margin-bottom:10px!important}
+  #price-bridge .pb-direct,#price-bridge .pb-direct *{color:#fff!important;opacity:1!important}
+  #price-bridge .pb-direct{font-size:38px!important;line-height:1.05!important;margin:0 auto 30px!important}
+  #price-bridge .pb-direct strong{color:var(--m-blue)!important}
+  #price-bridge .pb-pair{grid-template-columns:1fr!important;gap:0!important;padding:0!important;border-top:1px solid var(--m-line)!important;border-bottom:1px solid var(--m-line)!important}
+  #price-bridge .pb-price{padding:24px 8px!important;text-align:center!important;opacity:1!important;transform:none!important}
+  #price-bridge .pb-price+.pb-price{border-top:1px solid var(--m-line)!important}
+  #price-bridge .pb-price span{color:#dce6f2!important;opacity:1!important;font-size:15px!important;margin-bottom:8px!important}
+  #price-bridge .pb-price.old strong{color:#fff!important;opacity:1!important;font-size:54px!important}
+  #price-bridge .pb-price.new strong{color:var(--m-blue)!important;opacity:1!important;font-size:68px!important}
+  #price-bridge .af-strike{display:none!important}
+  #price-bridge .pb-diff{margin-top:30px!important;opacity:1!important}
+  #price-bridge .pb-diff span{color:#dce6f2!important;opacity:1!important;font-size:15px!important}
+  #price-bridge .pb-diff strong{color:#fff!important;opacity:1!important;font-size:46px!important;line-height:1!important}
+
+  #same-cruise .mv2-four{margin-top:28px!important;grid-template-columns:1fr 1fr!important;border-color:var(--m-line)!important}
+  #same-cruise .mv2-four div{min-height:74px!important;padding:12px 8px!important;color:#fff!important;opacity:1!important;font-size:18px!important;line-height:1.15!important;border-color:var(--m-line)!important}
+
+  /* Guide + points */
+  #guide-question,#membership-point,#points-by-time{padding:64px 0!important;min-height:0!important}
+  #guide-question .mv2-title,#guide-question .mv2-title *,#membership-point .mv2-title,#membership-point .mv2-title *,#points-by-time .mv2-title,#points-by-time .mv2-title *{color:#fff!important;opacity:1!important}
+  #guide-question .guide-worry,#guide-question .mv2-step{opacity:1!important;transform:none!important}
+  #guide-question .guide-worry span,#guide-question .mv2-step span strong{color:#fff!important}
+  #guide-question .guide-worry b,#guide-question .mv2-step b{color:var(--m-blue)!important}
+  #guide-question .mv2-step span em{color:#c9d4e2!important}
+  #membership-point .mv2-sub,#membership-point .mv2-sub *{color:#dce6f2!important;opacity:1!important}
+  #points-by-time .mv2-row{opacity:1!important;transform:none!important;border-color:var(--m-line)!important}
+  #points-by-time .mv2-row span{color:#dce6f2!important;opacity:1!important}
+  #points-by-time .mv2-row strong{color:#fff!important;opacity:1!important}
+  #points-by-time .mv2-row:last-child strong{color:var(--m-blue)!important}
+
+  /* Late dark sections */
+  #real-cost,#calculator,#plans,#membership-terms{padding:64px 0!important;min-height:0!important}
+  #real-cost .mv2-title,#real-cost .mv2-title *,#calculator h2,#plans h2,#membership-terms .mv2-title,#membership-terms .mv2-title *{color:#fff!important;opacity:1!important}
+  #real-cost .mv2-paybox,#calculator .calculator-card,#plans .plan-card,#membership-terms .mv2-term{
+    background:var(--m-panel)!important;border-color:rgba(255,255,255,.16)!important;color:#fff!important;box-shadow:none!important;
+  }
+  #real-cost .mv2-paybox span,#calculator .calculator-card span,#plans .plan-card span,#membership-terms .mv2-term span{color:#dce6f2!important;opacity:1!important}
+  #real-cost .mv2-paybox strong,#calculator .calculator-card strong,#plans .plan-card strong,#membership-terms .mv2-term strong{color:#fff!important;opacity:1!important}
+  #real-cost .mv2-save,#real-cost .mv2-save *{color:var(--m-blue)!important;opacity:1!important}
+  #plans .plan-cta{background:#fff!important;color:var(--m-text)!important;border-color:#fff!important}
+
+  /* DARK expansion cards */
+  .mx-dark .mx-title,.mx-dark .mx-title strong,.mx-dark h2,.mx-dark h3{color:#fff!important;opacity:1!important}
+  .mx-dark .mx-title strong,.mx-dark h3 strong{color:var(--m-blue)!important}
+  .mx-dark .mx-eyebrow{color:#fff!important;background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.20)!important}
+  .mx-dark .mx-dual-card,.mx-dark .mx-prepare-box,.mx-dark .mx-faq-item{
+    background:var(--m-panel)!important;color:#fff!important;border-color:rgba(255,255,255,.18)!important;box-shadow:none!important;
+  }
+  .mx-dark .mx-mini,.mx-dark p,.mx-dark em,.mx-dark .mx-faq-a p{color:#cbd6e3!important;opacity:1!important}
+  #mx-use-rules .mx-dual{grid-template-columns:1fr!important;gap:14px!important;margin-top:30px!important}
+  #mx-use-rules .mx-dual-card{min-height:0!important;padding:24px 20px!important}
+  #mx-use-rules .mx-dual-card h3{font-size:32px!important;line-height:1.08!important;color:#fff!important}
+  #mx-use-rules .mx-dual-card h3 strong{color:var(--m-blue)!important}
+  #mx-use-rules .mx-equation{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;margin-top:22px!important;white-space:nowrap!important}
+  #mx-use-rules .mx-equation strong{font-size:28px!important;color:#fff!important;white-space:nowrap!important}
+  #mx-use-rules .mx-equation span{font-size:26px!important;color:#b8c7d8!important}
+
+  /* LIGHT sections */
+  #mx-cost-structure,#mx-moving-hotel,#mx-point-use,#mx-plan-guide,#mx-fit-check,#mx-recap,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue){background:#fff!important;color:var(--m-text)!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-title,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-title strong,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) h2,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) h3{color:var(--m-text)!important;opacity:1!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-title strong{color:#245fc4!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-eyebrow{background:#eaf1fb!important;color:#214b83!important;border:1px solid #d7e3f1!important;opacity:1!important}
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) p,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) em,
+  .mx-expand-section:not(.mx-dark):not(.mx-blue) .mx-sub{color:var(--m-muted)!important;opacity:1!important}
+  .mx-card,.mx-hotel-point,.mx-speed-card,.mx-fit-box,.mx-recap-card,.m2-point-timeline,.m2-plan-chooser{
+    background:#fff!important;color:var(--m-text)!important;border:1px solid var(--m-light-line)!important;box-shadow:none!important;
+  }
+  .mx-card strong,.mx-hotel-point strong,.mx-speed-card h3,.mx-fit-box h3,.mx-recap-card strong{color:var(--m-text)!important;opacity:1!important}
+  .mx-card span,.mx-fit-item span,.mx-recap-card span{color:var(--m-muted)!important;opacity:1!important}
+
+  /* Moving hotel */
+  .mx-hotel-layout{grid-template-columns:1fr!important;gap:14px!important;margin-top:30px!important}
+  .mx-hotel-visual{min-height:340px!important;border-radius:22px!important}
+  .mx-hotel-caption{left:18px!important;right:18px!important;bottom:18px!important}
+  .mx-hotel-caption span{color:#fff!important;opacity:1!important}
+  .mx-hotel-caption strong{color:#fff!important;opacity:1!important;font-size:34px!important;line-height:1.04!important}
+  .mx-hotel-points{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .mx-hotel-point{min-height:120px!important;padding:16px!important}
+  .mx-hotel-point b{color:#245fc4!important}
+  .mx-hotel-point strong{font-size:22px!important;line-height:1.12!important}
+  #m2-hotel-route{display:none!important}
+
+  /* Stage-2 duplicate blocks removed on mobile */
+  #m2-price-story,#m2-payment-flow{display:none!important}
+
+  /* Point timeline */
+  #m2-point-timeline{padding:20px 14px 24px!important;border-radius:20px!important}
+  #m2-point-timeline .m2-visual-head span{color:var(--m-muted)!important;opacity:1!important}
+  #m2-point-timeline .m2-visual-head strong{color:var(--m-text)!important;opacity:1!important;font-size:28px!important}
+  #m2-point-timeline .m2-time-point b{color:var(--m-muted)!important}
+  #m2-point-timeline .m2-time-point strong{color:var(--m-text)!important;opacity:1!important;font-size:28px!important}
+
+  /* Plans / FAQ / recap */
+  .mx-speed-grid,.mx-fit-grid{grid-template-columns:1fr!important;gap:12px!important;margin-top:30px!important}
+  .mx-speed-card,.mx-fit-box{min-height:0!important;padding:22px 18px!important}
+  #mx-faq-section .mx-faq-q{color:#fff!important}
+  #mx-faq-section .mx-faq-q span{color:#fff!important;opacity:1!important}
+  #mx-faq-section .mx-faq-q b{color:var(--m-blue)!important}
+
+  /* No character-by-character Korean wrapping anywhere important */
+  .mv2-title,.mv2-mega,.pb-direct,.pb-price strong,.pb-diff strong,
+  .mx-title,.mx-chapter-copy h2,.mx-card strong,.mx-hotel-point strong,
+  .mx-dual-card h3,.mx-equation strong,.mx-speed-card h3,.mx-fit-box h3,
+  .mx-faq-q span,.plan-name,.plan-price{
+    word-break:keep-all!important;overflow-wrap:normal!important;hyphens:none!important;
+  }
+}
