@@ -15,15 +15,6 @@
           이제는 여행도<br />
           <strong>구독 서비스로 갑니다</strong>
         </h1>
-
-        <div class="hero-benefit-row reveal reveal-pop" aria-label="핵심 혜택">
-          <span>무료 가입만 해도 $50 혜택</span>
-          <span>1명 가입 &gt; 2명 혜택</span>
-        </div>
-
-        <div class="hero-actions reveal reveal-pop">
-          <button type="button" class="btn btn-primary hero-main-cta btn-hero-xl">지금 멤버십 가입하기</button>
-        </div>
       </div>
 
       <div class="hero-visual-stage reveal reveal-pop" aria-hidden="true">
