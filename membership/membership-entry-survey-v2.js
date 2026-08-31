@@ -73,12 +73,7 @@
     overlay.id = OVERLAY_ID;
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.innerHTML = `
-      <div class="cms2-shell">
-        <div class="cms2-top"><div class="cms2-brand">나에게 맞는 크루즈 여행</div><div class="cms2-count"></div></div>
-        <div class="cms2-progress"><span></span></div>
-        <div class="cms2-panel"></div>
-      </div>`;
+    overlay.innerHTML = `<div class="cms2-shell"><div class="cms2-top"><div class="cms2-brand">나에게 맞는 크루즈 여행</div><div class="cms2-count"></div></div><div class="cms2-progress"><span></span></div><div class="cms2-panel"></div></div>`;
     document.body.appendChild(overlay);
     panel = overlay.querySelector('.cms2-panel');
     renderQuestion();
@@ -93,28 +88,12 @@
     const q = questions[step];
     const total = answers.booking === 'agency' || step < 1 ? 3 : 2;
     setProgress(step + 1, total);
-    panel.innerHTML = `
-      <div class="cms2-card">
-        <h1 class="cms2-title">${q.title}</h1>
-        <div class="cms2-options">
-          ${q.options.map(([value, icon, title]) => `<button type="button" class="cms2-option" data-value="${value}"><span class="cms2-icon">${icon}</span><strong>${title}</strong></button>`).join('')}
-        </div>
-        ${step > 0 ? '<button type="button" class="cms2-back">← 이전</button>' : ''}
-      </div>`;
+    panel.innerHTML = `<div class="cms2-card"><h1 class="cms2-title">${q.title}</h1><div class="cms2-options">${q.options.map(([value, icon, title]) => `<button type="button" class="cms2-option" data-value="${value}"><span class="cms2-icon">${icon}</span><strong>${title}</strong></button>`).join('')}</div>${step > 0 ? '<button type="button" class="cms2-back">← 이전</button>' : ''}</div>`;
   }
 
   function renderPriceQuestion() {
     setProgress(3, 3);
-    panel.innerHTML = `
-      <div class="cms2-card">
-        <h1 class="cms2-title">가격 차이가 이 정도라면?</h1>
-        <div class="cms2-price"><strong>200 → 120만원</strong><span>1인 80만원 차이</span></div>
-        <div class="cms2-options">
-          <button type="button" class="cms2-option" data-price="comfort"><span class="cms2-icon">🛎️</span><strong>그래도 여행사에 맡길래요</strong></button>
-          <button type="button" class="cms2-option" data-price="save"><span class="cms2-icon">💰</span><strong>80만원이면 직접 해볼래요</strong></button>
-        </div>
-        <button type="button" class="cms2-back">← 이전</button>
-      </div>`;
+    panel.innerHTML = `<div class="cms2-card"><h1 class="cms2-title">가격 차이가 이 정도라면?</h1><div class="cms2-price"><strong>200 → 120만원</strong><span>1인 80만원 차이</span></div><div class="cms2-options"><button type="button" class="cms2-option" data-price="comfort"><span class="cms2-icon">🛎️</span><strong>그래도 여행사에 맡길래요</strong></button><button type="button" class="cms2-option" data-price="save"><span class="cms2-icon">💰</span><strong>80만원이면 직접 해볼래요</strong></button></div><button type="button" class="cms2-back">← 이전</button></div>`;
   }
 
   function renderResult() {
@@ -135,8 +114,7 @@
       document.body.style.overflow = previousOverflow;
       overlay = null;
       panel = null;
-      const target = document.querySelector('#why-save, #quick-result, #mp11-compare');
-      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('#price-compare')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 190);
   }
 
@@ -161,14 +139,10 @@
         renderQuestion();
         return;
       }
-      if (answers.booking === 'agency') {
-        renderPriceQuestion();
-      } else {
-        renderResult();
-      }
+      if (answers.booking === 'agency') renderPriceQuestion();
+      else renderResult();
       return;
     }
-
     if (event.target.closest('.cms2-back')) {
       if (panel.querySelector('[data-price]')) {
         step = 1;
@@ -179,12 +153,10 @@
       }
       return;
     }
-
     if (event.target.closest('.cms2-primary')) {
       closeSurvey();
       return;
     }
-
     if (event.target.closest('.cms2-reset')) reset();
   }
 
