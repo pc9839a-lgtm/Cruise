@@ -21,6 +21,7 @@ export async function onRequest(context) {
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
 
   const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-2">';
+  const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
 
   const mobileStyles =
     '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
@@ -29,7 +30,8 @@ export async function onRequest(context) {
     '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-3">' +
     '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-1">' +
-    impactStyle;
+    impactStyle +
+    surveyMobileStyle;
 
   const desktopStyles =
     '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
@@ -61,7 +63,7 @@ export async function onRequest(context) {
     })
     .on('script[src*="membership-entry-survey-v2.js"]', {
       element(element) {
-        element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260901-mobileopt1');
+        element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260901-mobileopt2');
       }
     })
     .on('script[src*="membership-page-v2.js"]', {
