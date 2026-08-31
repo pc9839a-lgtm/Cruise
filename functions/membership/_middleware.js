@@ -91,7 +91,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-expansion-v1.js?v=20260901-2"></script>' +
           '<script defer src="/membership/membership-expansion-v2.js?v=20260901-2"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-2"></script>' : '') +
-          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-1"></script>',
+          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-2"></script>',
           { html: true }
         );
       }
