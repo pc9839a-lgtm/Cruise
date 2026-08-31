@@ -59,6 +59,11 @@ export async function onRequest(context) {
     .on('script[src*="membership-entry-survey-v1.js"]', {
       element(element) { element.remove(); }
     })
+    .on('script[src*="membership-entry-survey-v2.js"]', {
+      element(element) {
+        element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260901-mobileopt1');
+      }
+    })
     .on('script[src*="membership-page-v2.js"]', {
       element(element) { element.remove(); }
     })
