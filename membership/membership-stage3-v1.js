@@ -15,6 +15,13 @@
   }
 
   function syncCoreNarrativeCopy() {
+    const navLabels = ['크루즈란?', '둘이 400만원?', '160만원 차이', '같은 크루즈', '직접 갈 수 있나', '멤버십'];
+    $$('.hero-nav-track > a').forEach((link, index) => {
+      const label = navLabels[index % navLabels.length];
+      const span = $('span', link);
+      if (span && label && span.textContent !== label) span.textContent = label;
+    });
+
     setHtml('.hero-title', '짐은 한 번만 풀고<br><strong>아침마다 다른 도시에 도착합니다</strong>');
     setText('.hero-ticket-back span', '자는 동안 이동');
     setText('.hero-ticket-back strong', '아침엔 새 도시');
@@ -53,7 +60,10 @@
     ];
     $$('#guide-question .mv2-step').forEach((el, index) => {
       const step = guideSteps[index];
-      if (step) el.innerHTML = `<b>${step[0]}</b>${step[1]}`;
+      if (step) {
+        const expected = `<b>${step[0]}</b>${step[1]}`;
+        if (el.innerHTML !== expected) el.innerHTML = expected;
+      }
     });
     setText('#guide-question .mv2-sub', '실제 흐름은 이 5단계입니다. 필요한 것만 미리 알면 됩니다.');
 
@@ -77,6 +87,17 @@
     setText('#calculator .section-kicker', '내 크루즈 금액으로');
     setHtml('#calculator .section-head h2', 'POINT를 얼마나 쓰고<br><strong>카드로 얼마 내는지</strong>');
     setText('#calculator .mode-btn[data-mode="early"]', '출발 270일+');
+    setText('#calculator #pointLabel', '사용 POINT');
+    setText('#calculator #cashLabel', '카드 결제');
+    setText('#calculator .total-pay-box span', '멤버십 결제 + 카드 합계');
+    setText('#calculator #coverageSubtext', 'CLASSIC 2배 적립 단순 계산');
+    const activeMode = $('#calculator .mode-btn.active')?.dataset.mode;
+    setText(
+      '#calculator #modeDescription',
+      activeMode === 'early'
+        ? '출발 270일+ 예시 · POINT 사용 범위가 더 커질 수 있습니다.'
+        : '일반 예약 예시 · POINT는 최대 50%까지 적용하고 나머지는 카드로 결제합니다.'
+    );
 
     setHtml('#plans .membership-section-head h2', 'CLASSIC $100<br><strong>PREMIUM $250</strong>');
     setText('#plans .membership-section-head p', '월 결제액과 월 적립 POINT부터 비교하세요.');
@@ -91,12 +112,12 @@
       const fit = $('.plan-fit', card);
       const cta = $('.plan-cta', card);
       if (name === '클래식') {
-        if (fit) fit.textContent = '월 $100 결제 · 매월 200P';
-        if (cta) cta.textContent = 'CLASSIC 선택';
+        if (fit && fit.textContent !== '월 $100 결제 · 매월 200P') fit.textContent = '월 $100 결제 · 매월 200P';
+        if (cta && cta.textContent !== 'CLASSIC 선택') cta.textContent = 'CLASSIC 선택';
       }
       if (name === '프리미엄') {
-        if (fit) fit.textContent = '월 $250 결제 · 매월 500P';
-        if (cta) cta.textContent = 'PREMIUM 선택';
+        if (fit && fit.textContent !== '월 $250 결제 · 매월 500P') fit.textContent = '월 $250 결제 · 매월 500P';
+        if (cta && cta.textContent !== 'PREMIUM 선택') cta.textContent = 'PREMIUM 선택';
       }
     });
 
@@ -243,6 +264,6 @@
     removeGeneratedDuplicates();
     stripKrw();
   });
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true });
   setTimeout(() => observer.disconnect(), 9000);
 })();
