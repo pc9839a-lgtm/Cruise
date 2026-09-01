@@ -7,8 +7,8 @@
 .impact-med{
   position:relative;
   overflow:hidden;
-  padding:96px 0;
-  background:#06101e;
+  padding:108px 0;
+  background:linear-gradient(145deg,#07111f 0%,#13274d 58%,#251b50 100%);
   color:#fff;
 }
 .impact-med::before{
@@ -16,18 +16,17 @@
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 15% 20%,rgba(20,105,220,.28),transparent 32%),
-    radial-gradient(circle at 85% 75%,rgba(114,208,255,.15),transparent 30%),
-    linear-gradient(180deg,#07111f,#03101c);
+    radial-gradient(circle at 18% 18%,rgba(47,115,255,.24),transparent 34%),
+    radial-gradient(circle at 84% 72%,rgba(112,92,255,.22),transparent 32%);
 }
 .impact-med-glow{
   position:absolute;
   left:50%;
-  top:36%;
+  top:34%;
   width:620px;
-  height:250px;
+  height:260px;
   transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(55,126,235,.22),transparent 70%);
+  background:radial-gradient(ellipse,rgba(133,210,255,.16),transparent 70%);
   filter:blur(18px);
   animation:impactMedGlow 3.2s ease-in-out infinite;
 }
@@ -42,39 +41,48 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  min-height:36px;
+  min-height:34px;
   padding:0 14px;
   border-radius:999px;
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.16);
-  color:#dff4ff;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.18);
+  color:#d8edff;
   font-size:13px;
-  font-weight:900;
-  letter-spacing:-.02em;
+  line-height:1;
+  font-weight:850;
+  letter-spacing:.08em;
+  backdrop-filter:blur(10px);
 }
 .impact-title{
-  margin:20px auto 38px;
-  font-size:54px;
-  line-height:1.02;
-  letter-spacing:-.06em;
+  margin:22px auto 42px;
+  font-size:56px;
+  line-height:1.08;
+  letter-spacing:-.058em;
   font-weight:900;
   color:#fff;
   word-break:keep-all;
+  text-wrap:balance;
 }
-.impact-title strong{color:#72d0ff}
+.impact-title strong{
+  background:linear-gradient(90deg,#85d2ff 0%,#c2adff 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 32px rgba(133,210,255,.08);
+}
 
 .impact-med-route{
   position:relative;
   width:100%;
   margin:0 auto;
   display:grid;
-  gap:9px;
+  gap:12px;
 }
 .impact-med-line{
   position:absolute;
   left:40px;
-  top:30px;
-  bottom:30px;
+  top:32px;
+  bottom:32px;
   width:3px;
   background:rgba(255,255,255,.12);
   border-radius:999px;
@@ -84,22 +92,23 @@
   display:block;
   width:100%;
   height:26%;
-  background:linear-gradient(180deg,transparent,#72d0ff,#2868d7,transparent);
+  background:linear-gradient(180deg,transparent,#85d2ff,#705cff,transparent);
   animation:impactMedLine 2.6s linear infinite;
 }
 .impact-med-stop{
   position:relative;
-  min-height:76px;
-  padding:13px 20px 13px 76px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:19px;
-  background:rgba(255,255,255,.045);
+  min-height:82px;
+  padding:15px 22px 15px 78px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:22px;
+  background:rgba(255,255,255,.07);
   display:grid;
   grid-template-columns:104px 1fr auto;
   align-items:center;
-  gap:10px;
+  gap:12px;
   text-align:left;
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 18px 46px rgba(0,0,0,.13);
 }
 .impact-med-stop::before{
   content:"";
@@ -110,29 +119,37 @@
   height:18px;
   transform:translateY(-50%);
   border-radius:50%;
-  background:#72d0ff;
-  border:5px solid #0b1b2d;
-  box-shadow:0 0 0 2px rgba(114,208,255,.32);
+  background:linear-gradient(135deg,#85d2ff,#c2adff);
+  border:5px solid #13233d;
+  box-shadow:0 0 0 2px rgba(133,210,255,.28);
 }
-.impact-med-stop b{font-size:11px;color:#72d0ff;font-weight:900;letter-spacing:.06em}
-.impact-med-stop strong{font-size:23px;color:#fff;font-weight:900;letter-spacing:-.04em}
-.impact-med-stop span{font-size:12px;color:#aebfd2;font-weight:700}
+.impact-med-stop b{font-size:11px;color:#85d2ff;font-weight:900;letter-spacing:.06em}
+.impact-med-stop strong{font-size:24px;color:#fff;font-weight:900;letter-spacing:-.04em}
+.impact-med-stop span{font-size:12px;color:rgba(255,255,255,.66);font-weight:700}
 .impact-med-bottom{
   width:100%;
-  margin:16px auto 0;
-  padding:19px 22px;
-  border-radius:20px;
+  margin:20px auto 0;
+  padding:22px 24px;
+  border-radius:22px;
   background:#fff;
-  color:#0b1730;
+  color:#0b1524;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:12px;
+  gap:13px;
   flex-wrap:wrap;
+  box-shadow:0 22px 60px rgba(0,0,0,.16);
 }
-.impact-med-bottom span{font-size:13px;color:#64758a;font-weight:800}
-.impact-med-bottom b{font-size:24px;color:#2868d7;font-weight:900}
-.impact-med-bottom i{width:1px;height:22px;background:#dbe4ef}
+.impact-med-bottom span{font-size:13px;color:#53657c;font-weight:800}
+.impact-med-bottom b{
+  font-size:25px;
+  font-weight:900;
+  background:linear-gradient(90deg,#2f73ff,#705cff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.impact-med-bottom i{width:1px;height:22px;background:rgba(47,115,255,.16)}
 
 @keyframes impactMedGlow{
   0%,100%{opacity:.65;transform:translate(-50%,-50%) scale(.96)}
@@ -144,35 +161,35 @@
 }
 
 @media(max-width:780px){
-  .impact-med{padding:50px 0;min-height:0}
-  .impact-inner{width:calc(100% - 32px)}
+  .impact-med{padding:72px 0;min-height:0}
+  .impact-inner{width:calc(100% - 36px)}
   .impact-label{min-height:30px;padding:0 11px;font-size:11px}
-  .impact-title{margin:15px auto 24px;font-size:31px;line-height:1.06}
-  .impact-med-glow{width:420px;height:190px}
-  .impact-med-route{gap:7px}
-  .impact-med-line{left:24px;top:22px;bottom:22px;width:2px}
+  .impact-title{margin:18px auto 32px;font-size:clamp(34px,9.8vw,46px);line-height:1.10}
+  .impact-med-glow{width:430px;height:200px}
+  .impact-med-route{gap:10px}
+  .impact-med-line{left:27px;top:25px;bottom:25px;width:2px}
   .impact-med-stop{
-    min-height:64px;
-    padding:10px 12px 10px 52px;
-    border-radius:14px;
-    grid-template-columns:64px 1fr;
-    gap:4px 7px;
+    min-height:76px;
+    padding:13px 14px 13px 58px;
+    border-radius:18px;
+    grid-template-columns:72px 1fr;
+    gap:5px 9px;
+    box-shadow:0 14px 36px rgba(0,0,0,.12);
   }
-  .impact-med-stop::before{left:16px;width:15px;height:15px;border-width:4px}
-  .impact-med-stop b{font-size:9px}
-  .impact-med-stop strong{font-size:18px;line-height:1.05}
-  .impact-med-stop span{grid-column:2;font-size:10.5px}
-  .impact-med-bottom{margin-top:12px;padding:15px 10px;border-radius:15px;gap:8px}
-  .impact-med-bottom span{font-size:10.5px}
-  .impact-med-bottom b{font-size:20px}
-  .impact-med-bottom i{height:18px}
+  .impact-med-stop::before{left:18px;width:16px;height:16px;border-width:4px}
+  .impact-med-stop b{font-size:10px}
+  .impact-med-stop strong{font-size:20px;line-height:1.08}
+  .impact-med-stop span{grid-column:2;font-size:11px}
+  .impact-med-bottom{margin-top:16px;padding:18px 12px;border-radius:18px;gap:9px}
+  .impact-med-bottom span{font-size:11px}
+  .impact-med-bottom b{font-size:22px}
+  .impact-med-bottom i{height:19px}
 }
 
 @media(max-width:380px){
-  .impact-inner{width:calc(100% - 26px)}
-  .impact-title{font-size:29px}
-  .impact-med-stop{padding-left:49px;grid-template-columns:60px 1fr}
-  .impact-med-stop strong{font-size:17px}
+  .impact-inner{width:calc(100% - 28px)}
+  .impact-med-stop{padding-left:54px;grid-template-columns:66px 1fr}
+  .impact-med-stop strong{font-size:19px}
 }
 
 @media(prefers-reduced-motion:reduce){
