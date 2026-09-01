@@ -10,20 +10,17 @@ export async function onRequest(context) {
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
 
-  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-restore2">';
+  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-restore3true">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
-  const calcPlansStyle = '<link rel="stylesheet" href="/membership/membership-calc-plans-v2.css?v=20260901-restore2">';
 
   const mobileStyles =
-    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
-    '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260901-restore2">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-restore2">' +
-    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-restore2">' +
+    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-restore3true">' +
+    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-restore3true">' +
+    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-restore3true">' +
     '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-2">' +
     '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-1">' +
     impactStyle +
-    surveyMobileStyle +
-    calcPlansStyle;
+    surveyMobileStyle;
 
   const desktopStyles =
     '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
@@ -31,10 +28,9 @@ export async function onRequest(context) {
     '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
     '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
     '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-2">' +
-    '<link rel="stylesheet" href="/membership/membership-expansion-v2.css?v=20260901-restore2">' +
+    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-restore3true">' +
     '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260901-restore1">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-restore2">' +
+    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-restore3true">' +
     impactStyle;
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
@@ -66,20 +62,14 @@ export async function onRequest(context) {
     .on('body', {
       element(element) {
         element.append(
-          '<script defer src="/membership/membership-hero-restore-v1.js?v=20260831-1"></script>' +
           motionScripts +
-          '<script defer src="/membership/membership-price-bridge-v1.js?v=20260831-10"></script>' +
-          '<script defer src="/membership/membership-adflow-1-4-v1.js?v=20260901-restore2"></script>' +
-          '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260901-restore2"></script>' +
-          '<script defer src="/membership/membership-expansion-v1.js?v=20260901-2"></script>' +
-          '<script defer src="/membership/membership-expansion-v2.js?v=20260901-restore2"></script>' +
-          (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-restore2"></script>' : '') +
-          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-restore2"></script>' +
+          '<script defer src="/membership/membership-price-bridge-v1.js?v=20260901-restore3true"></script>' +
+          '<script defer src="/membership/membership-expansion-v1.js?v=20260901-restore3true"></script>' +
+          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-restore3true"></script>' +
           '<script defer src="/membership/membership-cleanup-v1.js?v=20260901-1"></script>' +
-          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-restore2"></script>' +
-          (isMobile ? '<script defer src="/membership/membership-calc-plans-v2.js?v=20260901-1"></script>' : '') +
-          (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-1"></script>' : '') +
-          '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-step4cards"></script>',
+          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-restore3true"></script>' +
+          (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-restore3true"></script>' : '') +
+          '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-restore3true"></script>',
           { html: true }
         );
       }
