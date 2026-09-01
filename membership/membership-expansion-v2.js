@@ -20,14 +20,6 @@
     });
 
     $$('.mx-chapter-copy p').forEach((el) => el.remove());
-    $('#mx-cost-structure .mx-sub')?.remove();
-    $$('#mx-cost-structure .mx-card span').forEach((el) => el.remove());
-    $('#mx-moving-hotel .mx-sub')?.remove();
-    $('#mx-point-use .mx-sub')?.remove();
-    $$('#mx-use-rules .mx-dual-card p').forEach((el) => el.remove());
-    $$('#mx-plan-guide .mx-speed-card p').forEach((el) => el.remove());
-    $$('#mx-recap .mx-recap-card span').forEach((el) => el.remove());
-    $('#mx-final-choice p')?.remove();
 
     const movingEyebrow = $('#mx-moving-hotel .mx-eyebrow');
     if (movingEyebrow) movingEyebrow.textContent = '크루즈는';
