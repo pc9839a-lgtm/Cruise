@@ -79,11 +79,11 @@ export async function onRequest(context) {
           (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-source1"></script>' : '') +
           '<script defer src="/membership/membership-stage3-v1.js?v=20260901-2"></script>' +
           '<script defer src="/membership/membership-cleanup-v1.js?v=20260901-1"></script>' +
-          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-source1"></script>' +
+          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-step2"></script>' +
           (isMobile ? '<script defer src="/membership/membership-calc-plans-v2.js?v=20260901-1"></script>' : '') +
           '<script defer src="/membership/membership-tail-flow-v1.js?v=20260901-1"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-1"></script>' : '') +
-          '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-2"></script>',
+          '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-step2"></script>',
           { html: true }
         );
       }
