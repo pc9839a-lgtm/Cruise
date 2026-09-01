@@ -65,7 +65,7 @@ export async function onRequest(context) {
           motionScripts +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260901-opt1"></script>' +
           '<script defer src="/membership/membership-expansion-v1.js?v=20260901-copy4"></script>' +
-          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-copy4"></script>' +
+          '<script defer src="/membership/membership-stage3-v1.js?v=20260901-copy5"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-opt1"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-opt1"></script>' : '') +
           '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-opt1"></script>',
