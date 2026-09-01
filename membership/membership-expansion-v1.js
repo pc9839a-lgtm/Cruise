@@ -32,20 +32,20 @@
         <section id="mx-moving-hotel" class="mx-expand-section">
           <div class="mx-inner">
             <div class="mx-center">
-              <span class="mx-eyebrow mx-reveal">크루즈가 편한 이유</span>
-              <h2 class="mx-title mx-reveal">호텔을 옮기는 게 아니라<br><strong>호텔이 움직입니다</strong></h2>
-              <p class="mx-sub mx-reveal">짐은 객실에 두고, 먹고 쉬고 자는 동안 배가 다음 도시로 이동합니다.</p>
+              <span class="mx-eyebrow mx-reveal">배 안에서 하루가 다 됩니다</span>
+              <h2 class="mx-title mx-reveal">배 안에서 먹고, 자고, 놀고<br><strong>항구에선 도시를 여행합니다</strong></h2>
+              <p class="mx-sub mx-reveal">객실·뷔페·레스토랑·공연·수영장·라운지를 배 안에서 즐기고, 기항지에 도착하면 내려서 관광·맛집·쇼핑까지 즐깁니다.</p>
             </div>
             <div class="mx-hotel-layout">
               <div class="mx-hotel-visual mx-reveal mx-left">
-                <img src="./img/KakaoTalk_20260405_150550057_03.jpg" alt="크루즈 오션뷰 공간" loading="lazy" />
-                <div class="mx-hotel-caption"><span>짐은 그대로</span><strong>아침이면<br>다른 도시</strong></div>
+                <img src="./img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
+                <div class="mx-hotel-caption"><span>배 안에서는</span><strong>숙박 · 식사 · 공연<br>수영 · 휴식</strong></div>
               </div>
               <div class="mx-hotel-points">
-                <div class="mx-hotel-point mx-reveal"><b>01</b><strong>짐은 한 번만 풀기</strong></div>
-                <div class="mx-hotel-point mx-reveal"><b>02</b><strong>식사·공연은 배에서</strong></div>
-                <div class="mx-hotel-point mx-reveal"><b>03</b><strong>자는 동안 이동</strong></div>
-                <div class="mx-hotel-point mx-reveal"><b>04</b><strong>도착하면 도시 여행</strong></div>
+                <div class="mx-hotel-point mx-reveal"><b>01</b><strong>객실에서 숙박</strong></div>
+                <div class="mx-hotel-point mx-reveal"><b>02</b><strong>뷔페 · 레스토랑</strong></div>
+                <div class="mx-hotel-point mx-reveal"><b>03</b><strong>공연 · 수영 · 선내시설</strong></div>
+                <div class="mx-hotel-point mx-reveal"><b>04</b><strong>기항지 내려서 도시 관광</strong></div>
               </div>
             </div>
           </div>
