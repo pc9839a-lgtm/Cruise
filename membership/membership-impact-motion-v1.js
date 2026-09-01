@@ -41,17 +41,64 @@
 
   function enter(section) {
     const title = section.querySelector('.impact-title');
-    play(title,[{transform:'translateY(20px) scale(.98)'},{transform:'translateY(0) scale(1)'}],{duration:620});
+    play(title,[{transform:'translateY(18px) scale(.985)'},{transform:'translateY(0) scale(1)'}],{duration:600});
 
     if (section.id === 'impact-price') {
       const old = section.querySelector('.impact-price-old');
+      const oldNumber = old?.querySelector('strong');
+      const arrow = section.querySelector('.impact-price-arrow');
       const direct = section.querySelector('.impact-price-direct');
+      const directNumber = direct?.querySelector('strong');
       const diff = section.querySelector('.impact-diff');
-      play(old,[{transform:'translateX(-28px) rotate(-1deg)'},{transform:'translateX(0) rotate(0)'}],{duration:620,delay:90});
-      play(direct,[{transform:'translateX(28px) rotate(1deg) scale(.96)'},{transform:'translateX(0) rotate(0) scale(1)'}],{duration:680,delay:190});
-      play(diff,[{transform:'scale(.86)'},{transform:'scale(1.055)',offset:.72},{transform:'scale(1)'}],{duration:760,delay:420,easing:'cubic-bezier(.18,.9,.3,1.18)'});
-      addLoop(section,direct,[{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}],2500,500);
-      addLoop(section,diff.querySelector('strong'),[{transform:'scale(1)'},{transform:'scale(1.055)'},{transform:'scale(1)'}],1800,250);
+      const diffNumber = diff?.querySelector('strong');
+
+      play(old,[
+        {transform:'translateX(-22px) rotate(-1deg) scale(.985)'},
+        {transform:'translateX(0) rotate(0) scale(1)'}
+      ],{duration:560,delay:80});
+
+      play(arrow,[
+        {transform:'scale(.72)'},
+        {transform:'scale(1.14)',offset:.68},
+        {transform:'scale(1)'}
+      ],{duration:620,delay:230,easing:'cubic-bezier(.18,.9,.3,1.14)'});
+
+      play(direct,[
+        {transform:'translateY(26px) scale(.92)'},
+        {transform:'translateY(-4px) scale(1.035)',offset:.7},
+        {transform:'translateY(0) scale(1)'}
+      ],{duration:760,delay:320,easing:'cubic-bezier(.18,.9,.3,1.12)'});
+
+      play(diff,[
+        {transform:'translateY(24px) scale(.88)'},
+        {transform:'translateY(-3px) scale(1.055)',offset:.72},
+        {transform:'translateY(0) scale(1)'}
+      ],{duration:820,delay:560,easing:'cubic-bezier(.18,.9,.3,1.16)'});
+
+      addLoop(section,oldNumber,[
+        {transform:'translateX(0) rotate(0)'},
+        {transform:'translateX(-2px) rotate(-.4deg)'},
+        {transform:'translateX(2px) rotate(.35deg)'},
+        {transform:'translateX(0) rotate(0)'}
+      ],2600,900);
+
+      addLoop(section,direct,[
+        {transform:'translateY(0)'},
+        {transform:'translateY(-7px)'},
+        {transform:'translateY(0)'}
+      ],2400,650);
+
+      addLoop(section,directNumber,[
+        {transform:'scale(1)'},
+        {transform:'scale(1.035)'},
+        {transform:'scale(1)'}
+      ],2100,700);
+
+      addLoop(section,diffNumber,[
+        {transform:'scale(1)'},
+        {transform:'scale(1.075)'},
+        {transform:'scale(1)'}
+      ],1700,820);
     }
 
     if (section.id === 'impact-same') {
