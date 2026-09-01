@@ -71,14 +71,18 @@
 .impact-cost-result span{font-size:16px;color:#b9c8db;font-weight:800}
 .impact-cost-result strong{font-size:30px;color:#72d0ff;font-weight:900;letter-spacing:-.05em}
 
-/* GUIDE FLOW */
-.impact-guide{background:linear-gradient(180deg,#f8fbff,#edf4fc)}
-.impact-route{position:relative;width:min(760px,100%);margin:0 auto;padding-top:18px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.impact-route-progress{position:absolute;left:8%;right:8%;top:42px;height:4px;background:#dce6f2;border-radius:999px;overflow:hidden}
-.impact-route-progress i{display:block;width:32%;height:100%;border-radius:999px;background:linear-gradient(90deg,transparent,#72d0ff,#2868d7,transparent);animation:impactRouteFlow 2.4s linear infinite}
-.impact-route-step{position:relative;z-index:2;min-height:140px;padding:26px 12px 18px;border:1px solid #dbe4ef;border-radius:22px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;box-shadow:0 12px 30px rgba(32,70,120,.06)}
-.impact-route-step b{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#2868d7;color:#fff;font-size:14px;font-weight:900;box-shadow:0 0 0 8px #eef4ff}
-.impact-route-step strong{font-size:21px;font-weight:900;color:#0b1730;letter-spacing:-.04em}
+/* GUIDE FLOW — one continuous timeline, no cards */
+#impact-guide.impact-guide{background:linear-gradient(180deg,#f8fbff,#edf4fc);color:#0b1730}
+#impact-guide .impact-title{margin-bottom:38px}
+.impact-route{position:relative;width:min(760px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:0 12px}
+.impact-route-progress{position:absolute;left:10%;right:10%;top:23px;height:4px;background:#dce6f2;border-radius:999px;overflow:hidden;z-index:0}
+.impact-route-progress i{display:block;width:30%;height:100%;border-radius:999px;background:linear-gradient(90deg,transparent,#72d0ff,#2868d7,transparent);animation:impactRouteFlow 2.2s linear infinite}
+.impact-route-step{position:relative;z-index:2;min-height:104px;padding:0 6px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:13px;background:transparent;border:0;box-shadow:none}
+.impact-route-step b{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:#2868d7;color:#fff;font-size:13px;font-weight:900;border:5px solid #f1f6fd;box-shadow:0 6px 18px rgba(40,104,215,.18)}
+.impact-route-step strong{font-size:20px;line-height:1.05;font-weight:900;color:#0b1730;letter-spacing:-.04em;white-space:nowrap}
+.impact-guide-note{display:inline-flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;padding:15px 20px;border-radius:999px;background:#07111f;color:#fff}
+.impact-guide-note strong{font-size:15px;font-weight:900;color:#72d0ff}
+.impact-guide-note span{font-size:15px;font-weight:800;color:#fff}
 
 /* MEDITERRANEAN */
 .impact-med{background:#06101e;color:#fff;min-height:720px}
@@ -100,7 +104,7 @@
 @keyframes impactSweep{0%{transform:translateX(-110%)}100%{transform:translateX(110%)}}
 @keyframes impactCheckPulse{0%,100%{box-shadow:0 0 0 0 rgba(114,208,255,.34);transform:scale(1)}50%{box-shadow:0 0 0 10px rgba(114,208,255,0);transform:scale(1.05)}}
 @keyframes impactCostFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes impactRouteFlow{0%{transform:translateX(-120%)}100%{transform:translateX(330%)}}
+@keyframes impactRouteFlow{0%{transform:translateX(-120%)}100%{transform:translateX(345%)}}
 @keyframes impactMedGlow{0%,100%{opacity:.65;transform:translate(-50%,-50%) scale(.96)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
 @keyframes impactMedLine{0%{transform:translateY(-110%)}100%{transform:translateY(390%)}}
 
@@ -128,11 +132,16 @@
   .impact-cost-stack{gap:8px}.impact-cost-line{min-height:64px;padding:0 18px;border-radius:16px;gap:12px;justify-content:center}.impact-cost-line span{width:34px;height:34px;font-size:22px}.impact-cost-line strong{font-size:20px}
   .impact-cost-result{padding:20px;border-radius:18px;flex-direction:column;gap:5px}.impact-cost-result span{font-size:12px}.impact-cost-result strong{font-size:27px}
 
-  .impact-route{grid-template-columns:1fr;gap:8px;padding-top:0}
-  .impact-route-progress{left:29px;right:auto;top:28px;bottom:28px;width:4px;height:auto}
-  .impact-route-progress i{width:100%;height:28%;background:linear-gradient(180deg,transparent,#72d0ff,#2868d7,transparent);animation:impactRouteFlowMobile 2.4s linear infinite}
-  .impact-route-step{min-height:66px;padding:10px 14px;border-radius:16px;display:grid;grid-template-columns:42px 1fr;text-align:left;justify-items:start;gap:12px}
-  .impact-route-step b{width:36px;height:36px;font-size:12px;box-shadow:0 0 0 5px #eef4ff}.impact-route-step strong{font-size:20px}
+  #impact-guide{padding:60px 0}
+  #impact-guide .impact-title{font-size:34px;line-height:1.04;margin:16px auto 30px}
+  .impact-route{width:min(390px,100%);grid-template-columns:1fr;gap:0;padding:0;text-align:left}
+  .impact-route-progress{left:22px;right:auto;top:22px;bottom:22px;width:4px;height:auto}
+  .impact-route-progress i{width:100%;height:27%;background:linear-gradient(180deg,transparent,#72d0ff,#2868d7,transparent);animation:impactRouteFlowMobile 2.2s linear infinite}
+  .impact-route-step{min-height:62px;padding:0;display:grid;grid-template-columns:46px 1fr;align-items:center;justify-items:start;gap:13px}
+  .impact-route-step b{width:44px;height:44px;font-size:11px;border-width:4px;box-shadow:0 5px 14px rgba(40,104,215,.16)}
+  .impact-route-step strong{font-size:19px;white-space:normal}
+  .impact-guide-note{margin-top:20px;padding:13px 17px;gap:7px}
+  .impact-guide-note strong,.impact-guide-note span{font-size:13px}
 
   .impact-med{min-height:0}
   .impact-med-route{gap:8px}.impact-med-line{left:25px;top:24px;bottom:24px}
