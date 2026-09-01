@@ -10,15 +10,15 @@ export async function onRequest(context) {
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
 
-  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-opt1">';
+  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-opt2">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
 
   const mobileStyles =
     '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-opt1">' +
     '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-opt1">' +
-    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-opt1">' +
-    '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-2">' +
-    '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-1">' +
+    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-opt2">' +
+    '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-opt2">' +
+    '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-opt2">' +
     impactStyle +
     surveyMobileStyle;
 
