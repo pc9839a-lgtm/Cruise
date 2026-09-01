@@ -88,6 +88,14 @@
     old.replaceWith(section);
   }
 
+  function unwrapPriceBand() {
+    const band = $('#price-story-band');
+    if (!band || !band.parentNode) return;
+    const parent = band.parentNode;
+    while (band.firstChild) parent.insertBefore(band.firstChild, band);
+    band.remove();
+  }
+
   function addMediterranean() {
     if ($('#impact-med')) return;
     const anchor = $('#impact-guide') || $('#mx-moving-hotel');
@@ -134,6 +142,7 @@
     replaceSameCruise();
     replaceCostStructure();
     replaceGuide();
+    unwrapPriceBand();
     addMediterranean();
     removeOldDupes();
     syncAnchors();
