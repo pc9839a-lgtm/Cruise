@@ -34,7 +34,6 @@
   function cleanCoreCopy() {
     setText('#guide-question .mv2-kicker', '가이드 없이');
     setHtml('#guide-question .mv2-title', '<strong>승선 5단계</strong>');
-    remove('#guide-question .guide-worries, #guide-question .guide-answer-head');
 
     setText('#membership-point .mv2-kicker', 'CLASSIC');
     setHtml('#membership-point .mv2-title', '$100 → <strong>200P</strong>');
@@ -45,13 +44,11 @@
 
     setText('#real-cost .mv2-kicker', '실제 여행비');
     setHtml('#real-cost .mv2-title', '$2,000 → <strong>$1,500</strong>');
-    remove('#real-cost .mv2-sub');
 
     setText('#calculator .section-kicker', '가격 계산');
     setHtml('#calculator .section-head h2', '<strong>USD + POINT</strong>');
 
     setHtml('#plans .membership-section-head h2', '<strong>CLASSIC · PREMIUM</strong>');
-    remove('#plans .membership-section-head p, #plans .plan-fit');
 
     setText('#membership-terms .mv2-kicker', '가입 전');
     setHtml('#membership-terms .mv2-title', '<strong>5가지 확인</strong>');
@@ -83,10 +80,8 @@
     if (cost) {
       setText('.mx-eyebrow', '가격 차이', cost);
       setHtml('.mx-title', '크루즈는 그대로<br><strong>예약 방식만 다르게</strong>', cost);
-      remove('.mx-sub', cost);
       const labels = ['가이드', '단체 이동', '패키지 운영', '예약 대행'];
       $$('.mx-card', cost).forEach((card, i) => {
-        remove('span', card);
         if (labels[i]) setText('strong', labels[i], card);
       });
     }
@@ -95,29 +90,24 @@
     if (hotel) {
       setText('.mx-eyebrow', '크루즈 구조', hotel);
       setHtml('.mx-title', '객실은 그대로<br><strong>도시만 이동</strong>', hotel);
-      remove('.mx-sub', hotel);
     }
 
     const prepare = $('#mx-prepare-money');
     if (prepare) {
       setText('.mx-eyebrow', '여행비 준비', prepare);
       setHtml('.mx-title', '한 번에 결제<br><strong>VS 매달 적립</strong>', prepare);
-      $$('.mx-prepare-box em', prepare).forEach((el) => el.remove());
     }
 
     const pointUse = $('#mx-point-use');
     if (pointUse) {
       setText('.mx-eyebrow', '포인트 사용', pointUse);
       setHtml('.mx-title', '적립 → 선택 → <strong>예약</strong>', pointUse);
-      remove('.mx-sub', pointUse);
-      $$('.mx-flow-step span', pointUse).forEach((el) => el.remove());
     }
 
     const rules = $('#mx-use-rules');
     if (rules) {
       setText('.mx-eyebrow', '사용 기준', rules);
       setHtml('.mx-title', '포인트 + 카드<br><strong>270일+</strong>', rules);
-      $$('.mx-dual-card p', rules).forEach((el) => el.remove());
       const minis = $$('.mx-mini', rules);
       if (minis[0]) minis[0].textContent = '포인트 부족';
       if (minis[1]) minis[1].textContent = '출발 270일+';
@@ -127,7 +117,6 @@
     if (planGuide) {
       setText('.mx-eyebrow', '플랜 비교', planGuide);
       setHtml('.mx-title', 'CLASSIC <strong>VS</strong> PREMIUM', planGuide);
-      $$('.mx-speed-card p', planGuide).forEach((el) => el.remove());
     }
 
     const fit = $('#mx-fit-check');
@@ -161,14 +150,12 @@
       const summary = ['예약 방식 → 가격 차이', '$100 → 200P', '포인트 → 크루즈 예약'];
       $$('.mx-recap-card', recap).forEach((card, i) => {
         if (summary[i]) setText('strong', summary[i], card);
-        remove('span', card);
       });
     }
 
     const final = $('#mx-final-choice');
     if (final) {
       setHtml('h2', 'CLASSIC <strong>VS</strong> PREMIUM', final);
-      remove('p', final);
       const a = $('a', final);
       if (a && a.textContent !== '플랜 보기') a.textContent = '플랜 보기';
     }
