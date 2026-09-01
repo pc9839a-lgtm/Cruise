@@ -85,7 +85,6 @@
       if (label) label.textContent = data[0];
       if (value) value.textContent = data[1];
     });
-    $('.mv2-note', ledger)?.remove();
 
     return true;
   }
