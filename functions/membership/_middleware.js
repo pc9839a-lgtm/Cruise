@@ -6,16 +6,6 @@ export async function onRequest(context) {
   const ua = context.request.headers.get('user-agent') || '';
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
-  const lateSectionStyle = [
-    'margin:0!important',
-    'border:0!important',
-    'background:#07111f!important',
-    'background-color:#07111f!important',
-    'background-image:none!important',
-    'color:#fff!important',
-    'box-shadow:none!important'
-  ].join(';');
-
   const motionScripts = isMobile ? '' :
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
@@ -52,16 +42,6 @@ export async function onRequest(context) {
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
 
-  const applyDesktopLateStyle = (element) => {
-    if (isMobile) {
-      element.removeAttribute('style');
-      element.setAttribute('data-mobile-canonical', '1');
-      return;
-    }
-    element.setAttribute('style', lateSectionStyle);
-    element.setAttribute('data-late-static', '1');
-  };
-
   return new HTMLRewriter()
     .on('script[src*="membership-entry-survey-v1.js"]', {
       element(element) { element.remove(); }
@@ -73,18 +53,6 @@ export async function onRequest(context) {
     })
     .on('script[src*="membership-page-v2.js"]', {
       element(element) { element.remove(); }
-    })
-    .on('#real-cost', {
-      element(element) { applyDesktopLateStyle(element); }
-    })
-    .on('#calculator', {
-      element(element) { applyDesktopLateStyle(element); }
-    })
-    .on('#plans', {
-      element(element) { applyDesktopLateStyle(element); }
-    })
-    .on('#membership-terms', {
-      element(element) { applyDesktopLateStyle(element); }
     })
     .on('head', {
       element(element) {
@@ -108,10 +76,10 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-midflow-5-7-v1.js?v=20260901-1"></script>' +
           '<script defer src="/membership/membership-expansion-v1.js?v=20260901-2"></script>' +
           '<script defer src="/membership/membership-expansion-v2.js?v=20260901-2"></script>' +
-          (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-2"></script>' : '') +
+          (isMobile ? '<script defer src="/membership/membership-mobile-final-v1.js?v=20260901-source1"></script>' : '') +
           '<script defer src="/membership/membership-stage3-v1.js?v=20260901-2"></script>' +
           '<script defer src="/membership/membership-cleanup-v1.js?v=20260901-1"></script>' +
-          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-2"></script>' +
+          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-source1"></script>' +
           (isMobile ? '<script defer src="/membership/membership-calc-plans-v2.js?v=20260901-1"></script>' : '') +
           '<script defer src="/membership/membership-tail-flow-v1.js?v=20260901-1"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-1"></script>' : '') +
