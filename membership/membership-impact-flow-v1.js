@@ -85,15 +85,16 @@
     section.innerHTML = `
       <div class="impact-inner">
         <div class="impact-label">가이드 없이</div>
-        <h2 class="impact-title">처음이어도<br><strong>이 5개면 끝</strong></h2>
+        <h2 class="impact-title">항구에 도착하면<br><strong>이 순서대로</strong></h2>
         <div class="impact-route" aria-label="크루즈 이용 5단계">
-          <div class="impact-route-progress"><i></i></div>
-          <div class="impact-route-step"><b>01</b><strong>항구 찾기</strong></div>
+          <div class="impact-route-progress" aria-hidden="true"><i></i></div>
+          <div class="impact-route-step"><b>01</b><strong>항구</strong></div>
           <div class="impact-route-step"><b>02</b><strong>체크인</strong></div>
           <div class="impact-route-step"><b>03</b><strong>승선</strong></div>
           <div class="impact-route-step"><b>04</b><strong>기항지</strong></div>
           <div class="impact-route-step"><b>05</b><strong>하선</strong></div>
         </div>
+        <div class="impact-guide-note"><strong>안내표지 보고</strong><span>순서대로 이동</span></div>
       </div>`;
     old.replaceWith(section);
   }
