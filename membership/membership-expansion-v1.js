@@ -34,7 +34,6 @@
             <div class="mx-center">
               <span class="mx-eyebrow mx-reveal">배 안에서 하루가 다 됩니다</span>
               <h2 class="mx-title mx-reveal">배 안에서 먹고, 자고, 놀고<br><strong>항구에선 도시를 여행합니다</strong></h2>
-              <p class="mx-sub mx-reveal">객실·뷔페·레스토랑·공연·수영장·라운지를 배 안에서 즐기고, 기항지에 도착하면 내려서 관광·맛집·쇼핑까지 즐깁니다.</p>
             </div>
             <div class="mx-hotel-layout">
               <div class="mx-hotel-visual mx-reveal mx-left">
