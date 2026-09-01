@@ -71,35 +71,30 @@
   #same-cruise .mv2-four>div b{margin:0 0 5px!important;font-size:11px!important;color:var(--sky)!important;letter-spacing:.08em!important}
   #same-cruise .mv2-four>div span{font-size:18px!important;color:#fff!important;font-weight:900!important}
 
-  /* COST STRUCTURE — NO EMPTY GIANT CARDS */
+  /* COST STRUCTURE */
   #mx-cost-structure{background:#fff!important;color:var(--ink)!important}
   #mx-cost-structure .mx-title,#mx-cost-structure .mx-title strong{color:var(--ink)!important}
   #mx-cost-structure .mx-title strong{color:var(--blue)!important}
-  #mx-cost-structure .mx-sub{display:none!important}
   #mx-cost-structure .mx-card-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin-top:26px!important}
   #mx-cost-structure .mx-card{min-height:104px!important;height:auto!important;padding:16px!important;border:1px solid var(--line)!important;border-radius:18px!important;background:#fff!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;gap:7px!important;box-shadow:none!important}
   #mx-cost-structure .mx-card b{font-size:12px!important;color:var(--blue)!important}
   #mx-cost-structure .mx-card strong{font-size:20px!important;line-height:1.08!important;color:var(--ink)!important}
-  #mx-cost-structure .mx-card span{display:none!important}
 
   /* GUIDE */
   #guide-question{background:#fff!important;color:var(--ink)!important}
   #guide-question .mv2-kicker{background:#eaf1fb!important;color:#214b83!important;border-color:#d7e3f1!important}
   #guide-question .mv2-title,#guide-question .mv2-title *{font-size:32px!important;color:var(--ink)!important;opacity:1!important}
   #guide-question .mv2-title strong{color:var(--blue)!important}
-  #guide-question .guide-worries,#guide-question .guide-answer-head{display:none!important}
   #guide-question .mv2-steps,#guide-question .guide-solutions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:24px!important}
   #guide-question .mv2-step{min-height:66px!important;height:auto!important;padding:13px 15px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:#f6f8fb!important;display:flex!important;align-items:center!important;gap:14px!important;color:var(--ink)!important;opacity:1!important}
   #guide-question .mv2-step b{flex:0 0 30px!important;color:var(--blue)!important}
   #guide-question .mv2-step span strong{font-size:19px!important;color:var(--ink)!important}
   #guide-question .mv2-step span em{font-size:13px!important;color:var(--muted)!important}
-  #guide-question .mv2-sub{display:none!important}
 
   /* MOVING HOTEL */
   #mx-moving-hotel{background:#fff!important;color:var(--ink)!important}
   #mx-moving-hotel .mx-title{color:var(--ink)!important}
   #mx-moving-hotel .mx-title strong{color:var(--blue)!important}
-  #mx-moving-hotel .mx-sub{display:none!important}
   .mx-hotel-layout{grid-template-columns:1fr!important;gap:12px!important;margin-top:26px!important}
   .mx-hotel-visual{min-height:300px!important;border-radius:20px!important}
   .mx-hotel-caption{left:16px!important;right:16px!important;bottom:16px!important}
@@ -109,7 +104,6 @@
   .mx-hotel-point{min-height:96px!important;height:auto!important;padding:14px!important;border:1px solid var(--line)!important;border-radius:16px!important;background:#fff!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:6px!important}
   .mx-hotel-point b{font-size:11px!important;color:var(--blue)!important}
   .mx-hotel-point strong{font-size:19px!important;line-height:1.08!important;color:var(--ink)!important}
-  #m2-hotel-route,#m2-price-story,#m2-payment-flow{display:none!important}
 
   /* POINTS */
   #membership-mid-band,#membership-point,#points-by-time{background:var(--n)!important;color:#fff!important}
@@ -128,23 +122,18 @@
   #mx-prepare-money .mx-title,#mx-prepare-money .mx-title strong{color:#fff!important}
   #mx-prepare-money .mx-title strong{color:var(--sky)!important}
   .mx-prepare-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:9px!important;margin-top:26px!important}
-  .mx-prepare-vs{display:none!important}
   .mx-prepare-box{min-height:118px!important;height:auto!important;padding:16px!important;border:1px solid rgba(255,255,255,.15)!important;border-radius:18px!important;background:var(--n2)!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:8px!important;color:#fff!important}
   .mx-prepare-box span{font-size:12px!important;color:#cbd6e3!important}
   .mx-prepare-box strong{font-size:22px!important;color:#fff!important}
   .mx-prepare-box.good strong{color:var(--sky)!important}
-  .mx-prepare-box em{display:none!important}
 
   #mx-point-use{background:#fff!important;color:var(--ink)!important}
   #mx-point-use .mx-title{color:var(--ink)!important}
   #mx-point-use .mx-title strong{color:var(--blue)!important}
-  #mx-point-use .mx-sub{display:none!important}
   #mx-point-use .mx-flow{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:24px!important}
-  #mx-point-use .mx-flow-arrow{display:none!important}
   #mx-point-use .mx-flow-step{min-height:68px!important;height:auto!important;padding:14px 16px!important;border:1px solid var(--line)!important;border-radius:16px!important;background:#fff!important;display:grid!important;grid-template-columns:58px 1fr!important;align-items:center!important;gap:10px!important;color:var(--ink)!important}
   #mx-point-use .mx-flow-step b{font-size:11px!important;color:var(--blue)!important}
   #mx-point-use .mx-flow-step strong{font-size:20px!important;color:var(--ink)!important}
-  #mx-point-use .mx-flow-step span{display:none!important}
   #mx-point-use .mx-count-big{margin-top:22px!important;font-size:58px!important;color:var(--blue)!important}
 
   /* REAL COST */
@@ -156,7 +145,6 @@
   #real-cost .mv2-paybox span{font-size:13px!important;color:var(--muted)!important}
   #real-cost .mv2-paybox strong{font-size:32px!important;color:var(--ink)!important}
   #real-cost .mv2-symbol{font-size:24px!important;color:var(--blue)!important}
-  #real-cost .mv2-sub{display:none!important}
 
   /* CALCULATOR — USD / POINT ONLY */
   #calculator{background:var(--n)!important;color:#fff!important}
@@ -186,7 +174,6 @@
   #mx-use-rules .mx-mini{font-size:12px!important;color:#cbd6e3!important}
   #mx-use-rules .mx-dual-card h3{margin-top:8px!important;font-size:28px!important;line-height:1.05!important;color:#fff!important}
   #mx-use-rules .mx-dual-card h3 strong{color:var(--sky)!important}
-  #mx-use-rules .mx-dual-card p{display:none!important}
   #mx-use-rules .mx-equation{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:10px!important;margin-top:16px!important;white-space:nowrap!important}
   #mx-use-rules .mx-equation strong{font-size:23px!important;color:#fff!important;white-space:nowrap!important}
   #mx-use-rules .mx-equation span{font-size:20px!important;color:#aebccd!important}
@@ -199,7 +186,6 @@
   .mx-speed-card{min-height:148px!important;height:auto!important;padding:16px!important;border:1px solid var(--line)!important;border-radius:18px!important;background:#fff!important;color:var(--ink)!important;box-shadow:none!important}
   .mx-speed-card b{font-size:11px!important;color:var(--blue)!important}
   .mx-speed-card h3{margin-top:10px!important;font-size:26px!important;color:var(--ink)!important}
-  .mx-speed-card p{display:none!important}
   .mx-speed-number{margin-top:14px!important;padding-top:12px!important;border-top:1px solid var(--line)!important}
   .mx-speed-number span{font-size:11px!important;color:var(--muted)!important}
   .mx-speed-number strong{font-size:28px!important;color:var(--blue)!important}
@@ -207,7 +193,7 @@
   /* PLANS */
   #plans{background:#f4f7fb!important;color:var(--ink)!important}
   #plans .membership-section-head h2,#plans .membership-section-head h2 strong{font-size:34px!important;color:var(--ink)!important}
-  #plans .membership-section-head p,#plans .plan-fit,#plans .plan-top-stats{display:none!important}
+  #plans .plan-top-stats{display:none!important}
   #plans .mv2-early{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin:20px 0!important}
   #plans .mv2-early>div{min-height:82px!important;padding:13px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:#fff!important}
   #plans .mv2-early span{font-size:11px!important;color:var(--muted)!important}
@@ -269,7 +255,6 @@
   .mx-recap-card{min-height:72px!important;height:auto!important;padding:14px!important;border:1px solid var(--line)!important;border-radius:15px!important;background:#fff!important;color:var(--ink)!important;box-shadow:none!important}
   .mx-recap-card b{color:var(--blue)!important}
   .mx-recap-card strong{font-size:16px!important;color:var(--ink)!important}
-  .mx-recap-card span{display:none!important}
   .mx-action{min-height:52px!important;margin-top:18px!important;border-radius:14px!important;font-size:16px!important}
 
   #price-match{background:#f4f7fb!important;color:var(--ink)!important;text-align:center!important}
