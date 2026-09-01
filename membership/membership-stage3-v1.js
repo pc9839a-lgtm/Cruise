@@ -15,23 +15,6 @@
   }
 
   function syncCoreNarrativeCopy() {
-    const navLabels = ['크루즈란?', '둘이 400만원?', '160만원 차이', '같은 크루즈', '직접 갈 수 있나', '멤버십'];
-    $$('.hero-nav-track > a').forEach((link, index) => {
-      const label = navLabels[index % navLabels.length];
-      const span = $('span', link);
-      if (span && label && span.textContent !== label) span.textContent = label;
-    });
-
-    setHtml('.hero-title', '짐은 한 번만 풀고<br><strong>아침마다 다른 도시에 도착합니다</strong>');
-    setText('.hero-ticket-back span', '자는 동안 이동');
-    setText('.hero-ticket-back strong', '아침엔 새 도시');
-    setText('.hero-ticket-front span', '한 배 안에서');
-    setText('.hero-ticket-front strong', '숙박 · 식사 · 공연');
-    setText('.hero-ticket-front em', '짐은 한 번만');
-
-    setText('.review-strip-head .section-kicker', '크루즈는 이런 여행');
-    setHtml('.review-strip-head h2', '먹고, 쉬고, 자는 동안<br>다음 도시로 이동합니다');
-
     setText('#price-pain .mv2-kicker', '여행사 · 가이드 포함 예시');
     setHtml('#price-pain .mv2-title', '둘이 4박 5일<br><strong>약 400만원?</strong>');
     setText('#price-pain .mv2-mega', '400만원?');
