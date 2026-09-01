@@ -118,8 +118,24 @@
     }
 
     if (section.id === 'impact-guide') {
-      const steps = $$('.impact-route-step',section); stagger(steps,'y',16,90);
-      steps.forEach((step,i)=>addLoop(section,step.querySelector('b'),[{transform:'scale(1)'},{transform:'scale(1.1)'},{transform:'scale(1)'}],2300,i*180));
+      const steps = $$('.impact-route-step',section);
+      const note = section.querySelector('.impact-guide-note');
+      steps.forEach((step,i)=>{
+        play(step,[
+          {transform:'translateY(14px) scale(.96)'},
+          {transform:'translateY(-2px) scale(1.02)',offset:.72},
+          {transform:'translateY(0) scale(1)'}
+        ],{duration:560,delay:90+i*105,easing:'cubic-bezier(.18,.9,.3,1.12)'});
+        addLoop(section,step.querySelector('b'),[
+          {transform:'scale(1)'},
+          {transform:'scale(1.12)'},
+          {transform:'scale(1)'}
+        ],2200,i*220);
+      });
+      play(note,[
+        {transform:'translateY(14px) scale(.95)'},
+        {transform:'translateY(0) scale(1)'}
+      ],{duration:580,delay:steps.length*100+140});
     }
 
     if (section.id === 'impact-med') {
