@@ -10,7 +10,7 @@ export async function onRequest(context) {
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
     '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
 
-  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-3">';
+  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-step2">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const calcPlansStyle = '<link rel="stylesheet" href="/membership/membership-calc-plans-v2.css?v=20260901-1">';
   const tailStyle = '<link rel="stylesheet" href="/membership/membership-tail-flow-v1.css?v=20260901-1">';
