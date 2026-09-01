@@ -75,7 +75,7 @@
     section.innerHTML = `
       <div class="impact-inner">
         <div class="impact-label">가이드 없이</div>
-        <h2 class="impact-title">처음이어도<br><strong>이 5개면 끝</strong></h2>
+        <h2 class="impact-title">항구에서 배까지<br><strong>5단계</strong></h2>
         <div class="impact-route" aria-label="크루즈 이용 5단계">
           <div class="impact-route-progress"><i></i></div>
           <div class="impact-route-step"><b>01</b><strong>항구 찾기</strong></div>
