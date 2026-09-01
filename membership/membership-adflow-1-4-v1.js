@@ -41,9 +41,8 @@
     if (sameKicker) sameKicker.textContent = '160만원 아끼고';
     if (sameTitle) sameTitle.innerHTML = '<strong>크루즈는 그대로</strong>';
 
-    compare.style.display = 'none';
-    compare.setAttribute('aria-hidden', 'true');
-    $$('a[href="#price-compare"]').forEach((link) => link.setAttribute('href', '#price-bridge'));
+    compare.style.removeProperty('display');
+    compare.removeAttribute('aria-hidden');
 
     return true;
   }
