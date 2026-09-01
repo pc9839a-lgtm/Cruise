@@ -12,14 +12,24 @@
     section.className = 'impact-section impact-price';
     section.innerHTML = `
       <div class="impact-inner">
-        <div class="impact-label">4박 5일 · 2명 예시</div>
-        <h2 class="impact-title">같은 여행인데<br><strong>왜 160만원 차이?</strong></h2>
+        <div class="impact-label">4박 5일 · 2명 기준</div>
+        <h2 class="impact-title">같은 크루즈인데<br><strong>160만원이 남습니다</strong></h2>
         <div class="impact-price-stage">
-          <article class="impact-price-card impact-price-old" data-impact-card><span>여행사 · 가이드 포함</span><strong>400만원</strong></article>
+          <article class="impact-price-card impact-price-old" data-impact-card>
+            <span>여행사 · 가이드 포함</span>
+            <strong>400만원</strong>
+          </article>
           <div class="impact-price-arrow" aria-hidden="true"><i></i><b>→</b></div>
-          <article class="impact-price-card impact-price-direct" data-impact-card><span>직접 예약</span><strong>240만원</strong></article>
+          <article class="impact-price-card impact-price-direct" data-impact-card>
+            <span>직접 예약</span>
+            <strong>240만원</strong>
+          </article>
         </div>
-        <div class="impact-diff" data-impact-diff><small>2명 기준</small><strong>160만원</strong><b>차이</b></div>
+        <div class="impact-diff" data-impact-diff>
+          <small>둘이 합쳐</small>
+          <strong>160만원</strong>
+          <b>차이</b>
+        </div>
       </div>`;
     old.replaceWith(section);
   }
