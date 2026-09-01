@@ -139,10 +139,28 @@
     }
 
     if (section.id === 'impact-med') {
-      const stops = $$('.impact-med-stop',section); stagger(stops,'x',18,75);
+      const stops = $$('.impact-med-stop',section);
       const bottom = section.querySelector('.impact-med-bottom');
-      play(bottom,[{transform:'translateY(20px) scale(.97)'},{transform:'translateY(0) scale(1)'}],{duration:620,delay:stops.length*70});
-      stops.forEach((stop,i)=>addLoop(section,stop,[{transform:'translateX(0)'},{transform:`translateX(${i%2?2:-2}px)`},{transform:'translateX(0)'}],2800,i*140));
+
+      stops.forEach((stop,i)=>{
+        play(stop,[
+          {transform:'translateY(14px) scale(.965)'},
+          {transform:'translateY(-2px) scale(1.018)',offset:.72},
+          {transform:'translateY(0) scale(1)'}
+        ],{duration:560,delay:80+i*95,easing:'cubic-bezier(.18,.9,.3,1.12)'});
+
+        addLoop(section,stop.querySelector('b'),[
+          {transform:'scale(1)',boxShadow:'0 0 0 0 rgba(114,208,255,.28)'},
+          {transform:'scale(1.13)',boxShadow:'0 0 0 10px rgba(114,208,255,0)'},
+          {transform:'scale(1)',boxShadow:'0 0 0 0 rgba(114,208,255,0)'}
+        ],2400,i*230);
+      });
+
+      play(bottom,[
+        {transform:'translateY(18px) scale(.95)'},
+        {transform:'translateY(-2px) scale(1.025)',offset:.72},
+        {transform:'translateY(0) scale(1)'}
+      ],{duration:660,delay:stops.length*90+100,easing:'cubic-bezier(.18,.9,.3,1.12)'});
     }
   }
 
