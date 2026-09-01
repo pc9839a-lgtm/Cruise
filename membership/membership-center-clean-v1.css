@@ -1,5 +1,5 @@
 @media(max-width:780px){
-  /* full-page center alignment */
+  /* section-level center alignment only */
   .mv2-inner,.pb-inner,.mx-inner,.m3-inner,
   #calculator .container,#plans .container{
     text-align:center!important;
@@ -19,7 +19,7 @@
     margin-right:auto!important;
   }
 
-  /* price cards */
+  /* price comparison stays centered */
   #price-bridge .pb-price{
     text-align:center!important;
     align-items:center!important;
@@ -31,24 +31,21 @@
     text-align:center!important;
   }
 
-  /* SAME + compact cards */
+  /* compact visual cards */
   #same-cruise .mv2-four>div,
   #mx-cost-structure .mx-card,
   .mx-hotel-point,
-  #mx-point-use .mx-flow-step,
   .mx-prepare-box,
   .mx-speed-card,
-  .mx-fit-box,
-  .mx-recap-card,
-  .m3-four>div,.m3-steps>div,.m3-cases article{
+  .m3-four>div{
     align-items:center!important;
     justify-content:center!important;
     text-align:center!important;
   }
 
+  /* information rows keep label/value scanning */
   #mx-point-use .mx-flow-step{
-    grid-template-columns:1fr!important;
-    gap:4px!important;
+    text-align:center!important;
   }
 
   #guide-question .mv2-step{
@@ -66,12 +63,21 @@
   #plans .plan-card,
   #plans .plan-main-line,
   #plans .plan-price-row,
-  #plans .plan-mobile-line,
   #plans .plan-feature{
     text-align:center!important;
   }
   #plans .plan-price-row{justify-content:center!important}
-  #plans .plan-mobile-line{justify-content:center!important;gap:12px!important;flex-wrap:wrap!important}
+  #plans .plan-mobile-line{
+    text-align:left!important;
+    justify-content:space-between!important;
+    gap:10px!important;
+    flex-wrap:nowrap!important;
+  }
+
+  #mx-fit-check .mx-fit-box{
+    text-align:left!important;
+    align-items:stretch!important;
+  }
 
   #membership-terms .mv2-term{
     display:flex!important;
@@ -79,19 +85,19 @@
     align-items:center!important;
     justify-content:center!important;
     text-align:center!important;
-    gap:6px!important;
+    gap:5px!important;
   }
 
-  #mx-faq-section .mx-faq-q,
-  #mx-faq-section .mx-faq-a{
-    text-align:center!important;
+  #mx-faq-section .mx-faq-q{
+    text-align:left!important;
   }
-  #mx-faq-section .mx-faq-q{justify-content:center!important;gap:12px!important}
+  #mx-faq-section .mx-faq-a{
+    text-align:left!important;
+  }
 
   .m3-select-block{justify-items:center!important;text-align:center!important}
   .m3-buttons{justify-content:center!important;width:100%!important}
-  .m3-result{text-align:center!important}
+  .m3-result{text-align:left!important}
 
-  /* remove leftover chapter separators visually even before JS cleanup */
   .mx-chapter,.mx-chapter-rail{display:none!important}
 }
