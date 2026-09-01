@@ -75,7 +75,7 @@
     section.innerHTML = `
       <div class="impact-inner">
         <div class="impact-label">가이드 없이</div>
-        <h2 class="impact-title">항구에서 배까지<br><strong>5단계</strong></h2>
+        <h2 class="impact-title">처음이어도<br><strong>이 5개면 끝</strong></h2>
         <div class="impact-route" aria-label="크루즈 이용 5단계">
           <div class="impact-route-progress"><i></i></div>
           <div class="impact-route-step"><b>01</b><strong>항구 찾기</strong></div>
@@ -104,8 +104,8 @@
       <section id="impact-med" class="impact-section impact-med">
         <div class="impact-med-glow" aria-hidden="true"></div>
         <div class="impact-inner">
-          <div class="impact-label dark">지중해 7박 8일 · 예시 일정</div>
-          <h2 class="impact-title light">짐은 그대로<br><strong>도시만 바뀝니다</strong></h2>
+          <div class="impact-label dark">MEDITERRANEAN · 7박 8일 예시</div>
+          <h2 class="impact-title light">일주일 동안<br><strong>도시가 계속 바뀝니다</strong></h2>
           <div class="impact-med-route">
             <div class="impact-med-line"><i></i></div>
             <div class="impact-med-stop"><b>DAY 1</b><strong>바르셀로나</strong><span>출항</span></div>
@@ -113,10 +113,10 @@
             <div class="impact-med-stop"><b>DAY 3</b><strong>제노바</strong><span>이탈리아</span></div>
             <div class="impact-med-stop"><b>DAY 4</b><strong>로마</strong><span>치비타베키아</span></div>
             <div class="impact-med-stop"><b>DAY 5</b><strong>나폴리</strong><span>남부 이탈리아</span></div>
-            <div class="impact-med-stop"><b>DAY 6–7</b><strong>해상 · 기항</strong><span>예시 일정</span></div>
+            <div class="impact-med-stop"><b>DAY 6–7</b><strong>해상 · 기항</strong><span>선사별 일정 상이</span></div>
             <div class="impact-med-stop"><b>DAY 8</b><strong>바르셀로나</strong><span>귀항</span></div>
           </div>
-          <div class="impact-med-bottom"><span>짐 이동</span><b>0번</b><i></i><span>객실</span><b>그대로</b><i></i><span>밤에는</span><b>이동</b></div>
+          <div class="impact-med-bottom"><span>호텔 이동</span><b>0번</b><i></i><span>객실</span><b>그대로</b></div>
         </div>
       </section>`);
   }
