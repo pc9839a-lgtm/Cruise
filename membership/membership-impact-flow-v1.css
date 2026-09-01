@@ -12,27 +12,38 @@
 .impact-title.light{color:#fff}
 .impact-title.light strong{color:#72d0ff}
 
-/* PRICE DRAMA */
-.impact-price{background:linear-gradient(180deg,#eef3f9 0%,#f8fbff 100%)}
+/* PRICE DRAMA — source owns all text colors; legacy band styles cannot override */
+#impact-price.impact-price{background:linear-gradient(180deg,#eef3f9 0%,#f8fbff 100%)!important;color:#0b1730!important}
+#impact-price .impact-label{background:#e9f0fb!important;border-color:#d5e1f0!important;color:#235288!important}
+#impact-price .impact-title{color:#0b1730!important}
+#impact-price .impact-title strong{color:#2868d7!important}
+#impact-price .impact-price-old{background:#fff!important;color:#6d7c90!important}
+#impact-price .impact-price-old span{color:#6d7c90!important}
+#impact-price .impact-price-old strong{color:#7d8ca0!important}
+#impact-price .impact-price-direct{color:#fff!important}
+#impact-price .impact-price-direct span,#impact-price .impact-price-direct strong{color:#fff!important}
+#impact-price .impact-diff{color:#fff!important}
+#impact-price .impact-diff small{color:#b9c8db!important}
+#impact-price .impact-diff strong{color:#72d0ff!important}
+#impact-price .impact-diff b{color:#fff!important}
 .impact-price::before{content:"";position:absolute;left:50%;top:-180px;width:640px;height:640px;transform:translateX(-50%);background:radial-gradient(circle,rgba(40,104,215,.18),rgba(40,104,215,0) 68%);pointer-events:none}
 .impact-price-stage{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:18px}
 .impact-price-card{position:relative;min-height:240px;padding:34px;border-radius:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:1px solid #dbe4ef;overflow:hidden}
 .impact-price-card span{font-size:18px;font-weight:800;letter-spacing:-.03em}
 .impact-price-card strong{font-size:78px;line-height:.92;letter-spacing:-.07em;font-weight:900;white-space:nowrap}
-.impact-price-old{background:#fff;color:#6d7c90}
-.impact-price-old strong{position:relative;color:#7d8ca0}
+.impact-price-old strong{position:relative}
 .impact-price-old strong::after{content:"";position:absolute;left:-4%;right:-4%;top:51%;height:6px;border-radius:999px;background:#9aa9ba;transform:rotate(-3deg)}
-.impact-price-direct{background:linear-gradient(145deg,#2b70e7 0%,#1959c3 100%);color:#fff;border-color:transparent;box-shadow:0 26px 60px rgba(32,96,210,.25)}
+.impact-price-direct{background:linear-gradient(145deg,#2b70e7 0%,#1959c3 100%);border-color:transparent;box-shadow:0 26px 60px rgba(32,96,210,.25)}
 .impact-price-direct::before{content:"";position:absolute;inset:-40%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.25) 48%,transparent 58%);transform:translateX(-60%);animation:impactShine 3.4s ease-in-out infinite}
 .impact-price-direct span,.impact-price-direct strong{position:relative;z-index:1}
 .impact-price-arrow{position:relative;height:110px;display:flex;align-items:center;justify-content:center}
 .impact-price-arrow b{font-size:48px;color:#2868d7;position:relative;z-index:2}
 .impact-price-arrow i{position:absolute;width:76px;height:76px;border-radius:50%;background:rgba(40,104,215,.1);animation:impactRing 1.8s ease-out infinite}
-.impact-diff{position:relative;width:min(620px,100%);margin:26px auto 0;padding:28px 30px;border-radius:30px;background:#07111f;color:#fff;display:flex;align-items:baseline;justify-content:center;gap:12px;box-shadow:0 22px 54px rgba(7,17,31,.18);overflow:hidden}
+.impact-diff{position:relative;width:min(620px,100%);margin:26px auto 0;padding:28px 30px;border-radius:30px;background:#07111f;display:flex;align-items:baseline;justify-content:center;gap:12px;box-shadow:0 22px 54px rgba(7,17,31,.18);overflow:hidden}
 .impact-diff::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,rgba(114,208,255,.16),transparent 80%);transform:translateX(-100%);animation:impactSweep 2.8s linear infinite}
 .impact-diff small,.impact-diff strong,.impact-diff b{position:relative;z-index:1}
-.impact-diff small{font-size:15px;font-weight:800;color:#b9c8db}
-.impact-diff strong{font-size:64px;line-height:.9;letter-spacing:-.065em;color:#72d0ff;font-weight:900}
+.impact-diff small{font-size:15px;font-weight:800}
+.impact-diff strong{font-size:64px;line-height:.9;letter-spacing:-.065em;font-weight:900}
 .impact-diff b{font-size:27px;font-weight:900}
 
 /* SAME PROOF */
