@@ -144,10 +144,6 @@
     });
   }
 
-  function removeOldDupes() {
-    ['#m3-savings-use'].forEach((s) => $(s)?.remove());
-  }
-
   function build() {
     replacePriceBridge();
     replaceSameCruise();
@@ -155,7 +151,6 @@
     replaceGuide();
     unwrapPriceBand();
     addMediterranean();
-    removeOldDupes();
     syncAnchors();
   }
 
