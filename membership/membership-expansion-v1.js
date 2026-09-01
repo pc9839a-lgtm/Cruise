@@ -71,36 +71,36 @@
       insertAfter(ledger, `
         <section id="mx-prepare-money" class="mx-expand-section mx-dark">
           <div class="mx-inner mx-center">
-            <span class="mx-eyebrow mx-reveal">여행비 준비 방식</span>
-            <h2 class="mx-title mx-reveal">여행 직전에 한 번에<br><strong>VS 매달 나눠 준비</strong></h2>
+            <span class="mx-eyebrow mx-reveal">CLASSIC 적립 구조</span>
+            <h2 class="mx-title mx-reveal">매월 $100 결제하면<br><strong>200P가 적립됩니다</strong></h2>
             <div class="mx-prepare-grid">
               <div class="mx-prepare-box mx-reveal mx-left">
-                <span>일반적인 준비</span>
-                <strong>여행 직전</strong>
-                <em>필요한 여행비를 한 번에 결제</em>
+                <span>월 멤버십 결제</span>
+                <strong>$100</strong>
+                <em>CLASSIC 월 결제 기준</em>
               </div>
-              <div class="mx-prepare-vs mx-reveal">VS</div>
+              <div class="mx-prepare-vs mx-reveal">→</div>
               <div class="mx-prepare-box good mx-reveal mx-right">
-                <span>클래식 예시</span>
-                <strong>$100 → 200P</strong>
-                <em>여행 전부터 매달 나눠 준비</em>
+                <span>매월 적립</span>
+                <strong>200P</strong>
+                <em>크루즈 예약에 사용하는 Reward Points</em>
               </div>
             </div>
           </div>
         </section>
         <section id="mx-point-use" class="mx-expand-section mx-soft">
           <div class="mx-inner mx-center">
-            <span class="mx-eyebrow mx-reveal">포인트 사용</span>
-            <h2 class="mx-title mx-reveal">쌓은 포인트는<br><strong>크루즈 예약에 사용</strong></h2>
+            <span class="mx-eyebrow mx-reveal">POINT 사용</span>
+            <h2 class="mx-title mx-reveal">적립한 포인트는<br><strong>크루즈 예약에 씁니다</strong></h2>
             <div class="mx-flow">
-              <div class="mx-flow-step mx-reveal"><b>STEP 1</b><strong>매달 적립</strong><span>클래식 기준 매월 200P</span></div>
+              <div class="mx-flow-step mx-reveal"><b>STEP 1</b><strong>월 $100 결제</strong><span>CLASSIC 기준</span></div>
               <div class="mx-flow-arrow mx-reveal">→</div>
-              <div class="mx-flow-step mx-reveal"><b>STEP 2</b><strong>크루즈 선택</strong><span>지역·날짜·객실을 고릅니다</span></div>
+              <div class="mx-flow-step mx-reveal"><b>STEP 2</b><strong>200P 적립</strong><span>매월 Reward Points 적립</span></div>
               <div class="mx-flow-arrow mx-reveal">→</div>
-              <div class="mx-flow-step mx-reveal"><b>STEP 3</b><strong>예약에 사용</strong><span>조건에 맞춰 포인트를 적용합니다</span></div>
+              <div class="mx-flow-step mx-reveal"><b>STEP 3</b><strong>크루즈 예약</strong><span>예약 조건에 맞춰 포인트 적용</span></div>
             </div>
             <div class="mx-count-big mx-reveal mx-pop"><span data-mx-count="2400">0</span><small>P</small></div>
-            <p class="mx-sub mx-reveal">클래식 월 적립분만 단순 계산하면 12개월에 2,400P입니다.</p>
+            <p class="mx-sub mx-reveal">CLASSIC 월 적립분만 계산하면 12개월 동안 2,400P가 적립됩니다.</p>
           </div>
         </section>`);
     }
@@ -109,18 +109,18 @@
       insertAfter(calculator, `
         <section id="mx-use-rules" class="mx-expand-section mx-dark">
           <div class="mx-inner mx-center">
-            <span class="mx-eyebrow mx-reveal">POINT USE</span>
-            <h2 class="mx-title mx-reveal">포인트가 부족할 때<br><strong>출발 270일 이상 남았을 때</strong></h2>
+            <span class="mx-eyebrow mx-reveal">POINT 결제</span>
+            <h2 class="mx-title mx-reveal">포인트가 부족하면<br><strong>남은 금액은 카드로 결제</strong></h2>
             <div class="mx-dual">
               <article class="mx-dual-card mx-reveal mx-left">
-                <div><span class="mx-mini">포인트가 부족할 때</span><h3>남은 금액은<br><strong>카드 결제</strong></h3></div>
-                <div class="mx-equation"><strong>포인트</strong><span>+</span><strong>카드</strong></div>
-                <p>일반 예약 예시처럼 포인트를 일부 적용하고 남은 금액을 카드로 결제하는 방식이 있습니다.</p>
+                <div><span class="mx-mini">보유 포인트가 부족한 경우</span><h3>사용 가능한 포인트를 쓰고<br><strong>나머지는 카드 결제</strong></h3></div>
+                <div class="mx-equation"><strong>POINT</strong><span>+</span><strong>CARD</strong></div>
+                <p>예약 조건에 따라 사용할 수 있는 포인트를 적용하고 남은 금액을 카드로 결제할 수 있습니다.</p>
               </article>
               <article class="mx-dual-card mx-reveal mx-right">
-                <div><span class="mx-mini">출발까지 충분히 남았을 때</span><h3><strong><span data-mx-count="270">0</span>일+</strong><br>포인트 활용 범위 확대</h3></div>
-                <div class="mx-equation"><strong>일찍 준비</strong><span>→</span><strong>활용 ↑</strong></div>
-                <p>출발일이 270일 이상 남은 예약 예시에서는 포인트 활용 범위가 더 커집니다. 세부 조건은 실제 예약 시 확인합니다.</p>
+                <div><span class="mx-mini">출발까지 270일 이상 남은 경우</span><h3><strong><span data-mx-count="270">0</span>일+</strong><br>포인트를 더 많이 적용</h3></div>
+                <div class="mx-equation"><strong>270일+</strong><span>→</span><strong>POINT ↑</strong></div>
+                <p>출발까지 충분한 기간이 남은 예약은 포인트 적용 범위가 커질 수 있습니다. 실제 사용 한도는 예약 조건에서 확인합니다.</p>
               </article>
             </div>
           </div>
@@ -132,23 +132,23 @@
       insertBefore(planGuide || plans, `
         <section id="mx-fit-check" class="mx-expand-section">
           <div class="mx-inner mx-center">
-            <span class="mx-eyebrow mx-reveal">여행 계획 체크</span>
-            <h2 class="mx-title mx-reveal">내 여행 계획과<br><strong>맞는지 확인</strong></h2>
+            <span class="mx-eyebrow mx-reveal">가입 전 체크</span>
+            <h2 class="mx-title mx-reveal">앞으로 크루즈를 갈 계획이 있다면<br><strong>멤버십을 비교해볼 수 있습니다</strong></h2>
             <div class="mx-fit-grid">
               <article class="mx-fit-box good mx-reveal mx-left">
-                <h3>맞는 경우</h3>
+                <h3>비교해볼 만한 경우</h3>
                 <div class="mx-fit-list">
                   <div class="mx-fit-item"><b>✓</b><span>앞으로 1~2년 안에 크루즈 여행 계획이 있다</span></div>
-                  <div class="mx-fit-item"><b>✓</b><span>부부·가족 여행비를 미리 나눠 준비하고 싶다</span></div>
+                  <div class="mx-fit-item"><b>✓</b><span>매월 멤버십 결제로 포인트를 적립할 계획이 있다</span></div>
                   <div class="mx-fit-item"><b>✓</b><span>가이드 없이 직접 예약하는 것도 가능하다</span></div>
-                  <div class="mx-fit-item"><b>✓</b><span>한 번보다 여러 번 여행할 가능성이 있다</span></div>
+                  <div class="mx-fit-item"><b>✓</b><span>한 번보다 여러 번 크루즈를 이용할 가능성이 있다</span></div>
                 </div>
               </article>
               <article class="mx-fit-box mx-reveal mx-right">
-                <h3>지금은 보류</h3>
+                <h3>지금은 보류해도 되는 경우</h3>
                 <div class="mx-fit-list">
-                  <div class="mx-fit-item"><b>–</b><span>여행 계획이 아직 전혀 없다</span></div>
-                  <div class="mx-fit-item"><b>–</b><span>무조건 가이드 포함 패키지만 이용하고 싶다</span></div>
+                  <div class="mx-fit-item"><b>–</b><span>크루즈 여행 계획이 아직 전혀 없다</span></div>
+                  <div class="mx-fit-item"><b>–</b><span>가이드 포함 패키지만 이용하고 싶다</span></div>
                   <div class="mx-fit-item"><b>–</b><span>아주 가까운 날짜에 바로 출발해야 한다</span></div>
                 </div>
               </article>
@@ -162,18 +162,18 @@
         <section id="mx-plan-guide" class="mx-expand-section mx-soft">
           <div class="mx-inner mx-center">
             <span class="mx-eyebrow mx-reveal">플랜 비교</span>
-            <h2 class="mx-title mx-reveal">CLASSIC은 천천히<br><strong>PREMIUM은 빠르게</strong></h2>
+            <h2 class="mx-title mx-reveal">매월 얼마 내고<br><strong>몇 포인트 받는지만 비교</strong></h2>
             <div class="mx-speed-grid">
               <article class="mx-speed-card mx-reveal mx-left">
-                <b>CLASSIC · 천천히 준비</b>
+                <b>CLASSIC</b>
                 <h3>월 $100</h3>
-                <p>1~2년에 한 번 크루즈를 계획하거나 부담을 낮춰 시작하고 싶은 경우.</p>
+                <p>매월 200P가 적립됩니다.</p>
                 <div class="mx-speed-number"><span>매월 적립</span><strong>200P</strong></div>
               </article>
               <article class="mx-speed-card recommended mx-reveal mx-right">
-                <b>PREMIUM · 빠르게 준비</b>
+                <b>PREMIUM</b>
                 <h3>월 $250</h3>
-                <p>여행 계획이 더 크거나 포인트를 더 빠른 속도로 모으고 싶은 경우.</p>
+                <p>매월 500P가 적립됩니다.</p>
                 <div class="mx-speed-number"><span>매월 적립</span><strong>500P</strong></div>
               </article>
             </div>
@@ -186,12 +186,12 @@
         <section id="mx-faq-section" class="mx-expand-section mx-dark">
           <div class="mx-inner mx-center">
             <span class="mx-eyebrow mx-reveal">FAQ</span>
-            <h2 class="mx-title mx-reveal">가입 전<br><strong>5가지 확인</strong></h2>
+            <h2 class="mx-title mx-reveal">가입 전에<br><strong>이것만 확인하세요</strong></h2>
             <div class="mx-faq mx-reveal">
               <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>정말 같은 크루즈를 더 저렴하게 예약하는 건가요?</span><b>+</b></button><div class="mx-faq-a"><div><p>같은 선사·일정·객실 등급처럼 비교 조건을 맞춘 뒤 가격을 봐야 합니다. 앞의 가격은 이해를 위한 아시아 크루즈 예시이며 실제 가격은 일정과 객실에 따라 달라집니다.</p></div></div></div>
-              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>포인트가 다 모일 때까지 여행을 못 가나요?</span><b>+</b></button><div class="mx-faq-a"><div><p>그렇지 않습니다. 일반 예약 예시처럼 사용할 수 있는 포인트를 적용하고 남은 금액을 카드로 결제하는 방식이 있습니다.</p></div></div></div>
-              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>가이드 없이 처음 가도 괜찮나요?</span><b>+</b></button><div class="mx-faq-a"><div><p>항구 도착, 승선, 선내 이용, 기항지 복귀, 하선 순서를 미리 알면 구조는 단순합니다. 다만 개인의 언어·여행 경험에 따라 준비 수준은 달라질 수 있습니다.</p></div></div></div>
-              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>클래식과 프리미엄 중 무엇이 더 좋은가요?</span><b>+</b></button><div class="mx-faq-a"><div><p>무조건 더 좋은 플랜이 있는 것이 아니라 여행 시점과 준비 속도가 기준입니다. 부담을 낮춰 천천히 준비하면 클래식, 더 빠르게 포인트를 모으려면 프리미엄이 이해하기 쉽습니다.</p></div></div></div>
+              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>포인트가 다 모일 때까지 여행을 못 가나요?</span><b>+</b></button><div class="mx-faq-a"><div><p>아닙니다. 예약 조건에 따라 사용할 수 있는 포인트를 적용하고 남은 금액을 카드로 결제할 수 있습니다.</p></div></div></div>
+              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>가이드 없이 처음 가도 괜찮나요?</span><b>+</b></button><div class="mx-faq-a"><div><p>항구 도착, 승선, 선내 이용, 기항지 복귀, 하선 순서를 미리 확인하면 준비하기 수월합니다. 개인의 언어·여행 경험에 따라 필요한 준비 수준은 달라질 수 있습니다.</p></div></div></div>
+              <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>CLASSIC과 PREMIUM의 차이는 무엇인가요?</span><b>+</b></button><div class="mx-faq-a"><div><p>CLASSIC은 매월 $100 결제 시 200P, PREMIUM은 매월 $250 결제 시 500P가 적립됩니다. 가입 시 초기 결제와 초기 적립 포인트는 별도로 확인해야 합니다.</p></div></div></div>
               <div class="mx-faq-item"><button type="button" class="mx-faq-q" aria-expanded="false"><span>가입 전에 꼭 다시 봐야 할 조건은 무엇인가요?</span><b>+</b></button><div class="mx-faq-a"><div><p>환불 가능 기간, 본인 명의 결제, 예약 시 필요한 멤버십 유지 조건, 해지 시 포인트 처리 기준은 반드시 확인해야 합니다.</p></div></div></div>
             </div>
           </div>
@@ -203,11 +203,11 @@
         <section id="mx-recap" class="mx-expand-section mx-soft">
           <div class="mx-inner mx-center">
             <span class="mx-eyebrow mx-reveal">3줄 요약</span>
-            <h2 class="mx-title mx-reveal">가격 · 포인트 · <strong>예약</strong></h2>
+            <h2 class="mx-title mx-reveal">결제 · 적립 · <strong>예약</strong></h2>
             <div class="mx-recap-grid">
-              <article class="mx-recap-card mx-reveal"><b>01</b><div><strong>같은 크루즈도 가격이 다를 수 있습니다</strong><span>예약 방식과 포함 서비스까지 같은 조건으로 비교합니다.</span></div></article>
-              <article class="mx-recap-card mx-reveal"><b>02</b><div><strong>여행비를 미리 준비하면 포인트가 쌓입니다</strong><span>클래식은 월 $100 납부 시 200P 적립 예시입니다.</span></div></article>
-              <article class="mx-recap-card mx-reveal"><b>03</b><div><strong>포인트는 크루즈 예약에 활용합니다</strong><span>여행 시점과 보유 포인트에 맞춰 사용 범위가 달라집니다.</span></div></article>
+              <article class="mx-recap-card mx-reveal"><b>01</b><div><strong>같은 크루즈도 예약 방식에 따라 가격이 달라질 수 있습니다</strong><span>선사·일정·객실 등급과 포함 서비스를 같은 조건으로 비교합니다.</span></div></article>
+              <article class="mx-recap-card mx-reveal"><b>02</b><div><strong>CLASSIC은 월 $100 → 200P</strong><span>PREMIUM은 월 $250 → 500P가 적립됩니다.</span></div></article>
+              <article class="mx-recap-card mx-reveal"><b>03</b><div><strong>적립한 포인트는 크루즈 예약에 사용합니다</strong><span>예약 조건에 따라 포인트와 카드 결제를 함께 사용할 수 있습니다.</span></div></article>
             </div>
             <a href="#plans" class="mx-action mx-reveal">CLASSIC · PREMIUM 다시 보기</a>
           </div>
@@ -220,7 +220,7 @@
         <section id="mx-final-choice" class="mx-final">
           <div class="mx-inner">
             <h2 class="mx-reveal">내 여행 계획에 맞으면<br><strong>플랜을 선택하세요</strong></h2>
-            <p class="mx-reveal">멤버십이 필요한지는 내 여행 시점과 예산을 보고 판단하면 됩니다.</p>
+            <p class="mx-reveal">월 결제금액과 적립 포인트, 실제 여행 시점을 비교한 뒤 결정하면 됩니다.</p>
             <a href="#plans" class="mx-action mx-reveal">CLASSIC · PREMIUM 비교</a>
           </div>
         </section>`);
