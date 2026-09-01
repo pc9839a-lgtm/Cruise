@@ -11,11 +11,6 @@
     links.slice(6).forEach((link) => link.remove());
   }
 
-  function cleanupDuplicateVisuals() {
-    $('#m2-price-story')?.remove();
-    $('#m2-payment-flow')?.remove();
-  }
-
   function replaceSidewaysPhoto() {
     const img = $('#mx-moving-hotel .mx-hotel-visual img');
     if (!img) return;
@@ -25,7 +20,6 @@
 
   function run() {
     cleanupNav();
-    cleanupDuplicateVisuals();
     replaceSidewaysPhoto();
   }
 
