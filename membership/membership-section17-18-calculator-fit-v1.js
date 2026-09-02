@@ -5,9 +5,6 @@
     window.fetchExchangeRate = async function () {};
   }
 
-  const formatUsd = (value) => `$${Number(value).toLocaleString('en-US')}`;
-  const formatPoint = (value) => `${Number(value).toLocaleString('en-US')}P`;
-
   function buildSections17And18() {
     const section16 = document.getElementById('mx-use-rules');
     const section17 = document.getElementById('calculator');
@@ -18,31 +15,25 @@
     section17.setAttribute('data-membership-section', '17');
     section17.innerHTML = `
       <div class="mx17-inner">
-        <span class="mx17-kicker">내 여행은 얼마가 남을까?</span>
-        <h2 class="mx17-title">직접<br><strong>확인해보세요</strong></h2>
-
-        <div class="mx17-control">
-          <div class="mx17-control-head">
-            <span>크루즈 가격</span>
-            <strong id="mx17RangeValue">$2,000</strong>
-          </div>
-          <input id="mx17CruisePrice" class="mx17-range" type="range" min="1000" max="10000" step="100" value="2000" aria-label="크루즈 가격 조절" />
-        </div>
+        <span class="mx17-kicker">실제 영수증으로 다시 보면</span>
+        <h2 class="mx17-title">POINT가 들어가면<br><strong>카드 결제는 이렇게 남습니다</strong></h2>
 
         <div class="mx17-results" aria-live="polite">
           <article>
-            <span>크루즈 가격</span>
-            <strong id="mx17CruiseUsd">$2,000</strong>
+            <span>예약 총액</span>
+            <strong>$3,887.35</strong>
           </article>
           <article class="point">
-            <span>사용할 POINT</span>
-            <strong id="mx17Point">1,000P</strong>
+            <span>사용한 POINT</span>
+            <strong>1,805.84P</strong>
           </article>
           <article class="card">
-            <span>실제 카드 결제</span>
-            <strong id="mx17CardTotal">$1,000</strong>
+            <span>카드 실제 출금</span>
+            <strong>$2,020.88</strong>
           </article>
         </div>
+
+        <div class="mx17-note">처리 수수료 <strong>$60.63</strong> · POINT + CARD + FEE = <strong>$3,887.35</strong></div>
       </div>`;
 
     section18.className = 'mx18-fit-section';
@@ -71,31 +62,6 @@
     }
     if (section17.nextElementSibling !== section18) {
       section17.insertAdjacentElement('afterend', section18);
-    }
-
-    const range = document.getElementById('mx17CruisePrice');
-    const rangeValue = document.getElementById('mx17RangeValue');
-    const cruiseUsd = document.getElementById('mx17CruiseUsd');
-    const point = document.getElementById('mx17Point');
-    const cardTotal = document.getElementById('mx17CardTotal');
-
-    const update = () => {
-      if (!range) return;
-      const price = Number(range.value);
-      const usablePoint = Math.floor(price * 0.5);
-      const reservationCard = price - usablePoint;
-      const percent = ((price - Number(range.min)) / (Number(range.max) - Number(range.min))) * 100;
-
-      if (rangeValue) rangeValue.textContent = formatUsd(price);
-      if (cruiseUsd) cruiseUsd.textContent = formatUsd(price);
-      if (point) point.textContent = formatPoint(usablePoint);
-      if (cardTotal) cardTotal.textContent = formatUsd(reservationCard);
-      range.style.setProperty('--mx17-progress', `${percent}%`);
-    };
-
-    if (range) {
-      range.addEventListener('input', update);
-      update();
     }
 
     return true;
