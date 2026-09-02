@@ -2,12 +2,12 @@
   'use strict';
 
   function buildSections21And22() {
-    const section20 = document.getElementById('m3-selector');
+    const section15 = document.getElementById('real-cost');
     const section21 = document.getElementById('membership-terms');
     const section22 = document.getElementById('mx-final-choice');
-    if (!section20 || !section21 || !section22) return false;
+    if (!section15 || !section21 || !section22) return false;
 
-    ['mx-faq-section', 'mx-recap', 'price-match'].forEach((id) => {
+    ['mx-faq-section', 'mx-recap', 'price-match', 'mx-plan-guide', 'm3-selector', 'calculator', 'mx-fit-check', 'points-by-time', 'mx-use-rules'].forEach((id) => {
       const duplicate = document.getElementById(id);
       if (duplicate) duplicate.remove();
     });
@@ -17,7 +17,7 @@
     section21.innerHTML = `
       <div class="mx21-inner">
         <span class="mx21-kicker">가입 전 확인</span>
-        <h2 class="mx21-title">딱 5가지만<br><strong>확인하세요</strong></h2>
+        <h2 class="mx21-title">시작하기 전에<br><strong>이것만 확인하세요</strong></h2>
 
         <div class="mx21-terms" aria-label="멤버십 가입 조건">
           <article><b>환불</b><span>가입 후 14일이 지나면 환불이 어렵습니다.</span></article>
@@ -32,7 +32,8 @@
     section22.setAttribute('data-membership-section', '22');
     section22.innerHTML = `
       <div class="mx22-inner">
-        <h2 class="mx22-title">크루즈를 갈 생각이 있다면<br><strong>오늘부터 쌓을 수 있습니다</strong></h2>
+        <span class="mx22-kicker">이제 선택만</span>
+        <h2 class="mx22-title">한 달에 부담 없는 금액으로<br><strong>시작하면 됩니다</strong></h2>
 
         <div class="mx22-plans">
           <article>
@@ -50,9 +51,8 @@
         </div>
       </div>`;
 
-    if (section20.nextElementSibling !== section21) section20.insertAdjacentElement('afterend', section21);
+    if (section15.nextElementSibling !== section21) section15.insertAdjacentElement('afterend', section21);
     if (section21.nextElementSibling !== section22) section21.insertAdjacentElement('afterend', section22);
-
     return true;
   }
 
@@ -65,9 +65,6 @@
     }, 160);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
 })();
