@@ -1,0 +1,49 @@
+/* SECTION 5 — Mediterranean 7-night route only */
+#impact-med .impact-title{margin-bottom:26px}
+
+#impact-med .impact-med-cycle{
+  width:min(620px,100%);
+  margin:0 auto 34px;
+  padding:18px 22px;
+  border:1px solid rgba(133,210,255,.28);
+  border-radius:22px;
+  background:rgba(7,17,31,.34);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  backdrop-filter:blur(12px);
+}
+#impact-med .impact-med-cycle strong{
+  font-size:22px;
+  line-height:1;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:-.035em;
+}
+#impact-med .impact-med-cycle strong:nth-of-type(2){color:#85d2ff}
+#impact-med .impact-med-cycle i{
+  color:rgba(255,255,255,.42);
+  font-size:24px;
+  line-height:1;
+  font-style:normal;
+  font-weight:900;
+}
+
+@media(max-width:780px){
+  #impact-med .impact-title{margin-bottom:22px}
+  #impact-med .impact-med-cycle{
+    margin-bottom:26px;
+    padding:15px 12px;
+    border-radius:18px;
+    gap:9px;
+  }
+  #impact-med .impact-med-cycle strong{font-size:17px}
+  #impact-med .impact-med-cycle i{font-size:18px}
+}
+
+@media(max-width:380px){
+  #impact-med .impact-med-cycle{gap:7px;padding-left:8px;padding-right:8px}
+  #impact-med .impact-med-cycle strong{font-size:15px}
+  #impact-med .impact-med-cycle i{font-size:16px}
+}
