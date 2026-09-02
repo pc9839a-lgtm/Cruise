@@ -11,6 +11,9 @@ export async function onRequest(context) {
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle;
 
   return new HTMLRewriter()
+    .on('link[href*="membership-page-v2.css"]', {
+      element(element) { element.remove(); }
+    })
     .on('script[src*="membership-entry-survey-v1.js"]', {
       element(element) { element.remove(); }
     })
