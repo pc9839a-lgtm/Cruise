@@ -6,37 +6,31 @@
 
   const sectionSelectors = [
     '#mx-moving-hotel','#mx-port-day','#mx-moving-hotel-4','#impact-med','#price-pain',
-    '#mx-direct-booking-intro','#price-compare','#same-cruise','#mx-cost-structure',
-    '#m3-savings-use','#guide-question','#mx-prepare-money','#membership-point',
-    '#points-by-time','#real-cost','#mx-use-rules','#mx-fit-check','#mx-plan-guide',
-    '#m3-selector','#membership-terms','#mx-final-choice','#plans'
+    '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
+    '#membership-point','#calculator','#membership-terms','#plans'
   ];
 
   const labelSelector = [
-    '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mv2-kicker','.m3-kicker',
-    '.mx11-kicker','.mx12-kicker','.mx13-kicker','.mx14-kicker','.mx15-kicker','.mx16-kicker',
-    '.mx18-kicker','.mx19-kicker','.mx21-kicker','.mx22-kicker','#plans .section-kicker','.mx7-overline'
-  ].join(',');
-
-  const cardSelector = [
-    '.mxp-step','.mx4-city','.mx4-points article','.impact-med-stop','.mv2-price','.mv2-four>div',
-    '.mx-card','.m3-four>div','.mx13-plan','.mx14-ledger article','.mx15-equation article',
-    '.mx18-card','.mx19-card','.m3-select-block','.mx21-terms article','.mx22-plans article','.plan-card'
+    '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mx11-kicker','.mx12-kicker',
+    '.mx13-kicker','.mx17-kicker','.mx21-kicker','#plans .section-kicker','.mx7-overline','.mx8-overline'
   ].join(',');
 
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
-    '.mx7-receipt-proof','.mv2-compare','.mv2-four','.mx-card-grid','.m3-four',
-    '.mx13-plans','.mx14-groups','.mx15-equation','.mx16-equation','.mx18-grid',
-    '.mx19-grid','.m3-buttons','.mx21-terms','.mx22-plans','#planCards'
+    '.mx7-receipt-proof','.mx8-proof-copy','.mx13-simple-list','.mx17-tool','.mx21-terms','#planCards'
+  ].join(',');
+
+  const rowSelector = [
+    '.mxp-step','.mx4-city','.mx4-night','.impact-med-stop','.mx7-receipt-breakdown>div',
+    '.mx13-simple-row','.mx17-control','.mx17-result-row','.mx21-terms article','.plan-card'
   ].join(',');
 
   const numberSelector = [
-    '#price-pain .mv2-mega','#price-compare .mv2-price strong',
-    '#membership-point .mx13-plan-row strong','#points-by-time .mx14-ledger strong',
-    '#real-cost .mx15-equation strong','#mx-use-rules .mx16-equation strong',
-    '#mx-plan-guide .mx19-main strong','#mx-plan-guide .mx19-row strong',
-    '#mx-final-choice .mx22-plans strong','#plans .plan-price','#plans .plan-feature strong'
+    '#price-pain .mv2-mega',
+    '#mx-direct-booking-intro .mx7-receipt-breakdown strong',
+    '#membership-point .mx13-simple-row strong',
+    '#calculator .mx17-result-row strong',
+    '#plans .plan-price','#plans .plan-feature-monthly strong'
   ].join(',');
 
   function parseNumericText(text) {
@@ -67,13 +61,13 @@
     if (el.dataset.mMotionPrepared === '1') return;
     const parsed = parseNumericText(el.textContent);
     if (!parsed) return;
+
     el.dataset.mMotionPrepared = '1';
     el.dataset.mMotionSource = parsed.source;
     el.dataset.mMotionTarget = String(parsed.target);
     el.dataset.mMotionDecimals = String(parsed.decimals);
     el.dataset.mMotionPrefix = parsed.prefix;
     el.dataset.mMotionSuffix = parsed.suffix;
-    if (!reduce) el.textContent = `${parsed.prefix}${formatNumber(0, parsed.decimals)}${parsed.suffix}`;
   }
 
   function animateCounter(el) {
@@ -93,7 +87,7 @@
     }
 
     const start = performance.now();
-    const duration = 900;
+    const duration = 850;
     const tick = (now) => {
       const p = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
@@ -104,29 +98,28 @@
     requestAnimationFrame(tick);
   }
 
-  function prepareSection(section) {
+  function prepareSection(section, index) {
     if (!section || section.dataset.mPartnerMotion === '1') return;
     section.dataset.mPartnerMotion = '1';
     section.classList.add('m-motion-section');
-
-    section.querySelectorAll('.m-motion-orbit,.m-motion-rail').forEach((el) => el.remove());
+    section.dataset.motionSide = index % 2 === 0 ? 'left' : 'right';
 
     section.querySelectorAll(labelSelector).forEach((el) => el.classList.add('m-motion-label'));
 
     const heading = section.querySelector('h2');
-    if (heading) heading.classList.add('m-motion-item');
+    if (heading) heading.classList.add('m-motion-heading');
 
-    section.querySelectorAll(cardSelector).forEach((card, index) => {
-      card.classList.add('m-motion-card');
-      card.style.setProperty('--m-motion-delay', `${Math.min(index, 5) * 70 + 80}ms`);
-    });
-
-    section.querySelectorAll(visualSelector).forEach((visual, index) => {
+    section.querySelectorAll(visualSelector).forEach((visual, visualIndex) => {
       visual.classList.add('m-motion-visual');
-      visual.style.setProperty('--m-visual-delay', `${100 + index * 70}ms`);
+      visual.style.setProperty('--m-visual-delay', `${100 + visualIndex * 70}ms`);
     });
 
-    section.querySelectorAll('.mx-hotel-visual img,.impact-med-route').forEach((media) => media.classList.add('m-motion-media'));
+    section.querySelectorAll(rowSelector).forEach((row, rowIndex) => {
+      row.classList.add('m-motion-row');
+      row.style.setProperty('--m-row-delay', `${100 + Math.min(rowIndex, 8) * 65}ms`);
+    });
+
+    section.querySelectorAll('.mx-hotel-visual img').forEach((media) => media.classList.add('m-motion-media'));
 
     section.querySelectorAll(numberSelector).forEach((number) => {
       number.classList.add('m-motion-number');
@@ -156,7 +149,7 @@
         activate(entry.target);
         obs.unobserve(entry.target);
       });
-    }, { threshold:0.1, rootMargin:'0px 0px -4% 0px' });
+    }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
 
     sections.forEach((section) => observer.observe(section));
   }
