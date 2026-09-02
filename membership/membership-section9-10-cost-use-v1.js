@@ -14,11 +14,11 @@
     const title9 = section9.querySelector('.mx-title');
     const sub9 = section9.querySelector('.mx-sub');
     const cards9 = section9.querySelectorAll('.mx-card');
-    const names9 = ['가이드', '단체 이동', '패키지 운영', '예약 대행'];
+    const names9 = ['가이드', '단체 이동', '예약 대행', '패키지 운영'];
 
-    if (kicker9) kicker9.textContent = '가격 차이가 나는 이유';
-    if (title9) title9.innerHTML = '같은 크루즈인데<br><strong>왜 80만원 차이가 날까?</strong>';
-    if (sub9) sub9.textContent = '패키지 상품에 따라 포함 항목은 달라질 수 있습니다.';
+    if (kicker9) kicker9.textContent = '그럼 80만원은 왜 차이 나는데?';
+    if (title9) title9.innerHTML = '차이는<br><strong>중간 마진에서 생깁니다</strong>';
+    if (sub9) sub9.textContent = '직접 할 수 있다면 꼭 전부 살 필요는 없습니다.';
 
     cards9.forEach((card, index) => {
       const number = card.querySelector('b');
@@ -35,22 +35,16 @@
     const kicker10 = section10.querySelector('.m3-kicker');
     const title10 = section10.querySelector('h2');
     const items10 = section10.querySelectorAll('.m3-four > div strong');
-    const names10 = ['항공권', '객실 업그레이드', '기항지 투어', '다음 여행'];
+    const names10 = ['항공권', '객실 업그레이드', '기항지 투어', '다음 크루즈 예약'];
 
-    if (kicker10) kicker10.textContent = '둘이 약 160만원 차이';
-    if (title10) title10.innerHTML = '160만원을<br><strong>다른 여행비로</strong>';
+    if (kicker10) kicker10.textContent = '둘이면 160만원';
+    if (title10) title10.innerHTML = '아낀 돈은<br><strong>여행에 다시 쓰면 됩니다</strong>';
     items10.forEach((item, index) => {
       if (names10[index]) item.textContent = names10[index];
     });
 
-    let amount = section10.querySelector('.mx10-amount');
-    if (!amount) {
-      amount = document.createElement('div');
-      amount.className = 'mx10-amount';
-      amount.innerHTML = '<span>2명 차이</span><strong>약 160만원</strong>';
-      const grid = section10.querySelector('.m3-four');
-      if (grid) grid.insertAdjacentElement('beforebegin', amount);
-    }
+    const amount = section10.querySelector('.mx10-amount');
+    if (amount) amount.remove();
 
     if (section8.nextElementSibling !== section9) {
       section8.insertAdjacentElement('afterend', section9);
