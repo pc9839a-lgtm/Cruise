@@ -14,8 +14,8 @@
     section15.setAttribute('data-membership-section', '15');
     section15.innerHTML = `
       <div class="mx15-inner">
-        <span class="mx15-kicker">POINT 사용 예시</span>
-        <h2 class="mx15-title">$2,000 크루즈에<br><strong>1,000P를 쓰면</strong></h2>
+        <span class="mx15-kicker">쌓은 POINT는 어디에 쓰는데?</span>
+        <h2 class="mx15-title">크루즈 예약할 때<br><strong>바로 사용합니다</strong></h2>
 
         <div class="mx15-equation" aria-label="포인트 사용 예시">
           <article>
@@ -24,13 +24,13 @@
           </article>
           <i>−</i>
           <article class="point">
-            <span>사용 POINT</span>
-            <strong>1,000P</strong>
+            <span>POINT</span>
+            <strong>1,000P 사용</strong>
           </article>
           <i>=</i>
           <article class="card">
-            <span>카드 결제</span>
-            <strong>$1,000</strong>
+            <span>남은 금액</span>
+            <strong>$1,000 CARD</strong>
           </article>
         </div>
       </div>`;
@@ -39,22 +39,11 @@
     section16.setAttribute('data-membership-section', '16');
     section16.innerHTML = `
       <div class="mx16-inner">
-        <span class="mx16-kicker">POINT가 부족해도</span>
-        <h2 class="mx16-title">있는 POINT를 쓰고<br><strong>나머지는 CARD</strong></h2>
+        <span class="mx16-kicker">POINT가 모자라면?</span>
+        <h2 class="mx16-title">가진 POINT 먼저 사용<br><strong>남은 금액만 카드 결제</strong></h2>
 
         <div class="mx16-equation" aria-label="포인트와 카드 결제 구조">
           <strong>POINT</strong><i>+</i><strong>CARD</strong>
-        </div>
-
-        <div class="mx16-answer">
-          <span>사용 가능한 POINT 적용</span>
-          <i>→</i>
-          <span>남은 금액 CARD 결제</span>
-        </div>
-
-        <div class="mx16-early">
-          <b>270일+</b>
-          <span>출발일까지 충분한 기간이 남은 예약은 POINT 사용 범위가 커질 수 있습니다.</span>
         </div>
       </div>`;
 
