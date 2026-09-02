@@ -16,9 +16,9 @@
     const cards9 = section9.querySelectorAll('.mx-card');
     const names9 = ['가이드', '단체 이동', '예약 대행', '패키지 운영'];
 
-    if (kicker9) kicker9.textContent = '그럼 80만원은 왜 차이 나는데?';
-    if (title9) title9.innerHTML = '차이는<br><strong>중간 마진에서 생깁니다</strong>';
-    if (sub9) sub9.textContent = '직접 할 수 있다면 꼭 전부 살 필요는 없습니다.';
+    if (kicker9) kicker9.textContent = '그럼 624만원은 왜 차이 나는데?';
+    if (title9) title9.innerHTML = '패키지는<br><strong>서비스 비용이 함께 붙습니다</strong>';
+    if (sub9) sub9.textContent = '가이드·단체 이동·예약 대행·패키지 운영 등이 포함될 수 있습니다.';
 
     cards9.forEach((card, index) => {
       const number = card.querySelector('b');
@@ -37,8 +37,8 @@
     const items10 = section10.querySelectorAll('.m3-four > div strong');
     const names10 = ['항공권', '객실 업그레이드', '기항지 투어', '다음 크루즈 예약'];
 
-    if (kicker10) kicker10.textContent = '둘이면 160만원';
-    if (title10) title10.innerHTML = '아낀 돈은<br><strong>여행에 다시 쓰면 됩니다</strong>';
+    if (kicker10) kicker10.textContent = '2인 약 624만원 차이';
+    if (title10) title10.innerHTML = '차액은<br><strong>여행 자체에 다시 쓸 수 있습니다</strong>';
     items10.forEach((item, index) => {
       if (names10[index]) item.textContent = names10[index];
     });
