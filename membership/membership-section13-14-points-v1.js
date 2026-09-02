@@ -32,7 +32,7 @@
           </article>
         </div>
 
-        <div class="mx13-note">낸 금액보다 더 많은 POINT가 적립됩니다</div>
+        <div class="mx13-note">실제 서부 지중해 예약에서는 <strong>1,805.84P</strong>를 사용했습니다</div>
       </div>`;
 
     section14.className = 'mx14-points-section';
@@ -40,7 +40,7 @@
     section14.innerHTML = `
       <div class="mx14-inner">
         <span class="mx14-kicker">그래서 시간이 지나면?</span>
-        <h2 class="mx14-title">갈 계획이 있다면<br><strong>예약 전까지 미리 쌓아둘 수 있습니다</strong></h2>
+        <h2 class="mx14-title">쌓아둔 POINT가<br><strong>실제 예약금액에 들어갑니다</strong></h2>
 
         <div class="mx14-groups">
           <div class="mx14-group">
@@ -61,6 +61,8 @@
             </div>
           </div>
         </div>
+
+        <div class="mx14-note">실제 영수증: 예약 총액 <strong>$3,887.35</strong> 중 <strong>1,805.84P</strong> 사용</div>
       </div>`;
 
     if (section12.nextElementSibling !== section13) {
