@@ -1,0 +1,62 @@
+/* SECTION 11 — guide-free objection */
+#guide-question.mx11-guide-section{
+  position:relative!important;
+  overflow:hidden!important;
+  padding:clamp(112px,11vw,168px) 0!important;
+  background:#07111f!important;
+  color:#fff!important;
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+}
+#guide-question.mx11-guide-section *{box-sizing:border-box}
+.mx11-inner{width:min(1080px,calc(100% - 48px));margin:0 auto;text-align:center}
+.mx11-kicker{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 15px;border-radius:999px;border:1px solid rgba(133,210,255,.25);background:rgba(133,210,255,.08);color:#85d2ff;font-size:16px;font-weight:900}
+.mx11-title{max-width:960px;margin:22px auto 0;font-size:clamp(50px,6.8vw,88px);line-height:1.02;letter-spacing:-.065em;font-weight:900;word-break:keep-all;text-wrap:balance}
+.mx11-title strong{display:block;margin-top:8px;color:#85d2ff;font-weight:950}
+.mx11-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:clamp(52px,6vw,78px) auto 0}
+.mx11-flow article{min-height:190px;padding:26px 16px;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:rgba(255,255,255,.055);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.mx11-flow b{font-size:15px;letter-spacing:.08em;color:#85d2ff;font-weight:950}
+.mx11-flow strong{font-size:clamp(24px,2.5vw,34px);line-height:1.08;letter-spacing:-.045em;color:#fff;font-weight:930;word-break:keep-all}
+
+/* SECTION 12 — direct booking vs membership */
+#mx-prepare-money.mx12-transition-section{
+  position:relative!important;
+  overflow:hidden!important;
+  padding:clamp(112px,11vw,172px) 0!important;
+  background:#f5f8fd!important;
+  color:#0f1931!important;
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+}
+#mx-prepare-money.mx12-transition-section *{box-sizing:border-box}
+.mx12-inner{width:min(1080px,calc(100% - 48px));margin:0 auto;text-align:center}
+.mx12-kicker{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 15px;border-radius:999px;background:#e9f0ff;color:#24519c;font-size:16px;font-weight:900}
+.mx12-title{margin:22px auto 0;font-size:clamp(52px,7vw,90px);line-height:1;letter-spacing:-.07em;font-weight:900;word-break:keep-all}
+.mx12-title strong{color:#2e66ff;font-weight:950}
+.mx12-grid{display:grid;grid-template-columns:1fr 90px 1fr;gap:18px;align-items:center;margin:clamp(52px,6vw,76px) auto 0}
+.mx12-card{min-height:330px;padding:38px 30px;border:1px solid #dfe6f0;border-radius:30px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 20px 56px rgba(17,30,64,.06)}
+.mx12-card.accent{border-color:#b9cef8;background:#f8fbff}
+.mx12-card span{font-size:20px;color:#64728a;font-weight:850}
+.mx12-card strong{display:block;margin-top:20px;font-size:clamp(36px,4.5vw,58px);line-height:1.08;letter-spacing:-.055em;color:#0f1931;font-weight:950;word-break:keep-all}
+.mx12-card.accent strong{color:#2e66ff}
+.mx12-not{font-size:58px;line-height:1;color:#9cb0ce;font-weight:950}
+.mx12-bottom{width:min(720px,100%);margin:24px auto 0;padding:24px 28px;border-radius:22px;background:#07111f;color:#fff;font-size:clamp(24px,3vw,36px);line-height:1.15;letter-spacing:-.045em;font-weight:950}
+
+@media(max-width:780px){
+  #guide-question.mx11-guide-section,#mx-prepare-money.mx12-transition-section{padding:86px 0!important}
+  .mx11-inner,.mx12-inner{width:calc(100% - 32px)}
+  .mx11-kicker,.mx12-kicker{min-height:34px;padding:0 12px;font-size:13px}
+  .mx11-title,.mx12-title{margin-top:18px;font-size:clamp(40px,11.2vw,54px);line-height:1.04}
+  .mx11-flow{grid-template-columns:1fr;margin-top:40px;gap:10px}
+  .mx11-flow article{min-height:82px;padding:16px 20px;border-radius:18px;display:grid;grid-template-columns:54px 1fr;gap:10px;text-align:left}
+  .mx11-flow b{font-size:13px}
+  .mx11-flow strong{font-size:25px}
+  .mx12-grid{grid-template-columns:1fr;margin-top:40px;gap:12px}
+  .mx12-card{min-height:210px;padding:28px 22px;border-radius:22px}
+  .mx12-card span{font-size:17px}
+  .mx12-card strong{font-size:clamp(31px,8.6vw,42px)}
+  .mx12-not{font-size:38px;transform:rotate(90deg)}
+  .mx12-bottom{margin-top:18px;padding:20px 16px;border-radius:18px;font-size:clamp(23px,6.8vw,31px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #guide-question.mx11-guide-section *,#mx-prepare-money.mx12-transition-section *{animation:none!important;transition:none!important}
+}
