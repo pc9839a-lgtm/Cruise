@@ -26,20 +26,20 @@
     section12.setAttribute('data-membership-section', '12');
     section12.innerHTML = `
       <div class="mx12-inner">
-        <span class="mx12-kicker">직접 예약 ≠ 멤버십</span>
-        <h2 class="mx12-title">둘은<br><strong>다른 선택입니다</strong></h2>
+        <span class="mx12-kicker">그럼 멤버십은 왜 쓰나요?</span>
+        <h2 class="mx12-title">차이는 딱 하나<br><strong>크루즈 비용을 준비하는 방식</strong></h2>
         <div class="mx12-grid">
           <article class="mx12-card">
-            <span>직접 예약</span>
-            <strong>패키지 대신<br>직접 예약하는 방식</strong>
+            <span>일반 예약</span>
+            <strong>여행할 때<br>한 번에 결제</strong>
           </article>
-          <div class="mx12-not">≠</div>
+          <div class="mx12-not">VS</div>
           <article class="mx12-card accent">
             <span>멤버십</span>
-            <strong>월 결제로<br>Reward Points 적립</strong>
+            <strong>미리 POINT를 쌓고<br>예약할 때 사용</strong>
           </article>
         </div>
-        <div class="mx12-bottom">직접 예약 ≠ 멤버십 가입</div>
+        <div class="mx12-bottom">1~2년 안에 갈 계획이라면 → 미리 쌓는 멤버십이 유리</div>
       </div>`;
 
     if (section10.nextElementSibling !== section11) {
