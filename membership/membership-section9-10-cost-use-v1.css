@@ -1,0 +1,174 @@
+/* Membership rebuild — SECTION 9 + 10 only */
+#mx-cost-structure.mx9-cost-reason,
+#m3-savings-use.mx10-savings-use{
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  box-sizing:border-box;
+}
+#mx-cost-structure.mx9-cost-reason *,
+#m3-savings-use.mx10-savings-use *{box-sizing:border-box}
+
+#mx-cost-structure.mx9-cost-reason{
+  padding:clamp(92px,10vw,150px) 0;
+  background:#f6f8fc;
+}
+#mx-cost-structure.mx9-cost-reason .mx-inner{width:min(1040px,calc(100% - 44px))}
+#mx-cost-structure.mx9-cost-reason .mx-eyebrow{
+  min-height:34px;
+  padding:0 14px;
+  font-size:14px;
+  font-weight:900;
+}
+#mx-cost-structure.mx9-cost-reason .mx-title{
+  margin-top:18px;
+  font-size:clamp(42px,5.6vw,72px);
+  line-height:1.06;
+}
+#mx-cost-structure.mx9-cost-reason .mx-title strong{color:#235cff}
+#mx-cost-structure.mx9-cost-reason .mx-sub{
+  margin-top:18px;
+  max-width:660px;
+  font-size:clamp(17px,1.8vw,21px);
+  color:#68758b;
+  font-weight:700;
+}
+#mx-cost-structure.mx9-cost-reason .mx-card-grid{
+  margin-top:44px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+#mx-cost-structure.mx9-cost-reason .mx-card{
+  min-height:210px;
+  padding:28px 24px;
+  border-radius:24px;
+  border:1px solid #dfe6f0;
+  background:#fff;
+  box-shadow:0 18px 52px rgba(20,43,88,.07);
+}
+#mx-cost-structure.mx9-cost-reason .mx-card b{
+  font-size:14px;
+  color:#235cff;
+}
+#mx-cost-structure.mx9-cost-reason .mx-card strong{
+  margin-top:auto;
+  font-size:clamp(28px,3vw,38px);
+  line-height:1.1;
+  font-weight:950;
+}
+
+#m3-savings-use.mx10-savings-use{
+  position:relative;
+  overflow:hidden;
+  padding:clamp(96px,10vw,150px) 0;
+  background:#081426;
+  color:#fff;
+}
+#m3-savings-use.mx10-savings-use::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 24%,rgba(47,115,255,.22),transparent 31%),
+    radial-gradient(circle at 84% 76%,rgba(121,92,255,.16),transparent 30%);
+  pointer-events:none;
+}
+#m3-savings-use.mx10-savings-use .m3-inner{
+  position:relative;
+  z-index:1;
+  width:min(1040px,calc(100% - 44px));
+  margin:0 auto;
+  text-align:center;
+}
+#m3-savings-use.mx10-savings-use .m3-kicker{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  padding:0 14px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+  color:#bfe5ff;
+  font-size:14px;
+  font-weight:900;
+}
+#m3-savings-use.mx10-savings-use h2{
+  margin:18px auto 0;
+  font-size:clamp(46px,6vw,78px);
+  line-height:1.04;
+  letter-spacing:-.06em;
+  font-weight:950;
+}
+#m3-savings-use.mx10-savings-use h2 strong{color:#85d2ff}
+.mx10-amount{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin:40px auto 38px;
+}
+.mx10-amount span{
+  font-size:16px;
+  font-weight:850;
+  color:rgba(255,255,255,.58);
+}
+.mx10-amount strong{
+  margin-top:5px;
+  font-size:clamp(64px,9vw,116px);
+  line-height:.92;
+  letter-spacing:-.075em;
+  color:#fff;
+  font-weight:950;
+}
+#m3-savings-use.mx10-savings-use .m3-four{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin:0;
+}
+#m3-savings-use.mx10-savings-use .m3-four>div{
+  min-height:190px;
+  padding:26px 20px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:24px;
+  background:rgba(255,255,255,.055);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:left;
+}
+#m3-savings-use.mx10-savings-use .m3-four b{
+  color:#85d2ff;
+  font-size:14px;
+  font-weight:950;
+}
+#m3-savings-use.mx10-savings-use .m3-four strong{
+  font-size:clamp(25px,2.7vw,35px);
+  line-height:1.13;
+  letter-spacing:-.045em;
+  color:#fff;
+  font-weight:930;
+  word-break:keep-all;
+}
+
+@media(max-width:780px){
+  #mx-cost-structure.mx9-cost-reason,
+  #m3-savings-use.mx10-savings-use{padding:76px 0}
+  #mx-cost-structure.mx9-cost-reason .mx-inner,
+  #m3-savings-use.mx10-savings-use .m3-inner{width:calc(100% - 32px)}
+  #mx-cost-structure.mx9-cost-reason .mx-title,
+  #m3-savings-use.mx10-savings-use h2{font-size:clamp(38px,10.5vw,50px)}
+  #mx-cost-structure.mx9-cost-reason .mx-sub{font-size:16px;line-height:1.45}
+  #mx-cost-structure.mx9-cost-reason .mx-card-grid,
+  #m3-savings-use.mx10-savings-use .m3-four{grid-template-columns:1fr 1fr;gap:10px}
+  #mx-cost-structure.mx9-cost-reason .mx-card{min-height:150px;padding:20px 18px;border-radius:19px}
+  #mx-cost-structure.mx9-cost-reason .mx-card strong{font-size:26px}
+  .mx10-amount{margin:32px auto 30px}
+  .mx10-amount strong{font-size:clamp(64px,18vw,88px)}
+  #m3-savings-use.mx10-savings-use .m3-four>div{min-height:150px;padding:20px 17px;border-radius:19px}
+  #m3-savings-use.mx10-savings-use .m3-four strong{font-size:24px}
+}
+
+@media(max-width:390px){
+  #mx-cost-structure.mx9-cost-reason .mx-card-grid,
+  #m3-savings-use.mx10-savings-use .m3-four{grid-template-columns:1fr}
+  #mx-cost-structure.mx9-cost-reason .mx-card,
+  #m3-savings-use.mx10-savings-use .m3-four>div{min-height:118px}
+}
