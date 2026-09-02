@@ -6,76 +6,9 @@ export async function onRequest(context) {
   const ua = context.request.headers.get('user-agent') || '';
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
-  const motionScripts = isMobile ? '' :
-    '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>' +
-    '<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>';
-
-  const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-partner1">';
-  const section3Style = '<link rel="stylesheet" href="/membership/membership-section3-port-v1.css?v=20260901-1">';
-  const section4Style = '<link rel="stylesheet" href="/membership/membership-section4-moving-hotel-v1.css?v=20260902-2">';
-  const section5Style = '<link rel="stylesheet" href="/membership/membership-section5-route-v1.css?v=20260902-1">';
-  const section6Style = '<link rel="stylesheet" href="/membership/membership-section6-price-barrier-v1.css?v=20260902-1">';
-  const section78Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-1">';
-  const section910Style = '<link rel="stylesheet" href="/membership/membership-section9-10-cost-use-v1.css?v=20260902-1">';
-  const section1112Style = '<link rel="stylesheet" href="/membership/membership-section11-12-guide-transition-v1.css?v=20260902-2">';
-  const section1314Style = '<link rel="stylesheet" href="/membership/membership-section13-14-points-v1.css?v=20260902-1">';
-  const section1516Style = '<link rel="stylesheet" href="/membership/membership-section15-16-point-payment-v1.css?v=20260902-1">';
-  const section1718Style = '<link rel="stylesheet" href="/membership/membership-section17-18-calculator-fit-v1.css?v=20260902-1">';
-  const section1920Style = '<link rel="stylesheet" href="/membership/membership-section19-20-plan-choice-v1.css?v=20260902-1">';
-  const section2122Style = '<link rel="stylesheet" href="/membership/membership-section21-22-terms-final-v1.css?v=20260902-1">';
-  const globalOptimizationStyle = '<link rel="stylesheet" href="/membership/membership-global-optimization-v1.css?v=20260902-1">';
-  const globalVisualFixStyle = '<link rel="stylesheet" href="/membership/membership-global-visual-fix-v2.css?v=20260902-1">';
+  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v1.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
-
-  const mobileStyles =
-    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-opt1">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-opt1">' +
-    '<link rel="stylesheet" href="/membership/membership-mobile-canonical-v3.css?v=20260901-partner1">' +
-    '<link rel="stylesheet" href="/membership/membership-mobile-type-v1.css?v=20260901-opt2">' +
-    '<link rel="stylesheet" href="/membership/membership-center-clean-v1.css?v=20260901-opt2">' +
-    section3Style +
-    section4Style +
-    impactStyle +
-    section5Style +
-    section6Style +
-    section78Style +
-    section910Style +
-    section1112Style +
-    section1314Style +
-    section1516Style +
-    section1718Style +
-    section1920Style +
-    section2122Style +
-    surveyMobileStyle +
-    globalOptimizationStyle +
-    globalVisualFixStyle;
-
-  const desktopStyles =
-    '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
-    '<link rel="stylesheet" href="/membership/membership-price-clean-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-midflow-5-7-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-lateflow-8-10-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-guide-empathy-v1.css?v=20260831-1">' +
-    '<link rel="stylesheet" href="/membership/membership-expansion-v1.css?v=20260901-opt1">' +
-    '<link rel="stylesheet" href="/membership/membership-master-theme-v1.css?v=20260901-restore1">' +
-    '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-opt1">' +
-    section3Style +
-    section4Style +
-    impactStyle +
-    section5Style +
-    section6Style +
-    section78Style +
-    section910Style +
-    section1112Style +
-    section1314Style +
-    section1516Style +
-    section1718Style +
-    section1920Style +
-    section2122Style +
-    globalOptimizationStyle +
-    globalVisualFixStyle;
-
-  const extraStyles = isMobile ? mobileStyles : desktopStyles;
+  const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle;
 
   return new HTMLRewriter()
     .on('script[src*="membership-entry-survey-v1.js"]', {
@@ -95,16 +28,12 @@ export async function onRequest(context) {
           '<script src="/assets/js/agent-persistence.js?v=20260831-1"></script>',
           { html: true }
         );
-        element.append(
-          '<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>' + extraStyles,
-          { html: true }
-        );
+        element.append(extraStyles, { html: true });
       }
     })
     .on('body', {
       element(element) {
         element.append(
-          motionScripts +
           '<script defer src="/membership/membership-price-bridge-v1.js?v=20260901-opt1"></script>' +
           '<script defer src="/membership/membership-expansion-v1.js?v=20260901-section2"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260901-1"></script>' +
@@ -120,8 +49,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260902-1"></script>' +
-          (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-opt1"></script>' : '') +
-          '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-opt1"></script>',
+          '<script defer src="/membership/membership-canonical-motion-v1.js?v=20260902-1"></script>',
           { html: true }
         );
       }
