@@ -1,22 +1,22 @@
 @import url('/membership/membership-canonical-v4.css?v=20260902-flow-base');
 
-/* Membership canonical v5 — final readable full-width system.
+/* Membership canonical v5 — clean full-width advertising rhythm.
    Hero/review are intentionally untouched. */
 :root{
   --m5-ink:#0b1729;
   --m5-muted:#53657c;
   --m5-blue:#2468e8;
-  --m5-sky:#8bd5ff;
+  --m5-sky:#86d4ff;
   --m5-dark:#07111f;
   --m5-light:#f6f8fc;
   --m5-soft:#eef3f9;
-  --m5-line:#d4deea;
+  --m5-line:#d3deeb;
   --m5-wide:1360px;
 }
 
 main#top{background:#fff!important}
 
-/* ---------- GLOBAL WIDTH / RHYTHM ---------- */
+/* ---------- GLOBAL CANVAS ---------- */
 :is(
 #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,
 #mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise,
@@ -27,13 +27,12 @@ main#top{background:#fff!important}
   width:100%!important;
   max-width:none!important;
   margin:0!important;
-  padding:118px 0!important;
+  padding:144px 0!important;
   border:0!important;
   border-radius:0!important;
   box-shadow:none!important;
   overflow:hidden!important;
   font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-  font-size:20px!important;
 }
 
 :is(
@@ -51,7 +50,7 @@ main#top{background:#fff!important}
   margin-inline:auto!important;
 }
 
-/* Whole sections are never cards. */
+/* Imported styles must never turn a whole section into a card. */
 :is(
 #mx-port-day .mxp-inner,#impact-med .impact-inner,#price-pain .mv2-inner,
 #same-cruise .mv2-inner,#m3-savings-use .m3-inner,#guide-question .mx11-inner,
@@ -65,14 +64,16 @@ main#top{background:#fff!important}
   overflow:visible!important;
 }
 
-/* ---------- CHAPTER BACKGROUNDS: SOLID COLORS ONLY ---------- */
+/* ---------- SOLID CHAPTER COLORS ---------- */
 #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4{background:var(--m5-light)!important;color:var(--m5-ink)!important}
 #impact-med,#price-pain,#mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise{background:var(--m5-dark)!important;color:#fff!important}
 #mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money{background:#fff!important;color:var(--m5-ink)!important}
-#membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,#mx-plan-guide,#m3-selector{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
+#membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
+#mx-plan-guide{background:var(--m5-dark)!important;color:#fff!important}
+#m3-selector{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
 #membership-terms,#mx-final-choice,#plans{background:var(--m5-dark)!important;color:#fff!important}
 
-/* ---------- TYPE SCALE ---------- */
+/* ---------- TYPE SYSTEM ---------- */
 :is(
 #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,
 #mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise,
@@ -80,223 +81,307 @@ main#top{background:#fff!important}
 #membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,
 #mx-plan-guide,#m3-selector,#membership-terms,#mx-final-choice,#plans) h2{
   max-width:1080px!important;
-  margin:20px auto 0!important;
-  font-size:clamp(56px,5.3vw,82px)!important;
+  margin:24px auto 0!important;
+  font-size:clamp(58px,5.4vw,84px)!important;
   line-height:1.04!important;
-  letter-spacing:-.055em!important;
+  letter-spacing:-.058em!important;
   font-weight:950!important;
   word-break:keep-all!important;
   text-wrap:balance!important;
 }
 
-:is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mv2-kicker,.m3-kicker,.mx11-kicker,.mx12-kicker,.mx13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx17-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,.mx22-kicker,#plans .section-kicker){
+:is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mv2-kicker,.m3-kicker,
+.mx11-kicker,.mx12-kicker,.mx13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,
+.mx17-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,.mx22-kicker,#plans .section-kicker){
   min-height:44px!important;
   padding:0 18px!important;
   font-size:20px!important;
   line-height:1.15!important;
   font-weight:900!important;
-  letter-spacing:-.02em!important;
 }
 
-:is(.mx-sub,.mv2-sub,.mv2-note,.mx11-message,.mx12-question,.mx12-answer,.mx13-note,.mx16-answer,.m3-result,.source-note){
-  font-size:clamp(20px,1.8vw,26px)!important;
-  line-height:1.45!important;
-  font-weight:780!important;
+:is(.mx-sub,.mv2-sub,.mv2-note,.mx11-message,.mx12-question,.mx12-answer,.mx13-note,
+.mx16-answer,.m3-result,.source-note){
+  font-size:clamp(21px,1.8vw,27px)!important;
+  line-height:1.48!important;
 }
 
-/* Light chapters: force readable dark text. */
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money,#membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,#mx-plan-guide,#m3-selector)
-:is(h2,h3,strong,b,p,span,div){
-  text-shadow:none!important;
-}
+/* ---------- LIGHT CHAPTER CONTRAST ---------- */
+:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#mx-cost-structure,#m3-savings-use,
+#guide-question,#mx-prepare-money,#membership-point,#points-by-time,#real-cost,
+#mx-use-rules,#calculator,#mx-fit-check,#m3-selector)
+:is(h2,h3,strong,b){color:var(--m5-ink)!important}
 
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money,#membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,#mx-plan-guide,#m3-selector)
-:is(h2,h3,strong){color:var(--m5-ink)!important}
-
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money,#membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,#mx-plan-guide,#m3-selector)
+:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#mx-cost-structure,#m3-savings-use,
+#guide-question,#mx-prepare-money,#membership-point,#points-by-time,#real-cost,
+#mx-use-rules,#calculator,#mx-fit-check,#m3-selector)
 :is(p,.mx-sub,.mv2-sub,.mv2-note){color:var(--m5-muted)!important}
 
-/* Dark chapters: nothing can disappear into the background. */
-:is(#impact-med,#price-pain,#mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise,#membership-terms,#mx-final-choice,#plans)
+/* ---------- DARK CHAPTER CONTRAST ---------- */
+:is(#impact-med,#price-pain,#mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,
+#same-cruise,#mx-plan-guide,#membership-terms,#mx-final-choice,#plans)
 :is(h2,h3,strong,b){color:#fff!important}
 
-:is(#impact-med,#price-pain,#mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise,#membership-terms,#mx-final-choice,#plans)
+:is(#impact-med,#price-pain,#mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,
+#same-cruise,#mx-plan-guide,#membership-terms,#mx-final-choice,#plans)
 :is(p,span,.mv2-sub,.mv2-note,.source-note){color:rgba(255,255,255,.78)!important}
 
 /* ---------- SECTION 2 ---------- */
 #mx-moving-hotel .mx-title strong{color:var(--m5-blue)!important}
-#mx-moving-hotel .mx-hotel-layout{width:min(1120px,100%)!important;margin:46px auto 0!important}
-#mx-moving-hotel .mx-hotel-visual{min-height:460px!important}
+#mx-moving-hotel .mx-hotel-layout{width:min(1120px,100%)!important;margin:58px auto 0!important}
+#mx-moving-hotel .mx-hotel-visual{min-height:480px!important}
 #mx-moving-hotel .mx-hotel-points{display:none!important}
 #mx-moving-hotel .mx-hotel-caption span{font-size:22px!important;color:rgba(255,255,255,.82)!important}
-#mx-moving-hotel .mx-hotel-caption strong{font-size:clamp(34px,3vw,48px)!important;color:#fff!important}
+#mx-moving-hotel .mx-hotel-caption strong{font-size:clamp(36px,3.2vw,50px)!important;color:#fff!important}
 
 /* ---------- SECTION 3 ---------- */
 #mx-port-day .mxp-question{background:#e5edfb!important;border-color:#cedbed!important;color:#24519c!important}
 #mx-port-day .mxp-head h2 strong{color:var(--m5-blue)!important}
-#mx-port-day .mxp-flow{width:min(1100px,100%)!important;margin:44px auto 0!important;gap:0!important;border-top:1px solid var(--m5-line)!important;border-bottom:1px solid var(--m5-line)!important}
-#mx-port-day .mxp-step{min-height:138px!important;padding:26px 20px!important;border:0!important;border-left:1px solid var(--m5-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;justify-content:center!important}
+#mx-port-day .mxp-flow{width:min(1120px,100%)!important;margin:58px auto 0!important;gap:0!important;border-top:1px solid var(--m5-line)!important;border-bottom:1px solid var(--m5-line)!important}
+#mx-port-day .mxp-step{min-height:150px!important;padding:28px 20px!important;border:0!important;border-left:1px solid var(--m5-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;justify-content:center!important}
 #mx-port-day .mxp-step:first-child{border-left:0!important}
 #mx-port-day .mxp-step b{display:none!important}
-#mx-port-day .mxp-step strong{font-size:clamp(25px,2.4vw,34px)!important;color:var(--m5-ink)!important}
+#mx-port-day .mxp-step strong{font-size:clamp(26px,2.4vw,35px)!important;color:var(--m5-ink)!important}
 
 /* ---------- SECTION 4 ---------- */
 #mx-moving-hotel-4 .mx4-eyebrow{background:#e5edfb!important;border-color:#cedbed!important;color:#24519c!important}
 #mx-moving-hotel-4 .mx4-head h2 strong{color:var(--m5-blue)!important}
 #mx-moving-hotel-4 .mx4-room-lock{display:none!important}
-#mx-moving-hotel-4 .mx4-route{width:min(1120px,100%)!important;margin:46px auto 0!important}
-#mx-moving-hotel-4 .mx4-city strong{font-size:clamp(30px,3vw,42px)!important;color:var(--m5-ink)!important}
-#mx-moving-hotel-4 .mx4-night span{font-size:20px!important;color:var(--m5-muted)!important}
-#mx-moving-hotel-4 .mx4-points.mx4-points-two{width:min(920px,100%)!important;margin:32px auto 0!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
-#mx-moving-hotel-4 .mx4-points strong{font-size:clamp(25px,2.3vw,34px)!important;color:var(--m5-ink)!important}
+#mx-moving-hotel-4 .mx4-route{width:min(1140px,100%)!important;margin:58px auto 0!important}
+#mx-moving-hotel-4 .mx4-city strong{font-size:clamp(31px,3vw,43px)!important;color:var(--m5-ink)!important}
+#mx-moving-hotel-4 .mx4-night span{font-size:21px!important;color:var(--m5-muted)!important}
+#mx-moving-hotel-4 .mx4-points.mx4-points-two{width:min(940px,100%)!important;margin:42px auto 0!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#mx-moving-hotel-4 .mx4-points strong{font-size:clamp(26px,2.3vw,35px)!important;color:var(--m5-ink)!important}
 
 /* ---------- SECTION 5 ---------- */
 #impact-med .impact-title strong{color:var(--m5-sky)!important}
-#impact-med .impact-med-cycle strong{font-size:clamp(24px,2.2vw,32px)!important;color:#fff!important}
+#impact-med .impact-med-cycle{margin-top:52px!important}
+#impact-med .impact-med-cycle strong{font-size:clamp(25px,2.2vw,33px)!important;color:#fff!important}
+#impact-med .impact-med-route{margin-top:52px!important}
 #impact-med .impact-med-stop b{font-size:16px!important;color:var(--m5-sky)!important}
-#impact-med .impact-med-stop strong{font-size:clamp(24px,2.4vw,34px)!important;color:#fff!important}
+#impact-med .impact-med-stop strong{font-size:clamp(25px,2.4vw,35px)!important;color:#fff!important}
 #impact-med .impact-med-stop span{font-size:18px!important;color:rgba(255,255,255,.70)!important}
 
-/* ---------- SECTION 6: QUESTION FIRST ---------- */
-#price-pain .mv2-kicker{
-  display:block!important;
-  width:auto!important;
-  min-height:0!important;
-  margin:0 auto!important;
-  padding:0!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  color:#fff!important;
-  font-size:clamp(72px,7.5vw,112px)!important;
-  line-height:.98!important;
-  letter-spacing:-.07em!important;
-  font-weight:950!important;
-  text-align:center!important;
+/* ---------- SECTION 6: LONG IMPACT SCENE ---------- */
+#price-pain{
+  min-height:100svh!important;
+  padding:190px 0 210px!important;
+  display:flex!important;
+  align-items:center!important;
 }
-#price-pain .mv2-title{margin:34px auto 0!important;font-size:clamp(34px,3.2vw,50px)!important;line-height:1.12!important;color:rgba(255,255,255,.86)!important}
+#price-pain .mv2-kicker{
+  display:block!important;width:auto!important;min-height:0!important;margin:0 auto 64px!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;color:#fff!important;
+  font-size:clamp(76px,7.6vw,118px)!important;line-height:.98!important;letter-spacing:-.072em!important;font-weight:950!important;text-align:center!important;
+}
+#price-pain .mv2-title{margin:0 auto!important;max-width:900px!important;font-size:clamp(35px,3.2vw,52px)!important;line-height:1.18!important;color:rgba(255,255,255,.90)!important}
 #price-pain .mv2-title strong{color:#fff!important}
-#price-pain .mv2-mega{margin-top:38px!important;color:var(--m5-sky)!important;font-size:clamp(96px,10vw,154px)!important;line-height:.92!important;font-weight:950!important}
-#price-pain .mv2-save{margin-top:24px!important;font-size:clamp(21px,1.8vw,28px)!important;line-height:1.5!important;color:rgba(255,255,255,.78)!important}
+#price-pain .mv2-mega{margin:82px auto 0!important;color:var(--m5-sky)!important;font-size:clamp(104px,10vw,164px)!important;line-height:.92!important;font-weight:950!important}
+#price-pain .mv2-save{margin:58px auto 0!important;font-size:clamp(22px,1.9vw,30px)!important;line-height:1.52!important;color:rgba(255,255,255,.76)!important}
 
-/* ---------- SECTION 7: SAME DARK CANVAS ---------- */
-#mx-direct-booking-intro{padding:132px 0!important;background:var(--m5-dark)!important}
-#mx-direct-booking-intro h2{margin:0 auto!important;font-size:clamp(72px,7vw,108px)!important;color:#fff!important}
+/* ---------- SECTION 7: LONG, SAME SOLID DARK CANVAS ---------- */
+#mx-direct-booking-intro{padding:170px 0!important;background:var(--m5-dark)!important}
+#mx-direct-booking-intro h2{margin:0 auto!important;font-size:clamp(76px,7.2vw,112px)!important;color:#fff!important}
 #mx-direct-booking-intro h2 strong{color:var(--m5-sky)!important}
 
-#price-compare.mx7-price-reversal{padding:132px 0!important;background:var(--m5-dark)!important}
+#price-compare.mx7-price-reversal{padding:168px 0!important;background:var(--m5-dark)!important}
 #price-compare.mx7-price-reversal .mv2-inner{width:min(var(--m5-wide),calc(100% - 80px))!important;max-width:var(--m5-wide)!important}
-#price-compare.mx7-price-reversal .mv2-title{font-size:clamp(58px,5.8vw,88px)!important;color:#fff!important}
+#price-compare.mx7-price-reversal .mv2-title{font-size:clamp(60px,5.9vw,90px)!important;color:#fff!important}
 #price-compare.mx7-price-reversal .mv2-title strong{color:var(--m5-sky)!important}
-#price-compare.mx7-price-reversal .mv2-compare{margin-top:58px!important}
-#price-compare.mx7-price-reversal .mv2-price{min-height:270px!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}
-#price-compare.mx7-price-reversal .mv2-price.good{background:rgba(133,210,255,.08)!important;border-color:rgba(133,210,255,.38)!important;box-shadow:none!important}
-#price-compare.mx7-price-reversal .mv2-price span{font-size:24px!important;color:rgba(255,255,255,.76)!important}
-#price-compare.mx7-price-reversal .mv2-price strong{font-size:clamp(74px,7.5vw,116px)!important;color:#fff!important}
+#price-compare.mx7-price-reversal .mv2-compare{margin-top:76px!important}
+#price-compare.mx7-price-reversal .mv2-price{min-height:290px!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:none!important}
+#price-compare.mx7-price-reversal .mv2-price.good{background:rgba(134,212,255,.08)!important;border-color:rgba(134,212,255,.38)!important;box-shadow:none!important}
+#price-compare.mx7-price-reversal .mv2-price span{font-size:25px!important;color:rgba(255,255,255,.76)!important}
+#price-compare.mx7-price-reversal .mv2-price strong{font-size:clamp(78px,7.6vw,120px)!important;color:#fff!important}
 #price-compare.mx7-price-reversal .mv2-price.good strong{color:var(--m5-sky)!important}
 #price-compare.mx7-price-reversal .mv2-arrow{color:rgba(255,255,255,.46)!important}
-#price-compare.mx7-price-reversal .mv2-save{font-size:clamp(30px,3vw,44px)!important;color:#fff!important}
+#price-compare.mx7-price-reversal .mv2-save{margin-top:58px!important;font-size:clamp(31px,3vw,46px)!important;color:#fff!important}
 #price-compare.mx7-price-reversal .mv2-save strong{color:var(--m5-sky)!important}
 
-#mx-direct-booking-saving{padding:132px 0!important;background:var(--m5-dark)!important}
-#mx-direct-booking-saving strong{font-size:clamp(76px,8vw,124px)!important;color:var(--m5-sky)!important}
+#mx-direct-booking-saving{padding:170px 0!important;background:var(--m5-dark)!important}
+#mx-direct-booking-saving strong{font-size:clamp(80px,8vw,128px)!important;color:var(--m5-sky)!important}
 
-#same-cruise.mx8-same-cruise-proof{padding:132px 0!important;background:var(--m5-dark)!important}
+#same-cruise.mx8-same-cruise-proof{padding:170px 0!important;background:var(--m5-dark)!important}
 #same-cruise.mx8-same-cruise-proof .mv2-kicker{font-size:22px!important;color:#dff1ff!important}
-#same-cruise.mx8-same-cruise-proof .mv2-title{font-size:clamp(60px,6vw,92px)!important;color:#fff!important}
+#same-cruise.mx8-same-cruise-proof .mv2-title{font-size:clamp(62px,6vw,94px)!important;color:#fff!important}
 #same-cruise.mx8-same-cruise-proof .mv2-title strong{color:var(--m5-sky)!important}
-#same-cruise.mx8-same-cruise-proof .mv2-four>div{font-size:clamp(25px,2.3vw,34px)!important;color:#fff!important}
+#same-cruise.mx8-same-cruise-proof .mv2-four{margin-top:64px!important}
+#same-cruise.mx8-same-cruise-proof .mv2-four>div{font-size:clamp(26px,2.3vw,35px)!important;color:#fff!important}
 
-/* ---------- SECTION 9: QUESTION FIRST ---------- */
+/* ---------- SECTION 9 ---------- */
 #mx-cost-structure .mx-eyebrow{
   display:block!important;width:auto!important;min-height:0!important;margin:0 auto!important;padding:0!important;
   border:0!important;background:transparent!important;color:var(--m5-ink)!important;
-  font-size:clamp(58px,5.8vw,86px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
+  font-size:clamp(60px,5.9vw,88px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
 }
-#mx-cost-structure .mx-title{margin-top:34px!important;font-size:clamp(38px,3.8vw,58px)!important}
+#mx-cost-structure .mx-title{margin-top:42px!important;font-size:clamp(40px,3.9vw,60px)!important}
 #mx-cost-structure .mx-title strong{color:var(--m5-blue)!important}
-#mx-cost-structure .mx-sub{margin-top:24px!important;font-size:clamp(21px,1.9vw,28px)!important;color:var(--m5-muted)!important}
-#mx-cost-structure .mx-card strong{font-size:clamp(24px,2.2vw,32px)!important;color:var(--m5-ink)!important}
+#mx-cost-structure .mx-sub{margin-top:30px!important;font-size:clamp(22px,2vw,29px)!important;color:var(--m5-muted)!important}
+#mx-cost-structure .mx-card-grid{margin-top:54px!important}
+#mx-cost-structure .mx-card strong{font-size:clamp(25px,2.2vw,33px)!important;color:var(--m5-ink)!important}
 
 /* ---------- SECTION 10 ---------- */
 #m3-savings-use .m3-kicker{font-size:22px!important;background:#e5edfb!important;border-color:#cedbed!important;color:#24519c!important}
 #m3-savings-use h2 strong{color:var(--m5-blue)!important}
-#m3-savings-use .m3-four strong{font-size:clamp(23px,2.2vw,31px)!important;color:var(--m5-ink)!important}
+#m3-savings-use .m3-four{margin-top:58px!important}
+#m3-savings-use .m3-four strong{font-size:clamp(24px,2.2vw,32px)!important;color:var(--m5-ink)!important}
 
-/* ---------- SECTION 11: QUESTION FIRST ---------- */
+/* ---------- SECTION 11 ---------- */
 #guide-question .mx11-kicker{
   display:block!important;width:auto!important;min-height:0!important;margin:0 auto!important;padding:0!important;
   border:0!important;background:transparent!important;color:var(--m5-ink)!important;
-  font-size:clamp(58px,5.8vw,86px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
+  font-size:clamp(60px,5.9vw,88px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
 }
-#guide-question .mx11-title{margin-top:34px!important;font-size:clamp(38px,3.8vw,58px)!important}
+#guide-question .mx11-title{margin-top:42px!important;font-size:clamp(40px,3.9vw,60px)!important}
 #guide-question .mx11-title strong{color:var(--m5-blue)!important}
-#guide-question .mx11-message{width:min(900px,100%)!important;margin:34px auto 0!important;padding:30px 0 0!important;border:0!important;border-top:1px solid var(--m5-line)!important;border-radius:0!important;background:transparent!important;color:var(--m5-ink)!important}
+#guide-question .mx11-message{width:min(900px,100%)!important;margin:48px auto 0!important;padding:36px 0 0!important;border:0!important;border-top:1px solid var(--m5-line)!important;border-radius:0!important;background:transparent!important;color:var(--m5-ink)!important}
 #guide-question .mx11-message strong{color:var(--m5-blue)!important}
 
-/* ---------- SECTION 12: QUESTION FIRST ---------- */
+/* ---------- SECTION 12 ---------- */
 #mx-prepare-money .mx12-kicker{
   display:block!important;width:auto!important;min-height:0!important;margin:0 auto!important;padding:0!important;
   border:0!important;background:transparent!important;color:var(--m5-ink)!important;
-  font-size:clamp(58px,5.8vw,86px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
+  font-size:clamp(60px,5.9vw,88px)!important;line-height:1.02!important;letter-spacing:-.06em!important;font-weight:950!important;
 }
-#mx-prepare-money .mx12-title{margin-top:34px!important;font-size:clamp(38px,3.8vw,58px)!important}
+#mx-prepare-money .mx12-title{margin-top:42px!important;font-size:clamp(40px,3.9vw,60px)!important}
 #mx-prepare-money .mx12-title strong{color:var(--m5-blue)!important}
-#mx-prepare-money .mx12-question{font-size:clamp(24px,2.3vw,34px)!important;color:var(--m5-muted)!important}
-#mx-prepare-money .mx12-answer{width:min(900px,100%)!important;margin-top:20px!important;padding:32px!important;border:1px solid var(--m5-line)!important;border-radius:22px!important;background:#fff!important;color:var(--m5-ink)!important;font-size:clamp(30px,3vw,44px)!important}
+#mx-prepare-money .mx12-question{margin-top:48px!important;font-size:clamp(25px,2.3vw,35px)!important;color:var(--m5-muted)!important}
+#mx-prepare-money .mx12-answer{width:min(900px,100%)!important;margin:22px auto 0!important;padding:34px!important;border:1px solid var(--m5-line)!important;border-radius:22px!important;background:#fff!important;color:var(--m5-ink)!important;font-size:clamp(31px,3vw,45px)!important}
 #mx-prepare-money .mx12-answer strong{color:var(--m5-blue)!important}
 
-/* ---------- SECTION 13-20: CONSISTENT LIGHT CHAPTER ---------- */
-#membership-point .mx13-kicker,#points-by-time .mx14-kicker,#real-cost .mx15-kicker,#mx-use-rules .mx16-kicker,#calculator .mx17-kicker,#mx-fit-check .mx18-kicker,#mx-plan-guide .mx19-kicker,#m3-selector .m3-kicker{
+/* ---------- SECTION 13-18 ---------- */
+#membership-point .mx13-kicker,#points-by-time .mx14-kicker,#real-cost .mx15-kicker,#mx-use-rules .mx16-kicker,#calculator .mx17-kicker,#mx-fit-check .mx18-kicker{
   background:#dde8f8!important;border-color:#c9d8ec!important;color:#24519c!important;font-size:20px!important;
 }
-#membership-point .mx13-title strong,#points-by-time .mx14-title strong,#real-cost .mx15-title strong,#mx-use-rules .mx16-title strong,#calculator .mx17-title strong,#mx-fit-check .mx18-title strong,#mx-plan-guide .mx19-title strong,#m3-selector h2 strong{color:var(--m5-blue)!important}
-
-#membership-point .mx13-plan>span,#mx-plan-guide .mx19-card>span{font-size:22px!important;font-weight:950!important;color:var(--m5-ink)!important}
-#membership-point .mx13-plan-row b,#mx-plan-guide .mx19-main b,#mx-plan-guide .mx19-row b{font-size:20px!important;color:var(--m5-muted)!important}
-#membership-point .mx13-plan-row strong{font-size:clamp(38px,4vw,58px)!important;color:var(--m5-blue)!important}
+#membership-point .mx13-title strong,#points-by-time .mx14-title strong,#real-cost .mx15-title strong,#mx-use-rules .mx16-title strong,#calculator .mx17-title strong,#mx-fit-check .mx18-title strong{color:var(--m5-blue)!important}
+#membership-point .mx13-plan>span{font-size:22px!important;font-weight:950!important;color:var(--m5-ink)!important}
+#membership-point .mx13-plan-row b{font-size:20px!important;color:var(--m5-muted)!important}
+#membership-point .mx13-plan-row strong{font-size:clamp(40px,4vw,60px)!important;color:var(--m5-blue)!important}
 #membership-point .mx13-note{color:var(--m5-ink)!important;background:transparent!important;border-color:var(--m5-line)!important}
-
-#points-by-time .mx14-plan-label{font-size:26px!important;color:var(--m5-ink)!important}
+#points-by-time .mx14-plan-label{font-size:27px!important;color:var(--m5-ink)!important}
 #points-by-time .mx14-ledger span{font-size:20px!important;color:var(--m5-muted)!important}
-#points-by-time .mx14-ledger strong{font-size:clamp(30px,3vw,44px)!important;color:var(--m5-ink)!important}
+#points-by-time .mx14-ledger strong{font-size:clamp(31px,3vw,45px)!important;color:var(--m5-ink)!important}
 #points-by-time .mx14-group.premium .mx14-ledger strong{color:var(--m5-blue)!important}
-
 #real-cost .mx15-equation span{font-size:21px!important;color:var(--m5-muted)!important}
-#real-cost .mx15-equation strong{font-size:clamp(40px,4.2vw,62px)!important;color:var(--m5-ink)!important}
+#real-cost .mx15-equation strong{font-size:clamp(42px,4.2vw,64px)!important;color:var(--m5-ink)!important}
 #real-cost .mx15-equation .point strong{color:var(--m5-blue)!important}
-#real-cost .mx15-equation i{font-size:42px!important;color:#8292a8!important}
-
-#mx-use-rules .mx16-equation strong{font-size:clamp(48px,5vw,72px)!important;color:var(--m5-ink)!important}
-#mx-use-rules .mx16-equation i{font-size:42px!important;color:#8292a8!important}
-
+#real-cost .mx15-equation i,#mx-use-rules .mx16-equation i{font-size:44px!important;color:#8292a8!important}
+#mx-use-rules .mx16-equation strong{font-size:clamp(50px,5vw,74px)!important;color:var(--m5-ink)!important}
 #calculator .mx17-control-head span,#calculator .mx17-results span{font-size:21px!important;color:var(--m5-muted)!important}
-#calculator .mx17-control-head strong{font-size:clamp(34px,3.2vw,48px)!important;color:var(--m5-ink)!important}
-#calculator .mx17-results strong{font-size:clamp(36px,3.8vw,56px)!important;color:var(--m5-ink)!important}
+#calculator .mx17-control-head strong{font-size:clamp(35px,3.2vw,50px)!important;color:var(--m5-ink)!important}
+#calculator .mx17-results strong{font-size:clamp(38px,3.8vw,58px)!important;color:var(--m5-ink)!important}
 #calculator .mx17-results .point strong,#calculator .mx17-results .card strong{color:var(--m5-blue)!important}
-
 #mx-fit-check .mx18-card span{font-size:22px!important;color:var(--m5-muted)!important}
-#mx-fit-check .mx18-card strong{font-size:clamp(32px,3vw,44px)!important;color:var(--m5-ink)!important}
-#mx-fit-check .mx18-card b{font-size:clamp(28px,2.8vw,40px)!important;color:var(--m5-blue)!important}
+#mx-fit-check .mx18-card strong{font-size:clamp(33px,3vw,46px)!important;color:var(--m5-ink)!important}
+#mx-fit-check .mx18-card b{font-size:clamp(29px,2.8vw,42px)!important;color:var(--m5-blue)!important}
 
-#mx-plan-guide .mx19-main strong{font-size:clamp(48px,5vw,72px)!important;color:var(--m5-ink)!important}
-#mx-plan-guide .mx19-card.premium .mx19-main strong{color:var(--m5-blue)!important}
-#mx-plan-guide .mx19-row strong{font-size:clamp(30px,3vw,44px)!important;color:var(--m5-ink)!important}
-#mx-plan-guide .mx19-choice{font-size:clamp(21px,2vw,28px)!important;color:var(--m5-ink)!important;background:transparent!important;border-color:var(--m5-line)!important}
+/* ---------- SECTION 19: DARK PLAN COMPARISON, NO BLACK TEXT ---------- */
+#mx-plan-guide{padding:164px 0!important}
+#mx-plan-guide .mx19-kicker{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)!important;color:#dff1ff!important}
+#mx-plan-guide .mx19-title,#mx-plan-guide .mx19-title strong{color:#fff!important}
+#mx-plan-guide .mx19-title strong{color:var(--m5-sky)!important}
+#mx-plan-guide .mx19-grid{width:min(1040px,100%)!important;margin:72px auto 0!important;gap:24px!important}
+#mx-plan-guide .mx19-card{
+  padding:44px 36px!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  border-radius:26px!important;
+  background:rgba(255,255,255,.055)!important;
+  box-shadow:none!important;
+}
+#mx-plan-guide .mx19-card.premium{border-color:rgba(134,212,255,.38)!important;background:rgba(134,212,255,.08)!important}
+#mx-plan-guide .mx19-card>span{font-size:22px!important;font-weight:950!important;color:#fff!important}
+#mx-plan-guide .mx19-main b,#mx-plan-guide .mx19-row b{font-size:20px!important;color:rgba(255,255,255,.64)!important}
+#mx-plan-guide .mx19-main strong{font-size:clamp(52px,5vw,76px)!important;color:#fff!important}
+#mx-plan-guide .mx19-card.premium .mx19-main strong{color:var(--m5-sky)!important}
+#mx-plan-guide .mx19-row strong{font-size:clamp(31px,3vw,46px)!important;color:#fff!important}
+#mx-plan-guide .mx19-choice{margin-top:28px!important;padding-top:24px!important;border:0!important;border-top:1px solid rgba(255,255,255,.14)!important;border-radius:0!important;background:transparent!important;font-size:clamp(22px,2vw,29px)!important;color:#fff!important}
+#mx-plan-guide .mx19-card.premium .mx19-choice{color:var(--m5-sky)!important}
 
-#m3-selector .m3-buttons button{min-height:150px!important;font-size:clamp(24px,2.4vw,34px)!important;line-height:1.35!important;font-weight:900!important}
-#m3-selector .m3-result span{font-size:20px!important;color:var(--m5-muted)!important}
-#m3-selector .m3-result strong{font-size:clamp(28px,3vw,44px)!important;color:var(--m5-blue)!important}
+/* ---------- SECTION 20: CENTERED SIMPLE CHOICE ---------- */
+#m3-selector{padding:164px 0 176px!important}
+#m3-selector .m3-inner{width:min(1120px,calc(100% - 80px))!important;max-width:1120px!important;text-align:center!important}
+#m3-selector .m3-kicker{background:#dde8f8!important;border-color:#c9d8ec!important;color:#24519c!important}
+#m3-selector h2 strong{color:var(--m5-blue)!important}
+#m3-selector .m3-select-block.m3-select-amount{
+  display:block!important;
+  width:min(860px,100%)!important;
+  margin:72px auto 0!important;
+  padding:0!important;
+  border:0!important;
+}
+#m3-selector [data-select="amount"] .m3-buttons{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:22px!important;
+  width:100%!important;
+  margin:0 auto!important;
+}
+#m3-selector .m3-buttons button{
+  min-height:230px!important;
+  padding:30px 24px!important;
+  border:1px solid #bfd0e4!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  color:var(--m5-ink)!important;
+  font-size:clamp(28px,2.8vw,40px)!important;
+  line-height:1.35!important;
+  font-weight:950!important;
+  text-align:center!important;
+}
+#m3-selector .m3-buttons button.active,
+#m3-selector .m3-buttons button[data-value="premium"].active{
+  border-color:var(--m5-blue)!important;
+  background:var(--m5-blue)!important;
+  color:#fff!important;
+}
+#m3-selector .m3-result{
+  width:min(860px,100%)!important;
+  margin:58px auto 0!important;
+  padding:38px 0 0!important;
+  border:0!important;
+  border-top:1px solid var(--m5-line)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  text-align:center!important;
+}
+#m3-selector .m3-result span{display:block!important;font-size:21px!important;color:var(--m5-muted)!important}
+#m3-selector .m3-result strong{display:block!important;margin-top:12px!important;font-size:clamp(36px,3.8vw,56px)!important;color:var(--m5-blue)!important}
 
-/* ---------- SECTION 21-22: DARK FINAL ---------- */
-#membership-terms .mx21-kicker,#mx-final-choice .mx22-kicker,#plans .section-kicker{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)!important;color:#dff1ff!important;font-size:20px!important}
-#membership-terms .mx21-title,#membership-terms .mx21-title strong,#mx-final-choice .mx22-title,#mx-final-choice .mx22-title strong,#plans h2{color:#fff!important}
-#membership-terms .mx21-terms article span{font-size:20px!important;color:rgba(255,255,255,.70)!important}
-#membership-terms .mx21-terms article strong{font-size:clamp(24px,2.2vw,32px)!important;color:#fff!important}
+/* ---------- SECTION 21: DARK TERMS WITH REAL CONTRAST ---------- */
+#membership-terms{padding:164px 0!important}
+#membership-terms .mx21-kicker{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)!important;color:#dff1ff!important}
+#membership-terms .mx21-title,#membership-terms .mx21-title strong{color:#fff!important}
+#membership-terms .mx21-title strong{color:var(--m5-sky)!important}
+#membership-terms .mx21-terms{width:min(1040px,100%)!important;margin:72px auto 0!important;gap:14px!important}
+#membership-terms .mx21-terms article{
+  min-height:116px!important;
+  padding:28px 32px!important;
+  border:1px solid rgba(255,255,255,.15)!important;
+  border-radius:18px!important;
+  background:rgba(255,255,255,.055)!important;
+  box-shadow:none!important;
+}
+#membership-terms .mx21-terms article b{font-size:clamp(24px,2.3vw,34px)!important;color:#fff!important}
+#membership-terms .mx21-terms article span{font-size:clamp(20px,1.8vw,26px)!important;color:rgba(255,255,255,.74)!important}
+#membership-terms .mx21-faq-head{margin-top:64px!important;font-size:22px!important;color:var(--m5-sky)!important}
+#membership-terms .mx21-faq{width:min(1040px,100%)!important;margin:22px auto 0!important}
+#membership-terms .mx21-faq details{border-color:rgba(255,255,255,.15)!important;background:rgba(255,255,255,.04)!important}
+#membership-terms .mx21-faq summary{font-size:clamp(21px,1.8vw,27px)!important;color:#fff!important}
+#membership-terms .mx21-faq p{font-size:20px!important;color:rgba(255,255,255,.74)!important}
+
+/* ---------- SECTION 22 ---------- */
+#mx-final-choice{padding:164px 0!important}
+#mx-final-choice .mx22-kicker,#plans .section-kicker{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.18)!important;color:#dff1ff!important}
+#mx-final-choice .mx22-title,#mx-final-choice .mx22-title strong,#plans h2{color:#fff!important}
+#mx-final-choice .mx22-title strong{color:var(--m5-sky)!important}
+#mx-final-choice .mx22-plans{margin-top:72px!important}
+#mx-final-choice .mx22-plans article{background:rgba(255,255,255,.055)!important;border-color:rgba(255,255,255,.15)!important;box-shadow:none!important}
 #mx-final-choice .mx22-plans article>span{font-size:21px!important;color:rgba(255,255,255,.72)!important}
-#mx-final-choice .mx22-plans article>strong{font-size:clamp(44px,4.5vw,68px)!important;color:#fff!important}
-#mx-final-choice .mx22-plans article>b{font-size:clamp(28px,2.8vw,40px)!important;color:var(--m5-sky)!important}
-#mx-final-choice .mx22-cta{font-size:21px!important;min-height:66px!important}
+#mx-final-choice .mx22-plans article>strong{font-size:clamp(46px,4.5vw,70px)!important;color:#fff!important}
+#mx-final-choice .mx22-plans article>b{font-size:clamp(29px,2.8vw,42px)!important;color:var(--m5-sky)!important}
+#mx-final-choice .mx22-cta{font-size:21px!important;min-height:68px!important}
 
 /* ---------- MOBILE ---------- */
 @media(max-width:780px){
@@ -305,10 +390,7 @@ main#top{background:#fff!important}
   #mx-direct-booking-intro,#price-compare,#mx-direct-booking-saving,#same-cruise,
   #mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money,
   #membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,
-  #mx-plan-guide,#m3-selector,#membership-terms,#mx-final-choice,#plans){
-    padding:86px 0!important;
-    font-size:18px!important;
-  }
+  #mx-plan-guide,#m3-selector,#membership-terms,#mx-final-choice,#plans){padding:104px 0!important}
 
   :is(
   #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,
@@ -326,50 +408,65 @@ main#top{background:#fff!important}
   #mx-cost-structure,#m3-savings-use,#guide-question,#mx-prepare-money,
   #membership-point,#points-by-time,#real-cost,#mx-use-rules,#calculator,#mx-fit-check,
   #mx-plan-guide,#m3-selector,#membership-terms,#mx-final-choice,#plans) h2{
-    font-size:clamp(40px,10.5vw,54px)!important;
+    font-size:clamp(40px,10.5vw,56px)!important;
     line-height:1.05!important;
   }
 
-  :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mv2-kicker,.m3-kicker,.mx11-kicker,.mx12-kicker,.mx13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx17-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,.mx22-kicker,#plans .section-kicker){font-size:18px!important;min-height:40px!important}
+  :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mv2-kicker,.m3-kicker,
+  .mx11-kicker,.mx12-kicker,.mx13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,
+  .mx17-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,.mx22-kicker,#plans .section-kicker){font-size:18px!important;min-height:40px!important}
 
-  #mx-moving-hotel .mx-hotel-visual{min-height:320px!important}
+  #mx-moving-hotel .mx-hotel-visual{min-height:330px!important}
   #mx-port-day .mxp-flow{grid-template-columns:1fr 1fr!important}
-  #mx-port-day .mxp-step{min-height:104px!important;padding:18px 10px!important}
+  #mx-port-day .mxp-step{min-height:110px!important;padding:20px 10px!important}
   #mx-port-day .mxp-step:nth-child(odd){border-left:0!important}
   #mx-port-day .mxp-step:nth-child(n+3){border-top:1px solid var(--m5-line)!important}
   #mx-port-day .mxp-step strong{font-size:22px!important}
   #mx-moving-hotel-4 .mx4-points.mx4-points-two{grid-template-columns:1fr!important}
 
-  #price-pain .mv2-kicker{font-size:clamp(52px,14vw,70px)!important}
-  #price-pain .mv2-title{font-size:clamp(28px,7.5vw,38px)!important}
-  #price-pain .mv2-mega{font-size:clamp(78px,21vw,108px)!important}
-  #price-pain .mv2-save{font-size:19px!important}
+  #price-pain{min-height:auto!important;padding:132px 0 146px!important}
+  #price-pain .mv2-kicker{margin-bottom:42px!important;font-size:clamp(52px,14vw,72px)!important}
+  #price-pain .mv2-title{font-size:clamp(28px,7.5vw,39px)!important}
+  #price-pain .mv2-mega{margin-top:58px!important;font-size:clamp(82px,21vw,112px)!important}
+  #price-pain .mv2-save{margin-top:42px!important;font-size:20px!important}
 
-  #mx-direct-booking-intro,#price-compare.mx7-price-reversal,#mx-direct-booking-saving,#same-cruise.mx8-same-cruise-proof{padding:94px 0!important}
-  #mx-direct-booking-intro h2{font-size:clamp(48px,12vw,64px)!important}
+  #mx-direct-booking-intro,#price-compare.mx7-price-reversal,#mx-direct-booking-saving,#same-cruise.mx8-same-cruise-proof{padding:116px 0!important}
+  #mx-direct-booking-intro h2{font-size:clamp(48px,12vw,66px)!important}
   #price-compare.mx7-price-reversal .mv2-inner{width:calc(100% - 30px)!important}
-  #price-compare.mx7-price-reversal .mv2-title{font-size:clamp(42px,10.5vw,56px)!important}
-  #price-compare.mx7-price-reversal .mv2-compare{grid-template-columns:1fr!important;gap:12px!important;margin-top:38px!important}
-  #price-compare.mx7-price-reversal .mv2-price{min-height:185px!important;padding:24px 16px!important}
+  #price-compare.mx7-price-reversal .mv2-title{font-size:clamp(42px,10.5vw,58px)!important}
+  #price-compare.mx7-price-reversal .mv2-compare{grid-template-columns:1fr!important;gap:16px!important;margin-top:48px!important}
+  #price-compare.mx7-price-reversal .mv2-price{min-height:200px!important;padding:26px 16px!important}
   #price-compare.mx7-price-reversal .mv2-price span{font-size:20px!important}
-  #price-compare.mx7-price-reversal .mv2-price strong{font-size:clamp(62px,17vw,88px)!important}
+  #price-compare.mx7-price-reversal .mv2-price strong{font-size:clamp(64px,17vw,90px)!important}
   #price-compare.mx7-price-reversal .mv2-arrow{transform:rotate(90deg)!important;font-size:42px!important}
-  #price-compare.mx7-price-reversal .mv2-save{font-size:28px!important}
-  #mx-direct-booking-saving strong{font-size:clamp(50px,14vw,72px)!important}
-  #same-cruise.mx8-same-cruise-proof .mv2-title{font-size:clamp(42px,10.5vw,58px)!important}
+  #price-compare.mx7-price-reversal .mv2-save{font-size:29px!important}
+  #mx-direct-booking-saving strong{font-size:clamp(52px,14vw,74px)!important}
+  #same-cruise.mx8-same-cruise-proof .mv2-title{font-size:clamp(42px,10.5vw,60px)!important}
   #same-cruise.mx8-same-cruise-proof .mv2-four{grid-template-columns:1fr 1fr!important}
-  #same-cruise.mx8-same-cruise-proof .mv2-four>div{min-height:126px!important;font-size:21px!important}
+  #same-cruise.mx8-same-cruise-proof .mv2-four>div{min-height:132px!important;font-size:21px!important}
 
-  #mx-cost-structure .mx-eyebrow,#guide-question .mx11-kicker,#mx-prepare-money .mx12-kicker{font-size:clamp(42px,11vw,56px)!important}
-  #mx-cost-structure .mx-title,#guide-question .mx11-title,#mx-prepare-money .mx12-title{font-size:clamp(30px,8vw,40px)!important}
-  #mx-prepare-money .mx12-answer{padding:24px 18px!important;font-size:28px!important}
+  #mx-cost-structure .mx-eyebrow,#guide-question .mx11-kicker,#mx-prepare-money .mx12-kicker{font-size:clamp(42px,11vw,58px)!important}
+  #mx-cost-structure .mx-title,#guide-question .mx11-title,#mx-prepare-money .mx12-title{font-size:clamp(31px,8vw,42px)!important}
+  #mx-prepare-money .mx12-answer{padding:26px 18px!important;font-size:29px!important}
 
-  #membership-point .mx13-plan-row strong{font-size:38px!important}
-  #points-by-time .mx14-ledger strong{font-size:30px!important}
-  #real-cost .mx15-equation strong{font-size:34px!important}
-  #calculator .mx17-results strong{font-size:34px!important}
-  #mx-fit-check .mx18-card strong{font-size:30px!important}
-  #mx-plan-guide .mx19-main strong{font-size:44px!important}
-  #m3-selector .m3-buttons{grid-template-columns:1fr!important}
-  #m3-selector .m3-buttons button{min-height:112px!important;font-size:23px!important}
+  #mx-plan-guide{padding:118px 0!important}
+  #mx-plan-guide .mx19-grid{grid-template-columns:1fr!important;margin-top:52px!important}
+  #mx-plan-guide .mx19-card{padding:34px 22px!important}
+  #mx-plan-guide .mx19-main strong{font-size:48px!important}
+
+  #m3-selector{padding:118px 0 130px!important}
+  #m3-selector .m3-inner{width:calc(100% - 30px)!important}
+  #m3-selector .m3-select-block.m3-select-amount{margin-top:54px!important}
+  #m3-selector [data-select="amount"] .m3-buttons{grid-template-columns:1fr!important;gap:14px!important}
+  #m3-selector .m3-buttons button{min-height:150px!important;font-size:27px!important}
+  #m3-selector .m3-result{margin-top:42px!important;padding-top:30px!important}
+  #m3-selector .m3-result strong{font-size:34px!important}
+
+  #membership-terms{padding:118px 0!important}
+  #membership-terms .mx21-terms{margin-top:52px!important}
+  #membership-terms .mx21-terms article{min-height:0!important;padding:24px 20px!important}
+  #membership-terms .mx21-terms article b{font-size:24px!important}
+  #membership-terms .mx21-terms article span{font-size:19px!important}
+
+  #mx-final-choice{padding:118px 0!important}
 }
