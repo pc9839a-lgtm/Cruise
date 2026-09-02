@@ -14,11 +14,11 @@
     const title9 = section9.querySelector('.mx-title');
     const sub9 = section9.querySelector('.mx-sub');
     const cards9 = section9.querySelectorAll('.mx-card');
-    const names9 = ['예약 총액 $3,887.35', '사용 POINT 1,805.84P', '카드 출금 $2,020.88', '처리 수수료 $60.63'];
+    const names9 = ['가이드', '단체 이동', '예약 대행', '패키지 운영'];
 
-    if (kicker9) kicker9.textContent = '제 영수증은 이렇게 결제됐습니다';
-    if (title9) title9.innerHTML = 'POINT를 먼저 쓰고<br><strong>남은 금액을 카드로 결제</strong>';
-    if (sub9) sub9.textContent = '실제 영수증 숫자를 그대로 가져온 결제 구조입니다.';
+    if (kicker9) kicker9.textContent = '그럼 왜 이렇게 차이 나지?';
+    if (title9) title9.innerHTML = '패키지에는<br><strong>서비스 비용이 함께 붙습니다</strong>';
+    if (sub9) sub9.textContent = '직접 할 수 있는 부분까지 패키지에 포함될 수 있습니다.';
 
     cards9.forEach((card, index) => {
       const number = card.querySelector('b');
@@ -35,10 +35,10 @@
     const kicker10 = section10.querySelector('.m3-kicker');
     const title10 = section10.querySelector('h2');
     const items10 = section10.querySelectorAll('.m3-four > div strong');
-    const names10 = ['총 $3,887.35', '1,805.84P', '$2,020.88 CARD', '$60.63 FEE'];
+    const names10 = ['항공권', '객실 업그레이드', '기항지 투어', '다음 크루즈'];
 
-    if (kicker10) kicker10.textContent = '실제 결제 구조';
-    if (title10) title10.innerHTML = '모아둔 POINT + 카드 결제<br><strong>이렇게 예약에 들어갑니다</strong>';
+    if (kicker10) kicker10.textContent = '아낀 비용은 어디에?';
+    if (title10) title10.innerHTML = '여행 자체에<br><strong>다시 쓰면 됩니다</strong>';
     items10.forEach((item, index) => {
       if (names10[index]) item.textContent = names10[index];
     });
@@ -46,19 +46,14 @@
     const amount = section10.querySelector('.mx10-amount');
     if (amount) amount.remove();
 
-    if (section8.nextElementSibling !== section9) {
-      section8.insertAdjacentElement('afterend', section9);
-    }
-    if (section9.nextElementSibling !== section10) {
-      section9.insertAdjacentElement('afterend', section10);
-    }
+    if (section8.nextElementSibling !== section9) section8.insertAdjacentElement('afterend', section9);
+    if (section9.nextElementSibling !== section10) section9.insertAdjacentElement('afterend', section10);
 
     return true;
   }
 
   function init() {
     if (buildSections9And10()) return;
-
     let tries = 0;
     const timer = window.setInterval(() => {
       tries += 1;
