@@ -13,6 +13,7 @@ export async function onRequest(context) {
   const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-partner1">';
   const section3Style = '<link rel="stylesheet" href="/membership/membership-section3-port-v1.css?v=20260901-1">';
   const section4Style = '<link rel="stylesheet" href="/membership/membership-section4-moving-hotel-v1.css?v=20260902-1">';
+  const section5Style = '<link rel="stylesheet" href="/membership/membership-section5-route-v1.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
 
   const mobileStyles =
@@ -24,6 +25,7 @@ export async function onRequest(context) {
     section3Style +
     section4Style +
     impactStyle +
+    section5Style +
     surveyMobileStyle;
 
   const desktopStyles =
@@ -37,7 +39,8 @@ export async function onRequest(context) {
     '<link rel="stylesheet" href="/membership/membership-stage3-v1.css?v=20260901-opt1">' +
     section3Style +
     section4Style +
-    impactStyle;
+    impactStyle +
+    section5Style;
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
 
@@ -74,7 +77,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260901-1"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-stage3-v1.js?v=20260901-copy5"></script>' +
-          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260901-opt1"></script>' +
+          '<script defer src="/membership/membership-impact-flow-v1.js?v=20260902-section5"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-opt1"></script>' : '') +
           '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-opt1"></script>',
           { html: true }
