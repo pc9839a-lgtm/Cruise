@@ -1,0 +1,224 @@
+/* Membership motion system — aligned with partner page motion language.
+   Applies only to membership sections after the locked hero/review area. */
+
+html.membership-motion-enabled .m-motion-section{
+  position:relative;
+  isolation:isolate;
+}
+html.membership-motion-enabled .m-motion-section > *{
+  position:relative;
+  z-index:1;
+}
+
+/* subtle moving atmosphere so sections do not feel static */
+html.membership-motion-enabled .m-motion-section::before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  width:min(46vw,620px);
+  aspect-ratio:1;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0;
+  filter:blur(8px);
+  background:radial-gradient(circle,rgba(70,126,232,.11) 0%,rgba(70,126,232,0) 70%);
+  transform:translate3d(-18%,18%,0) scale(.72);
+  transition:opacity 1.1s ease,transform 1.8s cubic-bezier(.16,1,.3,1);
+}
+html.membership-motion-enabled .m-motion-section:nth-of-type(odd)::before{left:-12%;bottom:-25%}
+html.membership-motion-enabled .m-motion-section:nth-of-type(even)::before{right:-12%;top:-25%;transform:translate3d(18%,-18%,0) scale(.72)}
+html.membership-motion-enabled .m-motion-section.section-active::before{opacity:1;transform:translate3d(0,0,0) scale(1)}
+
+/* base */
+.m-motion-item,
+.m-motion-card,
+.m-motion-media,
+.m-motion-number{
+  will-change:transform,opacity,filter;
+}
+.m-motion-item{
+  transition:opacity .72s ease,transform .95s cubic-bezier(.16,1,.3,1),filter .72s ease,clip-path .95s cubic-bezier(.16,1,.3,1)!important;
+}
+.m-motion-card{
+  transform-origin:50% 100%;
+  transition:opacity .66s ease,transform .92s cubic-bezier(.17,.89,.32,1.22),filter .66s ease,border-color .25s ease,box-shadow .25s ease!important;
+  transition-delay:var(--m-motion-delay,0ms)!important;
+}
+.m-motion-media{
+  overflow:hidden;
+  transition:opacity .85s ease,transform 1.18s cubic-bezier(.16,1,.3,1),filter .85s ease!important;
+}
+.m-motion-number{
+  transform-origin:50% 70%;
+  transition:opacity .55s ease,transform 1.05s cubic-bezier(.17,.89,.32,1.35),filter .8s ease!important;
+}
+
+/* label enters independently, like partner section labels */
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-label{
+  opacity:0!important;
+  transform:translateY(-18px) scale(.84)!important;
+}
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-label{
+  opacity:1!important;
+  transform:none!important;
+  transition:opacity .55s ease,transform .76s cubic-bezier(.17,.89,.32,1.22)!important;
+}
+
+/* shared visible state */
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-item,
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-card,
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-media,
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-number{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+  clip-path:inset(0 0 0 0)!important;
+}
+
+/* partner-style varied section entrances */
+html.membership-motion-enabled .m-anim-slide-left:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:translate3d(-78px,0,0) rotate(-.8deg)!important;
+  filter:blur(3px)!important;
+}
+html.membership-motion-enabled .m-anim-slide-right:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:translate3d(78px,0,0) rotate(.8deg)!important;
+  filter:blur(3px)!important;
+}
+html.membership-motion-enabled .m-anim-clip:not(.section-active) .m-motion-item{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+  clip-path:inset(0 100% 0 0)!important;
+}
+html.membership-motion-enabled .m-anim-pop:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:scale(.76) translateY(20px)!important;
+  filter:blur(8px)!important;
+}
+html.membership-motion-enabled .m-anim-fade:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:none!important;
+  filter:blur(16px)!important;
+}
+html.membership-motion-enabled .m-anim-rise:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:translateY(68px) scale(.96)!important;
+  filter:blur(4px)!important;
+}
+html.membership-motion-enabled .m-anim-scale:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:scale(.72)!important;
+  filter:blur(10px)!important;
+}
+html.membership-motion-enabled .m-anim-turn:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:perspective(900px) rotateX(38deg) translateY(48px)!important;
+  filter:blur(4px)!important;
+}
+html.membership-motion-enabled .m-anim-sweep:not(.section-active) .m-motion-item{
+  opacity:0!important;
+  transform:translateX(-104px)!important;
+  filter:blur(5px)!important;
+}
+
+/* media: cinematic zoom / opposite side motion */
+html.membership-motion-enabled .m-anim-photo-zoom:not(.section-active) .m-motion-media{
+  opacity:.25!important;
+  transform:scale(1.15)!important;
+  filter:saturate(.82) brightness(.82) blur(3px)!important;
+}
+html.membership-motion-enabled .m-anim-photo-zoom.section-active .m-motion-media{
+  transition:opacity .95s ease,transform 2s cubic-bezier(.16,1,.3,1),filter 1.4s ease!important;
+}
+html.membership-motion-enabled .m-anim-slide-left:not(.section-active) .m-motion-media{
+  opacity:0!important;
+  transform:translateX(84px) scale(.95)!important;
+  filter:blur(5px)!important;
+}
+html.membership-motion-enabled .m-anim-slide-right:not(.section-active) .m-motion-media{
+  opacity:0!important;
+  transform:translateX(-84px) scale(.95)!important;
+  filter:blur(5px)!important;
+}
+html.membership-motion-enabled .m-anim-rise:not(.section-active) .m-motion-media{
+  opacity:0!important;
+  transform:translateY(92px) scale(.96)!important;
+  filter:blur(5px)!important;
+}
+
+/* cards fan/diagonal in instead of all using the same fade */
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card{
+  opacity:0!important;
+  filter:blur(3px)!important;
+}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card:nth-of-type(4n+1){transform:translate(-64px,34px) rotate(-3.4deg) scale(.9)!important}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card:nth-of-type(4n+2){transform:translateY(66px) scale(.9)!important}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card:nth-of-type(4n+3){transform:translate(64px,34px) rotate(3.4deg) scale(.9)!important}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card:nth-of-type(4n){transform:translateY(58px) rotate(-1deg) scale(.92)!important}
+
+/* big numbers spring forward */
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-number{
+  opacity:0!important;
+  transform:scale(.46) rotateX(34deg)!important;
+  filter:blur(10px)!important;
+}
+
+/* route/progress rows sweep in one by one */
+#impact-med .impact-med-stop,
+#guide-question .mx11-flow article,
+#membership-terms .mx21-terms article,
+#membership-terms .mx21-faq details{
+  transition-delay:var(--m-motion-delay,0ms)!important;
+}
+
+/* section 2 photo keeps a subtle living motion after reveal */
+html.membership-motion-enabled #mx-moving-hotel.section-active .mx-hotel-visual img{
+  animation:membershipHeroDrift 9s ease-in-out 1.4s infinite alternate;
+  transform-origin:center center;
+}
+@keyframes membershipHeroDrift{
+  from{transform:scale(1.01) translate3d(0,0,0)}
+  to{transform:scale(1.055) translate3d(0,-1.2%,0)}
+}
+
+/* highlighted values pulse once after entrance */
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-accent{
+  animation:membershipValuePulse 1.15s .45s ease both;
+}
+@keyframes membershipValuePulse{
+  0%{text-shadow:0 0 0 rgba(134,210,255,0)}
+  60%{text-shadow:0 0 28px rgba(134,210,255,.42)}
+  100%{text-shadow:0 0 10px rgba(134,210,255,.12)}
+}
+
+@media(hover:hover){
+  .m-motion-card.section-card-active:hover,
+  .m-motion-section.section-active .m-motion-card:hover{
+    transform:translateY(-7px)!important;
+    box-shadow:0 24px 58px rgba(8,23,45,.13)!important;
+  }
+}
+
+@media(max-width:700px){
+  html.membership-motion-enabled .m-anim-slide-left:not(.section-active) .m-motion-item{transform:translateX(-36px)!important}
+  html.membership-motion-enabled .m-anim-slide-right:not(.section-active) .m-motion-item{transform:translateX(36px)!important}
+  html.membership-motion-enabled .m-anim-sweep:not(.section-active) .m-motion-item{transform:translateX(-44px)!important}
+  html.membership-motion-enabled .m-anim-slide-left:not(.section-active) .m-motion-media{transform:translateX(36px) scale(.96)!important}
+  html.membership-motion-enabled .m-anim-slide-right:not(.section-active) .m-motion-media{transform:translateX(-36px) scale(.96)!important}
+  html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card:nth-of-type(n){transform:translateY(46px) scale(.94)!important;rotate:none!important}
+  html.membership-motion-enabled .m-motion-section::before{width:82vw;opacity:0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .m-motion-item,.m-motion-card,.m-motion-media,.m-motion-number,.m-motion-label{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    clip-path:none!important;
+    transition:none!important;
+    animation:none!important;
+  }
+  .m-motion-section::before{display:none!important}
+}
