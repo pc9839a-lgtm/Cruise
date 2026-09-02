@@ -47,10 +47,6 @@
                 <button type="button" data-value="premium"><span>PREMIUM</span><strong>$250 / 월</strong><b>매달 500P</b></button>
               </div>
             </div>
-            <div class="m3-result" aria-live="polite">
-              <span>선택한 플랜</span>
-              <strong>금액을 선택하세요</strong>
-            </div>
           </div>
         </section>`);
     }
@@ -69,13 +65,6 @@
       if (!block) return;
 
       $$('.m3-buttons button', block).forEach((item) => item.classList.toggle('active', item === button));
-
-      const result = $('#m3-selector .m3-result strong');
-      if (!result) return;
-
-      result.textContent = button.dataset.value === 'premium'
-        ? 'PREMIUM 선택'
-        : 'CLASSIC 선택';
     });
   }
 
