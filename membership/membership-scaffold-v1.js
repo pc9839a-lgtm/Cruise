@@ -26,19 +26,19 @@
         <section id="mx-moving-hotel" class="mx-expand-section">
           <div class="mx-inner">
             <div class="mx-center">
-              <span class="mx-eyebrow">배 안에서 하루가 다 됩니다</span>
-              <h2 class="mx-title">배 안에서 먹고, 자고, 놀고<br><strong>항구에선 도시를 여행합니다</strong></h2>
+              <span class="mx-eyebrow">크루즈가 왜 좋은데?</span>
+              <h2 class="mx-title">배에 타는 순간,<br><strong>여행이 시작됩니다</strong></h2>
             </div>
             <div class="mx-hotel-layout">
               <div class="mx-hotel-visual">
                 <img src="./img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
-                <div class="mx-hotel-caption"><span>배 안에서는</span><strong>숙박 · 식사 · 공연<br>수영 · 휴식</strong></div>
+                <div class="mx-hotel-caption"><span>한 배 안에서</span><strong>먹고 · 자고 · 수영하고<br>공연 보고 · 쉬고</strong></div>
               </div>
               <div class="mx-hotel-points">
-                <div class="mx-hotel-point"><b>01</b><strong>객실에서 숙박</strong></div>
-                <div class="mx-hotel-point"><b>02</b><strong>뷔페 · 레스토랑</strong></div>
-                <div class="mx-hotel-point"><b>03</b><strong>공연 · 수영 · 선내시설</strong></div>
-                <div class="mx-hotel-point"><b>04</b><strong>기항지 내려서 도시 관광</strong></div>
+                <div class="mx-hotel-point"><b>01</b><strong>먹고</strong></div>
+                <div class="mx-hotel-point"><b>02</b><strong>자고</strong></div>
+                <div class="mx-hotel-point"><b>03</b><strong>수영하고</strong></div>
+                <div class="mx-hotel-point"><b>04</b><strong>공연 보고 · 쉬고</strong></div>
               </div>
             </div>
           </div>
@@ -49,14 +49,14 @@
       after(sameCruise, `
         <section id="mx-cost-structure" class="mx-expand-section mx-soft">
           <div class="mx-inner mx-center">
-            <span class="mx-eyebrow">가격 차이가 나는 이유</span>
-            <h2 class="mx-title">같은 크루즈인데<br><strong>왜 80만원 차이가 날까?</strong></h2>
-            <p class="mx-sub">패키지 상품에 따라 포함 항목은 달라질 수 있습니다.</p>
+            <span class="mx-eyebrow">그럼 80만원은 왜 차이 나는데?</span>
+            <h2 class="mx-title">차이는<br><strong>중간 마진에서 생깁니다</strong></h2>
+            <p class="mx-sub">직접 할 수 있다면 꼭 전부 살 필요는 없습니다.</p>
             <div class="mx-card-grid">
               <article class="mx-card"><b>01</b><strong>가이드</strong></article>
               <article class="mx-card"><b>02</b><strong>단체 이동</strong></article>
-              <article class="mx-card"><b>03</b><strong>패키지 운영</strong></article>
-              <article class="mx-card"><b>04</b><strong>예약 대행</strong></article>
+              <article class="mx-card"><b>03</b><strong>예약 대행</strong></article>
+              <article class="mx-card"><b>04</b><strong>패키지 운영</strong></article>
             </div>
           </div>
         </section>`);
