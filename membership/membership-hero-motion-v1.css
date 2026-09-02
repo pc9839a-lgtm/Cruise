@@ -2,6 +2,20 @@
 html.mh-ready .hero-section{isolation:isolate;overflow:hidden}
 html.mh-ready .hero-section .reveal{opacity:1!important}
 
+/* Front ticket: one hard-hitting line only. */
+.hero-section .hero-ticket-front .hero-ticket-one-line{
+  display:block!important;
+  width:max-content!important;
+  max-width:none!important;
+  margin:0!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  font-size:clamp(20px,2.25vw,30px)!important;
+  line-height:1!important;
+  letter-spacing:-.075em!important;
+  font-weight:950!important;
+}
+
 html.mh-ready .hero-section .hero-shell{
   opacity:0;
   translate:0 26px;
@@ -93,6 +107,7 @@ html.mh-ready .hero-section.mh-settled .coin-c{animation:mhCoin 3.6s 1.05s ease-
 @keyframes mhCoin{0%,100%{translate:0 0;scale:1;filter:drop-shadow(0 0 0 rgba(134,210,255,0))}50%{translate:0 -10px;scale:1.08;filter:drop-shadow(0 0 14px rgba(134,210,255,.45))}}
 
 @media(max-width:720px){
+  .hero-section .hero-ticket-front .hero-ticket-one-line{font-size:clamp(14px,4.1vw,19px)!important;letter-spacing:-.065em!important}
   html.mh-ready .hero-section .hero-title{translate:0 38px}
   html.mh-ready .hero-section .hero-visual-stage{translate:0 48px;scale:.9}
   html.mh-ready .hero-section .hero-ticket-back{translate:-42px 26px}
