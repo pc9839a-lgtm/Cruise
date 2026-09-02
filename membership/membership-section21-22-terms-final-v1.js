@@ -16,33 +16,29 @@
     section21.setAttribute('data-membership-section', '21');
     section21.innerHTML = `
       <div class="mx21-inner">
-        <span class="mx21-kicker">가입 전 확인</span>
-        <h2 class="mx21-title">가입 전에<br><strong>이 5가지만</strong></h2>
+        <span class="mx21-kicker">가입하기 전에 이것만 확인</span>
+        <h2 class="mx21-title">가입 전에<br><strong>이것만 확인하세요</strong></h2>
 
         <div class="mx21-terms" aria-label="멤버십 가입 조건">
-          <article><b>01</b><span>가입 후 14일이 지나면 환불이 어렵습니다.</span></article>
-          <article><b>02</b><span>POINT는 현금처럼 출금할 수 없습니다.</span></article>
-          <article><b>03</b><span>본인 명의 카드로 결제해야 합니다.</span></article>
-          <article><b>04</b><span>예약한 크루즈 이용에 필요한 멤버십 조건을 유지해야 합니다.</span></article>
-          <article><b>05</b><span>해지 시 2배 적립분은 사라지고 원금 기준 POINT가 남습니다.</span></article>
+          <article><b>환불</b><span>가입 후 14일이 지나면 환불이 어렵습니다.</span></article>
+          <article><b>POINT 사용 조건</b><span>예약 조건에 따라 POINT 사용 범위가 달라질 수 있습니다.</span></article>
+          <article><b>해지 시 POINT</b><span>2배 적립분은 사라지고 원금 기준 POINT가 남습니다.</span></article>
+          <article><b>본인 명의 결제</b><span>본인 명의 카드로 결제해야 합니다.</span></article>
+          <article><b>예약 조건</b><span>예약한 크루즈 이용에 필요한 멤버십 조건을 유지해야 합니다.</span></article>
         </div>
 
-        <div class="mx21-faq-head">자주 막히는 질문</div>
+        <div class="mx21-faq-head">FAQ</div>
         <div class="mx21-faq">
           <details>
-            <summary>직접 예약하면 멤버십 가입이 필수인가요?</summary>
-            <p>아닙니다. 직접 예약과 멤버십은 별개입니다.</p>
+            <summary>크루즈 예약에 멤버십 가입이 필수인가요?</summary>
+            <p>아닙니다. 멤버십 없이도 크루즈는 예약할 수 있습니다.</p>
           </details>
           <details>
             <summary>POINT가 부족하면 예약을 못 하나요?</summary>
-            <p>사용 가능한 POINT를 적용하고 남은 금액은 CARD로 결제할 수 있습니다.</p>
+            <p>가진 POINT를 사용하고 남은 금액은 카드로 결제할 수 있습니다.</p>
           </details>
           <details>
-            <summary>출발 270일 전이어야만 예약할 수 있나요?</summary>
-            <p>아닙니다. 270일+는 POINT 사용 범위와 관련된 조건이며 실제 한도는 예약 조건에 따라 달라질 수 있습니다.</p>
-          </details>
-          <details>
-            <summary>해지하면 적립 POINT는 어떻게 되나요?</summary>
+            <summary>해지하면 POINT는 어떻게 되나요?</summary>
             <p>2배 적립분은 사라지고 원금 기준 POINT가 남습니다.</p>
           </details>
         </div>
@@ -52,23 +48,23 @@
     section22.setAttribute('data-membership-section', '22');
     section22.innerHTML = `
       <div class="mx22-inner">
-        <span class="mx22-kicker">마지막 비교</span>
-        <h2 class="mx22-title">크루즈 갈 계획이 있다면<br><strong>숫자만 비교하세요</strong></h2>
+        <span class="mx22-kicker">마지막 화면</span>
+        <h2 class="mx22-title">크루즈를 갈 생각이 있다면<br><strong>오늘부터 쌓을 수 있습니다</strong></h2>
 
         <div class="mx22-plans">
           <article>
             <span>CLASSIC</span>
-            <strong>$100</strong>
-            <b>매월 200P</b>
+            <strong>$100 / 월</strong>
+            <b>200P / 월</b>
+            <a class="mx22-cta" href="#plans">CLASSIC 시작하기</a>
           </article>
           <article class="premium">
             <span>PREMIUM</span>
-            <strong>$250</strong>
-            <b>매월 500P</b>
+            <strong>$250 / 월</strong>
+            <b>500P / 월</b>
+            <a class="mx22-cta" href="#plans">PREMIUM 시작하기</a>
           </article>
         </div>
-
-        <a class="mx22-cta" href="#plans">플랜 비교 · 가입</a>
       </div>`;
 
     if (section20.nextElementSibling !== section21) {
