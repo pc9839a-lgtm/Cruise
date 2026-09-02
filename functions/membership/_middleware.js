@@ -80,7 +80,7 @@ export async function onRequest(context) {
       element(element) {
         element.append(
           '<script defer src="/membership/membership-scaffold-v1.js?v=20260902-story2"></script>' +
-          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260902-story2"></script>' +
+          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260902-clarity3"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260902-story2"></script>' +
