@@ -10,7 +10,9 @@
     ['#mx-moving-hotel-4','m-anim-slide-right'],
     ['#impact-med','m-anim-clip'],
     ['#price-pain','m-anim-pop'],
+    ['#mx-direct-booking-intro','m-anim-rise'],
     ['#price-compare','m-anim-scale'],
+    ['#mx-direct-booking-saving','m-anim-sweep'],
     ['#same-cruise','m-anim-rise'],
     ['#mx-cost-structure','m-anim-slide-left'],
     ['#m3-savings-use','m-anim-slide-right'],
@@ -32,7 +34,8 @@
   const labelSelector = [
     '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mv2-kicker','.m3-kicker',
     '.mx11-kicker','.mx12-kicker','.mx13-kicker','.mx14-kicker','.mx15-kicker','.mx16-kicker',
-    '.mx17-kicker','.mx18-kicker','.mx19-kicker','.mx21-kicker','.mx22-kicker','#plans .section-kicker'
+    '.mx17-kicker','.mx18-kicker','.mx19-kicker','.mx21-kicker','.mx22-kicker','#plans .section-kicker',
+    '.mx7-overline'
   ].join(',');
 
   const cardSelector = [
@@ -44,9 +47,19 @@
     '.mx22-plans article','.plan-card'
   ].join(',');
 
+  const visualSelector = [
+    '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
+    '.mx7-receipt-proof','.mx7-saving-track','.mv2-compare','.mv2-four',
+    '.mx-card-grid','.m3-four','.mx11-flow','.mx13-plans','.mx14-groups',
+    '.mx15-equation','.mx16-equation','.mx17-results','.mx18-grid','.mx19-grid',
+    '.m3-buttons','.mx21-terms','.mx22-plans','#planCards'
+  ].join(',');
+
   const numberSelector = [
     '#price-pain .mv2-mega',
+    '#mx-direct-booking-intro .mx7-receipt-total strong',
     '#price-compare .mv2-price strong','#price-compare .mv2-mega',
+    '#mx-direct-booking-saving strong',
     '#membership-point .mx13-plan-row strong',
     '#points-by-time .mx14-ledger strong',
     '#real-cost .mx15-equation strong',
@@ -58,7 +71,8 @@
   ].join(',');
 
   const accentSelector = [
-    '#price-pain .mv2-mega','#price-compare .mv2-mega',
+    '#price-pain .mv2-mega','#mx-direct-booking-intro .mx7-receipt-total strong',
+    '#price-compare .mv2-price.good strong','#mx-direct-booking-saving strong',
     '#points-by-time .mx14-ledger .total strong',
     '#real-cost .mx15-equation .point strong',
     '#calculator .mx17-results .point strong',
@@ -118,14 +132,13 @@
       return;
     }
 
-    const duration = target >= 1000 ? 1650 : 1350;
+    const duration = target >= 500 ? 1700 : 1350;
     const start = performance.now();
-    const from = 0;
 
     const tick = (now) => {
       const progress = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - progress, 4);
-      const value = from + (target - from) * eased;
+      const value = target * eased;
       el.textContent = `${prefix}${formatNumber(value, decimals)}${suffix}`;
       if (progress < 1) requestAnimationFrame(tick);
       else el.textContent = el.dataset.mMotionSource || `${prefix}${formatNumber(target, decimals)}${suffix}`;
@@ -133,11 +146,26 @@
     requestAnimationFrame(tick);
   }
 
+  function addAtmosphere(section, index) {
+    if (!section || section.querySelector(':scope > .m-motion-orbit')) return;
+    const orbit = document.createElement('span');
+    orbit.className = 'm-motion-orbit';
+    orbit.setAttribute('aria-hidden', 'true');
+    orbit.style.setProperty('--orbit-delay', `${(index % 5) * -1.4}s`);
+    section.prepend(orbit);
+
+    const rail = document.createElement('span');
+    rail.className = 'm-motion-rail';
+    rail.setAttribute('aria-hidden', 'true');
+    section.append(rail);
+  }
+
   function prepareSection(section, variant, index) {
     if (!section || section.dataset.mPartnerMotion === '1') return;
     section.dataset.mPartnerMotion = '1';
     section.classList.add('m-motion-section', variant);
     section.style.setProperty('--m-motion-index', String(index));
+    addAtmosphere(section, index);
 
     const labels = [...section.querySelectorAll(labelSelector)];
     labels.forEach((el) => el.classList.add('m-motion-label'));
@@ -148,19 +176,25 @@
       heading.style.setProperty('transition-delay', '70ms', 'important');
     }
 
-    const supporting = [...section.querySelectorAll(':scope > div > p, :scope > div > .mx-sub, :scope > div > .mx14-note, :scope > div > .mx17-note')];
+    const supporting = [...section.querySelectorAll(':scope > div > p, :scope > div > .mx-sub, :scope > div > .mx14-note, :scope > div > .mx17-note, :scope > div > .mv2-save')];
     supporting.forEach((el, i) => {
       el.classList.add('m-motion-item');
-      el.style.setProperty('transition-delay', `${120 + i * 60}ms`, 'important');
+      el.style.setProperty('transition-delay', `${130 + i * 70}ms`, 'important');
     });
 
     const cards = [...section.querySelectorAll(cardSelector)];
     cards.forEach((card, i) => {
       card.classList.add('m-motion-card');
-      card.style.setProperty('--m-motion-delay', `${Math.min(i, 7) * 85 + 130}ms`);
+      card.style.setProperty('--m-motion-delay', `${Math.min(i, 7) * 95 + 150}ms`);
     });
 
-    const media = [...section.querySelectorAll('.mx-hotel-visual, .mx-hotel-visual img, .impact-med-route')];
+    const visuals = [...section.querySelectorAll(visualSelector)];
+    visuals.forEach((el, i) => {
+      el.classList.add('m-motion-visual');
+      el.style.setProperty('--m-visual-delay', `${180 + i * 100}ms`);
+    });
+
+    const media = [...section.querySelectorAll('.mx-hotel-visual img, .impact-med-route')];
     media.forEach((el) => el.classList.add('m-motion-media'));
 
     const numbers = [...section.querySelectorAll(numberSelector)];
@@ -201,7 +235,7 @@
         activate(entry.target);
         obs.unobserve(entry.target);
       });
-    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
 
     list.forEach((section) => observer.observe(section));
   }
@@ -211,15 +245,12 @@
     const list = prepareAll();
     initObserver(list);
 
-    // Late-built sections are re-scanned without re-binding already prepared nodes.
-    setTimeout(() => {
-      const late = prepareAll().filter((section) => !section.classList.contains('section-active'));
-      if (late.length) initObserver(late);
-    }, 420);
-    setTimeout(() => {
-      const late = prepareAll().filter((section) => !section.classList.contains('section-active'));
-      if (late.length) initObserver(late);
-    }, 1000);
+    [420, 900, 1600].forEach((delay) => {
+      setTimeout(() => {
+        const late = prepareAll().filter((section) => !section.classList.contains('section-active'));
+        if (late.length) initObserver(late);
+      }, delay);
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
