@@ -7,8 +7,8 @@ export async function onRequest(context) {
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
   const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260902-contrastspace2">';
-  const section7Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-splitwide1">';
-  const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260902-1">';
+  const section7Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-medreceipt1">';
+  const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260902-motion2">';
   const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-3">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const extraStyles = (isMobile ? surveyMobileStyle : '') + section7Style + canonicalStyle + motionStyle + heroMotionStyle;
@@ -84,9 +84,9 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260902-story2"></script>' +
-          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260902-story2"></script>' +
-          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260902-splitwide1"></script>' +
-          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260902-story2"></script>' +
+          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260902-medreceipt1"></script>' +
+          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260902-medreceipt1"></script>' +
+          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260902-medreceipt1"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260902-story2"></script>' +
@@ -94,7 +94,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
-          '<script defer src="/membership/membership-partner-motion-v1.js?v=20260902-1"></script>' +
+          '<script defer src="/membership/membership-partner-motion-v1.js?v=20260902-motion2"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
           { html: true }
         );
