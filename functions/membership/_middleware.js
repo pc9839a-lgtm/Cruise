@@ -6,7 +6,7 @@ export async function onRequest(context) {
   const ua = context.request.headers.get('user-agent') || '';
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
-  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260902-flowwide3">';
+  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260902-readable1">';
   const section7Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-splitwide1">';
   const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260902-1">';
   const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-3">';
