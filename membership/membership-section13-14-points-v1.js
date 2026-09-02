@@ -11,36 +11,27 @@
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
       <div class="mx13-inner">
-        <span class="mx13-kicker">멤버십은 이렇게 쌓입니다</span>
-        <h2 class="mx13-title">매달 결제하면<br><strong>크루즈에 쓸 POINT가 쌓입니다</strong></h2>
+        <span class="mx13-kicker">POINT 적립</span>
+        <h2 class="mx13-title">매달 결제하면<br><strong>예약에 쓸 POINT가 쌓입니다</strong></h2>
 
         <div class="mx13-plans">
           <article class="mx13-plan">
             <span>CLASSIC</span>
-            <div class="mx13-plan-row primary">
-              <b>매월</b>
-              <strong>$100 <i>→</i> 200P</strong>
-            </div>
+            <div class="mx13-plan-row primary"><b>매월</b><strong>$100 <i>→</i> 200P</strong></div>
           </article>
-
           <article class="mx13-plan premium">
             <span>PREMIUM</span>
-            <div class="mx13-plan-row primary">
-              <b>매월</b>
-              <strong>$250 <i>→</i> 500P</strong>
-            </div>
+            <div class="mx13-plan-row primary"><b>매월</b><strong>$250 <i>→</i> 500P</strong></div>
           </article>
         </div>
-
-        <div class="mx13-note">실제 서부 지중해 예약에서는 <strong>1,805.84P</strong>를 사용했습니다</div>
       </div>`;
 
     section14.className = 'mx14-points-section';
     section14.setAttribute('data-membership-section', '14');
     section14.innerHTML = `
       <div class="mx14-inner">
-        <span class="mx14-kicker">그래서 시간이 지나면?</span>
-        <h2 class="mx14-title">쌓아둔 POINT가<br><strong>실제 예약금액에 들어갑니다</strong></h2>
+        <span class="mx14-kicker">쌓이면 얼마나?</span>
+        <h2 class="mx14-title">시간이 지나면<br><strong>POINT가 이렇게 누적됩니다</strong></h2>
 
         <div class="mx14-groups">
           <div class="mx14-group">
@@ -61,23 +52,16 @@
             </div>
           </div>
         </div>
-
-        <div class="mx14-note">실제 영수증: 예약 총액 <strong>$3,887.35</strong> 중 <strong>1,805.84P</strong> 사용</div>
       </div>`;
 
-    if (section12.nextElementSibling !== section13) {
-      section12.insertAdjacentElement('afterend', section13);
-    }
-    if (section13.nextElementSibling !== section14) {
-      section13.insertAdjacentElement('afterend', section14);
-    }
+    if (section12.nextElementSibling !== section13) section12.insertAdjacentElement('afterend', section13);
+    if (section13.nextElementSibling !== section14) section13.insertAdjacentElement('afterend', section14);
 
     return true;
   }
 
   function init() {
     if (buildSections13And14()) return;
-
     let tries = 0;
     const timer = window.setInterval(() => {
       tries += 1;
