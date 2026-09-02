@@ -1,114 +1,158 @@
+#mx-direct-booking-intro,
 #price-compare.mx7-price-reversal,
+#mx-direct-booking-saving,
 #same-cruise.mx8-same-cruise-proof{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  border-radius:0!important;
   font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 
+/* SECTION 7A — full-width transition */
+#mx-direct-booking-intro{
+  padding:110px 0!important;
+  background:#2468e8!important;
+  color:#fff!important;
+}
+#mx-direct-booking-intro .mx7-wide-inner{
+  width:min(1440px,calc(100% - 96px))!important;
+  max-width:1440px!important;
+  margin:0 auto!important;
+  text-align:center!important;
+}
+#mx-direct-booking-intro h2{
+  margin:0!important;
+  color:#fff!important;
+  font-size:clamp(68px,7.4vw,118px)!important;
+  line-height:.96!important;
+  letter-spacing:-.07em!important;
+  font-weight:950!important;
+  word-break:keep-all!important;
+}
+#mx-direct-booking-intro h2 strong{
+  display:block!important;
+  margin-top:8px!important;
+  color:#fff!important;
+}
+
+/* SECTION 7B — price comparison, full-width canvas */
 #price-compare.mx7-price-reversal{
   padding:118px 0 126px!important;
-  background:#f7f9fc!important;
+  background:#f3f7fd!important;
 }
 #price-compare.mx7-price-reversal .mv2-inner{
-  width:min(1040px,calc(100% - 44px));
-  margin:0 auto;
-  text-align:center;
-}
-#price-compare.mx7-price-reversal .mv2-kicker{
-  display:inline-flex;
-  align-items:center;
-  min-height:40px;
-  padding:0 16px;
-  border-radius:999px;
-  background:#eaf1ff;
-  color:#245ecb;
-  font-size:18px!important;
-  font-weight:900!important;
+  width:min(1420px,calc(100% - 96px))!important;
+  max-width:1420px!important;
+  margin:0 auto!important;
+  text-align:center!important;
 }
 #price-compare.mx7-price-reversal .mv2-title{
-  margin:24px auto 0!important;
-  font-size:clamp(44px,5.7vw,76px)!important;
-  line-height:1.06!important;
-  letter-spacing:-.055em!important;
-  font-weight:900!important;
+  max-width:1200px!important;
+  margin:0 auto!important;
+  font-size:clamp(58px,6.6vw,100px)!important;
+  line-height:1.01!important;
+  letter-spacing:-.065em!important;
+  font-weight:950!important;
   color:#10192b!important;
 }
 #price-compare.mx7-price-reversal .mv2-title strong{
-  color:#255fd6!important;
+  display:block!important;
+  margin-top:8px!important;
+  color:#2468e8!important;
 }
 #price-compare.mx7-price-reversal .mv2-compare{
+  width:100%!important;
   display:grid!important;
-  grid-template-columns:1fr 92px 1fr!important;
+  grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr)!important;
   align-items:center!important;
-  gap:18px!important;
-  margin:56px auto 0!important;
+  gap:24px!important;
+  margin:62px auto 0!important;
 }
 #price-compare.mx7-price-reversal .mv2-price{
-  min-height:260px!important;
-  padding:34px 28px!important;
+  min-height:290px!important;
+  padding:38px 34px!important;
   border-radius:30px!important;
-  border:1px solid #dfe5ef!important;
+  border:1px solid #d8e2ef!important;
   background:#fff!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
-  box-shadow:0 18px 55px rgba(24,43,81,.07)!important;
+  box-shadow:0 18px 55px rgba(24,43,81,.06)!important;
 }
 #price-compare.mx7-price-reversal .mv2-price.good{
-  border:2px solid #2f6fff!important;
-  background:#edf4ff!important;
-  box-shadow:0 22px 70px rgba(47,111,255,.14)!important;
+  border:2px solid #8eb4ff!important;
+  background:#eaf2ff!important;
+  box-shadow:0 22px 65px rgba(47,111,255,.10)!important;
 }
 #price-compare.mx7-price-reversal .mv2-price span{
-  font-size:22px!important;
+  font-size:24px!important;
   line-height:1.25!important;
-  font-weight:800!important;
+  font-weight:850!important;
   color:#657187!important;
 }
 #price-compare.mx7-price-reversal .mv2-price strong{
-  margin-top:16px!important;
-  font-size:clamp(60px,7vw,96px)!important;
-  line-height:.95!important;
-  letter-spacing:-.07em!important;
-  font-weight:950!important;
-  color:#182238!important;
-}
-#price-compare.mx7-price-reversal .mv2-price.good strong{
-  color:#245fd9!important;
-}
-#price-compare.mx7-price-reversal .mv2-arrow{
-  font-size:64px!important;
-  font-weight:950!important;
-  color:#94a4bd!important;
-}
-#price-compare.mx7-price-reversal .mv2-save{
-  margin-top:42px!important;
-  font-size:clamp(28px,3.1vw,40px)!important;
-  line-height:1.2!important;
-  font-weight:850!important;
-  color:#303c51!important;
-}
-#price-compare.mx7-price-reversal .mv2-save strong{
-  color:#245fd9!important;
-  font-size:1.25em!important;
-}
-#price-compare.mx7-price-reversal .mv2-mega{
-  margin-top:20px!important;
-  font-size:clamp(58px,8.5vw,116px)!important;
-  line-height:.96!important;
+  margin-top:18px!important;
+  font-size:clamp(72px,7.4vw,112px)!important;
+  line-height:.93!important;
   letter-spacing:-.075em!important;
   font-weight:950!important;
-  color:#245fd9!important;
+  color:#10192b!important;
+}
+#price-compare.mx7-price-reversal .mv2-price.good strong{
+  color:#2468e8!important;
+}
+#price-compare.mx7-price-reversal .mv2-arrow{
+  font-size:72px!important;
+  font-weight:950!important;
+  color:#91a4c0!important;
+}
+#price-compare.mx7-price-reversal .mv2-save{
+  margin-top:48px!important;
+  font-size:clamp(30px,3vw,44px)!important;
+  line-height:1.15!important;
+  font-weight:900!important;
+  color:#4f5f77!important;
+}
+#price-compare.mx7-price-reversal .mv2-save strong{
+  color:#2468e8!important;
+  font-size:1.22em!important;
 }
 
+/* SECTION 7C — savings impact */
+#mx-direct-booking-saving{
+  padding:94px 0 102px!important;
+  background:#07111f!important;
+  color:#fff!important;
+}
+#mx-direct-booking-saving .mx7-wide-inner{
+  width:min(1440px,calc(100% - 96px))!important;
+  max-width:1440px!important;
+  margin:0 auto!important;
+  text-align:center!important;
+}
+#mx-direct-booking-saving strong{
+  display:block!important;
+  color:#85d2ff!important;
+  font-size:clamp(68px,8vw,124px)!important;
+  line-height:.94!important;
+  letter-spacing:-.075em!important;
+  font-weight:950!important;
+  word-break:keep-all!important;
+}
+
+/* SECTION 8 */
 #same-cruise.mx8-same-cruise-proof{
   padding:118px 0 126px!important;
   background:#07111f!important;
   color:#fff!important;
 }
 #same-cruise.mx8-same-cruise-proof .mv2-inner{
-  width:min(1040px,calc(100% - 44px));
-  margin:0 auto;
-  text-align:center;
+  width:min(1320px,calc(100% - 96px))!important;
+  max-width:1320px!important;
+  margin:0 auto!important;
+  text-align:center!important;
 }
 #same-cruise.mx8-same-cruise-proof .mv2-kicker{
   display:inline-flex;
@@ -124,10 +168,10 @@
 }
 #same-cruise.mx8-same-cruise-proof .mv2-title{
   margin:24px auto 0!important;
-  font-size:clamp(46px,5.8vw,78px)!important;
-  line-height:1.06!important;
-  letter-spacing:-.055em!important;
-  font-weight:900!important;
+  font-size:clamp(50px,6vw,86px)!important;
+  line-height:1.04!important;
+  letter-spacing:-.06em!important;
+  font-weight:950!important;
   color:#fff!important;
 }
 #same-cruise.mx8-same-cruise-proof .mv2-title strong{
@@ -136,11 +180,11 @@
 #same-cruise.mx8-same-cruise-proof .mv2-four{
   display:grid!important;
   grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  gap:16px!important;
-  margin:56px auto 0!important;
+  gap:18px!important;
+  margin:58px auto 0!important;
 }
 #same-cruise.mx8-same-cruise-proof .mv2-four>div{
-  min-height:170px!important;
+  min-height:184px!important;
   padding:28px 20px!important;
   border:1px solid rgba(255,255,255,.15)!important;
   border-radius:26px!important;
@@ -149,7 +193,7 @@
   align-items:center!important;
   justify-content:center!important;
   color:#fff!important;
-  font-size:clamp(25px,2.5vw,34px)!important;
+  font-size:clamp(25px,2.5vw,36px)!important;
   line-height:1.18!important;
   letter-spacing:-.04em!important;
   font-weight:900!important;
@@ -169,48 +213,24 @@
   font-size:18px;
   flex:0 0 auto;
 }
-#same-cruise.mx8-same-cruise-proof .mx8-summary{
-  margin:38px auto 0;
-  padding:28px 24px;
-  border-radius:24px;
-  background:#fff;
-  color:#0c1728;
-  display:flex;
-  align-items:baseline;
-  justify-content:center;
-  gap:14px;
-  flex-wrap:wrap;
-}
-#same-cruise.mx8-same-cruise-proof .mx8-summary span{
-  font-size:22px;
-  font-weight:800;
-  color:#6a7484;
-}
-#same-cruise.mx8-same-cruise-proof .mx8-summary strong{
-  font-size:clamp(30px,3.4vw,46px);
-  line-height:1.1;
-  letter-spacing:-.045em;
-  font-weight:950;
-  color:#245fd9;
-}
 
 @media(max-width:780px){
-  #price-compare.mx7-price-reversal,
-  #same-cruise.mx8-same-cruise-proof{
-    padding:82px 0 88px!important;
-  }
+  #mx-direct-booking-intro{padding:76px 0!important}
+  #price-compare.mx7-price-reversal{padding:82px 0 88px!important}
+  #mx-direct-booking-saving{padding:72px 0 78px!important}
+  #same-cruise.mx8-same-cruise-proof{padding:82px 0 88px!important}
+
+  #mx-direct-booking-intro .mx7-wide-inner,
+  #mx-direct-booking-saving .mx7-wide-inner,
   #price-compare.mx7-price-reversal .mv2-inner,
   #same-cruise.mx8-same-cruise-proof .mv2-inner{
-    width:calc(100% - 30px)!important;
+    width:calc(100% - 28px)!important;
   }
-  #price-compare.mx7-price-reversal .mv2-kicker,
-  #same-cruise.mx8-same-cruise-proof .mv2-kicker{
-    min-height:36px;
-    font-size:16px!important;
+  #mx-direct-booking-intro h2{
+    font-size:clamp(48px,13vw,66px)!important;
   }
-  #price-compare.mx7-price-reversal .mv2-title,
-  #same-cruise.mx8-same-cruise-proof .mv2-title{
-    font-size:clamp(38px,10.2vw,54px)!important;
+  #price-compare.mx7-price-reversal .mv2-title{
+    font-size:clamp(42px,11.5vw,58px)!important;
   }
   #price-compare.mx7-price-reversal .mv2-compare{
     grid-template-columns:1fr!important;
@@ -225,7 +245,7 @@
     font-size:20px!important;
   }
   #price-compare.mx7-price-reversal .mv2-price strong{
-    font-size:clamp(58px,17vw,82px)!important;
+    font-size:clamp(62px,18vw,86px)!important;
   }
   #price-compare.mx7-price-reversal .mv2-arrow{
     transform:rotate(90deg);
@@ -236,9 +256,11 @@
     margin-top:32px!important;
     font-size:28px!important;
   }
-  #price-compare.mx7-price-reversal .mv2-mega{
-    margin-top:16px!important;
-    font-size:clamp(52px,15.5vw,76px)!important;
+  #mx-direct-booking-saving strong{
+    font-size:clamp(50px,14vw,72px)!important;
+  }
+  #same-cruise.mx8-same-cruise-proof .mv2-title{
+    font-size:clamp(40px,10.5vw,56px)!important;
   }
   #same-cruise.mx8-same-cruise-proof .mv2-four{
     grid-template-columns:1fr 1fr!important;
@@ -255,13 +277,4 @@
   #same-cruise.mx8-same-cruise-proof .mv2-four>div::before{
     margin:0!important;
   }
-  #same-cruise.mx8-same-cruise-proof .mx8-summary{
-    margin-top:26px;
-    padding:24px 18px;
-    gap:7px;
-    flex-direction:column;
-    align-items:center;
-  }
-  #same-cruise.mx8-same-cruise-proof .mx8-summary span{font-size:19px}
-  #same-cruise.mx8-same-cruise-proof .mx8-summary strong{font-size:30px}
 }
