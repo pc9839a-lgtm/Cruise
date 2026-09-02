@@ -23,6 +23,7 @@ export async function onRequest(context) {
   const section1718Style = '<link rel="stylesheet" href="/membership/membership-section17-18-calculator-fit-v1.css?v=20260902-1">';
   const section1920Style = '<link rel="stylesheet" href="/membership/membership-section19-20-plan-choice-v1.css?v=20260902-1">';
   const section2122Style = '<link rel="stylesheet" href="/membership/membership-section21-22-terms-final-v1.css?v=20260902-1">';
+  const globalOptimizationStyle = '<link rel="stylesheet" href="/membership/membership-global-optimization-v1.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
 
   const mobileStyles =
@@ -44,7 +45,8 @@ export async function onRequest(context) {
     section1718Style +
     section1920Style +
     section2122Style +
-    surveyMobileStyle;
+    surveyMobileStyle +
+    globalOptimizationStyle;
 
   const desktopStyles =
     '<link rel="stylesheet" href="/membership/membership-partner-harmony-v1.css?v=20260831-4">' +
@@ -67,7 +69,8 @@ export async function onRequest(context) {
     section1516Style +
     section1718Style +
     section1920Style +
-    section2122Style;
+    section2122Style +
+    globalOptimizationStyle;
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
 
