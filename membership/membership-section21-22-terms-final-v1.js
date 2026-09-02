@@ -3,12 +3,13 @@
 
   function buildFinalFlow() {
     const section13 = document.getElementById('membership-point');
+    const calculator = document.getElementById('calculator');
     const section21 = document.getElementById('membership-terms');
     const section22 = document.getElementById('mx-final-choice');
     const plans = document.getElementById('plans');
     if (!section13 || !section21 || !plans) return false;
 
-    ['mx-faq-section', 'mx-recap', 'price-match', 'mx-plan-guide', 'm3-selector', 'calculator', 'mx-fit-check', 'points-by-time', 'mx-use-rules', 'real-cost'].forEach((id) => {
+    ['mx-faq-section', 'mx-recap', 'price-match', 'mx-plan-guide', 'm3-selector', 'mx-fit-check', 'points-by-time', 'mx-use-rules', 'real-cost'].forEach((id) => {
       const duplicate = document.getElementById(id);
       if (duplicate) duplicate.remove();
     });
@@ -16,7 +17,7 @@
     if (section22) section22.remove();
 
     section21.className = 'mx21-terms-section';
-    section21.setAttribute('data-membership-section', '12');
+    section21.setAttribute('data-membership-section', '13');
     section21.innerHTML = `
       <div class="mx21-inner">
         <span class="mx21-kicker">가입 전 확인</span>
@@ -30,9 +31,10 @@
         </div>
       </div>`;
 
-    section13.insertAdjacentElement('afterend', section21);
-    section21.insertAdjacentElement('afterend', plans);
-    plans.setAttribute('data-membership-section', '13');
+    const anchor = calculator || section13;
+    if (anchor.nextElementSibling !== section21) anchor.insertAdjacentElement('afterend', section21);
+    if (section21.nextElementSibling !== plans) section21.insertAdjacentElement('afterend', plans);
+    plans.setAttribute('data-membership-section', '14');
 
     return true;
   }
