@@ -8,8 +8,9 @@ export async function onRequest(context) {
 
   const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v4.css?v=20260902-1">';
   const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260902-1">';
+  const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
-  const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle;
+  const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle;
 
   return new HTMLRewriter()
     .on('link[href*="membership-page-v2.css"]', {
@@ -88,7 +89,8 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260902-1"></script>' +
-          '<script defer src="/membership/membership-partner-motion-v1.js?v=20260902-1"></script>',
+          '<script defer src="/membership/membership-partner-motion-v1.js?v=20260902-1"></script>' +
+          '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-1"></script>',
           { html: true }
         );
       }
