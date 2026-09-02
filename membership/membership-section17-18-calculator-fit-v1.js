@@ -1,7 +1,6 @@
 (() => {
   'use strict';
 
-  /* SECTION 17 rule: do not call the legacy exchange-rate API. */
   if (typeof window.fetchExchangeRate === 'function') {
     window.fetchExchangeRate = async function () {};
   }
@@ -19,8 +18,8 @@
     section17.setAttribute('data-membership-section', '17');
     section17.innerHTML = `
       <div class="mx17-inner">
-        <span class="mx17-kicker">내 크루즈 금액으로</span>
-        <h2 class="mx17-title">가격을 바꾸면<br><strong>실제 카드 결제가 바로 보입니다</strong></h2>
+        <span class="mx17-kicker">내 여행은 얼마가 남을까?</span>
+        <h2 class="mx17-title">직접<br><strong>확인해보세요</strong></h2>
 
         <div class="mx17-control">
           <div class="mx17-control-head">
@@ -36,36 +35,33 @@
             <strong id="mx17CruiseUsd">$2,000</strong>
           </article>
           <article class="point">
-            <span>사용 POINT</span>
+            <span>사용할 POINT</span>
             <strong id="mx17Point">1,000P</strong>
           </article>
           <article class="card">
-            <span>실제 카드 결제 총액</span>
-            <strong id="mx17CardTotal">$1,500</strong>
-            <span id="mx17CardBreakdown">POINT 적립 $500 + 예약 $1,000</span>
+            <span>실제 카드 결제</span>
+            <strong id="mx17CardTotal">$1,000</strong>
           </article>
         </div>
-
-        <div class="mx17-note" id="mx17Note">CLASSIC 월 결제 $100 → 200P 기준 · POINT 적립에 이미 낸 카드값까지 포함한 실제 지출입니다. 가입 시 350P는 계산에서 제외합니다.</div>
       </div>`;
 
     section18.className = 'mx18-fit-section';
     section18.setAttribute('data-membership-section', '18');
     section18.innerHTML = `
       <div class="mx18-inner">
-        <span class="mx18-kicker">가입 전 한 가지</span>
-        <h2 class="mx18-title"><strong>1~2년 안에</strong><br>크루즈 갈 계획이 있나요?</h2>
+        <span class="mx18-kicker">그럼 나는 뭘 골라야 하지?</span>
+        <h2 class="mx18-title">크루즈를 언제쯤<br><strong>갈 생각인가요?</strong></h2>
 
         <div class="mx18-grid">
           <article class="mx18-card yes">
-            <span>YES</span>
-            <strong>갈 계획이 있다</strong>
-            <b>프리미엄 추천</b>
+            <span>1~2년 안에 갈 생각이 있다</span>
+            <strong>PREMIUM 추천</strong>
+            <b>$250 → 500P</b>
           </article>
           <article class="mx18-card no">
-            <span>NO</span>
-            <strong>계획이 없다</strong>
-            <b>클래식 추천</b>
+            <span>가고 싶지만 날짜는 아직 미정</span>
+            <strong>CLASSIC 추천</strong>
+            <b>$100 → 200P</b>
           </article>
         </div>
       </div>`;
@@ -82,30 +78,18 @@
     const cruiseUsd = document.getElementById('mx17CruiseUsd');
     const point = document.getElementById('mx17Point');
     const cardTotal = document.getElementById('mx17CardTotal');
-    const cardBreakdown = document.getElementById('mx17CardBreakdown');
 
     const update = () => {
       if (!range) return;
       const price = Number(range.value);
-
-      /* General booking example: up to 50% of cruise price is covered with POINT. */
       const usablePoint = Math.floor(price * 0.5);
       const reservationCard = price - usablePoint;
-
-      /* CLASSIC earns 2P per $1 paid. The money already paid to earn the used POINT
-         is real card spend too, so include it in the user's total out-of-pocket card spend. */
-      const pointFundingCard = usablePoint / 2;
-      const actualCardTotal = reservationCard + pointFundingCard;
-
       const percent = ((price - Number(range.min)) / (Number(range.max) - Number(range.min))) * 100;
 
       if (rangeValue) rangeValue.textContent = formatUsd(price);
       if (cruiseUsd) cruiseUsd.textContent = formatUsd(price);
       if (point) point.textContent = formatPoint(usablePoint);
-      if (cardTotal) cardTotal.textContent = formatUsd(actualCardTotal);
-      if (cardBreakdown) {
-        cardBreakdown.textContent = `POINT 적립 ${formatUsd(pointFundingCard)} + 예약 ${formatUsd(reservationCard)}`;
-      }
+      if (cardTotal) cardTotal.textContent = formatUsd(reservationCard);
       range.style.setProperty('--mx17-progress', `${percent}%`);
     };
 
