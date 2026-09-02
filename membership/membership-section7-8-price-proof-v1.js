@@ -30,11 +30,12 @@
             <span>Deluxe Balcony Fantastica · BR2</span>
           </div>
           <div class="mx7-receipt-breakdown mx7-cash-breakdown">
-            <div><span>POINT를 모으는 데 낸 금액</span><strong>$902.92</strong></div>
+            <div><span>POINT를 모으는 데 낸 금액</span><strong>$1,000</strong></div>
             <div><span>예약할 때 카드 결제</span><strong>$2,020.88</strong></div>
-            <div class="total"><span>내가 실제로 낸 금액</span><strong>$2,923.80</strong></div>
+            <div class="total"><span>카드 + POINT 준비 비용</span><strong>$3,020.88</strong></div>
+            <div><span>영수증 처리 수수료</span><strong>$60.63</strong></div>
           </div>
-          <p class="mx7-receipt-note">1,805.84P 사용 · POINT는 월 결제액 대비 2배 적립 기준으로 계산 · 영수증 처리 수수료 $60.63</p>
+          <p class="mx7-receipt-note">CLASSIC 가입 $200 → 350P + 월 $100 × 8개월 → 1,600P = 총 1,950P 적립 · 1,805.84P 사용 · 144.16P 잔여 · 처리 수수료 포함 총 현금지출 $3,081.51</p>
         </div>
       </div>`;
 
