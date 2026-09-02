@@ -7,6 +7,18 @@
     const section8 = document.getElementById('same-cruise');
     if (!section6 || !section7 || !section8) return false;
 
+    let intro = document.getElementById('mx-direct-booking-intro');
+    if (!intro) {
+      intro = document.createElement('section');
+      intro.id = 'mx-direct-booking-intro';
+      intro.className = 'mx7-intro-section';
+      intro.setAttribute('data-membership-section', '7-intro');
+      intro.innerHTML = `
+        <div class="mx7-wide-inner">
+          <h2>그래서 우리는<br><strong>해외직구로 갑니다.</strong></h2>
+        </div>`;
+    }
+
     section7.classList.add('mx7-price-reversal');
     section7.setAttribute('data-membership-section', '7');
 
@@ -16,7 +28,7 @@
     const save7 = section7.querySelector('.mv2-save');
     const mega7 = section7.querySelector('.mv2-mega');
 
-    if (kicker7) kicker7.textContent = '그래서 우리는 해외직구로 갑니다.';
+    if (kicker7) kicker7.remove();
     if (title7) title7.innerHTML = '1인 약 200만원<br><strong>직구 예약 약 120만원</strong>';
     if (prices7[0]) {
       const label = prices7[0].querySelector('span');
@@ -31,7 +43,19 @@
       if (price) price.textContent = '120만원';
     }
     if (save7) save7.innerHTML = '1인 약 <strong>80만원 차이</strong>';
-    if (mega7) mega7.textContent = '둘이면 약 160만원 차이';
+    if (mega7) mega7.remove();
+
+    let saving = document.getElementById('mx-direct-booking-saving');
+    if (!saving) {
+      saving = document.createElement('section');
+      saving.id = 'mx-direct-booking-saving';
+      saving.className = 'mx7-saving-section';
+      saving.setAttribute('data-membership-section', '7-saving');
+      saving.innerHTML = `
+        <div class="mx7-wide-inner">
+          <strong>둘이면 약 160만원 차이</strong>
+        </div>`;
+    }
 
     section8.classList.add('mx8-same-cruise-proof');
     section8.setAttribute('data-membership-section', '8');
@@ -50,11 +74,17 @@
     const summary = section8.querySelector('.mx8-summary');
     if (summary) summary.remove();
 
-    if (section6.nextElementSibling !== section7) {
-      section6.insertAdjacentElement('afterend', section7);
+    if (section6.nextElementSibling !== intro) {
+      section6.insertAdjacentElement('afterend', intro);
     }
-    if (section7.nextElementSibling !== section8) {
-      section7.insertAdjacentElement('afterend', section8);
+    if (intro.nextElementSibling !== section7) {
+      intro.insertAdjacentElement('afterend', section7);
+    }
+    if (section7.nextElementSibling !== saving) {
+      section7.insertAdjacentElement('afterend', saving);
+    }
+    if (saving.nextElementSibling !== section8) {
+      saving.insertAdjacentElement('afterend', section8);
     }
 
     return true;
