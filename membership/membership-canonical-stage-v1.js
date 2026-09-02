@@ -12,7 +12,6 @@
       'mx-direct-booking-saving',
       'points-by-time',
       'mx-use-rules',
-      'calculator',
       'mx-fit-check',
       'mx-plan-guide',
       'mx-final-choice',
@@ -53,20 +52,11 @@
         force(el, 'color', '#53657c');
       });
 
-      const tag = card.querySelector('.plan-tag');
-      force(tag, 'color', premium ? '#1657d8' : '#24519c');
-      force(tag, 'background', premium ? '#dce9ff' : '#edf3fb');
-
       const price = card.querySelector('.plan-price');
       force(price, 'color', premium ? '#2468e8' : '#0b1729');
 
       const monthlyPoint = card.querySelector('.plan-feature-monthly strong');
       force(monthlyPoint, 'color', '#2468e8');
-
-      card.querySelectorAll('.plan-feature').forEach((feature) => {
-        force(feature, 'background', '#fff');
-        force(feature, 'border-color', '#d3deeb');
-      });
 
       const cta = card.querySelector('.plan-cta');
       force(cta, 'background', premium ? '#2468e8' : '#07111f');
