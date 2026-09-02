@@ -11,40 +11,34 @@
     section19.setAttribute('data-membership-section', '19');
     section19.innerHTML = `
       <div class="mx19-inner">
-        <span class="mx19-kicker">플랜 숫자 비교</span>
-        <h2 class="mx19-title"><strong>CLASSIC $100</strong><br><span>PREMIUM $250</span></h2>
+        <span class="mx19-kicker">CLASSIC vs PREMIUM</span>
+        <h2 class="mx19-title">어려울 것 없습니다<br><strong>차이는 매달 쌓이는 POINT</strong></h2>
 
-        <div class="mx19-grid" aria-label="클래식과 프리미엄 멤버십 숫자 비교">
+        <div class="mx19-grid" aria-label="클래식과 프리미엄 멤버십 비교">
           <article class="mx19-card classic">
             <span>CLASSIC</span>
             <div class="mx19-main">
-              <b>월 결제</b>
+              <b>월</b>
               <strong>$100</strong>
             </div>
             <div class="mx19-row">
-              <b>월 적립</b>
+              <b>매달</b>
               <strong>200P</strong>
             </div>
-            <div class="mx19-row">
-              <b>가입</b>
-              <strong>$200 <i>→</i> 350P</strong>
-            </div>
+            <div class="mx19-choice">적게 시작 → CLASSIC</div>
           </article>
 
           <article class="mx19-card premium">
             <span>PREMIUM</span>
             <div class="mx19-main">
-              <b>월 결제</b>
+              <b>월</b>
               <strong>$250</strong>
             </div>
             <div class="mx19-row">
-              <b>월 적립</b>
+              <b>매달</b>
               <strong>500P</strong>
             </div>
-            <div class="mx19-row">
-              <b>가입</b>
-              <strong>$500 <i>→</i> 800P</strong>
-            </div>
+            <div class="mx19-choice">더 많이 적립 → PREMIUM</div>
           </article>
         </div>
       </div>`;
