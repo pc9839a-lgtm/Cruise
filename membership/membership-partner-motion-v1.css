@@ -1,103 +1,71 @@
-/* Membership motion — clean scroll reveals only.
-   No glow, orbit, sweeping light, pulsing text, floating cards or decorative rails. */
+/* Membership motion — clean reveal only. No glow, orbit, sweep, pulse or floating cards. */
+html.membership-motion-enabled .m-motion-section{position:relative}
 
-html.membership-motion-enabled .m-motion-section{
-  position:relative;
-}
+.m-motion-item,.m-motion-card,.m-motion-media,.m-motion-number,.m-motion-visual{will-change:transform,opacity}
 
-.m-motion-item,
-.m-motion-card,
-.m-motion-media,
-.m-motion-number,
-.m-motion-visual,
-.m-motion-label{
-  will-change:transform,opacity;
+/* labels are content, not animation: always readable */
+.m-motion-label,
+html.membership-motion-enabled .m-motion-section .m-motion-label{
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+  animation:none!important;
+  visibility:visible!important;
 }
 
 html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-item,
 html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card,
-html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-visual,
-html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-label{
-  opacity:0!important;
-  transform:translateY(24px)!important;
-}
-
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-item,
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-card,
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-visual,
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-label{
-  opacity:1!important;
-  transform:none!important;
-  transition:opacity .5s ease,transform .72s cubic-bezier(.2,.72,.24,1)!important;
-}
-
-html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-media{
-  opacity:.45!important;
-  transform:scale(1.035)!important;
-}
-
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-media{
-  opacity:1!important;
-  transform:none!important;
-  transition:opacity .65s ease,transform 1.05s cubic-bezier(.2,.72,.24,1)!important;
-}
-
-html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-number{
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-visual{
   opacity:0!important;
   transform:translateY(18px)!important;
 }
-
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-item,
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-card,
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-visual{
+  opacity:1!important;
+  transform:none!important;
+  transition:opacity .42s ease,transform .62s cubic-bezier(.2,.72,.24,1)!important;
+}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-media{
+  opacity:.72!important;
+  transform:scale(1.015)!important;
+}
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-media{
+  opacity:1!important;
+  transform:none!important;
+  transition:opacity .5s ease,transform .75s cubic-bezier(.2,.72,.24,1)!important;
+}
+html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-number{
+  opacity:0!important;
+  transform:translateY(12px)!important;
+}
 html.membership-motion-enabled .m-motion-section.section-active .m-motion-number{
   opacity:1!important;
   transform:none!important;
-  transition:opacity .45s ease,transform .65s cubic-bezier(.2,.72,.24,1)!important;
+  transition:opacity .38s ease,transform .55s cubic-bezier(.2,.72,.24,1)!important;
 }
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-card{transition-delay:var(--m-motion-delay,0ms)!important}
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-visual{transition-delay:var(--m-visual-delay,0ms)!important}
 
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-card{
-  transition-delay:var(--m-motion-delay,0ms)!important;
-}
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-visual{
-  transition-delay:var(--m-visual-delay,0ms)!important;
-}
-
-/* Explicitly kill legacy decorative layers if old DOM is still cached. */
-.m-motion-orbit,
-.m-motion-rail{
-  display:none!important;
-}
+.m-motion-orbit,.m-motion-rail,.page-glow,.impact-med-glow{display:none!important}
 html.membership-motion-enabled .m-motion-section::before,
-html.membership-motion-enabled .m-motion-section::after{
-  content:none!important;
-  display:none!important;
-}
-
-/* Kill decorative animations from previous versions. */
-html.membership-motion-enabled .m-motion-section *{
-  text-shadow:none!important;
-}
+html.membership-motion-enabled .m-motion-section::after{content:none!important;display:none!important}
+html.membership-motion-enabled .m-motion-section *{text-shadow:none!important}
 html.membership-motion-enabled #mx-moving-hotel.section-active .mx-hotel-visual img,
 html.membership-motion-enabled #mx-direct-booking-intro.section-active .mx7-receipt-proof,
 html.membership-motion-enabled #same-cruise.section-active .mv2-four>div,
-html.membership-motion-enabled .m-motion-section.section-active .m-motion-accent{
-  animation:none!important;
-}
+html.membership-motion-enabled .m-motion-section.section-active .m-motion-accent{animation:none!important}
 
 @media(max-width:780px){
   html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-item,
   html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-card,
-  html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-visual,
-  html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-label{
-    transform:translateY(16px)!important;
+  html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-visual{
+    transform:translateY(10px)!important;
   }
 }
 
 @media(prefers-reduced-motion:reduce){
-  .m-motion-item,
-  .m-motion-card,
-  .m-motion-media,
-  .m-motion-number,
-  .m-motion-visual,
-  .m-motion-label{
+  .m-motion-item,.m-motion-card,.m-motion-media,.m-motion-number,.m-motion-visual,.m-motion-label{
     opacity:1!important;
     transform:none!important;
     transition:none!important;
