@@ -14,10 +14,10 @@
     const mega = price.querySelector('.mv2-mega');
     const save = price.querySelector('.mv2-save');
 
-    if (kicker) kicker.textContent = '결국 비싸잖아?';
-    if (title) title.innerHTML = '맞습니다.<br><strong>패키지로 예약하면 비쌉니다.</strong>';
-    if (mega) mega.textContent = '약 400만원';
-    if (save) save.innerHTML = '4박 5일 / 2명<br>여행사·가이드 포함 예시';
+    if (kicker) kicker.textContent = '지중해 크루즈, 결국 비싸잖아?';
+    if (title) title.innerHTML = '여행사 패키지로 보면<br><strong>2인 기준</strong>';
+    if (mega) mega.textContent = '약 890만원';
+    if (save) save.innerHTML = '그래서 같은 지중해 여행을<br><strong>직접 예약해봤습니다.</strong>';
 
     if (route.nextElementSibling !== price) {
       route.insertAdjacentElement('afterend', price);
