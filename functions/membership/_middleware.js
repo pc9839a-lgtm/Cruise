@@ -12,12 +12,12 @@ export async function onRequest(context) {
 
   const impactStyle = '<link rel="stylesheet" href="/membership/membership-impact-flow-v1.css?v=20260901-partner1">';
   const section3Style = '<link rel="stylesheet" href="/membership/membership-section3-port-v1.css?v=20260901-1">';
-  const section4Style = '<link rel="stylesheet" href="/membership/membership-section4-moving-hotel-v1.css?v=20260902-1">';
+  const section4Style = '<link rel="stylesheet" href="/membership/membership-section4-moving-hotel-v1.css?v=20260902-2">';
   const section5Style = '<link rel="stylesheet" href="/membership/membership-section5-route-v1.css?v=20260902-1">';
   const section6Style = '<link rel="stylesheet" href="/membership/membership-section6-price-barrier-v1.css?v=20260902-1">';
   const section78Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-1">';
   const section910Style = '<link rel="stylesheet" href="/membership/membership-section9-10-cost-use-v1.css?v=20260902-1">';
-  const section1112Style = '<link rel="stylesheet" href="/membership/membership-section11-12-guide-transition-v1.css?v=20260902-1">';
+  const section1112Style = '<link rel="stylesheet" href="/membership/membership-section11-12-guide-transition-v1.css?v=20260902-2">';
   const section1314Style = '<link rel="stylesheet" href="/membership/membership-section13-14-points-v1.css?v=20260902-1">';
   const section1516Style = '<link rel="stylesheet" href="/membership/membership-section15-16-point-payment-v1.css?v=20260902-1">';
   const section1718Style = '<link rel="stylesheet" href="/membership/membership-section17-18-calculator-fit-v1.css?v=20260902-1">';
