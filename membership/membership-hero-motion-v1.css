@@ -1,0 +1,111 @@
+/* Membership hero motion v1 — restore a dynamic opening without touching hero copy/DOM. */
+html.mh-ready .hero-section{isolation:isolate;overflow:hidden}
+html.mh-ready .hero-section .reveal{opacity:1!important}
+
+html.mh-ready .hero-section .hero-shell{
+  opacity:0;
+  translate:0 26px;
+  scale:.975;
+  filter:blur(8px);
+  transform-origin:50% 52%;
+}
+html.mh-ready .hero-section.mh-active .hero-shell{
+  opacity:1;
+  translate:0 0;
+  scale:1;
+  filter:none;
+  transition:opacity .72s ease,translate 1.05s cubic-bezier(.16,1,.3,1),scale 1.05s cubic-bezier(.16,1,.3,1),filter .72s ease;
+}
+
+html.mh-ready .hero-section .hero-title{
+  opacity:0!important;
+  translate:0 54px;
+  scale:.97;
+  filter:blur(12px);
+}
+html.mh-ready .hero-section.mh-active .hero-title{
+  opacity:1!important;
+  translate:0 0;
+  scale:1;
+  filter:none;
+  transition:opacity .7s .13s ease,translate 1.05s .13s cubic-bezier(.16,1,.3,1),scale 1.05s .13s cubic-bezier(.16,1,.3,1),filter .8s .13s ease;
+}
+
+html.mh-ready .hero-section .hero-visual-stage{
+  opacity:0!important;
+  translate:0 72px;
+  scale:.86;
+  filter:blur(10px);
+}
+html.mh-ready .hero-section.mh-active .hero-visual-stage{
+  opacity:1!important;
+  translate:0 0;
+  scale:1;
+  filter:none;
+  transition:opacity .72s .28s ease,translate 1.2s .28s cubic-bezier(.17,.89,.32,1.18),scale 1.2s .28s cubic-bezier(.17,.89,.32,1.18),filter .8s .28s ease;
+}
+
+html.mh-ready .hero-section .hero-ticket,
+html.mh-ready .hero-section .hero-shot,
+html.mh-ready .hero-section .hero-coin{
+  opacity:0;
+  filter:blur(7px);
+  will-change:translate,rotate,scale,opacity,filter;
+}
+html.mh-ready .hero-section .hero-ticket-back{translate:-82px 34px;rotate:-6deg;scale:.88}
+html.mh-ready .hero-section .hero-ticket-front{translate:82px 42px;rotate:6deg;scale:.86}
+html.mh-ready .hero-section .hero-shot-a{translate:-92px 58px;rotate:-7deg;scale:.88}
+html.mh-ready .hero-section .hero-shot-b{translate:94px 70px;rotate:7deg;scale:.86}
+html.mh-ready .hero-section .coin-a{translate:-20px 24px;scale:.35}
+html.mh-ready .hero-section .coin-b{translate:20px 30px;scale:.28}
+html.mh-ready .hero-section .coin-c{translate:0 38px;scale:.3}
+
+html.mh-ready .hero-section.mh-active .hero-ticket,
+html.mh-ready .hero-section.mh-active .hero-shot,
+html.mh-ready .hero-section.mh-active .hero-coin{
+  opacity:1;
+  translate:0 0;
+  rotate:0deg;
+  scale:1;
+  filter:none;
+}
+html.mh-ready .hero-section.mh-active .hero-ticket-back{transition:opacity .55s .42s ease,translate 1.05s .42s cubic-bezier(.17,.89,.32,1.24),rotate 1.05s .42s cubic-bezier(.17,.89,.32,1.24),scale 1.05s .42s cubic-bezier(.17,.89,.32,1.24),filter .7s .42s ease}
+html.mh-ready .hero-section.mh-active .hero-ticket-front{transition:opacity .55s .52s ease,translate 1.05s .52s cubic-bezier(.17,.89,.32,1.24),rotate 1.05s .52s cubic-bezier(.17,.89,.32,1.24),scale 1.05s .52s cubic-bezier(.17,.89,.32,1.24),filter .7s .52s ease}
+html.mh-ready .hero-section.mh-active .hero-shot-a{transition:opacity .6s .60s ease,translate 1.15s .60s cubic-bezier(.16,1,.3,1),rotate 1.15s .60s cubic-bezier(.16,1,.3,1),scale 1.15s .60s cubic-bezier(.16,1,.3,1),filter .75s .60s ease}
+html.mh-ready .hero-section.mh-active .hero-shot-b{transition:opacity .6s .69s ease,translate 1.15s .69s cubic-bezier(.16,1,.3,1),rotate 1.15s .69s cubic-bezier(.16,1,.3,1),scale 1.15s .69s cubic-bezier(.16,1,.3,1),filter .75s .69s ease}
+html.mh-ready .hero-section.mh-active .coin-a{transition:opacity .4s .74s ease,translate .8s .74s cubic-bezier(.17,.89,.32,1.35),scale .8s .74s cubic-bezier(.17,.89,.32,1.35),filter .5s .74s ease}
+html.mh-ready .hero-section.mh-active .coin-b{transition:opacity .4s .84s ease,translate .8s .84s cubic-bezier(.17,.89,.32,1.35),scale .8s .84s cubic-bezier(.17,.89,.32,1.35),filter .5s .84s ease}
+html.mh-ready .hero-section.mh-active .coin-c{transition:opacity .4s .94s ease,translate .8s .94s cubic-bezier(.17,.89,.32,1.35),scale .8s .94s cubic-bezier(.17,.89,.32,1.35),filter .5s .94s ease}
+
+/* Keep the hero alive after the entrance, like the partner landing. */
+html.mh-ready .hero-section.mh-settled .hero-ticket-back{animation:mhFloatBack 5.8s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .hero-ticket-front{animation:mhFloatFront 5.2s .35s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .hero-shot-a{animation:mhFloatShotA 7s .2s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .hero-shot-b{animation:mhFloatShotB 6.4s .65s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .coin-a{animation:mhCoin 3.4s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .coin-b{animation:mhCoin 3.8s .55s ease-in-out infinite}
+html.mh-ready .hero-section.mh-settled .coin-c{animation:mhCoin 3.6s 1.05s ease-in-out infinite}
+
+@keyframes mhFloatBack{0%,100%{translate:0 0;rotate:0deg}50%{translate:-4px -8px;rotate:-1deg}}
+@keyframes mhFloatFront{0%,100%{translate:0 0;rotate:0deg}50%{translate:5px -10px;rotate:1deg}}
+@keyframes mhFloatShotA{0%,100%{translate:0 0;rotate:0deg}50%{translate:-5px -9px;rotate:-.8deg}}
+@keyframes mhFloatShotB{0%,100%{translate:0 0;rotate:0deg}50%{translate:6px -7px;rotate:.8deg}}
+@keyframes mhCoin{0%,100%{translate:0 0;scale:1;filter:drop-shadow(0 0 0 rgba(134,210,255,0))}50%{translate:0 -10px;scale:1.08;filter:drop-shadow(0 0 14px rgba(134,210,255,.45))}}
+
+@media(max-width:720px){
+  html.mh-ready .hero-section .hero-title{translate:0 38px}
+  html.mh-ready .hero-section .hero-visual-stage{translate:0 48px;scale:.9}
+  html.mh-ready .hero-section .hero-ticket-back{translate:-42px 26px}
+  html.mh-ready .hero-section .hero-ticket-front{translate:42px 30px}
+  html.mh-ready .hero-section .hero-shot-a{translate:-48px 38px}
+  html.mh-ready .hero-section .hero-shot-b{translate:48px 42px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html.mh-ready .hero-section .hero-shell,
+  html.mh-ready .hero-section .hero-title,
+  html.mh-ready .hero-section .hero-visual-stage,
+  html.mh-ready .hero-section .hero-ticket,
+  html.mh-ready .hero-section .hero-shot,
+  html.mh-ready .hero-section .hero-coin{opacity:1!important;translate:0 0!important;rotate:0deg!important;scale:1!important;filter:none!important;transition:none!important;animation:none!important}
+}
