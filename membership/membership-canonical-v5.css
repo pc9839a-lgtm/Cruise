@@ -111,6 +111,140 @@ main#top{
 /* Keep the first rebuilt section visually attached to the review flow. */
 #mx-moving-hotel{padding-top:70px!important}
 
+/* Approved story-specific layouts. */
+#mx-moving-hotel-4 .mx4-points.mx4-points-two{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  width:min(760px,100%)!important;
+  margin-inline:auto!important;
+}
+
+#guide-question .mx11-message{
+  width:min(820px,100%)!important;
+  margin:44px auto 0!important;
+  padding:30px 28px!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  border-radius:24px!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#fff!important;
+  font-size:clamp(25px,3vw,38px)!important;
+  line-height:1.25!important;
+  font-weight:850!important;
+  text-align:center!important;
+}
+#guide-question .mx11-message strong{
+  display:block!important;
+  margin-top:6px!important;
+  color:#85d2ff!important;
+  font-size:1.12em!important;
+}
+
+#mx-prepare-money .mx12-question{
+  margin-top:42px!important;
+  color:#5f6f86!important;
+  font-size:clamp(22px,2.5vw,30px)!important;
+  font-weight:900!important;
+}
+#mx-prepare-money .mx12-answer{
+  width:min(820px,100%)!important;
+  margin:18px auto 0!important;
+  padding:34px 30px!important;
+  border:1px solid #c8d8ef!important;
+  border-radius:26px!important;
+  background:#fff!important;
+  color:#0b1730!important;
+  font-size:clamp(30px,3.4vw,46px)!important;
+  line-height:1.16!important;
+  font-weight:900!important;
+  text-align:center!important;
+}
+#mx-prepare-money .mx12-answer strong{color:#2468e8!important}
+
+#membership-point .mx13-note{
+  width:min(780px,100%)!important;
+  margin:24px auto 0!important;
+  padding:20px 22px!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  border-radius:20px!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#dff1ff!important;
+  font-size:clamp(20px,2.2vw,28px)!important;
+  line-height:1.25!important;
+  font-weight:900!important;
+  text-align:center!important;
+}
+
+#points-by-time .mx14-groups{
+  display:grid!important;
+  gap:24px!important;
+  margin-top:46px!important;
+}
+#points-by-time .mx14-group{
+  padding:28px!important;
+  border:1px solid #d8e1ec!important;
+  border-radius:26px!important;
+  background:#fff!important;
+}
+#points-by-time .mx14-group.premium{
+  border-color:#bfd1f2!important;
+  background:#eef4ff!important;
+}
+#points-by-time .mx14-plan-label{
+  color:#0b1730!important;
+  font-size:22px!important;
+  font-weight:950!important;
+  letter-spacing:.04em!important;
+  text-align:left!important;
+}
+#points-by-time .mx14-group.premium .mx14-plan-label{color:#2468e8!important}
+#points-by-time .mx14-group .mx14-ledger{margin-top:18px!important}
+
+#mx-plan-guide .mx19-choice{
+  margin-top:22px!important;
+  padding:18px 16px!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.06)!important;
+  color:#fff!important;
+  font-size:clamp(19px,2vw,26px)!important;
+  line-height:1.2!important;
+  font-weight:900!important;
+  text-align:center!important;
+}
+#mx-plan-guide .mx19-card.premium .mx19-choice{color:#bde9ff!important}
+
+#m3-selector .m3-select-block.m3-select-amount{
+  grid-template-columns:1fr!important;
+  width:min(760px,100%)!important;
+  margin:46px auto 0!important;
+  padding:0!important;
+  border-top:0!important;
+}
+#m3-selector [data-select="amount"] .m3-buttons{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+#m3-selector [data-select="amount"] .m3-buttons button{
+  min-height:132px!important;
+  font-size:clamp(20px,2.5vw,30px)!important;
+  line-height:1.35!important;
+}
+
+#mx-final-choice .mx22-plans article .mx22-cta{
+  display:flex!important;
+  width:100%!important;
+  min-height:60px!important;
+  margin-top:26px!important;
+  padding:0 18px!important;
+  border-radius:16px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:#17488f!important;
+  color:#fff!important;
+  text-decoration:none!important;
+  font-size:18px!important;
+  font-weight:950!important;
+}
+#mx-final-choice .mx22-plans article.premium .mx22-cta{background:#2468e8!important}
+
 @media(max-width:720px){
   :is(
   #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,
@@ -157,4 +291,13 @@ main#top{
   }
 
   #mx-moving-hotel{padding-top:54px!important}
+
+  #mx-moving-hotel-4 .mx4-points.mx4-points-two{grid-template-columns:1fr!important}
+  #guide-question .mx11-message{margin-top:30px!important;padding:24px 18px!important}
+  #mx-prepare-money .mx12-question{margin-top:30px!important}
+  #mx-prepare-money .mx12-answer{padding:28px 20px!important}
+  #points-by-time .mx14-groups{margin-top:34px!important;gap:16px!important}
+  #points-by-time .mx14-group{padding:20px 16px!important;border-radius:22px!important}
+  #m3-selector [data-select="amount"] .m3-buttons{grid-template-columns:1fr!important}
+  #m3-selector [data-select="amount"] .m3-buttons button{min-height:106px!important}
 }
