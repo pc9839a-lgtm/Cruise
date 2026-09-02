@@ -15,7 +15,21 @@
       intro.setAttribute('data-membership-section', '7-intro');
       intro.innerHTML = `
         <div class="mx7-wide-inner">
-          <h2>그래서 우리는<br><strong>해외직구로 갑니다.</strong></h2>
+          <span class="mx7-overline">MY MEDITERRANEAN BOOKING</span>
+          <h2>말로만 싼 게 아니라<br><strong>제 실제 예약입니다.</strong></h2>
+          <div class="mx7-receipt-proof" aria-label="지중해 크루즈 실제 예약 요약">
+            <div class="mx7-receipt-top">
+              <span>MSC WORLD ASIA</span>
+              <b>실제 예약</b>
+            </div>
+            <div class="mx7-receipt-route">
+              <span>지중해</span><i></i><span>7박</span><i></i><span>2명</span>
+            </div>
+            <div class="mx7-receipt-total">
+              <span>1인 133만원 × 2명</span>
+              <strong>총 266만원</strong>
+            </div>
+          </div>
         </div>`;
     }
 
@@ -29,20 +43,20 @@
     const mega7 = section7.querySelector('.mv2-mega');
 
     if (kicker7) kicker7.remove();
-    if (title7) title7.innerHTML = '1인 약 200만원<br><strong>직구 예약 약 120만원</strong>';
+    if (title7) title7.innerHTML = '2인 890만원<br><strong>제 실제 예약은 266만원</strong>';
     if (prices7[0]) {
       const label = prices7[0].querySelector('span');
       const price = prices7[0].querySelector('strong');
-      if (label) label.textContent = '패키지 예약';
-      if (price) price.textContent = '200만원';
+      if (label) label.textContent = '여행사 패키지';
+      if (price) price.textContent = '890만원';
     }
     if (prices7[1]) {
       const label = prices7[1].querySelector('span');
       const price = prices7[1].querySelector('strong');
-      if (label) label.textContent = '직구 예약';
-      if (price) price.textContent = '120만원';
+      if (label) label.textContent = '실제 예약 영수증';
+      if (price) price.textContent = '266만원';
     }
-    if (save7) save7.innerHTML = '1인 약 <strong>80만원 차이</strong>';
+    if (save7) save7.innerHTML = '2인 기준 <strong>약 624만원 차이</strong>';
     if (mega7) mega7.remove();
 
     let saving = document.getElementById('mx-direct-booking-saving');
@@ -53,7 +67,9 @@
       saving.setAttribute('data-membership-section', '7-saving');
       saving.innerHTML = `
         <div class="mx7-wide-inner">
-          <strong>둘이면 약 160만원 차이</strong>
+          <span>890만원 − 266만원</span>
+          <strong>약 624만원 차이</strong>
+          <div class="mx7-saving-track" aria-hidden="true"><i></i></div>
         </div>`;
     }
 
@@ -63,10 +79,10 @@
     const kicker8 = section8.querySelector('.mv2-kicker');
     const title8 = section8.querySelector('.mv2-title');
     const proofItems = section8.querySelectorAll('.mv2-four > div');
-    const proofCopy = ['같은 배', '같은 객실 등급', '같은 식사', '같은 공연'];
+    const proofCopy = ['MSC WORLD ASIA', '지중해 7박', '바르셀로나·마르세유', '2인 실제 예약'];
 
     if (kicker8) kicker8.textContent = '혹시 싼 크루즈라서?';
-    if (title8) title8.innerHTML = '아닙니다<br><strong>크루즈가 달라진 게 아닙니다</strong>';
+    if (title8) title8.innerHTML = '아닙니다<br><strong>저가 크루즈를 고른 게 아닙니다</strong>';
     proofItems.forEach((item, index) => {
       if (proofCopy[index]) item.textContent = proofCopy[index];
     });
