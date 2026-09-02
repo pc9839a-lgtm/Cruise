@@ -17,24 +17,25 @@
     receipt.setAttribute('data-membership-section', '7');
     receipt.innerHTML = `
       <div class="mx7-wide-inner">
-        <span class="mx7-overline">MY RECEIPT</span>
-        <h2>그래서 직접<br><strong>예약해봤습니다</strong></h2>
+        <span class="mx7-overline">MY MEDITERRANEAN RECEIPT</span>
+        <h2>패키지 2인 약 890만원<br><strong>저는 이렇게 결제했습니다</strong></h2>
 
-        <div class="mx7-receipt-proof" aria-label="MSC World Asia 서부 지중해 실제 예약 영수증 요약">
+        <div class="mx7-receipt-proof" aria-label="MSC World Asia 서부 지중해 실제 지출 계산">
           <div class="mx7-receipt-top">
             <strong>MSC World Asia</strong>
-            <span>바르셀로나 출발 7박 서부 지중해</span>
+            <span>바르셀로나 출발 7박 서부 지중해 · 2명</span>
           </div>
           <div class="mx7-receipt-route">
             <span>2027.01.01 → 2027.01.08</span>
-            <span>Deluxe Balcony Fantastica · BR2 · 2명</span>
+            <span>Deluxe Balcony Fantastica · BR2</span>
           </div>
-          <div class="mx7-receipt-breakdown">
-            <div class="total"><span>예약 총액</span><strong>$3,887.35</strong></div>
-            <div><span>사용 POINT</span><strong>1,805.84P</strong></div>
-            <div><span>카드 실제 출금</span><strong>$2,020.88</strong></div>
+          <div class="mx7-receipt-breakdown mx7-cash-breakdown">
+            <div><span>1,805.84P 모으는 데 낸 금액</span><strong>$902.92</strong></div>
+            <div><span>예약 시 카드 실제 출금</span><strong>$2,020.88</strong></div>
             <div><span>처리 수수료</span><strong>$60.63</strong></div>
+            <div class="total"><span>실제 지출 합계</span><strong>$2,984.43</strong></div>
           </div>
+          <p class="mx7-receipt-note">1,805.84P는 월 결제액 대비 2배 적립 기준으로 계산했습니다. 영수증 예약 총액은 $3,887.35입니다.</p>
         </div>
       </div>`;
 
