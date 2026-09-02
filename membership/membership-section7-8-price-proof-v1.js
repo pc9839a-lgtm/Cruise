@@ -16,22 +16,22 @@
     const save7 = section7.querySelector('.mv2-save');
     const mega7 = section7.querySelector('.mv2-mega');
 
-    if (kicker7) kicker7.textContent = '같은 크루즈 · 직접 예약 예시';
-    if (title7) title7.innerHTML = '1인 200만원 → 120만원<br><strong>가격이 이렇게 달라집니다</strong>';
+    if (kicker7) kicker7.textContent = '그래서 우리는 해외직구로 갑니다.';
+    if (title7) title7.innerHTML = '1인 약 200만원<br><strong>직구 예약 약 120만원</strong>';
     if (prices7[0]) {
       const label = prices7[0].querySelector('span');
       const price = prices7[0].querySelector('strong');
-      if (label) label.textContent = '여행사 · 가이드 포함';
+      if (label) label.textContent = '패키지 예약';
       if (price) price.textContent = '200만원';
     }
     if (prices7[1]) {
       const label = prices7[1].querySelector('span');
       const price = prices7[1].querySelector('strong');
-      if (label) label.textContent = '직접 예약';
+      if (label) label.textContent = '직구 예약';
       if (price) price.textContent = '120만원';
     }
-    if (save7) save7.innerHTML = '1인 차이 <strong>약 80만원</strong>';
-    if (mega7) mega7.textContent = '2명 차이 약 160만원';
+    if (save7) save7.innerHTML = '1인 약 <strong>80만원 차이</strong>';
+    if (mega7) mega7.textContent = '둘이면 약 160만원 차이';
 
     section8.classList.add('mx8-same-cruise-proof');
     section8.setAttribute('data-membership-section', '8');
@@ -41,19 +41,14 @@
     const proofItems = section8.querySelectorAll('.mv2-four > div');
     const proofCopy = ['같은 배', '같은 객실 등급', '같은 식사', '같은 공연'];
 
-    if (kicker8) kicker8.textContent = '싼 배로 바꾼 게 아닙니다';
-    if (title8) title8.innerHTML = '가격은 달라도<br><strong>크루즈는 같습니다</strong>';
+    if (kicker8) kicker8.textContent = '혹시 싼 크루즈라서?';
+    if (title8) title8.innerHTML = '아닙니다<br><strong>크루즈가 달라진 게 아닙니다</strong>';
     proofItems.forEach((item, index) => {
       if (proofCopy[index]) item.textContent = proofCopy[index];
     });
 
-    let summary = section8.querySelector('.mx8-summary');
-    if (!summary) {
-      summary = document.createElement('div');
-      summary.className = 'mx8-summary';
-      summary.innerHTML = '<span>달라진 것은</span><strong>예약 방식 · 포함 서비스</strong>';
-      section8.querySelector('.mv2-inner')?.appendChild(summary);
-    }
+    const summary = section8.querySelector('.mx8-summary');
+    if (summary) summary.remove();
 
     if (section6.nextElementSibling !== section7) {
       section6.insertAdjacentElement('afterend', section7);
