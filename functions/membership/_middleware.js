@@ -6,7 +6,7 @@ export async function onRequest(context) {
   const ua = context.request.headers.get('user-agent') || '';
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
-  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v3.css?v=20260902-1">';
+  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v4.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle;
 
@@ -18,6 +18,9 @@ export async function onRequest(context) {
       element(element) { element.remove(); }
     })
     .on('link[href*="membership-canonical-v2.css"]', {
+      element(element) { element.remove(); }
+    })
+    .on('link[href*="membership-canonical-v3.css"]', {
       element(element) { element.remove(); }
     })
     .on('script[src*="membership-entry-survey-v1.js"]', {
