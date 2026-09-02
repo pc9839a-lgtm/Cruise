@@ -60,12 +60,12 @@
           <article class="mx18-card yes">
             <span>YES</span>
             <strong>갈 계획이 있다</strong>
-            <b>멤버십 숫자 확인</b>
+            <b>프리미엄 추천</b>
           </article>
           <article class="mx18-card no">
             <span>NO</span>
             <strong>계획이 없다</strong>
-            <b>지금 가입할 이유 없음</b>
+            <b>클래식 추천</b>
           </article>
         </div>
       </div>`;
