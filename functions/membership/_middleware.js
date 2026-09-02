@@ -44,19 +44,19 @@ export async function onRequest(context) {
       element(element) {
         element.append(
           '<script defer src="/membership/membership-scaffold-v1.js?v=20260902-story2"></script>' +
-          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260902-storyclean6"></script>' +
+          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260902-costfix7"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260902-story2"></script>' +
           '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260902-concise4"></script>' +
-          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260902-storyclean6"></script>' +
+          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260902-costfix7"></script>' +
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260902-storyclean6"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260902-storyclean6"></script>' +
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260902-flowclean5"></script>' +
-          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260902-flowclean5"></script>' +
+          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260902-costfix7"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260902-flowclean5"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260902-flowclean5"></script>' +
-          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260902-storyclean6"></script>' +
+          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260902-costfix7"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260902-cleanmotion2"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
