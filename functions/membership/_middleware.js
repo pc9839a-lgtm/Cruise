@@ -16,6 +16,7 @@ export async function onRequest(context) {
   const section5Style = '<link rel="stylesheet" href="/membership/membership-section5-route-v1.css?v=20260902-1">';
   const section6Style = '<link rel="stylesheet" href="/membership/membership-section6-price-barrier-v1.css?v=20260902-1">';
   const section78Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-1">';
+  const section910Style = '<link rel="stylesheet" href="/membership/membership-section9-10-cost-use-v1.css?v=20260902-1">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
 
   const mobileStyles =
@@ -30,6 +31,7 @@ export async function onRequest(context) {
     section5Style +
     section6Style +
     section78Style +
+    section910Style +
     surveyMobileStyle;
 
   const desktopStyles =
@@ -46,7 +48,8 @@ export async function onRequest(context) {
     impactStyle +
     section5Style +
     section6Style +
-    section78Style;
+    section78Style +
+    section910Style;
 
   const extraStyles = isMobile ? mobileStyles : desktopStyles;
 
@@ -86,6 +89,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260902-section5"></script>' +
           '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260902-1"></script>' +
           '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260902-1"></script>' +
+          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260902-1"></script>' +
           (isMobile ? '<script defer src="/membership/membership-mobile-motion-v2.js?v=20260901-opt1"></script>' : '') +
           '<script defer src="/membership/membership-impact-motion-v1.js?v=20260901-opt1"></script>',
           { html: true }
