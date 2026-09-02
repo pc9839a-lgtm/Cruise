@@ -1,0 +1,285 @@
+/* Membership full-page visual contract v2
+   CSS only. No hero/review selectors. Loaded last. */
+
+:root{
+  --mv-ink:#0e1930;
+  --mv-muted:#61708a;
+  --mv-blue:#2e66ff;
+  --mv-sky:#85d2ff;
+  --mv-navy:#07111f;
+  --mv-soft:#f4f7fb;
+  --mv-line:#dfe6f0;
+}
+
+/* ---------- SECTION BACKGROUNDS / BASE TEXT ---------- */
+#mx-moving-hotel{background:#fff!important;color:var(--mv-ink)!important}
+#mx-port-day{background:var(--mv-navy)!important;color:#fff!important}
+#mx-moving-hotel-4{background:var(--mv-navy)!important;color:#fff!important}
+#impact-med{background:linear-gradient(145deg,#07111f 0%,#13274d 58%,#251b50 100%)!important;color:#fff!important}
+#price-pain.mx6-price-barrier{background:var(--mv-navy)!important;color:#fff!important}
+#price-compare.mx7-price-reversal{background:#f7f9fc!important;color:var(--mv-ink)!important}
+#same-cruise.mx8-same-cruise-proof{background:var(--mv-navy)!important;color:#fff!important}
+#mx-cost-structure.mx9-cost-reason{background:#f6f8fc!important;color:var(--mv-ink)!important}
+#m3-savings-use.mx10-savings-use{background:#081426!important;color:#fff!important}
+#guide-question.mx11-guide-section{background:var(--mv-navy)!important;color:#fff!important}
+#mx-prepare-money.mx12-transition-section{background:#f5f8fd!important;color:var(--mv-ink)!important}
+#membership-point.mx13-membership-section{background:var(--mv-navy)!important;color:#fff!important}
+#points-by-time.mx14-points-section{background:#f4f7fb!important;color:var(--mv-ink)!important}
+#real-cost.mx15-point-use-section{background:#f4f7fb!important;color:var(--mv-ink)!important}
+#mx-use-rules.mx16-point-card-section{background:var(--mv-navy)!important;color:#fff!important}
+#calculator.mx17-calculator-section{background:#f5f8fc!important;color:var(--mv-ink)!important}
+#mx-fit-check.mx18-fit-section{background:#fff!important;color:var(--mv-ink)!important}
+#mx-plan-guide.mx19-plan-compare-section{background:var(--mv-navy)!important;color:#fff!important}
+#m3-selector.mx20-plan-helper-section{background:#f4f7fb!important;color:var(--mv-ink)!important}
+#membership-terms.mx21-terms-section{background:var(--mv-navy)!important;color:#fff!important}
+#mx-final-choice.mx22-final-section{background:#f6f9ff!important;color:var(--mv-ink)!important}
+
+/* ---------- DARK SECTION TEXT CONTRACT ---------- */
+:is(#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain.mx6-price-barrier,#same-cruise.mx8-same-cruise-proof,#m3-savings-use.mx10-savings-use,#guide-question.mx11-guide-section,#membership-point.mx13-membership-section,#mx-use-rules.mx16-point-card-section,#mx-plan-guide.mx19-plan-compare-section,#membership-terms.mx21-terms-section)
+:is(h2,h3,p,strong,span,b,em){color:#fff!important}
+
+:is(#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain.mx6-price-barrier,#same-cruise.mx8-same-cruise-proof,#m3-savings-use.mx10-savings-use,#guide-question.mx11-guide-section,#membership-point.mx13-membership-section,#mx-use-rules.mx16-point-card-section,#mx-plan-guide.mx19-plan-compare-section,#membership-terms.mx21-terms-section)
+:is([class*="kicker"],[class*="eyebrow"],.mxp-question,.impact-label){color:#d9edff!important}
+
+/* ---------- LIGHT SECTION TEXT CONTRACT ---------- */
+:is(#mx-moving-hotel,#price-compare.mx7-price-reversal,#mx-cost-structure.mx9-cost-reason,#mx-prepare-money.mx12-transition-section,#points-by-time.mx14-points-section,#real-cost.mx15-point-use-section,#calculator.mx17-calculator-section,#mx-fit-check.mx18-fit-section,#m3-selector.mx20-plan-helper-section,#mx-final-choice.mx22-final-section)
+:is(h2,h3){color:var(--mv-ink)!important}
+
+:is(#mx-moving-hotel,#price-compare.mx7-price-reversal,#mx-cost-structure.mx9-cost-reason,#mx-prepare-money.mx12-transition-section,#points-by-time.mx14-points-section,#real-cost.mx15-point-use-section,#calculator.mx17-calculator-section,#mx-fit-check.mx18-fit-section,#m3-selector.mx20-plan-helper-section,#mx-final-choice.mx22-final-section)
+:is(p,em){color:var(--mv-muted)!important}
+
+/* ---------- SECTION 2 ---------- */
+#mx-moving-hotel .mx-title{color:var(--mv-ink)!important}
+#mx-moving-hotel .mx-title strong{color:var(--mv-blue)!important;-webkit-text-fill-color:var(--mv-blue)!important;background:none!important}
+#mx-moving-hotel .mx-hotel-point{background:#fff!important;color:var(--mv-ink)!important;border-color:var(--mv-line)!important}
+#mx-moving-hotel .mx-hotel-point strong{color:var(--mv-ink)!important}
+#mx-moving-hotel .mx-hotel-point b{color:var(--mv-blue)!important}
+#mx-moving-hotel .mx-hotel-caption span,#mx-moving-hotel .mx-hotel-caption strong{color:#fff!important}
+
+/* ---------- SECTION 3 / 4 / 5 ---------- */
+#mx-port-day .mxp-head h2 strong,#mx-port-day .mxp-step b{color:var(--mv-sky)!important}
+#mx-port-day .mxp-step span{color:rgba(255,255,255,.68)!important}
+#mx-moving-hotel-4 .mx4-head h2 strong,#mx-moving-hotel-4 .mx4-night strong,#mx-moving-hotel-4 .mx4-points b{color:var(--mv-sky)!important}
+#mx-moving-hotel-4 .mx4-city b,#mx-moving-hotel-4 .mx4-night span,#mx-moving-hotel-4 .mx4-room-lock span{color:rgba(255,255,255,.58)!important}
+#impact-med .impact-title strong{color:var(--mv-sky)!important;-webkit-text-fill-color:var(--mv-sky)!important;background:none!important}
+#impact-med .impact-med-stop b{color:var(--mv-sky)!important}
+#impact-med .impact-med-stop span{color:rgba(255,255,255,.68)!important}
+#impact-med .impact-med-bottom,#impact-med .impact-med-bottom *{color:var(--mv-ink)!important}
+
+/* ---------- SECTION 6 ---------- */
+#price-pain.mx6-price-barrier .mv2-title,#price-pain.mx6-price-barrier .mv2-title strong{color:#fff!important}
+#price-pain.mx6-price-barrier .mv2-mega{color:var(--mv-sky)!important}
+#price-pain.mx6-price-barrier .mv2-save,#price-pain.mx6-price-barrier .mv2-save strong{color:rgba(255,255,255,.78)!important}
+#price-pain.mx6-price-barrier .mv2-kicker{background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.18)!important;color:#d9edff!important}
+
+/* ---------- SECTION 7 ---------- */
+#price-compare.mx7-price-reversal .mv2-title{color:var(--mv-ink)!important}
+#price-compare.mx7-price-reversal .mv2-title strong,#price-compare.mx7-price-reversal .mv2-save strong,#price-compare.mx7-price-reversal .mv2-mega{color:var(--mv-blue)!important}
+#price-compare.mx7-price-reversal .mv2-price{background:#fff!important;color:var(--mv-ink)!important}
+#price-compare.mx7-price-reversal .mv2-price span{color:var(--mv-muted)!important}
+#price-compare.mx7-price-reversal .mv2-price strong{color:var(--mv-ink)!important}
+#price-compare.mx7-price-reversal .mv2-price.good{background:#edf4ff!important}
+#price-compare.mx7-price-reversal .mv2-price.good strong{color:var(--mv-blue)!important}
+
+/* ---------- SECTION 8 ---------- */
+#same-cruise.mx8-same-cruise-proof .mv2-title strong{color:var(--mv-sky)!important}
+#same-cruise.mx8-same-cruise-proof .mx8-summary{background:#fff!important;color:var(--mv-ink)!important}
+#same-cruise.mx8-same-cruise-proof .mx8-summary span{color:var(--mv-muted)!important}
+#same-cruise.mx8-same-cruise-proof .mx8-summary strong{color:var(--mv-blue)!important}
+
+/* ---------- SECTION 9 ---------- */
+#mx-cost-structure.mx9-cost-reason .mx-title{color:var(--mv-ink)!important}
+#mx-cost-structure.mx9-cost-reason .mx-title strong{color:var(--mv-blue)!important}
+#mx-cost-structure.mx9-cost-reason .mx-sub{color:var(--mv-muted)!important}
+#mx-cost-structure.mx9-cost-reason .mx-card{background:#fff!important;color:var(--mv-ink)!important}
+#mx-cost-structure.mx9-cost-reason .mx-card strong{color:var(--mv-ink)!important}
+#mx-cost-structure.mx9-cost-reason .mx-card b{color:var(--mv-blue)!important}
+
+/* ---------- SECTION 10 ---------- */
+#m3-savings-use.mx10-savings-use h2 strong,#m3-savings-use.mx10-savings-use .m3-four b{color:var(--mv-sky)!important}
+#m3-savings-use.mx10-savings-use .mx10-amount span{color:rgba(255,255,255,.62)!important}
+
+/* ---------- SECTION 11 ---------- */
+#guide-question.mx11-guide-section .mx11-title strong,#guide-question.mx11-guide-section .mx11-flow b{color:var(--mv-sky)!important}
+
+/* ---------- SECTION 12 ---------- */
+#mx-prepare-money.mx12-transition-section .mx12-title{color:var(--mv-ink)!important}
+#mx-prepare-money.mx12-transition-section .mx12-title strong{color:var(--mv-blue)!important}
+#mx-prepare-money.mx12-transition-section .mx12-kicker{background:#e8f0ff!important;color:#24519c!important}
+#mx-prepare-money.mx12-transition-section .mx12-card{background:#fff!important;color:var(--mv-ink)!important;border-color:var(--mv-line)!important}
+#mx-prepare-money.mx12-transition-section .mx12-card span{color:var(--mv-muted)!important}
+#mx-prepare-money.mx12-transition-section .mx12-card strong{color:var(--mv-ink)!important}
+#mx-prepare-money.mx12-transition-section .mx12-card.accent{background:#eef4ff!important;border-color:#b9cef8!important}
+#mx-prepare-money.mx12-transition-section .mx12-card.accent strong{color:var(--mv-blue)!important}
+#mx-prepare-money.mx12-transition-section .mx12-not{color:#8ea5c7!important}
+#mx-prepare-money.mx12-transition-section .mx12-bottom{background:var(--mv-navy)!important;color:#fff!important}
+
+/* ---------- SECTION 13 ---------- */
+#membership-point.mx13-membership-section .mx13-title strong,#membership-point.mx13-membership-section .mx13-plan>span,#membership-point.mx13-membership-section .mx13-plan-row.primary strong{color:var(--mv-sky)!important}
+#membership-point.mx13-membership-section .mx13-plan-row b{color:rgba(255,255,255,.6)!important}
+#membership-point.mx13-membership-section .mx13-plan-row strong{color:#fff!important}
+
+/* ---------- SECTION 14: FIX WHITE-ON-WHITE ---------- */
+#points-by-time.mx14-points-section .mx14-title{color:var(--mv-ink)!important}
+#points-by-time.mx14-points-section .mx14-title strong{color:var(--mv-blue)!important}
+#points-by-time.mx14-points-section .mx14-kicker{background:#e9f1ff!important;color:#24519c!important}
+#points-by-time.mx14-points-section .mx14-ledger article{background:#fff!important;color:var(--mv-ink)!important;border-color:var(--mv-line)!important}
+#points-by-time.mx14-points-section .mx14-ledger span{color:var(--mv-muted)!important}
+#points-by-time.mx14-points-section .mx14-ledger strong{color:var(--mv-ink)!important}
+#points-by-time.mx14-points-section .mx14-ledger .total{background:#eaf1ff!important;border-color:#b7cdf8!important}
+#points-by-time.mx14-points-section .mx14-ledger .total span{color:#536784!important}
+#points-by-time.mx14-points-section .mx14-ledger .total strong{color:var(--mv-blue)!important}
+#points-by-time.mx14-points-section .mx14-note{background:#fff!important;color:var(--mv-muted)!important;border-color:var(--mv-line)!important}
+#points-by-time.mx14-points-section .mx14-note strong{color:var(--mv-blue)!important}
+
+/* ---------- SECTION 15 ---------- */
+#real-cost.mx15-point-use-section .mx15-title{color:var(--mv-ink)!important}
+#real-cost.mx15-point-use-section .mx15-title strong{color:var(--mv-blue)!important}
+#real-cost.mx15-point-use-section .mx15-equation article{background:#fff!important;color:var(--mv-ink)!important}
+#real-cost.mx15-point-use-section .mx15-equation span{color:var(--mv-muted)!important}
+#real-cost.mx15-point-use-section .mx15-equation strong{color:var(--mv-ink)!important}
+#real-cost.mx15-point-use-section .mx15-equation article.point strong,#real-cost.mx15-point-use-section .mx15-equation article.card strong{color:var(--mv-blue)!important}
+
+/* ---------- SECTION 16 ---------- */
+#mx-use-rules.mx16-point-card-section .mx16-title strong,#mx-use-rules.mx16-point-card-section .mx16-equation strong:last-child,#mx-use-rules.mx16-point-card-section .mx16-answer i,#mx-use-rules.mx16-point-card-section .mx16-early b{color:var(--mv-sky)!important}
+#mx-use-rules.mx16-point-card-section .mx16-early span{color:rgba(255,255,255,.7)!important}
+
+/* ---------- SECTION 17 ---------- */
+#calculator.mx17-calculator-section .mx17-title{color:var(--mv-ink)!important}
+#calculator.mx17-calculator-section .mx17-title strong{color:var(--mv-blue)!important}
+#calculator.mx17-calculator-section .mx17-control,#calculator.mx17-calculator-section .mx17-results article{background:#fff!important;color:var(--mv-ink)!important}
+#calculator.mx17-calculator-section .mx17-control-head span,#calculator.mx17-calculator-section .mx17-results span,#calculator.mx17-calculator-section .mx17-note{color:var(--mv-muted)!important}
+#calculator.mx17-calculator-section .mx17-control-head strong,#calculator.mx17-calculator-section .mx17-results strong{color:var(--mv-ink)!important}
+#calculator.mx17-calculator-section .mx17-results .point{background:#f3f7ff!important}
+#calculator.mx17-calculator-section .mx17-results .point strong{color:var(--mv-blue)!important}
+#calculator.mx17-calculator-section .mx17-results .card{background:#0c1a30!important;color:#fff!important}
+#calculator.mx17-calculator-section .mx17-results .card span{color:rgba(255,255,255,.68)!important}
+#calculator.mx17-calculator-section .mx17-results .card strong{color:#fff!important}
+
+/* ---------- SECTION 18 ---------- */
+#mx-fit-check.mx18-fit-section .mx18-title{color:var(--mv-ink)!important}
+#mx-fit-check.mx18-fit-section .mx18-title strong{color:var(--mv-blue)!important}
+#mx-fit-check.mx18-fit-section .mx18-card{background:#f8fafc!important;color:var(--mv-ink)!important}
+#mx-fit-check.mx18-fit-section .mx18-card span{color:#7b8798!important}
+#mx-fit-check.mx18-fit-section .mx18-card strong{color:var(--mv-ink)!important}
+#mx-fit-check.mx18-fit-section .mx18-card.yes{background:#f2f6ff!important}
+#mx-fit-check.mx18-fit-section .mx18-card.yes span{color:var(--mv-blue)!important}
+#mx-fit-check.mx18-fit-section .mx18-card.yes b{background:var(--mv-blue)!important;color:#fff!important}
+
+/* ---------- SECTION 19 ---------- */
+#mx-plan-guide.mx19-plan-compare-section .mx19-title,#mx-plan-guide.mx19-plan-compare-section .mx19-title strong,#mx-plan-guide.mx19-plan-compare-section .mx19-main strong,#mx-plan-guide.mx19-plan-compare-section .mx19-row strong{color:#fff!important}
+#mx-plan-guide.mx19-plan-compare-section .mx19-title span,#mx-plan-guide.mx19-plan-compare-section .mx19-card.premium .mx19-main strong,#mx-plan-guide.mx19-plan-compare-section .mx19-row i{color:var(--mv-sky)!important}
+#mx-plan-guide.mx19-plan-compare-section .mx19-main b,#mx-plan-guide.mx19-plan-compare-section .mx19-row b{color:rgba(255,255,255,.58)!important}
+
+/* ---------- SECTION 20 ---------- */
+#m3-selector.mx20-plan-helper-section h2{color:var(--mv-ink)!important}
+#m3-selector.mx20-plan-helper-section h2 strong{color:var(--mv-blue)!important;-webkit-text-fill-color:var(--mv-blue)!important;background:none!important}
+#m3-selector.mx20-plan-helper-section .m3-select-block>b{color:var(--mv-ink)!important}
+#m3-selector.mx20-plan-helper-section .m3-buttons button,#m3-selector.mx20-plan-helper-section .m3-result{background:#fff!important;color:var(--mv-ink)!important}
+#m3-selector.mx20-plan-helper-section .m3-buttons button.active{background:var(--mv-blue)!important;color:#fff!important}
+#m3-selector.mx20-plan-helper-section .m3-result span{color:var(--mv-muted)!important}
+#m3-selector.mx20-plan-helper-section .m3-result strong{color:var(--mv-ink)!important}
+
+/* ---------- SECTION 21 ---------- */
+#membership-terms.mx21-terms-section .mx21-title strong,#membership-terms.mx21-terms-section .mx21-terms b,#membership-terms.mx21-terms-section .mx21-faq summary::after{color:var(--mv-sky)!important}
+#membership-terms.mx21-terms-section .mx21-faq-head,#membership-terms.mx21-terms-section .mx21-faq p{color:rgba(255,255,255,.7)!important}
+
+/* ---------- SECTION 22 ---------- */
+#mx-final-choice.mx22-final-section .mx22-title{color:var(--mv-ink)!important}
+#mx-final-choice.mx22-final-section .mx22-title strong{color:var(--mv-blue)!important}
+#mx-final-choice.mx22-final-section .mx22-plans article{background:#fff!important;color:var(--mv-ink)!important}
+#mx-final-choice.mx22-final-section .mx22-plans span,#mx-final-choice.mx22-final-section .mx22-plans b{color:#506079!important}
+#mx-final-choice.mx22-final-section .mx22-plans strong{color:var(--mv-ink)!important}
+#mx-final-choice.mx22-final-section .mx22-plans article.premium{background:#eef4ff!important}
+#mx-final-choice.mx22-final-section .mx22-plans article.premium strong{color:var(--mv-blue)!important}
+
+/* ---------- GLOBAL DENSITY / CARD RHYTHM ---------- */
+:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]){
+  min-height:auto!important;
+  padding-top:clamp(68px,6.6vw,96px)!important;
+  padding-bottom:clamp(68px,6.6vw,96px)!important;
+}
+:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) h2{
+  font-size:clamp(40px,4.8vw,64px)!important;
+  line-height:1.03!important;
+}
+[data-membership-section] article{min-height:0!important}
+#points-by-time.mx14-points-section .mx14-ledger article{min-height:148px!important}
+#mx-prepare-money.mx12-transition-section .mx12-card{min-height:190px!important}
+#mx-fit-check.mx18-fit-section .mx18-card{min-height:230px!important}
+#mx-final-choice.mx22-final-section .mx22-plans article{min-height:210px!important}
+
+/* ---------- CSS SCROLL MOTION ---------- */
+@keyframes mvSectionIn{
+  from{opacity:.18;transform:translateY(42px) scale(.985);filter:blur(3px)}
+  to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes mvCardIn{
+  from{opacity:.1;transform:translateY(30px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes mvFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+@keyframes mvPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.035)}
+}
+
+@supports (animation-timeline:view()){
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) > div{
+    animation:mvSectionIn linear both!important;
+    animation-timeline:view()!important;
+    animation-range:entry 6% cover 30%!important;
+  }
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) :is(article,.mxp-step,.mx4-city,.mx4-points>article,.mv2-price,.mv2-four>div,.mx-card,.m3-four>div,.mx12-card,.mx13-plan,.mx14-ledger>article,.mx17-results>article,.mx18-card,.mx19-card,.mx22-plans>article){
+    animation:mvCardIn linear both!important;
+    animation-timeline:view()!important;
+    animation-range:entry 4% cover 24%!important;
+  }
+}
+
+/* visible living motion, intentionally limited to key proof points */
+#mx-moving-hotel-4 .mx4-room-lock,
+#m3-savings-use.mx10-savings-use .mx10-amount strong,
+#points-by-time.mx14-points-section .mx14-ledger .total strong,
+#mx-use-rules.mx16-point-card-section .mx16-equation,
+#mx-final-choice.mx22-final-section .mx22-plans article.premium{
+  animation:mvFloat 3.2s ease-in-out infinite;
+}
+#price-pain.mx6-price-barrier .mv2-mega,
+#price-compare.mx7-price-reversal .mv2-mega{
+  animation:mvPulse 2.8s ease-in-out infinite;
+}
+
+@media(hover:hover){
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) :is(article,.mxp-step,.mx4-city,.mv2-price,.mv2-four>div,.mx-card,.mx12-card,.mx13-plan,.mx14-ledger>article,.mx17-results>article,.mx18-card,.mx19-card,.mx22-plans>article){
+    transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;
+  }
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) :is(article,.mxp-step,.mx4-city,.mv2-price,.mv2-four>div,.mx-card,.mx12-card,.mx13-plan,.mx14-ledger>article,.mx17-results>article,.mx18-card,.mx19-card,.mx22-plans>article):hover{
+    transform:translateY(-5px)!important;
+  }
+}
+
+@media(max-width:820px){
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]){
+    padding-top:54px!important;
+    padding-bottom:54px!important;
+  }
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) h2{
+    font-size:clamp(34px,9.5vw,45px)!important;
+  }
+  #points-by-time.mx14-points-section .mx14-ledger article{min-height:105px!important}
+  #mx-prepare-money.mx12-transition-section .mx12-card{min-height:140px!important}
+  #mx-fit-check.mx18-fit-section .mx18-card{min-height:170px!important}
+  #mx-final-choice.mx22-final-section .mx22-plans article{min-height:165px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) *,
+  :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,[data-membership-section]) > div{
+    animation:none!important;
+    transition:none!important;
+  }
+}
