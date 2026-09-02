@@ -1,100 +1,77 @@
 (() => {
   'use strict';
 
-  const usd = (value) => `$${Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-  const point = (value) => `${Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}P`;
-
-  function buildCalculator() {
+  function patchCalculator() {
     const membership = document.getElementById('membership-point');
-    if (!membership) return false;
+    const calculator = document.getElementById('calculator');
+    if (!membership || !calculator) return false;
 
-    let calculator = document.getElementById('calculator');
-    if (!calculator) {
-      calculator = document.createElement('section');
-      calculator.id = 'calculator';
-    }
-
-    calculator.className = 'mx17-simple-calculator';
+    calculator.className = 'section mv2-calculator';
     calculator.setAttribute('data-membership-section', '12');
-    calculator.innerHTML = `
-      <div class="mx17-simple-inner">
-        <span class="mx17-simple-kicker">내 금액으로 확인</span>
-        <h2>내 여행은<br><strong>얼마가 남을까?</strong></h2>
-
-        <div class="mx17-simple-tool">
-          <div class="mx17-simple-control">
-            <div class="mx17-simple-head">
-              <span>크루즈 가격</span>
-              <strong id="mx17PriceText">$2,000</strong>
-            </div>
-            <input id="mx17Price" type="range" min="1000" max="10000" step="100" value="2000" aria-label="크루즈 가격" />
-          </div>
-
-          <div class="mx17-simple-control">
-            <div class="mx17-simple-head">
-              <span>사용할 POINT</span>
-              <strong id="mx17PointText">1,000P</strong>
-            </div>
-            <input id="mx17Point" type="range" min="0" max="2000" step="100" value="1000" aria-label="사용할 포인트" />
-          </div>
-
-          <div class="mx17-simple-result" aria-live="polite">
-            <span>실제 카드 결제</span>
-            <strong id="mx17CardText">$1,000</strong>
-          </div>
-        </div>
-      </div>`;
 
     if (membership.nextElementSibling !== calculator) {
       membership.insertAdjacentElement('afterend', calculator);
     }
 
-    const priceInput = calculator.querySelector('#mx17Price');
-    const pointInput = calculator.querySelector('#mx17Point');
-    const priceText = calculator.querySelector('#mx17PriceText');
-    const pointText = calculator.querySelector('#mx17PointText');
-    const cardText = calculator.querySelector('#mx17CardText');
+    const kicker = calculator.querySelector('.section-kicker');
+    const title = calculator.querySelector('.section-head h2');
+    const priceLabel = calculator.querySelector('.calculator-head strong');
+    const general = calculator.querySelector('.mode-btn[data-mode="general"]');
+    const early = calculator.querySelector('.mode-btn[data-mode="early"]');
+    const description = calculator.querySelector('#modeDescription');
 
-    function syncRangeFill(input) {
-      const min = Number(input.min || 0);
-      const max = Number(input.max || 100);
-      const value = Number(input.value || 0);
-      const pct = max > min ? ((value - min) / (max - min)) * 100 : 0;
-      input.style.setProperty('--mx17-fill', `${pct}%`);
+    if (kicker) kicker.textContent = 'USD · POINT';
+    if (title) title.textContent = '크루즈 가격 계산';
+    if (priceLabel) priceLabel.textContent = '크루즈 금액';
+    if (general) general.textContent = '일반 예약';
+    if (early) early.textContent = '270일+';
+
+    const cruiseUsd = calculator.querySelector('#cruiseUsd');
+    cruiseUsd?.closest('.result-box')?.classList.add('calc-price-dup');
+
+    const pointLabel = calculator.querySelector('#pointLabel');
+    const cashLabel = calculator.querySelector('#cashLabel');
+    const coverage = calculator.querySelector('#coverageRatio');
+    if (pointLabel) pointLabel.textContent = '필요 POINT';
+    if (cashLabel) cashLabel.textContent = '카드 결제';
+    if (coverage) {
+      const box = coverage.closest('.result-box');
+      const label = box?.querySelector('span');
+      if (label) label.textContent = '총 결제 예시';
     }
 
-    function update(fromPrice = false) {
-      const price = Math.max(0, Number(priceInput.value) || 0);
+    calculator.querySelectorAll('.exchange-bar,#cruiseKrw,#pointKrw,#cashKrw,#coverageText').forEach((el) => {
+      el.style.setProperty('display', 'none', 'important');
+      el.textContent = '';
+    });
 
-      if (fromPrice) {
-        pointInput.max = String(price);
-        if (Number(pointInput.value) > price) pointInput.value = String(price);
-      }
-
-      const usePoint = Math.min(price, Math.max(0, Number(pointInput.value) || 0));
-      const card = Math.max(0, price - usePoint);
-
-      priceText.textContent = usd(price);
-      pointText.textContent = point(usePoint);
-      cardText.textContent = usd(card);
-
-      syncRangeFill(priceInput);
-      syncRangeFill(pointInput);
+    function syncModeText() {
+      if (!description) return;
+      description.textContent = early?.classList.contains('active')
+        ? '270일+ · POINT 활용 확대'
+        : 'POINT + CARD';
     }
 
-    priceInput.addEventListener('input', () => update(true));
-    pointInput.addEventListener('input', () => update(false));
-    update(true);
+    syncModeText();
+
+    if (calculator.dataset.usdOnlyBound !== '1') {
+      calculator.dataset.usdOnlyBound = '1';
+      calculator.querySelectorAll('.mode-btn').forEach((btn) => {
+        btn.addEventListener('click', () => window.setTimeout(syncModeText, 0));
+      });
+      const range = calculator.querySelector('#cruisePrice');
+      if (range) range.addEventListener('input', () => window.setTimeout(syncModeText, 0));
+    }
 
     return true;
   }
 
   function init() {
-    if (buildCalculator()) return;
+    if (patchCalculator()) return;
     let tries = 0;
     const timer = window.setInterval(() => {
       tries += 1;
-      if (buildCalculator() || tries >= 40) window.clearInterval(timer);
+      if (patchCalculator() || tries >= 40) window.clearInterval(timer);
     }, 160);
   }
 
