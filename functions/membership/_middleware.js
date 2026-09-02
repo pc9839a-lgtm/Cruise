@@ -6,12 +6,12 @@ export async function onRequest(context) {
   const ua = context.request.headers.get('user-agent') || '';
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
-  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260902-story2">';
+  const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260902-flowwide3">';
   const section7Style = '<link rel="stylesheet" href="/membership/membership-section7-8-price-proof-v1.css?v=20260902-splitwide1">';
   const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260902-1">';
   const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-3">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
-  const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + section7Style + motionStyle + heroMotionStyle;
+  const extraStyles = (isMobile ? surveyMobileStyle : '') + section7Style + canonicalStyle + motionStyle + heroMotionStyle;
 
   return new HTMLRewriter()
     .on('link[href*="membership-page-v2.css"]', {
