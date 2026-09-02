@@ -1,0 +1,60 @@
+/* SECTION 21 + 22 — 가입조건/FAQ + 마지막 전환 */
+.mx21-terms-section,
+.mx22-final-section{position:relative;overflow:hidden;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+.mx21-terms-section{padding:clamp(96px,10vw,150px) 0;background:#07111f;color:#fff}
+.mx21-inner,.mx22-inner{width:min(1040px,calc(100% - 44px));margin:0 auto;text-align:center}
+.mx21-kicker,.mx22-kicker{display:inline-flex;min-height:38px;align-items:center;padding:0 15px;border-radius:999px;font-size:16px;font-weight:900;letter-spacing:.02em}
+.mx21-kicker{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);color:#d9edff}
+.mx21-title,.mx22-title{margin:20px auto 0;font-size:clamp(48px,6vw,78px);line-height:1.02;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
+.mx21-title strong{color:#85d2ff}
+
+.mx21-terms{width:min(900px,100%);margin:clamp(48px,5vw,68px) auto 0;border-top:1px solid rgba(255,255,255,.16)}
+.mx21-terms article{min-height:78px;padding:19px 4px;display:grid;grid-template-columns:62px 1fr;gap:14px;align-items:center;text-align:left;border-bottom:1px solid rgba(255,255,255,.14)}
+.mx21-terms b{color:#85d2ff;font-size:16px;font-weight:950;letter-spacing:.06em}
+.mx21-terms span{color:#fff;font-size:clamp(20px,2vw,26px);line-height:1.3;font-weight:820;letter-spacing:-.035em;word-break:keep-all}
+
+.mx21-faq-head{margin:clamp(58px,6vw,82px) auto 0;color:rgba(255,255,255,.6);font-size:18px;font-weight:900;letter-spacing:.02em}
+.mx21-faq{width:min(900px,100%);margin:18px auto 0;border-top:1px solid rgba(255,255,255,.16)}
+.mx21-faq details{border-bottom:1px solid rgba(255,255,255,.16);text-align:left}
+.mx21-faq summary{position:relative;list-style:none;cursor:pointer;padding:24px 48px 24px 4px;color:#fff;font-size:clamp(20px,2.2vw,27px);line-height:1.3;font-weight:850;letter-spacing:-.035em;word-break:keep-all}
+.mx21-faq summary::-webkit-details-marker{display:none}
+.mx21-faq summary::after{content:'+';position:absolute;right:7px;top:50%;transform:translateY(-50%);color:#85d2ff;font-size:30px;font-weight:500;transition:transform .22s ease}
+.mx21-faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.mx21-faq p{margin:0;padding:0 48px 24px 4px;color:rgba(255,255,255,.7);font-size:18px;line-height:1.55;font-weight:650;word-break:keep-all}
+
+.mx22-final-section{padding:clamp(110px,11vw,170px) 0;background:#f6f9ff;color:#0f1931}
+.mx22-kicker{background:#e9f1ff;color:#24519c}
+.mx22-title strong{color:#2e66ff}
+.mx22-plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:min(900px,100%);margin:clamp(50px,5vw,70px) auto 0}
+.mx22-plans article{min-height:260px;padding:34px 28px;border:1px solid #dce5f2;border-radius:30px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 20px 56px rgba(24,48,88,.06)}
+.mx22-plans article.premium{border-color:#bfd1fa;background:#f0f5ff}
+.mx22-plans span{font-size:18px;font-weight:950;letter-spacing:.08em;color:#506079}
+.mx22-plans strong{display:block;margin-top:20px;color:#0f1931;font-size:clamp(68px,8vw,104px);line-height:.88;letter-spacing:-.075em;font-weight:950}
+.mx22-plans article.premium strong{color:#2e66ff}
+.mx22-plans b{display:block;margin-top:20px;color:#506079;font-size:clamp(23px,2.5vw,31px);line-height:1.1;font-weight:900;letter-spacing:-.04em}
+.mx22-cta{display:inline-flex;min-height:72px;margin-top:38px;padding:0 36px;border-radius:18px;align-items:center;justify-content:center;background:#17488f;color:#fff!important;text-decoration:none;font-size:22px;font-weight:950;letter-spacing:-.035em;box-shadow:0 18px 36px rgba(23,72,143,.22)}
+.mx22-cta:hover{transform:translateY(-1px)}
+
+@media(max-width:780px){
+  .mx21-terms-section{padding:78px 0 86px}
+  .mx22-final-section{padding:82px 0 92px}
+  .mx21-inner,.mx22-inner{width:min(100% - 32px,620px)}
+  .mx21-kicker,.mx22-kicker{min-height:34px;padding:0 13px;font-size:14px}
+  .mx21-title,.mx22-title{margin-top:16px;font-size:clamp(36px,10.5vw,48px);line-height:1.03}
+  .mx21-terms{margin-top:36px}
+  .mx21-terms article{min-height:68px;padding:15px 2px;grid-template-columns:42px 1fr;gap:8px}
+  .mx21-terms b{font-size:13px}
+  .mx21-terms span{font-size:17px;line-height:1.35}
+  .mx21-faq-head{margin-top:48px;font-size:15px}
+  .mx21-faq{margin-top:14px}
+  .mx21-faq summary{padding:20px 42px 20px 2px;font-size:17px;line-height:1.35}
+  .mx21-faq summary::after{right:4px;font-size:26px}
+  .mx21-faq p{padding:0 40px 20px 2px;font-size:15px;line-height:1.55}
+  .mx22-plans{grid-template-columns:1fr;gap:12px;margin-top:36px}
+  .mx22-plans article{min-height:190px;padding:28px 20px;border-radius:24px}
+  .mx22-plans span{font-size:15px}
+  .mx22-plans strong{margin-top:16px;font-size:clamp(62px,19vw,82px)}
+  .mx22-plans b{margin-top:16px;font-size:23px}
+  .mx22-cta{width:100%;min-height:64px;margin-top:28px;padding:0 24px;border-radius:16px;font-size:20px}
+}
