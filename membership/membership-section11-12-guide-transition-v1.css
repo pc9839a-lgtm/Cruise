@@ -60,3 +60,82 @@
 @media(prefers-reduced-motion:reduce){
   #guide-question.mx11-guide-section *,#mx-prepare-money.mx12-transition-section *{animation:none!important;transition:none!important}
 }
+
+/* 2026-09-02 contrast + density hotfix: defeat legacy #mx-prepare-money mobile/theme rules */
+#mx-prepare-money.mx12-transition-section{
+  padding:78px 0 72px!important;
+  background:#eef3fb!important;
+  background-image:none!important;
+  color:#0b1730!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-inner{width:min(1080px,calc(100% - 48px))!important}
+#mx-prepare-money.mx12-transition-section .mx12-kicker{
+  min-height:34px!important;
+  background:#dce8ff!important;
+  color:#24519c!important;
+  border:1px solid #c8d9fa!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-title{
+  margin-top:14px!important;
+  font-size:clamp(44px,5.2vw,70px)!important;
+  line-height:1.01!important;
+  color:#0b1730!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-title strong{
+  color:#2e66ff!important;
+  opacity:1!important;
+  -webkit-text-fill-color:#2e66ff!important;
+  background:none!important;
+  text-shadow:none!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-grid{grid-template-columns:1fr 72px 1fr!important;gap:14px!important;margin-top:34px!important}
+#mx-prepare-money.mx12-transition-section .mx12-card{
+  min-height:228px!important;
+  padding:26px 24px!important;
+  border:1px solid #cfd9e8!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  color:#0b1730!important;
+  box-shadow:0 16px 40px rgba(17,30,64,.08)!important;
+  opacity:1!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-card.accent{background:#eaf2ff!important;border-color:#8fb5ff!important}
+#mx-prepare-money.mx12-transition-section .mx12-card span{font-size:17px!important;color:#5d6c84!important;opacity:1!important;text-shadow:none!important}
+#mx-prepare-money.mx12-transition-section .mx12-card strong{
+  margin-top:14px!important;
+  font-size:clamp(30px,3.6vw,46px)!important;
+  line-height:1.08!important;
+  color:#0b1730!important;
+  -webkit-text-fill-color:#0b1730!important;
+  background:none!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#mx-prepare-money.mx12-transition-section .mx12-card.accent strong{color:#1758d1!important;-webkit-text-fill-color:#1758d1!important}
+#mx-prepare-money.mx12-transition-section .mx12-not{font-size:48px!important;color:#6d8fbd!important;opacity:1!important;text-shadow:none!important}
+#mx-prepare-money.mx12-transition-section .mx12-bottom{
+  width:min(720px,100%)!important;
+  margin-top:18px!important;
+  padding:19px 24px!important;
+  background:#07111f!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  font-size:clamp(22px,2.6vw,32px)!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+@media(max-width:780px){
+  #mx-prepare-money.mx12-transition-section{padding:62px 0!important}
+  #mx-prepare-money.mx12-transition-section .mx12-inner{width:calc(100% - 28px)!important}
+  #mx-prepare-money.mx12-transition-section .mx12-title{font-size:clamp(36px,10vw,48px)!important}
+  #mx-prepare-money.mx12-transition-section .mx12-grid{grid-template-columns:1fr!important;margin-top:28px!important;gap:9px!important}
+  #mx-prepare-money.mx12-transition-section .mx12-card{min-height:150px!important;padding:22px 18px!important;border-radius:20px!important}
+  #mx-prepare-money.mx12-transition-section .mx12-card span{font-size:15px!important}
+  #mx-prepare-money.mx12-transition-section .mx12-card strong{font-size:clamp(27px,7.8vw,36px)!important}
+  #mx-prepare-money.mx12-transition-section .mx12-not{font-size:32px!important;transform:none!important;line-height:.8!important}
+  #mx-prepare-money.mx12-transition-section .mx12-bottom{margin-top:12px!important;padding:17px 14px!important;border-radius:17px!important;font-size:clamp(21px,6.2vw,28px)!important}
+}
