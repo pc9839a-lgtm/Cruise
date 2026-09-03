@@ -10,8 +10,8 @@
     section10.setAttribute('data-membership-section', '10');
     section10.innerHTML = `
       <div class="mx12-inner">
-        <span class="mx12-kicker">왜 크루즈클럽에 가입하나요?</span>
-        <h2 class="mx12-title">클럽 회원으로 가입해<br><strong>POINT를 미리 쌓아야</strong><br>전세계 최저가 보장으로 예약할 수 있습니다</h2>
+        <span class="mx12-kicker">회원이 되는 이유</span>
+        <h2 class="mx12-title">왜 굳이<br><strong>크루즈클럽에 가입할까요?</strong></h2>
 
         <div class="mx10-flow" aria-label="크루즈클럽 이용 흐름">
           <span>회원가입</span><i>→</i>
@@ -32,8 +32,8 @@
     section11.setAttribute('data-membership-section', '11');
     section11.innerHTML = `
       <div class="mxg-inner">
-        <span class="mxg-kicker">다른 곳이 더 싸다면?</span>
-        <h2>전세계<br><strong>최저가 보장</strong></h2>
+        <span class="mxg-kicker">회원 예약의 핵심</span>
+        <h2>다른 곳이 더 싸다면?<br><strong>전세계 최저가 보장</strong></h2>
         <div class="mxg-mega">$100+</div>
         <p class="mxg-criteria">동일 크루즈 · 동일 출발일 · 동일 객실 조건</p>
         <p class="mxg-copy">$100 이상 낮은 가격이 확인되면<br><strong>보장 조건에 따라 가격을 조정합니다</strong></p>
