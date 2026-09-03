@@ -25,7 +25,8 @@
 
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
-    '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mx10p-lead','.mx10p-price-grid','.mx10p-note',
+    '.mx7-receipt-proof','.mx7-bridge','.mx8-proof-copy','.mx8-question-lead','.mx8-bridge-question',
+    '.mx10-flow','.mx10p-lead','.mx10p-price-grid','.mx10p-note',
     '.mxg-mega','.mx13-simple-list','.mxp13-ledger','.mx14-equation','.mx14-fee-note',
     '.mx15-answer','.mx15-proof-list','.mx15-closing','.mx16-answer','.mx16-support','.mx16-flow',
     '#calculator .calculator-card','.mx18-answer','.mx18-but','.mx18-benefit-stack','.mx18-closing',
