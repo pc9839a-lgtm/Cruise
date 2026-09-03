@@ -13,31 +13,53 @@ export async function onRequest(context) {
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const bottomCtaStyle = `<style id="membership-bottom-cta-style">
     html{scroll-behavior:smooth}
-    body{padding-bottom:96px!important}
+    body{padding-bottom:104px!important}
     #plans{scroll-margin-top:28px!important}
     .membership-bottom-cta{
       position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483000!important;
-      padding:12px 18px calc(12px + env(safe-area-inset-bottom))!important;
-      background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.94) 24%,rgba(255,255,255,.98) 100%)!important;
+      padding:14px 18px calc(14px + env(safe-area-inset-bottom))!important;
+      background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.93) 28%,rgba(255,255,255,.985) 100%)!important;
       pointer-events:none!important;
     }
     .membership-bottom-cta-inner{width:min(560px,100%)!important;margin:0 auto!important;pointer-events:auto!important}
     .membership-bottom-cta a{
-      display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;
-      min-height:58px!important;padding:0 28px!important;border-radius:18px!important;text-decoration:none!important;
-      background:linear-gradient(135deg,#1f54b7 0%,#2f68ff 100%)!important;color:#fff!important;
+      position:relative!important;overflow:hidden!important;
+      display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;
+      min-height:60px!important;padding:0 30px!important;border-radius:19px!important;text-decoration:none!important;
+      background:linear-gradient(135deg,#1f54b7 0%,#2f68ff 58%,#3976ff 100%)!important;color:#fff!important;
       font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-      font-size:19px!important;font-weight:950!important;letter-spacing:-.035em!important;
-      box-shadow:0 12px 34px rgba(31,84,183,.28),0 2px 8px rgba(16,35,72,.12)!important;
+      font-size:20px!important;font-weight:950!important;letter-spacing:-.038em!important;
+      box-shadow:0 14px 36px rgba(31,84,183,.32),0 3px 10px rgba(16,35,72,.12)!important;
+      transform-origin:50% 100%!important;
+      animation:membershipCtaNudge 2.8s cubic-bezier(.16,1,.3,1) infinite!important;
       transition:transform .18s ease,box-shadow .18s ease!important;
     }
-    .membership-bottom-cta a::after{content:'→';font-size:20px!important;line-height:1!important;transform:translateY(-1px)!important}
-    .membership-bottom-cta a:hover{transform:translateY(-2px)!important;box-shadow:0 16px 40px rgba(31,84,183,.34),0 3px 10px rgba(16,35,72,.14)!important}
-    .membership-bottom-cta a:active{transform:translateY(0) scale(.988)!important}
+    .membership-bottom-cta a::before{
+      content:''!important;position:absolute!important;inset:0 auto 0 -38%!important;width:30%!important;
+      background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)!important;
+      transform:skewX(-18deg)!important;animation:membershipCtaShine 3.6s ease-in-out infinite!important;pointer-events:none!important;
+    }
+    .membership-bottom-cta a::after{
+      content:'→'!important;font-size:22px!important;line-height:1!important;transform:translateY(-1px)!important;
+      animation:membershipCtaArrow 1.15s ease-in-out infinite!important;
+    }
+    .membership-bottom-cta a:hover{animation-play-state:paused!important;transform:translateY(-2px) scale(1.01)!important;box-shadow:0 18px 44px rgba(31,84,183,.38),0 4px 12px rgba(16,35,72,.14)!important}
+    .membership-bottom-cta a:active{animation:none!important;transform:translateY(0) scale(.982)!important}
+    @keyframes membershipCtaNudge{
+      0%,68%,100%{transform:translateY(0) scale(1)}
+      76%{transform:translateY(-3px) scale(1.012)}
+      84%{transform:translateY(0) scale(1)}
+      91%{transform:translateY(-1px) scale(1.005)}
+    }
+    @keyframes membershipCtaArrow{0%,100%{translate:0 0}50%{translate:5px 0}}
+    @keyframes membershipCtaShine{0%,58%{left:-38%;opacity:0}66%{opacity:1}82%,100%{left:122%;opacity:0}}
     @media(max-width:720px){
-      body{padding-bottom:88px!important}
-      .membership-bottom-cta{padding:10px 12px calc(10px + env(safe-area-inset-bottom))!important}
-      .membership-bottom-cta a{min-height:56px!important;border-radius:16px!important;font-size:18px!important}
+      body{padding-bottom:100px!important}
+      .membership-bottom-cta{padding:10px 12px calc(12px + env(safe-area-inset-bottom))!important}
+      .membership-bottom-cta a{min-height:58px!important;border-radius:17px!important;font-size:19px!important}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .membership-bottom-cta a,.membership-bottom-cta a::before,.membership-bottom-cta a::after{animation:none!important}
     }
   </style>`;
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle + liveMotionStyle + bottomCtaStyle;
@@ -83,8 +105,9 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260903-flow28"></script>' +
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260903-flow29"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260903-flow30"></script>' +
+          '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20260903-cards45"></script>' +
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260903-flow24"></script>' +
-          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-proof41"></script>' +
+          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260903-split36"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
