@@ -68,13 +68,12 @@
         <h2 class="mx15-question">혹시<br><strong>싼 배를 고른 거 아닐까?</strong></h2>
         <div class="mx15-answer">아닙니다</div>
 
-        <div class="mx15-proof-list" aria-label="실제 예약 조건">
-          <div><span>크루즈</span><strong>MSC World Asia</strong></div>
-          <div><span>일정</span><strong>바르셀로나 출발 · 7박 서부 지중해</strong></div>
-          <div><span>객실</span><strong>Deluxe Balcony Fantastica · BR2</strong></div>
-          <div><span>예약</span><strong>2인 실제 예약</strong></div>
+        <div class="mx15-proof-gallery" aria-label="실제 예약 증빙 이미지">
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/fvmk2pzl5lazua8vnuef.png" alt="실제 예약 증빙 이미지 1"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/j4ippct6ag07tqpifkbj.png" alt="실제 예약 증빙 이미지 2"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/pevn5zoo2fsnxzmqxmh9.png" alt="실제 예약 증빙 이미지 3"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/jhtcfifjkiuvkinguj64.png" alt="실제 예약 증빙 이미지 4"></figure>
         </div>
-        <p class="mx15-closing">바뀐 건 크루즈가 아니라<br><strong>예약하는 방법입니다</strong></p>
       </div>`;
 
     const guide = ensureSection('mx-guide-assist', 'mx16-guide-section mx-bridge-section');
