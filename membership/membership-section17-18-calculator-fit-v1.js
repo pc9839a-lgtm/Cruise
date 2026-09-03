@@ -3,14 +3,16 @@
 
   function patchCalculator() {
     const membership = document.getElementById('membership-point');
+    const pointExample = document.getElementById('mx-point-example');
     const calculator = document.getElementById('calculator');
     if (!membership || !calculator) return false;
 
     calculator.className = 'section mv2-calculator';
-    calculator.setAttribute('data-membership-section', '12');
+    calculator.setAttribute('data-membership-section', '17');
 
-    if (membership.nextElementSibling !== calculator) {
-      membership.insertAdjacentElement('afterend', calculator);
+    const anchor = pointExample || membership;
+    if (anchor.nextElementSibling !== calculator) {
+      anchor.insertAdjacentElement('afterend', calculator);
     }
 
     const kicker = calculator.querySelector('.section-kicker');
