@@ -11,6 +11,22 @@
     return section;
   }
 
+  function applyCashSplitStyles() {
+    const total = document.getElementById('mx-actual-cash-total');
+    if (!total) return;
+    const mobile = window.matchMedia('(max-width: 780px)').matches;
+    const inner = total.querySelector('.mx14-total-inner');
+    const lead = total.querySelector('.mx14-total-lead');
+    const value = total.querySelector('.mx14-total-value');
+    const note = total.querySelector('.mx14-total-note');
+
+    total.style.setProperty('padding', mobile ? '96px 0 116px' : '150px 0 170px');
+    if (inner) inner.style.setProperty('width', mobile ? 'calc(100% - 34px)' : 'min(1180px,calc(100% - 64px))');
+    if (lead) lead.style.setProperty('font-size', mobile ? '21px' : 'clamp(24px,2.4vw,34px)');
+    if (value) value.style.setProperty('font-size', mobile ? 'clamp(56px,16vw,76px)' : 'clamp(88px,10vw,154px)');
+    if (note) note.style.setProperty('font-size', mobile ? '13px' : '16px');
+  }
+
   function buildSections14To16() {
     const pointExample = document.getElementById('mx-point-example');
     const calculator = document.getElementById('calculator');
@@ -79,6 +95,12 @@
     if (cashTotal.nextElementSibling !== proof) cashTotal.insertAdjacentElement('afterend', proof);
     if (proof.nextElementSibling !== guide) proof.insertAdjacentElement('afterend', guide);
     if (guide.nextElementSibling !== calculator) guide.insertAdjacentElement('afterend', calculator);
+
+    applyCashSplitStyles();
+    if (cashTotal.dataset.splitResizeBound !== '1') {
+      cashTotal.dataset.splitResizeBound = '1';
+      window.addEventListener('resize', applyCashSplitStyles, { passive: true });
+    }
 
     return true;
   }
