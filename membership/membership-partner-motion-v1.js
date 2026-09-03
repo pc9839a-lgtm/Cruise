@@ -19,11 +19,18 @@
     '.mx7-overline','.mx8-overline'
   ].join(',');
 
+  const headingSelector = [
+    'h2','.mx6-title','.section-head h2','.membership-section-head h2'
+  ].join(',');
+
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
     '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
     '.mxp13-ledger','.mx14-equation','.mx15-proof-list','.mx16-flow','#calculator .calculator-card',
-    '.mx18-copy','.mx19-timeline','.mx21-terms','#planCards'
+    '.mx18-copy','.mx19-timeline','.mx21-terms','#planCards',
+    '#price-pain .mv2-save','#price-pain .mx6-title',
+    '#mx-lowest-price .mxg-criteria','#mx-lowest-price .mxg-copy','#mx-lowest-price .mxg-note',
+    '#mx-start-early .mx19-note'
   ].join(',');
 
   const rowSelector = [
@@ -44,6 +51,10 @@
     '#mx-start-early .mx19-timeline strong',
     '#plans .plan-price','#plans .plan-feature-monthly strong'
   ].join(',');
+
+  let observer = null;
+  let mutationQueued = false;
+  const observedSections = new WeakSet();
 
   function parseNumericText(text) {
     const source = String(text || '').trim();
@@ -110,57 +121,96 @@
   }
 
   function prepareSection(section, index) {
-    if (!section || section.dataset.mPartnerMotion === '1') return;
+    if (!section) return;
+
     section.dataset.mPartnerMotion = '1';
     section.classList.add('m-motion-section');
     section.dataset.motionSide = index % 2 === 0 ? 'left' : 'right';
 
     section.querySelectorAll(labelSelector).forEach((el) => el.classList.add('m-motion-label'));
-    const heading = section.querySelector('h2');
+
+    const heading = section.querySelector(headingSelector);
     if (heading) heading.classList.add('m-motion-heading');
 
     section.querySelectorAll(visualSelector).forEach((visual, visualIndex) => {
       visual.classList.add('m-motion-visual');
-      visual.style.setProperty('--m-visual-delay', `${100 + visualIndex * 70}ms`);
+      visual.style.setProperty('--m-visual-delay', `${110 + visualIndex * 70}ms`);
     });
 
     section.querySelectorAll(rowSelector).forEach((row, rowIndex) => {
       row.classList.add('m-motion-row');
-      row.style.setProperty('--m-row-delay', `${100 + Math.min(rowIndex, 8) * 65}ms`);
+      row.style.setProperty('--m-row-delay', `${120 + Math.min(rowIndex, 8) * 65}ms`);
     });
 
     section.querySelectorAll('.mx-hotel-visual img').forEach((media) => media.classList.add('m-motion-media'));
+
     section.querySelectorAll(numberSelector).forEach((number) => {
       number.classList.add('m-motion-number');
       prepareCounter(number);
+      if (section.classList.contains('section-active')) animateCounter(number);
     });
   }
 
   function activate(section) {
-    if (!section || section.classList.contains('section-active')) return;
-    section.classList.add('section-active');
+    if (!section) return;
+    if (!section.classList.contains('section-active')) section.classList.add('section-active');
     section.querySelectorAll('.m-motion-number').forEach(animateCounter);
+  }
+
+  function observeSection(section) {
+    if (!section || observedSections.has(section)) return;
+    observedSections.add(section);
+
+    if (reduce || !observer) {
+      activate(section);
+      return;
+    }
+
+    observer.observe(section);
+  }
+
+  function scanSections() {
+    sectionSelectors.forEach((selector, index) => {
+      const section = document.querySelector(selector);
+      if (!section) return;
+      prepareSection(section, index);
+      observeSection(section);
+    });
+  }
+
+  function queueScan() {
+    if (mutationQueued) return;
+    mutationQueued = true;
+    requestAnimationFrame(() => {
+      mutationQueued = false;
+      scanSections();
+    });
   }
 
   function boot() {
     root.classList.add('membership-motion-enabled');
-    const sections = sectionSelectors.map((selector) => document.querySelector(selector)).filter(Boolean);
-    sections.forEach(prepareSection);
 
-    if (reduce || !('IntersectionObserver' in window)) {
-      sections.forEach(activate);
-      return;
+    if (!reduce && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          activate(entry.target);
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -18% 0px' });
     }
 
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        activate(entry.target);
-        obs.unobserve(entry.target);
-      });
-    }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
+    scanSections();
 
-    sections.forEach((section) => observer.observe(section));
+    const mutationObserver = new MutationObserver((mutations) => {
+      if (!mutations.some((mutation) => mutation.type === 'childList' && (mutation.addedNodes.length || mutation.removedNodes.length))) return;
+      queueScan();
+    });
+
+    if (document.body) mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    window.setTimeout(scanSections, 350);
+    window.setTimeout(scanSections, 900);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
