@@ -53,60 +53,6 @@
   let queued = false;
   const observed = new WeakSet();
 
-  function parseNumber(text) {
-    const source = String(text || '').trim();
-    const match = source.match(/-?\d[\d,]*(?:\.\d+)?/);
-    if (!match) return null;
-    const raw = match[0];
-    const target = Number(raw.replace(/,/g,''));
-    if (!Number.isFinite(target)) return null;
-    return {
-      source,target,
-      decimals:raw.includes('.') ? raw.split('.')[1].length : 0,
-      prefix:source.slice(0,match.index),
-      suffix:source.slice((match.index || 0)+raw.length)
-    };
-  }
-
-  function formatNumber(value, decimals) {
-    return Number(value).toLocaleString('en-US',{ minimumFractionDigits:decimals, maximumFractionDigits:decimals });
-  }
-
-  function prepareCounter(el) {
-    const parsed = parseNumber(el.textContent);
-    if (!parsed) return;
-    const currentSource = parsed.source;
-    if (el.dataset.mMotionSource === currentSource && el.dataset.mMotionPrepared === '1') return;
-    el.dataset.mMotionPrepared = '1';
-    el.dataset.mMotionCounted = '0';
-    el.dataset.mMotionSource = currentSource;
-    el.dataset.mMotionTarget = String(parsed.target);
-    el.dataset.mMotionDecimals = String(parsed.decimals);
-    el.dataset.mMotionPrefix = parsed.prefix;
-    el.dataset.mMotionSuffix = parsed.suffix;
-  }
-
-  function animateCounter(el) {
-    if (el.dataset.mMotionCounted === '1') return;
-    const target = Number(el.dataset.mMotionTarget);
-    if (!Number.isFinite(target)) return;
-    el.dataset.mMotionCounted = '1';
-    const decimals = Number(el.dataset.mMotionDecimals || 0);
-    const prefix = el.dataset.mMotionPrefix || '';
-    const suffix = el.dataset.mMotionSuffix || '';
-    const original = el.dataset.mMotionSource || `${prefix}${formatNumber(target,decimals)}${suffix}`;
-    if (reduce) { el.textContent = original; return; }
-    const start = performance.now();
-    const duration = 1500;
-    const tick = (now) => {
-      const p = Math.min(1,(now-start)/duration);
-      const eased = 1 - Math.pow(1-p,4);
-      el.textContent = `${prefix}${formatNumber(target*eased,decimals)}${suffix}`;
-      if (p < 1) requestAnimationFrame(tick); else el.textContent = original;
-    };
-    requestAnimationFrame(tick);
-  }
-
   function prepareSection(section,index) {
     if (!section) return;
     section.classList.add('m-motion-section');
@@ -126,22 +72,34 @@
       el.classList.add('m-motion-visual');
       el.style.setProperty('--m-visual-delay', `${130 + i*130}ms`);
     });
+
     section.querySelectorAll(rowSelector).forEach((el,i) => {
       el.classList.add('m-motion-row');
       el.style.setProperty('--m-row-delay', `${180 + Math.min(i,10)*95}ms`);
     });
+
     section.querySelectorAll('.mx-hotel-visual img,.actual-photo img,.partner-direct-photo').forEach((el) => el.classList.add('m-motion-media'));
+
+    /* Numbers are never rewritten. Animation is transform/opacity only so exact prices/POINT stay intact. */
     section.querySelectorAll(numberSelector).forEach((el) => {
       el.classList.add('m-motion-number');
-      prepareCounter(el);
-      if (section.classList.contains('section-active')) animateCounter(el);
+      if (el.dataset.mMotionSource) {
+        const source = el.dataset.mMotionSource;
+        if (source && /\d/.test(source) && /^\s*(?:약\s*)?[\$₩]?\d/.test(source)) el.textContent = source;
+      }
+      delete el.dataset.mMotionPrepared;
+      delete el.dataset.mMotionCounted;
+      delete el.dataset.mMotionTarget;
+      delete el.dataset.mMotionDecimals;
+      delete el.dataset.mMotionPrefix;
+      delete el.dataset.mMotionSuffix;
+      delete el.dataset.mMotionSource;
     });
   }
 
   function activate(section) {
     if (!section) return;
     section.classList.add('section-active');
-    section.querySelectorAll('.m-motion-number').forEach(animateCounter);
   }
 
   function observeSection(section) {
