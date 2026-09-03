@@ -27,14 +27,14 @@
           </div>
 
           <div class="mx7-receipt-breakdown" style="display:block!important;">
-            <div class="total mx7-total-proof" style="border:0!important;text-align:center!important;padding:38px 8px 34px!important;">
+            <div class="total mx7-total-proof" style="border:0!important;text-align:center!important;padding:46px 8px 42px!important;">
               <span style="font-size:16px!important;">예약 총액</span>
               <strong style="font-size:clamp(72px,8vw,116px)!important;line-height:.95!important;letter-spacing:-.055em!important;">$3,887.35</strong>
-              <small style="display:block!important;margin-top:16px!important;font-size:18px!important;color:#c5d0dc!important;font-weight:850!important;">7박 8일 · 2명</small>
+              <small style="display:block!important;margin-top:18px!important;font-size:18px!important;color:#c5d0dc!important;font-weight:850!important;">7박 8일 · 2명</small>
             </div>
           </div>
 
-          <p class="mx7-receipt-note mx7-bridge" style="padding:30px 8px 8px!important;border-top:1px solid #2a3a4f!important;font-size:clamp(25px,2.7vw,38px)!important;line-height:1.28!important;color:#fff!important;font-weight:950!important;">
+          <p class="mx7-receipt-note mx7-bridge" style="margin-top:18px!important;padding:42px 8px 12px!important;border-top:1px solid #2a3a4f!important;font-size:clamp(25px,2.7vw,38px)!important;line-height:1.28!important;color:#fff!important;font-weight:950!important;">
             그런데 이 금액을<br><strong style="color:#86d4ff!important;">전부 카드로 낸 게 아닙니다</strong>
           </p>
         </div>
@@ -51,7 +51,7 @@
         <span class="mx8-overline">실제 결제 구조</span>
         <h2 class="mx8-story-title">실제로는<br><strong>POINT와 CARD로 나눠 예약했습니다</strong></h2>
 
-        <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제">
+        <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제" style="margin-top:72px!important;">
           <div class="mx8-payment-line">
             <span>예약에 사용한 POINT</span>
             <strong class="mx8-value">1,805.84P</strong>
@@ -62,8 +62,8 @@
           </div>
         </div>
 
-        <p class="mx8-question-lead" style="margin:62px auto 0!important;font-size:20px!important;line-height:1.5!important;color:#9fb0c4!important;font-weight:900!important;">여기서 가장 궁금한 건 하나입니다</p>
-        <h2 class="mx8-bridge-question" style="margin-top:18px!important;">그럼 1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
+        <p class="mx8-question-lead" style="margin:104px auto 0!important;font-size:20px!important;line-height:1.5!important;color:#9fb0c4!important;font-weight:900!important;">여기서 가장 궁금한 건 하나입니다</p>
+        <h2 class="mx8-bridge-question" style="margin-top:26px!important;">그럼 1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
     if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);
