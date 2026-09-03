@@ -11,8 +11,8 @@
       <section id="mx-moving-hotel-4" class="mx4-section" aria-labelledby="mx4-title">
         <div class="mx4-inner">
           <div class="mx4-head">
-            <span class="mx4-eyebrow">눈 뜨면 새로운 도시</span>
-            <h2 id="mx4-title">도시는 바뀌어도<br><strong>방은 그대로</strong></h2>
+            <span class="mx4-eyebrow">도시마다 호텔을 바꿔야 하나?</span>
+            <h2 id="mx4-title">도시는 바뀌어도<br><strong>내 방은 그대로</strong></h2>
           </div>
 
           <div class="mx4-route" aria-label="크루즈 이동 방식">
@@ -25,7 +25,7 @@
 
           <div class="mx4-room-lock">
             <span>ROOM</span>
-            <strong>방은 그대로</strong>
+            <strong>내 방은 그대로</strong>
           </div>
 
           <div class="mx4-points mx4-points-two">
