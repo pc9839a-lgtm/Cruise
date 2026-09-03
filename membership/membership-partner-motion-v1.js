@@ -7,14 +7,14 @@
   const sectionSelectors = [
     '#mx-moving-hotel','#mx-port-day','#mx-moving-hotel-4','#impact-med','#price-pain',
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
-    '#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
+    '#mx-cruise-price-examples','#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
     '#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
     '#mx-start-early','#plans','#membership-terms'
   ];
 
   const labelSelector = [
     '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mx11-kicker','.mx12-kicker',
-    '.mxg-kicker','.mx13-kicker','.mxp13-kicker','.mx14-kicker','.mx15-kicker','.mx16-kicker',
+    '.mx10p-kicker','.mxg-kicker','.mx13-kicker','.mxp13-kicker','.mx14-kicker','.mx15-kicker','.mx16-kicker',
     '.mx18-kicker','.mx19-kicker','#calculator .section-kicker','.mx21-kicker','#plans .section-kicker',
     '.mx7-overline','.mx8-overline'
   ].join(',');
@@ -25,10 +25,10 @@
 
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
-    '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
-    '.mxp13-ledger','.mx14-equation','.mx14-fee-note','.mx15-answer','.mx15-proof-list','.mx15-closing',
-    '.mx16-answer','.mx16-support','.mx16-flow','#calculator .calculator-card',
-    '.mx18-answer','.mx18-but','.mx18-benefit-stack','.mx18-closing',
+    '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mx10p-lead','.mx10p-price-grid','.mx10p-note',
+    '.mxg-mega','.mx13-simple-list','.mxp13-ledger','.mx14-equation','.mx14-fee-note',
+    '.mx15-answer','.mx15-proof-list','.mx15-closing','.mx16-answer','.mx16-support','.mx16-flow',
+    '#calculator .calculator-card','.mx18-answer','.mx18-but','.mx18-benefit-stack','.mx18-closing',
     '.mx19-answer','.mx19-timeline','.mx19-closing','.mx19-note','.mx21-terms','#planCards',
     '#price-pain .mx6-context','#price-pain .mv2-save',
     '#same-cruise .mx8-payment-stack',
@@ -38,7 +38,7 @@
 
   const rowSelector = [
     '.mxp-step','.mx4-city','.mx4-night','.impact-med-stop','.mx7-receipt-breakdown>div',
-    '.mx10-flow span','.mx10-flow strong','.mx13-simple-row','.mxp13-ledger>div',
+    '.mx10-flow span','.mx10-flow strong','.mx10p-price-item','.mx13-simple-row','.mxp13-ledger>div',
     '.mx14-equation>div','.mx15-proof-list>div','.mx16-flow strong','#calculator .result-box',
     '.mx18-benefit-stack strong','.mx19-timeline>div','.mx21-terms details','.plan-card','.mx8-payment-line'
   ].join(',');
@@ -48,6 +48,7 @@
     '#mx-direct-booking-intro .mx7-receipt-breakdown strong',
     '#same-cruise .mx8-value',
     '#guide-question .mx9-member-count',
+    '#mx-cruise-price-examples .mx10p-price-value',
     '#mx-lowest-price .mxg-mega',
     '#membership-point .mx13-simple-row strong',
     '#mx-point-example .mxp13-ledger strong',
