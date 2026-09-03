@@ -8,8 +8,8 @@
     '#mx-moving-hotel','#mx-port-day','#mx-moving-hotel-4','#impact-med','#price-pain',
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
     '#mx-cruise-price-examples','#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
-    '#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
-    '#mx-start-early','#plans','#membership-terms'
+    '#mx-actual-cash-total','#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
+    '#mx-member-booking-benefits','#mx-start-early','#plans','#membership-terms'
   ];
 
   const labelSelector = [
@@ -28,8 +28,10 @@
     '.mx7-receipt-proof','.mx7-bridge','.mx8-proof-copy','.mx8-question-lead','.mx8-bridge-question',
     '.mx10-flow','.mx10-detail','.mx10p-lead','.mx10p-price-grid','.mx10p-note',
     '.mxg-mega','.mx13-simple-list','.mxp13-ledger','.mx14-equation','.mx14-fee-note',
+    '.mx14-total-lead','.mx14-total-value','.mx14-total-note',
     '.mx15-answer','.mx15-proof-list','.mx15-closing','.mx16-answer','.mx16-support','.mx16-flow',
     '#calculator .calculator-card','.mx18-answer','.mx18-but','.mx18-benefit-stack','.mx18-closing',
+    '.mx18-benefit-lead','.mx18-benefit-title','.mx18-benefit-closing',
     '.mx19-answer','.mx19-timeline','.mx19-closing','.mx19-note','.mx21-terms','#planCards',
     '#price-pain .mx6-context','#price-pain .mv2-save',
     '#same-cruise .mx8-payment-stack',
@@ -54,6 +56,7 @@
     '#membership-point .mx13-simple-row strong',
     '#mx-point-example .mxp13-ledger strong',
     '#mx-actual-cash .mx14-equation strong',
+    '#mx-actual-cash-total .mx14-total-value',
     '#calculator .result-box strong',
     '#mx-start-early .mx19-timeline strong',
     '#plans .plan-price','#plans .plan-feature-monthly strong'
