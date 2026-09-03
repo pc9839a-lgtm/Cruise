@@ -31,10 +31,18 @@
     return Math.round(value).toLocaleString('en-US', { useGrouping: grouped });
   }
 
+  function renderToken(token, value) {
+    const prefix = token.dataset.prefix || '';
+    const suffix = token.dataset.suffix || '';
+    const decimals = Number(token.dataset.decimals || 0);
+    const grouped = token.dataset.grouped === '1';
+    token.textContent = `${prefix}${formatValue(value, decimals, grouped)}${suffix}`;
+  }
+
   function prepareCounter(el) {
     if (!el || el.dataset.mxCounterPrepared === '1') return;
     const original = (el.textContent || '').trim();
-    const matches = [...original.matchAll(/\d[\d,]*(?:\.\d+)?/g)];
+    const matches = [...original.matchAll(/([$₩]?)(\d[\d,]*(?:\.\d+)?)(P?)/g)];
     if (!matches.length) return;
 
     const fragment = document.createDocumentFragment();
@@ -42,19 +50,24 @@
 
     matches.forEach((match) => {
       const raw = match[0];
+      const prefix = match[1] || '';
+      const numericRaw = match[2] || '0';
+      const suffix = match[3] || '';
       const start = match.index || 0;
       if (start > cursor) fragment.appendChild(document.createTextNode(original.slice(cursor, start)));
 
-      const target = Number(raw.replace(/,/g, ''));
-      const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
-      const grouped = raw.includes(',');
+      const target = Number(numericRaw.replace(/,/g, ''));
+      const decimals = numericRaw.includes('.') ? numericRaw.split('.')[1].length : 0;
+      const grouped = numericRaw.includes(',');
       const token = document.createElement('span');
       token.className = 'mx-live-counter-token';
       token.dataset.target = String(target);
       token.dataset.decimals = String(decimals);
       token.dataset.grouped = grouped ? '1' : '0';
+      token.dataset.prefix = prefix;
+      token.dataset.suffix = suffix;
       token.setAttribute('aria-hidden', 'true');
-      token.textContent = reducedMotion ? raw : formatValue(0, decimals, grouped);
+      token.textContent = reducedMotion ? raw : `${prefix}${formatValue(0, decimals, grouped)}${suffix}`;
       fragment.appendChild(token);
       cursor = start + raw.length;
     });
@@ -73,13 +86,7 @@
     el.dataset.mxCounterDone = '1';
 
     if (reducedMotion) {
-      tokens.forEach((token) => {
-        token.textContent = formatValue(
-          Number(token.dataset.target || 0),
-          Number(token.dataset.decimals || 0),
-          token.dataset.grouped === '1'
-        );
-      });
+      tokens.forEach((token) => renderToken(token, Number(token.dataset.target || 0)));
       return;
     }
 
@@ -92,10 +99,7 @@
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 4);
       tokens.forEach((token) => {
-        const target = Number(token.dataset.target || 0);
-        const decimals = Number(token.dataset.decimals || 0);
-        const grouped = token.dataset.grouped === '1';
-        token.textContent = formatValue(target * eased, decimals, grouped);
+        renderToken(token, Number(token.dataset.target || 0) * eased);
       });
 
       if (p < 1) {
@@ -104,11 +108,7 @@
       }
 
       tokens.forEach((token) => {
-        token.textContent = formatValue(
-          Number(token.dataset.target || 0),
-          Number(token.dataset.decimals || 0),
-          token.dataset.grouped === '1'
-        );
+        renderToken(token, Number(token.dataset.target || 0));
         token.classList.remove('is-counting');
       });
     }
@@ -126,6 +126,16 @@
       }, { threshold: 0.32, rootMargin: '0px 0px -7% 0px' })
     : null;
 
+  const imageObserver = 'IntersectionObserver' in window && !reducedMotion
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          imageObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' })
+    : null;
+
   function scan() {
     numberSelectors.forEach((selector) => {
       $$(selector).forEach((el) => {
@@ -135,6 +145,13 @@
         if (counterObserver) counterObserver.observe(el);
         else animateCounter(el);
       });
+    });
+
+    $$('.mx15-proof-shot').forEach((shot) => {
+      if (shot.dataset.mxShotObserved === '1') return;
+      shot.dataset.mxShotObserved = '1';
+      if (imageObserver) imageObserver.observe(shot);
+      else shot.classList.add('is-visible');
     });
   }
 
