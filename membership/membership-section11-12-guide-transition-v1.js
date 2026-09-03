@@ -12,7 +12,7 @@
       <div class="mx12-inner">
         <span class="mx12-kicker">회원이 되는 이유</span>
         <h2 class="mx12-title">회원이 되면<br><strong>예약 방법이 달라집니다</strong></h2>
-        <p class="mx10-short-copy">POINT로 결제하고<br><strong>최저가 보장까지</strong></p>
+        <p class="mx10-short-copy" style="margin:46px auto 0!important;font-size:clamp(30px,3.4vw,48px)!important;line-height:1.28!important;letter-spacing:-.035em!important;color:#53657c!important;font-weight:900!important;word-break:keep-all!important;">POINT로 결제하고<br><strong style="color:#2468e8!important;">최저가 보장까지</strong></p>
       </div>`;
 
     let priceExamples = document.getElementById('mx-cruise-price-examples');
