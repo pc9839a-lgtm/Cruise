@@ -9,7 +9,7 @@
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
     '#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
     '#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
-    '#mx-start-early','#membership-terms','#plans'
+    '#mx-start-early','#plans','#membership-terms'
   ];
 
   const labelSelector = [
@@ -28,19 +28,19 @@
     '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
     '.mxp13-ledger','.mx14-equation','.mx14-fee-note','.mx15-answer','.mx15-proof-list','.mx15-closing',
     '.mx16-answer','.mx16-support','.mx16-flow','#calculator .calculator-card',
-    '.mx18-copy','.mx19-timeline','.mx21-terms','#planCards',
+    '.mx18-answer','.mx18-but','.mx18-benefit-stack','.mx18-closing',
+    '.mx19-answer','.mx19-timeline','.mx19-closing','.mx19-note','.mx21-terms','#planCards',
     '#price-pain .mx6-context','#price-pain .mv2-save',
     '#same-cruise .mx8-payment-stack',
     '#guide-question .mx9-prefix','#guide-question .mx9-copy',
-    '#mx-lowest-price .mxg-criteria','#mx-lowest-price .mxg-copy','#mx-lowest-price .mxg-note',
-    '#mx-start-early .mx19-note'
+    '#mx-lowest-price .mxg-criteria','#mx-lowest-price .mxg-copy','#mx-lowest-price .mxg-note'
   ].join(',');
 
   const rowSelector = [
     '.mxp-step','.mx4-city','.mx4-night','.impact-med-stop','.mx7-receipt-breakdown>div',
     '.mx10-flow span','.mx10-flow strong','.mx13-simple-row','.mxp13-ledger>div',
     '.mx14-equation>div','.mx15-proof-list>div','.mx16-flow strong','#calculator .result-box',
-    '.mx19-timeline>div','.mx21-terms article','.plan-card','.mx8-payment-line'
+    '.mx18-benefit-stack strong','.mx19-timeline>div','.mx21-terms details','.plan-card','.mx8-payment-line'
   ].join(',');
 
   const numberSelector = [
