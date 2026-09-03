@@ -1,6 +1,13 @@
 (() => {
   'use strict';
 
+  const storySectionIds = [
+    'mx-moving-hotel','mx-port-day','mx-moving-hotel-4','impact-med','price-pain',
+    'mx-direct-booking-intro','same-cruise','guide-question','mx-prepare-money','mx-cruise-price-examples',
+    'mx-lowest-price','membership-point','mx-point-example','mx-actual-cash','mx-booking-proof',
+    'mx-guide-assist','calculator','mx-membership-optional','mx-start-early','plans','membership-terms'
+  ];
+
   function force(el, prop, value) {
     if (el) el.style.setProperty(prop, value, 'important');
   }
@@ -22,6 +29,22 @@
     });
 
     document.querySelectorAll('.page-glow,.m-motion-orbit,.m-motion-rail').forEach((node) => node.remove());
+  }
+
+  function fixStorySpacing() {
+    const mobile = window.matchMedia('(max-width: 780px)').matches;
+    const normalBottom = mobile ? '112px' : '168px';
+    const bridgeBottom = mobile ? '132px' : '198px';
+
+    storySectionIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (!section) return;
+      force(section, 'padding-bottom', normalBottom);
+    });
+
+    ['same-cruise','price-pain','mx-guide-assist','mx-membership-optional','mx-start-early'].forEach((id) => {
+      force(document.getElementById(id), 'padding-bottom', bridgeBottom);
+    });
   }
 
   function fixPlanReadability() {
@@ -67,6 +90,7 @@
 
   function cleanAndFix() {
     removeLegacyScenes();
+    fixStorySpacing();
     fixPlanReadability();
     document.documentElement.classList.add('membership-clean-stage');
     return true;
@@ -82,9 +106,14 @@
       if (tries >= 24) window.clearInterval(timer);
     }, 180);
 
+    window.addEventListener('resize', fixStorySpacing, { passive: true });
+
     const plans = document.getElementById('plans');
     if (plans && typeof MutationObserver !== 'undefined') {
-      const observer = new MutationObserver(() => fixPlanReadability());
+      const observer = new MutationObserver(() => {
+        fixStorySpacing();
+        fixPlanReadability();
+      });
       observer.observe(plans, { childList: true, subtree: true });
     }
   }
