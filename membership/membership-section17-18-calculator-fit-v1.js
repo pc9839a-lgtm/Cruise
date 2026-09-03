@@ -4,13 +4,14 @@
   function patchCalculator() {
     const membership = document.getElementById('membership-point');
     const pointExample = document.getElementById('mx-point-example');
+    const guide = document.getElementById('mx-guide-assist');
     const calculator = document.getElementById('calculator');
     if (!membership || !calculator) return false;
 
     calculator.className = 'section mv2-calculator';
     calculator.setAttribute('data-membership-section', '17');
 
-    const anchor = pointExample || membership;
+    const anchor = guide || pointExample || membership;
     if (anchor.nextElementSibling !== calculator) {
       anchor.insertAdjacentElement('afterend', calculator);
     }
@@ -23,7 +24,7 @@
     const description = calculator.querySelector('#modeDescription');
 
     if (kicker) kicker.textContent = 'USD · POINT';
-    if (title) title.textContent = '크루즈 가격 계산';
+    if (title) title.innerHTML = '그럼 내가 가려는 크루즈는<br><strong>얼마가 필요할까?</strong>';
     if (priceLabel) priceLabel.textContent = '크루즈 금액';
     if (general) general.textContent = '일반 예약';
     if (early) early.textContent = '270일+';
