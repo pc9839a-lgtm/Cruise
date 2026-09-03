@@ -11,12 +11,14 @@
     if (cost) cost.remove();
     if (savings) savings.remove();
 
-    section9.className = 'mx11-guide-section mx9-club-section';
+    section9.className = 'mx9-club-section';
     section9.setAttribute('data-membership-section', '9');
     section9.innerHTML = `
       <div class="mx11-inner">
-        <span class="mx11-kicker">그 POINT는 어디서 생겼을까요?</span>
-        <h2 class="mx11-title">전 세계 약 <strong>350만 명</strong>이 이용하는<br><strong>회원제 크루즈클럽</strong></h2>
+        <p class="mx9-prefix">전 세계 약</p>
+        <div class="mx9-member-count">350만 명</div>
+        <h2 class="mx9-title">이 이용하는<br><strong>회원제 크루즈클럽</strong></h2>
+        <p class="mx9-copy">회원으로 가입하면<br>크루즈 예약에 사용할 <strong>POINT를 쌓습니다</strong></p>
       </div>`;
 
     if (section8.nextElementSibling !== section9) {
