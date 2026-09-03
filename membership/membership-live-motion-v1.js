@@ -157,8 +157,19 @@
     }
   }
 
+  function ensureTravelExpansion() {
+    if (document.getElementById('mx-travel-expansion')) return;
+    if (document.querySelector('script[data-mx-travel-expansion-loader="1"]')) return;
+    const script = document.createElement('script');
+    script.src = '/membership/membership-travel-expansion-v1.js?v=20260903-travel47';
+    script.defer = true;
+    script.dataset.mxTravelExpansionLoader = '1';
+    document.head.appendChild(script);
+  }
+
   function scan() {
     refreshMemberCopy();
+    ensureTravelExpansion();
 
     numberSelectors.forEach((selector) => {
       $$(selector).forEach((el) => {
