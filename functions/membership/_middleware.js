@@ -9,7 +9,7 @@ export async function onRequest(context) {
   const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260903-priceexamples26">';
   const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260903-partnergrade37">';
   const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-3">';
-  const liveMotionStyle = '<link rel="stylesheet" href="/membership/membership-live-motion-v1.css?v=20260903-live42">';
+  const liveMotionStyle = '<link rel="stylesheet" href="/membership/membership-live-motion-v1.css?v=20260903-live43">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle + liveMotionStyle;
 
@@ -34,6 +34,15 @@ export async function onRequest(context) {
     .on('script[src*="membership-canonical-motion-v3.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-mobile-motion-v1.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-mobile-motion-v2.js"]', { element(element) { element.remove(); } })
+    .on('.sticky-menu-bar', {
+      element(element) {
+        element.setAttribute('aria-label', '멤버십 플랜 바로가기');
+        element.setInnerContent(
+          '<div class="membership-plan-cta-wrap"><a class="membership-plan-cta" href="#plans">멤버십 플랜 바로 보기 →</a></div>',
+          { html: true }
+        );
+      }
+    })
     .on('head', {
       element(element) {
         element.prepend('<script src="/assets/js/agent-persistence.js?v=20260831-1"></script>', { html: true });
