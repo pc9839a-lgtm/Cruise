@@ -26,7 +26,8 @@
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
     '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
-    '.mxp13-ledger','.mx14-equation','.mx15-proof-list','.mx16-flow','#calculator .calculator-card',
+    '.mxp13-ledger','.mx14-equation','.mx14-fee-note','.mx15-answer','.mx15-proof-list','.mx15-closing',
+    '.mx16-answer','.mx16-support','.mx16-flow','#calculator .calculator-card',
     '.mx18-copy','.mx19-timeline','.mx21-terms','#planCards',
     '#price-pain .mx6-context','#price-pain .mv2-save',
     '#same-cruise .mx8-payment-stack',
@@ -138,12 +139,12 @@
 
     section.querySelectorAll(visualSelector).forEach((visual, visualIndex) => {
       visual.classList.add('m-motion-visual');
-      visual.style.setProperty('--m-visual-delay', `${110 + visualIndex * 70}ms`);
+      visual.style.setProperty('--m-visual-delay', `${140 + visualIndex * 115}ms`);
     });
 
     section.querySelectorAll(rowSelector).forEach((row, rowIndex) => {
       row.classList.add('m-motion-row');
-      row.style.setProperty('--m-row-delay', `${120 + Math.min(rowIndex, 8) * 65}ms`);
+      row.style.setProperty('--m-row-delay', `${150 + Math.min(rowIndex, 8) * 70}ms`);
     });
 
     section.querySelectorAll('.mx-hotel-visual img').forEach((media) => media.classList.add('m-motion-media'));
