@@ -244,21 +244,33 @@ main#top{background:#fff!important}
 #calculator .result-box.highlight{background:var(--m5-blue)!important;border-color:var(--m5-blue)!important}
 #calculator .result-box.highlight span,#calculator .result-box.highlight strong{color:#fff!important}
 
-/* 18 */
-#mx-membership-optional{text-align:center!important}
-#mx-membership-optional .mx18-kicker{margin:0 auto!important}
-#mx-membership-optional .mx18-copy{width:min(820px,100%)!important;margin:34px auto 0!important;font-size:20px!important;line-height:1.65!important;color:var(--m5-muted)!important;word-break:keep-all!important}
-#mx-membership-optional .mx18-copy strong{color:var(--m5-blue)!important}
+/* 18 — CORE BRIDGE */
+#mx-membership-optional{min-height:88svh!important;display:flex!important;align-items:center!important;text-align:center!important;background:#07111f!important;color:#fff!important}
+#mx-membership-optional .mx18-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:#fff!important;word-break:keep-all!important}
+#mx-membership-optional .mx18-bridge-question strong{color:var(--m5-sky)!important}
+#mx-membership-optional .mx18-answer{margin:50px auto 0!important;font-size:clamp(42px,4.6vw,66px)!important;line-height:1.08!important;letter-spacing:-.045em!important;font-weight:950!important;color:#fff!important}
+#mx-membership-optional .mx18-answer strong{color:#fff!important}
+#mx-membership-optional .mx18-but{margin:42px auto 0!important;font-size:18px!important;color:#8ea2b9!important;font-weight:900!important}
+#mx-membership-optional .mx18-benefit-stack{display:flex!important;align-items:center!important;justify-content:center!important;gap:16px!important;flex-wrap:wrap!important;width:min(940px,100%)!important;margin:26px auto 0!important;padding:24px 0!important;border-block:1px solid #293a50!important}
+#mx-membership-optional .mx18-benefit-stack strong{font-size:24px!important;color:var(--m5-sky)!important}
+#mx-membership-optional .mx18-benefit-stack i{font-style:normal!important;font-size:20px!important;color:#70849c!important}
+#mx-membership-optional .mx18-closing{margin:34px auto 0!important;font-size:24px!important;line-height:1.5!important;color:#c6d2df!important;font-weight:850!important}
+#mx-membership-optional .mx18-closing strong{color:#fff!important;font-size:30px!important}
 
-/* 19 */
-#mx-start-early{text-align:center!important}
-#mx-start-early .mx19-kicker{margin:0 auto!important}
-#mx-start-early .mx19-timeline{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:min(900px,100%)!important;margin:42px auto 0!important;border-block:1px solid #cbd6e3!important}
-#mx-start-early .mx19-timeline>div{padding:22px 12px!important;border-right:1px solid #cbd6e3!important}
+/* 19 — CORE BRIDGE */
+#mx-start-early{min-height:88svh!important;display:flex!important;align-items:center!important;text-align:center!important;background:#edf2f8!important;color:var(--m5-ink)!important}
+#mx-start-early .mx19-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:var(--m5-ink)!important;word-break:keep-all!important}
+#mx-start-early .mx19-bridge-question strong{color:var(--m5-blue)!important}
+#mx-start-early .mx19-answer{margin:48px auto 0!important;font-size:clamp(38px,4.2vw,60px)!important;line-height:1.12!important;letter-spacing:-.042em!important;font-weight:950!important;color:var(--m5-ink)!important}
+#mx-start-early .mx19-answer strong{color:var(--m5-blue)!important}
+#mx-start-early .mx19-timeline{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:min(900px,100%)!important;margin:48px auto 0!important;border-block:1px solid #cbd6e3!important}
+#mx-start-early .mx19-timeline>div{padding:24px 12px!important;border-right:1px solid #cbd6e3!important}
 #mx-start-early .mx19-timeline>div:last-child{border-right:0!important}
 #mx-start-early .mx19-timeline span{display:block!important;font-size:15px!important;color:var(--m5-muted)!important}
-#mx-start-early .mx19-timeline strong{display:block!important;margin-top:8px!important;font-size:36px!important;color:var(--m5-blue)!important}
-#mx-start-early .mx19-note{margin:18px auto 0!important;font-size:14px!important;color:var(--m5-muted)!important}
+#mx-start-early .mx19-timeline strong{display:block!important;margin-top:8px!important;font-size:40px!important;color:var(--m5-blue)!important}
+#mx-start-early .mx19-closing{margin:42px auto 0!important;font-size:28px!important;line-height:1.45!important;color:var(--m5-muted)!important;font-weight:850!important}
+#mx-start-early .mx19-closing strong{color:var(--m5-blue)!important;font-size:36px!important}
+#mx-start-early .mx19-note{margin:14px auto 0!important;font-size:13px!important;color:#6b7d92!important}
 
 /* 20 PLANS */
 #plans{text-align:center!important}
@@ -286,9 +298,12 @@ main#top{background:#fff!important}
 #membership-terms{text-align:center!important}
 #membership-terms .mx21-kicker{margin:0 auto!important}
 #membership-terms .mx21-terms{width:min(840px,100%)!important;margin:42px auto 0!important;border-top:1px solid var(--m5-dark-line)!important}
-#membership-terms .mx21-terms article{display:grid!important;grid-template-columns:130px 1fr!important;gap:20px!important;padding:18px 4px!important;border-bottom:1px solid var(--m5-dark-line)!important;text-align:left!important}
-#membership-terms .mx21-terms article b{font-size:19px!important;color:#fff!important}
-#membership-terms .mx21-terms article span{font-size:15px!important;line-height:1.5!important;color:#b9c6d4!important}
+#membership-terms .mx21-terms details{margin:0!important;padding:0!important;border-bottom:1px solid var(--m5-dark-line)!important;text-align:left!important}
+#membership-terms .mx21-terms summary{position:relative!important;list-style:none!important;cursor:pointer!important;padding:19px 44px 19px 4px!important;font-size:18px!important;font-weight:900!important;color:#fff!important}
+#membership-terms .mx21-terms summary::-webkit-details-marker{display:none!important}
+#membership-terms .mx21-terms summary::after{content:'+'!important;position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;font-size:24px!important;color:#7f94ad!important}
+#membership-terms .mx21-terms details[open] summary::after{content:'–'!important}
+#membership-terms .mx21-terms p{margin:0!important;padding:0 44px 20px 4px!important;font-size:15px!important;line-height:1.6!important;color:#b9c6d4!important}
 
 @media(max-width:780px){
   .sticky-menu-bar{padding:4px 0!important}
@@ -406,11 +421,25 @@ main#top{background:#fff!important}
   #calculator .result-box{min-height:70px!important;padding:13px 15px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;text-align:left!important}
   #calculator .result-box strong{margin:0!important;font-size:28px!important}
 
-  #mx-membership-optional .mx18-copy{margin-top:26px!important;font-size:17px!important;line-height:1.6!important}
-  #mx-start-early .mx19-timeline{grid-template-columns:1fr 1fr!important;margin-top:30px!important}
+  #mx-membership-optional{min-height:84svh!important;padding:90px 0!important}
+  #mx-membership-optional .mx18-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
+  #mx-membership-optional .mx18-answer{margin-top:38px!important;font-size:clamp(32px,8.8vw,43px)!important}
+  #mx-membership-optional .mx18-but{margin-top:30px!important;font-size:15px!important}
+  #mx-membership-optional .mx18-benefit-stack{margin-top:20px!important;display:grid!important;grid-template-columns:1fr!important;gap:9px!important;padding:20px 0!important}
+  #mx-membership-optional .mx18-benefit-stack strong{font-size:20px!important}
+  #mx-membership-optional .mx18-benefit-stack i{font-size:16px!important}
+  #mx-membership-optional .mx18-closing{margin-top:28px!important;font-size:18px!important}
+  #mx-membership-optional .mx18-closing strong{font-size:23px!important}
+
+  #mx-start-early{min-height:84svh!important;padding:90px 0!important}
+  #mx-start-early .mx19-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
+  #mx-start-early .mx19-answer{margin-top:36px!important;font-size:clamp(29px,8vw,40px)!important}
+  #mx-start-early .mx19-timeline{grid-template-columns:1fr 1fr!important;margin-top:34px!important}
   #mx-start-early .mx19-timeline>div{padding:17px 8px!important;border-right:0!important;border-bottom:1px solid #cbd6e3!important}
   #mx-start-early .mx19-timeline>div:nth-child(odd){border-right:1px solid #cbd6e3!important}
   #mx-start-early .mx19-timeline strong{font-size:29px!important}
+  #mx-start-early .mx19-closing{margin-top:30px!important;font-size:20px!important}
+  #mx-start-early .mx19-closing strong{font-size:26px!important}
 
   #plans .membership-section-head{margin-bottom:30px!important}
   #plans #planCards{grid-template-columns:1fr!important;width:calc(100% - 34px)!important;gap:10px!important}
@@ -420,13 +449,12 @@ main#top{background:#fff!important}
   #plans .plan-feature-monthly strong{font-size:34px!important}
 
   #membership-terms .mx21-terms{margin-top:30px!important}
-  #membership-terms .mx21-terms article{grid-template-columns:88px 1fr!important;gap:12px!important;padding:15px 0!important}
-  #membership-terms .mx21-terms article b{font-size:17px!important}
-  #membership-terms .mx21-terms article span{font-size:14px!important}
+  #membership-terms .mx21-terms summary{padding:17px 40px 17px 2px!important;font-size:17px!important}
+  #membership-terms .mx21-terms p{padding:0 38px 18px 2px!important;font-size:14px!important}
 }
 
 @media(max-width:380px){
   #mx-start-early .mx19-timeline{grid-template-columns:1fr!important}
   #mx-start-early .mx19-timeline>div:nth-child(odd){border-right:0!important}
-  #mx-point-example .mxp13-ledger>div,#mx-booking-proof .mx15-proof-list>div,#membership-terms .mx21-terms article{grid-template-columns:1fr!important;text-align:center!important}
+  #mx-point-example .mxp13-ledger>div,#mx-booking-proof .mx15-proof-list>div{grid-template-columns:1fr!important;text-align:center!important}
 }
