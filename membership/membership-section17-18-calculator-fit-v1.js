@@ -24,7 +24,7 @@
     const description = calculator.querySelector('#modeDescription');
 
     if (kicker) kicker.textContent = 'USD · POINT';
-    if (title) title.innerHTML = '그럼 내가 가려는 크루즈는<br><strong>얼마가 필요할까?</strong>';
+    if (title) title.innerHTML = '그럼 내가 가려는 크루즈는?<br><strong>직접 계산해보세요</strong>';
     if (priceLabel) priceLabel.textContent = '크루즈 금액';
     if (general) general.textContent = '일반 예약';
     if (early) early.textContent = '270일+';
