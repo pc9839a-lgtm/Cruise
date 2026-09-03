@@ -7,29 +7,34 @@
   const sectionSelectors = [
     '#mx-moving-hotel','#mx-port-day','#mx-moving-hotel-4','#impact-med','#price-pain',
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
-    '#membership-point','#calculator','#membership-terms','#plans'
+    '#mx-lowest-price','#membership-point','#mx-point-example','#calculator','#membership-terms','#plans'
   ];
 
   const labelSelector = [
     '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mx11-kicker','.mx12-kicker',
-    '.mx13-kicker','.mx17-kicker','.mx21-kicker','#plans .section-kicker','.mx7-overline','.mx8-overline'
+    '.mxg-kicker','.mx13-kicker','.mxp13-kicker','.mx17-kicker','.mx21-kicker',
+    '#plans .section-kicker','.mx7-overline','.mx8-overline'
   ].join(',');
 
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
-    '.mx7-receipt-proof','.mx8-proof-copy','.mx13-simple-list','.mx17-tool','.mx21-terms','#planCards'
+    '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
+    '.mxp13-ledger','.mx17-tool','.mx21-terms','#planCards'
   ].join(',');
 
   const rowSelector = [
     '.mxp-step','.mx4-city','.mx4-night','.impact-med-stop','.mx7-receipt-breakdown>div',
-    '.mx13-simple-row','.mx17-control','.mx17-result-row','.mx21-terms article','.plan-card'
+    '.mx10-flow span','.mx10-flow strong','.mx13-simple-row','.mxp13-ledger>div',
+    '.mx17-control','.mx17-result-row','.mx21-terms article','.plan-card'
   ].join(',');
 
   const numberSelector = [
     '#price-pain .mv2-mega',
     '#mx-direct-booking-intro .mx7-receipt-breakdown strong',
+    '#mx-lowest-price .mxg-mega',
     '#membership-point .mx13-simple-row strong',
-    '#calculator .mx17-result-row strong',
+    '#mx-point-example .mxp13-ledger strong',
+    '#calculator .result-box strong',
     '#plans .plan-price','#plans .plan-feature-monthly strong'
   ].join(',');
 
