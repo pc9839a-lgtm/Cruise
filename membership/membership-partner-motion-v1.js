@@ -8,28 +8,29 @@
     '#mx-moving-hotel','#mx-port-day','#mx-moving-hotel-4','#impact-med','#price-pain',
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
     '#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
-    '#mx-booking-proof','#mx-guide-assist','#calculator','#membership-terms','#plans'
+    '#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
+    '#mx-start-early','#plans','#membership-terms'
   ];
 
   const labelSelector = [
     '.mx-eyebrow','.mxp-question','.mx4-eyebrow','.impact-label','.mx11-kicker','.mx12-kicker',
     '.mxg-kicker','.mx13-kicker','.mxp13-kicker','.mx14-kicker','.mx15-kicker','.mx16-kicker',
-    '.mx17-kicker','#calculator .section-kicker','.mx21-kicker','#plans .section-kicker',
+    '.mx18-kicker','.mx19-kicker','#calculator .section-kicker','.mx21-kicker','#plans .section-kicker',
     '.mx7-overline','.mx8-overline'
   ].join(',');
 
   const visualSelector = [
     '.mx-hotel-visual','.mxp-flow','.mx4-route','.impact-med-cycle','.impact-med-route',
     '.mx7-receipt-proof','.mx8-proof-copy','.mx10-flow','.mxg-mega','.mx13-simple-list',
-    '.mxp13-ledger','.mx14-equation','.mx15-proof-list','.mx16-flow','.mx17-tool',
-    '#calculator .calculator-card','.mx21-terms','#planCards'
+    '.mxp13-ledger','.mx14-equation','.mx15-proof-list','.mx16-flow','#calculator .calculator-card',
+    '.mx18-copy','.mx19-timeline','.mx21-terms','#planCards'
   ].join(',');
 
   const rowSelector = [
     '.mxp-step','.mx4-city','.mx4-night','.impact-med-stop','.mx7-receipt-breakdown>div',
     '.mx10-flow span','.mx10-flow strong','.mx13-simple-row','.mxp13-ledger>div',
-    '.mx14-equation>div','.mx15-proof-list>div','.mx16-flow strong',
-    '.mx17-control','.mx17-result-row','#calculator .result-box','.mx21-terms article','.plan-card'
+    '.mx14-equation>div','.mx15-proof-list>div','.mx16-flow strong','#calculator .result-box',
+    '.mx19-timeline>div','.mx21-terms article','.plan-card'
   ].join(',');
 
   const numberSelector = [
@@ -40,6 +41,7 @@
     '#mx-point-example .mxp13-ledger strong',
     '#mx-actual-cash .mx14-equation strong',
     '#calculator .result-box strong',
+    '#mx-start-early .mx19-timeline strong',
     '#plans .plan-price','#plans .plan-feature-monthly strong'
   ].join(',');
 
@@ -71,7 +73,6 @@
     if (el.dataset.mMotionPrepared === '1') return;
     const parsed = parseNumericText(el.textContent);
     if (!parsed) return;
-
     el.dataset.mMotionPrepared = '1';
     el.dataset.mMotionSource = parsed.source;
     el.dataset.mMotionTarget = String(parsed.target);
@@ -115,7 +116,6 @@
     section.dataset.motionSide = index % 2 === 0 ? 'left' : 'right';
 
     section.querySelectorAll(labelSelector).forEach((el) => el.classList.add('m-motion-label'));
-
     const heading = section.querySelector('h2');
     if (heading) heading.classList.add('m-motion-heading');
 
@@ -130,7 +130,6 @@
     });
 
     section.querySelectorAll('.mx-hotel-visual img').forEach((media) => media.classList.add('m-motion-media'));
-
     section.querySelectorAll(numberSelector).forEach((number) => {
       number.classList.add('m-motion-number');
       prepareCounter(number);
