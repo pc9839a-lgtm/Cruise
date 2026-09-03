@@ -2,6 +2,7 @@
   'use strict';
 
   function buildFinalFlow() {
+    const early = document.getElementById('mx-start-early');
     const plans = document.getElementById('plans');
     const section21 = document.getElementById('membership-terms');
     if (!plans || !section21) return false;
@@ -27,8 +28,15 @@
         </div>
       </div>`;
 
-    plans.setAttribute('data-membership-section', '20');
-    if (plans.nextElementSibling !== section21) plans.insertAdjacentElement('afterend', section21);
+    plans.setAttribute('data-membership-section', '22');
+    const kicker = plans.querySelector('.section-kicker');
+    const title = plans.querySelector('.membership-section-head h2');
+    if (kicker) kicker.textContent = '이제 선택만 남았습니다';
+    if (title) title.innerHTML = '나는 매달<br><strong>얼마가 부담 없을까?</strong>';
+
+    const anchor = early || plans.previousElementSibling;
+    if (anchor && anchor.nextElementSibling !== section21) anchor.insertAdjacentElement('afterend', section21);
+    if (section21.nextElementSibling !== plans) section21.insertAdjacentElement('afterend', plans);
     return true;
   }
 
