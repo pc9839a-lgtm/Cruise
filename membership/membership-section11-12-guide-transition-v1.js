@@ -7,13 +7,15 @@
     const section12 = document.getElementById('mx-prepare-money');
     if (!section8 || !section11 || !section12) return false;
 
-    section11.className = 'mx11-guide-section';
-    section11.setAttribute('data-membership-section', '9');
-    section11.innerHTML = `
-      <div class="mx11-inner">
-        <span class="mx11-kicker">가이드가 걱정된다면</span>
-        <h2 class="mx11-title">함께 가는 일정도<br><strong>선택할 수 있습니다</strong></h2>
-      </div>`;
+    if (!section11.classList.contains('mx9-club-section')) {
+      section11.className = 'mx11-guide-section';
+      section11.setAttribute('data-membership-section', '9');
+      section11.innerHTML = `
+        <div class="mx11-inner">
+          <span class="mx11-kicker">가이드가 걱정된다면</span>
+          <h2 class="mx11-title">함께 가는 일정도<br><strong>선택할 수 있습니다</strong></h2>
+        </div>`;
+    }
 
     section12.className = 'mx12-transition-section';
     section12.setAttribute('data-membership-section', '10');
