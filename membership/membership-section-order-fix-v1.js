@@ -8,6 +8,8 @@
     const style = document.createElement('style');
     style.id = ORDER_FIX_ID;
     style.textContent = `
+      #mx-membership-optional{display:none!important}
+
       #mx-travel-expansion{
         border-top:10px solid #edf1f6!important;
         border-bottom:10px solid #edf1f6!important;
@@ -64,6 +66,8 @@
   }
 
   function moveSections() {
+    document.getElementById('mx-membership-optional')?.remove();
+
     const benefit = document.getElementById('mx-member-booking-benefits');
     const travel = document.getElementById('mx-travel-expansion');
     const early = document.getElementById('mx-start-early');
