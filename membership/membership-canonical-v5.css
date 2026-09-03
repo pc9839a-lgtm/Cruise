@@ -11,6 +11,8 @@
   --m5-wide:1180px;
   --m5-title:clamp(46px,4.5vw,70px);
   --m5-title-mobile:clamp(30px,7.8vw,37px);
+  --m5-bridge:clamp(72px,7vw,96px);
+  --m5-bridge-mobile:clamp(44px,12.8vw,58px);
   --m5-label:15px;
   --m5-label-mobile:13px;
 }
@@ -55,7 +57,7 @@ main#top{background:#fff!important}
 #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#mx-direct-booking-intro,#same-cruise,
 #guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,#mx-actual-cash,
 #mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early,#plans,#membership-terms) h2,
-#price-pain .mv2-kicker,#calculator .section-head h2{box-sizing:border-box!important;width:100%!important;max-width:940px!important;margin:18px auto 0!important;padding:0!important;font-size:var(--m5-title)!important;line-height:1.14!important;letter-spacing:-.045em!important;font-weight:950!important;word-break:keep-all!important;overflow-wrap:break-word!important;text-wrap:balance!important;text-align:center!important}
+#calculator .section-head h2{box-sizing:border-box!important;width:100%!important;max-width:940px!important;margin:18px auto 0!important;padding:0!important;font-size:var(--m5-title)!important;line-height:1.14!important;letter-spacing:-.045em!important;font-weight:950!important;word-break:keep-all!important;overflow-wrap:break-word!important;text-wrap:balance!important;text-align:center!important}
 
 :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mx11-kicker,.mx12-kicker,.mxg-kicker,.mx13-kicker,
 .mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,
@@ -110,15 +112,18 @@ main#top{background:#fff!important}
 #impact-med .impact-med-stop strong{font-size:23px!important;color:#fff!important}
 #impact-med .impact-med-stop span{font-size:15px!important;color:#b5c2d1!important;text-align:right!important}
 
-/* 06 */
-#price-pain{min-height:78svh!important;padding:138px 0 148px!important;display:flex!important;align-items:center!important;text-align:center!important}
-#price-pain .mv2-kicker{color:#fff!important}
-#price-pain .mv2-title{max-width:720px!important;margin:28px auto 0!important;font-size:24px!important;line-height:1.35!important;color:#dce5ef!important}
-#price-pain .mv2-mega{margin:46px auto 0!important;font-size:clamp(76px,7.5vw,116px)!important;line-height:1!important;font-weight:950!important;color:var(--m5-sky)!important}
-#price-pain .mv2-save{margin:28px auto 0!important;font-size:19px!important;color:#c0ccda!important}
+/* 06 — PRICE BRIDGE */
+#price-pain{min-height:86svh!important;padding:138px 0 148px!important;display:flex!important;align-items:center!important;text-align:center!important}
+#price-pain .mx6-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:#fff!important;text-align:center!important;word-break:keep-all!important}
+#price-pain .mx6-bridge-question strong{color:var(--m5-sky)!important}
+#price-pain .mx6-context{margin:34px auto 0!important;font-size:21px!important;line-height:1.4!important;color:#bdcad9!important;font-weight:850!important}
+#price-pain .mv2-mega{margin:28px auto 0!important;font-size:clamp(82px,8.5vw,126px)!important;line-height:.96!important;font-weight:950!important;letter-spacing:-.055em!important;color:var(--m5-sky)!important}
+#price-pain .mv2-save{margin:34px auto 0!important;font-size:21px!important;line-height:1.5!important;color:#c8d3df!important}
+#price-pain .mv2-save strong{color:#fff!important}
 
-/* 07 */
+/* 07 — RECEIPT PROOF */
 #mx-direct-booking-intro{text-align:center!important}
+#mx-direct-booking-intro .mx7-overline{margin:0 auto!important}
 #mx-direct-booking-intro .mx7-receipt-proof{width:min(820px,100%)!important;margin:44px auto 0!important;border-top:1px solid #314259!important;border-bottom:1px solid #314259!important;text-align:left!important}
 #mx-direct-booking-intro .mx7-receipt-top,#mx-direct-booking-intro .mx7-receipt-route{padding:18px 4px!important;border-bottom:1px solid #2a3a4f!important}
 #mx-direct-booking-intro .mx7-receipt-top strong{display:block!important;font-size:26px!important;color:#fff!important}
@@ -129,16 +134,25 @@ main#top{background:#fff!important}
 #mx-direct-booking-intro .mx7-receipt-breakdown span{display:block!important;font-size:14px!important;color:#b9c6d4!important}
 #mx-direct-booking-intro .mx7-receipt-breakdown strong{display:block!important;margin-top:8px!important;font-size:36px!important;color:#fff!important}
 #mx-direct-booking-intro .mx7-receipt-breakdown .total strong{color:var(--m5-sky)!important}
-#mx-direct-booking-intro .mx7-receipt-note{margin:0!important;padding:17px 4px!important;border-top:1px solid #2a3a4f!important;font-size:14px!important;color:#aebccc!important}
+#mx-direct-booking-intro .mx7-receipt-note{margin:0!important;padding:17px 4px!important;border-top:1px solid #2a3a4f!important;font-size:16px!important;line-height:1.5!important;color:#c5d0dc!important;text-align:center!important;font-weight:850!important}
 
-/* 08 */
-#same-cruise{text-align:center!important;min-height:58svh!important;display:flex!important;align-items:center!important}
-#same-cruise .mx8-overline{margin:0 auto!important}
-#same-cruise .mx8-proof-copy{width:min(840px,100%)!important;margin:34px auto 0!important;font-size:20px!important;line-height:1.6!important;color:#c4cfdb!important}
+/* 08 — POINT PROOF + BRIDGE */
+#same-cruise{text-align:center!important;min-height:88svh!important;display:flex!important;align-items:center!important}
+#same-cruise .mx8-payment-stack{width:min(820px,100%)!important;margin:0 auto!important;border-block:1px solid #314259!important}
+#same-cruise .mx8-payment-line{display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:28px!important;padding:28px 4px!important;border-bottom:1px solid #2a3a4f!important;text-align:left!important}
+#same-cruise .mx8-payment-line:last-child{border-bottom:0!important}
+#same-cruise .mx8-payment-line span{font-size:18px!important;line-height:1.4!important;color:#b9c6d4!important;font-weight:850!important}
+#same-cruise .mx8-value{font-size:clamp(50px,5vw,74px)!important;line-height:1!important;letter-spacing:-.045em!important;color:var(--m5-sky)!important;font-weight:950!important;text-align:right!important}
+#same-cruise .mx8-bridge-question{max-width:980px!important;margin:74px auto 0!important;font-size:var(--m5-bridge)!important;line-height:1.04!important;letter-spacing:-.055em!important;color:#fff!important}
+#same-cruise .mx8-bridge-question strong{color:var(--m5-sky)!important}
 
-/* 09 */
-#guide-question{min-height:62svh!important;display:flex!important;align-items:center!important;text-align:center!important}
-#guide-question .mx11-kicker{margin:0 auto!important}
+/* 09 — CLUB IDENTITY REVEAL */
+#guide-question{min-height:84svh!important;display:flex!important;align-items:center!important;text-align:center!important}
+#guide-question .mx9-prefix{margin:0 auto!important;font-size:24px!important;line-height:1.4!important;color:var(--m5-muted)!important;font-weight:900!important}
+#guide-question .mx9-member-count{margin:10px auto 0!important;font-size:clamp(108px,10vw,168px)!important;line-height:.94!important;letter-spacing:-.065em!important;color:var(--m5-blue)!important;font-weight:950!important}
+#guide-question .mx9-title{margin-top:24px!important}
+#guide-question .mx9-copy{margin:42px auto 0!important;font-size:24px!important;line-height:1.55!important;color:var(--m5-muted)!important;font-weight:800!important;word-break:keep-all!important}
+#guide-question .mx9-copy strong{color:var(--m5-blue)!important}
 
 /* 10 */
 #mx-prepare-money{text-align:center!important}
@@ -198,7 +212,7 @@ main#top{background:#fff!important}
 #mx-guide-assist .mx16-flow strong{font-size:20px!important}
 #mx-guide-assist .mx16-flow i{font-style:normal!important;color:#8da0b5!important}
 
-/* 17 CALCULATOR — unified here */
+/* 17 CALCULATOR */
 #calculator{text-align:center!important}
 #calculator .container{width:min(900px,calc(100% - 64px))!important;max-width:900px!important;margin:0 auto!important}
 #calculator .section-head{margin:0 0 34px!important;text-align:center!important}
@@ -238,7 +252,7 @@ main#top{background:#fff!important}
 #mx-start-early .mx19-timeline strong{display:block!important;margin-top:8px!important;font-size:36px!important;color:var(--m5-blue)!important}
 #mx-start-early .mx19-note{margin:18px auto 0!important;font-size:14px!important;color:var(--m5-muted)!important}
 
-/* 20 PLANS — cards only because this is the final choice */
+/* 20 PLANS */
 #plans{text-align:center!important}
 #plans .membership-section-head{margin-bottom:40px!important}
 #plans .membership-section-head h2{color:#fff!important}
@@ -291,7 +305,7 @@ main#top{background:#fff!important}
   #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#mx-direct-booking-intro,#same-cruise,
   #guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,#mx-actual-cash,
   #mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early,#plans,#membership-terms) h2,
-  #price-pain .mv2-kicker,#calculator .section-head h2{font-size:var(--m5-title-mobile)!important;line-height:1.21!important;letter-spacing:-.032em!important;margin-top:13px!important}
+  #calculator .section-head h2{font-size:var(--m5-title-mobile)!important;line-height:1.21!important;letter-spacing:-.032em!important;margin-top:13px!important}
 
   :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mx11-kicker,.mx12-kicker,.mxg-kicker,.mx13-kicker,
   .mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,
@@ -318,16 +332,30 @@ main#top{background:#fff!important}
   #impact-med .impact-med-stop strong{font-size:19px!important}
   #impact-med .impact-med-stop span{display:none!important}
 
-  #price-pain{padding:92px 0 100px!important}
-  #price-pain .mv2-title{margin-top:22px!important;font-size:18px!important}
-  #price-pain .mv2-mega{margin-top:32px!important;font-size:clamp(52px,13.8vw,65px)!important}
+  #price-pain{min-height:80svh!important;padding:92px 0 100px!important}
+  #price-pain .mx6-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
+  #price-pain .mx6-context{margin-top:26px!important;font-size:17px!important}
+  #price-pain .mv2-mega{margin-top:24px!important;font-size:clamp(58px,16vw,76px)!important}
+  #price-pain .mv2-save{margin-top:28px!important;font-size:17px!important}
 
   #mx-direct-booking-intro .mx7-receipt-proof{margin-top:30px!important}
   #mx-direct-booking-intro .mx7-receipt-breakdown{grid-template-columns:1fr!important}
   #mx-direct-booking-intro .mx7-receipt-breakdown>div{padding:15px 0!important;border-right:0!important;border-bottom:1px solid #2a3a4f!important}
   #mx-direct-booking-intro .mx7-receipt-breakdown strong{font-size:28px!important}
+  #mx-direct-booking-intro .mx7-receipt-note{font-size:15px!important}
 
-  #same-cruise .mx8-proof-copy{margin-top:24px!important;font-size:17px!important}
+  #same-cruise{min-height:84svh!important;padding:90px 0!important}
+  #same-cruise .mx8-payment-line{grid-template-columns:1fr!important;gap:8px!important;padding:22px 0!important;text-align:center!important}
+  #same-cruise .mx8-payment-line span{font-size:16px!important}
+  #same-cruise .mx8-value{font-size:clamp(46px,13vw,62px)!important;text-align:center!important}
+  #same-cruise .mx8-bridge-question{margin-top:54px!important;font-size:var(--m5-bridge-mobile)!important;line-height:1.07!important;letter-spacing:-.045em!important}
+
+  #guide-question{min-height:80svh!important;padding:90px 0!important}
+  #guide-question .mx9-prefix{font-size:18px!important}
+  #guide-question .mx9-member-count{font-size:clamp(74px,22vw,98px)!important}
+  #guide-question .mx9-title{margin-top:18px!important;font-size:var(--m5-title-mobile)!important}
+  #guide-question .mx9-copy{margin-top:32px!important;font-size:18px!important;line-height:1.55!important}
+
   #mx-prepare-money .mx10-flow{margin-top:30px!important;display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
   #mx-prepare-money .mx10-flow i{transform:rotate(90deg)!important}
   #mx-lowest-price .mxg-mega{margin-top:30px!important;font-size:clamp(64px,18vw,82px)!important}
