@@ -22,6 +22,41 @@
         </div>
       </div>`;
 
+    let priceExamples = document.getElementById('mx-cruise-price-examples');
+    if (!priceExamples) {
+      priceExamples = document.createElement('section');
+      priceExamples.id = 'mx-cruise-price-examples';
+    }
+
+    priceExamples.className = 'mx10p-price-examples';
+    priceExamples.setAttribute('data-membership-section', '10.5');
+    priceExamples.innerHTML = `
+      <div class="mx10p-inner">
+        <span class="mx10p-kicker">회원 크루즈 예시</span>
+        <h2>그럼 실제 크루즈는<br><strong>얼마부터 볼 수 있을까요?</strong></h2>
+        <p class="mx10p-lead">지역과 선사에 따라 선택지는 다양합니다.</p>
+
+        <div class="mx10p-price-grid" aria-label="크루즈 1인 가격 예시">
+          <div class="mx10p-price-item">
+            <span>아시아 크루즈</span>
+            <strong><small>1인</small><b class="mx10p-price-value">70만원~</b></strong>
+          </div>
+          <div class="mx10p-price-item">
+            <span>디즈니 크루즈</span>
+            <strong><small>1인</small><b class="mx10p-price-value">110만원~</b></strong>
+          </div>
+          <div class="mx10p-price-item">
+            <span>지중해 크루즈</span>
+            <strong><small>1인</small><b class="mx10p-price-value">90만원~</b></strong>
+          </div>
+          <div class="mx10p-price-item">
+            <span>북유럽 크루즈</span>
+            <strong><small>1인</small><b class="mx10p-price-value">110만원~</b></strong>
+          </div>
+        </div>
+        <p class="mx10p-note">출발일 · 선사 · 객실 조건에 따라 금액은 달라질 수 있습니다.</p>
+      </div>`;
+
     let section11 = document.getElementById('mx-lowest-price');
     if (!section11) {
       section11 = document.createElement('section');
@@ -41,7 +76,8 @@
       </div>`;
 
     if (section9.nextElementSibling !== section10) section9.insertAdjacentElement('afterend', section10);
-    if (section10.nextElementSibling !== section11) section10.insertAdjacentElement('afterend', section11);
+    if (section10.nextElementSibling !== priceExamples) section10.insertAdjacentElement('afterend', priceExamples);
+    if (priceExamples.nextElementSibling !== section11) priceExamples.insertAdjacentElement('afterend', section11);
     return true;
   }
 
