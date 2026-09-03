@@ -11,6 +11,33 @@
     return section;
   }
 
+  function applyMemberBenefitStyles() {
+    const section = document.getElementById('mx-member-booking-benefits');
+    if (!section) return;
+    const mobile = window.matchMedia('(max-width: 780px)').matches;
+    const inner = section.querySelector('.mx18-benefit-inner');
+    const lead = section.querySelector('.mx18-benefit-lead');
+    const title = section.querySelector('.mx18-benefit-title');
+    const stack = section.querySelector('.mx18-benefit-stack');
+    const closing = section.querySelector('.mx18-benefit-closing');
+
+    section.style.setProperty('padding', mobile ? '96px 0 116px' : '150px 0 170px');
+    if (inner) inner.style.setProperty('width', mobile ? 'calc(100% - 34px)' : 'min(1180px,calc(100% - 64px))');
+    if (lead) lead.style.setProperty('font-size', mobile ? '20px' : 'clamp(24px,2.5vw,36px)');
+    if (title) title.style.setProperty('font-size', mobile ? 'clamp(40px,11vw,54px)' : 'clamp(54px,5.5vw,82px)');
+    if (stack) {
+      stack.style.setProperty('display', mobile ? 'grid' : 'flex');
+      stack.style.setProperty('grid-template-columns', mobile ? '1fr' : 'none');
+      stack.style.setProperty('gap', mobile ? '13px' : '18px');
+      stack.querySelectorAll('strong').forEach((el) => el.style.setProperty('font-size', mobile ? '22px' : 'clamp(24px,2.4vw,34px)'));
+      stack.querySelectorAll('i').forEach((el) => {
+        el.textContent = mobile ? '+' : '+';
+        el.style.setProperty('font-size', mobile ? '16px' : '22px');
+      });
+    }
+    if (closing) closing.style.setProperty('font-size', mobile ? 'clamp(24px,7vw,32px)' : 'clamp(28px,3vw,42px)');
+  }
+
   function buildSections18To20() {
     const calculator = document.getElementById('calculator');
     const plans = document.getElementById('plans');
@@ -72,6 +99,12 @@
     if (optional.nextElementSibling !== memberBenefits) optional.insertAdjacentElement('afterend', memberBenefits);
     if (memberBenefits.nextElementSibling !== early) memberBenefits.insertAdjacentElement('afterend', early);
     if (early.nextElementSibling !== plans) early.insertAdjacentElement('afterend', plans);
+
+    applyMemberBenefitStyles();
+    if (memberBenefits.dataset.splitResizeBound !== '1') {
+      memberBenefits.dataset.splitResizeBound = '1';
+      window.addEventListener('resize', applyMemberBenefitStyles, { passive: true });
+    }
 
     return true;
   }
