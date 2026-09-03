@@ -26,13 +26,13 @@
         <section id="mx-moving-hotel" class="mx-expand-section">
           <div class="mx-inner">
             <div class="mx-center">
-              <span class="mx-eyebrow">크루즈가 왜 좋은데?</span>
-              <h2 class="mx-title">배에 타는 순간,<br><strong>여행이 시작됩니다</strong></h2>
+              <span class="mx-eyebrow">크루즈가 뭔지부터 보면</span>
+              <h2 class="mx-title">크루즈는<br><strong>이동하는 호텔입니다</strong></h2>
             </div>
             <div class="mx-hotel-layout">
               <div class="mx-hotel-visual">
                 <img src="./img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
-                <div class="mx-hotel-caption"><span>한 배 안에서</span><strong>먹고 · 자고 · 수영하고<br>공연 보고 · 쉬고</strong></div>
+                <div class="mx-hotel-caption"><span>한 배 안에서</span><strong>먹고 · 자고 · 수영하고<br>공연 보고 · 쉬어갑니다</strong></div>
               </div>
               <div class="mx-hotel-points">
                 <div class="mx-hotel-point"><b>01</b><strong>먹고</strong></div>
