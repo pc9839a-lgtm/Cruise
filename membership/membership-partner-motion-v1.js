@@ -33,7 +33,7 @@
     '.mx19-answer','.mx19-timeline','.mx19-closing','.mx19-note','.mx21-terms','#planCards',
     '#price-pain .mx6-context','#price-pain .mv2-save',
     '#same-cruise .mx8-payment-stack',
-    '#guide-question .mx9-prefix','#guide-question .mx9-copy',
+    '#guide-question .mx9-prefix','#guide-question .mx9-clia-proof','#guide-question .mx9-copy',
     '#mx-lowest-price .mxg-criteria','#mx-lowest-price .mxg-copy','#mx-lowest-price .mxg-note'
   ].join(',');
 
