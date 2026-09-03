@@ -17,24 +17,29 @@
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  min-height:34px!important;
-  padding:0 13px!important;
+  min-height:36px!important;
+  padding:7px 13px!important;
   margin:0 auto 12px!important;
-  border:1px solid rgba(114,208,255,.24)!important;
+  border:1px solid #2b3b52!important;
   border-radius:999px!important;
-  background:rgba(114,208,255,.10)!important;
-  color:#72d0ff!important;
-  font-size:13px!important;
+  background:#132033!important;
+  color:#e9f6ff!important;
+  font-size:15px!important;
+  line-height:1.25!important;
   font-weight:900!important;
 }
 #calculator .section-head h2,
 #calculator .section-head h2 strong{
-  margin:0!important;
+  width:100%!important;
+  max-width:940px!important;
+  margin:18px auto 0!important;
   color:#fff!important;
-  font-size:clamp(40px,4.5vw,62px)!important;
-  line-height:1.08!important;
+  font-size:clamp(46px,4.5vw,70px)!important;
+  line-height:1.14!important;
   letter-spacing:-.045em!important;
   font-weight:950!important;
+  word-break:keep-all!important;
+  text-align:center!important;
 }
 #calculator .exchange-bar,
 #calculator #cruiseKrw,
@@ -168,8 +173,9 @@
   #calculator{padding:78px 0!important}
   #calculator .container{width:calc(100% - 32px)!important;max-width:560px!important}
   #calculator .section-head{margin-bottom:22px!important}
+  #calculator .section-kicker{min-height:32px!important;padding:6px 10px!important;font-size:13px!important}
   #calculator .section-head h2,
-  #calculator .section-head h2 strong{font-size:31px!important;line-height:1.08!important}
+  #calculator .section-head h2 strong{font-size:clamp(30px,7.8vw,37px)!important;line-height:1.21!important;letter-spacing:-.032em!important}
   #calculator .calculator-card{padding:20px 16px 18px!important;border-radius:20px!important}
   #calculator .calculator-head{margin-bottom:16px!important}
   #calculator .calculator-head strong{font-size:15px!important}
