@@ -102,6 +102,20 @@
       .s14-anim.s14-soft{filter:blur(8px)}
       .s14-anim.s14-soft.is-visible{filter:blur(0)}
 
+      .number-counter-token{
+        display:inline-block;
+        min-width:.58em;
+        font-variant-numeric:tabular-nums;
+        transform-origin:50% 70%;
+        will-change:transform,filter;
+      }
+      .number-counter-token.is-counting{animation:numberCounterPulse .62s cubic-bezier(.16,1,.3,1) both}
+      @keyframes numberCounterPulse{
+        0%{transform:translateY(10px) scale(.93);filter:blur(2px)}
+        55%{transform:translateY(-2px) scale(1.035);filter:blur(0)}
+        100%{transform:translateY(0) scale(1);filter:blur(0)}
+      }
+
       @media(max-width:780px){
         .hero-section{padding-bottom:68px!important}
         .review-flow-section{padding-top:24px!important;padding-bottom:92px!important}
@@ -121,7 +135,10 @@
         #same-cruise .mv2-four div{min-height:122px;font-size:clamp(23px,6.5vw,30px)}
         .s14-anim.s14-left{translate:-42px 0}.s14-anim.s14-right{translate:42px 0}
       }
-      @media(prefers-reduced-motion:reduce){.s14-anim{opacity:1!important;translate:0 0!important;scale:1!important;filter:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){
+        .s14-anim{opacity:1!important;translate:0 0!important;scale:1!important;filter:none!important;transition:none!important}
+        .number-counter-token{animation:none!important}
+      }
     `;
     document.head.appendChild(style);
   }
@@ -176,6 +193,142 @@
     targets.forEach((el) => observer.observe(el));
   }
 
+  function bindNumberCounters() {
+    const selectors = [
+      '#price-pain .mv2-mega',
+      '#price-pain .mv2-save strong',
+      '#price-compare .mv2-title strong',
+      '#price-compare .mv2-price strong',
+      '#price-compare .mv2-save strong',
+      '#price-compare .mv2-mega',
+      '#same-cruise .mv2-kicker',
+      '#membership-point .mv2-title strong',
+      '#membership-point .mv2-paybox strong',
+      '#membership-point .mv2-sub strong',
+      '#points-by-time .mv2-row span',
+      '#points-by-time .mv2-row strong',
+      '#real-cost .mv2-title strong',
+      '#real-cost .mv2-paybox strong',
+      '#real-cost .mv2-save strong'
+    ];
+
+    const elements = [...new Set(selectors.flatMap((selector) => $$(selector)))];
+    if (!elements.length) return;
+
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const formatValue = (value, decimals, useGrouping) => {
+      if (decimals > 0) {
+        return value.toLocaleString('ko-KR', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+          useGrouping
+        });
+      }
+      return Math.round(value).toLocaleString('ko-KR', { useGrouping });
+    };
+
+    const prepare = (el) => {
+      if (el.dataset.counterPrepared === '1') return;
+      const originalText = el.textContent || '';
+      const regex = /\d[\d,]*(?:\.\d+)?/g;
+      const matches = [...originalText.matchAll(regex)];
+      if (!matches.length) return;
+
+      const fragment = document.createDocumentFragment();
+      let cursor = 0;
+
+      matches.forEach((match) => {
+        const raw = match[0];
+        const start = match.index || 0;
+        if (start > cursor) fragment.appendChild(document.createTextNode(originalText.slice(cursor, start)));
+
+        const target = Number(raw.replace(/,/g, ''));
+        const decimalPart = raw.includes('.') ? raw.split('.')[1] : '';
+        const span = document.createElement('span');
+        span.className = 'number-counter-token';
+        span.dataset.counterTarget = String(target);
+        span.dataset.counterDecimals = String(decimalPart.length);
+        span.dataset.counterGrouping = raw.includes(',') ? '1' : '0';
+        span.setAttribute('aria-hidden', 'true');
+        span.textContent = reducedMotion ? raw : formatValue(0, decimalPart.length, raw.includes(','));
+        fragment.appendChild(span);
+        cursor = start + raw.length;
+      });
+
+      if (cursor < originalText.length) fragment.appendChild(document.createTextNode(originalText.slice(cursor)));
+      el.textContent = '';
+      el.appendChild(fragment);
+      el.dataset.counterPrepared = '1';
+      el.setAttribute('aria-label', originalText.trim());
+    };
+
+    const animate = (el) => {
+      if (el.dataset.counterDone === '1') return;
+      el.dataset.counterDone = '1';
+      const tokens = $$('[data-counter-target]', el);
+      if (!tokens.length) return;
+
+      if (reducedMotion) {
+        tokens.forEach((token) => {
+          const target = Number(token.dataset.counterTarget || 0);
+          const decimals = Number(token.dataset.counterDecimals || 0);
+          const grouped = token.dataset.counterGrouping === '1';
+          token.textContent = formatValue(target, decimals, grouped);
+        });
+        return;
+      }
+
+      const startedAt = performance.now();
+      const duration = 1050;
+      tokens.forEach((token) => token.classList.add('is-counting'));
+
+      const tick = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+
+        tokens.forEach((token) => {
+          const target = Number(token.dataset.counterTarget || 0);
+          const decimals = Number(token.dataset.counterDecimals || 0);
+          const grouped = token.dataset.counterGrouping === '1';
+          token.textContent = formatValue(target * eased, decimals, grouped);
+        });
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        tokens.forEach((token) => {
+          const target = Number(token.dataset.counterTarget || 0);
+          const decimals = Number(token.dataset.counterDecimals || 0);
+          const grouped = token.dataset.counterGrouping === '1';
+          token.textContent = formatValue(target, decimals, grouped);
+          setTimeout(() => token.classList.remove('is-counting'), 180);
+        });
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    elements.forEach(prepare);
+
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      elements.forEach(animate);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        animate(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.34, rootMargin: '0px 0px -8% 0px' });
+
+    elements.forEach((el) => observer.observe(el));
+  }
+
   function patchPlanCopy() {
     const heading = $('#plans .membership-section-head');
     if (heading) {
@@ -187,6 +340,7 @@
     restoreHero();
     installStageStyles();
     bindStageAnimations();
+    bindNumberCounters();
     patchPlanCopy();
     setTimeout(patchPlanCopy, 450);
     setTimeout(patchPlanCopy, 1400);
