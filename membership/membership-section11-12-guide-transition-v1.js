@@ -20,6 +20,21 @@
           <span>POINT 사용</span><i>→</i>
           <strong>전세계 최저가 보장</strong>
         </div>
+
+        <div class="mx10-detail" aria-label="회원 이용 핵심" style="display:flex!important;flex-wrap:wrap!important;width:min(960px,100%)!important;margin:44px auto 0!important;border-block:1px solid #cbd6e3!important;">
+          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;">
+            <b style="display:block!important;font-size:20px!important;color:#0b1729!important;">POINT 적립</b>
+            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">CLASSIC 월 200P · PREMIUM 월 500P</span>
+          </div>
+          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;border-inline:1px solid #cbd6e3!important;">
+            <b style="display:block!important;font-size:20px!important;color:#0b1729!important;">POINT 사용</b>
+            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">크루즈를 예약할 때 적립한 POINT 사용</span>
+          </div>
+          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;">
+            <b style="display:block!important;font-size:20px!important;color:#2468e8!important;">최저가 보장</b>
+            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">회원 예약에 전세계 최저가 보장 제도 적용</span>
+          </div>
+        </div>
       </div>`;
 
     let priceExamples = document.getElementById('mx-cruise-price-examples');
@@ -34,7 +49,6 @@
       <div class="mx10p-inner">
         <span class="mx10p-kicker">회원 크루즈 예시</span>
         <h2>그럼 실제 크루즈는<br><strong>얼마부터 볼 수 있을까요?</strong></h2>
-        <p class="mx10p-lead">지역과 선사에 따라 선택지는 다양합니다.</p>
 
         <div class="mx10p-price-grid" aria-label="크루즈 1인 가격 예시">
           <div class="mx10p-price-item">
