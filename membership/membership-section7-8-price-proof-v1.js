@@ -11,22 +11,22 @@
     if (!receipt) {
       receipt = document.createElement('section');
       receipt.id = 'mx-direct-booking-intro';
-      receipt.className = 'mx7-intro-section';
     }
 
+    receipt.className = 'mx7-intro-section';
     receipt.setAttribute('data-membership-section', '7');
     receipt.innerHTML = `
       <div class="mx7-wide-inner">
-        <span class="mx7-overline">제가 직접 예약한 실제 크루즈</span>
-        <h2>MSC World Asia<br><strong>7박 서부 지중해 · 2명</strong></h2>
+        <span class="mx7-overline">실제 예약 영수증</span>
+        <h2>말로만 싸다고 하면<br><strong>믿기 어렵습니다</strong></h2>
 
         <div class="mx7-receipt-proof" aria-label="MSC World Asia 실제 예약 정보">
           <div class="mx7-receipt-top">
-            <strong>바르셀로나 출발</strong>
-            <span>2027.01.01 → 2027.01.08</span>
+            <strong>MSC World Asia · 2명</strong>
+            <span>바르셀로나 출발 · 2027.01.01 → 2027.01.08</span>
           </div>
           <div class="mx7-receipt-route">
-            <span>Deluxe Balcony Fantastica · BR2</span>
+            <span>7박 서부 지중해 · Deluxe Balcony Fantastica BR2</span>
             <span>MSC Cruises · Cabin 11187</span>
           </div>
           <div class="mx7-receipt-breakdown">
@@ -46,9 +46,17 @@
     section8.setAttribute('data-membership-section', '8');
     section8.innerHTML = `
       <div class="mv2-inner">
-        <span class="mx8-overline">실제 결제</span>
-        <h2 class="mx8-title">예약에서 <strong>1,805.84P</strong>를 쓰고<br>카드는 <strong>$2,020.88</strong></h2>
-        <p class="mx8-proof-copy">그 POINT는 어디서 생겼을까요?</p>
+        <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제">
+          <div class="mx8-payment-line">
+            <span>실제 예약에서 사용한 POINT</span>
+            <strong class="mx8-value">1,805.84P</strong>
+          </div>
+          <div class="mx8-payment-line">
+            <span>예약 당시 카드 결제</span>
+            <strong class="mx8-value">$2,020.88</strong>
+          </div>
+        </div>
+        <h2 class="mx8-bridge-question">그런데 이 POINT는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
     if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);
