@@ -195,22 +195,30 @@ main#top{background:#fff!important}
 #mx-actual-cash .mx14-equation span{display:block!important;font-size:15px!important;color:var(--m5-muted)!important}
 #mx-actual-cash .mx14-equation strong{display:block!important;margin-top:8px!important;font-size:40px!important}
 #mx-actual-cash .mx14-equation i{font-style:normal!important;font-size:30px!important;color:#8da0b5!important}
-#mx-actual-cash .mx14-equation .total strong{color:var(--m5-blue)!important;font-size:48px!important}
+#mx-actual-cash .mx14-equation .total strong{color:var(--m5-blue)!important;font-size:clamp(60px,6vw,82px)!important;line-height:1!important;letter-spacing:-.045em!important}
+#mx-actual-cash .mx14-fee-note{margin:20px auto 0!important;font-size:14px!important;color:var(--m5-muted)!important;font-weight:800!important}
 
 /* 15 */
 #mx-booking-proof{text-align:center!important}
-#mx-booking-proof .mx15-kicker{margin:0 auto!important}
+#mx-booking-proof .mx15-question{margin-top:0!important}
+#mx-booking-proof .mx15-answer{margin:38px auto 0!important;font-size:clamp(72px,7vw,104px)!important;line-height:1!important;letter-spacing:-.055em!important;font-weight:950!important;color:var(--m5-blue)!important}
 #mx-booking-proof .mx15-proof-list{width:min(900px,100%)!important;margin:42px auto 0!important;border-top:1px solid var(--m5-line)!important}
 #mx-booking-proof .mx15-proof-list>div{display:grid!important;grid-template-columns:150px 1fr!important;gap:20px!important;padding:18px 4px!important;border-bottom:1px solid var(--m5-line)!important;text-align:left!important}
 #mx-booking-proof .mx15-proof-list span{font-size:15px!important;color:var(--m5-muted)!important}
 #mx-booking-proof .mx15-proof-list strong{font-size:20px!important}
+#mx-booking-proof .mx15-closing{margin:44px auto 0!important;font-size:28px!important;line-height:1.45!important;color:var(--m5-muted)!important;font-weight:850!important}
+#mx-booking-proof .mx15-closing strong{color:var(--m5-blue)!important;font-size:34px!important}
 
-/* 16 */
-#mx-guide-assist{text-align:center!important}
-#mx-guide-assist .mx16-kicker{margin:0 auto!important}
-#mx-guide-assist .mx16-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(900px,100%)!important;margin:42px auto 0!important;padding:22px 0!important;border-block:1px solid #cbd6e3!important}
-#mx-guide-assist .mx16-flow strong{font-size:20px!important}
-#mx-guide-assist .mx16-flow i{font-style:normal!important;color:#8da0b5!important}
+/* 16 — CORE BRIDGE */
+#mx-guide-assist{min-height:88svh!important;display:flex!important;align-items:center!important;text-align:center!important;background:#10284a!important;color:#fff!important}
+#mx-guide-assist .mx16-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:#fff!important;word-break:keep-all!important}
+#mx-guide-assist .mx16-bridge-question strong{color:var(--m5-sky)!important}
+#mx-guide-assist .mx16-answer{margin:50px auto 0!important;font-size:clamp(46px,4.8vw,68px)!important;line-height:1.08!important;letter-spacing:-.045em!important;font-weight:950!important;color:#fff!important}
+#mx-guide-assist .mx16-support{margin:24px auto 0!important;font-size:22px!important;line-height:1.55!important;color:#c8d7e9!important;font-weight:800!important;word-break:keep-all!important}
+#mx-guide-assist .mx16-support strong{color:var(--m5-sky)!important}
+#mx-guide-assist .mx16-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(900px,100%)!important;margin:42px auto 0!important;padding:22px 0!important;border-block:1px solid #345273!important}
+#mx-guide-assist .mx16-flow strong{font-size:20px!important;color:#fff!important}
+#mx-guide-assist .mx16-flow i{font-style:normal!important;color:#82a5cc!important}
 
 /* 17 CALCULATOR */
 #calculator{text-align:center!important}
@@ -372,12 +380,21 @@ main#top{background:#fff!important}
   #mx-actual-cash .mx14-equation{grid-template-columns:1fr!important;gap:10px!important;margin-top:30px!important}
   #mx-actual-cash .mx14-equation i{transform:rotate(90deg)!important;font-size:22px!important}
   #mx-actual-cash .mx14-equation strong{font-size:30px!important}
-  #mx-actual-cash .mx14-equation .total strong{font-size:38px!important}
+  #mx-actual-cash .mx14-equation .total strong{font-size:clamp(46px,13vw,60px)!important}
+  #mx-actual-cash .mx14-fee-note{font-size:13px!important}
 
+  #mx-booking-proof .mx15-answer{margin-top:28px!important;font-size:clamp(58px,17vw,78px)!important}
   #mx-booking-proof .mx15-proof-list{margin-top:30px!important}
   #mx-booking-proof .mx15-proof-list>div{grid-template-columns:88px 1fr!important;gap:12px!important;padding:15px 0!important}
   #mx-booking-proof .mx15-proof-list strong{font-size:17px!important}
-  #mx-guide-assist .mx16-flow{margin-top:30px!important;display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+  #mx-booking-proof .mx15-closing{margin-top:32px!important;font-size:20px!important}
+  #mx-booking-proof .mx15-closing strong{font-size:25px!important}
+
+  #mx-guide-assist{min-height:84svh!important;padding:90px 0!important}
+  #mx-guide-assist .mx16-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
+  #mx-guide-assist .mx16-answer{margin-top:38px!important;font-size:clamp(34px,9vw,44px)!important}
+  #mx-guide-assist .mx16-support{margin-top:20px!important;font-size:17px!important}
+  #mx-guide-assist .mx16-flow{margin-top:32px!important;display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
   #mx-guide-assist .mx16-flow i{transform:rotate(90deg)!important}
 
   #calculator .container{width:calc(100% - 34px)!important}
