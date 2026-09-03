@@ -5,10 +5,14 @@
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const numberSelectors = [
+    '.hero-ticket-front strong',
+    '.hero-ticket-front em',
     '#price-pain .mv2-mega',
     '#mx-direct-booking-intro .mx7-total-proof strong',
     '#same-cruise .mx8-payment-line .mx8-value',
     '#guide-question .mx9-member-count',
+    '#mx-cruise-price-examples .mx10p-price-value',
+    '#mx-lowest-price .mxg-mega',
     '#membership-point .mx13-simple-row strong',
     '#membership-point .mx13-start-note b',
     '#mx-point-example .mxp13-ledger strong',
@@ -122,16 +126,6 @@
       }, { threshold: 0.32, rootMargin: '0px 0px -7% 0px' })
     : null;
 
-  const imageObserver = 'IntersectionObserver' in window && !reducedMotion
-    ? new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible');
-          imageObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' })
-    : null;
-
   function scan() {
     numberSelectors.forEach((selector) => {
       $$(selector).forEach((el) => {
@@ -141,13 +135,6 @@
         if (counterObserver) counterObserver.observe(el);
         else animateCounter(el);
       });
-    });
-
-    $$('.mx15-proof-shot').forEach((shot) => {
-      if (shot.dataset.mxShotObserved === '1') return;
-      shot.dataset.mxShotObserved = '1';
-      if (imageObserver) imageObserver.observe(shot);
-      else shot.classList.add('is-visible');
     });
   }
 
