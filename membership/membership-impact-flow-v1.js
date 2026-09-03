@@ -25,8 +25,8 @@
     section.innerHTML = `
       <div class="impact-med-glow" aria-hidden="true"></div>
       <div class="impact-inner">
-        <div class="impact-label dark">실제로 이렇게 갑니다</div>
-        <h2 class="impact-title light">7박 동안,<br><strong>여러 도시를 한 번에</strong></h2>
+        <div class="impact-label dark">그래서 실제 일정은</div>
+        <h2 class="impact-title light">7박 동안<br><strong>이렇게 도시를 옮겨갑니다</strong></h2>
 
         <div class="impact-med-cycle" aria-label="크루즈 여행 방식">
           <strong>낮에는 도시 여행</strong><i>→</i><strong>밤에는 크루즈</strong>
