@@ -9,7 +9,7 @@ export async function onRequest(context) {
   const canonicalStyle = '<link rel="stylesheet" href="/membership/membership-canonical-v5.css?v=20260903-priceexamples26">';
   const motionStyle = '<link rel="stylesheet" href="/membership/membership-partner-motion-v1.css?v=20260903-partnergrade37">';
   const heroMotionStyle = '<link rel="stylesheet" href="/membership/membership-hero-motion-v1.css?v=20260902-3">';
-  const liveMotionStyle = '<link rel="stylesheet" href="/membership/membership-live-motion-v1.css?v=20260903-live41">';
+  const liveMotionStyle = '<link rel="stylesheet" href="/membership/membership-live-motion-v1.css?v=20260903-live42">';
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle + liveMotionStyle;
 
@@ -57,7 +57,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260903-split36"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
-          '<script defer src="/membership/membership-live-motion-v1.js?v=20260903-live41"></script>' +
+          '<script defer src="/membership/membership-live-motion-v1.js?v=20260903-live42"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260903-partnergrade37"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
