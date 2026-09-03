@@ -10,8 +10,8 @@
     section12.setAttribute('data-membership-section', '12');
     section12.innerHTML = `
       <div class="mx13-inner">
-        <span class="mx13-kicker">회원이 되면</span>
-        <h2 class="mx13-title">매달 결제한 금액보다<br><strong>더 많은 POINT가 쌓입니다</strong></h2>
+        <span class="mx13-kicker">POINT는 이렇게 쌓입니다</span>
+        <h2 class="mx13-title">회원이 되면<br><strong>매달 POINT가 쌓입니다</strong></h2>
 
         <div class="mx13-simple-list" aria-label="멤버십 월 적립">
           <div class="mx13-simple-row">
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <p class="mx13-start-note">첫 가입 · CLASSIC <b>$200 → 350P</b> / PREMIUM <b>$500 → 800P</b></p>
+        <p class="mx13-start-note">가입 시 · CLASSIC <b>$200 → 350P</b> / PREMIUM <b>$500 → 800P</b></p>
       </div>`;
 
     let section13 = document.getElementById('mx-point-example');
@@ -37,15 +37,15 @@
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
       <div class="mxp13-inner">
-        <span class="mxp13-kicker">제 실제 CLASSIC 적립</span>
-        <h2>실제로 $1,000을 내고<br><strong>1,950P를 만들었습니다</strong></h2>
+        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
+        <h2>그래서 저는<br><strong>이렇게 POINT를 쌓았습니다</strong></h2>
 
         <div class="mxp13-ledger" aria-label="CLASSIC 실제 포인트 적립 예시">
           <div><span>가입</span><strong>$200 → 350P</strong></div>
           <div><span>8개월</span><strong>$800 → 1,600P</strong></div>
-          <div class="total"><span>총 납부</span><strong>$1,000</strong></div>
+          <div class="total"><span>실제 납부</span><strong>$1,000</strong></div>
           <div class="total"><span>총 적립</span><strong>1,950P</strong></div>
-          <div><span>예약에 사용</span><strong>1,805.84P</strong></div>
+          <div><span>실제 예약에 사용</span><strong>1,805.84P</strong></div>
           <div><span>남은 POINT</span><strong>144.16P</strong></div>
         </div>
       </div>`;
