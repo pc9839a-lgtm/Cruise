@@ -9,7 +9,7 @@
     '#mx-direct-booking-intro','#same-cruise','#guide-question','#mx-prepare-money',
     '#mx-lowest-price','#membership-point','#mx-point-example','#mx-actual-cash',
     '#mx-booking-proof','#mx-guide-assist','#calculator','#mx-membership-optional',
-    '#mx-start-early','#plans','#membership-terms'
+    '#mx-start-early','#membership-terms','#plans'
   ];
 
   const labelSelector = [
