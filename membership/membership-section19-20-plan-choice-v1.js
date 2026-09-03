@@ -11,29 +11,157 @@
     return section;
   }
 
+  function installConversionStyles() {
+    if (document.getElementById('mx18-conversion-style')) return;
+    const style = document.createElement('style');
+    style.id = 'mx18-conversion-style';
+    style.textContent = `
+      #mx-member-booking-benefits{
+        position:relative!important;
+        box-sizing:border-box!important;
+        width:100%!important;
+        margin:0!important;
+        padding:150px 0 176px!important;
+        overflow:hidden!important;
+        background:
+          radial-gradient(circle at 50% 0%,rgba(71,154,255,.18),transparent 36%),
+          linear-gradient(180deg,#0c2443 0%,#102f57 56%,#0b2545 100%)!important;
+        color:#fff!important;
+        text-align:center!important;
+        font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+      }
+      #mx-member-booking-benefits::before{
+        content:'';position:absolute;left:50%;top:-180px;width:560px;height:560px;border-radius:50%;
+        transform:translateX(-50%);background:rgba(73,163,255,.08);filter:blur(90px);pointer-events:none;
+      }
+      #mx-member-booking-benefits .mx18-benefit-inner{
+        position:relative;z-index:1;box-sizing:border-box;width:min(1120px,calc(100% - 64px));margin:0 auto;
+      }
+      #mx-member-booking-benefits .mx18-benefit-title{
+        max-width:920px;margin:0 auto;font-size:clamp(54px,5.8vw,82px);line-height:1.06;letter-spacing:-.06em;
+        font-weight:950;word-break:keep-all;color:#fff;
+      }
+      #mx-member-booking-benefits .mx18-benefit-title strong{color:#83d7ff;font-weight:950}
+      #mx-member-booking-benefits .mx18-benefit-cards{
+        width:min(1040px,100%);margin:70px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;
+      }
+      #mx-member-booking-benefits .mx18-benefit-card{
+        position:relative;min-height:230px;padding:30px 28px;border:1px solid rgba(157,211,255,.18);border-radius:28px;
+        background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.045));
+        box-shadow:0 24px 54px rgba(1,12,31,.18);text-align:left;overflow:visible;
+        opacity:0;transform:translateY(34px) scale(.965);filter:blur(4px);
+        transition:opacity .62s ease,transform .82s cubic-bezier(.16,1,.3,1),filter .62s ease,border-color .3s ease,background .3s ease;
+      }
+      #mx-member-booking-benefits .mx18-benefit-card:nth-child(2){transition-delay:110ms}
+      #mx-member-booking-benefits .mx18-benefit-card:nth-child(3){transition-delay:220ms;background:linear-gradient(180deg,rgba(56,151,255,.17),rgba(255,255,255,.055));border-color:rgba(131,215,255,.34)}
+      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-card{opacity:1;transform:none;filter:none}
+      #mx-member-booking-benefits .mx18-step{
+        display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 11px;border-radius:999px;
+        background:rgba(131,215,255,.13);border:1px solid rgba(131,215,255,.22);color:#83d7ff;font-size:14px;font-weight:950;letter-spacing:.04em;
+      }
+      #mx-member-booking-benefits .mx18-benefit-card>strong{
+        display:block;margin-top:24px;color:#fff;font-size:clamp(27px,2.5vw,36px);line-height:1.1;letter-spacing:-.045em;font-weight:950;word-break:keep-all;
+      }
+      #mx-member-booking-benefits .mx18-benefit-card>p{
+        margin:14px 0 0;color:#b9c9dc;font-size:17px;line-height:1.45;font-weight:760;word-break:keep-all;
+      }
+      #mx-member-booking-benefits .mx18-benefit-conclusion{
+        width:min(900px,100%);margin:82px auto 0;padding:58px 24px 0;border-top:1px solid rgba(149,194,236,.22);
+        opacity:0;transform:translateY(24px);transition:opacity .65s ease .34s,transform .78s cubic-bezier(.16,1,.3,1) .34s;
+      }
+      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-conclusion{opacity:1;transform:none}
+      #mx-member-booking-benefits .mx18-benefit-conclusion>span{
+        display:block;color:#8fa9c5;font-size:18px;font-weight:900;letter-spacing:-.03em;
+      }
+      #mx-member-booking-benefits .mx18-benefit-conclusion>p{
+        margin:14px auto 0;color:#fff;font-size:clamp(36px,4vw,56px);line-height:1.12;letter-spacing:-.05em;font-weight:950;word-break:keep-all;
+      }
+      #mx-member-booking-benefits .mx18-benefit-conclusion strong{color:#83d7ff;font-weight:950}
+      #mx-member-booking-benefits .mx18-benefit-cta{
+        position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:12px;
+        width:min(440px,100%);min-height:64px;margin:38px auto 0;padding:0 28px;border-radius:19px;
+        background:linear-gradient(135deg,#2a67df,#3c8cff);color:#fff;text-decoration:none;font-size:20px;font-weight:950;letter-spacing:-.035em;
+        box-shadow:0 16px 40px rgba(22,109,236,.30);opacity:0;transform:translateY(18px) scale(.97);
+        transition:opacity .55s ease .5s,transform .72s cubic-bezier(.16,1,.3,1) .5s,box-shadow .2s ease;
+      }
+      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-cta{opacity:1;transform:none}
+      #mx-member-booking-benefits .mx18-benefit-cta::before{
+        content:'';position:absolute;inset:0 auto 0 -36%;width:28%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);animation:mx18CtaShine 3.8s ease-in-out infinite;
+      }
+      #mx-member-booking-benefits .mx18-benefit-cta b{font-size:23px;line-height:1;animation:mx18Arrow 1.15s ease-in-out infinite}
+      #mx-member-booking-benefits .mx18-benefit-cta:active{transform:scale(.985)!important}
+      @keyframes mx18Arrow{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+      @keyframes mx18CtaShine{0%,60%{left:-36%;opacity:0}68%{opacity:1}84%,100%{left:122%;opacity:0}}
+
+      @media(max-width:780px){
+        #mx-member-booking-benefits{
+          padding:88px 0 118px!important;
+          background:
+            radial-gradient(circle at 50% 0%,rgba(78,166,255,.22),transparent 29%),
+            linear-gradient(180deg,#0b2443 0%,#12365f 54%,#0d294b 100%)!important;
+        }
+        #mx-member-booking-benefits .mx18-benefit-inner{width:calc(100% - 34px)}
+        #mx-member-booking-benefits .mx18-benefit-title{
+          max-width:430px;font-size:clamp(42px,11.8vw,54px);line-height:1.045;letter-spacing:-.065em;
+        }
+        #mx-member-booking-benefits .mx18-benefit-cards{
+          margin-top:48px;grid-template-columns:1fr;gap:34px;
+        }
+        #mx-member-booking-benefits .mx18-benefit-card{
+          min-height:0;padding:25px 22px 27px;border-radius:24px;box-shadow:0 18px 38px rgba(1,12,31,.22);
+        }
+        #mx-member-booking-benefits .mx18-benefit-card:not(:last-child)::after{
+          content:'↓';position:absolute;left:50%;bottom:-29px;transform:translateX(-50%);color:#6f9dcc;font-size:22px;font-weight:900;
+        }
+        #mx-member-booking-benefits .mx18-step{height:28px;min-width:44px;font-size:13px}
+        #mx-member-booking-benefits .mx18-benefit-card>strong{
+          margin-top:20px;font-size:clamp(28px,7.5vw,34px);line-height:1.08;
+        }
+        #mx-member-booking-benefits .mx18-benefit-card>p{
+          margin-top:10px;font-size:16px;line-height:1.4;
+        }
+        #mx-member-booking-benefits .mx18-benefit-conclusion{
+          margin-top:66px;padding:46px 4px 0;
+        }
+        #mx-member-booking-benefits .mx18-benefit-conclusion>span{font-size:16px}
+        #mx-member-booking-benefits .mx18-benefit-conclusion>p{
+          margin-top:12px;font-size:clamp(34px,9.3vw,43px);line-height:1.1;
+        }
+        #mx-member-booking-benefits .mx18-benefit-cta{
+          width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
+        }
+      }
+      @media(prefers-reduced-motion:reduce){
+        #mx-member-booking-benefits .mx18-benefit-card,
+        #mx-member-booking-benefits .mx18-benefit-conclusion,
+        #mx-member-booking-benefits .mx18-benefit-cta{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+        #mx-member-booking-benefits .mx18-benefit-cta::before,
+        #mx-member-booking-benefits .mx18-benefit-cta b{animation:none!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function bindBenefitMotion() {
+    const benefit = document.getElementById('mx-member-booking-benefits');
+    if (!benefit || benefit.dataset.mx18MotionBound === '1') return;
+    benefit.dataset.mx18MotionBound = '1';
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      benefit.classList.add('mx18-conversion-active');
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        benefit.classList.add('mx18-conversion-active');
+        observer.disconnect();
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    observer.observe(benefit);
+  }
+
   function applyLateFlowStyles() {
     const mobile = window.matchMedia('(max-width: 780px)').matches;
-
-    const benefit = document.getElementById('mx-member-booking-benefits');
-    if (benefit) {
-      const inner = benefit.querySelector('.mx18-benefit-inner');
-      const lead = benefit.querySelector('.mx18-benefit-lead');
-      const title = benefit.querySelector('.mx18-benefit-title');
-      const stack = benefit.querySelector('.mx18-benefit-stack');
-      const closing = benefit.querySelector('.mx18-benefit-closing');
-      benefit.style.setProperty('padding', mobile ? '110px 0 132px' : '154px 0 188px');
-      if (inner) inner.style.setProperty('width', mobile ? 'calc(100% - 34px)' : 'min(1180px,calc(100% - 64px))');
-      if (lead) lead.style.setProperty('font-size', mobile ? '22px' : 'clamp(26px,2.5vw,38px)');
-      if (title) title.style.setProperty('font-size', mobile ? 'clamp(44px,12vw,58px)' : 'clamp(58px,5.8vw,86px)');
-      if (stack) {
-        stack.style.setProperty('display', mobile ? 'grid' : 'flex');
-        stack.style.setProperty('grid-template-columns', mobile ? '1fr' : 'none');
-        stack.style.setProperty('gap', mobile ? '14px' : '20px');
-        stack.querySelectorAll('strong').forEach((el) => el.style.setProperty('font-size', mobile ? '24px' : 'clamp(26px,2.5vw,36px)'));
-        stack.querySelectorAll('i').forEach((el) => el.style.setProperty('font-size', mobile ? '18px' : '22px'));
-      }
-      if (closing) closing.style.setProperty('font-size', mobile ? 'clamp(27px,7.4vw,35px)' : 'clamp(30px,3vw,44px)');
-    }
 
     const early = document.getElementById('mx-start-early');
     if (early) {
@@ -137,17 +265,34 @@
 
     const memberBenefits = ensureSection('mx-member-booking-benefits','mx18-benefit-section');
     memberBenefits.setAttribute('data-membership-section','18.5');
-    memberBenefits.setAttribute('style','box-sizing:border-box;width:100%;margin:0;background:#10284a;color:#fff;text-align:center;overflow:hidden;font-family:Pretendard,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;');
     memberBenefits.innerHTML = `
-      <div class="mx18-benefit-inner" style="box-sizing:border-box;margin:0 auto;">
-        <p class="mx18-benefit-lead" style="margin:0;line-height:1.35;font-weight:900;color:#c8d7e9;">하지만 회원이 되면</p>
-        <h2 class="mx18-benefit-title" style="max-width:940px;margin:22px auto 0;line-height:1.08;letter-spacing:-.05em;font-weight:950;word-break:keep-all;">예약 방법이<br><strong style="color:#86d4ff;">달라집니다</strong></h2>
-        <div class="mx18-benefit-stack" aria-label="회원 예약 핵심 혜택" style="align-items:center;justify-content:center;flex-wrap:wrap;width:min(940px,100%);margin:52px auto 0;padding:28px 0;border-block:1px solid #345273;">
-          <strong style="color:#86d4ff;">POINT 적립</strong><i style="font-style:normal;color:#70849c;">+</i>
-          <strong style="color:#86d4ff;">회원 예약</strong><i style="font-style:normal;color:#70849c;">+</i>
-          <strong style="color:#86d4ff;">전세계 최저가 보장</strong>
+      <div class="mx18-benefit-inner">
+        <h2 class="mx18-benefit-title">같은 크루즈도<br><strong>회원은 다르게 예약합니다</strong></h2>
+
+        <div class="mx18-benefit-cards" aria-label="회원 예약 구조">
+          <article class="mx18-benefit-card">
+            <span class="mx18-step">01</span>
+            <strong>POINT가 쌓이고</strong>
+            <p>여행에 사용할 POINT를 만듭니다</p>
+          </article>
+          <article class="mx18-benefit-card">
+            <span class="mx18-step">02</span>
+            <strong>회원가로 예약하고</strong>
+            <p>회원 전용 예약 구조를 이용합니다</p>
+          </article>
+          <article class="mx18-benefit-card">
+            <span class="mx18-step">03</span>
+            <strong>실제 부담은 낮아지고</strong>
+            <p>POINT를 사용해 결제 부담을 줄입니다</p>
+          </article>
         </div>
-        <p class="mx18-benefit-closing" style="line-height:1.35;font-weight:900;color:#fff;">이 예약 구조를 이용하려면<br><strong>클럽 회원이어야 합니다</strong></p>
+
+        <div class="mx18-benefit-conclusion">
+          <span>그래서</span>
+          <p>이 예약 구조는<br><strong>회원만 이용할 수 있습니다</strong></p>
+        </div>
+
+        <a class="mx18-benefit-cta" href="#plans">내게 맞는 플랜 보기 <b>→</b></a>
       </div>`;
 
     const early = ensureSection('mx-start-early','mx19-early-section mx-core-bridge');
@@ -185,7 +330,9 @@
     if (early.nextElementSibling !== earlyProof) early.insertAdjacentElement('afterend', earlyProof);
     if (earlyProof.nextElementSibling !== plans) earlyProof.insertAdjacentElement('afterend', plans);
 
+    installConversionStyles();
     applyLateFlowStyles();
+    bindBenefitMotion();
     if (document.body.dataset.lateFlowResizeBound !== '1') {
       document.body.dataset.lateFlowResizeBound = '1';
       window.addEventListener('resize', applyLateFlowStyles, { passive:true });
@@ -194,6 +341,7 @@
   }
 
   function init() {
+    installConversionStyles();
     if (buildSections18To20()) return;
     let tries = 0;
     const timer = window.setInterval(() => {
