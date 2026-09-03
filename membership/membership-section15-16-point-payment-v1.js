@@ -74,6 +74,14 @@
           <div><span>객실</span><strong>Deluxe Balcony Fantastica · BR2</strong></div>
           <div><span>예약</span><strong>2인 실제 예약</strong></div>
         </div>
+
+        <div class="mx15-proof-gallery" aria-label="실제 예약 이미지 자료">
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/fvmk2pzl5lazua8vnuef.png" alt="MSC World Asia 실제 예약 관련 이미지 1"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/j4ippct6ag07tqpifkbj.png" alt="MSC World Asia 실제 예약 관련 이미지 2"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/pevn5zoo2fsnxzmqxmh9.png" alt="MSC World Asia 실제 예약 관련 이미지 3"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/jhtcfifjkiuvkinguj64.png" alt="MSC World Asia 실제 예약 관련 이미지 4"></figure>
+        </div>
+
         <p class="mx15-closing">바뀐 건 크루즈가 아니라<br><strong>예약하는 방법입니다</strong></p>
       </div>`;
 
