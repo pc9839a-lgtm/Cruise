@@ -75,6 +75,16 @@ html.membership-motion-enabled .m-motion-section.section-active .m-motion-number
   transition:opacity .45s ease,transform .65s cubic-bezier(.16,1,.3,1)!important;
 }
 
+/* Sections 06-09: question -> proof -> answer sequencing */
+html.membership-motion-enabled #price-pain.section-active .mv2-mega.m-motion-number{transition-delay:.2s!important}
+html.membership-motion-enabled #price-pain.section-active .mv2-save.m-motion-visual{transition-delay:.42s!important}
+html.membership-motion-enabled #same-cruise.section-active .mx8-payment-stack.m-motion-visual{transition-delay:.08s!important}
+html.membership-motion-enabled #same-cruise.section-active .mx8-bridge-question.m-motion-heading{transition-delay:.46s!important}
+html.membership-motion-enabled #guide-question.section-active .mx9-prefix.m-motion-visual{transition-delay:.06s!important}
+html.membership-motion-enabled #guide-question.section-active .mx9-member-count.m-motion-number{transition-delay:.16s!important}
+html.membership-motion-enabled #guide-question.section-active .mx9-title.m-motion-heading{transition-delay:.34s!important}
+html.membership-motion-enabled #guide-question.section-active .mx9-copy.m-motion-visual{transition-delay:.54s!important}
+
 /* calculator responds immediately to user interaction */
 #calculator .mx17-result-row strong{
   transition:color .18s ease,transform .18s ease!important;
