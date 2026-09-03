@@ -49,10 +49,10 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260903-flow15"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260903-flow15"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260903-flow15"></script>' +
-          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260902-concise4"></script>' +
-          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260903-flatproof10"></script>' +
-          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260902-storyclean6"></script>' +
-          '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260902-storyclean6"></script>' +
+          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260903-flow16"></script>' +
+          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20260903-flow16"></script>' +
+          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260903-flow16"></script>' +
+          '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260903-flow16"></script>' +
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260903-flatpoints10"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260902-costfix7"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-originalusd13"></script>' +
