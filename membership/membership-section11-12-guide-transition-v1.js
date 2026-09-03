@@ -11,30 +11,8 @@
     section10.innerHTML = `
       <div class="mx12-inner">
         <span class="mx12-kicker">회원이 되는 이유</span>
-        <h2 class="mx12-title">왜 굳이<br><strong>크루즈클럽에 가입할까요?</strong></h2>
-
-        <div class="mx10-flow" aria-label="크루즈클럽 이용 흐름">
-          <span>회원가입</span><i>→</i>
-          <span>POINT 적립</span><i>→</i>
-          <span>회원 크루즈 검색</span><i>→</i>
-          <span>POINT 사용</span><i>→</i>
-          <strong>전세계 최저가 보장</strong>
-        </div>
-
-        <div class="mx10-detail" aria-label="회원 이용 핵심" style="display:flex!important;flex-wrap:wrap!important;width:min(960px,100%)!important;margin:44px auto 0!important;border-block:1px solid #cbd6e3!important;">
-          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;">
-            <b style="display:block!important;font-size:20px!important;color:#0b1729!important;">POINT 적립</b>
-            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">CLASSIC 월 200P · PREMIUM 월 500P</span>
-          </div>
-          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;border-inline:1px solid #cbd6e3!important;">
-            <b style="display:block!important;font-size:20px!important;color:#0b1729!important;">POINT 사용</b>
-            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">크루즈를 예약할 때 적립한 POINT 사용</span>
-          </div>
-          <div class="mx10-detail-item" style="flex:1 1 240px!important;padding:24px 18px!important;">
-            <b style="display:block!important;font-size:20px!important;color:#2468e8!important;">최저가 보장</b>
-            <span style="display:block!important;margin-top:8px!important;font-size:16px!important;line-height:1.5!important;color:#53657c!important;">회원 예약에 전세계 최저가 보장 제도 적용</span>
-          </div>
-        </div>
+        <h2 class="mx12-title">회원이 되면<br><strong>예약 방법이 달라집니다</strong></h2>
+        <p class="mx10-short-copy">POINT로 결제하고<br><strong>최저가 보장까지</strong></p>
       </div>`;
 
     let priceExamples = document.getElementById('mx-cruise-price-examples');
