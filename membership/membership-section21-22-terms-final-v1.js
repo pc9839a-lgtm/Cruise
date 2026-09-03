@@ -1,6 +1,83 @@
 (() => {
   'use strict';
 
+  function patchPlanCards() {
+    const plans = document.getElementById('plans');
+    const wrap = document.getElementById('planCards');
+    if (!plans || !wrap) return false;
+
+    /* 플랜 위 설명성 첨언 제거 */
+    const earlyNote = plans.querySelector('.mv2-early');
+    if (earlyNote) earlyNote.remove();
+
+    wrap.querySelectorAll('.plan-card').forEach((card) => {
+      const premium = card.classList.contains('recommended') || /프리미엄/i.test(card.textContent || '');
+      const data = premium
+        ? { start: '$500', reward: '800P', monthly: '500P' }
+        : { start: '$200', reward: '350P', monthly: '200P' };
+
+      card.querySelectorAll('.plan-tag,.plan-fit,.plan-top-stats,.plan-mobile-summary').forEach((el) => {
+        el.style.setProperty('display', 'none', 'important');
+      });
+
+      const oldFeature = card.querySelector('.plan-feature-group');
+      if (oldFeature) oldFeature.style.setProperty('display', 'none', 'important');
+
+      let facts = card.querySelector('.mx-plan-facts');
+      if (!facts) {
+        facts = document.createElement('div');
+        facts.className = 'mx-plan-facts';
+        facts.setAttribute('aria-label', '멤버십 핵심 조건');
+        const cta = card.querySelector('.plan-cta');
+        if (cta) card.insertBefore(facts, cta);
+        else card.appendChild(facts);
+      }
+
+      facts.innerHTML = `
+        <div class="mx-plan-fact"><span>가입 시 결제</span><strong>${data.start}</strong></div>
+        <div class="mx-plan-fact"><span>가입 시 적립</span><strong>${data.reward}</strong></div>
+        <div class="mx-plan-fact"><span>매월 적립</span><strong>${data.monthly}</strong></div>`;
+
+      facts.style.setProperty('margin', '22px 0 0', 'important');
+      facts.style.setProperty('border-top', '1px solid #d3deeb', 'important');
+      facts.style.setProperty('border-bottom', '1px solid #d3deeb', 'important');
+
+      facts.querySelectorAll('.mx-plan-fact').forEach((row, index, rows) => {
+        row.style.setProperty('display', 'grid', 'important');
+        row.style.setProperty('grid-template-columns', '1fr auto', 'important');
+        row.style.setProperty('align-items', 'center', 'important');
+        row.style.setProperty('gap', '16px', 'important');
+        row.style.setProperty('padding', '16px 2px', 'important');
+        if (index < rows.length - 1) row.style.setProperty('border-bottom', '1px solid #e1e8f1', 'important');
+
+        const label = row.querySelector('span');
+        const value = row.querySelector('strong');
+        if (label) {
+          label.style.setProperty('font-size', '15px', 'important');
+          label.style.setProperty('font-weight', '850', 'important');
+          label.style.setProperty('color', '#53657c', 'important');
+        }
+        if (value) {
+          value.style.setProperty('font-size', '25px', 'important');
+          value.style.setProperty('line-height', '1', 'important');
+          value.style.setProperty('font-weight', '950', 'important');
+          value.style.setProperty('color', premium ? '#2468e8' : '#0b1729', 'important');
+        }
+      });
+
+      const main = card.querySelector('.plan-main-line');
+      if (main) main.style.setProperty('margin-bottom', '0', 'important');
+
+      const cta = card.querySelector('.plan-cta');
+      if (cta) {
+        cta.style.setProperty('margin-top', '22px', 'important');
+        cta.style.setProperty('min-height', '56px', 'important');
+      }
+    });
+
+    return true;
+  }
+
   function buildFinalFlow() {
     const early = document.getElementById('mx-start-early');
     const plans = document.getElementById('plans');
@@ -17,6 +94,8 @@
     const planTitle = plans.querySelector('.membership-section-head h2');
     if (planKicker) planKicker.textContent = '마지막 선택';
     if (planTitle) planTitle.innerHTML = '그럼 나는<br><strong>얼마씩 쌓을까?</strong>';
+
+    patchPlanCards();
 
     section21.className = 'mx21-terms-section';
     section21.setAttribute('data-membership-section', '21');
@@ -40,12 +119,31 @@
   }
 
   function init() {
-    if (buildFinalFlow()) return;
-    let tries = 0;
-    const timer = window.setInterval(() => {
-      tries += 1;
-      if (buildFinalFlow() || tries >= 50) window.clearInterval(timer);
-    }, 160);
+    if (!buildFinalFlow()) {
+      let tries = 0;
+      const timer = window.setInterval(() => {
+        tries += 1;
+        if (buildFinalFlow() || tries >= 50) window.clearInterval(timer);
+      }, 160);
+    }
+
+    const wrap = document.getElementById('planCards');
+    if (wrap && typeof MutationObserver !== 'undefined' && wrap.dataset.mxPlanObserver !== '1') {
+      wrap.dataset.mxPlanObserver = '1';
+      let queued = false;
+      const observer = new MutationObserver(() => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          patchPlanCards();
+        });
+      });
+      observer.observe(wrap, { childList: true, subtree: true });
+    }
+
+    window.setTimeout(patchPlanCards, 500);
+    window.setTimeout(patchPlanCards, 1200);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
