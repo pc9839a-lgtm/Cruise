@@ -3,6 +3,7 @@
 
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const counterMeta = new WeakMap();
 
   const numberSelectors = [
     '.hero-ticket-front strong',
@@ -31,86 +32,86 @@
     return Math.round(value).toLocaleString('en-US', { useGrouping: grouped });
   }
 
-  function renderToken(token, value) {
-    const prefix = token.dataset.prefix || '';
-    const suffix = token.dataset.suffix || '';
-    const decimals = Number(token.dataset.decimals || 0);
-    const grouped = token.dataset.grouped === '1';
-    token.textContent = `${prefix}${formatValue(value, decimals, grouped)}${suffix}`;
+  function parseCounterText(original) {
+    const regex = /([$₩]?)(\d[\d,]*(?:\.\d+)?)(P?)/g;
+    const matches = [...original.matchAll(regex)];
+    if (!matches.length) return null;
+
+    const pieces = [];
+    let cursor = 0;
+    matches.forEach((match) => {
+      const start = match.index || 0;
+      if (start > cursor) pieces.push({ type: 'text', value: original.slice(cursor, start) });
+
+      const rawNumber = match[2] || '0';
+      pieces.push({
+        type: 'number',
+        prefix: match[1] || '',
+        suffix: match[3] || '',
+        target: Number(rawNumber.replace(/,/g, '')),
+        decimals: rawNumber.includes('.') ? rawNumber.split('.')[1].length : 0,
+        grouped: rawNumber.includes(',')
+      });
+      cursor = start + match[0].length;
+    });
+
+    if (cursor < original.length) pieces.push({ type: 'text', value: original.slice(cursor) });
+    return pieces;
+  }
+
+  function renderCounter(el, progress) {
+    const meta = counterMeta.get(el);
+    if (!meta) return;
+    el.textContent = meta.pieces.map((piece) => {
+      if (piece.type === 'text') return piece.value;
+      const value = piece.target * progress;
+      return `${piece.prefix}${formatValue(value, piece.decimals, piece.grouped)}${piece.suffix}`;
+    }).join('');
   }
 
   function prepareCounter(el) {
-    if (!el || el.dataset.mxCounterPrepared === '1') return;
+    if (!el || el.dataset.mxCounterPrepared === '1') return false;
     const original = (el.textContent || '').trim();
-    const matches = [...original.matchAll(/([$₩]?)(\d[\d,]*(?:\.\d+)?)(P?)/g)];
-    if (!matches.length) return;
+    const pieces = parseCounterText(original);
+    if (!pieces) return false;
 
-    const fragment = document.createDocumentFragment();
-    let cursor = 0;
-
-    matches.forEach((match) => {
-      const raw = match[0];
-      const prefix = match[1] || '';
-      const numericRaw = match[2] || '0';
-      const suffix = match[3] || '';
-      const start = match.index || 0;
-      if (start > cursor) fragment.appendChild(document.createTextNode(original.slice(cursor, start)));
-
-      const target = Number(numericRaw.replace(/,/g, ''));
-      const decimals = numericRaw.includes('.') ? numericRaw.split('.')[1].length : 0;
-      const grouped = numericRaw.includes(',');
-      const token = document.createElement('span');
-      token.className = 'mx-live-counter-token';
-      token.dataset.target = String(target);
-      token.dataset.decimals = String(decimals);
-      token.dataset.grouped = grouped ? '1' : '0';
-      token.dataset.prefix = prefix;
-      token.dataset.suffix = suffix;
-      token.setAttribute('aria-hidden', 'true');
-      token.textContent = reducedMotion ? raw : `${prefix}${formatValue(0, decimals, grouped)}${suffix}`;
-      fragment.appendChild(token);
-      cursor = start + raw.length;
-    });
-
-    if (cursor < original.length) fragment.appendChild(document.createTextNode(original.slice(cursor)));
-    el.textContent = '';
-    el.appendChild(fragment);
+    counterMeta.set(el, { original, pieces });
     el.dataset.mxCounterPrepared = '1';
+    el.classList.add('mx-live-counter-element');
     el.setAttribute('aria-label', original);
+
+    if (!reducedMotion) renderCounter(el, 0);
+    return true;
   }
 
   function animateCounter(el) {
     if (!el || el.dataset.mxCounterDone === '1') return;
-    const tokens = $$('[data-target]', el);
-    if (!tokens.length) return;
+    const meta = counterMeta.get(el);
+    if (!meta) return;
     el.dataset.mxCounterDone = '1';
 
     if (reducedMotion) {
-      tokens.forEach((token) => renderToken(token, Number(token.dataset.target || 0)));
+      el.textContent = meta.original;
       return;
     }
 
-    const start = performance.now();
-    const maxTarget = Math.max(...tokens.map((token) => Number(token.dataset.target || 0)));
+    const maxTarget = Math.max(...meta.pieces.filter((piece) => piece.type === 'number').map((piece) => piece.target));
     const duration = maxTarget >= 1000 ? 1250 : 1050;
-    tokens.forEach((token) => token.classList.add('is-counting'));
+    const startedAt = performance.now();
+    el.classList.add('is-counting');
 
     function tick(now) {
-      const p = Math.min((now - start) / duration, 1);
+      const p = Math.min((now - startedAt) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 4);
-      tokens.forEach((token) => {
-        renderToken(token, Number(token.dataset.target || 0) * eased);
-      });
+      renderCounter(el, eased);
 
       if (p < 1) {
         requestAnimationFrame(tick);
         return;
       }
 
-      tokens.forEach((token) => {
-        renderToken(token, Number(token.dataset.target || 0));
-        token.classList.remove('is-counting');
-      });
+      el.textContent = meta.original;
+      el.classList.remove('is-counting');
     }
 
     requestAnimationFrame(tick);
@@ -139,8 +140,8 @@
   function scan() {
     numberSelectors.forEach((selector) => {
       $$(selector).forEach((el) => {
-        prepareCounter(el);
-        if (el.dataset.mxCounterObserved === '1') return;
+        if (!counterMeta.has(el)) prepareCounter(el);
+        if (!counterMeta.has(el) || el.dataset.mxCounterObserved === '1') return;
         el.dataset.mxCounterObserved = '1';
         if (counterObserver) counterObserver.observe(el);
         else animateCounter(el);
