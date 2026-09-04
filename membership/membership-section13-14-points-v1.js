@@ -37,16 +37,13 @@
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
       <div class="mxp13-inner">
-        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
-        <h2>그래서 저는<br><strong>이렇게 POINT를 쌓았습니다</strong></h2>
+        <span class="mxp13-kicker">실제 CLASSIC 예시</span>
+        <h2>복잡하게 볼 필요 없이<br><strong>결과만 보면 됩니다</strong></h2>
 
-        <div class="mxp13-ledger" aria-label="CLASSIC 실제 포인트 적립 예시">
-          <div><span>가입</span><strong>$200 → 350P</strong></div>
-          <div><span>8개월</span><strong>$800 → 1,600P</strong></div>
+        <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">
           <div class="total"><span>실제 납부</span><strong>$1,000</strong></div>
           <div class="total"><span>총 적립</span><strong>1,950P</strong></div>
-          <div><span>실제 예약에 사용</span><strong>1,805.84P</strong></div>
-          <div><span>남은 POINT</span><strong>144.16P</strong></div>
+          <div><span>예약에 사용</span><strong>1,805.84P</strong></div>
         </div>
       </div>`;
 
