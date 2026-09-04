@@ -111,9 +111,9 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion56"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
-          '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260904-travel57"></script>' +
-          '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order54"></script>' +
-          '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260903-refund52"></script>' +
+          '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260904-travel58"></script>' +
+          '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order58"></script>' +
+          '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260904-refund58"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live57"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
