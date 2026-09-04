@@ -78,7 +78,7 @@ export async function onRequest(context) {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260903-align44'); }
     })
     .on('script[src*="membership-calc-plans-v2.js"]', {
-      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260904-plan60'); }
+      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260904-plan62'); }
     })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
@@ -112,13 +112,13 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260904-flow61"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
-          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion60"></script>' +
+          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion62"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260904-travel59"></script>' +
           '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order59"></script>' +
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260904-refund58"></script>' +
-          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
-          '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live57"></script>' +
+          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260904-flow62"></script>' +
+          '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live62"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260903-partnergrade37"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
