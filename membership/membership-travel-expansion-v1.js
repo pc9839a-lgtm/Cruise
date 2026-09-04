@@ -135,16 +135,15 @@
     const plans = document.getElementById('plans');
     if (!plans || !plans.parentNode) return false;
 
-    const section = document.createElement('section');
+    const section = document.createElement('div');
     section.id = FREEDOM_ID;
     section.setAttribute('data-membership-section', '19.8');
     section.innerHTML = `
       <div class="mxf-inner">
-        <span class="mxf-kicker">부담 없이 시작</span>
-        <h2>묶어두는 조건은<br><strong>없습니다</strong></h2>
+        <span class="mxf-kicker">가입 전 확인</span>
         <div class="mxf-grid">
           <div class="mxf-card"><span class="mxf-zero">0원</span><strong>위약금 없음</strong></div>
-          <div class="mxf-card"><span class="mxf-zero">0개월</span><strong>약정기간 없음</strong></div>
+          <div class="mxf-card"><span class="mxf-zero">0개월</span><strong>약정 없음</strong></div>
         </div>
         <p class="mxf-note">멤버십 이용 기준입니다. 예약한 크루즈·호텔·투어 상품의 취소 규정은 각 상품 조건에 따릅니다.</p>
       </div>`;
