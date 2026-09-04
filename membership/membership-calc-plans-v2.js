@@ -60,24 +60,16 @@
     const heading = $('.membership-section-head h2', root);
     if (heading) heading.innerHTML = '준비 속도에 맞춰<br><strong>둘 중 하나만 고르면 됩니다</strong>';
 
-    const cards = $$('.plan-card', root);
+    const cards = $('.plan-card', root);
     const data = [
-      { start: '$200 → 350P', monthly: '$100 → 200P', cta: '클래식 선택' },
-      { start: '$500 → 800P', monthly: '$250 → 500P', cta: '프리미엄 선택' }
+      { cta: 'CLASSIC으로 시작하기' },
+      { cta: 'PREMIUM으로 시작하기' }
     ];
 
     cards.forEach((card, i) => {
       const info = data[i];
       if (!info) return;
-
-      let quick = $('.plan-quick', card);
-      if (!quick) {
-        quick = document.createElement('div');
-        quick.className = 'plan-quick';
-        const main = $('.plan-main-line', card);
-        (main || $('.plan-tag', card))?.insertAdjacentElement('afterend', quick);
-      }
-      quick.innerHTML = `<div><span>가입</span><strong>${info.start}</strong></div><div><span>매월</span><strong>${info.monthly}</strong></div>`;
+      $('.plan-quick', card)?.remove();
 
       const cta = $('.plan-cta', card);
       if (cta) cta.textContent = info.cta;
