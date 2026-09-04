@@ -168,11 +168,6 @@
         #mx-travel-expansion .mxtf-num{display:inline-flex;align-items:center;justify-content:center;height:28px;min-width:43px;padding:0 10px;border-radius:999px;background:#edf3ff;color:#2869df;font-size:12px;font-weight:950}
         #mx-travel-expansion .mxtf-card strong{display:block;margin-top:54px;font-size:clamp(28px,2.6vw,36px);line-height:1.06;letter-spacing:-.05em;font-weight:950}
         #mx-travel-expansion .mxtf-card p{margin:10px 0 0;color:#738299;font-size:15px;line-height:1.4;font-weight:760;word-break:keep-all}
-        #mx-travel-expansion .mxtf-trip{width:min(980px,100%);box-sizing:border-box;margin:28px auto 0;padding:28px;border-radius:26px;background:#0d2b50;color:#fff;box-shadow:0 22px 52px rgba(6,30,65,.16)}
-        #mx-travel-expansion .mxtf-trip-title{font-size:clamp(25px,2.5vw,33px);font-weight:950;letter-spacing:-.045em}
-        #mx-travel-expansion .mxtf-flow{display:grid;grid-template-columns:repeat(4,1fr);margin-top:22px;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden}
-        #mx-travel-expansion .mxtf-flow span{padding:18px 8px;color:#dce8f6;font-size:14px;font-weight:850}#mx-travel-expansion .mxtf-flow span+span{border-left:1px solid rgba(255,255,255,.12)}
-        #mx-travel-expansion .mxtf-flow b{display:block;margin-bottom:6px;color:#7fd5ff;font-size:11px}
         @keyframes mxtfRise{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
         @media(max-width:780px){
           #mx-travel-expansion{padding:82px 0 96px}
@@ -185,12 +180,6 @@
           #mx-travel-expansion .mxtf-cards::-webkit-scrollbar{display:none}
           #mx-travel-expansion .mxtf-card{flex:0 0 min(82vw,326px);min-height:225px;padding:22px;border-radius:24px;scroll-snap-align:center}
           #mx-travel-expansion .mxtf-card strong{margin-top:46px;font-size:clamp(29px,8vw,35px)}
-          #mx-travel-expansion .mxtf-trip{width:calc(100% - 34px);margin-top:12px;padding:24px 16px 18px;border-radius:22px}
-          #mx-travel-expansion .mxtf-trip-title{font-size:clamp(25px,7vw,31px)}
-          #mx-travel-expansion .mxtf-flow{grid-template-columns:repeat(2,1fr);margin-top:18px;border-radius:16px}
-          #mx-travel-expansion .mxtf-flow span{padding:15px 5px;font-size:13px}
-          #mx-travel-expansion .mxtf-flow span:nth-child(3){border-left:0;border-top:1px solid rgba(255,255,255,.12)}
-          #mx-travel-expansion .mxtf-flow span:nth-child(4){border-top:1px solid rgba(255,255,255,.12)}
         }
         @media(prefers-reduced-motion:reduce){#mx-travel-expansion .mxtf-card{animation:none}}
       `;
@@ -211,10 +200,6 @@
           <article class="mxtf-card"><span class="mxtf-num">01</span><strong>전세계 호텔</strong><p>출발 전·후 숙박까지 같이 준비</p></article>
           <article class="mxtf-card"><span class="mxtf-num">02</span><strong>현지 투어</strong><p>기항지와 여행지 일정도 함께 예약</p></article>
           <article class="mxtf-card"><span class="mxtf-num">03</span><strong>국내 호텔</strong><p>출국 전날·귀국 후 숙박까지 연결</p></article>
-        </div>
-        <div class="mxtf-trip">
-          <div class="mxtf-trip-title">크루즈만 잡고 끝나는 여행이 아닙니다</div>
-          <div class="mxtf-flow"><span><b>출발 전</b>호텔 1박</span><span><b>여행</b>크루즈</span><span><b>현지</b>투어</span><span><b>귀국 후</b>호텔 1박</span></div>
         </div>
       </div>`;
 
