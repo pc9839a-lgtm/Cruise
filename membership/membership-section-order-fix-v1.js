@@ -20,10 +20,8 @@
         position:relative!important;
         margin:0!important;
         padding-top:96px!important;
-        padding-bottom:104px!important;
-        background:
-          radial-gradient(circle at 50% 0%,rgba(76,162,255,.20),transparent 40%),
-          linear-gradient(180deg,#0c2747 0%,#12375f 100%)!important;
+        padding-bottom:54px!important;
+        background:#07111f!important;
         color:#fff!important;
         border:0!important;
       }
@@ -50,16 +48,18 @@
 
       #plans{
         margin-top:0!important;
-        border-top:10px solid #edf1f6!important;
+        padding-top:54px!important;
+        border-top:0!important;
+        background:#07111f!important;
       }
 
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:8px!important;border-bottom-width:8px!important}
-        #mx-membership-freedom{padding-top:74px!important;padding-bottom:82px!important}
+        #mx-membership-freedom{padding-top:74px!important;padding-bottom:42px!important}
         #mx-membership-freedom .mxf-inner{width:calc(100% - 30px)!important}
         #mx-membership-freedom .mxf-grid{gap:10px!important}
         #mx-membership-freedom .mxf-kicker::before{font-size:13px}
-        #plans{border-top-width:8px!important}
+        #plans{padding-top:44px!important;border-top:0!important}
       }
     `;
     document.head.appendChild(style);
