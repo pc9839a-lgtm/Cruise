@@ -11,8 +11,8 @@
       #mx-membership-optional{display:none!important}
 
       #mx-travel-expansion{
-        border-top:10px solid #edf1f6!important;
-        border-bottom:10px solid #edf1f6!important;
+        border-top:6px solid #edf1f6!important;
+        border-bottom:6px solid #edf1f6!important;
         background:linear-gradient(180deg,#ffffff 0%,#f7f9fc 100%)!important;
       }
 
@@ -97,7 +97,7 @@
       }
 
       @media(max-width:780px){
-        #mx-travel-expansion{border-top-width:8px!important;border-bottom-width:8px!important}
+        #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
         #mx-membership-freedom{width:100%!important;margin-bottom:26px!important}
         #mx-membership-freedom .mxf-inner{width:100%!important}
         #mx-membership-freedom .mxf-kicker{min-height:26px!important;font-size:11px!important}
@@ -115,19 +115,21 @@
 
   function moveSections() {
     document.getElementById('mx-membership-optional')?.remove();
+    document.getElementById('mx-start-early')?.remove();
+    document.getElementById('mx-start-early-proof')?.remove();
 
     const benefit = document.getElementById('mx-member-booking-benefits');
     const travel = document.getElementById('mx-travel-expansion');
-    const early = document.getElementById('mx-start-early');
     const calculator = document.getElementById('calculator');
     const freedom = document.getElementById('mx-membership-freedom');
     const plans = document.getElementById('plans');
 
-    // 여행 확장은 '회원 예약 장점' 바로 다음에 고정.
+    // 최종 전환 순서: 회원 절감 근거 -> 호텔/투어 혜택 -> 플랜.
     if (benefit && travel && benefit.parentNode) {
       if (benefit.nextElementSibling !== travel) benefit.after(travel);
-    } else if (travel && early && early.parentNode) {
-      if (travel.nextElementSibling !== early) early.before(travel);
+    }
+    if (travel && plans && travel.parentNode === plans.parentNode && travel.nextElementSibling !== plans) {
+      travel.after(plans);
     }
 
     // 가입 전 확인은 독립 섹션이 아니라 플랜 내부 상단 안심바로 고정.
