@@ -93,8 +93,10 @@
 
   function buildTravel() {
     if (document.getElementById(SECTION_ID)) return true;
-    const early = document.getElementById('mx-start-early');
-    if (!early) return false;
+    const benefit = document.getElementById('mx-member-booking-benefits');
+    const plans = document.getElementById('plans');
+    const anchor = plans || benefit;
+    if (!anchor || !anchor.parentNode) return false;
 
     const section = document.createElement('section');
     section.id = SECTION_ID;
@@ -123,7 +125,7 @@
           </article>
         </div>
       </div>`;
-    early.parentNode.insertBefore(section, early);
+    anchor.parentNode.insertBefore(section, anchor);
     activate(section);
     return true;
   }
