@@ -77,6 +77,9 @@ export async function onRequest(context) {
     .on('script[src*="membership-entry-survey-v2.js"]', {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260903-align44'); }
     })
+    .on('script[src*="membership-calc-plans-v2.js"]', {
+      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260904-plan59'); }
+    })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-stage3-v1.js"]', { element(element) { element.remove(); } })
@@ -106,13 +109,13 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20260903-flow29"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260903-flow30"></script>' +
           '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20260903-cards45"></script>' +
-          '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260903-flow24"></script>' +
+          '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260904-flow59"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
-          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion56"></script>' +
+          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion59"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
-          '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260904-travel58"></script>' +
-          '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order58"></script>' +
+          '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260904-travel59"></script>' +
+          '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order59"></script>' +
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260904-refund58"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live57"></script>' +
