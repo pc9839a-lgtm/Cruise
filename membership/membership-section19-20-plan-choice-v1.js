@@ -306,13 +306,7 @@
 
     ['mx-plan-guide','m3-selector','mx-fit-check'].forEach((id) => document.getElementById(id)?.remove());
 
-    const optional = ensureSection('mx-membership-optional','mx18-optional-section mx-core-bridge');
-    optional.setAttribute('data-membership-section','18');
-    optional.innerHTML = `
-      <div class="mx18-inner">
-        <h2 class="mx18-bridge-question">꼭<br><strong>회원이어야 하나요?</strong></h2>
-        <p class="mx18-answer">크루즈 여행 자체는<br><strong>회원이 아니어도 가능합니다</strong></p>
-      </div>`;
+    document.getElementById('mx-membership-optional')?.remove();
 
     const memberBenefits = ensureSection('mx-member-booking-benefits','mx18-benefit-section');
     memberBenefits.setAttribute('data-membership-section','18.5');
@@ -377,8 +371,7 @@
       badge.innerHTML = '<b>'+rec.label+'</b><span>'+rec.copy+'</span>';
     });
 
-    if (calculator.nextElementSibling !== optional) calculator.insertAdjacentElement('afterend', optional);
-    if (optional.nextElementSibling !== memberBenefits) optional.insertAdjacentElement('afterend', memberBenefits);
+    if (calculator.nextElementSibling !== memberBenefits) calculator.insertAdjacentElement('afterend', memberBenefits);
     if (memberBenefits.nextElementSibling !== plans) memberBenefits.insertAdjacentElement('afterend', plans);
 
     installConversionStyles();
