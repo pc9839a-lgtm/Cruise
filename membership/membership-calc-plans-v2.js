@@ -58,7 +58,7 @@
     if (!root) return;
 
     const heading = $('.membership-section-head h2', root);
-    if (heading) heading.innerHTML = '준비 속도에 맞춰<br><strong>둘 중 하나만 고르면 됩니다</strong>';
+    if (heading) heading.innerHTML = 'CLASSIC<br><strong>PREMIUM</strong>';
 
     const cards = $('.plan-card', root);
     const data = [
