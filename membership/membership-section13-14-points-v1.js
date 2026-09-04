@@ -37,8 +37,8 @@
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
       <div class="mxp13-inner">
-        <span class="mxp13-kicker">실제 CLASSIC 예시</span>
-        <h2>복잡하게 볼 필요 없이<br><strong>결과만 보면 됩니다</strong></h2>
+        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
+        <h2>$1,000 납부 후<br><strong>1,950P 적립</strong></h2>
 
         <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">
           <div class="total"><span>실제 납부</span><strong>$1,000</strong></div>
