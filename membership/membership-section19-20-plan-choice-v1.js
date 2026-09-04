@@ -43,7 +43,7 @@
       }
       #mx-member-booking-benefits .mx18-benefit-title strong{color:#83d7ff;font-weight:950}
       #mx-member-booking-benefits .mx18-benefit-cards{
-        width:min(1040px,100%);margin:70px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;
+        width:min(980px,100%);margin:64px auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
       }
       #mx-member-booking-benefits .mx18-benefit-card{
         position:relative;min-height:230px;padding:30px 28px;border:1px solid rgba(157,211,255,.18);border-radius:28px;
@@ -53,7 +53,22 @@
         transition:opacity .62s ease,transform .82s cubic-bezier(.16,1,.3,1),filter .62s ease,border-color .3s ease,background .3s ease;
       }
       #mx-member-booking-benefits .mx18-benefit-card:nth-child(2){transition-delay:110ms}
-      #mx-member-booking-benefits .mx18-benefit-card:nth-child(3){transition-delay:220ms;background:linear-gradient(180deg,rgba(56,151,255,.17),rgba(255,255,255,.055));border-color:rgba(131,215,255,.34)}
+      #mx-member-booking-benefits .mx18-benefit-card:nth-child(3){transition-delay:220ms}
+      #mx-member-booking-benefits .mx18-benefit-result{
+        grid-column:1/-1;min-height:210px;padding:40px 36px;text-align:center;
+        background:linear-gradient(135deg,rgba(43,123,255,.28),rgba(114,207,255,.13));
+        border-color:rgba(131,215,255,.48);box-shadow:0 24px 68px rgba(20,106,236,.20);
+        transform:translateY(34px) scale(.94);
+      }
+      #mx-member-booking-benefits .mx18-benefit-result .mx18-step{
+        background:#83d7ff;border-color:#83d7ff;color:#0b2746;
+      }
+      #mx-member-booking-benefits .mx18-benefit-result>strong{
+        margin-top:22px;font-size:clamp(38px,4.2vw,58px);line-height:1.04;text-align:center;color:#fff;
+      }
+      #mx-member-booking-benefits .mx18-benefit-result>p{
+        margin:16px auto 0;color:#aee3ff;font-size:clamp(19px,2vw,25px);font-weight:900;text-align:center;
+      }
       #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-card{opacity:1;transform:none;filter:none}
       #mx-member-booking-benefits .mx18-step{
         display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 11px;border-radius:999px;
@@ -105,7 +120,7 @@
           max-width:430px;font-size:clamp(42px,11.8vw,54px);line-height:1.045;letter-spacing:-.065em;
         }
         #mx-member-booking-benefits .mx18-benefit-cards{
-          margin-top:48px;grid-template-columns:1fr;gap:34px;
+          margin-top:44px;grid-template-columns:1fr;gap:34px;
         }
         #mx-member-booking-benefits .mx18-benefit-card{
           min-height:0;padding:25px 22px 27px;border-radius:24px;box-shadow:0 18px 38px rgba(1,12,31,.22);
@@ -119,6 +134,16 @@
         }
         #mx-member-booking-benefits .mx18-benefit-card>p{
           margin-top:10px;font-size:16px;line-height:1.4;
+        }
+        #mx-member-booking-benefits .mx18-benefit-result{
+          grid-column:auto;min-height:210px;padding:30px 20px 32px;border-radius:26px;
+          box-shadow:0 22px 56px rgba(20,106,236,.24);
+        }
+        #mx-member-booking-benefits .mx18-benefit-result>strong{
+          margin-top:20px;font-size:clamp(34px,9.5vw,44px);line-height:1.05;
+        }
+        #mx-member-booking-benefits .mx18-benefit-result>p{
+          margin-top:14px;font-size:clamp(18px,5vw,22px);line-height:1.25;
         }
         #mx-member-booking-benefits .mx18-benefit-conclusion{
           margin-top:66px;padding:46px 4px 0;
@@ -267,29 +292,29 @@
     memberBenefits.setAttribute('data-membership-section','18.5');
     memberBenefits.innerHTML = `
       <div class="mx18-benefit-inner">
-        <h2 class="mx18-benefit-title">같은 크루즈도<br><strong>회원은 다르게 예약합니다</strong></h2>
+        <h2 class="mx18-benefit-title">결국<br><strong>회원이 더 적게 냅니다</strong></h2>
 
-        <div class="mx18-benefit-cards" aria-label="회원 예약 구조">
+        <div class="mx18-benefit-cards" aria-label="회원 혜택 흐름">
           <article class="mx18-benefit-card">
             <span class="mx18-step">01</span>
-            <strong>POINT가 쌓이고</strong>
-            <p>여행에 사용할 POINT를 만듭니다</p>
+            <strong>낸 금액이 쌓이고</strong>
+            <p>여행에 쓸 POINT가 됩니다</p>
           </article>
           <article class="mx18-benefit-card">
             <span class="mx18-step">02</span>
-            <strong>회원가로 예약하고</strong>
-            <p>회원 전용 예약 구조를 이용합니다</p>
+            <strong>회원 혜택가로 예약하고</strong>
+            <p>쌓아둔 POINT를 함께 씁니다</p>
           </article>
-          <article class="mx18-benefit-card">
-            <span class="mx18-step">03</span>
-            <strong>실제 부담은 낮아지고</strong>
-            <p>POINT를 사용해 결제 부담을 줄입니다</p>
+          <article class="mx18-benefit-card mx18-benefit-result">
+            <span class="mx18-step">RESULT</span>
+            <strong>현금 부담이 줄어듭니다</strong>
+            <p>같은 크루즈도 회원이 더 적게 냅니다</p>
           </article>
         </div>
 
         <div class="mx18-benefit-conclusion">
-          <span>그래서</span>
-          <p>이 예약 구조는<br><strong>회원만 이용할 수 있습니다</strong></p>
+          <span>최저가 크루즈로 예약하려면</span>
+          <p><strong>회원으로 시작하면 됩니다</strong></p>
         </div>
 
         <a class="mx18-benefit-cta" href="#plans">내게 맞는 플랜 보기 <b>→</b></a>
