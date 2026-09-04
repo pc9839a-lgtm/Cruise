@@ -18,48 +18,96 @@
 
       #mx-membership-freedom{
         position:relative!important;
-        margin:0!important;
-        padding-top:96px!important;
-        padding-bottom:54px!important;
-        background:#07111f!important;
+        box-sizing:border-box!important;
+        width:min(860px,100%)!important;
+        margin:0 auto 34px!important;
+        padding:0!important;
+        background:transparent!important;
         color:#fff!important;
         border:0!important;
+        overflow:visible!important;
+      }
+      #mx-membership-freedom::before{display:none!important}
+      #mx-membership-freedom .mxf-inner{
+        width:100%!important;
+        margin:0!important;
       }
       #mx-membership-freedom .mxf-kicker{
-        font-size:0!important;
-        min-height:32px!important;
-        background:rgba(126,207,255,.12)!important;
-        border:1px solid rgba(126,207,255,.24)!important;
+        display:inline-flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        min-height:28px!important;
+        padding:0 11px!important;
+        border-radius:999px!important;
+        background:rgba(126,207,255,.10)!important;
+        border:1px solid rgba(126,207,255,.20)!important;
         color:#8bd8ff!important;
+        font-size:12px!important;
+        font-weight:950!important;
       }
-      #mx-membership-freedom .mxf-kicker::before{
-        content:'가입 전 확인';font-size:14px;font-weight:950;letter-spacing:-.025em;
+      #mx-membership-freedom .mxf-grid{
+        display:grid!important;
+        grid-template-columns:repeat(3,minmax(0,1fr))!important;
+        gap:8px!important;
+        margin:14px 0 0!important;
       }
-      #mx-membership-freedom h2{color:#fff!important}
-      #mx-membership-freedom h2 strong{color:#8bd8ff!important}
       #mx-membership-freedom .mxf-card{
-        background:rgba(255,255,255,.075)!important;
-        border-color:rgba(255,255,255,.15)!important;
-        box-shadow:0 18px 46px rgba(0,12,32,.20)!important;
+        min-height:94px!important;
+        padding:14px 10px!important;
+        border-radius:16px!important;
+        background:rgba(255,255,255,.065)!important;
+        border:1px solid rgba(255,255,255,.13)!important;
+        box-shadow:none!important;
+        display:flex!important;
+        flex-direction:column!important;
+        align-items:center!important;
+        justify-content:center!important;
+        opacity:1!important;
+        transform:none!important;
       }
-      #mx-membership-freedom .mxf-zero{color:#8bd8ff!important}
-      #mx-membership-freedom .mxf-card strong{color:#fff!important}
-      #mx-membership-freedom .mxf-note{color:#9fb5ca!important}
+      #mx-membership-freedom .mxf-zero{
+        color:#8bd8ff!important;
+        font-size:34px!important;
+        line-height:1!important;
+        font-weight:950!important;
+      }
+      #mx-membership-freedom .mxf-card strong{
+        margin-top:8px!important;
+        color:#fff!important;
+        font-size:15px!important;
+        line-height:1.15!important;
+        font-weight:900!important;
+        white-space:nowrap!important;
+      }
+      #mx-membership-freedom .mxf-note{
+        margin:10px auto 0!important;
+        color:#8196ad!important;
+        font-size:10px!important;
+        line-height:1.4!important;
+      }
 
       #plans{
         margin-top:0!important;
-        padding-top:54px!important;
+        padding-top:46px!important;
         border-top:0!important;
         background:#07111f!important;
+      }
+      #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{
+        margin-top:30px!important;
       }
 
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:8px!important;border-bottom-width:8px!important}
-        #mx-membership-freedom{padding-top:74px!important;padding-bottom:42px!important}
-        #mx-membership-freedom .mxf-inner{width:calc(100% - 30px)!important}
-        #mx-membership-freedom .mxf-grid{gap:10px!important}
-        #mx-membership-freedom .mxf-kicker::before{font-size:13px}
-        #plans{padding-top:44px!important;border-top:0!important}
+        #mx-membership-freedom{width:100%!important;margin-bottom:26px!important}
+        #mx-membership-freedom .mxf-inner{width:100%!important}
+        #mx-membership-freedom .mxf-kicker{min-height:26px!important;font-size:11px!important}
+        #mx-membership-freedom .mxf-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;margin-top:12px!important}
+        #mx-membership-freedom .mxf-card{min-height:84px!important;padding:12px 5px!important;border-radius:14px!important}
+        #mx-membership-freedom .mxf-zero{font-size:27px!important}
+        #mx-membership-freedom .mxf-card strong{margin-top:7px!important;font-size:12px!important;letter-spacing:-.025em!important}
+        #mx-membership-freedom .mxf-note{margin-top:8px!important;font-size:9px!important;line-height:1.35!important}
+        #plans{padding-top:36px!important;border-top:0!important}
+        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:24px!important}
       }
     `;
     document.head.appendChild(style);
@@ -82,9 +130,15 @@
       if (travel.nextElementSibling !== early) early.before(travel);
     }
 
-    // 위약금/약정 없음은 계산 설명이 끝난 뒤, 플랜 바로 직전에 고정.
-    if (freedom && plans && plans.parentNode) {
-      if (freedom.nextElementSibling !== plans) plans.before(freedom);
+    // 가입 전 확인은 독립 섹션이 아니라 플랜 내부 상단 안심바로 고정.
+    if (freedom && plans) {
+      const plansWrap = plans.querySelector('.plans-wrap') || plans;
+      const planHead = plansWrap.querySelector('.membership-section-head');
+      if (planHead) {
+        if (freedom.parentNode !== plansWrap || freedom.nextElementSibling !== planHead) planHead.before(freedom);
+      } else if (freedom.parentNode !== plansWrap) {
+        plansWrap.prepend(freedom);
+      }
     } else if (freedom && calculator && calculator.parentNode) {
       calculator.after(freedom);
     }
