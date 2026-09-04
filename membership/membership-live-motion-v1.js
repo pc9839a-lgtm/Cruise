@@ -193,13 +193,13 @@
       <div class="mxtf-inner">
         <div class="mxtf-head">
           <span class="mxtf-kicker">크루즈만이 아닙니다</span>
-          <h2>여행 앞뒤까지<br><strong>한 번에 준비할 수 있습니다</strong></h2>
-          <p class="mxtf-sub">호텔 · 현지 투어 · 국내 숙박까지 함께</p>
+          <h2>호텔·투어도<br><strong>회원 혜택으로 예약합니다</strong></h2>
+          
         </div>
         <div class="mxtf-cards" aria-label="추가 예약 가능 상품">
-          <article class="mxtf-card"><span class="mxtf-num">01</span><strong>전세계 호텔</strong><p>출발 전·후 숙박까지 같이 준비</p></article>
-          <article class="mxtf-card"><span class="mxtf-num">02</span><strong>현지 투어</strong><p>기항지와 여행지 일정도 함께 예약</p></article>
-          <article class="mxtf-card"><span class="mxtf-num">03</span><strong>국내 호텔</strong><p>출국 전날·귀국 후 숙박까지 연결</p></article>
+          <article class="mxtf-card"><span class="mxtf-num">01</span><strong>전세계 호텔</strong><p>호텔도 최저가 보장</p></article>
+          <article class="mxtf-card"><span class="mxtf-num">02</span><strong>현지 투어</strong><p>기항지·여행지 투어 예약</p></article>
+          <article class="mxtf-card"><span class="mxtf-num">03</span><strong>국내 호텔</strong><p>출국 전·귀국 후 숙박</p></article>
         </div>
       </div>`;
 
