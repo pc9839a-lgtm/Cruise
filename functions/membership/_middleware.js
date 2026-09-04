@@ -109,13 +109,13 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260903-flow24"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
-          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260903-conversion46"></script>' +
+          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260904-conversion56"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260903-travel50"></script>' +
           '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260904-order54"></script>' +
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260903-refund52"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260903-flow36"></script>' +
-          '<script defer src="/membership/membership-live-motion-v1.js?v=20260903-live50"></script>' +
+          '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live56"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260903-partnergrade37"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
