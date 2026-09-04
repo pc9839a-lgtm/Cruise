@@ -21,7 +21,7 @@
         box-sizing:border-box!important;
         width:100%!important;
         margin:0!important;
-        padding:150px 0 176px!important;
+        padding:112px 0 126px!important;
         overflow:hidden!important;
         background:
           radial-gradient(circle at 50% 0%,rgba(71,154,255,.18),transparent 36%),
@@ -69,6 +69,17 @@
       #mx-member-booking-benefits .mx18-benefit-result>p{
         margin:16px auto 0;color:#aee3ff;font-size:clamp(19px,2vw,25px);font-weight:900;text-align:center;
       }
+      #mx-member-booking-benefits .mx18-proof-strip{
+        grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+        margin-top:2px;border:1px solid rgba(131,215,255,.24);border-radius:20px;overflow:hidden;background:rgba(4,20,42,.28);
+        opacity:0;transform:translateY(20px);transition:opacity .62s ease .34s,transform .76s cubic-bezier(.16,1,.3,1) .34s;
+      }
+      #mx-member-booking-benefits.mx18-conversion-active .mx18-proof-strip{opacity:1;transform:none}
+      #mx-member-booking-benefits .mx18-proof-strip>div{padding:20px 12px;text-align:center}
+      #mx-member-booking-benefits .mx18-proof-strip>div+div{border-left:1px solid rgba(131,215,255,.18)}
+      #mx-member-booking-benefits .mx18-proof-strip span{display:block;color:#91a8c0;font-size:13px;font-weight:850}
+      #mx-member-booking-benefits .mx18-proof-strip strong{display:block;margin-top:7px;color:#fff;font-size:clamp(24px,2.5vw,34px);line-height:1;font-weight:950}
+      #mx-member-booking-benefits .mx18-proof-strip .accent strong{color:#83d7ff}
       #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-card{opacity:1;transform:none;filter:none}
       #mx-member-booking-benefits .mx18-step{
         display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 11px;border-radius:999px;
@@ -110,7 +121,7 @@
 
       @media(max-width:780px){
         #mx-member-booking-benefits{
-          padding:88px 0 118px!important;
+          padding:76px 0 88px!important;
           background:
             radial-gradient(circle at 50% 0%,rgba(78,166,255,.22),transparent 29%),
             linear-gradient(180deg,#0b2443 0%,#12365f 54%,#0d294b 100%)!important;
@@ -145,6 +156,10 @@
         #mx-member-booking-benefits .mx18-benefit-result>p{
           margin-top:14px;font-size:clamp(18px,5vw,22px);line-height:1.25;
         }
+        #mx-member-booking-benefits .mx18-proof-strip{grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px}
+        #mx-member-booking-benefits .mx18-proof-strip>div{padding:15px 5px}
+        #mx-member-booking-benefits .mx18-proof-strip span{font-size:10px;line-height:1.25}
+        #mx-member-booking-benefits .mx18-proof-strip strong{margin-top:6px;font-size:clamp(19px,5.8vw,25px)}
         #mx-member-booking-benefits .mx18-benefit-conclusion{
           margin-top:66px;padding:46px 4px 0;
         }
@@ -155,6 +170,17 @@
         #mx-member-booking-benefits .mx18-benefit-cta{
           width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
         }
+      }
+      #plans .mx-plan-recommend{
+        display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+        margin:0 0 16px!important;padding:10px 12px!important;border-radius:10px!important;background:#edf4ff!important;color:#17345d!important;
+      }
+      #plans .mx-plan-recommend b{font-size:13px!important;color:#2468e8!important;font-weight:950!important}
+      #plans .mx-plan-recommend span{font-size:12px!important;color:#607089!important;font-weight:850!important}
+      @media(max-width:780px){
+        #plans .mx-plan-recommend{margin-bottom:13px!important;padding:9px 10px!important}
+        #plans .mx-plan-recommend b{font-size:12px!important}
+        #plans .mx-plan-recommend span{font-size:11px!important}
       }
       @media(prefers-reduced-motion:reduce){
         #mx-member-booking-benefits .mx18-benefit-card,
@@ -310,6 +336,11 @@
             <strong>현금 부담이 줄어듭니다</strong>
             <p>같은 크루즈도 회원이 더 적게 냅니다</p>
           </article>
+          <div class="mx18-proof-strip" aria-label="실제 예약 숫자">
+            <div><span>예약 총액</span><strong>$3,887.35</strong></div>
+            <div><span>사용 POINT</span><strong>1,805.84P</strong></div>
+            <div class="accent"><span>실제 카드 결제</span><strong>$2,020.88</strong></div>
+          </div>
         </div>
 
         <div class="mx18-benefit-conclusion">
@@ -320,40 +351,35 @@
         <a class="mx18-benefit-cta" href="#plans">내게 맞는 플랜 보기 <b>→</b></a>
       </div>`;
 
-    const early = ensureSection('mx-start-early','mx19-early-section mx-core-bridge');
-    early.setAttribute('data-membership-section','19');
-    early.innerHTML = `
-      <div class="mx19-inner">
-        <h2 class="mx19-bridge-question">왜<br><strong>미리 시작하나요?</strong></h2>
-        <p class="mx19-answer">여행을 예약할 때가 아니라<br><strong>가기 전부터 POINT를 쌓기 때문입니다</strong></p>
-      </div>`;
-
-    const earlyProof = ensureSection('mx-start-early-proof','mx19-proof-section');
-    earlyProof.setAttribute('data-membership-section','19.5');
-    earlyProof.innerHTML = `
-      <div class="mx19-proof-inner">
-        <h2 class="mx19-proof-lead">미리 시작할수록<br><strong style="color:#2468e8;">쌓이는 POINT가 달라집니다</strong></h2>
-        <div class="mx19-timeline" aria-label="CLASSIC 포인트 적립 예시">
-          <div><span>가입</span><strong>350P</strong></div>
-          <div><span>3개월</span><strong>950P</strong></div>
-          <div><span>6개월</span><strong>1,550P</strong></div>
-          <div><span>12개월</span><strong>2,750P</strong></div>
-        </div>
-        <p class="mx19-closing">시간이 지나면<br><strong style="color:#2468e8;">POINT가 쌓입니다</strong></p>
-        <p class="mx19-note">CLASSIC 가입 350P + 매월 200P 기준</p>
-      </div>`;
+    document.getElementById('mx-start-early')?.remove();
+    document.getElementById('mx-start-early-proof')?.remove();
 
     plans.setAttribute('data-membership-section','20');
     const kicker = plans.querySelector('.section-kicker');
     const title = plans.querySelector('.membership-section-head h2');
-    if (kicker) kicker.textContent = '마지막 선택';
-    if (title) title.innerHTML = '그럼 나는<br><strong>얼마씩 쌓을까?</strong>';
+    if (kicker) kicker.textContent = '플랜 선택';
+    if (title) title.innerHTML = '준비 속도에 맞춰<br><strong>둘 중 하나만 고르면 됩니다</strong>';
+
+    const planCards = [...plans.querySelectorAll('.plan-card')];
+    const recommendations = [
+      { label:'CLASSIC 추천', copy:'여유 있게 준비' },
+      { label:'PREMIUM 추천', copy:'빠르게 더 많이 적립' }
+    ];
+    planCards.forEach((card, index) => {
+      const rec = recommendations[index];
+      if (!rec) return;
+      let badge = card.querySelector('.mx-plan-recommend');
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = 'mx-plan-recommend';
+        card.prepend(badge);
+      }
+      badge.innerHTML = '<b>'+rec.label+'</b><span>'+rec.copy+'</span>';
+    });
 
     if (calculator.nextElementSibling !== optional) calculator.insertAdjacentElement('afterend', optional);
     if (optional.nextElementSibling !== memberBenefits) optional.insertAdjacentElement('afterend', memberBenefits);
-    if (memberBenefits.nextElementSibling !== early) memberBenefits.insertAdjacentElement('afterend', early);
-    if (early.nextElementSibling !== earlyProof) early.insertAdjacentElement('afterend', earlyProof);
-    if (earlyProof.nextElementSibling !== plans) earlyProof.insertAdjacentElement('afterend', plans);
+    if (memberBenefits.nextElementSibling !== plans) memberBenefits.insertAdjacentElement('afterend', plans);
 
     installConversionStyles();
     applyLateFlowStyles();
