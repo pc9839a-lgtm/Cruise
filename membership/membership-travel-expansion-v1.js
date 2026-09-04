@@ -29,14 +29,6 @@
       #${SECTION_ID} .mxt-hotel-proof{width:min(980px,100%);margin:22px auto 0;padding:23px 28px;border-radius:22px;background:linear-gradient(135deg,#eaf2ff,#f7faff);border:1px solid #d4e2fb;color:#17345d;font-size:clamp(22px,2.3vw,30px);font-weight:950;letter-spacing:-.04em;opacity:0;transform:translateY(20px);transition:opacity .58s ease .24s,transform .75s cubic-bezier(.16,1,.3,1) .24s}
       #${SECTION_ID}.is-active .mxt-hotel-proof{opacity:1;transform:none}
       #${SECTION_ID} .mxt-hotel-proof strong{color:#2869df}
-      #${SECTION_ID} .mxt-trip{width:min(980px,100%);margin:22px auto 0;padding:32px 34px;border-radius:28px;background:#0c2443;color:#fff;box-shadow:0 24px 58px rgba(5,25,55,.18);opacity:0;transform:translateY(26px);transition:opacity .64s ease .32s,transform .82s cubic-bezier(.16,1,.3,1) .32s}
-      #${SECTION_ID}.is-active .mxt-trip{opacity:1;transform:none}
-      #${SECTION_ID} .mxt-trip-title{font-size:clamp(25px,2.6vw,34px);line-height:1.15;font-weight:950;letter-spacing:-.045em}
-      #${SECTION_ID} .mxt-trip-flow{margin-top:24px;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;gap:0;border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden}
-      #${SECTION_ID} .mxt-trip-flow span{position:relative;padding:20px 12px;color:#d9e6f4;font-size:16px;font-weight:850}
-      #${SECTION_ID} .mxt-trip-flow span+span{border-left:1px solid rgba(255,255,255,.12)}
-      #${SECTION_ID} .mxt-trip-flow b{display:block;margin-bottom:7px;color:#7ed4ff;font-size:12px;letter-spacing:.03em}
-      #${SECTION_ID} .mxt-trip-note{margin:18px 0 0;color:#91a8c0;font-size:14px;font-weight:750}
 
       #${FREEDOM_ID}{position:relative;box-sizing:border-box;width:100%;margin:0;padding:112px 0 124px;overflow:hidden;background:#fff;color:#0b1730;text-align:center;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
       #${FREEDOM_ID}::before{content:'';position:absolute;left:50%;top:-180px;width:720px;height:400px;transform:translateX(-50%);background:radial-gradient(circle,rgba(45,110,244,.10),rgba(45,110,244,0) 70%);pointer-events:none}
@@ -67,13 +59,6 @@
         #${SECTION_ID} .mxt-card strong{margin-top:48px;font-size:clamp(29px,8vw,35px)}
         #${SECTION_ID} .mxt-card p{font-size:15px}
         #${SECTION_ID} .mxt-hotel-proof{width:calc(100% - 34px);margin-top:6px;padding:20px 16px;border-radius:20px;font-size:clamp(22px,6.5vw,28px)}
-        #${SECTION_ID} .mxt-trip{width:calc(100% - 34px);margin-top:16px;padding:27px 18px 22px;border-radius:24px}
-        #${SECTION_ID} .mxt-trip-title{font-size:clamp(27px,7.5vw,34px)}
-        #${SECTION_ID} .mxt-trip-flow{grid-template-columns:repeat(2,1fr);margin-top:20px;border-radius:17px}
-        #${SECTION_ID} .mxt-trip-flow span{padding:17px 7px;font-size:14px}
-        #${SECTION_ID} .mxt-trip-flow span:nth-child(3){border-left:0;border-top:1px solid rgba(255,255,255,.12)}
-        #${SECTION_ID} .mxt-trip-flow span:nth-child(4){border-top:1px solid rgba(255,255,255,.12)}
-        #${SECTION_ID} .mxt-trip-note{margin-top:14px;font-size:12px}
 
         #${FREEDOM_ID}{padding:84px 0 98px}
         #${FREEDOM_ID} .mxf-inner{width:calc(100% - 34px)}
@@ -85,7 +70,7 @@
         #${FREEDOM_ID} .mxf-card strong{margin-top:10px;font-size:clamp(22px,6vw,28px)}
         #${FREEDOM_ID} .mxf-note{margin-top:18px;font-size:11px}
       }
-      @media(prefers-reduced-motion:reduce){#${SECTION_ID} .mxt-card,#${SECTION_ID} .mxt-hotel-proof,#${SECTION_ID} .mxt-trip,#${FREEDOM_ID} .mxf-card{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){#${SECTION_ID} .mxt-card,#${SECTION_ID} .mxt-hotel-proof,#${FREEDOM_ID} .mxf-card{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
     `;
     document.head.appendChild(style);
   }
@@ -139,16 +124,6 @@
           </article>
         </div>
         <div class="mxt-hotel-proof">크루즈뿐 아니라 <strong>호텔도 최저가 보장</strong></div>
-        <div class="mxt-trip">
-          <div class="mxt-trip-title">크루즈만 잡고 끝나는 여행이 아닙니다</div>
-          <div class="mxt-trip-flow" aria-label="여행 일정 예시">
-            <span><b>출발 전</b>호텔 1박</span>
-            <span><b>여행</b>크루즈</span>
-            <span><b>현지</b>투어</span>
-            <span><b>귀국 후</b>호텔 1박</span>
-          </div>
-          <p class="mxt-trip-note">상품 및 지역에 따라 예약 가능 범위는 달라질 수 있습니다.</p>
-        </div>
       </div>`;
     early.parentNode.insertBefore(section, early);
     activate(section);
