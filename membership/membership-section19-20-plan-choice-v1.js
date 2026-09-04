@@ -105,7 +105,7 @@
       #mx-member-booking-benefits .mx18-benefit-conclusion strong{color:#83d7ff;font-weight:950}
       #mx-member-booking-benefits .mx18-benefit-cta{
         position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:12px;
-        width:min(440px,100%);min-height:64px;margin:38px auto 0;padding:0 28px;border-radius:19px;
+        width:min(440px,100%);min-height:64px;margin:46px auto 0;padding:0 28px;border-radius:19px;
         background:linear-gradient(135deg,#2a67df,#3c8cff);color:#fff;text-decoration:none;font-size:20px;font-weight:950;letter-spacing:-.035em;
         box-shadow:0 16px 40px rgba(22,109,236,.30);opacity:0;transform:translateY(18px) scale(.97);
         transition:opacity .55s ease .5s,transform .72s cubic-bezier(.16,1,.3,1) .5s,box-shadow .2s ease;
@@ -337,7 +337,7 @@
     memberBenefits.setAttribute('data-membership-section','18.5');
     memberBenefits.innerHTML = `
       <div class="mx18-benefit-inner">
-        <h2 class="mx18-benefit-title">결국<br><strong>회원이 더 적게 냅니다</strong></h2>
+        <h2 class="mx18-benefit-title">같은 크루즈<br><strong>회원이 더 적게 냅니다</strong></h2>
 
         <div class="mx18-benefit-cards" aria-label="회원 혜택 흐름">
           <article class="mx18-benefit-card">
@@ -362,12 +362,7 @@
           </div>
         </div>
 
-        <div class="mx18-benefit-conclusion">
-          <span>최저가 크루즈로 예약하려면</span>
-          <p><strong>회원으로 시작하면 됩니다</strong></p>
-        </div>
-
-        <a class="mx18-benefit-cta" href="#plans">내게 맞는 플랜 보기 <b>→</b></a>
+        <a class="mx18-benefit-cta" href="#plans">CLASSIC · PREMIUM 보기 <b>→</b></a>
       </div>`;
 
     document.getElementById('mx-start-early')?.remove();
@@ -377,7 +372,7 @@
     const kicker = plans.querySelector('.section-kicker');
     const title = plans.querySelector('.membership-section-head h2');
     if (kicker) kicker.textContent = '플랜 선택';
-    if (title) title.innerHTML = '준비 속도에 맞춰<br><strong>둘 중 하나만 고르면 됩니다</strong>';
+    if (title) title.innerHTML = 'CLASSIC<br><strong>PREMIUM</strong>';
 
     const planCards = [...plans.querySelectorAll('.plan-card')];
     const recommendations = [
