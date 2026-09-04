@@ -177,10 +177,35 @@
       }
       #plans .mx-plan-recommend b{font-size:13px!important;color:#2468e8!important;font-weight:950!important}
       #plans .mx-plan-recommend span{font-size:12px!important;color:#607089!important;font-weight:850!important}
+      #plans .plan-price-row,#plans .plan-feature-monthly{display:none!important}
+      #plans .mx-plan-essentials{
+        display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;
+        margin:18px 0 0!important;
+      }
+      #plans .mx-plan-essential{
+        min-height:102px!important;padding:16px 10px!important;border-radius:12px!important;
+        background:#f4f7fb!important;border:1px solid #d9e3ef!important;
+        display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+      }
+      #plans .recommended .mx-plan-essential{background:#fff!important;border-color:#c8d9f6!important}
+      #plans .mx-plan-essential span{font-size:12px!important;color:#6b7b90!important;font-weight:850!important}
+      #plans .mx-plan-essential strong{display:block!important;margin-top:8px!important;font-size:34px!important;line-height:1!important;color:#0b1729!important;font-weight:950!important;letter-spacing:-.045em!important}
+      #plans .mx-plan-essential.points strong{color:#2468e8!important}
+      #plans .mx-plan-start{
+        margin:10px 0 0!important;padding:11px 12px!important;border-radius:10px!important;
+        background:#f8fafc!important;color:#63748a!important;font-size:12px!important;line-height:1.35!important;font-weight:850!important;text-align:center!important;
+      }
+      #plans .plan-cta{min-height:56px!important;font-size:17px!important;font-weight:950!important}
       @media(max-width:780px){
         #plans .mx-plan-recommend{margin-bottom:13px!important;padding:9px 10px!important}
         #plans .mx-plan-recommend b{font-size:12px!important}
         #plans .mx-plan-recommend span{font-size:11px!important}
+        #plans .mx-plan-essentials{margin-top:14px!important;gap:7px!important}
+        #plans .mx-plan-essential{min-height:88px!important;padding:13px 6px!important;border-radius:11px!important}
+        #plans .mx-plan-essential span{font-size:11px!important}
+        #plans .mx-plan-essential strong{margin-top:7px!important;font-size:29px!important}
+        #plans .mx-plan-start{margin-top:8px!important;padding:9px 10px!important;font-size:11px!important}
+        #plans .plan-cta{min-height:54px!important;font-size:16px!important}
       }
       @media(prefers-reduced-motion:reduce){
         #mx-member-booking-benefits .mx18-benefit-card,
@@ -356,12 +381,14 @@
 
     const planCards = [...plans.querySelectorAll('.plan-card')];
     const recommendations = [
-      { label:'CLASSIC 추천', copy:'여유 있게 준비' },
-      { label:'PREMIUM 추천', copy:'빠르게 더 많이 적립' }
+      { label:'CLASSIC 추천', copy:'처음 시작 · 여유 있게 준비', monthly:'$100', points:'200P', start:'가입 시 $200 → 350P', cta:'CLASSIC으로 시작하기', cls:'mx-plan-classic' },
+      { label:'PREMIUM 추천', copy:'빠르게 더 많이 적립', monthly:'$250', points:'500P', start:'가입 시 $500 → 800P', cta:'PREMIUM으로 시작하기', cls:'mx-plan-premium' }
     ];
     planCards.forEach((card, index) => {
       const rec = recommendations[index];
       if (!rec) return;
+      card.classList.add(rec.cls);
+
       let badge = card.querySelector('.mx-plan-recommend');
       if (!badge) {
         badge = document.createElement('div');
@@ -369,6 +396,29 @@
         card.prepend(badge);
       }
       badge.innerHTML = '<b>'+rec.label+'</b><span>'+rec.copy+'</span>';
+
+      let essentials = card.querySelector('.mx-plan-essentials');
+      if (!essentials) {
+        essentials = document.createElement('div');
+        essentials.className = 'mx-plan-essentials';
+        const main = card.querySelector('.plan-main-line');
+        if (main) main.insertAdjacentElement('afterend', essentials);
+        else badge.insertAdjacentElement('afterend', essentials);
+      }
+      essentials.innerHTML =
+        '<div class="mx-plan-essential"><span>월 결제</span><strong>'+rec.monthly+'</strong></div>' +
+        '<div class="mx-plan-essential points"><span>매월 적립</span><strong>'+rec.points+'</strong></div>';
+
+      let start = card.querySelector('.mx-plan-start');
+      if (!start) {
+        start = document.createElement('div');
+        start.className = 'mx-plan-start';
+        essentials.insertAdjacentElement('afterend', start);
+      }
+      start.textContent = rec.start;
+
+      const cta = card.querySelector('.plan-cta');
+      if (cta) cta.textContent = rec.cta;
     });
 
     if (calculator.nextElementSibling !== memberBenefits) calculator.insertAdjacentElement('afterend', memberBenefits);
