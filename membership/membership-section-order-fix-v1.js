@@ -86,6 +86,9 @@
         line-height:1.4!important;
       }
 
+      #mx-point-example{padding-top:90px!important;padding-bottom:90px!important}
+      #calculator{padding-top:104px!important;padding-bottom:104px!important}
+
       #plans{
         margin-top:0!important;
         padding-top:46px!important;
@@ -106,6 +109,8 @@
         #mx-membership-freedom .mxf-zero{font-size:27px!important}
         #mx-membership-freedom .mxf-card strong{margin-top:7px!important;font-size:12px!important;letter-spacing:-.025em!important}
         #mx-membership-freedom .mxf-note{margin-top:8px!important;font-size:9px!important;line-height:1.35!important}
+        #mx-point-example{padding-top:62px!important;padding-bottom:62px!important}
+        #calculator{padding-top:74px!important;padding-bottom:74px!important}
         #plans{padding-top:36px!important;border-top:0!important}
         #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:24px!important}
       }
