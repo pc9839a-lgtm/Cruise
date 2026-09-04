@@ -140,21 +140,8 @@
   function refreshMemberCopy() {
     const section = document.getElementById('mx-member-booking-benefits');
     if (!section) return;
-
-    const cards = $$('.mx18-benefit-card', section);
     const cardList = section.querySelector('.mx18-benefit-cards');
-    if (cardList) cardList.setAttribute('aria-label', '회원 예약 단계');
-
-    if (cards[1]) {
-      const description = cards[1].querySelector('p');
-      if (description) description.textContent = '회원가로 바로 예약합니다';
-    }
-
-    const conclusion = section.querySelector('.mx18-benefit-conclusion > p');
-    if (conclusion && conclusion.dataset.mxCopyPatched !== '1') {
-      conclusion.dataset.mxCopyPatched = '1';
-      conclusion.innerHTML = '최저가 크루즈로<br><strong>예약하려면 회원이어야 합니다</strong>';
-    }
+    if (cardList) cardList.setAttribute('aria-label', '회원 혜택 흐름');
   }
 
   function ensureTravelExpansionFallback() {
