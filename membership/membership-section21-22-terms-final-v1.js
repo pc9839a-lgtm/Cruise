@@ -9,80 +9,22 @@
     plans.querySelector('.mv2-early')?.remove();
 
     wrap.querySelectorAll('.plan-card').forEach((card) => {
-      const premium = card.classList.contains('recommended') || /프리미엄/i.test(card.textContent || '');
-      const data = premium
-        ? { start: '$500', reward: '800P', monthly: '500P' }
-        : { start: '$200', reward: '350P', monthly: '200P' };
-
-      card.querySelectorAll('.plan-tag,.plan-fit,.plan-top-stats,.plan-mobile-summary').forEach((el) => el.style.setProperty('display','none','important'));
-      const oldFeature = card.querySelector('.plan-feature-group');
-      if (oldFeature) oldFeature.style.setProperty('display','none','important');
-
-      let facts = card.querySelector('.mx-plan-facts');
-      if (!facts) {
-        facts = document.createElement('div');
-        facts.className = 'mx-plan-facts';
-        facts.setAttribute('aria-label','멤버십 핵심 조건');
-        const cta = card.querySelector('.plan-cta');
-        if (cta) card.insertBefore(facts,cta); else card.appendChild(facts);
-      }
-
-      facts.innerHTML = `
-        <div class="mx-plan-fact"><span>가입 시 결제</span><strong>${data.start}</strong></div>
-        <div class="mx-plan-fact"><span>가입 시 적립</span><strong>${data.reward}</strong></div>
-        <div class="mx-plan-fact"><span>매월 적립</span><strong>${data.monthly}</strong></div>`;
-      facts.style.setProperty('margin','24px 0 0','important');
-      facts.style.setProperty('border-top','1px solid #d3deeb','important');
-      facts.style.setProperty('border-bottom','1px solid #d3deeb','important');
-
-      facts.querySelectorAll('.mx-plan-fact').forEach((row,index,rows) => {
-        row.style.setProperty('display','grid','important');
-        row.style.setProperty('grid-template-columns','1fr auto','important');
-        row.style.setProperty('align-items','center','important');
-        row.style.setProperty('gap','18px','important');
-        row.style.setProperty('padding','18px 2px','important');
-        if (index < rows.length - 1) row.style.setProperty('border-bottom','1px solid #e1e8f1','important');
-        const label = row.querySelector('span');
-        const value = row.querySelector('strong');
-        if (label) {
-          label.style.setProperty('font-size','17px','important');
-          label.style.setProperty('font-weight','850','important');
-          label.style.setProperty('color','#53657c','important');
-        }
-        if (value) {
-          value.style.setProperty('font-size','30px','important');
-          value.style.setProperty('line-height','1','important');
-          value.style.setProperty('font-weight','950','important');
-          value.style.setProperty('color',premium ? '#2468e8' : '#0b1729','important');
-        }
+      card.querySelector('.mx-plan-facts')?.remove();
+      card.querySelectorAll('.plan-tag,.plan-fit,.plan-top-stats,.plan-mobile-summary,.plan-feature-group').forEach((el) => {
+        el.style.setProperty('display','none','important');
       });
-
-      const main = card.querySelector('.plan-main-line');
-      if (main) main.style.setProperty('margin-bottom','0','important');
-      const cta = card.querySelector('.plan-cta');
-      if (cta) {
-        cta.style.setProperty('margin-top','24px','important');
-        cta.style.setProperty('min-height','60px','important');
-        cta.style.setProperty('font-size','18px','important');
-      }
     });
     return true;
   }
 
   function buildFinalFlow() {
-    const early = document.getElementById('mx-start-early');
-    const earlyProof = document.getElementById('mx-start-early-proof');
     const plans = document.getElementById('plans');
     const section21 = document.getElementById('membership-terms');
-    if (!early || !plans || !section21) return false;
+    if (!plans || !section21) return false;
 
     ['mx-faq-section','mx-recap','price-match','mx-final-choice','points-by-time','mx-use-rules','real-cost'].forEach((id) => document.getElementById(id)?.remove());
 
     plans.setAttribute('data-membership-section','20');
-    const planKicker = plans.querySelector('.section-kicker');
-    const planTitle = plans.querySelector('.membership-section-head h2');
-    if (planKicker) planKicker.textContent = '마지막 선택';
-    if (planTitle) planTitle.innerHTML = '그럼 나는<br><strong>얼마씩 쌓을까?</strong>';
     patchPlanCards();
 
     section21.className = 'mx21-terms-section';
@@ -90,7 +32,7 @@
     section21.innerHTML = `
       <div class="mx21-inner">
         <span class="mx21-kicker">가입 전 확인</span>
-        <h2 class="mx21-title">시작하기 전에<br><strong>필요한 조건만 확인하세요</strong></h2>
+        <h2 class="mx21-title">멤버십<br><strong>이용 조건</strong></h2>
         <div class="mx21-terms" aria-label="멤버십 가입 조건">
           <details><summary>환불</summary><p>가입 후 14일이 지나면 환불이 어렵습니다.</p></details>
           <details><summary>POINT</summary><p>예약 조건과 출발 시점에 따라 사용할 수 있는 POINT 범위가 달라질 수 있습니다.</p></details>
@@ -101,8 +43,6 @@
         </div>
       </div>`;
 
-    const planAnchor = earlyProof || early;
-    if (planAnchor.nextElementSibling !== plans) planAnchor.insertAdjacentElement('afterend',plans);
     if (plans.nextElementSibling !== section21) plans.insertAdjacentElement('afterend',section21);
     return true;
   }
