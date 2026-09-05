@@ -13,45 +13,145 @@ export async function onRequest(context) {
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const bottomCtaStyle = `<style id="membership-bottom-cta-style">
     html{scroll-behavior:smooth}
-    body{padding-bottom:96px!important}
+    body{padding-bottom:118px!important}
     #plans{scroll-margin-top:24px!important}
+
     .membership-bottom-cta{
-      position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483000!important;
-      padding:10px 16px calc(12px + env(safe-area-inset-bottom))!important;
-      background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.94) 34%,#fff 100%)!important;
+      position:fixed!important;
+      left:0!important;right:0!important;
+      bottom:calc(18px + env(safe-area-inset-bottom))!important;
+      z-index:2147483000!important;
+      padding:0 16px!important;
+      background:transparent!important;
       pointer-events:none!important;
-      opacity:1!important;transform:translateY(0)!important;
-      transition:opacity .22s ease,transform .28s cubic-bezier(.16,1,.3,1)!important;
+      opacity:1!important;
+      transform:translateY(0)!important;
+      transition:opacity .22s ease,transform .32s cubic-bezier(.16,1,.3,1)!important;
     }
+
     .membership-bottom-cta.is-hidden-by-plans{
-      opacity:0!important;transform:translateY(115%)!important;pointer-events:none!important;
+      opacity:0!important;
+      transform:translateY(130%)!important;
+      pointer-events:none!important;
     }
-    .membership-bottom-cta-inner{width:min(620px,100%)!important;margin:0 auto!important;pointer-events:auto!important}
+
+    .membership-bottom-cta-inner{
+      width:min(650px,100%)!important;
+      margin:0 auto!important;
+      pointer-events:auto!important;
+    }
+
     .membership-bottom-cta a{
-      display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;
-      min-height:64px!important;padding:0 28px!important;border-radius:16px!important;text-decoration:none!important;
-      background:linear-gradient(135deg,#1f5bd8 0%,#2f72ff 100%)!important;color:#fff!important;
+      position:relative!important;
+      overflow:hidden!important;
+      display:flex!important;
+      align-items:center!important;
+      justify-content:center!important;
+      gap:12px!important;
+      min-height:72px!important;
+      padding:0 34px!important;
+      border-radius:999px!important;
+      border:1px solid rgba(255,255,255,.28)!important;
+      text-decoration:none!important;
+      background:linear-gradient(135deg,#1c56d8 0%,#2c72ff 52%,#4d8cff 100%)!important;
+      background-size:180% 180%!important;
+      color:#fff!important;
       font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-      font-size:19px!important;font-weight:950!important;letter-spacing:-.04em!important;line-height:1.15!important;
-      box-shadow:0 14px 32px rgba(31,91,216,.28)!important;
-      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
+      font-size:21px!important;
+      font-weight:950!important;
+      letter-spacing:-.045em!important;
+      line-height:1!important;
+      box-shadow:
+        0 16px 42px rgba(31,91,216,.42),
+        0 0 0 0 rgba(74,139,255,.34)!important;
+      transform-origin:50% 100%!important;
+      animation:
+        membershipCtaFloat 1.85s ease-in-out infinite,
+        membershipCtaGlow 1.85s ease-in-out infinite,
+        membershipCtaGradient 3.8s ease-in-out infinite!important;
+      transition:filter .18s ease,box-shadow .18s ease!important;
     }
-    .membership-bottom-cta a::before{display:none!important}
+
+    .membership-bottom-cta a::before{
+      content:''!important;
+      position:absolute!important;
+      top:-40%!important;
+      bottom:-40%!important;
+      left:-34%!important;
+      width:24%!important;
+      transform:skewX(-22deg)!important;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.52),transparent)!important;
+      animation:membershipCtaShine 2.5s ease-in-out infinite!important;
+      pointer-events:none!important;
+    }
+
     .membership-bottom-cta a::after{
-      content:'→'!important;font-size:22px!important;line-height:1!important;transform:translateY(-1px)!important;
+      content:'→'!important;
+      font-size:26px!important;
+      line-height:1!important;
+      transform:translateY(-1px)!important;
+      animation:membershipCtaArrow 1.05s ease-in-out infinite!important;
     }
+
     .membership-bottom-cta a:hover{
-      transform:translateY(-2px)!important;filter:brightness(1.03)!important;
-      box-shadow:0 18px 38px rgba(31,91,216,.34)!important;
+      filter:brightness(1.07)!important;
+      box-shadow:0 20px 48px rgba(31,91,216,.50),0 0 0 5px rgba(74,139,255,.12)!important;
     }
-    .membership-bottom-cta a:active{transform:scale(.985)!important}
+
+    .membership-bottom-cta a:active{
+      animation:none!important;
+      transform:scale(.975)!important;
+    }
+
+    @keyframes membershipCtaFloat{
+      0%,100%{transform:translateY(0) scale(1)}
+      50%{transform:translateY(-6px) scale(1.025)}
+    }
+
+    @keyframes membershipCtaGlow{
+      0%,100%{box-shadow:0 16px 42px rgba(31,91,216,.38),0 0 0 0 rgba(74,139,255,.28)}
+      50%{box-shadow:0 22px 52px rgba(31,91,216,.54),0 0 0 9px rgba(74,139,255,0)}
+    }
+
+    @keyframes membershipCtaGradient{
+      0%,100%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+    }
+
+    @keyframes membershipCtaShine{
+      0%,52%{left:-34%;opacity:0}
+      60%{opacity:1}
+      78%,100%{left:120%;opacity:0}
+    }
+
+    @keyframes membershipCtaArrow{
+      0%,100%{transform:translate(0,-1px)}
+      50%{transform:translate(7px,-1px)}
+    }
+
     @media(max-width:720px){
-      body{padding-bottom:88px!important}
-      .membership-bottom-cta{padding:8px 10px calc(10px + env(safe-area-inset-bottom))!important}
-      .membership-bottom-cta a{min-height:58px!important;padding:0 16px!important;border-radius:14px!important;font-size:17px!important}
+      body{padding-bottom:108px!important}
+      .membership-bottom-cta{
+        bottom:calc(14px + env(safe-area-inset-bottom))!important;
+        padding:0 10px!important;
+      }
+      .membership-bottom-cta a{
+        min-height:66px!important;
+        padding:0 22px!important;
+        border-radius:999px!important;
+        font-size:19px!important;
+      }
+      .membership-bottom-cta a::after{font-size:24px!important}
     }
+
     @media(prefers-reduced-motion:reduce){
-      .membership-bottom-cta,.membership-bottom-cta a{transition:none!important}
+      .membership-bottom-cta,
+      .membership-bottom-cta a,
+      .membership-bottom-cta a::before,
+      .membership-bottom-cta a::after{
+        animation:none!important;
+        transition:none!important;
+      }
     }
   </style>`;
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle + liveMotionStyle + bottomCtaStyle;
@@ -90,7 +190,7 @@ export async function onRequest(context) {
     .on('body', {
       element(element) {
         element.append(
-          '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 플랜 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">CLASSIC · PREMIUM 비교하기</a></div></div>' +
+          '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 선택 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">내 멤버십 선택하기</a></div></div>' +
           '<script defer src="/membership/membership-scaffold-v1.js?v=20260903-flow15"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260903-type37"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260903-flow15"></script>' +
@@ -111,7 +211,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260905-refund66"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260904-flow62"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live62"></script>' +
-          '<script defer src="/membership/membership-cta-optimization-v1.js?v=20260905-cta68"></script>' +
+          '<script defer src="/membership/membership-cta-optimization-v1.js?v=20260905-cta69"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260903-partnergrade37"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
