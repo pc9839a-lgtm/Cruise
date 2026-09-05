@@ -19,8 +19,8 @@
       #mx-membership-freedom{
         position:relative!important;
         box-sizing:border-box!important;
-        width:min(860px,100%)!important;
-        margin:0 auto 34px!important;
+        width:min(980px,100%)!important;
+        margin:0 auto 46px!important;
         padding:0!important;
         background:transparent!important;
         color:#fff!important;
@@ -36,25 +36,25 @@
         display:inline-flex!important;
         align-items:center!important;
         justify-content:center!important;
-        min-height:28px!important;
-        padding:0 11px!important;
+        min-height:38px!important;
+        padding:0 16px!important;
         border-radius:999px!important;
         background:rgba(126,207,255,.10)!important;
         border:1px solid rgba(126,207,255,.20)!important;
         color:#8bd8ff!important;
-        font-size:12px!important;
+        font-size:15px!important;
         font-weight:950!important;
       }
       #mx-membership-freedom .mxf-grid{
         display:grid!important;
         grid-template-columns:repeat(3,minmax(0,1fr))!important;
-        gap:8px!important;
-        margin:14px 0 0!important;
+        gap:12px!important;
+        margin:18px 0 0!important;
       }
       #mx-membership-freedom .mxf-card{
-        min-height:94px!important;
-        padding:14px 10px!important;
-        border-radius:16px!important;
+        min-height:126px!important;
+        padding:20px 14px!important;
+        border-radius:20px!important;
         background:rgba(255,255,255,.065)!important;
         border:1px solid rgba(255,255,255,.13)!important;
         box-shadow:none!important;
@@ -67,22 +67,22 @@
       }
       #mx-membership-freedom .mxf-zero{
         color:#8bd8ff!important;
-        font-size:34px!important;
+        font-size:44px!important;
         line-height:1!important;
         font-weight:950!important;
       }
       #mx-membership-freedom .mxf-card strong{
-        margin-top:8px!important;
+        margin-top:10px!important;
         color:#fff!important;
-        font-size:15px!important;
+        font-size:18px!important;
         line-height:1.15!important;
         font-weight:900!important;
         white-space:nowrap!important;
       }
       #mx-membership-freedom .mxf-note{
-        margin:10px auto 0!important;
+        margin:14px auto 0!important;
         color:#8196ad!important;
-        font-size:10px!important;
+        font-size:11px!important;
         line-height:1.4!important;
       }
 
@@ -96,23 +96,23 @@
         background:#07111f!important;
       }
       #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{
-        margin-top:30px!important;
+        margin-top:40px!important;
       }
 
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
-        #mx-membership-freedom{width:100%!important;margin-bottom:26px!important}
+        #mx-membership-freedom{width:100%!important;margin-bottom:34px!important}
         #mx-membership-freedom .mxf-inner{width:100%!important}
-        #mx-membership-freedom .mxf-kicker{min-height:26px!important;font-size:11px!important}
-        #mx-membership-freedom .mxf-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;margin-top:12px!important}
-        #mx-membership-freedom .mxf-card{min-height:84px!important;padding:12px 5px!important;border-radius:14px!important}
-        #mx-membership-freedom .mxf-zero{font-size:27px!important}
-        #mx-membership-freedom .mxf-card strong{margin-top:7px!important;font-size:12px!important;letter-spacing:-.025em!important}
-        #mx-membership-freedom .mxf-note{margin-top:8px!important;font-size:9px!important;line-height:1.35!important}
+        #mx-membership-freedom .mxf-kicker{min-height:34px!important;padding:0 13px!important;font-size:13px!important}
+        #mx-membership-freedom .mxf-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin-top:14px!important}
+        #mx-membership-freedom .mxf-card{min-height:108px!important;padding:15px 6px!important;border-radius:16px!important}
+        #mx-membership-freedom .mxf-zero{font-size:34px!important}
+        #mx-membership-freedom .mxf-card strong{margin-top:8px!important;font-size:14px!important;letter-spacing:-.025em!important}
+        #mx-membership-freedom .mxf-note{margin-top:10px!important;font-size:10px!important;line-height:1.4!important}
         #mx-point-example{padding-top:62px!important;padding-bottom:62px!important}
         #calculator{padding-top:74px!important;padding-bottom:74px!important}
         #plans{padding-top:36px!important;border-top:0!important}
-        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:24px!important}
+        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:32px!important}
       }
     `;
     document.head.appendChild(style);
