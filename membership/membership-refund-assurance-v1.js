@@ -19,9 +19,9 @@
       #mx-membership-freedom .mx-refund-card .mx-refund-sub{display:none!important}
       @media(max-width:780px){
         #mx-membership-freedom .mxf-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-        #mx-membership-freedom .mxf-card.mx-refund-card{grid-column:auto!important;min-height:124px!important}
-        #mx-membership-freedom .mx-refund-card .mxf-zero{font-size:clamp(36px,10vw,46px)!important}
-        #mx-membership-freedom .mx-refund-card strong{font-size:14px!important}
+        #mx-membership-freedom .mxf-card.mx-refund-card{grid-column:auto!important;min-height:138px!important}
+        #mx-membership-freedom .mx-refund-card .mxf-zero{font-size:clamp(40px,10.8vw,50px)!important}
+        #mx-membership-freedom .mx-refund-card strong{font-size:15px!important}
       }
     `;
     document.head.appendChild(style);
