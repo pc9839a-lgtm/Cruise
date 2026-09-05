@@ -193,10 +193,17 @@
       #plans .recommended .mx-plan-essential{background:#fff!important;border-color:#c8d9f6!important}
       #plans .mx-plan-essential span{font-size:12px!important;color:#6b7b90!important;font-weight:850!important}
       #plans .mx-plan-essential strong{display:block!important;margin-top:8px!important;font-size:34px!important;line-height:1!important;color:#0b1729!important;font-weight:950!important;letter-spacing:-.045em!important}
+      #plans .mx-plan-essential.points{
+        background:#edf4ff!important;border-color:#cbdcf8!important;
+      }
       #plans .mx-plan-essential.points strong{color:#2468e8!important}
+      #plans .mx-plan-essential.points span{color:#3d67a8!important}
+      #plans .mx-plan-essential .mx-plan-sub{
+        display:block!important;margin-top:5px!important;font-size:10px!important;line-height:1.1!important;color:#8a99ad!important;font-weight:850!important;
+      }
       #plans .mx-plan-start{
-        margin:10px 0 0!important;padding:11px 12px!important;border-radius:10px!important;
-        background:#f8fafc!important;color:#63748a!important;font-size:12px!important;line-height:1.35!important;font-weight:850!important;text-align:center!important;
+        margin:10px 0 0!important;padding:12px 12px!important;border-radius:10px!important;
+        background:#eaf3ff!important;color:#245fbd!important;font-size:13px!important;line-height:1.35!important;font-weight:950!important;text-align:center!important;
       }
       #plans .plan-cta{
         display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;
@@ -221,8 +228,9 @@
         #plans .mx-plan-essentials{margin-top:14px!important;gap:7px!important}
         #plans .mx-plan-essential{min-height:88px!important;padding:13px 6px!important;border-radius:11px!important}
         #plans .mx-plan-essential span{font-size:11px!important}
-        #plans .mx-plan-essential strong{margin-top:7px!important;font-size:29px!important}
-        #plans .mx-plan-start{margin-top:8px!important;padding:9px 10px!important;font-size:11px!important}
+        #plans .mx-plan-essential strong{margin-top:7px!important;font-size:27px!important}
+        #plans .mx-plan-essential .mx-plan-sub{font-size:9px!important}
+        #plans .mx-plan-start{margin-top:8px!important;padding:10px 8px!important;font-size:11px!important}
         #plans .plan-cta{min-height:60px!important;margin-top:16px!important;font-size:17px!important;border-radius:13px!important}
       }
       @media(prefers-reduced-motion:reduce){
@@ -360,19 +368,21 @@
     const recommendations = [
       {
         label:'CLASSIC 추천',
-        copy:'처음 시작 · 부담 낮게',
+        copy:'부담 낮게 시작',
+        join:'$200',
         monthly:'$100',
-        points:'200P',
-        start:'가입 $200 → 350P',
+        startPoints:'350P',
+        monthlyPoints:'200P',
         cta:'CLASSIC 가입하기',
         cls:'mx-plan-classic'
       },
       {
         label:'PREMIUM 추천',
-        copy:'빠른 적립 · POINT 2.5배',
+        copy:'POINT 빠르게 적립',
+        join:'$500',
         monthly:'$250',
-        points:'500P',
-        start:'가입 $500 → 800P',
+        startPoints:'800P',
+        monthlyPoints:'500P',
         cta:'PREMIUM 가입하기',
         cls:'mx-plan-premium'
       }
@@ -385,7 +395,7 @@
       card.classList.remove('mx-plan-classic','mx-plan-premium');
       card.classList.add(rec.cls);
 
-      if (card.dataset.mxPlanPatched === '67') return;
+      if (card.dataset.mxPlanPatched === '71') return;
 
       card.querySelectorAll('.mx-plan-recommend,.mx-plan-essentials,.mx-plan-start').forEach((el) => el.remove());
 
@@ -400,21 +410,23 @@
       const essentials = document.createElement('div');
       essentials.className = 'mx-plan-essentials';
       essentials.innerHTML =
-        '<div class="mx-plan-essential"><span>월 결제</span><strong>'+rec.monthly+'</strong></div>' +
-        '<div class="mx-plan-essential points"><span>매월 적립</span><strong>'+rec.points+'</strong></div>';
+        '<div class="mx-plan-essential"><span>가입비</span><strong>'+rec.join+'</strong><small class="mx-plan-sub">최초 1회</small></div>' +
+        '<div class="mx-plan-essential"><span>이후 매월</span><strong>'+rec.monthly+'</strong><small class="mx-plan-sub">월 결제</small></div>' +
+        '<div class="mx-plan-essential points"><span>시작 POINT</span><strong>'+rec.startPoints+'</strong><small class="mx-plan-sub">첫 결제 적립</small></div>' +
+        '<div class="mx-plan-essential points"><span>매월 POINT · 2배</span><strong>'+rec.monthlyPoints+'</strong><small class="mx-plan-sub">매월 적립</small></div>';
 
       if (main) main.insertAdjacentElement('afterend', essentials);
       else badge.insertAdjacentElement('afterend', essentials);
 
       const start = document.createElement('div');
       start.className = 'mx-plan-start';
-      start.textContent = rec.start;
+      start.textContent = '가입비도 POINT로 적립됩니다';
       essentials.insertAdjacentElement('afterend', start);
 
       const cta = card.querySelector('.plan-cta');
       if (cta) cta.textContent = rec.cta;
 
-      card.dataset.mxPlanPatched = '67';
+      card.dataset.mxPlanPatched = '71';
     });
 
     return true;
