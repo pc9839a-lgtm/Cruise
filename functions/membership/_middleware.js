@@ -70,7 +70,7 @@ export async function onRequest(context) {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260903-align44'); }
     })
     .on('script[src*="membership-calc-plans-v2.js"]', {
-      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan67'); }
+      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan68'); }
     })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
@@ -111,6 +111,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20260905-refund66"></script>' +
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20260904-flow62"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20260904-live62"></script>' +
+          '<script defer src="/membership/membership-cta-optimization-v1.js?v=20260905-cta68"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-partner-motion-v1.js?v=20260903-partnergrade37"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
