@@ -171,69 +171,111 @@
           width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
         }
       }
-      #plans .plan-card{min-height:0!important;padding:26px 24px!important;border-radius:20px!important}
-      #plans .plan-main-line{margin:18px 0 0!important}
-      #plans .plan-name{font-size:30px!important;line-height:1!important;font-weight:950!important}
+      #plans .plan-card{
+        min-height:0!important;padding:30px 28px!important;border-radius:24px!important;
+        overflow:hidden!important;
+      }
+      #plans .plan-main-line{margin:20px 0 0!important}
+      #plans .plan-name{
+        font-size:38px!important;line-height:1!important;font-weight:950!important;letter-spacing:-.055em!important;
+      }
       #plans .mx-plan-recommend{
         display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-        margin:0 0 18px!important;padding:10px 12px!important;border-radius:10px!important;background:#edf4ff!important;color:#17345d!important;
+        margin:0 0 22px!important;padding:11px 14px!important;border-radius:999px!important;
+        background:#edf4ff!important;color:#17345d!important;
       }
-      #plans .mx-plan-recommend b{font-size:13px!important;color:#2468e8!important;font-weight:950!important}
-      #plans .mx-plan-recommend span{font-size:12px!important;color:#607089!important;font-weight:850!important}
+      #plans .mx-plan-recommend b{
+        font-size:13px!important;color:#2468e8!important;font-weight:950!important;
+      }
+      #plans .mx-plan-recommend span{
+        font-size:12px!important;color:#607089!important;font-weight:850!important;
+      }
       #plans .plan-price-row,#plans .plan-feature-monthly{display:none!important}
+
       #plans .mx-plan-essentials{
-        display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;
-        margin:18px 0 0!important;
+        display:block!important;margin:24px 0 0!important;
       }
-      #plans .mx-plan-essential{
-        min-height:102px!important;padding:16px 10px!important;border-radius:12px!important;
-        background:#f4f7fb!important;border:1px solid #d9e3ef!important;
-        display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+      #plans .mx-plan-group{
+        padding:22px 22px!important;border-radius:18px!important;
+        background:#f6f8fb!important;border:1px solid #dce4ef!important;
       }
-      #plans .recommended .mx-plan-essential{background:#fff!important;border-color:#c8d9f6!important}
-      #plans .mx-plan-essential span{font-size:12px!important;color:#6b7b90!important;font-weight:850!important}
-      #plans .mx-plan-essential strong{display:block!important;margin-top:8px!important;font-size:34px!important;line-height:1!important;color:#0b1729!important;font-weight:950!important;letter-spacing:-.045em!important}
-      #plans .mx-plan-essential.points{
-        background:#edf4ff!important;border-color:#cbdcf8!important;
+      #plans .mx-plan-group + .mx-plan-group{margin-top:12px!important}
+      #plans .mx-plan-group.points{
+        background:linear-gradient(180deg,#eef5ff,#e8f1ff)!important;
+        border-color:#c7d9f7!important;
       }
-      #plans .mx-plan-essential.points strong{color:#2468e8!important}
-      #plans .mx-plan-essential.points span{color:#3d67a8!important}
-      #plans .mx-plan-essential .mx-plan-sub{
-        display:block!important;margin-top:5px!important;font-size:10px!important;line-height:1.1!important;color:#8a99ad!important;font-weight:850!important;
+      #plans .mx-plan-group-head{
+        display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+        margin-bottom:8px!important;
       }
+      #plans .mx-plan-group-head>span{
+        font-size:12px!important;line-height:1!important;color:#6a7b90!important;font-weight:950!important;letter-spacing:.06em!important;
+      }
+      #plans .mx-plan-group.points .mx-plan-group-head>span{color:#3a66a9!important}
+      #plans .mx-plan-2x{
+        display:inline-flex!important;align-items:center!important;justify-content:center!important;
+        min-height:26px!important;padding:0 10px!important;border-radius:999px!important;
+        background:#2468e8!important;color:#fff!important;font-size:11px!important;font-weight:950!important;
+      }
+      #plans .mx-plan-row{
+        display:grid!important;grid-template-columns:1fr auto!important;align-items:end!important;gap:18px!important;
+        padding:14px 0!important;text-align:left!important;
+      }
+      #plans .mx-plan-row + .mx-plan-row{border-top:1px solid #dce4ef!important}
+      #plans .mx-plan-group.points .mx-plan-row + .mx-plan-row{border-top-color:#cbdcf8!important}
+      #plans .mx-plan-copy strong{
+        display:block!important;color:#15253b!important;font-size:17px!important;line-height:1.15!important;font-weight:950!important;
+      }
+      #plans .mx-plan-copy small{
+        display:block!important;margin-top:5px!important;color:#8493a6!important;font-size:11px!important;line-height:1.25!important;font-weight:800!important;
+      }
+      #plans .mx-plan-value{
+        color:#0b1729!important;font-size:42px!important;line-height:.95!important;letter-spacing:-.055em!important;font-weight:950!important;white-space:nowrap!important;
+      }
+      #plans .mx-plan-group.points .mx-plan-value{color:#2468e8!important}
       #plans .mx-plan-start{
-        margin:10px 0 0!important;padding:12px 12px!important;border-radius:10px!important;
-        background:#eaf3ff!important;color:#245fbd!important;font-size:13px!important;line-height:1.35!important;font-weight:950!important;text-align:center!important;
+        display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;
+        margin:14px 0 0!important;padding:12px 14px!important;border-radius:12px!important;
+        background:#e8f2ff!important;color:#245fbd!important;font-size:13px!important;line-height:1.3!important;font-weight:950!important;text-align:center!important;
+      }
+      #plans .mx-plan-start::before{
+        content:'✓'!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+        width:20px!important;height:20px!important;border-radius:50%!important;background:#2468e8!important;color:#fff!important;
+        font-size:12px!important;font-weight:950!important;
       }
       #plans .plan-cta{
         display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;
-        min-height:64px!important;margin-top:20px!important;padding:0 20px!important;border-radius:14px!important;
-        font-size:18px!important;font-weight:950!important;letter-spacing:-.035em!important;text-decoration:none!important;
+        min-height:66px!important;margin-top:20px!important;padding:0 20px!important;border-radius:16px!important;
+        font-size:19px!important;font-weight:950!important;letter-spacing:-.04em!important;text-decoration:none!important;
         transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
       }
       #plans .mx-plan-classic .plan-cta{
-        background:#07111f!important;color:#fff!important;box-shadow:0 10px 24px rgba(7,17,31,.16)!important;
+        background:#07111f!important;color:#fff!important;box-shadow:0 12px 26px rgba(7,17,31,.18)!important;
       }
       #plans .mx-plan-premium .plan-cta{
-        background:linear-gradient(135deg,#2468e8,#347dff)!important;color:#fff!important;box-shadow:0 12px 28px rgba(36,104,232,.28)!important;
+        background:linear-gradient(135deg,#2468e8,#347dff)!important;color:#fff!important;
+        box-shadow:0 14px 30px rgba(36,104,232,.30)!important;
       }
       #plans .plan-cta:hover{transform:translateY(-2px)!important;filter:brightness(1.03)!important}
       #plans .plan-cta:active{transform:scale(.985)!important}
+
       @media(max-width:780px){
-        #plans .plan-card{padding:20px 16px!important;border-radius:16px!important}
-        #plans .plan-name{font-size:24px!important}
-        #plans .mx-plan-recommend{margin-bottom:13px!important;padding:9px 10px!important}
+        #plans .plan-card{padding:22px 18px!important;border-radius:18px!important}
+        #plans .plan-name{font-size:30px!important}
+        #plans .mx-plan-recommend{margin-bottom:16px!important;padding:9px 11px!important}
         #plans .mx-plan-recommend b{font-size:12px!important}
         #plans .mx-plan-recommend span{font-size:11px!important}
-        #plans .mx-plan-essentials{margin-top:14px!important;gap:7px!important}
-        #plans .mx-plan-essential{min-height:88px!important;padding:13px 6px!important;border-radius:11px!important}
-        #plans .mx-plan-essential span{font-size:11px!important}
-        #plans .mx-plan-essential strong{margin-top:7px!important;font-size:27px!important}
-        #plans .mx-plan-essential .mx-plan-sub{font-size:9px!important}
-        #plans .mx-plan-start{margin-top:8px!important;padding:10px 8px!important;font-size:11px!important}
-        #plans .plan-cta{min-height:60px!important;margin-top:16px!important;font-size:17px!important;border-radius:13px!important}
+        #plans .mx-plan-essentials{margin-top:18px!important}
+        #plans .mx-plan-group{padding:17px 16px!important;border-radius:15px!important}
+        #plans .mx-plan-group + .mx-plan-group{margin-top:10px!important}
+        #plans .mx-plan-row{gap:10px!important;padding:12px 0!important}
+        #plans .mx-plan-copy strong{font-size:15px!important}
+        #plans .mx-plan-copy small{font-size:10px!important}
+        #plans .mx-plan-value{font-size:34px!important}
+        #plans .mx-plan-start{margin-top:11px!important;padding:11px 10px!important;font-size:11px!important}
+        #plans .plan-cta{min-height:62px!important;margin-top:16px!important;font-size:17px!important;border-radius:14px!important}
       }
-      @media(prefers-reduced-motion:reduce){
+            @media(prefers-reduced-motion:reduce){
         #mx-member-booking-benefits .mx18-benefit-card,
         #mx-member-booking-benefits .mx18-benefit-conclusion,
         #mx-member-booking-benefits .mx18-benefit-cta{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
@@ -359,7 +401,7 @@
     const subtitle = plans.querySelector('.membership-section-head p');
 
     if (kicker) kicker.textContent = '멤버십 선택';
-    if (title) title.innerHTML = 'CLASSIC <span style="opacity:.35">/</span> <strong>PREMIUM</strong>';
+    if (title) title.innerHTML = '내 일정에 맞게<br><strong>고르세요</strong>';
     if (subtitle) subtitle.textContent = '';
 
     const planCards = [...plans.querySelectorAll('.plan-card')];
@@ -367,23 +409,23 @@
 
     const recommendations = [
       {
-        label:'CLASSIC 추천',
-        copy:'부담 낮게 시작',
+        label:'CLASSIC',
+        copy:'가볍게 시작',
         join:'$200',
         monthly:'$100',
         startPoints:'350P',
         monthlyPoints:'200P',
-        cta:'CLASSIC 가입하기',
+        cta:'CLASSIC 시작하기',
         cls:'mx-plan-classic'
       },
       {
-        label:'PREMIUM 추천',
-        copy:'POINT 빠르게 적립',
+        label:'PREMIUM',
+        copy:'빠르게 적립',
         join:'$500',
         monthly:'$250',
         startPoints:'800P',
         monthlyPoints:'500P',
-        cta:'PREMIUM 가입하기',
+        cta:'PREMIUM 시작하기',
         cls:'mx-plan-premium'
       }
     ];
@@ -395,7 +437,7 @@
       card.classList.remove('mx-plan-classic','mx-plan-premium');
       card.classList.add(rec.cls);
 
-      if (card.dataset.mxPlanPatched === '71') return;
+      if (card.dataset.mxPlanPatched === '72') return;
 
       card.querySelectorAll('.mx-plan-recommend,.mx-plan-essentials,.mx-plan-start').forEach((el) => el.remove());
 
@@ -410,23 +452,29 @@
       const essentials = document.createElement('div');
       essentials.className = 'mx-plan-essentials';
       essentials.innerHTML =
-        '<div class="mx-plan-essential"><span>가입비</span><strong>'+rec.join+'</strong><small class="mx-plan-sub">최초 1회</small></div>' +
-        '<div class="mx-plan-essential"><span>이후 매월</span><strong>'+rec.monthly+'</strong><small class="mx-plan-sub">월 결제</small></div>' +
-        '<div class="mx-plan-essential points"><span>시작 POINT</span><strong>'+rec.startPoints+'</strong><small class="mx-plan-sub">첫 결제 적립</small></div>' +
-        '<div class="mx-plan-essential points"><span>매월 POINT · 2배</span><strong>'+rec.monthlyPoints+'</strong><small class="mx-plan-sub">매월 적립</small></div>';
+        '<div class="mx-plan-group money">' +
+          '<div class="mx-plan-group-head"><span>결제</span></div>' +
+          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>처음</strong><small>최초 1회</small></div><div class="mx-plan-value">'+rec.join+'</div></div>' +
+          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>이후 매월</strong><small>월 결제</small></div><div class="mx-plan-value">'+rec.monthly+'</div></div>' +
+        '</div>' +
+        '<div class="mx-plan-group points">' +
+          '<div class="mx-plan-group-head"><span>POINT 적립</span><b class="mx-plan-2x">매월 2배</b></div>' +
+          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>시작 POINT</strong><small>첫 결제 적립</small></div><div class="mx-plan-value">'+rec.startPoints+'</div></div>' +
+          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>매월 POINT</strong><small>매월 적립</small></div><div class="mx-plan-value">'+rec.monthlyPoints+'</div></div>' +
+        '</div>';
 
       if (main) main.insertAdjacentElement('afterend', essentials);
       else badge.insertAdjacentElement('afterend', essentials);
 
       const start = document.createElement('div');
       start.className = 'mx-plan-start';
-      start.textContent = '가입비도 POINT로 적립됩니다';
+      start.textContent = '첫 결제도 POINT로 적립';
       essentials.insertAdjacentElement('afterend', start);
 
       const cta = card.querySelector('.plan-cta');
       if (cta) cta.textContent = rec.cta;
 
-      card.dataset.mxPlanPatched = '71';
+      card.dataset.mxPlanPatched = '72';
     });
 
     return true;
