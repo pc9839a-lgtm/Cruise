@@ -198,7 +198,20 @@
         margin:10px 0 0!important;padding:11px 12px!important;border-radius:10px!important;
         background:#f8fafc!important;color:#63748a!important;font-size:12px!important;line-height:1.35!important;font-weight:850!important;text-align:center!important;
       }
-      #plans .plan-cta{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:58px!important;margin-top:18px!important;font-size:17px!important;font-weight:950!important;border-radius:12px!important}
+      #plans .plan-cta{
+        display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;
+        min-height:64px!important;margin-top:20px!important;padding:0 20px!important;border-radius:14px!important;
+        font-size:18px!important;font-weight:950!important;letter-spacing:-.035em!important;text-decoration:none!important;
+        transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
+      }
+      #plans .mx-plan-classic .plan-cta{
+        background:#07111f!important;color:#fff!important;box-shadow:0 10px 24px rgba(7,17,31,.16)!important;
+      }
+      #plans .mx-plan-premium .plan-cta{
+        background:linear-gradient(135deg,#2468e8,#347dff)!important;color:#fff!important;box-shadow:0 12px 28px rgba(36,104,232,.28)!important;
+      }
+      #plans .plan-cta:hover{transform:translateY(-2px)!important;filter:brightness(1.03)!important}
+      #plans .plan-cta:active{transform:scale(.985)!important}
       @media(max-width:780px){
         #plans .plan-card{padding:20px 16px!important;border-radius:16px!important}
         #plans .plan-name{font-size:24px!important}
@@ -210,7 +223,7 @@
         #plans .mx-plan-essential span{font-size:11px!important}
         #plans .mx-plan-essential strong{margin-top:7px!important;font-size:29px!important}
         #plans .mx-plan-start{margin-top:8px!important;padding:9px 10px!important;font-size:11px!important}
-        #plans .plan-cta{min-height:54px!important;font-size:16px!important}
+        #plans .plan-cta{min-height:60px!important;margin-top:16px!important;font-size:17px!important;border-radius:13px!important}
       }
       @media(prefers-reduced-motion:reduce){
         #mx-member-booking-benefits .mx18-benefit-card,
@@ -351,7 +364,7 @@
         monthly:'$100',
         points:'200P',
         start:'가입 $200 → 350P',
-        cta:'CLASSIC 시작하기',
+        cta:'CLASSIC 가입하기',
         cls:'mx-plan-classic'
       },
       {
@@ -360,7 +373,7 @@
         monthly:'$250',
         points:'500P',
         start:'가입 $500 → 800P',
-        cta:'PREMIUM 시작하기',
+        cta:'PREMIUM 가입하기',
         cls:'mx-plan-premium'
       }
     ];
@@ -372,7 +385,7 @@
       card.classList.remove('mx-plan-classic','mx-plan-premium');
       card.classList.add(rec.cls);
 
-      if (card.dataset.mxPlanPatched === '63') return;
+      if (card.dataset.mxPlanPatched === '67') return;
 
       card.querySelectorAll('.mx-plan-recommend,.mx-plan-essentials,.mx-plan-start').forEach((el) => el.remove());
 
@@ -401,7 +414,7 @@
       const cta = card.querySelector('.plan-cta');
       if (cta) cta.textContent = rec.cta;
 
-      card.dataset.mxPlanPatched = '63';
+      card.dataset.mxPlanPatched = '67';
     });
 
     return true;
@@ -467,7 +480,7 @@
           </div>
         </div>
 
-        <a class="mx18-benefit-cta" href="#plans">CLASSIC · PREMIUM 보기 <b>→</b></a>
+        <a class="mx18-benefit-cta" href="#plans">CLASSIC · PREMIUM 비교하기 <b>→</b></a>
       </div>`;
 
     document.getElementById('mx-start-early')?.remove();
