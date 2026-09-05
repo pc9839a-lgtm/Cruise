@@ -10,7 +10,7 @@
     const setCopy = () => {
       const rect = plans.getBoundingClientRect();
       const passedPlans = rect.bottom < 0;
-      link.textContent = passedPlans ? '플랜 다시 보기' : 'CLASSIC · PREMIUM 비교하기';
+      link.textContent = passedPlans ? '멤버십 다시 보기' : '내 멤버십 선택하기';
     };
 
     const setPlanVisibility = (visible) => {
