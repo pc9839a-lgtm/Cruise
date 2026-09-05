@@ -62,8 +62,8 @@
 
     const cards = $('.plan-card', root);
     const data = [
-      { cta: 'CLASSIC으로 시작하기' },
-      { cta: 'PREMIUM으로 시작하기' }
+      { cta: 'CLASSIC 가입하기' },
+      { cta: 'PREMIUM 가입하기' }
     ];
 
     cards.forEach((card, i) => {
