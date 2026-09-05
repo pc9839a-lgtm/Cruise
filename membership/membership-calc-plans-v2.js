@@ -58,12 +58,12 @@
     if (!root) return;
 
     const heading = $('.membership-section-head h2', root);
-    if (heading) heading.innerHTML = 'CLASSIC<br><strong>PREMIUM</strong>';
+    if (heading) heading.innerHTML = '내 일정에 맞게<br><strong>고르세요</strong>';
 
     const cards = $$('.plan-card', root);
     const data = [
-      { cta: 'CLASSIC 가입하기' },
-      { cta: 'PREMIUM 가입하기' }
+      { cta: 'CLASSIC 시작하기' },
+      { cta: 'PREMIUM 시작하기' }
     ];
 
     cards.forEach((card, i) => {
