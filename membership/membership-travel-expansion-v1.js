@@ -140,12 +140,13 @@
     section.setAttribute('data-membership-section', '19.8');
     section.innerHTML = `
       <div class="mxf-inner">
-        <h2 class="mxf-title">가입 전 확인</h2>
-        <div class="mxf-grid">
-          <div class="mxf-card"><span class="mxf-zero">0원</span><strong>위약금 없음</strong></div>
-          <div class="mxf-card"><span class="mxf-zero">0개월</span><strong>약정 없음</strong></div>
+        <h2 class="mxf-title">가입 전에<br><strong>이것만 확인하세요</strong></h2>
+        <div class="mxf-grid" aria-label="가입 전 핵심 조건">
+          <div class="mxf-card mxf-penalty"><span class="mxf-zero">0원</span><strong>위약금 없음</strong></div>
+          <div class="mxf-card mx-refund-card"><span class="mxf-zero">14일</span><strong>100% 환불*</strong></div>
+          <div class="mxf-card mxf-contract"><span class="mxf-zero">0개월</span><strong>약정 없음</strong></div>
         </div>
-        <p class="mxf-note">멤버십 이용 기준입니다. 예약한 크루즈·호텔·투어 상품의 취소 규정은 각 상품 조건에 따릅니다.</p>
+        <p class="mxf-note">* 멤버십 결제 기준이며, 예약 상품 취소 규정은 각 상품 조건에 따릅니다.</p>
       </div>`;
     plans.parentNode.insertBefore(section, plans);
     activate(section);
