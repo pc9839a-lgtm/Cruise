@@ -13,53 +13,45 @@ export async function onRequest(context) {
   const surveyMobileStyle = '<link rel="stylesheet" href="/membership/membership-survey-mobile-v3.css?v=20260901-1">';
   const bottomCtaStyle = `<style id="membership-bottom-cta-style">
     html{scroll-behavior:smooth}
-    body{padding-bottom:104px!important}
-    #plans{scroll-margin-top:28px!important}
+    body{padding-bottom:96px!important}
+    #plans{scroll-margin-top:24px!important}
     .membership-bottom-cta{
       position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483000!important;
-      padding:14px 18px calc(14px + env(safe-area-inset-bottom))!important;
-      background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.93) 28%,rgba(255,255,255,.985) 100%)!important;
+      padding:10px 16px calc(12px + env(safe-area-inset-bottom))!important;
+      background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.94) 34%,#fff 100%)!important;
       pointer-events:none!important;
+      opacity:1!important;transform:translateY(0)!important;
+      transition:opacity .22s ease,transform .28s cubic-bezier(.16,1,.3,1)!important;
     }
-    .membership-bottom-cta-inner{width:min(560px,100%)!important;margin:0 auto!important;pointer-events:auto!important}
+    .membership-bottom-cta.is-hidden-by-plans{
+      opacity:0!important;transform:translateY(115%)!important;pointer-events:none!important;
+    }
+    .membership-bottom-cta-inner{width:min(620px,100%)!important;margin:0 auto!important;pointer-events:auto!important}
     .membership-bottom-cta a{
-      position:relative!important;overflow:hidden!important;
-      display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;
-      min-height:60px!important;padding:0 30px!important;border-radius:19px!important;text-decoration:none!important;
-      background:linear-gradient(135deg,#1f54b7 0%,#2f68ff 58%,#3976ff 100%)!important;color:#fff!important;
+      display:flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;
+      min-height:64px!important;padding:0 28px!important;border-radius:16px!important;text-decoration:none!important;
+      background:linear-gradient(135deg,#1f5bd8 0%,#2f72ff 100%)!important;color:#fff!important;
       font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-      font-size:20px!important;font-weight:950!important;letter-spacing:-.038em!important;
-      box-shadow:0 14px 36px rgba(31,84,183,.32),0 3px 10px rgba(16,35,72,.12)!important;
-      transform-origin:50% 100%!important;
-      animation:membershipCtaNudge 2.8s cubic-bezier(.16,1,.3,1) infinite!important;
-      transition:transform .18s ease,box-shadow .18s ease!important;
+      font-size:19px!important;font-weight:950!important;letter-spacing:-.04em!important;line-height:1.15!important;
+      box-shadow:0 14px 32px rgba(31,91,216,.28)!important;
+      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
     }
-    .membership-bottom-cta a::before{
-      content:''!important;position:absolute!important;inset:0 auto 0 -38%!important;width:30%!important;
-      background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)!important;
-      transform:skewX(-18deg)!important;animation:membershipCtaShine 3.6s ease-in-out infinite!important;pointer-events:none!important;
-    }
+    .membership-bottom-cta a::before{display:none!important}
     .membership-bottom-cta a::after{
       content:'→'!important;font-size:22px!important;line-height:1!important;transform:translateY(-1px)!important;
-      animation:membershipCtaArrow 1.15s ease-in-out infinite!important;
     }
-    .membership-bottom-cta a:hover{animation-play-state:paused!important;transform:translateY(-2px) scale(1.01)!important;box-shadow:0 18px 44px rgba(31,84,183,.38),0 4px 12px rgba(16,35,72,.14)!important}
-    .membership-bottom-cta a:active{animation:none!important;transform:translateY(0) scale(.982)!important}
-    @keyframes membershipCtaNudge{
-      0%,68%,100%{transform:translateY(0) scale(1)}
-      76%{transform:translateY(-3px) scale(1.012)}
-      84%{transform:translateY(0) scale(1)}
-      91%{transform:translateY(-1px) scale(1.005)}
+    .membership-bottom-cta a:hover{
+      transform:translateY(-2px)!important;filter:brightness(1.03)!important;
+      box-shadow:0 18px 38px rgba(31,91,216,.34)!important;
     }
-    @keyframes membershipCtaArrow{0%,100%{translate:0 0}50%{translate:5px 0}}
-    @keyframes membershipCtaShine{0%,58%{left:-38%;opacity:0}66%{opacity:1}82%,100%{left:122%;opacity:0}}
+    .membership-bottom-cta a:active{transform:scale(.985)!important}
     @media(max-width:720px){
-      body{padding-bottom:100px!important}
-      .membership-bottom-cta{padding:10px 12px calc(12px + env(safe-area-inset-bottom))!important}
-      .membership-bottom-cta a{min-height:58px!important;border-radius:17px!important;font-size:19px!important}
+      body{padding-bottom:88px!important}
+      .membership-bottom-cta{padding:8px 10px calc(10px + env(safe-area-inset-bottom))!important}
+      .membership-bottom-cta a{min-height:58px!important;padding:0 16px!important;border-radius:14px!important;font-size:17px!important}
     }
     @media(prefers-reduced-motion:reduce){
-      .membership-bottom-cta a,.membership-bottom-cta a::before,.membership-bottom-cta a::after{animation:none!important}
+      .membership-bottom-cta,.membership-bottom-cta a{transition:none!important}
     }
   </style>`;
   const extraStyles = (isMobile ? surveyMobileStyle : '') + canonicalStyle + motionStyle + heroMotionStyle + liveMotionStyle + bottomCtaStyle;
@@ -78,7 +70,7 @@ export async function onRequest(context) {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260903-align44'); }
     })
     .on('script[src*="membership-calc-plans-v2.js"]', {
-      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260904-plan62'); }
+      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan67'); }
     })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
@@ -98,7 +90,7 @@ export async function onRequest(context) {
     .on('body', {
       element(element) {
         element.append(
-          '<div class="membership-bottom-cta" role="navigation" aria-label="최저가 크루즈 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">최저가로 크루즈 타기</a></div></div>' +
+          '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 플랜 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">CLASSIC · PREMIUM 비교하기</a></div></div>' +
           '<script defer src="/membership/membership-scaffold-v1.js?v=20260903-flow15"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260903-type37"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20260903-flow15"></script>' +
@@ -112,7 +104,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260904-flow61"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
-          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260905-conversion63"></script>' +
+          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260905-conversion67"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260905-travel66"></script>' +
           '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260905-order66"></script>' +
