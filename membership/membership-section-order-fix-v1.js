@@ -20,7 +20,7 @@
         position:relative!important;
         box-sizing:border-box!important;
         width:min(1120px,calc(100% - 64px))!important;
-        margin:0 auto 96px!important;
+        margin:0 auto 48px!important;
         padding:96px 0 24px!important;
         background:transparent!important;
         color:#fff!important;
@@ -92,7 +92,7 @@
       @media(max-width:780px){
         #mx-membership-freedom{
           width:calc(100% - 34px)!important;
-          margin-bottom:68px!important;
+          margin-bottom:38px!important;
           padding:72px 0 18px!important;
         }
         #mx-membership-freedom .mxf-title{
@@ -136,12 +136,12 @@
         background:#07111f!important;
       }
       #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{
-        margin-top:40px!important;
+        margin-top:52px!important;
       }
 
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
-        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:72px!important}
+        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:44px!important}
       }
     `;
     document.head.appendChild(style);
