@@ -48,7 +48,7 @@
     section8.setAttribute('data-membership-section', '8');
     section8.innerHTML = `
       <div class="mv2-inner">
-        <span class="mx8-overline">실제 결제 구조</span>
+        <span class="mx8-overline">실제 결제</span>
         <h2 class="mx8-story-title">실제로는<br><strong>POINT와 CARD로 나눠 예약했습니다</strong></h2>
 
         <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제" style="margin-top:72px!important;">
@@ -62,8 +62,7 @@
           </div>
         </div>
 
-        <p class="mx8-question-lead" style="margin:104px auto 0!important;font-size:20px!important;line-height:1.5!important;color:#9fb0c4!important;font-weight:900!important;">여기서 가장 궁금한 건 하나입니다</p>
-        <h2 class="mx8-bridge-question" style="margin-top:26px!important;">그럼 1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
+        <h2 class="mx8-bridge-question" style="margin-top:104px!important;">1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
     if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);
