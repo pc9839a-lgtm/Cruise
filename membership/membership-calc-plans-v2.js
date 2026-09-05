@@ -60,7 +60,7 @@
     const heading = $('.membership-section-head h2', root);
     if (heading) heading.innerHTML = 'CLASSIC<br><strong>PREMIUM</strong>';
 
-    const cards = $('.plan-card', root);
+    const cards = $$('.plan-card', root);
     const data = [
       { cta: 'CLASSIC 가입하기' },
       { cta: 'PREMIUM 가입하기' }
