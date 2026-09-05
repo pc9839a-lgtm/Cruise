@@ -170,7 +170,7 @@ export async function onRequest(context) {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20260903-align44'); }
     })
     .on('script[src*="membership-calc-plans-v2.js"]', {
-      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan68'); }
+      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan72'); }
     })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
@@ -204,7 +204,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20260905-flow71"></script>' +
           '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20260903-guide45"></script>' +
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
-          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260905-conversion71"></script>' +
+          '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20260905-conversion72"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20260905-travel70"></script>' +
           '<script defer src="/membership/membership-section-order-fix-v1.js?v=20260905-order70"></script>' +
