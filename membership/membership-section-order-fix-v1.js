@@ -20,8 +20,8 @@
         position:relative!important;
         box-sizing:border-box!important;
         width:min(1120px,calc(100% - 64px))!important;
-        margin:0 auto 84px!important;
-        padding:74px 0 18px!important;
+        margin:0 auto 96px!important;
+        padding:96px 0 24px!important;
         background:transparent!important;
         color:#fff!important;
         border:0!important;
@@ -32,34 +32,31 @@
         width:100%!important;
         margin:0!important;
       }
-      #mx-membership-freedom .mxf-kicker{
-        display:block!important;
-        width:100%!important;
-        min-height:0!important;
+      #mx-membership-freedom .mxf-title{
+        margin:0 auto!important;
         padding:0!important;
-        border:0!important;
-        border-radius:0!important;
-        background:transparent!important;
+        max-width:920px!important;
         color:#fff!important;
-        font-size:clamp(48px,5vw,68px)!important;
-        line-height:1.04!important;
-        letter-spacing:-.055em!important;
+        font-size:clamp(56px,5.4vw,76px)!important;
+        line-height:1.03!important;
+        letter-spacing:-.06em!important;
         font-weight:950!important;
         text-align:center!important;
+        word-break:keep-all!important;
       }
       #mx-membership-freedom .mxf-grid{
         display:grid!important;
         grid-template-columns:repeat(3,minmax(0,1fr))!important;
         gap:18px!important;
-        margin:54px 0 0!important;
+        margin:60px 0 0!important;
       }
       #mx-membership-freedom .mxf-card{
-        min-height:176px!important;
-        padding:28px 18px!important;
-        border-radius:26px!important;
-        background:rgba(255,255,255,.075)!important;
+        min-height:196px!important;
+        padding:30px 20px!important;
+        border-radius:28px!important;
+        background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.055))!important;
         border:1px solid rgba(255,255,255,.16)!important;
-        box-shadow:0 18px 46px rgba(0,12,32,.16)!important;
+        box-shadow:0 22px 56px rgba(0,12,32,.18)!important;
         display:flex!important;
         flex-direction:column!important;
         align-items:center!important;
@@ -68,27 +65,65 @@
         transform:none!important;
       }
       #mx-membership-freedom .mxf-zero{
-        color:#8bd8ff!important;
-        font-size:clamp(54px,5.8vw,74px)!important;
-        line-height:.95!important;
-        letter-spacing:-.055em!important;
+        color:#83d7ff!important;
+        font-size:clamp(62px,6.2vw,84px)!important;
+        line-height:.94!important;
+        letter-spacing:-.06em!important;
         font-weight:950!important;
       }
       #mx-membership-freedom .mxf-card strong{
-        margin-top:16px!important;
+        margin-top:18px!important;
         color:#fff!important;
-        font-size:22px!important;
-        line-height:1.15!important;
+        font-size:24px!important;
+        line-height:1.12!important;
+        letter-spacing:-.035em!important;
         font-weight:900!important;
         white-space:nowrap!important;
       }
       #mx-membership-freedom .mxf-note{
-        max-width:920px!important;
-        margin:22px auto 0!important;
+        max-width:980px!important;
+        margin:24px auto 0!important;
         color:#8196ad!important;
         font-size:12px!important;
         line-height:1.55!important;
         text-align:center!important;
+      }
+
+      @media(max-width:780px){
+        #mx-membership-freedom{
+          width:calc(100% - 34px)!important;
+          margin-bottom:68px!important;
+          padding:72px 0 18px!important;
+        }
+        #mx-membership-freedom .mxf-title{
+          max-width:430px!important;
+          font-size:clamp(40px,11.2vw,50px)!important;
+          line-height:1.03!important;
+          letter-spacing:-.055em!important;
+        }
+        #mx-membership-freedom .mxf-grid{
+          grid-template-columns:repeat(3,minmax(0,1fr))!important;
+          gap:8px!important;
+          margin-top:38px!important;
+        }
+        #mx-membership-freedom .mxf-card{
+          min-height:138px!important;
+          padding:20px 6px!important;
+          border-radius:20px!important;
+        }
+        #mx-membership-freedom .mxf-zero{
+          font-size:clamp(40px,10.8vw,50px)!important;
+        }
+        #mx-membership-freedom .mxf-card strong{
+          margin-top:11px!important;
+          font-size:15px!important;
+          letter-spacing:-.035em!important;
+        }
+        #mx-membership-freedom .mxf-note{
+          margin-top:16px!important;
+          font-size:9px!important;
+          line-height:1.45!important;
+        }
       }
 
       #mx-point-example{padding-top:90px!important;padding-bottom:90px!important}
@@ -106,18 +141,7 @@
 
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
-        #mx-membership-freedom{width:calc(100% - 34px)!important;margin-bottom:58px!important;padding:54px 0 10px!important}
-        #mx-membership-freedom .mxf-inner{width:100%!important}
-        #mx-membership-freedom .mxf-kicker{font-size:clamp(36px,10.5vw,46px)!important;line-height:1.04!important;letter-spacing:-.05em!important}
-        #mx-membership-freedom .mxf-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;margin-top:34px!important}
-        #mx-membership-freedom .mxf-card{min-height:124px!important;padding:18px 6px!important;border-radius:18px!important}
-        #mx-membership-freedom .mxf-zero{font-size:clamp(36px,10vw,46px)!important}
-        #mx-membership-freedom .mxf-card strong{margin-top:10px!important;font-size:14px!important;letter-spacing:-.03em!important}
-        #mx-membership-freedom .mxf-note{margin-top:14px!important;font-size:9px!important;line-height:1.45!important}
-        #mx-point-example{padding-top:62px!important;padding-bottom:62px!important}
-        #calculator{padding-top:74px!important;padding-bottom:74px!important}
-        #plans{padding-top:36px!important;border-top:0!important}
-        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:52px!important}
+        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:72px!important}
       }
     `;
     document.head.appendChild(style);
