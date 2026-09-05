@@ -1,6 +1,29 @@
 (() => {
   'use strict';
 
+
+  function installPointDoubleStyles() {
+    if (document.getElementById('mx13-double-style')) return;
+    const style = document.createElement('style');
+    style.id = 'mx13-double-style';
+    style.textContent = `
+      #membership-point .mx13-double{
+        width:min(780px,100%);margin:48px auto 0;padding:34px 24px 30px;border-radius:28px;
+        background:linear-gradient(135deg,#0e55d8,#2b7cff);color:#fff;box-shadow:0 22px 54px rgba(36,104,232,.24);
+        text-align:center;
+      }
+      #membership-point .mx13-double span{display:block;font-size:14px;font-weight:900;letter-spacing:.16em;opacity:.82}
+      #membership-point .mx13-double strong{display:block;margin-top:8px;font-size:clamp(76px,8vw,112px);line-height:.9;letter-spacing:-.06em;font-weight:950}
+      #membership-point .mx13-simple-list{margin-top:28px!important}
+      @media(max-width:780px){
+        #membership-point .mx13-double{width:calc(100% - 34px);margin-top:36px;padding:28px 18px 24px;border-radius:24px}
+        #membership-point .mx13-double strong{font-size:clamp(68px,21vw,92px)}
+        #membership-point .mx13-simple-list{width:calc(100% - 34px)!important;margin-top:24px!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function buildSections12And13() {
     const section11 = document.getElementById('mx-lowest-price');
     const section12 = document.getElementById('membership-point');
@@ -10,8 +33,13 @@
     section12.setAttribute('data-membership-section', '12');
     section12.innerHTML = `
       <div class="mx13-inner">
-        <span class="mx13-kicker">POINT는 이렇게 쌓입니다</span>
-        <h2 class="mx13-title">회원이 되면<br><strong>매달 POINT가 쌓입니다</strong></h2>
+        <span class="mx13-kicker">MONTHLY POINT</span>
+        <h2 class="mx13-title">매월 결제액의<br><strong>2배 POINT 적립</strong></h2>
+
+        <div class="mx13-double" aria-label="포인트 2배 적립">
+          <span>POINT</span>
+          <strong>2X</strong>
+        </div>
 
         <div class="mx13-simple-list" aria-label="멤버십 월 적립">
           <div class="mx13-simple-row">
@@ -23,8 +51,6 @@
             <strong>$250 → 500P</strong>
           </div>
         </div>
-
-        <p class="mx13-start-note">가입 시 · CLASSIC <b>$200 → 350P</b> / PREMIUM <b>$500 → 800P</b></p>
       </div>`;
 
     let section13 = document.getElementById('mx-point-example');
@@ -56,6 +82,7 @@
   }
 
   function init() {
+    installPointDoubleStyles();
     if (buildSections12And13()) return;
     let tries = 0;
     const timer = window.setInterval(() => {
