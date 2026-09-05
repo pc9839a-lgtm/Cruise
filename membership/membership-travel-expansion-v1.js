@@ -140,7 +140,7 @@
     section.setAttribute('data-membership-section', '19.8');
     section.innerHTML = `
       <div class="mxf-inner">
-        <span class="mxf-kicker">가입 전 확인</span>
+        <h2 class="mxf-title">가입 전 확인</h2>
         <div class="mxf-grid">
           <div class="mxf-card"><span class="mxf-zero">0원</span><strong>위약금 없음</strong></div>
           <div class="mxf-card"><span class="mxf-zero">0개월</span><strong>약정 없음</strong></div>
