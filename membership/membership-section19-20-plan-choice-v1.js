@@ -171,9 +171,12 @@
           width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
         }
       }
+      #plans .plan-card{min-height:0!important;padding:26px 24px!important;border-radius:20px!important}
+      #plans .plan-main-line{margin:18px 0 0!important}
+      #plans .plan-name{font-size:30px!important;line-height:1!important;font-weight:950!important}
       #plans .mx-plan-recommend{
         display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-        margin:0 0 16px!important;padding:10px 12px!important;border-radius:10px!important;background:#edf4ff!important;color:#17345d!important;
+        margin:0 0 18px!important;padding:10px 12px!important;border-radius:10px!important;background:#edf4ff!important;color:#17345d!important;
       }
       #plans .mx-plan-recommend b{font-size:13px!important;color:#2468e8!important;font-weight:950!important}
       #plans .mx-plan-recommend span{font-size:12px!important;color:#607089!important;font-weight:850!important}
@@ -195,8 +198,10 @@
         margin:10px 0 0!important;padding:11px 12px!important;border-radius:10px!important;
         background:#f8fafc!important;color:#63748a!important;font-size:12px!important;line-height:1.35!important;font-weight:850!important;text-align:center!important;
       }
-      #plans .plan-cta{min-height:56px!important;font-size:17px!important;font-weight:950!important}
+      #plans .plan-cta{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:58px!important;margin-top:18px!important;font-size:17px!important;font-weight:950!important;border-radius:12px!important}
       @media(max-width:780px){
+        #plans .plan-card{padding:20px 16px!important;border-radius:16px!important}
+        #plans .plan-name{font-size:24px!important}
         #plans .mx-plan-recommend{margin-bottom:13px!important;padding:9px 10px!important}
         #plans .mx-plan-recommend b{font-size:12px!important}
         #plans .mx-plan-recommend span{font-size:11px!important}
@@ -324,6 +329,106 @@
     }
   }
 
+  function patchPlanSelection() {
+    const plans = document.getElementById('plans');
+    if (!plans) return false;
+
+    const kicker = plans.querySelector('.section-kicker');
+    const title = plans.querySelector('.membership-section-head h2');
+    const subtitle = plans.querySelector('.membership-section-head p');
+
+    if (kicker) kicker.textContent = '멤버십 선택';
+    if (title) title.innerHTML = 'CLASSIC <span style="opacity:.35">/</span> <strong>PREMIUM</strong>';
+    if (subtitle) subtitle.textContent = '';
+
+    const planCards = [...plans.querySelectorAll('.plan-card')];
+    if (planCards.length < 2) return false;
+
+    const recommendations = [
+      {
+        label:'CLASSIC 추천',
+        copy:'처음 시작 · 부담 낮게',
+        monthly:'$100',
+        points:'200P',
+        start:'가입 $200 → 350P',
+        cta:'CLASSIC 시작하기',
+        cls:'mx-plan-classic'
+      },
+      {
+        label:'PREMIUM 추천',
+        copy:'빠른 적립 · POINT 2.5배',
+        monthly:'$250',
+        points:'500P',
+        start:'가입 $500 → 800P',
+        cta:'PREMIUM 시작하기',
+        cls:'mx-plan-premium'
+      }
+    ];
+
+    planCards.slice(0,2).forEach((card, index) => {
+      const rec = recommendations[index];
+      if (!rec) return;
+
+      card.classList.remove('mx-plan-classic','mx-plan-premium');
+      card.classList.add(rec.cls);
+
+      if (card.dataset.mxPlanPatched === '63') return;
+
+      card.querySelectorAll('.mx-plan-recommend,.mx-plan-essentials,.mx-plan-start').forEach((el) => el.remove());
+
+      let badge = document.createElement('div');
+      badge.className = 'mx-plan-recommend';
+      badge.innerHTML = '<b>'+rec.label+'</b><span>'+rec.copy+'</span>';
+
+      const main = card.querySelector('.plan-main-line');
+      if (main) main.before(badge);
+      else card.prepend(badge);
+
+      const essentials = document.createElement('div');
+      essentials.className = 'mx-plan-essentials';
+      essentials.innerHTML =
+        '<div class="mx-plan-essential"><span>월 결제</span><strong>'+rec.monthly+'</strong></div>' +
+        '<div class="mx-plan-essential points"><span>매월 적립</span><strong>'+rec.points+'</strong></div>';
+
+      if (main) main.insertAdjacentElement('afterend', essentials);
+      else badge.insertAdjacentElement('afterend', essentials);
+
+      const start = document.createElement('div');
+      start.className = 'mx-plan-start';
+      start.textContent = rec.start;
+      essentials.insertAdjacentElement('afterend', start);
+
+      const cta = card.querySelector('.plan-cta');
+      if (cta) cta.textContent = rec.cta;
+
+      card.dataset.mxPlanPatched = '63';
+    });
+
+    return true;
+  }
+
+  function bindPlanRepair() {
+    const plans = document.getElementById('plans');
+    const wrap = plans?.querySelector('#planCards') || plans;
+    if (!wrap || wrap.dataset.mxPlanRepairBound === '1') return;
+
+    wrap.dataset.mxPlanRepairBound = '1';
+    let queued = false;
+    const observer = new MutationObserver(() => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        patchPlanSelection();
+      });
+    });
+    observer.observe(wrap,{childList:true,subtree:true});
+
+    [0,120,300,700,1400,2600,4500].forEach((delay) => {
+      window.setTimeout(patchPlanSelection,delay);
+    });
+  }
+
   function buildSections18To20() {
     const calculator = document.getElementById('calculator');
     const plans = document.getElementById('plans');
@@ -369,52 +474,7 @@
     document.getElementById('mx-start-early-proof')?.remove();
 
     plans.setAttribute('data-membership-section','20');
-    const kicker = plans.querySelector('.section-kicker');
-    const title = plans.querySelector('.membership-section-head h2');
-    if (kicker) kicker.textContent = '플랜 선택';
-    if (title) title.innerHTML = 'CLASSIC<br><strong>PREMIUM</strong>';
-
-    const planCards = [...plans.querySelectorAll('.plan-card')];
-    const recommendations = [
-      { label:'CLASSIC 추천', copy:'처음 시작 · 여유 있게 준비', monthly:'$100', points:'200P', start:'가입 시 $200 → 350P', cta:'CLASSIC으로 시작하기', cls:'mx-plan-classic' },
-      { label:'PREMIUM 추천', copy:'빠르게 더 많이 적립', monthly:'$250', points:'500P', start:'가입 시 $500 → 800P', cta:'PREMIUM으로 시작하기', cls:'mx-plan-premium' }
-    ];
-    planCards.forEach((card, index) => {
-      const rec = recommendations[index];
-      if (!rec) return;
-      card.classList.add(rec.cls);
-
-      let badge = card.querySelector('.mx-plan-recommend');
-      if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'mx-plan-recommend';
-        card.prepend(badge);
-      }
-      badge.innerHTML = '<b>'+rec.label+'</b><span>'+rec.copy+'</span>';
-
-      let essentials = card.querySelector('.mx-plan-essentials');
-      if (!essentials) {
-        essentials = document.createElement('div');
-        essentials.className = 'mx-plan-essentials';
-        const main = card.querySelector('.plan-main-line');
-        if (main) main.insertAdjacentElement('afterend', essentials);
-        else badge.insertAdjacentElement('afterend', essentials);
-      }
-      essentials.innerHTML =
-        '<div class="mx-plan-essential"><span>월 결제</span><strong>'+rec.monthly+'</strong></div>' +
-        '<div class="mx-plan-essential points"><span>매월 적립</span><strong>'+rec.points+'</strong></div>';
-
-      let start = card.querySelector('.mx-plan-start');
-      if (!start) {
-        start = document.createElement('div');
-        start.className = 'mx-plan-start';
-        essentials.insertAdjacentElement('afterend', start);
-      }
-      start.textContent = rec.start;
-
-      const cta = card.querySelector('.plan-cta');
-      if (cta) cta.textContent = rec.cta;
-    });
+    patchPlanSelection();
 
     if (calculator.nextElementSibling !== memberBenefits) calculator.insertAdjacentElement('afterend', memberBenefits);
     if (memberBenefits.nextElementSibling !== plans) memberBenefits.insertAdjacentElement('afterend', plans);
@@ -422,6 +482,8 @@
     installConversionStyles();
     applyLateFlowStyles();
     bindBenefitMotion();
+    patchPlanSelection();
+    bindPlanRepair();
     if (document.body.dataset.lateFlowResizeBound !== '1') {
       document.body.dataset.lateFlowResizeBound = '1';
       window.addEventListener('resize', applyLateFlowStyles, { passive:true });
