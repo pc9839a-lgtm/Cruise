@@ -193,55 +193,122 @@
       #plans .plan-price-row,#plans .plan-feature-monthly{display:none!important}
 
       #plans .mx-plan-essentials{
-        display:block!important;margin:24px 0 0!important;
+        display:block!important;
+        margin:24px 0 0!important;
       }
-      #plans .mx-plan-group{
-        padding:22px 22px!important;border-radius:18px!important;
-        background:#f6f8fb!important;border:1px solid #dce4ef!important;
+      #plans .mx-plan-phase{
+        padding:22px 22px 20px!important;
+        border-radius:20px!important;
+        border:1px solid #dce4ef!important;
+        background:#f7f9fc!important;
       }
-      #plans .mx-plan-group + .mx-plan-group{margin-top:12px!important}
-      #plans .mx-plan-group.points{
-        background:linear-gradient(180deg,#eef5ff,#e8f1ff)!important;
-        border-color:#c7d9f7!important;
+      #plans .mx-plan-phase + .mx-plan-phase{
+        margin-top:12px!important;
       }
-      #plans .mx-plan-group-head{
-        display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-        margin-bottom:8px!important;
+      #plans .mx-plan-phase.monthly{
+        background:linear-gradient(180deg,#eef5ff,#e6f0ff)!important;
+        border-color:#c3d7f8!important;
       }
-      #plans .mx-plan-group-head>span{
-        font-size:12px!important;line-height:1!important;color:#6a7b90!important;font-weight:950!important;letter-spacing:.06em!important;
+      #plans .mx-plan-phase-head{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:space-between!important;
+        gap:12px!important;
+        margin-bottom:18px!important;
       }
-      #plans .mx-plan-group.points .mx-plan-group-head>span{color:#3a66a9!important}
-      #plans .mx-plan-2x{
-        display:inline-flex!important;align-items:center!important;justify-content:center!important;
-        min-height:26px!important;padding:0 10px!important;border-radius:999px!important;
-        background:#2468e8!important;color:#fff!important;font-size:11px!important;font-weight:950!important;
+      #plans .mx-plan-phase-head strong{
+        color:#132238!important;
+        font-size:18px!important;
+        line-height:1!important;
+        font-weight:950!important;
+        letter-spacing:-.04em!important;
       }
-      #plans .mx-plan-row{
-        display:grid!important;grid-template-columns:1fr auto!important;align-items:end!important;gap:18px!important;
-        padding:14px 0!important;text-align:left!important;
+      #plans .mx-plan-phase-head span{
+        color:#7d8da2!important;
+        font-size:11px!important;
+        line-height:1!important;
+        font-weight:900!important;
       }
-      #plans .mx-plan-row + .mx-plan-row{border-top:1px solid #dce4ef!important}
-      #plans .mx-plan-group.points .mx-plan-row + .mx-plan-row{border-top-color:#cbdcf8!important}
-      #plans .mx-plan-copy strong{
-        display:block!important;color:#15253b!important;font-size:17px!important;line-height:1.15!important;font-weight:950!important;
+      #plans .mx-plan-phase.monthly .mx-plan-phase-head span{
+        display:inline-flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        min-height:28px!important;
+        padding:0 10px!important;
+        border-radius:999px!important;
+        background:#2468e8!important;
+        color:#fff!important;
       }
-      #plans .mx-plan-copy small{
-        display:block!important;margin-top:5px!important;color:#8493a6!important;font-size:11px!important;line-height:1.25!important;font-weight:800!important;
+      #plans .mx-plan-pair{
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+        align-items:center!important;
+        gap:14px!important;
       }
-      #plans .mx-plan-value{
-        color:#0b1729!important;font-size:42px!important;line-height:.95!important;letter-spacing:-.055em!important;font-weight:950!important;white-space:nowrap!important;
+      #plans .mx-plan-pair-item{
+        min-width:0!important;
+        text-align:center!important;
       }
-      #plans .mx-plan-group.points .mx-plan-value{color:#2468e8!important}
-      #plans .mx-plan-start{
-        display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;
-        margin:14px 0 0!important;padding:12px 14px!important;border-radius:12px!important;
-        background:#e8f2ff!important;color:#245fbd!important;font-size:13px!important;line-height:1.3!important;font-weight:950!important;text-align:center!important;
+      #plans .mx-plan-pair-item small{
+        display:block!important;
+        color:#78899d!important;
+        font-size:11px!important;
+        line-height:1.1!important;
+        font-weight:900!important;
       }
-      #plans .mx-plan-start::before{
-        content:'✓'!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
-        width:20px!important;height:20px!important;border-radius:50%!important;background:#2468e8!important;color:#fff!important;
-        font-size:12px!important;font-weight:950!important;
+      #plans .mx-plan-pair-item strong{
+        display:block!important;
+        margin-top:8px!important;
+        color:#0b1729!important;
+        font-size:42px!important;
+        line-height:.95!important;
+        letter-spacing:-.055em!important;
+        font-weight:950!important;
+        white-space:nowrap!important;
+      }
+      #plans .mx-plan-pair-item.points strong{
+        color:#2468e8!important;
+      }
+      #plans .mx-plan-arrow{
+        color:#6f91bf!important;
+        font-size:28px!important;
+        line-height:1!important;
+        font-weight:950!important;
+        transform:translateY(7px)!important;
+      }
+      #plans .mx-plan-phase-note{
+        margin:14px 0 0!important;
+        padding-top:13px!important;
+        border-top:1px solid #dce4ef!important;
+        color:#64778f!important;
+        font-size:11px!important;
+        line-height:1.35!important;
+        font-weight:850!important;
+        text-align:center!important;
+      }
+      #plans .mx-plan-phase.monthly .mx-plan-phase-note{
+        border-top-color:#c7d9f7!important;
+        color:#426ca8!important;
+      }
+      @media(max-width:780px){
+        #plans .mx-plan-essentials{margin-top:18px!important}
+        #plans .mx-plan-phase{
+          padding:18px 14px 17px!important;
+          border-radius:16px!important;
+        }
+        #plans .mx-plan-phase + .mx-plan-phase{margin-top:10px!important}
+        #plans .mx-plan-phase-head{margin-bottom:15px!important}
+        #plans .mx-plan-phase-head strong{font-size:16px!important}
+        #plans .mx-plan-phase-head span{font-size:10px!important}
+        #plans .mx-plan-phase.monthly .mx-plan-phase-head span{
+          min-height:25px!important;
+          padding:0 9px!important;
+        }
+        #plans .mx-plan-pair{gap:8px!important}
+        #plans .mx-plan-pair-item small{font-size:10px!important}
+        #plans .mx-plan-pair-item strong{margin-top:7px!important;font-size:32px!important}
+        #plans .mx-plan-arrow{font-size:22px!important;transform:translateY(6px)!important}
+        #plans .mx-plan-phase-note{margin-top:12px!important;padding-top:11px!important;font-size:10px!important}
       }
       #plans .plan-cta{
         display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;
@@ -265,14 +332,6 @@
         #plans .mx-plan-recommend{margin-bottom:16px!important;padding:9px 11px!important}
         #plans .mx-plan-recommend b{font-size:12px!important}
         #plans .mx-plan-recommend span{font-size:11px!important}
-        #plans .mx-plan-essentials{margin-top:18px!important}
-        #plans .mx-plan-group{padding:17px 16px!important;border-radius:15px!important}
-        #plans .mx-plan-group + .mx-plan-group{margin-top:10px!important}
-        #plans .mx-plan-row{gap:10px!important;padding:12px 0!important}
-        #plans .mx-plan-copy strong{font-size:15px!important}
-        #plans .mx-plan-copy small{font-size:10px!important}
-        #plans .mx-plan-value{font-size:34px!important}
-        #plans .mx-plan-start{margin-top:11px!important;padding:11px 10px!important;font-size:11px!important}
         #plans .plan-cta{min-height:62px!important;margin-top:16px!important;font-size:17px!important;border-radius:14px!important}
       }
             @media(prefers-reduced-motion:reduce){
@@ -437,7 +496,7 @@
       card.classList.remove('mx-plan-classic','mx-plan-premium');
       card.classList.add(rec.cls);
 
-      if (card.dataset.mxPlanPatched === '72') return;
+      if (card.dataset.mxPlanPatched === '73') return;
 
       card.querySelectorAll('.mx-plan-recommend,.mx-plan-essentials,.mx-plan-start').forEach((el) => el.remove());
 
@@ -452,29 +511,32 @@
       const essentials = document.createElement('div');
       essentials.className = 'mx-plan-essentials';
       essentials.innerHTML =
-        '<div class="mx-plan-group money">' +
-          '<div class="mx-plan-group-head"><span>결제</span></div>' +
-          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>처음</strong><small>최초 1회</small></div><div class="mx-plan-value">'+rec.join+'</div></div>' +
-          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>이후 매월</strong><small>월 결제</small></div><div class="mx-plan-value">'+rec.monthly+'</div></div>' +
+        '<div class="mx-plan-phase first">' +
+          '<div class="mx-plan-phase-head"><strong>처음</strong><span>최초 1회</span></div>' +
+          '<div class="mx-plan-pair">' +
+            '<div class="mx-plan-pair-item"><small>결제</small><strong>'+rec.join+'</strong></div>' +
+            '<div class="mx-plan-arrow">→</div>' +
+            '<div class="mx-plan-pair-item points"><small>POINT 적립</small><strong>'+rec.startPoints+'</strong></div>' +
+          '</div>' +
+          '<p class="mx-plan-phase-note">첫 결제 금액도 POINT로 적립</p>' +
         '</div>' +
-        '<div class="mx-plan-group points">' +
-          '<div class="mx-plan-group-head"><span>POINT 적립</span><b class="mx-plan-2x">매월 2배</b></div>' +
-          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>시작 POINT</strong><small>첫 결제 적립</small></div><div class="mx-plan-value">'+rec.startPoints+'</div></div>' +
-          '<div class="mx-plan-row"><div class="mx-plan-copy"><strong>매월 POINT</strong><small>매월 적립</small></div><div class="mx-plan-value">'+rec.monthlyPoints+'</div></div>' +
+        '<div class="mx-plan-phase monthly">' +
+          '<div class="mx-plan-phase-head"><strong>이후 매월</strong><span>2배 적립</span></div>' +
+          '<div class="mx-plan-pair">' +
+            '<div class="mx-plan-pair-item"><small>월 결제</small><strong>'+rec.monthly+'</strong></div>' +
+            '<div class="mx-plan-arrow">→</div>' +
+            '<div class="mx-plan-pair-item points"><small>매월 POINT</small><strong>'+rec.monthlyPoints+'</strong></div>' +
+          '</div>' +
+          '<p class="mx-plan-phase-note">매월 결제액의 2배 POINT 적립</p>' +
         '</div>';
 
       if (main) main.insertAdjacentElement('afterend', essentials);
       else badge.insertAdjacentElement('afterend', essentials);
 
-      const start = document.createElement('div');
-      start.className = 'mx-plan-start';
-      start.textContent = '첫 결제도 POINT로 적립';
-      essentials.insertAdjacentElement('afterend', start);
-
       const cta = card.querySelector('.plan-cta');
       if (cta) cta.textContent = rec.cta;
 
-      card.dataset.mxPlanPatched = '72';
+      card.dataset.mxPlanPatched = '73';
     });
 
     return true;
