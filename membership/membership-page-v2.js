@@ -5,7 +5,7 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
   function revealPostReviewSections() {
-    const sections = ['#price-pain', '#price-compare', '#same-cruise']
+    const sections = ['#price-pain', '#price-compare', '#same-cruise', '#guide-question']
       .map((selector) => $(selector))
       .filter(Boolean);
 
