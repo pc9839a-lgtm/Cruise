@@ -26,14 +26,14 @@
       <div class="hero-nav-marquee" aria-label="섹션 이동">
         <div class="hero-nav-track">
           <a href="#top"><strong>01</strong><span>크루즈 여행</span></a>
-          <a href="#price-pain"><strong>02</strong><span>2명 가격</span></a>
-          <a href="#price-compare"><strong>03</strong><span>가격 비교</span></a>
+          <a href="#price-pain"><strong>03</strong><span>예약 방식</span></a>
+          <a href="#price-compare"><strong>04</strong><span>실제 비용</span></a>
           <a href="#same-cruise"><strong>04</strong><span>같은 크루즈</span></a>
           <a href="#guide-question"><strong>05</strong><span>가이드 없이</span></a>
           <a href="#membership-point"><strong>06</strong><span>$100 → 200P</span></a>
           <a href="#top"><strong>01</strong><span>크루즈 여행</span></a>
-          <a href="#price-pain"><strong>02</strong><span>2명 가격</span></a>
-          <a href="#price-compare"><strong>03</strong><span>가격 비교</span></a>
+          <a href="#price-pain"><strong>03</strong><span>예약 방식</span></a>
+          <a href="#price-compare"><strong>04</strong><span>실제 비용</span></a>
           <a href="#same-cruise"><strong>04</strong><span>같은 크루즈</span></a>
           <a href="#guide-question"><strong>05</strong><span>가이드 없이</span></a>
           <a href="#membership-point"><strong>06</strong><span>$100 → 200P</span></a>
@@ -119,28 +119,154 @@
       </div>
     </section>
 
-    <!-- 02 -->
-    <section id="price-pain" class="mv2-section dark">
-      <div class="mv2-inner">
-        <span class="mv2-kicker">그럼 둘이 가면?</span>
-        <h2 class="mv2-title">4박 5일 크루즈<br /><strong>2명 가격</strong></h2>
-        <div class="mv2-mega">400만원?</div>
-        <div class="mv2-save"><strong>1인 200만원 × 2명</strong></div>
+    <!-- 03: booking method comparison -->
+    <section id="price-pain" class="booking-methods-section">
+      <div class="booking-flow-inner">
+        <div class="booking-flow-head">
+          <span class="booking-kicker">같은 크루즈, 다른 예약 방식</span>
+          <h2>가격만 보면 안 됩니다.<br><strong>무엇이 포함됐는지 같이 봐야 합니다.</strong></h2>
+          <p>여행사·홈쇼핑·상조 전환·직접예약·멤버십은 결제 구조와 준비 범위가 서로 다릅니다.</p>
+        </div>
+
+        <div class="booking-compare-wrap" role="region" aria-label="크루즈 예약 방식 비교" tabindex="0">
+          <div class="booking-compare-table">
+            <div class="booking-row booking-row-head">
+              <div>예약 방식</div><div>총비용 구조</div><div>포함 서비스</div><div>준비 부담</div><div>납부 방식</div><div>이용 조건</div>
+            </div>
+            <div class="booking-row">
+              <div class="booking-method"><strong>여행사 패키지</strong><span>안내·이동 포함형</span></div>
+              <div>항공·크루즈·관광 등을 묶은 상품가</div>
+              <div>가이드·단체 이동 등<br><small>상품별 상이</small></div>
+              <div><b class="burden low">낮음</b></div>
+              <div>패키지 상품가 결제</div>
+              <div>출발일·취소·최소인원 등<br><small>상품별 확인</small></div>
+            </div>
+            <div class="booking-row">
+              <div class="booking-method"><strong>홈쇼핑</strong><span>방송 구성형</span></div>
+              <div>방송에서 구성된 여행 상품가</div>
+              <div>항공·숙박·관광 등<br><small>방송 상품별 상이</small></div>
+              <div><b class="burden low">낮음</b></div>
+              <div>상품가 결제</div>
+              <div>방송 일정·좌석·출발 조건<br><small>상품별 확인</small></div>
+            </div>
+            <div class="booking-row">
+              <div class="booking-method"><strong>상조 전환</strong><span>가입상품 전환형</span></div>
+              <div>기존 가입금액 전환 + 잔금 가능</div>
+              <div>크루즈·여행 서비스<br><small>전환 상품별 상이</small></div>
+              <div><b class="burden low">낮음</b></div>
+              <div>기존 납입금 전환 후 정산</div>
+              <div>상조 가입회원·전환 조건</div>
+            </div>
+            <div class="booking-row">
+              <div class="booking-method"><strong>직접예약</strong><span>선사·항공 개별</span></div>
+              <div>크루즈 운임 + 항공·이동 직접 결제</div>
+              <div>선사 기본 포함 서비스</div>
+              <div><b class="burden high">높음</b></div>
+              <div>선사·항공·숙박 개별 결제</div>
+              <div>여권·비자·교통 등 직접 확인</div>
+            </div>
+            <div class="booking-row booking-row-membership">
+              <div class="booking-method"><strong>멤버십 이용</strong><span>POINT + CARD</span></div>
+              <div>월 납부로 POINT 적립 후 예약에 사용</div>
+              <div>크루즈 예약 금액에 POINT 사용</div>
+              <div><b class="burden mid">중간</b></div>
+              <div>POINT + 남은 금액 CARD</div>
+              <div>플랜·POINT 사용 조건 확인</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-source-note">
+          <p><strong>비교 기준</strong> 예약 구조를 이해하기 위한 유형 비교입니다. 여행사·홈쇼핑의 포함 항목과 취소 조건은 실제 상품마다 달라집니다.</p>
+          <div class="booking-source-links">
+            <a href="https://www.kyowonlife.co.kr/Service/LifeServiceView?basiSeq=23&categoryCd=02" target="_blank" rel="noopener">상조 전환형 조건 예시</a>
+            <a href="https://www.msccruises.com/int/our-cruises/ships/msc-seaview/itineraries" target="_blank" rel="noopener">선사 직접예약 포함 서비스 예시</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 03 -->
-    <section id="price-compare" class="mv2-section light">
-      <div class="mv2-inner">
-        <span class="mv2-kicker">4박 5일 아시아 크루즈 예시</span>
-        <h2 class="mv2-title">그런데 같은 크루즈가<br /><strong>120만원대라면?</strong></h2>
-        <div class="mv2-compare">
-          <div class="mv2-price"><span>여행사 · 가이드 포함</span><strong>200만원</strong></div>
-          <div class="mv2-arrow">→</div>
-          <div class="mv2-price good"><span>직접 예약</span><strong>120만원</strong></div>
+    <!-- 04: actual cash-out case -->
+    <section id="price-compare" class="actual-cost-section">
+      <div class="actual-cost-inner">
+        <div class="actual-cost-head">
+          <span class="actual-kicker">실제 예약으로 계산</span>
+          <h2>그래서 실제로<br><strong>얼마가 나갔을까요?</strong></h2>
+          <p>광고용 가정이 아니라, 페이지에 보관된 실제 MSC World Asia 예약 내역을 한 번에 묶었습니다.</p>
         </div>
-        <div class="mv2-save">1인 <strong>80만원 차이</strong></div>
-        <div class="mv2-mega mv2-blue">2명 160만원</div>
+
+        <div class="actual-trip-identity">
+          <div>
+            <span>MSC WORLD ASIA</span>
+            <strong>바르셀로나 출발 · 7박 8일</strong>
+            <em>2027.01.01 → 2027.01.08 · 발코니 객실 · 2명</em>
+          </div>
+          <div class="actual-booking-total">
+            <span>예약 총액</span>
+            <strong>$3,887.35</strong>
+          </div>
+        </div>
+
+        <div class="actual-payment-flow" aria-label="실제 예약 비용 구성">
+          <article>
+            <span>POINT 적립을 위해 실제 납부</span>
+            <strong>$1,000</strong>
+            <small>CLASSIC 실제 적립 1,950P</small>
+          </article>
+          <div class="actual-plus">+</div>
+          <article>
+            <span>예약 당시 카드 결제</span>
+            <strong>$2,020.88</strong>
+            <small>POINT 적용 후 남은 금액</small>
+          </article>
+          <div class="actual-plus">+</div>
+          <article>
+            <span>처리 수수료</span>
+            <strong>$60.63</strong>
+            <small>예약 내역 기준</small>
+          </article>
+        </div>
+
+        <div class="actual-point-use">
+          <div><span>예약에 사용한 POINT</span><strong>1,805.84P</strong></div>
+          <div class="actual-point-arrow">→</div>
+          <div><span>실제 현금 부담</span><strong>$3,081.51</strong></div>
+        </div>
+
+        <div class="actual-saving-band">
+          <span>예약 총액 $3,887.35를 전부 현금으로 부담한 경우와 비교</span>
+          <strong>$805.84 차이</strong>
+          <p>$3,887.35 − ($1,000 + $2,020.88 + $60.63) = <b>$805.84</b></p>
+        </div>
+
+        <div class="actual-airfare-band">
+          <div>
+            <span>크루즈 외 비용도 따로 봅니다</span>
+            <strong>바르셀로나 왕복항공권</strong>
+            <p>아시아나 기준 1인 약 180만원 · 2인 약 360만원</p>
+          </div>
+          <small>항공권은 크루즈 예약비와 별도이며 예약 시점에 따라 변동될 수 있습니다.</small>
+        </div>
+
+        <div class="actual-proof-block">
+          <div class="actual-proof-copy">
+            <span>예약 증빙</span>
+            <strong>총액 · POINT · CARD를<br>한 사례에서 확인</strong>
+            <p>숫자를 여러 섹션에 흩어놓지 않고, 무엇을 냈고 무엇을 사용했는지 바로 이어서 보여줍니다.</p>
+          </div>
+          <div class="actual-proof-gallery">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/fvmk2pzl5lazua8vnuef.png" alt="MSC World Asia 실제 예약 증빙 화면 1">
+            <img loading="lazy" decoding="async" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/j4ippct6ag07tqpifkbj.png" alt="MSC World Asia 실제 예약 증빙 화면 2">
+          </div>
+        </div>
+
+        <div class="actual-cost-actions">
+          <a class="actual-primary-cta" data-case-inquiry
+             href="https://cruiseplay-dyt.pages.dev/?openInquiry=1&inquiryType=membership&source=membership-cost-case&ship=MSC%20World%20Asia&route=Barcelona&nights=7&cabin=balcony&party=2&bookingTotal=3887.35&pointUsed=1805.84&cardPaid=2020.88&fee=60.63&cashOut=3081.51">
+            이 사례 조건으로 비용 문의
+          </a>
+          <button class="actual-secondary-cta" type="button" data-scroll-calculator>내 금액으로 계산하기</button>
+        </div>
       </div>
     </section>
 
