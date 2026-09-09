@@ -21,26 +21,78 @@
 
     if (!reviewFlow || !sameCruise || !membershipPoint || !calculator || !plans || !terms) return false;
 
+    if (!$('#membership-v3-section04-style')) {
+      const style = document.createElement('style');
+      style.id = 'membership-v3-section04-style';
+      style.textContent = `
+        #mx-moving-hotel.membership-v3-price-question{
+          position:relative!important;
+          width:100%!important;
+          margin:0!important;
+          padding:150px 0 176px!important;
+          overflow:hidden!important;
+          background:
+            radial-gradient(circle at 50% 10%,rgba(65,132,255,.17),transparent 38%),
+            linear-gradient(180deg,#07111f 0%,#0b1d34 100%)!important;
+          color:#fff!important;
+          text-align:center!important;
+          font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+        }
+        #mx-moving-hotel.membership-v3-price-question::after{
+          content:'';position:absolute;left:50%;bottom:0;width:min(900px,82vw);height:1px;transform:translateX(-50%);
+          background:linear-gradient(90deg,transparent,rgba(142,190,255,.32),transparent);
+        }
+        #mx-moving-hotel .membership-v3-price-inner{
+          position:relative;z-index:1;width:min(980px,calc(100% - 48px));margin:0 auto;
+        }
+        #mx-moving-hotel .membership-v3-price-kicker{
+          display:inline-block;margin:0 0 26px;color:#8fc2ff;font-size:16px;font-weight:900;letter-spacing:.08em;
+        }
+        #mx-moving-hotel .membership-v3-price-title{
+          margin:0 auto;color:#fff;font-size:clamp(58px,6.7vw,92px)!important;line-height:1.03!important;
+          letter-spacing:-.065em!important;font-weight:950!important;word-break:keep-all;
+        }
+        #mx-moving-hotel .membership-v3-price-title strong{color:#8ec7ff;font-weight:950}
+        #mx-moving-hotel .membership-v3-price-facts{
+          display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 16px;
+          margin:48px auto 0;color:#fff;font-size:clamp(22px,2.5vw,30px);font-weight:900;letter-spacing:-.04em;
+        }
+        #mx-moving-hotel .membership-v3-price-facts i{color:#587494;font-style:normal;font-weight:700}
+        #mx-moving-hotel .membership-v3-price-next{
+          margin:34px auto 0!important;color:#aebed2!important;font-size:clamp(18px,2vw,22px)!important;
+          line-height:1.45!important;font-weight:760!important;word-break:keep-all;
+        }
+        @media(max-width:780px){
+          #mx-moving-hotel.membership-v3-price-question{padding:104px 0 124px!important}
+          #mx-moving-hotel .membership-v3-price-inner{width:calc(100% - 32px)}
+          #mx-moving-hotel .membership-v3-price-kicker{margin-bottom:20px;font-size:13px}
+          #mx-moving-hotel .membership-v3-price-title{
+            max-width:430px;font-size:clamp(42px,12vw,54px)!important;line-height:1.04!important;
+          }
+          #mx-moving-hotel .membership-v3-price-facts{
+            max-width:390px;margin-top:36px;gap:8px 10px;font-size:clamp(19px,5.5vw,24px);
+          }
+          #mx-moving-hotel .membership-v3-price-next{
+            max-width:360px;margin-top:28px!important;font-size:17px!important;line-height:1.45!important;
+          }
+        }
+        @media(prefers-reduced-motion:reduce){
+          #mx-moving-hotel.membership-v3-price-question *{transition:none!important;animation:none!important}
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     if (!$('#mx-moving-hotel')) {
       after(reviewFlow, `
-        <section id="mx-moving-hotel" class="mx-expand-section">
-          <div class="mx-inner">
-            <div class="mx-center">
-              <span class="mx-eyebrow">크루즈가 뭔지부터 보면</span>
-              <h2 class="mx-title">크루즈는<br><strong>이동하는 호텔입니다</strong></h2>
+        <section id="mx-moving-hotel" class="membership-v3-price-question" data-membership-section="04" aria-labelledby="membership-v3-price-title">
+          <div class="membership-v3-price-inner">
+            <span class="membership-v3-price-kicker">MSC WORLD ASIA · BALCONY</span>
+            <h2 id="membership-v3-price-title" class="membership-v3-price-title">둘이 크루즈 가면<br><strong>얼마 정도 들까요?</strong></h2>
+            <div class="membership-v3-price-facts" aria-label="가격 질문 기준 여행 조건">
+              <span>MSC World Asia</span><i>·</i><span>발코니</span><i>·</i><span>2명</span><i>·</i><span>7박 8일</span>
             </div>
-            <div class="mx-hotel-layout">
-              <div class="mx-hotel-visual">
-                <img src="./img/객실및내부시설9.png" alt="크루즈 선내 아트리움" loading="lazy" />
-                <div class="mx-hotel-caption"><span>한 배 안에서</span><strong>먹고 · 자고 · 수영하고<br>공연 보고 · 쉬어갑니다</strong></div>
-              </div>
-              <div class="mx-hotel-points">
-                <div class="mx-hotel-point"><b>01</b><strong>먹고</strong></div>
-                <div class="mx-hotel-point"><b>02</b><strong>자고</strong></div>
-                <div class="mx-hotel-point"><b>03</b><strong>수영하고</strong></div>
-                <div class="mx-hotel-point"><b>04</b><strong>공연 보고 · 쉬고</strong></div>
-              </div>
-            </div>
+            <p class="membership-v3-price-next">예약 방법에 따라 같은 여행도 금액이 달라집니다.</p>
           </div>
         </section>`);
     }
