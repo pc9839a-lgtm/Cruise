@@ -1,46 +1,18 @@
 (() => {
   'use strict';
 
-  function buildSections7And8() {
+  function buildSection8Compatibility() {
     const section6 = document.getElementById('price-pain');
-    const section7 = document.getElementById('price-compare');
+    const section7Legacy = document.getElementById('price-compare');
     const section8 = document.getElementById('same-cruise');
     if (!section6 || !section8) return false;
 
-    let receipt = document.getElementById('mx-direct-booking-intro');
-    if (!receipt) {
-      receipt = document.createElement('section');
-      receipt.id = 'mx-direct-booking-intro';
-    }
+    // Section 07 now lives at #impact-med immediately after section 06.
+    // Remove only the previous duplicate booking-proof node if another runtime pass created it.
+    const duplicateReceipt = document.getElementById('mx-direct-booking-intro');
+    if (duplicateReceipt) duplicateReceipt.remove();
+    if (section7Legacy) section7Legacy.remove();
 
-    receipt.className = 'mx7-intro-section';
-    receipt.setAttribute('data-membership-section', '7');
-    receipt.innerHTML = `
-      <div class="mx7-wide-inner">
-        <span class="mx7-overline">실제 예약 예시</span>
-        <h2>MSC World Asia<br><strong>2인 실제 예약</strong></h2>
-
-        <div class="mx7-receipt-proof" aria-label="MSC World Asia 실제 예약 정보" style="text-align:center!important;">
-          <div class="mx7-receipt-top" style="text-align:center!important;">
-            <strong style="font-size:clamp(26px,2.7vw,38px)!important;">바르셀로나 출발 · 7박 8일</strong>
-            <span style="font-size:17px!important;">2027.01.01 → 2027.01.08 · 서부 지중해 · 발코니 객실</span>
-          </div>
-
-          <div class="mx7-receipt-breakdown" style="display:block!important;">
-            <div class="total mx7-total-proof" style="border:0!important;text-align:center!important;padding:46px 8px 42px!important;">
-              <span style="font-size:16px!important;">예약 총액</span>
-              <strong style="font-size:clamp(72px,8vw,116px)!important;line-height:.95!important;letter-spacing:-.055em!important;">$3,887.35</strong>
-              <small style="display:block!important;margin-top:18px!important;font-size:18px!important;color:#c5d0dc!important;font-weight:850!important;">7박 8일 · 2명</small>
-            </div>
-          </div>
-
-          <p class="mx7-receipt-note mx7-bridge" style="margin-top:18px!important;padding:42px 8px 12px!important;border-top:1px solid #2a3a4f!important;font-size:clamp(25px,2.7vw,38px)!important;line-height:1.28!important;color:#fff!important;font-weight:950!important;">
-            그런데 이 금액을<br><strong style="color:#86d4ff!important;">전부 카드로 낸 게 아닙니다</strong>
-          </p>
-        </div>
-      </div>`;
-
-    if (section7) section7.remove();
     const saving = document.getElementById('mx-direct-booking-saving');
     if (saving) saving.remove();
 
@@ -65,18 +37,19 @@
         <h2 class="mx8-bridge-question" style="margin-top:104px!important;">1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
-    if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);
-    if (receipt.nextElementSibling !== section8) receipt.insertAdjacentElement('afterend', section8);
+    if (section6.nextElementSibling !== section8) {
+      section6.insertAdjacentElement('afterend', section8);
+    }
 
     return true;
   }
 
   function init() {
-    if (buildSections7And8()) return;
+    if (buildSection8Compatibility()) return;
     let tries = 0;
     const timer = window.setInterval(() => {
       tries += 1;
-      if (buildSections7And8() || tries >= 40) window.clearInterval(timer);
+      if (buildSection8Compatibility() || tries >= 40) window.clearInterval(timer);
     }, 160);
   }
 
