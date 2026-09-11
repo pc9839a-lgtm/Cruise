@@ -19,6 +19,14 @@
         font-size:clamp(21px,2.1vw,27px)!important;
         letter-spacing:-.045em!important;
       }
+      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup{
+        background:#eef5ff!important;
+        border-color:#2f6fed!important;
+        box-shadow:0 14px 32px rgba(47,111,237,.12)!important;
+      }
+      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup strong{
+        color:#2f6fed!important;
+      }
       #mx-port-day.membership-v3-booking-methods .membership-v3-section05-next{
         margin:34px auto 0!important;
         color:#53657c!important;
@@ -71,8 +79,8 @@
             <article class="mxp-step"><strong>여행사</strong></article>
             <article class="mxp-step"><strong>홈쇼핑</strong></article>
             <article class="mxp-step"><strong>상조 전환</strong></article>
-            <article class="mxp-step"><strong>직접예약</strong></article>
-            <article class="mxp-step"><strong>멤버십</strong></article>
+            <article class="mxp-step"><strong>선사홈페이지</strong></article>
+            <article class="mxp-step membership-v3-ingroup"><strong>인그룹</strong></article>
           </div>
 
           <p class="membership-v3-section05-next">판매가보다 총비용을 봅니다.</p>

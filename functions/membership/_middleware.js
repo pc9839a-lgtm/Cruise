@@ -193,7 +193,7 @@ export async function onRequest(context) {
           '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 선택 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">내 멤버십 선택하기</a></div></div>' +
           '<script defer src="/membership/membership-scaffold-v1.js?v=20260911-v3s04"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20260903-type37"></script>' +
-          '<script defer src="/membership/membership-section3-port-v1.js?v=20260911-v3s05"></script>' +
+          '<script defer src="/membership/membership-section3-port-v1.js?v=20260911-v3s05-ingroup1"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20260911-v3s06"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260903-flow15"></script>' +
           '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260903-flow23"></script>' +
