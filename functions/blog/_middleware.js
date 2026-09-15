@@ -41,6 +41,7 @@ const CORE_GUIDES = [
 
 const INDEX_TITLE = '크루즈 여행 준비 가이드·비용·선실·승선 정보 | 오케이크루즈';
 const INDEX_DESCRIPTION = '처음 크루즈를 준비하는 분을 위해 비용, 선실, 여권·서류, 승선 절차, 수하물, 선내생활과 기항지 정보를 실제 준비 순서에 맞춰 정리한 오케이크루즈 여행 가이드입니다.';
+const LATEST_POST_CARD = `<article class="blog-card" data-category="비용비교" data-title="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" data-summary="2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다." data-tags="크루즈여행가격,크루즈가격,크루즈비용,4박5일크루즈,7박8일크루즈"><a href="/blog/cruise-travel-price-4n5d-7n8d-2026/"><img src="/img/og-image.jpg" alt="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high"><time>2026-09-15</time><h2>크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)</h2><p>2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다.</p></a></article>`;
 
 function jsonForHtml(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c');
@@ -153,6 +154,16 @@ class BlogPostTopicInjector {
   element(element) { element.append(buildTopicLinks(this.pathname), { html: true }); }
 }
 
+function injectLatestPostIntoIndex(html) {
+  let output = String(html || '');
+  output = output.replace(/(<strong id="blogResultsCount">)60(<\/strong>)/, '$161$2');
+  const marker = '<div class="blog-grid" id="blogGrid">';
+  if (output.includes(marker) && !output.includes('/blog/cruise-travel-price-4n5d-7n8d-2026/')) {
+    output = output.replace(marker, `${marker}${LATEST_POST_CARD}`);
+  }
+  return output;
+}
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
   const pathname = url.pathname;
@@ -166,11 +177,17 @@ export async function onRequest(context) {
   const isIndex = pathname === '/blog' || pathname === '/blog/';
   const isPost = /^\/blog\/[^/]+\/?$/.test(pathname) && !isIndex;
 
-  // The static blog hub is much larger than an individual post. Running a second
-  // HTMLRewriter pass on that document exceeded the Pages runtime budget and
-  // produced HTTP 500. Keep the hub on the existing root middleware until its
-  // SEO additions are folded into that single pass; preserve post enhancements.
-  if (isIndex) return response;
+  if (isIndex) {
+    const headers = new Headers(response.headers);
+    headers.delete('Content-Length');
+    headers.delete('content-length');
+    const html = injectLatestPostIntoIndex(await response.text());
+    return new Response(html, {
+      status: response.status,
+      statusText: response.statusText,
+      headers
+    });
+  }
 
   let rewritten = new Response(response.body, {
     status: response.status,
