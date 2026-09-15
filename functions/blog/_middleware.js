@@ -41,7 +41,7 @@ const CORE_GUIDES = [
 
 const INDEX_TITLE = '크루즈 여행 준비 가이드·비용·선실·승선 정보 | 오케이크루즈';
 const INDEX_DESCRIPTION = '처음 크루즈를 준비하는 분을 위해 비용, 선실, 여권·서류, 승선 절차, 수하물, 선내생활과 기항지 정보를 실제 준비 순서에 맞춰 정리한 오케이크루즈 여행 가이드입니다.';
-const LATEST_POST_CARD = `<article class="blog-card" data-category="비용비교" data-title="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" data-summary="2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다." data-tags="크루즈여행가격,크루즈가격,크루즈비용,4박5일크루즈,7박8일크루즈"><a href="/blog/cruise-travel-price-4n5d-7n8d-2026/"><img src="/img/og-image.jpg" alt="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high"><time>2026-09-15</time><h2>크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)</h2><p>2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다.</p></a></article>`;
+const LATEST_POST_CARDS = `<article class="blog-card" data-category="예약·비용" data-title="크루즈 예약 언제 해야 가장 저렴할까? 조기예약·막판특가 비교 (2026)" data-summary="2026년 공식 선사 자료를 기준으로 12~18개월, 6~12개월, 출항 임박 예약의 장단점과 조기예약·막판특가 판단 기준을 정리했습니다." data-tags="크루즈예약시기,크루즈싸게예약,크루즈조기예약,크루즈막판특가"><a href="/blog/cruise-best-time-to-book-early-vs-last-minute-2026/"><img src="/img/og-image.jpg" alt="크루즈 예약 시기와 조기예약 막판특가 비교" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high"><time>2026-09-15</time><h2>크루즈 예약 언제 해야 가장 저렴할까? 조기예약·막판특가 비교 (2026)</h2><p>2026년 공식 선사 자료를 기준으로 12~18개월, 6~12개월, 출항 임박 예약의 장단점과 조기예약·막판특가 판단 기준을 정리했습니다.</p></a></article><article class="blog-card" data-category="비용비교" data-title="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" data-summary="2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다." data-tags="크루즈여행가격,크루즈가격,크루즈비용,4박5일크루즈,7박8일크루즈"><a href="/blog/cruise-travel-price-4n5d-7n8d-2026/"><img src="/img/og-image.jpg" alt="크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)" width="1600" height="900" loading="eager" decoding="async"><time>2026-09-15</time><h2>크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)</h2><p>2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다.</p></a></article>`;
 
 function jsonForHtml(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c');
@@ -156,10 +156,10 @@ class BlogPostTopicInjector {
 
 function injectLatestPostIntoIndex(html) {
   let output = String(html || '');
-  output = output.replace(/(<strong id="blogResultsCount">)60(<\/strong>)/, (match, open, close) => `${open}61${close}`);
+  output = output.replace(/(<strong id="blogResultsCount">)60(<\/strong>)/, (match, open, close) => `${open}62${close}`);
   const marker = '<div class="blog-grid" id="blogGrid">';
-  if (output.includes(marker) && !output.includes('/blog/cruise-travel-price-4n5d-7n8d-2026/')) {
-    output = output.replace(marker, `${marker}${LATEST_POST_CARD}`);
+  if (output.includes(marker) && !output.includes('/blog/cruise-best-time-to-book-early-vs-last-minute-2026/')) {
+    output = output.replace(marker, `${marker}${LATEST_POST_CARDS}`);
   }
   return output;
 }
