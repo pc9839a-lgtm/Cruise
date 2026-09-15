@@ -156,7 +156,7 @@ class BlogPostTopicInjector {
 
 function injectLatestPostIntoIndex(html) {
   let output = String(html || '');
-  output = output.replace(/(<strong id="blogResultsCount">)60(<\/strong>)/, '$161$2');
+  output = output.replace(/(<strong id="blogResultsCount">)60(<\/strong>)/, (match, open, close) => `${open}61${close}`);
   const marker = '<div class="blog-grid" id="blogGrid">';
   if (output.includes(marker) && !output.includes('/blog/cruise-travel-price-4n5d-7n8d-2026/')) {
     output = output.replace(marker, `${marker}${LATEST_POST_CARD}`);
