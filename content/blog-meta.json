@@ -1,6 +1,39 @@
 {
   "posts": [
     {
+      "slug": "msc-vs-royal-caribbean-cruise-comparison-2026",
+      "category": "선사비교",
+      "title": "MSC 크루즈 vs 로얄캐리비안 비교: 식사·시설·가족여행, 어디가 맞을까? (2026)",
+      "summary": "MSC 크루즈와 로얄캐리비안을 2026년 공식 자료 기준으로 기본 식사, 키즈클럽, 선박 액티비티, Ocean Cay·CocoCay, 추가비용과 여행 유형별 선택 기준으로 비교했습니다.",
+      "thumbnail_url": "https://cruiseplay-dyt.pages.dev/img/og-image.jpg",
+      "tag_text": "MSC크루즈,로얄캐리비안,크루즈선사비교,가족크루즈",
+      "published_at": "2026-09-16",
+      "updated_at": "2026-09-16",
+      "sort_order": -46
+    },
+    {
+      "slug": "cruise-best-time-to-book-early-vs-last-minute-2026",
+      "category": "비용비교",
+      "title": "크루즈 예약 언제 해야 가장 저렴할까? 조기예약·막판특가 비교 (2026)",
+      "summary": "2026년 공식 선사 자료를 기준으로 12~18개월, 6~12개월, 출항 임박 예약의 장단점과 조기예약·막판특가 판단 기준을 정리했습니다.",
+      "thumbnail_url": "https://cruiseplay-dyt.pages.dev/img/og-image.jpg",
+      "tag_text": "크루즈예약시기,크루즈싸게예약,크루즈조기예약,크루즈막판특가",
+      "published_at": "2026-09-15",
+      "updated_at": "2026-09-15",
+      "sort_order": -45
+    },
+    {
+      "slug": "cruise-travel-price-4n5d-7n8d-2026",
+      "category": "비용비교",
+      "title": "크루즈 여행 가격 얼마? 4박5일·7박8일 실제 비용 총정리 (2026)",
+      "summary": "2026 크루즈 여행 가격을 4박5일·7박8일 기준으로 선실료, 항만세, 선상팁, 항공권, 기항지 관광, 와이파이까지 나눠 실제 예산으로 정리했습니다.",
+      "thumbnail_url": "https://cruiseplay-dyt.pages.dev/img/og-image.jpg",
+      "tag_text": "크루즈여행가격,크루즈가격,크루즈비용,4박5일크루즈,7박8일크루즈",
+      "published_at": "2026-09-15",
+      "updated_at": "2026-09-15",
+      "sort_order": -44
+    },
+    {
       "slug": "cruise-terminal-arrival-time-checkin-guide",
       "category": "탑승절차",
       "title": "크루즈 터미널에는 몇 시에 도착해야 할까? 체크인 시간·지각 대응 가이드",
