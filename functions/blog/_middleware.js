@@ -14,6 +14,15 @@ const INDEX_DESCRIPTION = '처음 크루즈를 준비하는 분을 위해 비용
 
 const LATEST_POSTS = [
   {
+    path: '/blog/2027-busan-departure-cruise-msc-bellissima-guide/',
+    category: '출발항·일정',
+    title: '2027 부산 출발 크루즈 일정 총정리: MSC 벨리시마 4박5일·5박6일·6박7일',
+    summary: '2027년 부산에서 출발하는 MSC 벨리시마 일정을 겨울·여름 시즌으로 나눠 정리했습니다. 상하이·제주·후쿠오카·사세보 코스와 예약 전 확인할 가격·객실·터미널 기준까지 확인하세요.',
+    tags: '2027부산출발크루즈,부산출발크루즈,MSC벨리시마,부산크루즈일정',
+    date: '2026-09-18',
+    alt: '2027 부산 출발 MSC 벨리시마 일정과 기항지 안내'
+  },
+  {
     path: '/blog/msc-vs-royal-caribbean-cruise-comparison-2026/',
     category: '선사비교',
     title: 'MSC 크루즈 vs 로얄캐리비안 비교: 식사·시설·가족여행, 어디가 맞을까? (2026)',
