@@ -14,6 +14,15 @@ const INDEX_DESCRIPTION = '처음 크루즈를 준비하는 분을 위해 비용
 
 const LATEST_POSTS = [
   {
+    path: '/blog/singapore-departure-cruise-booking-guide/',
+    category: '출발항·예약',
+    title: '싱가포르 출발 크루즈 예약 가이드: 터미널·입국·전날 숙박까지',
+    summary: '싱가포르 출발 크루즈 예약 전 확인할 항로 선택, Marina Bay 크루즈 터미널, SG Arrival Card, 항공·전날 숙박과 총비용 비교 기준을 정리했습니다.',
+    tags: '싱가포르출발크루즈,싱가포르크루즈,싱가포르크루즈터미널,SGArrivalCard',
+    date: '2026-09-19',
+    alt: '싱가포르 출발 크루즈 예약과 터미널 준비 안내'
+  },
+  {
     path: '/blog/2027-busan-departure-cruise-msc-bellissima-guide/',
     category: '출발항·일정',
     title: '2027 부산 출발 크루즈 일정 총정리: MSC 벨리시마 4박5일·5박6일·6박7일',
