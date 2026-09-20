@@ -14,6 +14,15 @@ const INDEX_DESCRIPTION = '처음 크루즈를 준비하는 분을 위해 비용
 
 const LATEST_POSTS = [
   {
+    path: '/blog/2027-alaska-cruise-seattle-vancouver-glacier-guide/',
+    category: '목적지·일정',
+    title: '2027 알래스카 크루즈 추천: 시애틀 vs 밴쿠버 출발·빙하 코스 비교',
+    summary: '2027 알래스카 크루즈를 시애틀 왕복, 밴쿠버 왕복·편도, Glacier Bay·Hubbard Glacier, 크루즈투어 기준으로 비교했습니다. 어떤 일정이 내 여행에 맞는지 예약 전 확인하세요.',
+    tags: '2027알래스카크루즈,알래스카크루즈추천,시애틀알래스카크루즈,밴쿠버알래스카크루즈,GlacierBay',
+    date: '2026-09-20',
+    alt: '2027 알래스카 크루즈 시애틀 밴쿠버 출발과 주요 빙하 비교'
+  },
+  {
     path: '/blog/singapore-departure-cruise-booking-guide/',
     category: '출발항·예약',
     title: '싱가포르 출발 크루즈 예약 가이드: 터미널·입국·전날 숙박까지',
