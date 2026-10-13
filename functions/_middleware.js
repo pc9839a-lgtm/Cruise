@@ -254,8 +254,7 @@ export async function onRequest(context) {
   if (contentType.includes('text/html')) {
     let rewriter = new HTMLRewriter()
       .on('head', new HeadSecurityInjector(isPartner, includeAdsense, isHomepage, isBlogIndex))
-      .on('body', new SecurityScriptInjector(isPartner, includePartnerLink))
-      .on('a[href="/editorial-policy/"]', new RemoveElement());
+      .on('body', new SecurityScriptInjector(isPartner, includePartnerLink));
 
     if (isPartner) rewriter = rewriter.on('.hero-bg', new PartnerHeroInjector());
 
