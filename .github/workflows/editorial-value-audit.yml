@@ -1,0 +1,67 @@
+name: Editorial value audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/editorial-value-audit.yml
+      - blog/**
+      - scripts/validate_sitemaps.py
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inventory thin articles and first-party source evidence
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, json, pathlib, re
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse
+          class Scanner(HTMLParser):
+            def __init__(self):
+              super().__init__();self.main=0;self.skip=0;self.text=[];self.external=[];self.h1=0;self.own_photos=0;self.stocks=0
+            def handle_starttag(self,tag,attrs):
+              attrs=dict(attrs)
+              if tag=='main':self.main+=1
+              if tag in ('script','style'):self.skip+=1
+              if self.main and not self.skip:
+                if tag=='h1':self.h1+=1
+                if tag=='a':
+                  href=attrs.get('href','')
+                  if href.startswith('http'):self.external.append(href)
+                if tag=='img':
+                  src=attrs.get('src','')
+                  if 'unsplash.com' in src:self.stocks+=1
+                  elif src:self.own_photos+=1
+            def handle_endtag(self,tag):
+              if tag in ('script','style'):self.skip=max(0,self.skip-1)
+              if tag=='main':self.main=max(0,self.main-1)
+            def handle_data(self,data):
+              if self.main and not self.skip:self.text.append(data.strip())
+          rows=[]
+          for p in pathlib.Path('blog').glob('*/index.html'):
+            html=p.read_text(encoding='utf-8')
+            s=Scanner();s.feed(html)
+            letters=len(re.sub(r'\s+','', ' '.join(s.text)))
+            credible=[x for x in s.external if any(z in urlparse(x).netloc for z in ('msccruises','royalcaribbean','gov.kr','go.kr','gov','carnival','ncl.com','princess.com','cdc.gov','iata.org'))]
+            rows.append({'path':str(p),'chars':letters,'official_source_links':len(credible),'other_external_links':len(s.external)-len(credible),'h1':s.h1,'stock_images':s.stocks})
+          rows.sort(key=lambda r:(r['chars'],r['official_source_links']))
+          weak=[r for r in rows if r['chars']<1500 or (r['official_source_links']==0 and r['chars']<2400)]
+          print(f"Total published guides: {len(rows)} | Below 1500 visible chars: {sum(r['chars']<1500 for r in rows)} | Zero official links: {sum(r['official_source_links']==0 for r in rows)} | Review candidates: {len(weak)}")
+          for r in rows[:20]:print(f"{r['chars']:5d} chars / {r['official_source_links']} official sources / {r['stock_images']} stock images: {r['path']}")
+          result={'total':len(rows),'review_candidates':weak,'all':rows}
+          pathlib.Path('editorial-quality-report.json').write_text(json.dumps(result,indent=2,ensure_ascii=False),encoding='utf-8')
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+            f.write('## Editorial evidence inventory\n\nThis is a prioritization report, not a Google approval score.\n\n')
+            f.write(f"**Articles:** {len(rows)} · **Review candidates:** {len(weak)}\n\n")
+            f.write('| Page | Main text characters | Official source links | Stock images |\n|---|---:|---:|---:|\n')
+            for row in rows[:25]:
+              f.write(f"| `{row['path']}` | {row['chars']} | {row['official_source_links']} | {row['stock_images']} |\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cruise-editorial-quality-report
+          path: editorial-quality-report.json
