@@ -113,11 +113,7 @@ export async function onRequest(context) {
   if (!contentType.includes('text/html') || response.status < 200 || response.status >= 400) return response;
   const isIndex = pathname === '/blog' || pathname === '/blog/';
   const isPost = /^\/blog\/[^/]+\/?$/.test(pathname) && !isIndex;
-  if (isIndex) {
-    const headers = new Headers(response.headers); headers.delete('Content-Length'); headers.delete('content-length');
-    const html = injectLatestPostsIntoIndex(await response.text());
-    return new Response(html, { status: response.status, statusText: response.statusText, headers });
-  }
+  if (isIndex) return response;
   let rewritten = new Response(response.body, { status: response.status, statusText: response.statusText, headers: response.headers });
   if (isPost) rewritten = new HTMLRewriter().on('head', new BlogPostHeadInjector()).on('main.article', new BlogPostTopicInjector(pathname.endsWith('/') ? pathname : `${pathname}/`)).transform(rewritten);
   return rewritten;
