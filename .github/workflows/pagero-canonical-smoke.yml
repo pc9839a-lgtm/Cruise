@@ -28,10 +28,10 @@ jobs:
             except Exception as e:sys.exit(f'ERROR {url}: {e}')
           old='https://life.pagero.kr/car/car-inspection-period/'
           try:
-            with opener.open(old,timeout=20) as resp:
+            with opener.open(urllib.request.Request(old,headers={'User-Agent':'Mozilla/5.0'}),timeout=20) as resp:
               status=resp.status;loc=resp.headers.get('Location','')
           except urllib.error.HTTPError as e:
-            status=e.code;loc=e.headers.get('Location','')
+            status=e.code;loc=e.headers.get('Location','');print('OLD RESPONSE',e.read(300).decode('utf-8','replace'),flush=True)
           print('OLD URL',status,loc,flush=True)
           if status!=301 or loc!='https://pagero.kr/life/car/car-inspection-period/':
             sys.exit('Old domain still not canonical')
