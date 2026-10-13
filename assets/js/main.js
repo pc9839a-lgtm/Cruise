@@ -557,7 +557,7 @@
 
   function renderSettings() {
     const settings = state.bootstrap.settings || {};
-    const siteName = settings.site_title || settings.site_name || '크루즈 플레이';
+    const siteName = settings.site_title || settings.site_name || '오케이크루즈';
     const heroImage = settings.hero_image || settings.hero_bg || '';
 
     setText('siteName', siteName);
@@ -572,7 +572,7 @@
     setText('heroBottomText', settings.hero_bottom_text || '가격보다 일정이 먼저 보이도록, 한눈에 비교되는 구조로 다시 정리했습니다.');
 
     setHtml('identityTitle', (() => {
-      const text = settings.identity_title || '크루즈플레이는\n여행사가 아닙니다.';
+      const text = settings.identity_title || '오케이크루즈는\n여행사가 아닙니다.';
       const parts = text.split('\n');
       return parts.length > 1 ? `${escapeHtml(parts[0])}<br><span>${escapeHtml(parts.slice(1).join(' '))}</span>` : `<span>${escapeHtml(text)}</span>`;
     })());

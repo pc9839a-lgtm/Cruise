@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "slug": "2027-verified-sailings",
+      "category": "실제 항차 비교",
+      "title": "2027년 공식 크루즈 4개 항차 비교: MSC 도쿄 vs 로얄캐리비안 싱가포르",
+      "summary": "선사가 발표한 2027년 4개 실제 항차의 출항일, 기항지와 한국 출발 여행비 추가항목을 비교했습니다.",
+      "thumbnail_url": "https://cruiseplay-dyt.pages.dev/img/og-image.jpg",
+      "tag_text": "2027크루즈,실제항차,MSC,로얄캐리비안",
+      "published_at": "2026-10-13",
+      "updated_at": "2026-10-13",
+      "sort_order": -51
+    },
+    {
       "slug": "2027-rome-mediterranean-cruise-barcelona-comparison",
       "category": "출발항·일정",
       "title": "2027 로마 출발 지중해 크루즈 추천: 바르셀로나 출발과 7박 일정 비교",

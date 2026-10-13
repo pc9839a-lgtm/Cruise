@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const SITE_URL = 'https://cruiseplay-dyt.pages.dev';
-const SITE_NAME = '크루즈플레이';
+const SITE_NAME = '오케이크루즈';
 const SITE_DESCRIPTION = '처음 크루즈를 준비하는 분을 위한 비용, 선실, 준비물, 기항지 정보 가이드.';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/img/og-default.jpg`;
 
