@@ -1,0 +1,55 @@
+name: Verify AdSense editorial pages on public hosts
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/verify-adsense-editorial-live.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Confirm rendered HTML content on actual domains, not only HTTP 200
+        shell: bash
+        run: |
+          python - <<'PY'
+          import time, urllib.request, urllib.error
+          pages = {
+            'https://cruiseplay-dyt.pages.dev/blog/2027-verified-sailings/': ('2027년 공식 크루즈', 'MSC 벨리시마', '로얄캐리비안'),
+            'https://cruiseplay-dyt.pages.dev/': ('공식 항차 4개 실제 비교표 보기', '2027 OFFICIAL SAILINGS'),
+            'https://cruiseplay-dyt.pages.dev/blog/': ('2027 공식 출항 일정과 항차별 비용 비교',),
+            'https://pagero.kr/guide/lead-funnel-metrics/': ('광고 전환수와 실제 문의', '600,000원'),
+            'https://pagero.kr/guide/form-submission-debug/': ('상담 신청폼이 누락될 때', '테스트 매트릭스'),
+            'https://pagero.kr/': ('/guide/lead-funnel-metrics/', '/guide/form-submission-debug/'),
+            'https://pagero.kr/life/car/car-inspection-period/': ('생활비서', '정기검사'),
+          }
+          missing = dict(pages)
+          for attempt in range(1,16):
+            for url, needles in list(missing.items()):
+              try:
+                sep = '&' if '?' in url else '?'
+                request = urllib.request.Request(url + sep + 'adsense_verify=20261013v2', headers={
+                  'User-Agent': 'Mozilla/5.0 (compatible; ContentValidationBot/1.0)',
+                  'Cache-Control': 'no-cache',
+                })
+                with urllib.request.urlopen(request, timeout=15) as response:
+                  body = response.read(1000000).decode('utf-8','replace')
+                  status = response.status
+                  mime = response.headers.get('Content-Type','')
+                ok = status == 200 and 'text/html' in mime and all(part in body for part in needles)
+                print(f'CHECK attempt={attempt} status={status} ok={ok} url={url}',flush=True)
+                if ok: del missing[url]
+              except Exception as err:
+                print(f'WAIT attempt={attempt} url={url} error={str(err)[:120]}',flush=True)
+            if not missing: break
+            if attempt < 15: time.sleep(14)
+          if missing:
+            print('FAILED live content URLs:', ', '.join(missing),flush=True)
+            raise SystemExit(1)
+          print('PASS: all seven public URLs return exact new editorial HTML, not just HTTP 200.',flush=True)
+          PY
