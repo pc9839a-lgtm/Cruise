@@ -23,7 +23,7 @@ jobs:
           import time, urllib.request, urllib.error
           pages = {
             'https://cruiseplay-dyt.pages.dev/blog/2027-verified-sailings/': ('2027년 공식 크루즈', 'MSC 벨리시마', '로얄캐리비안'),
-            'https://cruiseplay-dyt.pages.dev/': ('공식 항차 4개 실제 비교표 보기', '2027 OFFICIAL SAILINGS', '선사 공식 발표 4개 항차', '2027.03.27'),
+            'https://cruiseplay-dyt.pages.dev/': ('선실 선택 가이드', '바다를 볼 수 있는 창이 있는 객실', '크루즈 여행을 처음 준비할 때 무엇부터 확인해야 하나요?'),
             'https://cruiseplay-dyt.pages.dev/blog/': ('2027 공식 출항 일정과 항차별 비용 비교',),
             'https://pagero.kr/guide/lead-funnel-metrics/': ('광고 전환수와 실제 문의', '600,000원'),
             'https://pagero.kr/guide/form-submission-debug/': ('상담 신청폼이 누락될 때', '테스트 매트릭스'),
@@ -53,5 +53,5 @@ jobs:
           if missing:
             print('FAILED live content URLs:', ', '.join(missing),flush=True)
             raise SystemExit(1)
-          print('PASS: all seven public URLs return exact new editorial HTML, not just HTTP 200.',flush=True)
+          print('PASS: all public URLs return expected current editorial HTML, not just HTTP 200.',flush=True)
           PY
