@@ -22,7 +22,7 @@ jobs:
           python - <<'PY'
           import time, urllib.request, urllib.error
           checks = {
-            'https://cruiseplay-dyt.pages.dev/': 'comparison-primer-title',
+            'https://cruiseplay-dyt.pages.dev/': '바다를 볼 수 있는 창이 있는 객실',
             'https://cruiseplay-dyt.pages.dev/tools/trip-budget/': '크루즈 여행비',
             'https://cruiseplay-dyt.pages.dev/editorial-policy/': '콘텐츠는 이렇게',
             'https://cruiseplay-dyt.pages.dev/blog/cruise-gratuities-service-charge-guide/': 'MSC 공식 서비스 차지'
