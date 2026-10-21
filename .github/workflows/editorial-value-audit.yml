@@ -6,6 +6,7 @@ on:
       - .github/workflows/editorial-value-audit.yml
       - blog/**
       - scripts/validate_sitemaps.py
+      - scripts/editorial-substance-audit.mjs
   workflow_dispatch:
 jobs:
   audit:
@@ -61,7 +62,16 @@ jobs:
             for row in rows[:25]:
               f.write(f"| `{row['path']}` | {row['chars']} | {row['official_source_links']} | {row['stock_images']} |\n")
           PY
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prioritize pages missing distinct analysis, comparisons or official evidence
+        run: |
+          node --check scripts/editorial-substance-audit.mjs
+          node scripts/editorial-substance-audit.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: cruise-editorial-quality-report
-          path: editorial-quality-report.json
+          path: |
+            editorial-quality-report.json
+            editorial-substance-report.json
