@@ -65,6 +65,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Verify first-cruise guide uses primary official boarding guidance
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          page = Path('blog/first-cruise-common-mistakes/index.html').read_text(encoding='utf-8')
+          expected = [
+            '공식 안내를 비교하면',
+            'www.msccruises.com/int/manage-booking/before-you-go/embarkation',
+            'www.royalcaribbean.com/faq/questions/cruise-ship-port-arrival-time',
+            '출항 당일 항공편을 택할 때의 위험 비교',
+            '<table>',
+          ]
+          missing = [item for item in expected if item not in page]
+          if missing:
+            raise SystemExit('First-cruise article evidence missing: ' + ', '.join(missing))
+          print('PASS: first-cruise article contains sourced boarding rules, risk comparisons and decision table')
+          PY
       - name: Prioritize pages missing distinct analysis, comparisons or official evidence
         run: |
           node --check scripts/editorial-substance-audit.mjs
