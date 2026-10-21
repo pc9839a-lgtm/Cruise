@@ -7,7 +7,7 @@ const paragraphMap = new Map();
 const rows = [];
 const decode = s => String(s).replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/&lt;/gi,'<').replace(/&gt;/gi,'>').replace(/&quot;/gi,'"').replace(/&#39;|&#x27;/gi,"'").replace(/&[a-z]+;/gi,' ');
 const plain = s => decode(s.replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
-const authority = /(^|\.)((gov\.kr)|(go\.kr)|(law\.go\.kr)|(msccruises\.[a-z.]+)|(royalcaribbean\.com)|(ncl\.com)|(carnival\.com)|(princess\.com)|(disneycruise\.disney\.go\.com)|(iata\.org))$/i;
+const authority = /(^|\.)((gov\.kr)|(go\.kr)|(law\.go\.kr)|(msccruises\.[a-z.]+)|(royalcaribbean\.com)|(ncl\.com)|(carnival\.com)|(princess\.com)|(disneycruise\.disney\.go\.com)|(iata\.org)|(cdc\.gov)|(nhs\.uk)|(msccruisesusa\.com)|(travel\.state\.gov)|(noaa\.gov)|(eeas\.europa\.eu))$/i;
 
 for (const file of files) {
  const html=fs.readFileSync(file,'utf8');
