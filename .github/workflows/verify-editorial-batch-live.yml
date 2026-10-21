@@ -8,6 +8,10 @@ on:
       - blog/cruise-smoking-policy-guide/index.html
       - blog/cruise-cabin-outlet-charging-guide/index.html
       - blog/cruise-with-kids-family-guide/index.html
+      - blog/cruise-mobile-app-guide/index.html
+      - blog/cruise-onboard-shows-reservation-guide/index.html
+      - blog/cruise-cabin-amenities-housekeeping-guide/index.html
+      - blog/cruise-pool-jacuzzi-guide/index.html
   workflow_dispatch:
 
 permissions:
@@ -18,13 +22,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
-      - name: Confirm four live Cruise guides show actual official evidence and tables
+      - name: Confirm eight live Cruise guides show actual official evidence and tables
         shell: bash
         run: |
           python - <<'PY'
           import time, urllib.request, urllib.error
           base='https://cruiseplay-dyt.pages.dev/blog/'
           checks={
+            'cruise-mobile-app-guide': ['무료 선내 앱과 유료 인터넷','do-i-need-an-internet-package-to-use-the-app','can-i-chat-with-other-guests-in-the-app','class="post-table"'],
+            'cruise-onboard-shows-reservation-guide': ['공연 예약은 모든 선박에서 필수가 아닙니다','how-do-i-pre-reserve-show-tickets','are-show-tickets-subject-to-availability','class="post-table"'],
+            'cruise-cabin-amenities-housekeeping-guide': ['공식 객실 안내에서 보장하는 것과 보장하지 않는 것','faq/questions/stateroom-types','faq/questions/how-can-i-modify-my-reservation-after-booking','class="post-table"'],
+            'cruise-pool-jacuzzi-guide': ['수영장 수건을 반납하지 않으면','are-beach-pool-towels-provided-onboard','are-children-in-diapers-allowed-in-the-onboard-pools','class="post-table"'],
             'cruise-laundry-guide': ['로얄캐리비안 공식 사례','onboard-laundry-guest-services','34.99','class="post-table"'],
             'cruise-smoking-policy-guide': ['실제 규정·위반 비용','onboard-smoking-policy','250','class="post-table"'],
             'cruise-cabin-outlet-charging-guide': ['멀티탭을 가져가도 될까요','can-i-bring-an-extension-onboard','class="post-table"'],
@@ -53,5 +61,5 @@ jobs:
             if attempt<12:time.sleep(12)
           if pending:
             raise SystemExit('FAIL missing live editorial evidence at: '+', '.join(pending))
-          print('PASS all four real public Cruise pages show primary sources and rendered comparison tables')
+          print('PASS all eight real public Cruise pages show primary sources and rendered comparison tables')
           PY
