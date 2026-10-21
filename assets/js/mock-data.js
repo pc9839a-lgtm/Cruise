@@ -3,7 +3,7 @@
 window.MOCK_BOOTSTRAP_DATA = {};
 [
   'assets/js/site-content-core.js?v=20260809-sheet-snapshot-1',
-  'assets/js/site-content-reviews.js?v=20260809-sheet-snapshot-1',
+  'assets/js/site-content-reviews.js?v=20261021-adsense-review-gallery',
   'assets/js/site-content-guides.js?v=20260809-sheet-snapshot-1',
   'assets/js/site-content-links.js?v=20260809-sheet-snapshot-1',
   'assets/js/site-content-images.js?v=20260809-membership-visual-1'
