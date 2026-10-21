@@ -36,19 +36,18 @@
      --------------------------------------------------------- */
   const SECTION_SEQUENCE = [
     { order: 1, key: 'identitySection' },
-    { order: 2, key: 'basicInfoSection' },
-    { order: 3, key: 'scheduleSection' },
-    { order: 4, key: 'priceGuaranteeSection' },
-    { order: 5, key: 'reviewSection' },
-    { order: 6, key: 'targetsSection' },
-    { order: 7, key: 'cabinsSection' },
-    { order: 8, key: 'processSection' },
-    { order: 9, key: 'faqSection' },
-    { order: 10, key: 'membershipSection' },
-    { order: 11, key: 'contactSection' },
-    { order: 12, key: 'contentSection' }
+    { order: 2, key: 'contentSection' },
+    { order: 3, key: 'basicInfoSection' },
+    { order: 4, key: 'cabinsSection' },
+    { order: 5, key: 'scheduleSection' },
+    { order: 6, key: 'reviewSection' },
+    { order: 7, key: 'faqSection' },
+    { order: 8, key: 'targetsSection' },
+    { order: 9, key: 'processSection' },
+    { order: 10, key: 'priceGuaranteeSection' },
+    { order: 11, key: 'membershipSection' },
+    { order: 12, key: 'contactSection' }
   ];
-
   const state = {
     bootstrap: {
       settings: {}, schedules: [], schedule_days: [], reviews: [],
