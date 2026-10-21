@@ -1,0 +1,57 @@
+name: Verify live Cruise AdSense assets and review albums
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/verify-live-adsense-assets.yml
+      - index.html
+      - assets/js/site-content-reviews.js
+      - assets/js/mock-data.js
+      - assets/js/main.js
+      - assets/css/styles.css
+      - ads.txt
+      - functions/_middleware.js
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check live AdSense ownership and de-duplicated photo albums
+        shell: bash
+        run: |
+          python - <<'PY'
+          import time, urllib.request
+          root='https://cruiseplay-dyt.pages.dev'
+          checks={
+            root + '/':('text/html', ('와이프와 다녀온 아시아크루즈', '코스타세레나호', 'ca-pub-1906196934401001')),
+            root + '/ads.txt':('text/plain', ('google.com, pub-1906196934401001, DIRECT, f08c47fec0942fa0',)),
+            root + '/assets/js/site-content-reviews.js':('javascript', ('"photo_urls"', 'KakaoTalk_20260405_150550057', '객실및내부시설12-1')),
+          }
+          pending=dict(checks)
+          for attempt in range(1,11):
+            print(f'Attempt {attempt}/10; remaining {len(pending)}',flush=True)
+            for url,(mime,needles) in list(pending.items()):
+              try:
+                req=urllib.request.Request(url,headers={
+                  'User-Agent':'Mozilla/5.0 (compatible; CruiseAdSenseSmoke/1.0)',
+                  'Cache-Control':'no-cache'})
+                with urllib.request.urlopen(req,timeout=12) as r:
+                  body=r.read(1200000).decode('utf-8','replace')
+                  ctype=r.headers.get('Content-Type','').lower()
+                  status=r.status
+                ok=status==200 and mime in ctype and all(x in body for x in needles)
+                print(f'{status} {url} type={ctype} ok={ok}',flush=True)
+                if ok:del pending[url]
+              except Exception as exc:
+                print(f'RETRY {url}: {str(exc)[:130]}',flush=True)
+            if not pending:break
+            if attempt<10:time.sleep(20)
+          if pending:raise SystemExit('FAIL live content: '+', '.join(pending))
+          print('PASS: live homepage, ads.txt and two photo albums',flush=True)
+          PY
