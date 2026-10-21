@@ -507,6 +507,24 @@
     }
   }
 
+  function groupReviewPhotos(reviews) {
+    const groups = new Map();
+    for (const review of reviews) {
+      const key = [review.title || '', review.summary || '', review.content || '']
+        .map(value => String(value).trim()).join('\u241f');
+      if (!groups.has(key)) groups.set(key, { ...review, photo_urls: [] });
+      const group = groups.get(key);
+      const urls = [
+        ...(Array.isArray(review.photo_urls) ? review.photo_urls : []),
+        review.thumbnail_url, review.image_url, review.photo_url
+      ].filter(url => typeof url === 'string' && /^https?:\/\//.test(url));
+      urls.forEach(url => {
+        if (!group.photo_urls.includes(url)) group.photo_urls.push(url);
+      });
+    }
+    return [...groups.values()];
+  }
+
   function normalizeData(data) {
     const safe = data || {};
     const fb = window.MOCK_BOOTSTRAP_DATA || {};
@@ -514,7 +532,7 @@
       settings: safe.settings || fb.settings || {},
       schedules: ensureArray(safe.schedules, fb.schedules),
       schedule_days: ensureArray(safe.schedule_days, fb.schedule_days),
-      reviews: ensureArray(safe.reviews, fb.reviews),
+      reviews: groupReviewPhotos(ensureArray(safe.reviews, fb.reviews)),
       targets: ensureArray(safe.targets, fb.targets),
       basic_info: ensureArray(safe.basic_info, fb.basic_info),
       process_steps: ensureArray(safe.process_steps, fb.process_steps),
@@ -664,31 +682,32 @@
     const reviews = shuffleArray([...(state.bootstrap.reviews || [])]);
 
     if (!reviews.length) {
-      reviewGrid.innerHTML = `<div class="schedule-empty">준비 중인 후기가 곧 업데이트됩니다.</div>`;
+      reviewGrid.innerHTML = '<div class="schedule-empty">여행 사진 자료를 준비 중입니다.</div>';
       if (reviewDots) reviewDots.innerHTML = '';
       return;
     }
 
     reviewGrid.innerHTML = reviews.map(review => {
-      const imageCandidates = [
-        review.thumbnail_url,
-        review.image_url,
-        review.photo_url
+      const images = review.photo_urls || [
+        review.thumbnail_url, review.image_url, review.photo_url
       ].filter(Boolean);
+      const imageUrl = images[0] || '';
 
-      const imageUrl = imageCandidates.length
-        ? imageCandidates[Math.floor(Math.random() * imageCandidates.length)]
-        : '';
+      const photoLinks = images.map((url, index) => `
+        <a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttribute(review.title || '크루즈')} 사진 ${index + 1} 크게 보기">
+          <img src="${escapeAttribute(url)}" alt="${escapeAttribute(review.title || '크루즈')} 사진 ${index + 1}" loading="lazy" decoding="async" />
+        </a>`).join('');
 
       return `
         <article class="review-card">
           <div class="review-thumb">
-            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" />` : ''}
+            ${imageUrl ? `<img src="${escapeAttribute(imageUrl)}" alt="${escapeAttribute(review.title || '')}" loading="lazy" />` : ''}
           </div>
           <div class="review-body">
             ${review.region ? `<span class="review-region">${escapeHtml(review.region)}</span>` : ''}
-            <h3>${escapeHtml(review.title || '크루즈 후기')}</h3>
+            <h3>${escapeHtml(review.title || '크루즈 여행 사진')}</h3>
             <p>${escapeHtml(review.summary || review.content || '')}</p>
+            ${images.length > 1 ? `<div class="review-photo-count">사진 ${images.length}장 · 사진을 눌러 크게 보기</div><div class="review-photo-gallery">${photoLinks}</div>` : ''}
           </div>
         </article>
       `;
