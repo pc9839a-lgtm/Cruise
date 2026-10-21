@@ -483,6 +483,12 @@ button { cursor: pointer; }
 }
 .review-body h3 { margin: 14px 0 10px; font-size: 26px; line-height: 1.26; color: #091a3b; letter-spacing: -0.03em; }
 .review-body p { margin: 0; color: #5f6b7c; line-height: 1.82; }
+.review-photo-count { margin-top: 16px; color: #64748b; font-size: 12px; font-weight: 700; }
+.review-photo-gallery { display: flex; gap: 8px; margin-top: 8px; padding-bottom: 6px; overflow-x: auto; overscroll-behavior-inline: contain; }
+.review-photo-gallery a { flex: 0 0 62px; width: 62px; height: 62px; display: block; border: 1px solid #e3eaf3; border-radius: 9px; overflow: hidden; }
+.review-photo-gallery a:focus-visible { outline: 3px solid #2563eb; outline-offset: 2px; }
+.review-photo-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 
 /* =========================================================
    문의폼 카드
