@@ -6,6 +6,9 @@ on:
     paths:
       - .github/workflows/verify-adsense-editorial-live.yml
       - index.html
+      - assets/js/main.js
+      - assets/js/mock-data.js
+      - assets/js/site-content-reviews.js
   workflow_dispatch:
 
 permissions:
@@ -28,8 +31,8 @@ jobs:
             'https://pagero.kr/guide/lead-funnel-metrics/': ('광고 전환수와 실제 문의', '600,000원'),
             'https://pagero.kr/guide/form-submission-debug/': ('상담 신청폼이 누락될 때', '테스트 매트릭스'),
             'https://pagero.kr/': ('/guide/lead-funnel-metrics/', '/guide/form-submission-debug/'),
-            'https://pagero.kr/life/car/car-inspection-period/': ('생활비서', '정기검사'),
-            'https://pagero.kr/life/car/car-registration-certificate-reissue/': ('자동차등록증 재발급 온라인·방문 신청 방법', '온라인·방문 신청 순서와 수수료', '준비서류와 발급 후 확인할 사항'),
+            'https://life.pagero.kr/car/car-inspection-period/': ('생활비서', '정기검사'),
+            'https://life.pagero.kr/car/car-registration-certificate-reissue/': ('자동차등록증 재발급 온라인·방문 신청 방법', '온라인·방문 신청 순서와 수수료', '준비서류와 발급 후 확인할 사항'),
           }
           missing = dict(pages)
           for attempt in range(1,16):
