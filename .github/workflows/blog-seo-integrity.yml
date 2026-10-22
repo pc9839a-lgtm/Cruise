@@ -1,5 +1,12 @@
 name: Blog SEO integrity
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - 'sitemap.xml'
+      - 'scripts/audit_blog_seo.py'
+      - '.github/workflows/blog-seo-integrity.yml'
   pull_request:
     paths:
       - 'blog/**'
