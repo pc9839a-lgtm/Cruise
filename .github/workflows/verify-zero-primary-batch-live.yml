@@ -1,0 +1,51 @@
+name: Verify zero missing primary sources on seven live Cruise guides
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-zero-primary-batch-live.yml'
+      - 'blog/cruise-casino-onboard-guide/index.html'
+      - 'blog/best-first-cruise-destinations-for-koreans/index.html'
+      - 'blog/singapore-departure-cruise-booking-guide/index.html'
+      - 'blog/2027-busan-departure-cruise-msc-bellissima-guide/index.html'
+      - 'blog/cruise-travel-price-4n5d-7n8d-2026/index.html'
+      - 'blog/cruise-drink-package-comparison/index.html'
+      - 'blog/extra-cruise-costs/index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verify corrected public 2026 pricing and primary references
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,time
+          checks={"cruise-casino-onboard-guide":["연령과 운영시간은 공식 선사 정책","royalcaribbean.com/faq/topics/casino","18세 이상"],"best-first-cruise-destinations-for-koreans":["초보에게 맞는 항로를 고르는 기준","royalcaribbean.com/asia-cruises","msccruises.com/int/our-cruises/destinations/asia"],"singapore-departure-cruise-booking-guide":["싱가포르 입국과 크루즈 승선은 서로 다른","ica.gov.sg/enter-transit-depart/entering-singapore","mbccs.com.sg"],"2027-busan-departure-cruise-msc-bellissima-guide":["예약 전에 판매처의 2027년 일정","info.cruisetmk.kr/msc/preopen","busan.go.kr/eng/public-transportation"],"cruise-travel-price-4n5d-7n8d-2026":["실제 예약 결제화면을 확인해야 하는 이유","royalcaribbean.com/faq/questions/how-much-are-taxes-fees-and-port-expenses","msccruises.com/int/manage-booking/before-you-go/hotel-service-charge"],"cruise-drink-package-comparison":["2026년 음료패키지 정책에서 달라진","msccruises.com/int/on-board/dining-and-drinks/drinks-packages","ncl.com/packages-and-gifts"],"extra-cruise-costs":["지중해 일반 객실 만 12세 이상","지중해 일반 객실 만 2~11세 아동","€6"]}
+          pending={'https://cruiseplay-dyt.pages.dev/blog/'+k+'/':v for k,v in checks.items()}
+          for attempt in range(1,11):
+            for url,phrases in list(pending.items()):
+              try:
+                req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (EditorialVerifier)','Cache-Control':'no-cache'})
+                with urllib.request.urlopen(req,timeout=18) as r:
+                  status=r.status
+                  ctype=r.headers.get('Content-Type','')
+                  html=r.read(2000000).decode('utf-8','replace')
+                missing=[p for p in phrases if p not in html]
+                valid=status==200 and 'text/html' in ctype and not missing and '<table' in html
+                print('LIVE',url,'HTTP',status,'missing',missing,'table',('<table' in html),flush=True)
+                if valid:
+                  del pending[url]
+              except Exception as error:
+                print('RETRY',url,str(error)[:150],flush=True)
+            if not pending:break
+            if attempt<10:time.sleep(12)
+          if pending:
+            raise SystemExit('FAIL real public HTML missing editorial evidence at: '+', '.join(pending))
+          print('PASS seven public pages have official-backed comparisons and corrected fee brackets',flush=True)
+          PY
