@@ -1,0 +1,75 @@
+/* Cruiseplay Partner — restrained nautical atmosphere, no layout or form changes */
+@keyframes cpShipDrift{
+  0%{transform:scale(1.025) translate3d(0,0,0)}
+  100%{transform:scale(1.075) translate3d(-.8%,-.5%,0)}
+}
+@keyframes cpOceanLight{
+  0%{background-position:0% 50%;opacity:.37}
+  100%{background-position:100% 50%;opacity:.58}
+}
+@keyframes cpSeaAir{
+  0%{background-position:10% 42%}
+  100%{background-position:95% 63%}
+}
+@keyframes cpLineTravel{
+  0%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes cpGrowthSpark{
+  from{left:0;opacity:0}
+  16%{opacity:.95}
+  85%{opacity:.8}
+  to{left:calc(100% - 42px);opacity:0}
+}
+/* Existing script handles the initial image reveal; this starts only after it settles. */
+@media(min-width:701px) and (prefers-reduced-motion:no-preference){
+ .hero-section.anim-hero.section-active .hero-bg{
+  animation:cpShipDrift 24s ease-in-out 2.2s infinite alternate;
+ }
+ .hero-shade::after{
+  content:"";position:absolute;pointer-events:none;
+  bottom:0;left:0;right:0;height:36%;opacity:.35;
+  background:linear-gradient(105deg,transparent 9%,rgba(133,210,255,.13) 35%,transparent 58%,rgba(194,173,255,.09) 73%,transparent 97%);
+  background-size:200% 100%;
+  animation:cpOceanLight 15s ease-in-out infinite alternate;
+ }
+ .benefit-full .benefit-message{
+  background-size:150% 150%;
+  animation:cpSeaAir 18s ease-in-out infinite alternate;
+ }
+}
+/* Understated blue nautical route: a highlight, not a graphic overlay. */
+.hero-section::after{
+ content:"";position:absolute;z-index:1;bottom:0;left:0;right:0;height:3px;
+ background:linear-gradient(90deg,transparent 6%,rgba(133,210,255,.9) 49%,transparent 92%);
+ background-size:230% 100%;pointer-events:none;opacity:.6;
+}
+@media(prefers-reduced-motion:no-preference){
+ .hero-section.section-active::after{animation:cpLineTravel 13s linear infinite}
+}
+/* Match the existing counting-line reveal with a tiny moving glint. */
+@media(min-width:701px) and (prefers-reduced-motion:no-preference){
+ .stat-section .growth-line.is-animated::after{
+  content:"";position:absolute;top:-5px;left:0;width:42px;height:14px;
+  border-radius:100px;pointer-events:none;
+  background:radial-gradient(ellipse,rgba(188,235,255,.55),transparent 76%);
+  animation:cpGrowthSpark 1.9s .2s ease-in-out 1 both;
+ }
+}
+/* Photo gallery: lift the atmosphere, keep the original sprites and reveal transforms intact. */
+.gallery-item{
+ transition:box-shadow .35s ease,border-color .35s ease;
+ border:1px solid rgba(47,115,255,.08);
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .gallery-item:hover{box-shadow:0 20px 54px rgba(35,100,193,.23);border-color:rgba(103,178,255,.45)}
+ .primary-cta:hover,.partner-floating-button:hover{transform:translateY(-2px)}
+}
+/* Respect no-motion preferences, including on long mobile pages. */
+@media(prefers-reduced-motion:reduce){
+ .hero-section.anim-hero.section-active .hero-bg,
+ .hero-section.section-active::after,
+ .benefit-full .benefit-message,
+ .stat-section .growth-line.is-animated::after{animation:none!important}
+ .gallery-item{transition:none}
+}
