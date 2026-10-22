@@ -982,3 +982,45 @@ body.blog-page {
     transform: none;
   }
 }
+
+
+/* Travel Journal / 2026 editorial redesign */
+body.blog-page{background:#fff;color:#17212c;font-family:'Pretendard','Malgun Gothic',sans-serif}
+.blog-main{padding:0 0 100px}
+.blog-container{width:min(1320px,calc(100% - 72px));max-width:none}
+.editorial-intro{padding:74px 0 43px;border-bottom:1px solid #d6dce1}
+.editorial-kicker,.editorial-eyebrow,.editorial-side-label{font-size:11px;font-weight:750;letter-spacing:.15em;color:#304d67}
+.editorial-kicker span{padding:0 8px;color:#9ba7b1}
+.editorial-intro-main{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(250px,.7fr);gap:64px;align-items:end;padding:30px 0 54px}
+.editorial-intro h1{margin:0 0 26px;font-size:clamp(38px,5.1vw,74px);font-weight:750;letter-spacing:-.057em;line-height:1.18;color:#142538}
+.editorial-intro-main p{font-size:17px;line-height:1.85;margin:0;color:#667684;letter-spacing:-.015em}
+.editorial-intro-side{padding-bottom:4px}
+.editorial-side-label{display:block;margin-bottom:18px}
+.editorial-intro-side a{display:flex;align-items:center;justify-content:space-between;padding:15px 0;border-bottom:1px solid #dce2e6;font-size:15px;font-weight:650;color:#1f3344;letter-spacing:-.025em;text-decoration:none}
+.editorial-intro-side a span{font-size:18px;font-weight:400;color:#597a91}
+.editorial-intro-side a:hover{color:#0476a8}
+.editorial-intro-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:11px;letter-spacing:.12em;color:#768490}
+.editorial-intro-bottom strong{font-size:13px;color:#172e43}
+.editorial-intro-bottom a{color:inherit;text-decoration:none}
+.editorial-dot{margin:0 6px}
+.editorial-section-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;padding-top:51px}
+.editorial-section-heading h2{margin:9px 0 0;font-size:30px;line-height:1.25;letter-spacing:-.045em;font-weight:750;color:#152839}
+.editorial-section-note{color:#7e8a93;font-size:13px}
+.blog-section{margin-top:0}
+#blogGrid.blog-grid{gap:42px 25px;margin-top:26px;grid-template-columns:repeat(3,minmax(0,1fr))}
+#blogGrid .blog-card{border:0;border-radius:0;box-shadow:none;background:transparent;transition:none}
+#blogGrid .blog-card:hover{transform:none;border-color:transparent;box-shadow:none}
+#blogGrid .blog-card::before{top:14px;left:14px;min-height:auto;padding:7px 10px;border:0;border-radius:2px;box-shadow:none;background:rgba(12,29,43,.78);font-size:11px;font-weight:650;letter-spacing:-.015em}
+#blogGrid .blog-card > a > img{aspect-ratio:1.47;height:auto;object-fit:cover;background:#e5eaed;transition:filter .25s}
+#blogGrid .blog-card:hover > a > img{transform:none;filter:brightness(.92)}
+#blogGrid .blog-card > a > time{order:1;margin:17px 0 0;font-size:11px;letter-spacing:.06em;font-weight:600;color:#86929a}
+#blogGrid .blog-card > a > h2{order:2;margin:9px 0 0;min-height:auto;font-size:20px;font-weight:750;line-height:1.45;letter-spacing:-.035em;-webkit-line-clamp:2;color:#142537}
+#blogGrid .blog-card > a > p{order:3;margin:10px 0 0;min-height:auto;font-size:14px;line-height:1.65;letter-spacing:-.015em;color:#6b7782;-webkit-line-clamp:2}
+#blogGrid .blog-card > a::after{display:none}
+#blogGrid .blog-card:first-child{grid-column:span 2}
+#blogGrid .blog-card:first-child > a > img{aspect-ratio:2.05;max-height:460px}
+#blogGrid .blog-card:first-child > a > h2{font-size:27px;max-width:730px}
+#blogGrid .blog-card:first-child > a > p{font-size:15px;max-width:720px}
+.blog-footer{border-top:1px solid #e1e6e9;background:#fff}
+@media(max-width:900px){.editorial-intro-main{gap:30px;grid-template-columns:1fr}.editorial-intro-side{max-width:530px}#blogGrid.blog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#blogGrid .blog-card:first-child{grid-column:span 2}}
+@media(max-width:600px){.blog-container{width:calc(100% - 36px)}.editorial-intro{padding:47px 0 26px}.editorial-intro-main{padding:28px 0 32px;gap:36px}.editorial-intro h1{font-size:37px}.editorial-intro-main p{font-size:15px}.editorial-intro-bottom{align-items:start;flex-direction:column;gap:10px}.editorial-section-heading{padding-top:38px}.editorial-section-heading h2{font-size:25px}.editorial-section-note{display:none}#blogGrid.blog-grid{grid-template-columns:1fr;gap:32px}#blogGrid .blog-card:first-child{grid-column:auto}#blogGrid .blog-card:first-child > a > img{aspect-ratio:1.47}#blogGrid .blog-card:first-child > a > h2{font-size:21px}#blogGrid .blog-card > a > time{margin-top:13px}#blogGrid .blog-card > a > h2{font-size:19px}}
