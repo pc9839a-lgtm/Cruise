@@ -1,0 +1,50 @@
+name: Verify five improved Cruise preparation guides live
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-five-short-guides-live.yml'
+      - 'blog/cruise-boarding-process/index.html'
+      - 'blog/cruise-dress-code-guide/index.html'
+      - 'blog/cruise-luggage-guide/index.html'
+      - 'blog/cruise-passport-documents-check/index.html'
+      - 'blog/departure-checklist/index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verify HTML, original comparisons and publication metadata at live URLs
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request, time
+          checks={"cruise-boarding-process":["선사별 체크인 마감이 서로 다른 실제 사례","royalcaribbean.com/faq/questions/cruise-ship-port-arrival-time","msccruises.com/int/manage-booking/before-you-go/embarkation"],"cruise-dress-code-guide":["포멀나이트가 자유복장이더라도 식당 제한은 별개","msccruises.com/int/manage-booking/before-you-go/what-to-wear","갈라나이트"],"cruise-luggage-guide":["2인 객실에서 개인별 한도만 보면 안 되는 이유","총 9개, 합계 70kg","msccruises.com/int/manage-booking/before-you-go/luggage."],"cruise-passport-documents-check":["기항지에서 하선하지 않아도 입국 서류가 필요할 수 있습니다","what-family-legal-documents-do-i-need-to-board","travel-documents-visas"],"departure-checklist":["온라인 체크인 시점은 로얄캐리비안과 MSC가 다릅니다","when-can-i-check-in-with-the-app","web-check-in-faqs"]}
+          pending={'https://cruiseplay-dyt.pages.dev/blog/'+key+'/':items for key,items in checks.items()}
+          for attempt in range(1,13):
+            print('CHECK',attempt,flush=True)
+            for url,required in list(pending.items()):
+              try:
+                request=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (EditorialPublicationValidation)','Cache-Control':'no-cache'})
+                with urllib.request.urlopen(request,timeout=18) as response:
+                  status=response.status
+                  mime=response.headers.get('Content-Type','')
+                  body=response.read(2500000).decode('utf-8','replace')
+                missing=[word for word in required if word not in body]
+                date_ok='article:modified_time" content="2026-10-22"' in body
+                table_ok='<table' in body
+                print(url,'HTTP',status,'missing',missing,'table',table_ok,'date',date_ok,flush=True)
+                if status==200 and 'text/html' in mime and not missing and table_ok and date_ok:
+                  pending.pop(url)
+              except Exception as exc:
+                print('RETRY',url,str(exc)[:160],flush=True)
+            if not pending: break
+            if attempt<12: time.sleep(12)
+          if pending: raise SystemExit('FAIL missing LIVE updated guides: '+', '.join(pending))
+          print('PASS five public cruise guides published with official evidence, comparisons and revision date',flush=True)
+          PY
