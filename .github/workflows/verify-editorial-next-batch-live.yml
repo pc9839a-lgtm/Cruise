@@ -1,0 +1,55 @@
+name: Verify seven source-backed Cruise editorial patches
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/first-cruise-guide/index.html'
+      - 'blog/cruise-spa-massage-thermal-suite-guide/index.html'
+      - 'blog/cruise-onboard-photo-package-guide/index.html'
+      - 'blog/solo-cruise-travel-guide/index.html'
+      - 'blog/cruise-sea-day-guide/index.html'
+      - 'blog/cruise-language-english-guide/index.html'
+      - 'blog/cruise-vs-package-tour/index.html'
+      - '.github/workflows/verify-editorial-next-batch-live.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Confirm seven live articles include official evidence and comparison tables
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request, time, re
+          checks = {"first-cruise-guide":["직접 예약이라면 체크인 가능한 날짜부터 역산하세요","when-can-i-check-in-with-the-app","cruise-ship-port-arrival-time","400만 원"],"cruise-spa-massage-thermal-suite-guide":["공식 규정으로 스파 총액을 계산하는 예시","are-gratuities-included-in-the-price-of-my-spa-treatment","US$180"],"cruise-onboard-photo-package-guide":["하선하면 사진을 새로 살 수 없다는 점","onboard-picture-request","how-long-will-my-photos-be-available-for-viewing"],"solo-cruise-travel-guide":["혼자 여행할 때 가장 큰 가격 차이","can-i-purchase-a-stateroom-for-one-person","single-occupancy-pricing"],"cruise-sea-day-guide":["공식 선내 일정표로 무료·유료 활동을 구분","what-is-a-cruise-compass","what-is-the-new-royal-caribbean-app"],"cruise-language-english-guide":["선사 공식 언어 정책과 실제 한국어 서비스","is-english-the-main-language-spoken-onboard","what-is-the-new-royal-caribbean-app"],"cruise-vs-package-tour":["패키지와 직접 예약, 가격이 같을 때 따질 위험","cruise-ship-port-arrival-time","will-the-ship-wait-for-guests-on-a-shore-excursion"]}
+          pending = {'https://cruiseplay-dyt.pages.dev/blog/'+slug+'/': fragments for slug,fragments in checks.items()}
+          for attempt in range(1, 12):
+            print('Live published editorial check', attempt, flush=True)
+            for url, phrases in list(pending.items()):
+              try:
+                req = urllib.request.Request(url, headers={'Cache-Control':'no-cache','User-Agent':'Mozilla/5.0 (compatible; EditorialValueVerify/1.0)'})
+                with urllib.request.urlopen(req, timeout=20) as res:
+                  status = res.status
+                  content_type = res.headers.get('Content-Type','')
+                  html = res.read(2000000).decode('utf-8','replace')
+                missing = [s for s in phrases if s not in html]
+                table_ok = '<table' in html
+                official = 'royalcaribbean.com' in html
+                print(url,'HTTP',status,'missing',missing,'has_table',table_ok,'official',official,flush=True)
+                if status == 200 and 'text/html' in content_type and not missing and table_ok and official:
+                  pending.pop(url)
+              except Exception as e:
+                print('RETRY', url, str(e)[:160], flush=True)
+            if not pending:
+              break
+            if attempt < 11:
+              time.sleep(12)
+          if pending:
+            raise SystemExit('FAIL: new editorial evidence missing at: '+', '.join(pending))
+          print('PASS: seven published guides include new comparisons and official evidence',flush=True)
+          PY
