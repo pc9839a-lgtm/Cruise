@@ -40,6 +40,7 @@ rows.sort((a,b)=>b.signals-a.signals||a.chars-b.chars);
 const result={disclaimer:'Prioritization only. NOT a plagiarism detector or Google AdSense quality score.',total:rows.length,flagged:rows.filter(x=>x.issues.length).length,no_official:rows.filter(x=>x.issues.includes('no_official_primary_source')).length,short_pages:rows.filter(x=>x.issues.includes('short_main_text')).length,duplicate_paragraphs:duplicateParagraphs.slice(0,35),articles:rows};
 fs.writeFileSync('editorial-substance-report.json',JSON.stringify(result,null,2));
 console.log('CRUISE ARTICLES '+result.total+' | flagged '+result.flagged+' | zero primary sources '+result.no_official+' | short '+result.short_pages+' | long duplicated paragraphs '+duplicateParagraphs.length);
+for(const row of rows.filter(x=>x.issues.includes('no_official_primary_source'))) console.log('MISSING_PRIMARY: '+row.file);
 for(const row of rows.slice(0,35))console.log([row.signals+' flags',row.chars+' chars',row.authoritative_links+' official sources',row.file,row.issues.join(', ')].join(' | '));
 if(process.env.GITHUB_STEP_SUMMARY){
  const s=['## Originality and first-party evidence audit','', '**Pages:** '+result.total+' · **Flagged for human review:** '+result.flagged+' · **No official outbound citations:** '+result.no_official,'',
