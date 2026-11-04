@@ -27,6 +27,7 @@ on:
       - 'privacy/index.html'
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
+      - 'scripts/test_family_cabin_release.mjs'
       - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
   pull_request:
@@ -53,6 +54,7 @@ on:
       - 'privacy/index.html'
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
+      - 'scripts/test_family_cabin_release.mjs'
       - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
 
@@ -80,5 +82,7 @@ jobs:
           node --check functions/about/_middleware.js
       - name: Validate sitemap files
         run: python scripts/validate_sitemaps.py
+      - name: Validate one advanced four-guest cabin guide and pricing calculator
+        run: node scripts/test_family_cabin_release.mjs
       - name: Validate AdSense readiness
         run: python scripts/validate_adsense_readiness.py
