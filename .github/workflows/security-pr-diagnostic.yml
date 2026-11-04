@@ -40,7 +40,7 @@ jobs:
                 severity=str(props.get('security-severity') or '')
                 try: high=float(severity)>=7
                 except ValueError: high=False
-                if not high: continue
+                # Diagnostic only: include all six results, not just rules with explicit numeric security-severity.
                 loc=(result.get('locations') or [{}])[0].get('physicalLocation') or {}
                 print('HIGH:',result.get('ruleId'),'file',(loc.get('artifactLocation') or {}).get('uri'),
                   'line',(loc.get('region') or {}).get('startLine'),'severity',severity)
