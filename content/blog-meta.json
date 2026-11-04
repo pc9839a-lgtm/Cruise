@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "slug": "cruise-family-4-guests-one-vs-two-cabins",
+      "category": "선실비교",
+      "title": "4인 가족 크루즈 객실, 1실 vs 2실 무엇이 유리할까? 침대·요금·커넥팅룸 비교",
+      "summary": "크루즈 4인 1실과 2인 2실·커넥팅룸을 비교합니다. MSC 벨리시마 공식 침대 구성, 3·4번째 승객 요금, 실제 견적 총액 계산 도구와 12개 예약 체크리스트.",
+      "thumbnail_url": "https://images.unsplash.com/photo-1510132310763-2df322eed83f?q=80&w=1600&auto=format&fit=crop",
+      "tag_text": "4인크루즈객실,가족크루즈,커넥팅룸,3번째승객요금,MSC벨리시마",
+      "published_at": "2026-11-04",
+      "updated_at": "2026-11-04",
+      "sort_order": -52
+    },
+    {
       "slug": "2027-verified-sailings",
       "category": "실제 항차 비교",
       "title": "2027년 공식 크루즈 4개 항차 비교: MSC 도쿄 vs 로얄캐리비안 싱가포르",
