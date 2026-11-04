@@ -11,9 +11,13 @@ const sitemap = fs.readFileSync('sitemap.xml','utf8');
 const textSitemap = fs.readFileSync('sitemap.txt','utf8');
 const meta = JSON.parse(fs.readFileSync('content/blog-meta.json','utf8')).posts;
 
-const plain = source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ')
-  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ')
-  .replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+// The source is a controlled editorial fragment. Remove its one known CSS block
+// by explicit delimiters, not by trying to sanitize arbitrary HTML with regex.
+const cssStart = source.indexOf('<style>');
+const cssEnd = source.indexOf('</style>', cssStart);
+assert.ok(cssStart >= 0 && cssEnd > cssStart, 'Expected calculator stylesheet');
+const editorialOnly = source.slice(0, cssStart) + source.slice(cssEnd + '</style>'.length);
+const plain = editorialOnly.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 assert.ok(plain.length > 6500,'Article body must be substantial, not a thin duplicate');
 assert.equal((source.match(/<h2 id="/g)||[]).length,10);
 assert.equal((page.match(/<h1\b/g)||[]).length,1);
