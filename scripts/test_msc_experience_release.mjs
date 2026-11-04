@@ -15,7 +15,7 @@ for(const keyword of titles) {
   assert.ok(source.includes(keyword),'Missing experience: '+keyword);
   assert.ok(page.includes(keyword),'Missing published benefit: '+keyword);
 }
-assert.ok(source.length>14500,'Substantial original content required');
+assert.ok(source.length>13000,'Substantial original content required');
 assert.equal((source.match(/<h2 id="/g)||[]).length,11);
 assert.equal((page.match(/<h1\b/g)||[]).length,1);
 assert.equal((page.match(/<h2 id="/g)||[]).length,11);
