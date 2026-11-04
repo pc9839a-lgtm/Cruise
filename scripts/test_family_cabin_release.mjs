@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import vm from 'node:vm';
+import {compareCabinQuotes, formatCabinDifference} from '../assets/js/family-cabin-pricing.mjs';
 
 const slug = 'cruise-family-4-guests-one-vs-two-cabins';
 const url = 'https://cruiseplay-dyt.pages.dev/blog/' + slug + '/';
@@ -57,23 +57,19 @@ for (const other of ['blog/cruise-with-kids-family-guide/index.html',
                      'blog/cruise-guarantee-stateroom-gty-guide/index.html']) {
   assert.ok(fs.readFileSync(other,'utf8').includes('href="/blog/'+slug+'/"'),other+' inbound link missing');
 }
-const script=source.match(/<script>([\s\S]*?)<\/script>/);
-assert.ok(script,'Calculator script missing');
-const ids=new Map();
-for(const [id,value] of [
- ['family-one','1000000'],['family-two','1200000'],['family-extra','0'],
- ['family-currency','KRW'],['family-result',''],['family-run','']
-]) {
- ids.set(id,{value,textContent:'',addEventListener(name,fn){this[name]=fn}});
-}
-vm.runInNewContext(script[1],{document:{getElementById:id=>ids.get(id)},Intl,Number}, {timeout:1000});
-const button=ids.get('family-run'),result=ids.get('family-result');
-assert.equal(typeof button.click,'function');
-button.click(); assert.ok(result.textContent.includes('200,000') && result.textContent.includes('4인 1실'));
-ids.get('family-two').value='800000'; button.click();
-assert.ok(result.textContent.includes('200,000') && result.textContent.includes('2인 2실'));
-ids.get('family-two').value='1000000'; button.click();
-assert.ok(result.textContent.includes('같습니다'));
-ids.get('family-one').value='-1'; button.click();
-assert.ok(result.textContent.includes('0 이상의 숫자'));
+const moduleScript='<script type="module" src="/assets/js/family-cabin-pricing.mjs"></script>';
+assert.ok(source.includes(moduleScript),'Editorial source must load isolated pricing module');
+assert.ok(page.includes(moduleScript),'Published page must load isolated pricing module');
+assert.deepEqual(compareCabinQuotes('1000000','1200000','0'),{valid:true,difference:200000});
+assert.ok(formatCabinDifference(compareCabinQuotes('1000000','1200000','0'),'KRW').includes('4인 1실이 ₩200,000'));
+assert.deepEqual(compareCabinQuotes('1000000','800000','0'),{valid:true,difference:-200000});
+assert.ok(formatCabinDifference(compareCabinQuotes('1000000','800000','0'),'KRW').includes('2인 2실이 ₩200,000'));
+assert.deepEqual(compareCabinQuotes('1000000','1000000','0'),{valid:true,difference:0});
+assert.ok(formatCabinDifference(compareCabinQuotes('1000000','1000000','0')).includes('같습니다'));
+assert.equal(compareCabinQuotes('','1000000','0').valid,false);
+assert.equal(compareCabinQuotes('-1','1000000','0').valid,false);
+assert.equal(compareCabinQuotes('Infinity','1000000','0').valid,false);
+assert.ok(formatCabinDifference(compareCabinQuotes('-1','10','0')).includes('0 이상의 숫자'));
+assert.ok(formatCabinDifference(compareCabinQuotes('10','20','0'),'USD').includes('$10.00') ||
+  formatCabinDifference(compareCabinQuotes('10','20','0'),'USD').includes('$10'));
 console.log('PASS: 1 new post, 69 intact blog cards, 77 ordered sitemap URLs, 25 RSS items, official sources and live calculator');
