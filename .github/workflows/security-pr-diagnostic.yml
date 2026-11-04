@@ -31,7 +31,8 @@ jobs:
             place = (alert.get('most_recent_instance') or {}).get('location') or {}
             print('ALERT:',alert.get('number'),'rule',rule.get('id'),
                   'severity',rule.get('security_severity_level'),
-                  'path',place.get('path'),'line',place.get('start_line'))
+                  'path',place.get('path'),'line',place.get('start_line'),
+                  'first_seen',alert.get('created_at'),'ref', (alert.get('most_recent_instance') or {}).get('ref'))
             print('SUMMARY:',str(rule.get('description',''))[:180])
           print('TOTAL_ALERTS',len(data))
           PY
