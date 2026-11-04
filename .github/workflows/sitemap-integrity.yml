@@ -28,6 +28,7 @@ on:
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
       - 'scripts/test_family_cabin_release.mjs'
+      - 'scripts/test_msc_experience_release.mjs'
       - 'assets/js/family-cabin-pricing.mjs'
       - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
@@ -56,6 +57,7 @@ on:
       - 'terms/index.html'
       - 'scripts/validate_sitemaps.py'
       - 'scripts/test_family_cabin_release.mjs'
+      - 'scripts/test_msc_experience_release.mjs'
       - 'assets/js/family-cabin-pricing.mjs'
       - 'scripts/validate_adsense_readiness.py'
       - '.github/workflows/sitemap-integrity.yml'
@@ -88,5 +90,7 @@ jobs:
         run: node --check assets/js/family-cabin-pricing.mjs
       - name: Validate one advanced four-guest cabin guide and pricing calculator
         run: node scripts/test_family_cabin_release.mjs
+      - name: Validate new MSC Bella Fantastica Aurea Yacht Club article release
+        run: node scripts/test_msc_experience_release.mjs
       - name: Validate AdSense readiness
         run: python scripts/validate_adsense_readiness.py

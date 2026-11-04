@@ -39,21 +39,21 @@ for (const href of ['/blog/cabin-type-comparison/','/blog/cruise-cabin-location-
 assert.ok(page.includes('id="family-run"'), 'Live price comparison tool missing');
 const article = meta.filter(x=>x.slug===slug);
 assert.equal(article.length,1);
-assert.equal(meta.length,69);
+assert.ok(meta.length>=69,'Previous article and later posts must remain present');
 assert.equal(article[0].sort_order,-52);
-assert.equal((hub.match(/<article class="blog-card"/g)||[]).length,69);
-assert.equal((hub.match(/id="blogResultsCount">69/g)||[]).length,1);
+assert.equal((hub.match(/<article class="blog-card"/g)||[]).length,meta.length);
+assert.ok(hub.includes('id="blogResultsCount">'+meta.length+'</strong>'));
 assert.equal((hub.match(new RegExp('/blog/'+slug+'/', 'g'))||[]).length,1);
 const cardsOnly=hub.slice(hub.indexOf('<article class="blog-card"'));
 assert.ok(cardsOnly.indexOf('/blog/'+slug+'/')<cardsOnly.indexOf('/blog/2027-verified-sailings/'), 'Newest post must be first card');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]);
-assert.equal(urls.length,77);
-assert.equal(new Set(urls).size,77);
+assert.ok(urls.length>=77,'Published sitemap must retain previous article URLs');
+assert.equal(new Set(urls).size,urls.length);
 assert.deepEqual(urls,textSitemap.trim().split(/\r?\n/));
 assert.ok(urls.includes(url));
 for(const feed of ['rss.xml','feed.xml']){
  const xml=fs.readFileSync(feed,'utf8');
- assert.equal((xml.match(/<item>/g)||[]).length,25);
+ assert.ok((xml.match(/<item>/g)||[]).length>=25);
  assert.ok(xml.includes('<guid isPermaLink="true">'+url+'</guid>'));
  assert.ok(xml.includes('<lastBuildDate>Wed, 04 Nov 2026'));
 }
@@ -76,4 +76,4 @@ assert.equal(compareCabinQuotes('Infinity','1000000','0').valid,false);
 assert.ok(formatCabinDifference(compareCabinQuotes('-1','10','0')).includes('0 이상의 숫자'));
 assert.ok(formatCabinDifference(compareCabinQuotes('10','20','0'),'USD').includes('$10.00') ||
   formatCabinDifference(compareCabinQuotes('10','20','0'),'USD').includes('$10'));
-console.log('PASS: 1 new post, 69 intact blog cards, 77 ordered sitemap URLs, 25 RSS items, official sources and live calculator');
+console.log('PASS: existing family cabin guide preserved; '+meta.length+' blog cards and '+urls.length+' sitemap URLs, official sources and pricing calculator');
