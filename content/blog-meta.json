@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "slug": "nagasaki-cruise-port-independent-shore-excursion-route",
+      "category": "기항지정보",
+      "title": "나가사키 크루즈 기항지 자유여행: 마쓰가에항 도보·트램 동선과 복귀시간",
+      "summary": "나가사키 크루즈 마쓰가에항에서 글로버가든·오우라성당·평화공원까지 이동하는 실제 동선을 비교합니다. 체류 4·6·8시간별 코스, 복귀 여유시간, 비용과 예외를 확인하세요.",
+      "thumbnail_url": "https://cruiseplay-dyt.pages.dev/img/og-image.jpg",
+      "tag_text": "나가사키크루즈,나가사키기항지,마쓰가에항,나가사키자유여행,크루즈복귀시간",
+      "published_at": "2026-11-11",
+      "updated_at": "2026-11-11",
+      "sort_order": -54
+    },
+    {
       "slug": "msc-bella-fantastica-aurea-yacht-club-comparison",
       "category": "선실비교",
       "title": "MSC 크루즈 벨라·판타스티카·아우레아·요트클럽 차이: 객실 선택과 포함 혜택 비교",
