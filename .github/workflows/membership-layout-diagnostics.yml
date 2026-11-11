@@ -98,6 +98,8 @@ jobs:
                     .map(e=>{const r=e.getBoundingClientRect();
                       return {w:Math.round(r.width),h:Math.round(r.height),opacity:getComputedStyle(e).opacity};});
                   return {pageHeight:document.documentElement.scrollHeight,sections,
+                    firstPlanHeading:document.querySelector('#plans h2')?.innerText?.trim()?.slice(0,90),
+                    reassuranceAfterPlans:document.querySelector('#planCards')?.nextElementSibling?.id==='mx-membership-freedom',
                     textOverflow,brokenImages,menuLinks:menu.length,menuUnique:new Set(menu).size,
                     prices:[...document.querySelectorAll('#price-pain .mx6-price-amount')].map(e=>e.textContent),
                     plans:cardDims('#planCards .plan-card'),

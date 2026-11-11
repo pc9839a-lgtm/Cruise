@@ -74,7 +74,7 @@ function renderPlans() {
     const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
     return `
-      <article class="plan-card reveal ${cardType}">
+      <article class="plan-card ${cardType}">
         <div class="mx-plan-recommend"><b>${englishName}</b><span>${tagline}</span></div>
         <div class="plan-main-line">
           <div class="plan-name">${plan.name}</div>

@@ -6593,9 +6593,10 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 /* Refund / cancellation / commitment facts are a compact part of the plans. */
 #plans #mx-membership-freedom {
   box-sizing:border-box; width:100%; min-height:0;
-  margin:0 auto 52px; padding:0 0 28px;
+  margin:38px auto 0; padding:32px 0 0;
   background:transparent; color:#15243b;
-  border:0; overflow:visible; text-align:center;
+  border:0; border-top:1px solid #d6e0ef;
+  overflow:visible; text-align:center;
 }
 #plans #mx-membership-freedom::before { content:none; }
 #plans #mx-membership-freedom .mxf-inner { width:100%; margin:0 auto; }
@@ -6771,7 +6772,8 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
     line-height:1.5;
   }
   #plans #mx-membership-freedom {
-    margin-bottom:32px; padding-bottom:14px;
+    margin-top:30px; margin-bottom:0;
+    padding-top:24px; padding-bottom:0;
   }
   #plans #mx-membership-freedom .mxf-title {
     font-size:clamp(26px,7vw,32px);

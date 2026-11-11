@@ -20,14 +20,17 @@
       travel.after(plans);
     }
 
-    // 가입 전 확인은 독립 섹션이 아니라 플랜 내부 상단 안심바로 고정.
+    // A selection CTA should land on the plan choices, not on preliminary notices.
+    // Keep the existing reassurance section, but display it after both plan cards.
     if (freedom && plans) {
       const plansWrap = plans.querySelector('.plans-wrap') || plans;
-      const planHead = plansWrap.querySelector('.membership-section-head');
-      if (planHead) {
-        if (freedom.parentNode !== plansWrap || freedom.nextElementSibling !== planHead) planHead.before(freedom);
-      } else if (freedom.parentNode !== plansWrap) {
-        plansWrap.prepend(freedom);
+      const planCards = plansWrap.querySelector('#planCards');
+      if (planCards) {
+        if (freedom.parentElement !== plansWrap || planCards.nextElementSibling !== freedom) {
+          planCards.after(freedom);
+        }
+      } else if (freedom.parentElement !== plansWrap) {
+        plansWrap.append(freedom);
       }
     } else if (freedom && calculator && calculator.parentNode) {
       calculator.after(freedom);
