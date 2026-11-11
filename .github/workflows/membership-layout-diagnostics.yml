@@ -1,0 +1,103 @@
+name: Membership layout diagnostics
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "membership/**"
+      - "functions/membership/**"
+      - ".github/workflows/membership-layout-diagnostics.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install headless browser
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium
+      - name: Inspect live mobile and desktop layouts
+        env:
+          SITE: https://cruiseplay-dyt.pages.dev/membership/
+        run: |
+          node <<'EOF'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true, args:['--no-sandbox'] });
+            for (const width of [320, 375, 390, 1440]) {
+              const context = await browser.newContext({viewport:{width,height:850},deviceScaleFactor:1});
+              const page = await context.newPage();
+              const errors=[];
+              page.on('pageerror', err => errors.push(err.message.slice(0,240)));
+              page.on('console', msg => { if(msg.type()==='error')errors.push(msg.text().slice(0,240)); });
+              try {
+                const response = await page.goto(process.env.SITE+'?audit='+process.env.GITHUB_SHA,{waitUntil:'domcontentloaded',timeout:55000});
+                await page.waitForTimeout(6500);
+                const diagnostic = await page.evaluate(() => {
+                  const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
+                    '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
+                    '#calculator','#mx-member-booking-benefits','#mx-travel-expansion',
+                    '#mx-membership-freedom','#plans','#planCards','#membership-terms',
+                    '.membership-bottom-cta'];
+                  const rect = el => {
+                    if(!el)return null;
+                    const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+                    return {x:Math.round(r.x),y:Math.round(r.y),width:Math.round(r.width),
+                      height:Math.round(r.height),display:s.display,opacity:s.opacity,
+                      visibility:s.visibility,overflowX:s.overflowX,fontSize:s.fontSize,
+                      background:s.backgroundColor};
+                  };
+                  const locations=Object.fromEntries(selectors.map(x=>[x,rect(document.querySelector(x))]));
+                  const elems=[...document.querySelectorAll('body *')];
+                  const overflow=elems.filter(e=>{
+                    if(e.closest('#cms-survey-v2')) return false;
+                    const s=getComputedStyle(e);
+                    if(s.display==='none'||s.visibility==='hidden'||s.position==='fixed')return false;
+                    const r=e.getBoundingClientRect();
+                    return r.width>0&&(r.right>innerWidth+4||r.left< -4);
+                  }).slice(0,25).map(e=>({tag:e.tagName,id:e.id,cls:typeof e.className==='string'?e.className.slice(0,120):'',
+                    x:Math.round(e.getBoundingClientRect().x),w:Math.round(e.getBoundingClientRect().width)}));
+                  return {window:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+                    horizontalOverflow:document.documentElement.scrollWidth>innerWidth+2,
+                    bodyChildren:document.body.children.length,sections:[...document.querySelectorAll('main section')].map(x=>x.id),
+                    surveyVisible:!!document.querySelector('#cms-survey-v2')&&getComputedStyle(document.querySelector('#cms-survey-v2')).display!=='none',
+                    locations,overflow,
+                    membershipCards:document.querySelectorAll('#planCards .plan-card').length,
+                    benefitCards:document.querySelectorAll('#mx-member-booking-benefits .mx18-benefit-card').length,
+                    refundParent:document.querySelector('#mx-membership-freedom')?.parentElement?.className??null,
+                    stylesheetCount:[...document.styleSheets].filter(x=>x.href?.includes('membership')).length};
+                });
+                console.log('MEMBERSHIP_LAYOUT_DIAGNOSTIC '+JSON.stringify({width,httpStatus:response.status(),errors,diagnostic}));
+                if(width===390||width===1440){
+                  await page.screenshot({path:'membership-'+width+'-top.png',timeout:25000});
+                  for(const [label,selector] of [['plans','#plans'],['benefits','#mx-member-booking-benefits'],['travel','#mx-travel-expansion']]){
+                    const el=page.locator(selector).first();
+                    if(await el.count()) {
+                      await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
+                      await page.waitForTimeout(350);
+                      await page.screenshot({path:'membership-'+width+'-'+label+'.png',timeout:25000}).catch(()=>{});
+                    }
+                  }
+                }
+              } catch(e) {
+                console.log('MEMBERSHIP_LAYOUT_ERROR '+JSON.stringify({width,error:String(e),errors}));
+              }
+              await context.close();
+            }
+            await browser.close();
+          })().catch(err => {console.error(err);process.exitCode=1});
+          EOF
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: membership-layout-screenshots
+          path: membership-*.png
+          if-no-files-found: ignore
