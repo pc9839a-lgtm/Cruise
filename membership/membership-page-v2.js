@@ -49,7 +49,7 @@
       .review-flow-section .review-strip-head{margin-bottom:clamp(42px,5vw,72px)!important}
       .review-flow-section .review-marquee+.review-marquee{margin-top:clamp(22px,2.6vw,38px)!important}
 
-      #price-pain,#price-compare,#same-cruise{
+      #price-compare,#same-cruise{
         margin:clamp(58px,6.5vw,104px) 0!important;
         padding:clamp(128px,11vw,182px) 0!important;
         min-height:clamp(650px,76vh,790px);
@@ -57,13 +57,13 @@
         align-items:center;
         isolation:isolate;
       }
-      #price-pain{margin-top:clamp(72px,8vw,128px)!important}
+
       #same-cruise{margin-bottom:clamp(86px,9vw,144px)!important}
-      #price-pain::before,#same-cruise::before{
+      #same-cruise::before{
         content:"";position:absolute;inset:auto -12vw -38% auto;width:min(52vw,720px);aspect-ratio:1;border-radius:50%;
         background:radial-gradient(circle,rgba(55,105,210,.18),rgba(55,105,210,0) 66%);pointer-events:none;z-index:-1
       }
-      #price-pain::after,#same-cruise::after{
+      #same-cruise::after{
         content:"";position:absolute;left:50%;top:0;width:min(82vw,1180px);height:1px;translate:-50% 0;
         background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent)
       }
@@ -71,10 +71,9 @@
         content:"";position:absolute;left:50%;top:14%;width:min(66vw,880px);height:48%;translate:-50% 0;border-radius:50%;
         background:radial-gradient(ellipse,rgba(46,102,255,.09),rgba(46,102,255,0) 70%);pointer-events:none;z-index:-1
       }
-      #price-pain .mv2-inner,#price-compare .mv2-inner,#same-cruise .mv2-inner{position:relative;z-index:1}
-      #price-pain .mv2-kicker,#price-compare .mv2-kicker,#same-cruise .mv2-kicker{margin-bottom:8px}
-      #price-pain .mv2-mega{margin-top:54px;letter-spacing:-.09em;text-shadow:0 18px 54px rgba(0,0,0,.22)}
-      #price-pain .mv2-save{display:inline-flex;margin-top:40px;padding:16px 28px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.07)}
+      #price-compare .mv2-inner,#same-cruise .mv2-inner{position:relative;z-index:1}
+      #price-compare .mv2-kicker,#same-cruise .mv2-kicker{margin-bottom:8px}
+
 
       #price-compare .mv2-compare{gap:34px;margin-top:58px}
       #price-compare .mv2-price{
@@ -107,11 +106,11 @@
         .review-flow-section{padding-top:24px!important;padding-bottom:92px!important}
         .review-flow-section .review-strip-head{margin-bottom:36px!important}
         .review-flow-section .review-marquee+.review-marquee{margin-top:18px!important}
-        #price-pain,#price-compare,#same-cruise{margin:46px 0!important;padding:96px 0!important;min-height:600px}
-        #price-pain{margin-top:62px!important}
+        #price-compare,#same-cruise{margin:46px 0!important;padding:96px 0!important;min-height:600px}
+
         #same-cruise{margin-bottom:82px!important}
-        #price-pain .mv2-mega{margin-top:42px}
-        #price-pain .mv2-save{margin-top:30px;padding:13px 20px}
+
+
         #price-compare .mv2-compare{gap:20px;margin-top:44px}
         #price-compare .mv2-price{padding:30px 18px;border-radius:24px}
         #price-compare .mv2-arrow{font-size:38px}
@@ -145,11 +144,6 @@
     add('.review-flow-section .review-marquee-top', 's14-left', 80);
     add('.review-flow-section .review-marquee-middle', 's14-right', 160);
     add('.review-flow-section .review-marquee-bottom', 's14-left', 240);
-
-    add('#price-pain .mv2-kicker', '', 0);
-    add('#price-pain .mv2-title', '', 90);
-    add('#price-pain .mv2-mega', 's14-pop', 190);
-    add('#price-pain .mv2-save', '', 300);
 
     add('#price-compare .mv2-kicker', '', 0);
     add('#price-compare .mv2-title', '', 80);

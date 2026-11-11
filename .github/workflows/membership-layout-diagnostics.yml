@@ -44,7 +44,7 @@ jobs:
                 const diagnostic = await page.evaluate(() => {
                   const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
                     '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
-                    '#calculator','#mx-member-booking-benefits','#mx-travel-expansion',
+                    '#calculator','#price-pain','#mx-member-booking-benefits','#mx-travel-expansion',
                     '#mx-membership-freedom','#plans','#planCards','#membership-terms',
                     '.membership-bottom-cta'];
                   const rect = el => {
@@ -81,8 +81,41 @@ jobs:
                   if (!script) return '';
                   try { return await (await fetch(script.src, {cache:'no-store'})).text(); } catch(e) { return ''; }
                 });
+                const priceLayout = await page.evaluate(() => {
+                  const section=document.querySelector('#price-pain');
+                  if(!section) return null;
+                  const inner=section.querySelector('.mv2-inner'),title=section.querySelector('h2');
+                  const amount=section.querySelector('.mv2-mega'),description=section.querySelector('.mv2-save');
+                  const sectionRect=section.getBoundingClientRect();
+                  const measure=(el)=>{
+                    if(!el)return null;
+                    const box=el.getBoundingClientRect(),style=getComputedStyle(el);
+                    return {x:Math.round(box.x),y:Math.round(box.y),
+                      w:Math.round(box.width),h:Math.round(box.height),
+                      font:style.fontSize,align:style.textAlign,
+                      scrollW:el.scrollWidth,clientW:el.clientWidth,
+                      overflow:el.scrollWidth>el.clientWidth+2,
+                      insideViewport:box.left>=-2&&box.right<=innerWidth+2};
+                  };
+                  return {section:measure(section),inner:measure(inner),
+                    title:measure(title),amount:measure(amount),description:measure(description),
+                    topPadding:getComputedStyle(section).paddingTop,
+                    bottomPadding:getComputedStyle(section).paddingBottom,
+                    minHeight:getComputedStyle(section).minHeight,
+                    childContentHeight:description?.getBoundingClientRect().bottom-title?.getBoundingClientRect().top,
+                    styleTagPresent:!!document.getElementById('membership-stage-1-4-style')};
+                });
                 console.log('MEMBERSHIP_LAYOUT_DIAGNOSTIC '+JSON.stringify({width,httpStatus:response.status(),errors,
-                  liveScript:surveyScript,liveCodeUpdated:liveScriptText.includes("window.location.hash !== '#survey'"),diagnostic}));
+                  liveScript:surveyScript,liveCodeUpdated:liveScriptText.includes("window.location.hash !== '#survey'"),
+                  priceLayout,diagnostic}));
+                if(await page.locator('#price-pain').count()){
+                  await page.locator('#price-pain').scrollIntoViewIfNeeded({timeout:5000});
+                  await page.waitForTimeout(300);
+                  const priceImage=await page.locator('#price-pain').screenshot({type:'jpeg',quality:68,
+                    path:'membership-'+width+'-price.jpg',timeout:25000});
+                  if(width===390||width===1440)
+                    console.log('MEMBERSHIP_PRICE_IMAGE_'+width+' '+priceImage.toString('base64'));
+                }
                 if(width===390||width===1440){
                   await page.screenshot({path:'membership-'+width+'-top.png',timeout:25000});
                   if(width===390) {
