@@ -125,13 +125,13 @@ function updateCalculator() {
   let requiredPoints = Math.floor(price * 0.5);
   let cash = price - requiredPoints;
   let coverageText = '일반 예약 예시';
-  let description = '환율 자동 연동 완료 · 일반 예약은 포인트를 절반까지 쓰고, 나머지 금액은 카드로 결제합니다!';
+  let description = '일반 예약: 크루즈 금액의 최대 50%까지 POINT를 사용하고, 나머지는 카드로 결제하는 예시입니다.';
 
   if (isEarly) {
     requiredPoints = Math.floor(price * 1.5);
     cash = 0;
     coverageText = '270일 이후 출발 예시';
-    description = '환율 자동 연동 완료 · 270일 이후 출발 예시입니다. 50%는 1:1, 나머지 50%는 1:2 기준이라 전액 포인트 사용이 가능합니다.';
+    description = '출발까지 270일 이상 남은 예약: 사용 조건 충족 시 POINT로 크루즈 요금 전액을 결제하는 예시입니다.';
   }
 
   const actualPaidToEarnPointsUsd = requiredPoints / 2;

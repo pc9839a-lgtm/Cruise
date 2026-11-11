@@ -37,7 +37,7 @@
       cruiseBox.setAttribute('aria-hidden', 'true');
     }
     const description = calculator.querySelector('#modeDescription');
-    if (description) description.setAttribute('aria-hidden', 'true');
+    if (description) description.removeAttribute('aria-hidden');
     for (const selector of ['.exchange-bar', '#cruiseKrw', '#pointKrw', '#cashKrw', '#coverageText', '#coverageSubtext']) {
       calculator.querySelector(selector)?.setAttribute('aria-hidden', 'true');
     }
