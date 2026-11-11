@@ -4169,7 +4169,7 @@ main#top{background:#fff!important}
   text-align:center;
   word-break:keep-all;
 }
-#price-pain .mv2-mega {
+#price-pain .mx6-price-amount {
   box-sizing:border-box;
   display:block;
   width:100%;
@@ -4211,7 +4211,7 @@ main#top{background:#fff!important}
     letter-spacing:-.04em;
   }
   #price-pain .mx6-context { margin-top:20px; font-size:15px; }
-  #price-pain .mv2-mega {
+  #price-pain .mx6-price-amount {
     margin-top:16px;
     font-size:clamp(39px,10vw,54px);
     line-height:1.15;
@@ -4221,7 +4221,7 @@ main#top{background:#fff!important}
 }
 @media (max-width:359px) {
   #price-pain .mx6-bridge-question { font-size:26px; }
-  #price-pain .mv2-mega { font-size:39px; }
+  #price-pain .mx6-price-amount { font-size:39px; }
 }
 
 /* 07 — RECEIPT PROOF */

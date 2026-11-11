@@ -32,7 +32,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section3-port-v1.js?v=20261111-cssunified1"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20261111-cssunified1"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260903-flow15"></script>' +
-          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20260903-flow23"></script>' +
+          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20261111-price9b"></script>' +
           '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261111-story4"></script>' +
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20261111-story4"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20261111-story4"></script>' +

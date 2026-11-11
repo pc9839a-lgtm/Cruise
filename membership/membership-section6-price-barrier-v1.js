@@ -12,7 +12,7 @@
       <div class="mv2-inner">
         <h2 class="mx6-bridge-question">그런데<br><strong>크루즈는 비싸잖아?</strong></h2>
         <p class="mx6-context">여행사 패키지 · 2인 기준</p>
-        <div class="mv2-mega">약 890만원</div>
+        <div class="mx6-price-amount">약 890만원</div>
         <p class="mv2-save">그래서 저는 <strong>다른 예약 방법을 찾아봤습니다</strong></p>
       </div>`;
 
