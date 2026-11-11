@@ -7,9 +7,7 @@
     const calculator = document.getElementById('calculator');
     if (!membership || !calculator) return false;
 
-    const anchor = document.getElementById('mx-guide-assist')
-      || document.getElementById('mx-point-example')
-      || membership;
+    const anchor = document.getElementById('mx-booking-proof') || membership;
 
     calculator.classList.add('calc-clean-v2');
     calculator.setAttribute('data-membership-section', '17');

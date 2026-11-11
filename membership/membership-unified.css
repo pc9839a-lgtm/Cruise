@@ -4027,8 +4027,6 @@ main#top{background:#fff!important}
 
 
 #mx-moving-hotel,
-#mx-port-day,
-#mx-moving-hotel-4,
 #guide-question,
 #membership-point{background:#fff!important;color:var(--m5-ink)!important}
 
@@ -4036,15 +4034,11 @@ main#top{background:#fff!important}
 #mx-membership-optional{background:#fff!important;color:var(--m5-ink)!important}
 
 
-#mx-prepare-money{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
 
-#mx-point-example,
-#mx-actual-cash,
-#mx-guide-assist,
+
 #mx-start-early{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
 
 
-#impact-med,
 #mx-direct-booking-intro,
 #same-cruise,
 #mx-lowest-price{background:var(--m5-dark)!important;color:#fff!important}
@@ -4053,14 +4047,14 @@ main#top{background:#fff!important}
 
 
 
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early)
+:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-booking-proof,#mx-membership-optional,#mx-start-early)
 :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.mx11-kicker,.mx12-kicker,.mx13-kicker,.mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker){color:#24549b!important;background:#e4edf9!important;border:1px solid #cbd9eb!important}
 
 
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
+:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-booking-proof,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
 
 
-:is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price) h2 strong{color:var(--m5-sky)!important}
+:is(#mx-direct-booking-intro,#same-cruise,#mx-lowest-price) h2 strong{color:var(--m5-sky)!important}
 
 
 /* 02 */
@@ -4077,40 +4071,39 @@ main#top{background:#fff!important}
 
 /* 03 */
 
-#mx-port-day{text-align:center!important}
 
-#mx-port-day .mxp-flow{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:min(1000px,100%)!important;margin:44px auto 0!important;border-block:1px solid var(--m5-line)!important}
-#mx-port-day .mxp-step{min-height:110px!important;padding:16px 10px!important;border:0!important;border-left:1px solid var(--m5-line)!important;background:transparent!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
-#mx-port-day .mxp-step:first-child{border-left:0!important}
-#mx-port-day .mxp-step b{display:none!important}
-#mx-port-day .mxp-step strong{font-size:24px!important;line-height:1.25!important}
+
+
+
+
+
+
 
 /* 04 */
 
-#mx-moving-hotel-4{text-align:center!important}
 
-#mx-moving-hotel-4 .mx4-room-lock,
-#mx-moving-hotel-4 .mx4-points{display:none!important}
-#mx-moving-hotel-4 .mx4-route{display:grid!important;grid-template-columns:1fr auto 1fr auto 1fr!important;align-items:center!important;width:min(1000px,100%)!important;margin:44px auto 0!important}
-#mx-moving-hotel-4 .mx4-city{padding:22px 16px!important;border-bottom:2px solid #d7e1ed!important}
-#mx-moving-hotel-4 .mx4-city b{display:block!important;font-size:14px!important;color:var(--m5-muted)!important}
-#mx-moving-hotel-4 .mx4-city strong{display:block!important;margin-top:7px!important;font-size:28px!important}
-#mx-moving-hotel-4 .mx4-night{padding:0 12px!important}
-#mx-moving-hotel-4 .mx4-night span{display:block!important;font-size:13px!important;color:var(--m5-muted)!important}
-#mx-moving-hotel-4 .mx4-night strong{display:block!important;margin-top:5px!important;font-size:26px!important;color:var(--m5-blue)!important}
+
+
+
+
+
+
+
+
+
 
 /* 05 */
 
-#impact-med{text-align:center!important}
 
-#impact-med .impact-med-cycle{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;margin-top:38px!important;font-size:21px!important}
-#impact-med .impact-med-cycle i{color:#8195ad!important;font-style:normal!important}
-#impact-med .impact-med-route{width:min(960px,100%)!important;margin:40px auto 0!important}
-#impact-med .impact-med-line{display:none!important}
-#impact-med .impact-med-stop{display:grid!important;grid-template-columns:88px 1fr 170px!important;align-items:center!important;gap:14px!important;padding:16px 4px!important;border-bottom:1px solid var(--m5-dark-line)!important;text-align:left!important}
-#impact-med .impact-med-stop b{font-size:13px!important;color:var(--m5-sky)!important}
-#impact-med .impact-med-stop strong{font-size:23px!important;color:#fff!important}
-#impact-med .impact-med-stop span{font-size:15px!important;color:#b5c2d1!important;text-align:right!important}
+
+
+
+
+
+
+
+
+
 
 /* 06 — PRICE BRIDGE: canonical responsive styles, no runtime overrides */
 #price-pain {
@@ -4259,6 +4252,45 @@ main#top{background:#fff!important}
 
 #same-cruise .mx8-bridge-question strong{color:var(--m5-sky)!important}
 
+/* ===== RESERVATION RECEIPT · SINGLE TOTAL ===== */
+#same-cruise .mx8-cash-recap {
+  box-sizing:border-box;
+  width:min(820px,100%);
+  margin:26px auto 0;
+  padding:23px 20px;
+  border:1px solid #385679;
+  border-radius:15px;
+  background:#142c47;
+  text-align:center;
+}
+#same-cruise .mx8-cash-recap span {
+  display:block; color:#d0deee; font-size:15px;
+  font-weight:750; line-height:1.4;
+}
+#same-cruise .mx8-cash-recap strong {
+  display:block; margin:8px 0 0;
+  color:#86d4ff;
+  font-size:clamp(36px,5vw,54px);
+  font-weight:900; line-height:1.12;
+  letter-spacing:-.05em; font-variant-numeric:tabular-nums;
+}
+#same-cruise .mx8-cash-recap p {
+  margin:11px 0 0; color:#e3ecf5;
+  font-size:15px; line-height:1.5;
+  word-break:keep-all;
+}
+#same-cruise .mx8-cash-recap small {
+  display:block; margin-top:8px;
+  color:#aac1d9; font-size:13px; line-height:1.45;
+}
+@media (max-width:780px) {
+  #same-cruise .mx8-cash-recap {
+    margin-top:18px; padding:19px 15px; border-radius:12px;
+  }
+  #same-cruise .mx8-cash-recap strong {font-size:clamp(34px,9vw,42px)}
+  #same-cruise .mx8-cash-recap p {font-size:14px}
+}
+
 /* 09 — CLUB IDENTITY REVEAL */
 
 #guide-question{display:flex!important;align-items:center!important;text-align:center!important}
@@ -4275,14 +4307,13 @@ main#top{background:#fff!important}
 
 /* 10 */
 
-#mx-prepare-money{text-align:center!important}
 
-#mx-prepare-money .mx12-kicker{margin:0 auto!important}
-#mx-prepare-money .mx10-flow{display:flex!important;align-items:center!important;justify-content:center!important;flex-wrap:wrap!important;gap:12px!important;width:min(1000px,100%)!important;margin:46px auto 0!important;padding:22px 0!important;border-block:1px solid var(--m5-line)!important}
-#mx-prepare-money .mx10-flow span,
-#mx-prepare-money .mx10-flow strong{font-size:18px!important;font-weight:900!important}
-#mx-prepare-money .mx10-flow strong{color:var(--m5-blue)!important}
-#mx-prepare-money .mx10-flow i{font-style:normal!important;color:#91a0b3!important}
+
+
+
+
+
+
 
 /* 11 */
 
@@ -4314,17 +4345,17 @@ main#top{background:#fff!important}
 #membership-point .mx13-start-note{width:min(780px,100%)!important;margin:22px auto 0!important;font-size:16px!important;color:var(--m5-muted)!important}
 
 /* 13 */
-#mx-point-example{text-align:center!important}
-#mx-point-example .mxp13-kicker{margin:0 auto!important}
-#mx-point-example .mxp13-ledger{width:min(820px,100%)!important;margin:42px auto 0!important;border-top:1px solid #cbd6e3!important}
-#mx-point-example .mxp13-ledger>div{display:grid!important;grid-template-columns:1fr auto!important;gap:20px!important;padding:19px 4px!important;border-bottom:1px solid #cbd6e3!important;text-align:left!important}
-#mx-point-example .mxp13-ledger span{font-size:17px!important;color:var(--m5-muted)!important}
-#mx-point-example .mxp13-ledger strong{font-size:30px!important}
-#mx-point-example .mxp13-ledger .total strong{color:var(--m5-blue)!important;font-size:36px!important}
+
+
+
+
+
+
+
 
 /* 14 */
-#mx-actual-cash{text-align:center!important}
-#mx-actual-cash .mx14-kicker{margin:0 auto!important}
+
+
 
 
 
@@ -4344,15 +4375,15 @@ main#top{background:#fff!important}
 #mx-booking-proof .mx15-closing strong{color:var(--m5-blue)!important;font-size:34px!important}
 
 /* 16 — CORE BRIDGE */
-#mx-guide-assist{display:flex!important;align-items:center!important;text-align:center!important;background:#10284a!important;color:#fff!important}
-#mx-guide-assist .mx16-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:#fff!important;word-break:keep-all!important}
-#mx-guide-assist .mx16-bridge-question strong{color:var(--m5-sky)!important}
-#mx-guide-assist .mx16-answer{margin:50px auto 0!important;font-size:clamp(46px,4.8vw,68px)!important;line-height:1.08!important;letter-spacing:-.045em!important;font-weight:950!important;color:#fff!important}
-#mx-guide-assist .mx16-support{margin:24px auto 0!important;font-size:22px!important;line-height:1.55!important;color:#c8d7e9!important;font-weight:800!important;word-break:keep-all!important}
-#mx-guide-assist .mx16-support strong{color:var(--m5-sky)!important}
-#mx-guide-assist .mx16-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(900px,100%)!important;margin:42px auto 0!important;padding:22px 0!important;border-block:1px solid #345273!important}
-#mx-guide-assist .mx16-flow strong{font-size:20px!important;color:#fff!important}
-#mx-guide-assist .mx16-flow i{font-style:normal!important;color:#82a5cc!important}
+
+
+
+
+
+
+
+
+
 
 /* 17 CALCULATOR */
 
@@ -4429,21 +4460,21 @@ main#top{background:#fff!important}
   #mx-moving-hotel .mx-hotel-caption{left:12px!important;right:12px!important;bottom:12px!important;padding:13px 14px!important}
   #mx-moving-hotel .mx-hotel-caption strong{font-size:22px!important}
 
-  #mx-port-day .mxp-flow{grid-template-columns:1fr!important;margin-top:30px!important;border-bottom:0!important}
-  #mx-port-day .mxp-step{min-height:62px!important;border-left:0!important;border-bottom:1px solid var(--m5-line)!important}
-  #mx-port-day .mxp-step strong{font-size:19px!important}
+  
+  
+  
 
-  #mx-moving-hotel-4 .mx4-route{grid-template-columns:1fr!important;margin-top:30px!important}
-  #mx-moving-hotel-4 .mx4-city{padding:14px 8px!important;border-bottom:1px solid var(--m5-line)!important}
-  #mx-moving-hotel-4 .mx4-city strong{font-size:23px!important}
-  #mx-moving-hotel-4 .mx4-night{padding:8px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important}
-  #mx-moving-hotel-4 .mx4-night strong{margin:0!important;transform:rotate(90deg)!important}
+  
+  
+  
+  
+  
 
-  #impact-med .impact-med-cycle{margin-top:28px!important;font-size:17px!important;flex-wrap:wrap!important}
-  #impact-med .impact-med-route{margin-top:28px!important}
-  #impact-med .impact-med-stop{grid-template-columns:58px 1fr!important;padding:12px 2px!important}
-  #impact-med .impact-med-stop strong{font-size:19px!important}
-  #impact-med .impact-med-stop span{display:none!important}
+  
+  
+  
+  
+  
 
   
   
@@ -4468,8 +4499,8 @@ main#top{background:#fff!important}
   
   
 
-  #mx-prepare-money .mx10-flow{margin-top:30px!important;display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
-  #mx-prepare-money .mx10-flow i{transform:rotate(90deg)!important}
+  
+  
   
 #mx-lowest-price .mxg-mega{margin-top:30px!important}
 
@@ -4479,9 +4510,9 @@ main#top{background:#fff!important}
   #membership-point .mx13-simple-row{grid-template-columns:1fr!important;gap:6px!important;padding:18px 0!important;text-align:center!important}
   #membership-point .mx13-simple-row>strong{font-size:32px!important;text-align:center!important}
 
-  #mx-point-example .mxp13-ledger{margin-top:30px!important}
-  #mx-point-example .mxp13-ledger>div{gap:12px!important;padding:15px 0!important}
-  #mx-point-example .mxp13-ledger strong{font-size:22px!important}
+  
+  
+  
 
   
   
@@ -4496,12 +4527,12 @@ main#top{background:#fff!important}
   #mx-booking-proof .mx15-closing{margin-top:32px!important;font-size:20px!important}
   #mx-booking-proof .mx15-closing strong{font-size:25px!important}
 
-  #mx-guide-assist{}
-  #mx-guide-assist .mx16-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
-  #mx-guide-assist .mx16-answer{margin-top:38px!important;font-size:clamp(34px,9vw,44px)!important}
-  #mx-guide-assist .mx16-support{margin-top:20px!important;font-size:17px!important}
-  #mx-guide-assist .mx16-flow{margin-top:32px!important;display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
-  #mx-guide-assist .mx16-flow i{transform:rotate(90deg)!important}
+  
+  
+  
+  
+  
+  
 
   
   
@@ -4540,8 +4571,7 @@ main#top{background:#fff!important}
 @media(max-width:380px){
   #mx-start-early .mx19-timeline{grid-template-columns:1fr!important}
   #mx-start-early .mx19-timeline>div:nth-child(odd){border-right:0!important}
-  #mx-point-example .mxp13-ledger>div,
-#mx-booking-proof .mx15-proof-list>div{grid-template-columns:1fr!important;text-align:center!important}
+  #mx-booking-proof .mx15-proof-list>div{grid-template-columns:1fr!important;text-align:center!important}
 }
 
 /* 10.5 — SEPARATED CRUISE PRICE EXAMPLES */
@@ -5105,114 +5135,40 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 
 /* ===== membership-section3-port-v1.js ===== */
-#mx-port-day.membership-v3-booking-methods .mxp-flow{
-        grid-template-columns:repeat(5,minmax(0,1fr))!important;
-        width:min(1080px,100%)!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .mxp-step{
-        min-height:116px!important;
-        padding:18px 10px!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .mxp-step strong{
-        font-size:clamp(21px,2.1vw,27px)!important;
-        letter-spacing:-.045em!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup{
-        background:#eef5ff!important;
-        border-color:#2f6fed!important;
-        box-shadow:0 14px 32px rgba(47,111,237,.12)!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup strong{
-        color:#2f6fed!important;
-      }
+
       
-#mx-port-day.membership-v3-booking-methods .membership-v3-section05-next{
-        color:#53657c!important;
-        font-weight:820!important;
-        letter-spacing:-.025em!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-      }
+      
+      
+      
+      
+
 
       @media(max-width:780px){
-        #mx-port-day.membership-v3-booking-methods .mxp-flow{
-          grid-template-columns:1fr!important;
-          width:100%!important;
-        }
-        #mx-port-day.membership-v3-booking-methods .mxp-step{
-          min-height:64px!important;
-          padding:16px 8px!important;
-        }
-        #mx-port-day.membership-v3-booking-methods .mxp-step strong{
-          font-size:23px!important;
-        }
         
-#mx-port-day.membership-v3-booking-methods .membership-v3-section05-next{
-          max-width:350px!important;
-        }
+        
+        
+        
+
 
       }
 
 
 /* ===== membership-section4-moving-hotel-v1.js ===== */
 
-#mx-moving-hotel-4.membership-v3-compare-criteria{
-        text-align:center!important;
-      }
 
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:14px!important;
-        width:min(1040px,100%)!important;
-        margin:46px auto 0!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-        display:flex!important;
-        min-height:180px!important;
-        padding:24px 18px!important;
-        border:1px solid #d7e1ed!important;
-        border-radius:24px!important;
-        background:#fff!important;
-        align-items:center!important;
-        justify-content:center!important;
-        box-shadow:0 16px 40px rgba(20,48,88,.06)!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-        color:#0b1729!important;
-        font-size:clamp(25px,2.7vw,34px)!important;
-        line-height:1.15!important;
-        letter-spacing:-.05em!important;
-        font-weight:950!important;
-        word-break:keep-all!important;
-      }
+
       
-#mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-        color:#53657c!important;
-        font-weight:820!important;
-        letter-spacing:-.025em!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-      }
+      
+      
+      
+
 
       @media(max-width:780px){
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-          grid-template-columns:1fr 1fr!important;
-          gap:10px!important;
-          margin-top:34px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-          min-height:132px!important;
-          padding:18px 12px!important;
-          border-radius:20px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-          font-size:clamp(22px,6.5vw,28px)!important;
-        }
         
-#mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-          max-width:350px!important;
-        }
+        
+        
+        
+
 
       }
 
@@ -5344,109 +5300,32 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 
 /* ===== membership-section15-16-point-payment-v1.js ===== */
-#mx-guide-assist .mx16-inner{width:min(1180px,calc(100% - 48px))!important;margin:0 auto!important;text-align:center!important}
-      #mx-guide-assist .mx16-answer{margin-top:34px!important;font-size:clamp(28px,3.2vw,44px)!important;line-height:1.15!important;font-weight:950!important;color:#7fd1ff!important}
-      #mx-guide-assist .mx16-support{display:none!important}
-      #mx-guide-assist .mx16-flow{display:none!important}
-      #mx-guide-assist .mx16-media-slider{
-        width:min(1120px,100%)!important;
-        margin:58px auto 0!important;
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:16px!important;
-      }
-      #mx-guide-assist .mx16-media-card{
-        position:relative!important;
-        min-width:0!important;
-        aspect-ratio:4/5!important;
-        margin:0!important;
-        border-radius:24px!important;
-        overflow:hidden!important;
-        background:linear-gradient(145deg,#1a3b64,#0d2748)!important;
-        border:1px solid rgba(255,255,255,.15)!important;
-        box-shadow:0 18px 46px rgba(0,0,0,.2)!important;
-        scroll-snap-align:center!important;
-      }
-      #mx-guide-assist .mx16-media-slot{
-        position:absolute!important;
-        inset:0!important;
-        display:flex!important;
-        align-items:center!important;
-        justify-content:center!important;
-        background:
-          radial-gradient(circle at 50% 38%,rgba(127,209,255,.14),transparent 42%),
-          linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,0))!important;
-      }
-      #mx-guide-assist .mx16-media-slot::before{
-        content:'+'!important;
-        display:grid!important;
-        place-items:center!important;
-        width:54px!important;
-        height:54px!important;
-        border-radius:50%!important;
-        border:1px solid rgba(255,255,255,.32)!important;
-        color:rgba(255,255,255,.7)!important;
-        font-size:30px!important;
-        font-weight:300!important;
-      }
-      #mx-guide-assist .mx16-media-card figcaption{
-        position:absolute!important;
-        left:16px!important;
-        right:16px!important;
-        bottom:16px!important;
-        z-index:2!important;
-        padding:10px 12px!important;
-        border-radius:12px!important;
-        background:rgba(5,20,40,.62)!important;
-        backdrop-filter:blur(8px)!important;
-        -webkit-backdrop-filter:blur(8px)!important;
-        color:#fff!important;
-        font-size:16px!important;
-        line-height:1.1!important;
-        font-weight:900!important;
-        text-align:center!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section:not(.section-active) .mx16-media-card{
-        opacity:0!important;
-        transform:translateY(36px) scale(.95)!important;
-        filter:blur(4px)!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card{
-        opacity:1!important;
-        transform:none!important;
-        filter:none!important;
-        transition:opacity .65s ease,transform .95s cubic-bezier(.16,1,.3,1),filter .65s ease!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(1){transition-delay:.16s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(2){transition-delay:.25s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(3){transition-delay:.34s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(4){transition-delay:.43s!important}
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       @media(max-width:780px){
-        #mx-guide-assist .mx16-inner{width:100%!important}
-        #mx-guide-assist .mx16-bridge-question{padding:0 20px!important}
-        #mx-guide-assist .mx16-answer{padding:0 20px!important;margin-top:24px!important;font-size:29px!important}
-        #mx-guide-assist .mx16-media-slider{
-          display:flex!important;
-          width:auto!important;
-          gap:14px!important;
-          margin:42px 0 0!important;
-          padding:4px 18px 28px!important;
-          overflow-x:auto!important;
-          scroll-snap-type:x mandatory!important;
-          scroll-padding-inline:18px!important;
-          -webkit-overflow-scrolling:touch!important;
-          scrollbar-width:none!important;
-        }
-        #mx-guide-assist .mx16-media-slider::-webkit-scrollbar{display:none!important}
-        #mx-guide-assist .mx16-media-card{
-          flex:0 0 min(78vw,330px)!important;
-          width:min(78vw,330px)!important;
-          border-radius:20px!important;
-        }
-        #mx-guide-assist .mx16-media-card figcaption{left:13px!important;right:13px!important;bottom:13px!important;font-size:15px!important}
+        
+        
+        
+        
+        
+        
+        
       }
       @media(prefers-reduced-motion:reduce){
-        #mx-guide-assist .mx16-media-card{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+        
       }
 
 
@@ -5637,7 +5516,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
         
       }
 
-      #mx-point-example{}
+      
       
 
       @media(max-width:780px){
@@ -5867,6 +5746,41 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   outline: 3px solid #8eb4ff;
   outline-offset: 3px;
 }
+/* Compact reassurance follows the pricing cards, not a full section. */
+#plans .membership-plan-notice {
+  max-width:920px;
+  margin:25px auto 0;
+  padding:22px 20px;
+  border:1px solid #d9e3f0;
+  border-radius:14px;
+  background:#fff;
+  color:#31425d;
+  text-align:center;
+}
+#plans .membership-plan-notice p {
+  display:flex; justify-content:center; flex-wrap:wrap;
+  align-items:center; gap:8px;
+  margin:0; font-size:15px; line-height:1.5;
+}
+#plans .membership-plan-notice p strong {font-weight:800}
+#plans .membership-plan-notice p span {color:#92a1b7}
+#plans .membership-plan-notice small {
+  display:block; margin-top:8px;
+  color:#65758e; font-size:13px; line-height:1.55;
+  word-break:keep-all;
+}
+@media(max-width:760px){
+  #plans .membership-plan-notice {
+    margin-top:17px; padding:18px 15px; border-radius:12px;
+    text-align:left;
+  }
+  #plans .membership-plan-notice p {
+    justify-content:flex-start; gap:6px;
+    font-size:14px;
+  }
+  #plans .membership-plan-notice small {font-size:12px}
+}
+
 @media (max-width: 760px) {
   #plans{
   padding: 58px 0 70px;
@@ -5929,89 +5843,24 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 /* ===== Calculator & mid-page rhythm — authoritative styles =====
    No layout-related !important overrides or JS-written dimensions. */
-#mx-point-example,
-#mx-actual-cash,
-#mx-actual-cash-total,
 #mx-booking-proof,
-#mx-guide-assist,
-#calculator {
+#calculator{
   box-sizing: border-box;
   min-height: 0;
   padding-block: clamp(64px, 7vw, 96px);
 }
-#mx-guide-assist {
-  display: flex;
-  align-items: center;
-}
-#mx-point-example .mxp13-ledger {
-  margin-top: 30px;
-}
-#mx-actual-cash .mx14-equation {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-  width: min(860px, 100%);
-  max-width: 860px;
-  margin: 34px auto 0;
-}
-#mx-actual-cash .mx14-equation > div {
-  min-width: 0;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  text-align: center;}
-#mx-actual-cash .mx14-equation > div span { display:block; color:#43546a; font-size:16px; line-height:1.45; word-break:keep-all; }
-#mx-actual-cash .mx14-equation i {
-  font-size: 30px;
-  font-style: normal;
-  transform: none;
-}
-#mx-actual-cash .mx14-equation strong {
-  font-size: clamp(28px,3.4vw,40px);
-  overflow-wrap: anywhere;
 
-  display: block;
-  color: #14253e;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.14;}
-#mx-actual-cash-total {
-  width: 100%;
-  margin: 0;
-  background: #07111f;
-  color: #fff;
-  text-align: center;
-  overflow: hidden;
-}
-#mx-actual-cash-total .mx14-total-inner {
-  width: min(1000px, calc(100% - 48px));
-  margin: 0 auto;
-}
-#mx-actual-cash-total .mx14-total-lead {
-  margin: 0;
-  color: #c8d3df;
-  font-size: clamp(20px, 2.3vw, 28px);
-  font-weight: 750;
-  line-height: 1.4;
-}
-#mx-actual-cash-total .mx14-total-value {
-  margin: 20px 0 0;
-  color: #86d4ff;
-  font-size: clamp(56px, 8vw, 98px);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: -.055em;
-  overflow-wrap: anywhere;
-}
-#mx-actual-cash-total .mx14-total-note {
-  margin: 20px 0 0;
-  color: #a2b2c6;
-  font-size: 16px;
-  line-height: 1.5;
-}
+
+
+
+
+
+
+
+
+
+
 #calculator {
   background: #08172a;
   color: #fff;
@@ -6195,31 +6044,15 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   display: none;
 }
 @media (max-width: 720px) {
-  #mx-point-example,
-  #mx-actual-cash,
-  #mx-actual-cash-total,
   #mx-booking-proof,
-  #mx-guide-assist,
-  #calculator {
+#calculator{
     padding-block: 64px 72px;
   }
-  #mx-actual-cash .mx14-equation {
-    grid-template-columns: minmax(0, 1fr);
-  gap: 9px;
-  margin-top: 23px;
-  }
-  #mx-actual-cash .mx14-equation i {
-    transform: none;
-    font-size: 23px;
-    text-align: center;
-  }
-  #mx-actual-cash-total { padding-block:50px 54px; }
-  #mx-actual-cash-total .mx14-total-inner {
-    width: calc(100% - 32px);
-  }
-  #mx-actual-cash-total .mx14-total-value {
-  font-size: clamp(44px,11.2vw,64px);
-  }
+  
+  
+  
+  
+  
   #calculator { padding-block:54px 60px; }
   #calculator #modeDescription { font-size:14px; margin-top:12px; }
   #calculator .container {
@@ -6276,38 +6109,30 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 /* ===== STORY LAYOUT & TYPE — ONE OWNER, 2026-11-11 =====
    Hero, review, calculator, plans and terms are intentionally outside this scope. */
 :root {
-  --mx-story-space: clamp(76px, 7.2vw, 112px);
-  --mx-story-title: clamp(34px, 4.1vw, 54px);
+  --mx-story-space: clamp(58px, 6.5vw, 88px);
+  --mx-story-title: clamp(32px, 3.8vw, 50px);
   --mx-story-bridge: clamp(42px, 5.5vw, 66px);
   --mx-story-copy: clamp(16px, 1.6vw, 19px);
 }
 #mx-moving-hotel,
-#mx-port-day,
-#mx-moving-hotel-4,
-#impact-med,
 #mx-direct-booking-intro,
 #same-cruise,
 #guide-question,
-#mx-prepare-money,
 #mx-cruise-price-examples,
 #mx-lowest-price,
-#membership-point {
+#membership-point{
   box-sizing: border-box;
   min-height: 0;
   padding-top: var(--mx-story-space);
   padding-bottom: var(--mx-story-space);
 }
 #mx-moving-hotel h2,
-#mx-port-day h2,
-#mx-moving-hotel-4 h2,
-#impact-med h2,
 #mx-direct-booking-intro h2,
 #same-cruise h2,
 #guide-question h2,
-#mx-prepare-money h2,
 #mx-cruise-price-examples h2,
 #mx-lowest-price h2,
-#membership-point h2 {
+#membership-point h2{
   box-sizing: border-box;
   max-width: 960px;
   margin: 0 auto 28px;
@@ -6320,16 +6145,12 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   word-break: keep-all;
 }
 #mx-moving-hotel h2 strong,
-#mx-port-day h2 strong,
-#mx-moving-hotel-4 h2 strong,
-#impact-med h2 strong,
 #mx-direct-booking-intro h2 strong,
 #same-cruise h2 strong,
 #guide-question h2 strong,
-#mx-prepare-money h2 strong,
 #mx-cruise-price-examples h2 strong,
 #mx-lowest-price h2 strong,
-#membership-point h2 strong { font-weight: 900; }
+#membership-point h2 strong{ font-weight: 900; }
 #mx-moving-hotel .membership-v3-price-title,
 #same-cruise .mx8-bridge-question {
   font-size: var(--mx-story-bridge);
@@ -6338,29 +6159,23 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 #mx-moving-hotel .membership-v3-price-title { margin-bottom: 24px; }
 #same-cruise .mx8-bridge-question { margin-top: 54px; margin-bottom: 0; }
 #mx-moving-hotel .membership-v3-price-next,
-#mx-port-day .membership-v3-section05-next,
-#mx-moving-hotel-4 .membership-v3-section06-next,
 #mx-direct-booking-intro .mx7-receipt-note,
 #guide-question .mx9-copy,
-#mx-prepare-money .mx10-short-copy,
 #mx-cruise-price-examples .mx10p-note,
 #mx-lowest-price .mxg-criteria,
 #mx-lowest-price .mxg-copy,
-#mx-lowest-price .mxg-note {
+#mx-lowest-price .mxg-note{
   font-size: var(--mx-story-copy);
   line-height: 1.55;
   letter-spacing: -.025em;
   word-break: keep-all;
 }
-#mx-moving-hotel .membership-v3-price-next,
-#mx-port-day .membership-v3-section05-next,
-#mx-moving-hotel-4 .membership-v3-section06-next {
+#mx-moving-hotel .membership-v3-price-next{
   max-width: 640px;
   margin: 28px auto 0;
   text-align: center;
 }
-#guide-question .mx9-copy,
-#mx-prepare-money .mx10-short-copy { margin: 28px auto 0; font-size: clamp(20px, 2.4vw, 27px); }
+#guide-question .mx9-copy{ margin: 28px auto 0; font-size: clamp(20px, 2.4vw, 27px); }
 #guide-question .mx9-member-count { font-size: clamp(68px, 8.4vw, 112px); line-height: 1.06; }
 #mx-lowest-price .mxg-mega { font-size: clamp(64px, 8vw, 98px); line-height: 1.08; }
 #mx-direct-booking-intro .mx7-receipt-proof,
@@ -6419,40 +6234,30 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 }
 #guide-question .mx9-clia-proof span { color: #0b1729; font-size: 20px; font-weight: 800; }
 #guide-question .mx9-clia-proof em { color: #53657c; font-size: 15px; font-style: normal; font-weight: 700; }
-#mx-prepare-money .mx10-short-copy { color: #53657c; }
-#mx-prepare-money .mx10-short-copy strong { color: #2468e8; }
+
+
 @media (max-width: 780px) {
   :root {
-    --mx-story-space: 66px;
-    --mx-story-title: clamp(30px, 8.7vw, 38px);
+    --mx-story-space: 56px;
+    --mx-story-title: clamp(29px, 8vw, 36px);
     --mx-story-bridge: clamp(38px, 10vw, 46px);
   }
   #mx-moving-hotel,
-  #mx-port-day,
-  #mx-moving-hotel-4,
-  #impact-med,
-  #mx-direct-booking-intro,
-  #same-cruise,
-  #guide-question,
-  #mx-prepare-money,
-  #mx-cruise-price-examples,
-  #mx-lowest-price,
-  #membership-point { min-height: 0; padding-top: var(--mx-story-space); padding-bottom: var(--mx-story-space); }
+#mx-direct-booking-intro,
+#same-cruise,
+#guide-question,
+#mx-cruise-price-examples,
+#mx-lowest-price,
+#membership-point{ min-height: 0; padding-top: var(--mx-story-space); padding-bottom: var(--mx-story-space); }
   #mx-moving-hotel h2,
-  #mx-port-day h2,
-  #mx-moving-hotel-4 h2,
-  #impact-med h2,
-  #mx-direct-booking-intro h2,
-  #same-cruise h2,
-  #guide-question h2,
-  #mx-prepare-money h2,
-  #mx-cruise-price-examples h2,
-  #mx-lowest-price h2,
-  #membership-point h2 { margin-bottom: 22px; line-height: 1.18; }
+#mx-direct-booking-intro h2,
+#same-cruise h2,
+#guide-question h2,
+#mx-cruise-price-examples h2,
+#mx-lowest-price h2,
+#membership-point h2{ margin-bottom: 22px; line-height: 1.18; }
   #same-cruise .mx8-bridge-question { margin-top: 40px; }
-  #mx-moving-hotel .membership-v3-price-next,
-  #mx-port-day .membership-v3-section05-next,
-  #mx-moving-hotel-4 .membership-v3-section06-next { margin-top: 22px; }
+  #mx-moving-hotel .membership-v3-price-next{ margin-top: 22px; }
   #mx-direct-booking-intro .mx7-total-proof > strong { font-size: clamp(48px, 12vw, 66px); }
   #mx-direct-booking-intro .mx7-receipt-note { padding-top: 22px; font-size: clamp(20px, 5.5vw, 25px); }
   #same-cruise .mx8-payment-stack { margin-top: 30px; }
@@ -6463,180 +6268,53 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 
 /* ===== ONE OWNER: MEMBERSHIP BENEFITS, TRAVEL, TERMS / 2026-11-11 ===== */
-#mx-member-booking-benefits {
-  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
-  background:#10263f; color:#fff; text-align:center;
-}
-#mx-member-booking-benefits .mx18-benefit-inner {
-  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
-}
-#mx-member-booking-benefits .mx18-benefit-title {
-  max-width:830px; margin:0 auto; color:#fff;
-  font-size:clamp(34px,4.5vw,54px); line-height:1.16;
-  letter-spacing:-.045em; font-weight:850; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-benefit-title strong { color:#9dc9ff; }
-#mx-member-booking-benefits .mx18-benefit-cards {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:stretch; gap:16px; max-width:1020px; margin:38px auto 0;
-}
-#mx-member-booking-benefits .mx18-benefit-card {
-  box-sizing:border-box; display:flex; flex-direction:column; align-items:flex-start;
-  min-width:0; min-height:185px; margin:0; padding:25px 24px;
-  border:1px solid #365373; border-radius:18px; background:#173451;
-  color:#fff; text-align:left; box-shadow:none;
-  opacity:1; transform:none; filter:none; animation:none;
-}
-#mx-member-booking-benefits .mx18-benefit-card::after { content:none; }
-#mx-member-booking-benefits .mx18-benefit-result {
-  background:#1c4070; border-color:#648dce; grid-column:auto;
-}
-#mx-member-booking-benefits .mx18-step {
-  box-sizing:border-box; display:inline-flex; align-items:center;
-  justify-content:center; min-width:36px; min-height:26px; padding:4px 9px;
-  border:1px solid #517294; border-radius:7px;
-  color:#b7d5fb; font-size:12px; font-weight:850;
-}
-#mx-member-booking-benefits .mx18-benefit-card>strong {
-  display:block; margin:22px 0 0; color:#fff;
-  font-size:clamp(21px,2vw,27px); line-height:1.22; font-weight:850;
-  letter-spacing:-.04em; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-benefit-card>p {
-  margin:9px 0 0; color:#c3d4e7; font-size:16px;
-  font-weight:500; line-height:1.5; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-proof-strip {
-  box-sizing:border-box; grid-column:1/-1; display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr)); margin:4px 0 0;
-  border:1px solid #3e5b7a; border-radius:14px; background:#0b2036;
-  overflow:hidden; text-align:center;
-}
-#mx-member-booking-benefits .mx18-proof-strip>div {
-  min-width:0; padding:22px 12px; border-right:1px solid #3e5b7a;
-}
-#mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-right:0; }
-#mx-member-booking-benefits .mx18-proof-strip span {
-  display:block; color:#bfcede; font-size:14px; line-height:1.4; font-weight:650;
-}
-#mx-member-booking-benefits .mx18-proof-strip strong {
-  display:block; margin:8px 0 0; color:#fff;
-  font-size:clamp(22px,2.4vw,29px); font-weight:850;
-  line-height:1.15; letter-spacing:-.045em; white-space:nowrap;
-}
-#mx-member-booking-benefits .mx18-proof-strip .accent strong { color:#9dc9ff; }
-#mx-member-booking-benefits .mx18-benefit-cta {
-  box-sizing:border-box; display:flex; justify-content:center; align-items:center;
-  gap:12px; width:min(440px,100%); min-height:58px;
-  margin:30px auto 0; padding:13px 20px; border:1px solid #2468e8;
-  border-radius:12px; background:#2468e8; color:#fff;
-  font-size:17px; font-weight:800; line-height:1.3; text-decoration:none;
-  box-shadow:none; opacity:1; transform:none; animation:none;
-  transition:background-color .16s ease;
-}
-#mx-member-booking-benefits .mx18-benefit-cta::before { content:none; }
-#mx-member-booking-benefits .mx18-benefit-cta b {
-  font-size:19px; animation:none;
-}
-#mx-member-booking-benefits .mx18-benefit-cta:hover { background:#1857c4; }
-#mx-member-booking-benefits .mx18-benefit-cta:focus-visible {
-  outline:3px solid #b2d5ff; outline-offset:3px;
-}
-#mx-travel-expansion {
-  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
-  border:0; background:#f6f8fb; color:#142035;
-  text-align:center; overflow:hidden;
-}
-#mx-travel-expansion::before { content:none; }
-#mx-travel-expansion .mxt-inner {
-  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
-}
-#mx-travel-expansion .mxt-kicker {
-  display:inline-block; color:#2468e8; font-size:14px; font-weight:850;
-}
-#mx-travel-expansion h2 {
-  max-width:800px; margin:12px auto 0; color:#15243b;
-  font-size:clamp(34px,4.3vw,52px); font-weight:850;
-  letter-spacing:-.04em; line-height:1.16; word-break:keep-all;
-}
-#mx-travel-expansion h2 strong { color:#2468e8; }
-#mx-travel-expansion .mxt-cards {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:stretch; gap:16px; width:100%;
-  margin:34px auto 0; padding:0; overflow:visible;
-}
-#mx-travel-expansion .mxt-card {
-  box-sizing:border-box; position:relative; display:flex; flex-direction:column;
-  align-items:flex-start; min-width:0; min-height:172px;
-  margin:0; padding:23px; border:1px solid #dce4ee;
-  border-radius:18px; background:#fff; color:#15243b;
-  text-align:left; box-shadow:none; opacity:1; transform:none;
-  filter:none; animation:none;
-}
-#mx-travel-expansion .mxt-card::after { content:none; }
-#mx-travel-expansion .mxt-num,
-#mx-travel-expansion .mxt-guarantee {
-  display:inline-flex; align-items:center; justify-content:center;
-  min-height:25px; padding:5px 9px; border-radius:7px;
-  background:#e9f0fc; color:#2468e8; font-size:12px;
-  line-height:1.15; font-weight:800; box-shadow:none;
-}
-#mx-travel-expansion .mxt-guarantee { margin-left:8px; }
-#mx-travel-expansion .mxt-card strong {
-  display:block; margin:20px 0 0; color:#15243b;
-  font-size:26px; font-weight:850; letter-spacing:-.04em; line-height:1.2;
-}
-#mx-travel-expansion .mxt-card p {
-  margin:9px 0 0; color:#667990; font-size:15px;
-  line-height:1.5; word-break:keep-all;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Refund / cancellation / commitment facts are a compact part of the plans. */
-#plans #mx-membership-freedom {
-  box-sizing:border-box; width:100%; min-height:0;
-  margin:38px auto 0; padding:32px 0 0;
-  background:transparent; color:#15243b;
-  border:0; border-top:1px solid #d6e0ef;
-  overflow:visible; text-align:center;
-}
-#plans #mx-membership-freedom::before { content:none; }
-#plans #mx-membership-freedom .mxf-inner { width:100%; margin:0 auto; }
-#plans #mx-membership-freedom .mxf-title {
-  max-width:720px; margin:0 auto; padding:0;
-  color:#15243b; font-size:clamp(26px,3.2vw,38px);
-  line-height:1.18; letter-spacing:-.04em; font-weight:850;
-  word-break:keep-all; opacity:1; transform:none;
-}
-#plans #mx-membership-freedom .mxf-title strong { color:#2468e8; }
-#plans #mx-membership-freedom .mxf-grid {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px; width:100%; margin:22px auto 0; padding:0;
-}
-#plans #mx-membership-freedom .mxf-card {
-  box-sizing:border-box; display:flex; flex-direction:column;
-  justify-content:center; align-items:center; min-width:0; min-height:120px;
-  margin:0; padding:18px 12px; border:1px solid #d6e0ef;
-  border-radius:14px; background:#fff; color:#15243b;
-  text-align:center; box-shadow:none; opacity:1; transform:none;
-  filter:none; animation:none; transition:none;
-}
-#plans #mx-membership-freedom .mx-refund-card {
-  grid-column:auto; grid-row:auto; border-color:#8daef0; background:#f0f5ff;
-}
-#plans #mx-membership-freedom .mxf-zero,
-#plans #mx-membership-freedom .mx-refund-card .mxf-zero {
-  color:#2468e8; font-size:clamp(29px,3.4vw,42px);
-  font-weight:900; line-height:1.12; letter-spacing:-.045em;
-}
-#plans #mx-membership-freedom .mxf-card strong,
-#plans #mx-membership-freedom .mx-refund-card strong {
-  display:block; margin:9px 0 0; color:#243550;
-  font-size:16px; font-weight:750; line-height:1.35; white-space:normal;
-}
-#plans #mx-membership-freedom .mxf-note {
-  max-width:850px; margin:14px auto 0;
-  color:#536781; font-size:13px; line-height:1.55;
-  text-align:center; opacity:1; transform:none; word-break:keep-all;
-}
+
+
+
+
+
+
+
+
+
+
+
 /* Six conditions remain fully readable without opening an accordion. */
 #membership-terms {
   box-sizing:border-box; width:100%; padding:84px 0 100px;
@@ -6677,131 +6355,32 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   font-weight:500; line-height:1.55; word-break:keep-all;
 }
 @media (max-width:780px) {
-  #mx-member-booking-benefits {
-  padding:54px 0 60px; }
-  #mx-member-booking-benefits .mx18-benefit-inner,
-  #mx-travel-expansion .mxt-inner,
-  #membership-terms .mx21-inner { width:calc(100% - 32px); }
-  #mx-member-booking-benefits .mx18-benefit-title,
-  #mx-travel-expansion h2 {
-  font-size:clamp(29px,7.9vw,36px); 
-  line-height:1.2;}
-  #mx-member-booking-benefits .mx18-benefit-cards {
-    grid-template-columns:minmax(0,1fr);
-  gap:8px;
-  margin-top:24px;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card,
-  #mx-member-booking-benefits .mx18-benefit-result {
-  min-height:100px;
-  padding:16px 15px;
-  border-radius:13px;
   
-  display:grid;
-  grid-template-columns:52px minmax(0,1fr);
-  grid-template-rows:auto auto;
-  align-content:center;
-  align-items:center;
-  column-gap:11px;
-  row-gap:4px;}
-  #mx-member-booking-benefits .mx18-step {
-    grid-column:1;
-    grid-row:1/3;
-    justify-self:start;
-    align-self:center;
-    min-width:42px;
-    padding:5px 6px;
-    font-size:11px;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card>strong {
-    margin-top:16px;
-  font-size:20px;
+  #membership-terms .mx21-inner{ width:calc(100% - 32px); }
   
-  grid-column:2;
-  grid-row:1;
-  margin:0;
-  line-height:1.25;}
-  #mx-member-booking-benefits .mx18-benefit-card>p {
-  font-size:14px; 
-  grid-column:2;
-  grid-row:2;
-  margin:0;
-  line-height:1.45;}
-  #mx-member-booking-benefits .mx18-proof-strip {
-    grid-template-columns:minmax(0,1fr); margin-top:4px;
-  }
-  #mx-member-booking-benefits .mx18-proof-strip>div {
-    display:flex; align-items:center; justify-content:space-between;
-    min-width:0;
-  gap:10px;
-  padding:12px 14px; border-right:0;
-    border-bottom:1px solid #3e5b7a; text-align:left;
-  }
-  #mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-bottom:0; }
-  #mx-member-booking-benefits .mx18-proof-strip span { font-size:14px; }
-  #mx-member-booking-benefits .mx18-proof-strip strong {
-    min-width:0; margin:0;
-    font-size:clamp(18px,5.3vw,23px);
-    letter-spacing:-.035em;
-    font-variant-numeric:tabular-nums;
-    text-align:right;
-  }
-  #mx-member-booking-benefits .mx18-benefit-cta {
-    min-height:56px; margin-top:24px; font-size:16px;
-  }
-  #mx-travel-expansion {
-  padding:54px 0 60px; }
-  #mx-travel-expansion .mxt-cards {
-    grid-template-columns:minmax(0,1fr);
-  gap:8px;
-  margin-top:23px;
-  }
-  #mx-travel-expansion .mxt-card {
-  min-height:0;
-  padding:16px 18px;
-  border-radius:13px; scroll-snap-align:none;
-  }
-  #mx-travel-expansion .mxt-card strong {
-  margin-top:12px;
-  font-size:21px;
-  line-height:1.3;
-  }
-  #mx-travel-expansion .mxt-card p {
-    margin-top:6px;
-    font-size:14px;
-    line-height:1.5;
-  }
-  #plans #mx-membership-freedom {
-    margin-top:30px; margin-bottom:0;
-    padding-top:24px; padding-bottom:0;
-  }
-  #plans #mx-membership-freedom .mxf-title {
-    font-size:clamp(26px,7vw,32px);
-  }
-  #plans #mx-membership-freedom .mxf-grid {
-    grid-template-columns:minmax(0,1fr);
-    gap:8px; margin-top:18px;
-  }
-  #plans #mx-membership-freedom .mxf-card {
-    flex-direction:row; justify-content:space-between; align-items:center;
-    min-height:70px; gap:12px; padding:14px 16px;
-    border-radius:12px; text-align:left;
-  }
-  #plans #mx-membership-freedom .mxf-zero,
-  #plans #mx-membership-freedom .mx-refund-card .mxf-zero {
-    font-size:clamp(25px,7vw,30px);
-    white-space:nowrap;
-    font-variant-numeric:tabular-nums;
-  }
-  #plans #mx-membership-freedom .mxf-card strong,
-  #plans #mx-membership-freedom .mx-refund-card strong {
-    margin:0; font-size:15px; line-height:1.4;
-    text-align:right; white-space:normal;
-  }
-  #plans #mx-membership-freedom .mxf-note {
-    margin-top:14px; text-align:left;
-    font-size:14px; line-height:1.6;
-  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #membership-terms {
   padding:54px 0 62px; }
   #membership-terms .mx21-title {
@@ -6836,11 +6415,8 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #plans .mx-plan-pair-item strong { font-size:19px; }
   #plans .mx-plan-arrow { font-size:18px; }
   #calculator .result-box strong { font-size:22px; }
-  #mx-member-booking-benefits .mx18-proof-strip strong { font-size:18px; }
+  
 }
 @media (prefers-reduced-motion:reduce) {
-  #mx-member-booking-benefits .mx18-benefit-cta { transition:none; 
-  min-height:52px;
-  margin-top:22px;
-  font-size:15px;}
+  
 }

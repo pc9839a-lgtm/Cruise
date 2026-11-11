@@ -13,13 +13,8 @@
 
   function buildScaffold() {
     const reviewFlow = $('.review-flow-section');
-    const sameCruise = $('#same-cruise');
-    const membershipPoint = $('#membership-point');
-    const calculator = $('#calculator');
-    const plans = $('#plans');
-    const terms = $('#membership-terms');
 
-    if (!reviewFlow || !sameCruise || !membershipPoint || !calculator || !plans || !terms) return false;
+    if (!reviewFlow) return false;
 
     if (!$('#membership-v3-section04-style')) {
       /* Styles are served by membership-unified.css; do not inject style tags. */
@@ -38,31 +33,6 @@
           </div>
         </section>`);
     }
-
-    if (!$('#mx-cost-structure')) {
-      after(sameCruise, `
-        <section id="mx-cost-structure" class="mx-expand-section mx-soft">
-          <div class="mx-inner mx-center">
-            <span class="mx-eyebrow">그럼 80만원은 왜 차이 나는데?</span>
-            <h2 class="mx-title">차이는<br><strong>중간 마진에서 생깁니다</strong></h2>
-            <p class="mx-sub">직접 할 수 있다면 꼭 전부 살 필요는 없습니다.</p>
-            <div class="mx-card-grid">
-              <article class="mx-card"><b>01</b><strong>가이드</strong></article>
-              <article class="mx-card"><b>02</b><strong>단체 이동</strong></article>
-              <article class="mx-card"><b>03</b><strong>예약 대행</strong></article>
-              <article class="mx-card"><b>04</b><strong>패키지 운영</strong></article>
-            </div>
-          </div>
-        </section>`);
-    }
-
-    if (!$('#mx-prepare-money')) before(membershipPoint, '<section id="mx-prepare-money"></section>');
-    if (!$('#mx-use-rules')) after(calculator, '<section id="mx-use-rules"></section>');
-
-    if (!$('#mx-fit-check')) before(plans, '<section id="mx-fit-check"></section>');
-    if (!$('#mx-plan-guide')) before(plans, '<section id="mx-plan-guide"></section>');
-
-    if (!$('#mx-final-choice')) after(terms, '<section id="mx-final-choice"></section>');
 
     return true;
   }

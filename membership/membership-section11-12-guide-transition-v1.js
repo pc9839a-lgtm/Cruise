@@ -3,17 +3,9 @@
 
   function buildSections10And11() {
     const section9 = document.getElementById('guide-question');
-    const section10 = document.getElementById('mx-prepare-money');
-    if (!section9 || !section10) return false;
+    if (!section9) return false;
 
-    section10.className = 'mx10-membership-reason';
-    section10.setAttribute('data-membership-section', '10');
-    section10.innerHTML = `
-      <div class="mx12-inner">
-        <span class="mx12-kicker">회원이 되는 이유</span>
-        <h2 class="mx12-title">회원이 되면<br><strong>예약 방법이 달라집니다</strong></h2>
-        <p class="mx10-short-copy">POINT로 결제하고<br><strong>최저가 보장까지</strong></p>
-      </div>`;
+    document.getElementById('mx-prepare-money')?.remove();
 
     let priceExamples = document.getElementById('mx-cruise-price-examples');
     if (!priceExamples) {
@@ -67,8 +59,7 @@
         <p class="mxg-note">세부 비교 · 신청 · 적용 조건은 최저가 보장 약관 기준</p>
       </div>`;
 
-    if (section9.nextElementSibling !== section10) section9.insertAdjacentElement('afterend', section10);
-    if (section10.nextElementSibling !== priceExamples) section10.insertAdjacentElement('afterend', priceExamples);
+    if (section9.nextElementSibling !== priceExamples) section9.insertAdjacentElement('afterend', priceExamples);
     if (priceExamples.nextElementSibling !== section11) priceExamples.insertAdjacentElement('afterend', section11);
     return true;
   }

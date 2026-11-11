@@ -61,8 +61,13 @@
             <strong class="mx8-value">$2,020.88</strong>
           </div>
         </div>
+        <div class="mx8-cash-recap" aria-label="실제 현금 지출 합계">
+          <span>실제 현금 지출</span>
+          <strong>$3,020.88</strong>
+          <p>POINT 적립을 위해 낸 $1,000 + 예약 당시 카드 결제 $2,020.88</p>
+          <small>처리 수수료 $60.63 별도 · 실제 예약 사례</small>
+        </div>
 
-        <h2 class="mx8-bridge-question">1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
     if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);

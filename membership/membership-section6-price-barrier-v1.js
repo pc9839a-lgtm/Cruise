@@ -2,7 +2,7 @@
   'use strict';
 
   function buildSection6() {
-    const route = document.getElementById('impact-med');
+    const route = document.getElementById('mx-moving-hotel');
     const price = document.getElementById('price-pain');
     if (!route || !price) return false;
 

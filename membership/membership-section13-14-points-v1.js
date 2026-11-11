@@ -36,31 +36,13 @@
         </div>
       </div>`;
 
-    let section13 = document.getElementById('mx-point-example');
-    if (!section13) {
-      section13 = document.createElement('section');
-      section13.id = 'mx-point-example';
-    }
-
-    section13.className = 'mx13-point-proof';
-    section13.setAttribute('data-membership-section', '13');
-    section13.innerHTML = `
-      <div class="mxp13-inner">
-        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
-        <h2>$1,000 납부 후<br><strong>1,950P 적립</strong></h2>
-
-        <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">
-          <div class="total"><span>실제 납부</span><strong>$1,000</strong></div>
-          <div class="total"><span>총 적립</span><strong>1,950P</strong></div>
-          <div><span>예약에 사용</span><strong>1,805.84P</strong></div>
-        </div>
-      </div>`;
+    // The actual payment example now lives in the reservation receipt above.
+    document.getElementById('mx-point-example')?.remove();
 
     const oldTimeline = document.getElementById('points-by-time');
     if (oldTimeline) oldTimeline.remove();
 
     if (section11.nextElementSibling !== section12) section11.insertAdjacentElement('afterend', section12);
-    if (section12.nextElementSibling !== section13) section12.insertAdjacentElement('afterend', section13);
     return true;
   }
 
