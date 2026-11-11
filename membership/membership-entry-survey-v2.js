@@ -130,11 +130,15 @@
   }
 
   function start() {
+    // The landing page must be visible on a normal visit.
+    // The original questionnaire remains available by explicit deep link #survey.
+    if (window.location.hash !== '#survey') return;
     if (!document.body || document.getElementById(OVERLAY_ID)) return;
     build();
     overlay.addEventListener('click', handleClick, false);
   }
 
+  window.addEventListener('hashchange', start);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
   else start();
 })();
