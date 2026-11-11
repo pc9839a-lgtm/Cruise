@@ -135,7 +135,7 @@ jobs:
                   const expected=['hero','review','mx-moving-hotel','price-pain',
                     'mx-direct-booking-intro','same-cruise','guide-question',
                     'mx-cruise-price-examples','mx-lowest-price','membership-point',
-                    'mx-booking-proof','calculator','plans','membership-terms'];
+                    'calculator','plans','membership-terms'];
                   const note=document.querySelector('#plans .membership-plan-notice');
                   const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
                   return {sectionCount:ids.length,expectedCount:expected.length,
@@ -206,7 +206,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['receipt','#same-cruise'],['point','#membership-point'],['proof','#mx-booking-proof'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});

@@ -4030,7 +4030,6 @@ main#top{background:#fff!important}
 #guide-question,
 #membership-point{background:#fff!important;color:var(--m5-ink)!important}
 
-#mx-booking-proof,
 #mx-membership-optional{background:#fff!important;color:var(--m5-ink)!important}
 
 
@@ -4047,11 +4046,11 @@ main#top{background:#fff!important}
 
 
 
-:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-booking-proof,#mx-membership-optional,#mx-start-early)
+:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-membership-optional,#mx-start-early)
 :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.mx11-kicker,.mx12-kicker,.mx13-kicker,.mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker){color:#24549b!important;background:#e4edf9!important;border:1px solid #cbd9eb!important}
 
 
-:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-booking-proof,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
+:is(#mx-moving-hotel,#guide-question,#membership-point,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
 
 
 :is(#mx-direct-booking-intro,#same-cruise,#mx-lowest-price) h2 strong{color:var(--m5-sky)!important}
@@ -4364,15 +4363,15 @@ main#top{background:#fff!important}
 
 
 /* 15 */
-#mx-booking-proof{text-align:center!important}
-#mx-booking-proof .mx15-question{margin-top:0!important}
-#mx-booking-proof .mx15-answer{margin:38px auto 0!important;font-size:clamp(72px,7vw,104px)!important;line-height:1!important;letter-spacing:-.055em!important;font-weight:950!important;color:var(--m5-blue)!important}
-#mx-booking-proof .mx15-proof-list{width:min(900px,100%)!important;margin:42px auto 0!important;border-top:1px solid var(--m5-line)!important}
-#mx-booking-proof .mx15-proof-list>div{display:grid!important;grid-template-columns:150px 1fr!important;gap:20px!important;padding:18px 4px!important;border-bottom:1px solid var(--m5-line)!important;text-align:left!important}
-#mx-booking-proof .mx15-proof-list span{font-size:15px!important;color:var(--m5-muted)!important}
-#mx-booking-proof .mx15-proof-list strong{font-size:20px!important}
-#mx-booking-proof .mx15-closing{margin:44px auto 0!important;font-size:28px!important;line-height:1.45!important;color:var(--m5-muted)!important;font-weight:850!important}
-#mx-booking-proof .mx15-closing strong{color:var(--m5-blue)!important;font-size:34px!important}
+
+
+
+
+
+
+
+
+
 
 /* 16 — CORE BRIDGE */
 
@@ -4520,12 +4519,12 @@ main#top{background:#fff!important}
   
   
 
-  #mx-booking-proof .mx15-answer{margin-top:28px!important;font-size:clamp(58px,17vw,78px)!important}
-  #mx-booking-proof .mx15-proof-list{margin-top:30px!important}
-  #mx-booking-proof .mx15-proof-list>div{grid-template-columns:88px 1fr!important;gap:12px!important;padding:15px 0!important}
-  #mx-booking-proof .mx15-proof-list strong{font-size:17px!important}
-  #mx-booking-proof .mx15-closing{margin-top:32px!important;font-size:20px!important}
-  #mx-booking-proof .mx15-closing strong{font-size:25px!important}
+  
+  
+  
+  
+  
+  
 
   
   
@@ -4571,7 +4570,7 @@ main#top{background:#fff!important}
 @media(max-width:380px){
   #mx-start-early .mx19-timeline{grid-template-columns:1fr!important}
   #mx-start-early .mx19-timeline>div:nth-child(odd){border-right:0!important}
-  #mx-booking-proof .mx15-proof-list>div{grid-template-columns:1fr!important;text-align:center!important}
+  
 }
 
 /* 10.5 — SEPARATED CRUISE PRICE EXAMPLES */
@@ -5843,7 +5842,6 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 /* ===== Calculator & mid-page rhythm — authoritative styles =====
    No layout-related !important overrides or JS-written dimensions. */
-#mx-booking-proof,
 #calculator{
   box-sizing: border-box;
   min-height: 0;
@@ -6044,8 +6042,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   display: none;
 }
 @media (max-width: 720px) {
-  #mx-booking-proof,
-#calculator{
+  #calculator{
     padding-block: 64px 72px;
   }
   
