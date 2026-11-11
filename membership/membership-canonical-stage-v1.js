@@ -17,18 +17,25 @@
 
   function init() {
     cleanLegacy();
-    // Other section scripts insert content after DOMContentLoaded.
-    let queued = false;
-    const observer = new MutationObserver((mutations) => {
-      if (!mutations.some((m) => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) return;
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => {
-        queued = false;
-        cleanLegacy();
-      });
+
+    // Only react when actual legacy sections are inserted, not on every
+    // counter tick, image load or text mutation elsewhere on the page.
+    const selectors = legacyIds.map((id) => '#' + id).join(',');
+    const observer = new MutationObserver((changes) => {
+      const legacyAdded = changes.some((change) =>
+        [...change.addedNodes].some((node) =>
+          node.nodeType === 1 &&
+          (node.matches?.(selectors) || node.querySelector?.(selectors))
+        )
+      );
+      if (legacyAdded) cleanLegacy();
     });
+
     observer.observe(document.body, { childList: true, subtree: true });
+    window.setTimeout(() => {
+      observer.disconnect();
+      cleanLegacy();
+    }, 7000);
   }
 
   if (document.readyState === 'loading') {

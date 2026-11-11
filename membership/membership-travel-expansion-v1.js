@@ -11,7 +11,7 @@
 
   function activate(section) {
     if (!section) return;
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches) {
       section.classList.add('is-active');
       return;
     }

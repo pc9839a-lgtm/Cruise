@@ -3,6 +3,7 @@
 
   const root = document.documentElement;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobileQuery = window.matchMedia('(max-width: 780px)');
   const variants = ['rise','slide-left','clip','pop','fade','slide-right'];
 
   const sectionSelectors = [
@@ -52,6 +53,7 @@
   let observer = null;
   let queued = false;
   const observed = new WeakSet();
+  let booted = false;
 
   function prepareSection(section,index) {
     if (!section) return;
@@ -69,31 +71,22 @@
     if (heading) heading.classList.add('m-motion-heading');
 
     section.querySelectorAll(visualSelector).forEach((el,i) => {
+      if (el.classList.contains('m-motion-visual')) return;
       el.classList.add('m-motion-visual');
       el.style.setProperty('--m-visual-delay', `${130 + i*130}ms`);
     });
 
     section.querySelectorAll(rowSelector).forEach((el,i) => {
+      if (el.classList.contains('m-motion-row')) return;
       el.classList.add('m-motion-row');
       el.style.setProperty('--m-row-delay', `${180 + Math.min(i,10)*95}ms`);
     });
 
     section.querySelectorAll('.mx-hotel-visual img,.actual-photo img,.partner-direct-photo').forEach((el) => el.classList.add('m-motion-media'));
 
-    /* Numbers are never rewritten. Animation is transform/opacity only so exact prices/POINT stay intact. */
+    // Text content is owned by content and calculator scripts, never by motion.
     section.querySelectorAll(numberSelector).forEach((el) => {
       el.classList.add('m-motion-number');
-      if (el.dataset.mMotionSource) {
-        const source = el.dataset.mMotionSource;
-        if (source && /\d/.test(source) && /^\s*(?:약\s*)?[\$₩]?\d/.test(source)) el.textContent = source;
-      }
-      delete el.dataset.mMotionPrepared;
-      delete el.dataset.mMotionCounted;
-      delete el.dataset.mMotionTarget;
-      delete el.dataset.mMotionDecimals;
-      delete el.dataset.mMotionPrefix;
-      delete el.dataset.mMotionSuffix;
-      delete el.dataset.mMotionSource;
     });
   }
 
@@ -125,24 +118,44 @@
   }
 
   function boot() {
+    // Mobile first: content must never wait for scroll reveal or blur animation.
+    if (reduce || mobileQuery.matches) {
+      root.classList.remove('membership-motion-enabled');
+      return;
+    }
     root.classList.add('membership-motion-enabled');
-    if (!reduce && 'IntersectionObserver' in window) {
-      observer = new IntersectionObserver((entries,obs) => {
+    if (booted) {
+      queueScan();
+      return;
+    }
+    booted = true;
+    if ('IntersectionObserver' in window) {
+      observer = new IntersectionObserver((entries, obs) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           activate(entry.target);
           obs.unobserve(entry.target);
         });
-      },{ threshold:.16, rootMargin:'0px 0px -8% 0px' });
+      }, { threshold: .12, rootMargin: '0px 0px -5% 0px' });
     }
     scan();
     if (typeof MutationObserver !== 'undefined') {
-      const mutationObserver = new MutationObserver((mutations) => {
-        if (mutations.some((m) => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) queueScan();
+      const mutations = new MutationObserver((entries) => {
+        if (!mobileQuery.matches &&
+            entries.some((m) => m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length))) {
+          queueScan();
+        }
       });
-      mutationObserver.observe(document.body,{ childList:true,subtree:true });
+      mutations.observe(document.body, { childList: true, subtree: true });
     }
-    [260,650,1200,2000].forEach((ms) => window.setTimeout(scan,ms));
+  }
+
+  // Resizing to mobile immediately releases all hidden section elements.
+  if (mobileQuery.addEventListener) {
+    mobileQuery.addEventListener('change', () => {
+      if (mobileQuery.matches || reduce) root.classList.remove('membership-motion-enabled');
+      else boot();
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',boot,{ once:true });

@@ -1,13 +1,6 @@
 (() => {
   'use strict';
 
-  const ORDER_FIX_ID = 'mx-section-order-fix-style';
-
-  function installStyles() {
-    if (document.getElementById(ORDER_FIX_ID)) return;
-    /* Styles are served by membership-unified.css; do not inject style tags. */
-  }
-
   function moveSections() {
     document.getElementById('mx-membership-optional')?.remove();
     document.getElementById('mx-start-early')?.remove();
@@ -40,22 +33,31 @@
       calculator.after(freedom);
     }
 
-    return !!(travel && freedom && plans);
+    return !!(benefit && travel && freedom && plans);
   }
 
   function init() {
-    installStyles();
-    let tries = 0;
-    const run = () => {
-      tries += 1;
-      const done = moveSections();
-      if (done || tries >= 80) return;
-      window.setTimeout(run, 120);
-    };
-    run();
-    window.setTimeout(moveSections, 900);
-    window.setTimeout(moveSections, 1800);
-    window.setTimeout(moveSections, 3200);
+    // Arrange sections once as each dynamic section becomes available.
+    // Repeated delayed moves caused visible jumps while users were scrolling.
+    if (moveSections()) return;
+
+    let queued = false;
+    const observer = new MutationObserver((changes) => {
+      if (queued || !changes.some((change) => change.type === 'childList' &&
+        (change.addedNodes.length || change.removedNodes.length))) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        if (moveSections()) observer.disconnect();
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // If a third-party script never loads, do not watch the page forever.
+    window.setTimeout(() => {
+      observer.disconnect();
+      moveSections();
+    }, 7000);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once:true });

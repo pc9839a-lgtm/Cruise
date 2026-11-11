@@ -2,7 +2,7 @@
   'use strict';
 
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = window.matchMedia && (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches);
   const counterMeta = new WeakMap();
 
   const numberSelectors = [
@@ -141,45 +141,13 @@
     const section = document.getElementById('mx-member-booking-benefits');
     if (!section) return;
     const cardList = section.querySelector('.mx18-benefit-cards');
-    if (cardList) cardList.setAttribute('aria-label', '회원 혜택 흐름');
-  }
-
-  function ensureTravelExpansionFallback() {
-    if (document.getElementById('mx-travel-expansion')) return true;
-
-    const early = document.getElementById('mx-start-early');
-    const plans = document.getElementById('plans');
-    const anchor = early || plans;
-    if (!anchor || !anchor.parentNode) return false;
-
-    if (!document.getElementById('mx-travel-fallback-style')) {
-      /* Styles are served by membership-unified.css; do not inject style tags. */
+    if (cardList && cardList.getAttribute('aria-label') !== '회원 혜택 흐름') {
+      cardList.setAttribute('aria-label', '회원 혜택 흐름');
     }
-
-    const section = document.createElement('section');
-    section.id = 'mx-travel-expansion';
-    section.setAttribute('data-membership-section', '18.7');
-    section.innerHTML = `
-      <div class="mxtf-inner">
-        <div class="mxtf-head">
-          <span class="mxtf-kicker">크루즈만이 아닙니다</span>
-          <h2>호텔·투어도<br><strong>회원 혜택으로 예약합니다</strong></h2>
-          
-        </div>
-        <div class="mxtf-cards" aria-label="추가 예약 가능 상품">
-          <article class="mxtf-card"><span class="mxtf-num">01</span><strong>전세계 호텔</strong><p>호텔도 최저가 보장</p></article>
-          <article class="mxtf-card"><span class="mxtf-num">02</span><strong>현지 투어</strong><p>기항지·여행지 투어 예약</p></article>
-          <article class="mxtf-card"><span class="mxtf-num">03</span><strong>국내 호텔</strong><p>출국 전·귀국 후 숙박</p></article>
-        </div>
-      </div>`;
-
-    anchor.parentNode.insertBefore(section, anchor);
-    return true;
   }
 
   function scan() {
     refreshMemberCopy();
-    ensureTravelExpansionFallback();
 
     numberSelectors.forEach((selector) => {
       $$(selector).forEach((el) => {
@@ -201,7 +169,7 @@
 
   function init() {
     scan();
-    [120, 220, 520, 1000, 1800, 3000, 5000, 8000].forEach((delay) => window.setTimeout(scan, delay));
+    [200, 750, 1800, 3500].forEach((delay) => window.setTimeout(scan, delay));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

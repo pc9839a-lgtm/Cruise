@@ -15,7 +15,7 @@
     const benefit = document.getElementById('mx-member-booking-benefits');
     if (!benefit || benefit.dataset.mx18MotionBound === '1') return;
     benefit.dataset.mx18MotionBound = '1';
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches) {
       benefit.classList.add('mx18-conversion-active');
       return;
     }
