@@ -4,70 +4,7 @@
   function installSection6Styles() {
     if (document.getElementById('membership-v3-section06-style')) return;
 
-    const style = document.createElement('style');
-    style.id = 'membership-v3-section06-style';
-    style.textContent = `
-      #mx-moving-hotel-4.membership-v3-compare-criteria{
-        text-align:center!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:14px!important;
-        width:min(1040px,100%)!important;
-        margin:46px auto 0!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-        display:flex!important;
-        min-height:180px!important;
-        padding:24px 18px!important;
-        border:1px solid #d7e1ed!important;
-        border-radius:24px!important;
-        background:#fff!important;
-        align-items:center!important;
-        justify-content:center!important;
-        box-shadow:0 16px 40px rgba(20,48,88,.06)!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-        color:#0b1729!important;
-        font-size:clamp(25px,2.7vw,34px)!important;
-        line-height:1.15!important;
-        letter-spacing:-.05em!important;
-        font-weight:950!important;
-        word-break:keep-all!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-        margin:34px auto 0!important;
-        color:#53657c!important;
-        font-size:clamp(18px,1.8vw,21px)!important;
-        line-height:1.45!important;
-        font-weight:820!important;
-        letter-spacing:-.025em!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-      }
-      @media(max-width:780px){
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-          grid-template-columns:1fr 1fr!important;
-          gap:10px!important;
-          margin-top:34px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-          min-height:132px!important;
-          padding:18px 12px!important;
-          border-radius:20px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-          font-size:clamp(22px,6.5vw,28px)!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-          max-width:350px!important;
-          margin-top:28px!important;
-          font-size:17px!important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
+    /* Styles are served by membership-unified.css; do not inject style tags. */
   }
 
   function buildSection4() {

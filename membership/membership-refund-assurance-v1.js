@@ -5,14 +5,7 @@
 
   function installStyles() {
     if (document.getElementById(STYLE_ID)) return;
-    const style = document.createElement('style');
-    style.id = STYLE_ID;
-    style.textContent = `
-      #mx-membership-freedom .mx-refund-card{
-        border-color:rgba(131,215,255,.56)!important;
-      }
-    `;
-    document.head.appendChild(style);
+    /* Styles are served by membership-unified.css; do not inject style tags. */
   }
 
   function patchFreedom() {

@@ -153,37 +153,7 @@
     if (!anchor || !anchor.parentNode) return false;
 
     if (!document.getElementById('mx-travel-fallback-style')) {
-      const style = document.createElement('style');
-      style.id = 'mx-travel-fallback-style';
-      style.textContent = `
-        #mx-travel-expansion{position:relative;box-sizing:border-box;width:100%;padding:118px 0 132px;overflow:hidden;background:linear-gradient(180deg,#f8faff 0%,#edf3fa 100%);color:#0b1730;text-align:center;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-        #mx-travel-expansion .mxtf-inner{width:min(1120px,calc(100% - 56px));margin:0 auto}
-        #mx-travel-expansion .mxtf-kicker{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 14px;border-radius:999px;background:#e7efff;color:#2869df;font-size:14px;font-weight:950}
-        #mx-travel-expansion h2{max-width:900px;margin:20px auto 0;font-size:clamp(48px,5vw,72px);line-height:1.04;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
-        #mx-travel-expansion h2 strong{color:#2869df}
-        #mx-travel-expansion .mxtf-sub{margin:18px auto 0;color:#718097;font-size:17px;line-height:1.45;font-weight:760;word-break:keep-all}
-        #mx-travel-expansion .mxtf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:54px auto 0}
-        #mx-travel-expansion .mxtf-card{box-sizing:border-box;min-height:220px;padding:26px;border:1px solid #dce5f2;border-radius:28px;background:#fff;box-shadow:0 20px 48px rgba(17,49,92,.09);text-align:left;animation:mxtfRise .7s cubic-bezier(.16,1,.3,1) both}
-        #mx-travel-expansion .mxtf-card:nth-child(2){animation-delay:.10s}#mx-travel-expansion .mxtf-card:nth-child(3){animation-delay:.20s}
-        #mx-travel-expansion .mxtf-num{display:inline-flex;align-items:center;justify-content:center;height:28px;min-width:43px;padding:0 10px;border-radius:999px;background:#edf3ff;color:#2869df;font-size:12px;font-weight:950}
-        #mx-travel-expansion .mxtf-card strong{display:block;margin-top:54px;font-size:clamp(28px,2.6vw,36px);line-height:1.06;letter-spacing:-.05em;font-weight:950}
-        #mx-travel-expansion .mxtf-card p{margin:10px 0 0;color:#738299;font-size:15px;line-height:1.4;font-weight:760;word-break:keep-all}
-        @keyframes mxtfRise{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
-        @media(max-width:780px){
-          #mx-travel-expansion{padding:82px 0 96px}
-          #mx-travel-expansion .mxtf-inner{width:100%}
-          #mx-travel-expansion .mxtf-head{padding:0 18px}
-          #mx-travel-expansion .mxtf-kicker{font-size:13px}
-          #mx-travel-expansion h2{max-width:430px;margin-top:17px;font-size:clamp(39px,10.8vw,49px);line-height:1.045}
-          #mx-travel-expansion .mxtf-sub{max-width:370px;margin-top:15px;font-size:15px}
-          #mx-travel-expansion .mxtf-cards{display:flex;gap:12px;width:100%;margin-top:40px;padding:4px 18px 22px;box-sizing:border-box;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
-          #mx-travel-expansion .mxtf-cards::-webkit-scrollbar{display:none}
-          #mx-travel-expansion .mxtf-card{flex:0 0 min(82vw,326px);min-height:225px;padding:22px;border-radius:24px;scroll-snap-align:center}
-          #mx-travel-expansion .mxtf-card strong{margin-top:46px;font-size:clamp(29px,8vw,35px)}
-        }
-        @media(prefers-reduced-motion:reduce){#mx-travel-expansion .mxtf-card{animation:none}}
-      `;
-      document.head.appendChild(style);
+      /* Styles are served by membership-unified.css; do not inject style tags. */
     }
 
     const section = document.createElement('section');

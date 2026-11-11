@@ -4,24 +4,7 @@
 
   function installPointDoubleStyles() {
     if (document.getElementById('mx13-double-style')) return;
-    const style = document.createElement('style');
-    style.id = 'mx13-double-style';
-    style.textContent = `
-      #membership-point .mx13-double{
-        width:min(780px,100%);margin:48px auto 0;padding:34px 24px 30px;border-radius:28px;
-        background:linear-gradient(135deg,#0e55d8,#2b7cff);color:#fff;box-shadow:0 22px 54px rgba(36,104,232,.24);
-        text-align:center;
-      }
-      #membership-point .mx13-double span{display:block;font-size:14px;font-weight:900;letter-spacing:.16em;opacity:.82}
-      #membership-point .mx13-double strong{display:block;margin-top:8px;font-size:clamp(76px,8vw,112px);line-height:.9;letter-spacing:-.06em;font-weight:950}
-      #membership-point .mx13-simple-list{margin-top:28px!important}
-      @media(max-width:780px){
-        #membership-point .mx13-double{width:calc(100% - 34px);margin-top:36px;padding:28px 18px 24px;border-radius:24px}
-        #membership-point .mx13-double strong{font-size:clamp(68px,21vw,92px)}
-        #membership-point .mx13-simple-list{width:calc(100% - 34px)!important;margin-top:24px!important}
-      }
-    `;
-    document.head.appendChild(style);
+    /* Styles are served by membership-unified.css; do not inject style tags. */
   }
 
   function buildSections12And13() {
