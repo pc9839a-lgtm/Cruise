@@ -5562,6 +5562,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 #plans{
   box-sizing: border-box;
   min-height: 0;
+  scroll-margin-top: 82px;
   margin: 0;
   padding: 92px 0 104px;
   color: #142035;
@@ -5793,8 +5794,8 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   }
   #plans .plan-card,
 #plans .plan-card.mx-plan-premium{
-    padding: 24px 21px;
-    border-radius: 18px;
+    padding: 23px 19px;
+    border-radius: 17px;
   }
   #plans .plan-main-line{
     margin: 22px 0;
@@ -5803,13 +5804,20 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
     font-size: 27px;
   }
   #plans .plan-price{
-    font-size: 54px;
+    font-size: clamp(44px, 11vw, 52px);
+    font-variant-numeric:tabular-nums;
   }
   #plans .mx-plan-phase{
     padding: 19px 0 17px;
   }
   #plans .mx-plan-pair-item strong{
-    font-size: clamp(23px, 6.7vw, 30px);
+    font-size: clamp(20px, 5.7vw, 27px);
+    font-variant-numeric:tabular-nums;
+    letter-spacing:-.04em;
+  }
+  #plans .mx-plan-pair {
+    grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);
+    gap:6px;
   }
   #plans .plan-cta{
     min-height: 58px;
@@ -6149,7 +6157,8 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
     font-size: 15px;
   }
   #calculator .result-box strong {
-    font-size: clamp(25px, 7vw, 30px);
+    font-size: clamp(22px, 6.9vw, 29px);
+    font-variant-numeric:tabular-nums;
   }
 }
 
@@ -6528,6 +6537,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 /* Six conditions remain fully readable without opening an accordion. */
 #membership-terms {
   box-sizing:border-box; width:100%; padding:84px 0 100px;
+  scroll-margin-top:82px;
   background:#0d1c30; color:#fff; text-align:center;
 }
 #membership-terms .mx21-inner { width:min(1040px,calc(100% - 48px)); margin:0 auto; }
@@ -6586,13 +6596,17 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   }
   #mx-member-booking-benefits .mx18-proof-strip>div {
     display:flex; align-items:center; justify-content:space-between;
-    gap:14px; padding:14px 16px; border-right:0;
+    min-width:0; gap:12px; padding:14px 15px; border-right:0;
     border-bottom:1px solid #3e5b7a; text-align:left;
   }
   #mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-bottom:0; }
   #mx-member-booking-benefits .mx18-proof-strip span { font-size:14px; }
   #mx-member-booking-benefits .mx18-proof-strip strong {
-    margin:0; font-size:clamp(19px,5.5vw,24px); text-align:right;
+    min-width:0; margin:0;
+    font-size:clamp(18px,5.3vw,23px);
+    letter-spacing:-.035em;
+    font-variant-numeric:tabular-nums;
+    text-align:right;
   }
   #mx-member-booking-benefits .mx18-benefit-cta {
     min-height:56px; margin-top:24px; font-size:16px;
@@ -6604,27 +6618,38 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #mx-travel-expansion .mxt-card {
     min-height:0; padding:20px; border-radius:14px; scroll-snap-align:none;
   }
-  #mx-travel-expansion .mxt-card strong { margin-top:15px; font-size:24px; }
+  #mx-travel-expansion .mxt-card strong {
+    margin-top:15px; font-size:23px; line-height:1.3;
+  }
   #plans #mx-membership-freedom {
     margin-bottom:32px; padding-bottom:14px;
   }
   #plans #mx-membership-freedom .mxf-title {
     font-size:clamp(26px,7vw,32px);
   }
-  #plans #mx-membership-freedom .mxf-grid { gap:7px; margin-top:18px; }
+  #plans #mx-membership-freedom .mxf-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px; margin-top:18px;
+  }
   #plans #mx-membership-freedom .mxf-card {
-    min-height:100px; padding:13px 4px; border-radius:11px;
+    flex-direction:row; justify-content:space-between; align-items:center;
+    min-height:70px; gap:12px; padding:14px 16px;
+    border-radius:12px; text-align:left;
   }
   #plans #mx-membership-freedom .mxf-zero,
   #plans #mx-membership-freedom .mx-refund-card .mxf-zero {
-    font-size:clamp(23px,6.6vw,31px);
+    font-size:clamp(25px,7vw,30px);
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
   }
   #plans #mx-membership-freedom .mxf-card strong,
   #plans #mx-membership-freedom .mx-refund-card strong {
-    margin-top:5px; font-size:clamp(11px,3.2vw,13px);
+    margin:0; font-size:15px; line-height:1.4;
+    text-align:right; white-space:normal;
   }
   #plans #mx-membership-freedom .mxf-note {
-    margin-top:13px; text-align:left; font-size:12px;
+    margin-top:14px; text-align:left;
+    font-size:14px; line-height:1.6;
   }
   #membership-terms { padding:66px 0 74px; }
   #membership-terms .mx21-title { font-size:clamp(32px,8.5vw,40px); }
@@ -6634,9 +6659,24 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #membership-terms .mx21-term-card {
     min-height:0; padding:18px 16px; gap:12px; border-radius:12px;
   }
-  #membership-terms .mx21-term-num { flex-basis:24px; font-size:13px; }
-  #membership-terms .mx21-term-copy h3 { font-size:17px; }
-  #membership-terms .mx21-term-copy p { margin-top:6px; font-size:14px; }
+  #membership-terms .mx21-term-num {
+    flex-basis:24px; font-size:14px; line-height:1.35;
+  }
+  #membership-terms .mx21-term-copy h3 {
+    font-size:18px; line-height:1.35;
+  }
+  #membership-terms .mx21-term-copy p {
+    margin-top:7px; font-size:15px; line-height:1.55;
+  }
+}
+@media (max-width:359px) {
+  #plans .plan-card,
+  #plans .plan-card.mx-plan-premium { padding:21px 16px; }
+  #plans .mx-plan-pair { grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr); gap:5px; }
+  #plans .mx-plan-pair-item strong { font-size:19px; }
+  #plans .mx-plan-arrow { font-size:18px; }
+  #calculator .result-box strong { font-size:22px; }
+  #mx-member-booking-benefits .mx18-proof-strip strong { font-size:18px; }
 }
 @media (prefers-reduced-motion:reduce) {
   #mx-member-booking-benefits .mx18-benefit-cta { transition:none; }

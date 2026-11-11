@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="./membership-unified.css?v=20261111-benefits6" />
+  <link rel="stylesheet" href="./membership-unified.css?v=20261111-polish7" />
 </head>
 <body>
   <div class="page-glow glow-a"></div>
@@ -229,9 +229,9 @@
         <div class="calculator-card reveal">
           <div class="calculator-head"><strong>크루즈 금액</strong><span id="rangeValue">$2,000</span></div>
           <input id="cruisePrice" class="price-range" type="range" min="1000" max="10000" step="100" value="2000" aria-label="크루즈 금액 조절" />
-          <div class="calculator-mode" role="tablist" aria-label="포인트 사용 방식">
-            <button class="mode-btn active" data-mode="general" type="button">일반 예약</button>
-            <button class="mode-btn" data-mode="early" type="button">270일+</button>
+          <div class="calculator-mode" role="group" aria-label="크루즈 예약 방식">
+            <button class="mode-btn active" data-mode="general" type="button" aria-pressed="true">일반 예약</button>
+            <button class="mode-btn" data-mode="early" type="button" aria-pressed="false">270일+</button>
           </div>
           <div class="calculator-note" id="modeDescription" aria-hidden="true">일반 예약은 포인트를 절반까지 쓰고, 나머지 금액은 카드로 결제합니다.</div>
           <div class="result-grid">
@@ -292,7 +292,7 @@
   </footer>
 
   <script src="./membership-entry-survey-v2.js?v=20260831-2"></script>
-  <script src="./cruise-membership-rebuild-v3.js?v=20261111-planowner2"></script>
+  <script src="./cruise-membership-rebuild-v3.js?v=20261111-polish7"></script>
   <script src="./membership-page-v2.js?v=20260831-2"></script>
 </body>
 </html>

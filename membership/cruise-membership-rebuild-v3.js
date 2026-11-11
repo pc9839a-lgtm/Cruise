@@ -58,6 +58,7 @@ function updateRangeBackground(range) {
   const value = Number(range.value);
   const percent = ((value - min) / (max - min)) * 100;
   range.style.background = `linear-gradient(90deg, #2e66ff 0%, #2e66ff ${percent}%, rgba(12,24,48,0.16) ${percent}%, rgba(12,24,48,0.16) 100%)`;
+  range.setAttribute('aria-valuetext', formatUsd(value));
 }
 
 function renderPlans() {
@@ -141,11 +142,11 @@ function updateCalculator() {
   document.getElementById('cruiseUsd').textContent = formatUsd(price);
   document.getElementById('cruiseKrw').textContent = `약 ${formatKrw(price * rate)}`;
 
-  document.getElementById('pointLabel').textContent = '필요 포인트 예시';
+  document.getElementById('pointLabel').textContent = '필요 POINT';
   document.getElementById('usablePoint').textContent = formatPoint(requiredPoints);
   document.getElementById('pointKrw').textContent = `클래식 2배 적립 기준 ${formatUsd(actualPaidToEarnPointsUsd)} · 약 ${formatKrw(actualPaidToEarnPointsUsd * rate)} 결제`;
 
-  document.getElementById('cashLabel').textContent = '나머지 카드 결제';
+  document.getElementById('cashLabel').textContent = '카드 결제';
   document.getElementById('cashUsd').textContent = formatUsd(cash);
   document.getElementById('cashKrw').textContent = `약 ${formatKrw(cash * rate)}`;
 
@@ -160,7 +161,9 @@ function updateCalculator() {
 function setMode(mode) {
   state.mode = mode;
   document.querySelectorAll('.mode-btn').forEach((btn) => {
-    btn.classList.toggle('active', btn.dataset.mode === mode);
+    const active = btn.dataset.mode === mode;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', String(active));
   });
   updateCalculator();
 }
