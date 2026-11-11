@@ -89,15 +89,15 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['plans','#plans'],['benefits','#mx-member-booking-benefits'],['travel','#mx-travel-expansion']]){
+                  for(const [label,selector] of [['calculator','#calculator'],['benefits','#mx-member-booking-benefits'],['travel','#mx-travel-expansion'],['plans','#planCards'],['terms','#membership-terms'],['mid','#mx-actual-cash-total']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
                       await page.waitForTimeout(350);
                       await page.screenshot({path:'membership-'+width+'-'+label+'.png',timeout:25000}).catch(()=>{});
-                      if(width===390 && label==='plans') {
+                      if(width===390) {
                         const jpg=await page.screenshot({type:'jpeg',quality:46,timeout:25000});
-                        console.log('MEMBERSHIP_IMAGE_390_PLANS '+jpg.toString('base64'));
+                        console.log('MEMBERSHIP_IMAGE_390_'+label.toUpperCase()+' '+jpg.toString('base64'));
                       }
                     }
                   }
