@@ -8,7 +8,6 @@
   const numberSelectors = [
     '.hero-ticket-front strong',
     '.hero-ticket-front em',
-    '#price-pain .mv2-mega',
     '#mx-direct-booking-intro .mx7-total-proof strong',
     '#same-cruise .mx8-payment-line .mx8-value',
     '#guide-question .mx9-member-count',

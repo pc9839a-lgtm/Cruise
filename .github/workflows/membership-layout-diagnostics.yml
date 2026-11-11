@@ -81,6 +81,18 @@ jobs:
                   if (!script) return '';
                   try { return await (await fetch(script.src, {cache:'no-store'})).text(); } catch(e) { return ''; }
                 });
+                const cssBundle = await page.evaluate(async () => {
+                  const el=document.querySelector('link[href*="membership-unified.css"]');
+                  const url=el?.href||null;
+                  if(!url)return {url:null};
+                  try {
+                    const resp=await fetch(url,{cache:'no-store'});
+                    const code=await resp.text();
+                    return {url,status:resp.status,length:code.length,
+                      canonicalOwnerPresent:code.includes('06 — PRICE BRIDGE: canonical responsive styles'),
+                      previousOwnerPresent:code.includes('06 — PRICE BRIDGE */')};
+                  } catch(e) {return {url,error:String(e)};}
+                });
                 const priceLayout = await page.evaluate(() => {
                   const section=document.querySelector('#price-pain');
                   if(!section) return null;
@@ -107,7 +119,7 @@ jobs:
                 });
                 console.log('MEMBERSHIP_LAYOUT_DIAGNOSTIC '+JSON.stringify({width,httpStatus:response.status(),errors,
                   liveScript:surveyScript,liveCodeUpdated:liveScriptText.includes("window.location.hash !== '#survey'"),
-                  priceLayout,diagnostic}));
+                  cssBundle,priceLayout,diagnostic}));
                 if(await page.locator('#price-pain').count()){
                   await page.locator('#price-pain').scrollIntoViewIfNeeded({timeout:5000});
                   await page.waitForTimeout(300);
