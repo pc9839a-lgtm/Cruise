@@ -6,6 +6,7 @@
     const link = bar?.querySelector('a');
     const plans = document.getElementById('plans');
     const terms = document.getElementById('membership-terms');
+    const benefitAction = document.querySelector('#mx-member-booking-benefits .mx18-benefit-cta');
     const footer = document.querySelector('.site-footer');
     if (!bar || !link || !plans) return;
 
@@ -18,7 +19,7 @@
     let rafPending = false;
     const update = () => {
       rafPending = false;
-      const hide = [plans, terms, footer].some(intersectsReadingArea);
+      const hide = [plans, terms, footer, benefitAction].some(intersectsReadingArea);
       const previous = bar.classList.contains('is-hidden-by-plans');
       if (previous !== hide) {
         bar.classList.toggle('is-hidden-by-plans', hide);

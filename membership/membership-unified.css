@@ -6091,7 +6091,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 #calculator .result-box.highlight strong {
   color: #164eae;
 }
-#calculator #modeDescription { display:block; margin:14px 0 0; color:#b8cbe0; font-size:14px; line-height:1.55; text-align:center; word-break:keep-all; }
+#calculator #modeDescription { display:block; margin:14px 0 0; color:#d0deec; font-size:14px; font-weight:600; line-height:1.5; text-align:center; word-break:keep-all; }
 #calculator .exchange-bar,
 #calculator .calc-price-dup,
 #calculator #cruiseKrw,
@@ -6128,7 +6128,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   font-size: clamp(44px,11.2vw,64px);
   }
   #calculator { padding-block:54px 60px; }
-  #calculator #modeDescription { font-size:13px; margin-top:12px; }
+  #calculator #modeDescription { font-size:14px; margin-top:12px; }
   #calculator .container {
     width: calc(100% - 32px);
   }
