@@ -6,7 +6,7 @@
     'mx-direct-booking-intro','same-cruise','guide-question','mx-prepare-money','mx-cruise-price-examples',
     'mx-lowest-price','membership-point','mx-point-example','mx-actual-cash','mx-actual-cash-total','mx-booking-proof',
     'mx-guide-assist','calculator','mx-membership-optional','mx-member-booking-benefits','mx-start-early','mx-start-early-proof',
-    'plans','membership-terms'
+    'membership-terms'
   ];
 
   const bridgeIds = new Set([
@@ -105,46 +105,11 @@
     });
   }
 
-  function fixPlanReadability() {
-    const root = document.getElementById('plans');
-    if (!root) return;
-
-    force(root, 'background', '#07111f');
-    force(root, 'color', '#fff');
-
-    const headTitle = root.querySelector('.membership-section-head h2');
-    const headCopy = root.querySelector('.membership-section-head p');
-    force(headTitle, 'color', '#fff');
-    force(headCopy, 'color', 'rgba(255,255,255,.82)');
-
-    root.querySelectorAll('.plan-card').forEach((card, index) => {
-      const premium = index === 1 || card.classList.contains('recommended');
-      force(card, 'background', premium ? '#edf4ff' : '#ffffff');
-      force(card, 'color', '#0b1729');
-      force(card, 'border-color', premium ? '#8eb4ff' : '#d3deeb');
-      force(card, 'box-shadow', 'none');
-
-      card.querySelectorAll('*').forEach((el) => {
-        if (!el.closest('.plan-cta')) force(el, 'color', '#0b1729');
-        force(el, 'opacity', '1');
-      });
-
-      card.querySelectorAll('.plan-fit,.plan-stat .label,.plan-mini-label,.plan-mobile-line em').forEach((el) => force(el, 'color', '#53657c'));
-      force(card.querySelector('.plan-price'), 'color', premium ? '#2468e8' : '#0b1729');
-      force(card.querySelector('.plan-feature-monthly strong'), 'color', '#2468e8');
-
-      const cta = card.querySelector('.plan-cta');
-      force(cta, 'background', premium ? '#2468e8' : '#07111f');
-      force(cta, 'color', '#fff');
-      if (cta) cta.querySelectorAll('*').forEach((el) => force(el, 'color', '#fff'));
-    });
-  }
-
   function cleanAndFix() {
     removeLegacyScenes();
     fixStorySpacing();
     fixTypography();
-    fixPlanReadability();
+
     document.documentElement.classList.add('membership-clean-stage');
     return true;
   }
@@ -174,7 +139,7 @@
           queued = false;
           fixStorySpacing();
           fixTypography();
-          fixPlanReadability();
+
         });
       });
       if (document.body) observer.observe(document.body, { childList: true, subtree: true });

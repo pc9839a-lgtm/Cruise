@@ -60,117 +60,50 @@ function updateRangeBackground(range) {
   range.style.background = `linear-gradient(90deg, #2e66ff 0%, #2e66ff ${percent}%, rgba(12,24,48,0.16) ${percent}%, rgba(12,24,48,0.16) 100%)`;
 }
 
-function syncPlanGridColumns() {
-  const wrap = document.getElementById('planCards');
-  if (!wrap) return;
-
-  const isMobile = window.matchMedia('(max-width: 720px)').matches;
-
-  wrap.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))';
-  wrap.style.maxWidth = isMobile ? '100%' : '1000px';
-  wrap.style.gap = isMobile ? '14px' : '18px';
-  wrap.style.margin = '0 auto';
-
-  wrap.querySelectorAll('.plan-feature-group').forEach((group) => {
-    group.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(2, minmax(0, 1fr))';
-    group.style.gap = isMobile ? '10px' : '12px';
-  });
-
-  wrap.querySelectorAll('.plan-main-line').forEach((line) => {
-    const name = line.querySelector('.plan-name');
-    const price = line.querySelector('.plan-price');
-    const unit = line.querySelector('.plan-price-unit');
-    if (name) name.style.fontSize = isMobile ? '29px' : '36px';
-    if (price) price.style.fontSize = isMobile ? '48px' : '58px';
-    if (unit) unit.style.fontSize = isMobile ? '17px' : '20px';
-  });
-
-  wrap.querySelectorAll('.plan-feature-monthly strong').forEach((value) => {
-    value.style.fontSize = isMobile ? '60px' : '72px';
-  });
-}
-
 function renderPlans() {
   const wrap = document.getElementById('planCards');
   if (!wrap) return;
 
-  const plansHeading = document.querySelector('#plans .membership-section-head h2');
-  if (plansHeading) {
-    plansHeading.innerHTML = '내 여행 계획에 맞는<br class="mobile-break" />멤버십을 선택하세요';
-  }
-
-  wrap.innerHTML = plans.map((plan) => {
-    const monthlyKrw = formatKrw(plan.monthlyUsd * state.exchangeRate);
-    const startKrw = formatKrw(plan.startUsd * state.exchangeRate);
+  wrap.innerHTML = plans.map((plan, index) => {
+    const premium = index === 1;
+    const englishName = premium ? 'PREMIUM' : 'CLASSIC';
+    const cardType = premium ? 'mx-plan-premium' : 'mx-plan-classic';
+    const tagline = premium ? '빠르게 적립' : '가볍게 시작';
     const signupHref = state.membershipSignupUrl || '#';
-    const signupAttrs = state.membershipSignupUrl
-      ? 'target="_blank" rel="noopener"'
-      : '';
-
-    const statBorder = plan.recommended
-      ? 'rgba(255,255,255,.18)'
-      : 'rgba(15,25,49,.12)';
-    const fitColor = plan.recommended
-      ? 'rgba(255,255,255,.84)'
-      : '#55627a';
+    const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
     return `
-      <article class="plan-card reveal ${plan.recommended ? 'recommended' : ''}" style="padding:30px;">
-        <span class="plan-tag" style="font-size:16px;font-weight:900;">${plan.tag}</span>
-
-        <div class="plan-main-line" style="margin:24px 0 18px;">
-          <div class="plan-name" style="margin:0;line-height:1;font-weight:950;">${plan.name}</div>
-          <div class="plan-price-row" style="display:flex;align-items:baseline;gap:4px;margin:14px 0 0;white-space:nowrap;">
-            <div class="plan-price" style="line-height:.88;font-weight:950;">${formatUsd(plan.monthlyUsd)}</div>
-            <div class="plan-price-unit" style="margin:0;font-weight:900;">/월</div>
+      <article class="plan-card reveal ${cardType}">
+        <div class="mx-plan-recommend"><b>${englishName}</b><span>${tagline}</span></div>
+        <div class="plan-main-line">
+          <div class="plan-name">${plan.name}</div>
+          <div class="plan-price-row">
+            <strong class="plan-price">${formatUsd(plan.monthlyUsd)}</strong>
+            <span class="plan-price-unit">/월</span>
           </div>
         </div>
-
-        <p class="plan-fit" style="margin:0 0 24px;color:${fitColor};font-size:20px;line-height:1.35;font-weight:650;letter-spacing:-.03em;word-break:keep-all;">${plan.fit}</p>
-
-        <div class="plan-mobile-summary" aria-label="모바일 멤버십 요약">
-          <div class="plan-mobile-line plan-mobile-line-main">
-            <strong>${plan.name}</strong>
-            <span>${formatUsd(plan.monthlyUsd)}/월</span>
+        <div class="mx-plan-essentials">
+          <div class="mx-plan-phase first">
+            <div class="mx-plan-phase-head"><strong>가입 시</strong><span>최초 1회</span></div>
+            <div class="mx-plan-pair">
+              <div class="mx-plan-pair-item"><small>결제</small><strong>${formatUsd(plan.startUsd)}</strong></div>
+              <div class="mx-plan-arrow" aria-hidden="true">→</div>
+              <div class="mx-plan-pair-item points"><small>POINT 적립</small><strong>${formatPoint(plan.rewardPoint)}</strong></div>
+            </div>
           </div>
-          <div class="plan-mobile-line">
-            <em>가입시 리워드</em>
-            <strong>${formatPoint(plan.rewardPoint)}</strong>
-          </div>
-          <div class="plan-mobile-line">
-            <em>매월 적립 포인트</em>
-            <strong>${formatPoint(plan.monthlyPoint)}</strong>
-          </div>
-        </div>
-
-        <div class="plan-top-stats" style="gap:0;margin-bottom:22px;border-top:1px solid ${statBorder};">
-          <div class="plan-stat" style="min-height:64px;padding:15px 2px;border:0;border-bottom:1px solid ${statBorder};border-radius:0;background:transparent;">
-            <span class="label" style="font-size:17px;font-weight:850;">월 비용</span>
-            <div class="value" style="font-size:22px;font-weight:950;">${monthlyKrw}</div>
-          </div>
-          <div class="plan-stat" style="min-height:64px;padding:15px 2px;border:0;border-bottom:1px solid ${statBorder};border-radius:0;background:transparent;">
-            <span class="label" style="font-size:17px;font-weight:850;">시작 비용</span>
-            <div class="value" style="font-size:22px;font-weight:950;">${startKrw}</div>
+          <div class="mx-plan-phase monthly">
+            <div class="mx-plan-phase-head"><strong>이후 매월</strong><span>2배 적립</span></div>
+            <div class="mx-plan-pair">
+              <div class="mx-plan-pair-item"><small>월 결제</small><strong>${formatUsd(plan.monthlyUsd)}</strong></div>
+              <div class="mx-plan-arrow" aria-hidden="true">→</div>
+              <div class="mx-plan-pair-item points"><small>매월 POINT</small><strong>${formatPoint(plan.monthlyPoint)}</strong></div>
+            </div>
           </div>
         </div>
-
-        <div class="plan-feature-group">
-          <div class="plan-feature" style="min-height:128px;padding:20px;border-radius:18px;">
-            <span class="plan-mini-label" style="font-size:16px;font-weight:850;">가입 시 리워드</span>
-            <strong style="margin-top:12px;font-size:44px;font-weight:950;">${formatPoint(plan.rewardPoint)}</strong>
-          </div>
-          <div class="plan-feature plan-feature-monthly" style="min-height:128px;padding:20px;border-radius:18px;">
-            <span class="plan-mini-label" style="font-size:16px;font-weight:850;">매월 적립 포인트</span>
-            <strong style="margin-top:8px;font-size:72px;font-weight:950;letter-spacing:-.065em;line-height:.95;">${formatPoint(plan.monthlyPoint)}</strong>
-          </div>
-        </div>
-
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs} style="margin-top:20px;min-height:62px;font-size:20px;">이 플랜으로 준비 시작하기</a>
-      </article>
-    `;
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${englishName} 시작하기</a>
+      </article>`;
   }).join('');
 
-  syncPlanGridColumns();
   observeReveals();
 }
 
@@ -257,9 +190,6 @@ async function fetchExchangeRate() {
     statusText.textContent = '기본 환율로 표시 중';
     updatedText.textContent = 'API 연결 실패 시 기본값 사용';
   }
-
-  renderPlans();
-  bindPlanSignupLinks();
   updateCalculator();
 }
 
@@ -416,8 +346,6 @@ function bindEvents() {
       document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-
-  window.addEventListener('resize', syncPlanGridColumns);
 }
 
 let revealObserver;

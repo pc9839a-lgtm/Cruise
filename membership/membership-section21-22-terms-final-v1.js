@@ -1,22 +1,6 @@
 (() => {
   'use strict';
 
-  function patchPlanCards() {
-    const plans = document.getElementById('plans');
-    const wrap = document.getElementById('planCards');
-    if (!plans || !wrap) return false;
-
-    plans.querySelector('.mv2-early')?.remove();
-
-    wrap.querySelectorAll('.plan-card').forEach((card) => {
-      card.querySelector('.mx-plan-facts')?.remove();
-      card.querySelectorAll('.plan-tag,.plan-fit,.plan-top-stats,.plan-mobile-summary,.plan-feature-group').forEach((el) => {
-        el.style.setProperty('display','none','important');
-      });
-    });
-    return true;
-  }
-
   function buildFinalFlow() {
     const plans = document.getElementById('plans');
     const section21 = document.getElementById('membership-terms');
@@ -25,7 +9,6 @@
     ['mx-faq-section','mx-recap','price-match','mx-final-choice','points-by-time','mx-use-rules','real-cost'].forEach((id) => document.getElementById(id)?.remove());
 
     plans.setAttribute('data-membership-section','20');
-    patchPlanCards();
 
     section21.className = 'mx21-terms-section';
     section21.setAttribute('data-membership-section','21');
@@ -48,27 +31,12 @@
   }
 
   function init() {
-    if (!buildFinalFlow()) {
-      let tries = 0;
-      const timer = window.setInterval(() => {
-        tries += 1;
-        if (buildFinalFlow() || tries >= 50) window.clearInterval(timer);
-      },160);
-    }
-
-    const wrap = document.getElementById('planCards');
-    if (wrap && typeof MutationObserver !== 'undefined' && wrap.dataset.mxPlanObserver !== '1') {
-      wrap.dataset.mxPlanObserver = '1';
-      let queued = false;
-      const observer = new MutationObserver(() => {
-        if (queued) return;
-        queued = true;
-        requestAnimationFrame(() => { queued = false; patchPlanCards(); });
-      });
-      observer.observe(wrap,{ childList:true,subtree:true });
-    }
-    window.setTimeout(patchPlanCards,500);
-    window.setTimeout(patchPlanCards,1200);
+    if (buildFinalFlow()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (buildFinalFlow() || tries >= 50) window.clearInterval(timer);
+    }, 160);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',init,{ once:true });

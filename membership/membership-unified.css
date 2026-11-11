@@ -86,14 +86,12 @@ button { font: inherit; border: none; cursor: pointer; }
 }
 .header-cta,
 .btn,
-.plan-cta,
 .floating-cta {
   position: relative;
   overflow: hidden;
 }
 .header-cta::after,
 .btn::after,
-.plan-cta::after,
 .floating-cta::after {
   content: "";
   position: absolute;
@@ -104,7 +102,6 @@ button { font: inherit; border: none; cursor: pointer; }
 }
 .header-cta:hover::after,
 .btn:hover::after,
-.plan-cta:hover::after,
 .floating-cta:hover::after {
   transform: translateX(140%);
 }
@@ -178,7 +175,6 @@ button { font: inherit; border: none; cursor: pointer; }
 }
 .reason-grid,
 .result-grid,
-.plan-grid,
 .scope-grid {
   display: grid;
   gap: 16px;
@@ -325,7 +321,6 @@ button { font: inherit; border: none; cursor: pointer; }
   transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
 }
 .btn:hover,
-.plan-cta:hover,
 .header-cta:hover {
   transform: translateY(-3px) scale(1.01);
   filter: brightness(1.02);
@@ -398,7 +393,6 @@ button { font: inherit; border: none; cursor: pointer; }
 .calculator-card,
 .exchange-bar,
 .scope-emphasis,
-.plan-card,
 .guarantee-box,
 .notice-box,
 .centered-cta-wrap {
@@ -1031,7 +1025,6 @@ button { font: inherit; border: none; cursor: pointer; }
 .reason-card:hover,
 .story-item:hover,
 .scope-grid article:hover,
-.plan-card:hover,
 .result-box:hover {
   transform: translateY(-6px);
 }
@@ -1244,216 +1237,9 @@ button { font: inherit; border: none; cursor: pointer; }
   font-size: clamp(22px, 2.8vw, 30px);
   letter-spacing: -0.05em;
 }
-
-.plans-wrap {
-  overflow: hidden;
-  padding: 0 6px;
-}
-.plan-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: stretch;
-}
-.plan-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  padding: 24px;
-  background: rgba(255,255,255,0.88);
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-.plan-card.recommended {
-  background: linear-gradient(180deg, #27589d 0%, #204e90 100%);
-  color: #fff;
-  transform: translateY(-10px);
-}
-.plan-card.recommended .plan-mini-label,
-.plan-card.recommended .plan-caption,
-.plan-card.recommended .plan-stat .label,
-.plan-card.recommended .plan-disclaimer {
-  color: rgba(255,255,255,0.82);
-}
-.plan-card.recommended .plan-tag {
-  background: #ffffff;
-  color: #204e90;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-}
-.plan-card.recommended .plan-stat,
-.plan-card.recommended .plan-feature {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.08);
-}
-.plan-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: var(--surface-2);
-  color: var(--blue-strong);
-  font-size: 14px;
-  font-weight: 800;
-}
-.plan-name {
-  margin: 22px 0 10px;
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-}
-.plan-price-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  margin-bottom: 18px;
-}
-.plan-price {
-  font-size: clamp(34px, 3.4vw, 50px);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -0.05em;
-}
-.plan-price-unit {
-  margin-bottom: 6px;
-  font-size: 20px;
-  font-weight: 800;
-}
-.plan-top-stats,
-.plan-feature-group {
-  display: grid;
-  gap: 12px;
-}
-.plan-top-stats {
-  margin-bottom: 20px;
-}
-.plan-stat {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 15px 16px;
-  border-radius: 18px;
-  background: var(--surface-2);
-  border: 1px solid rgba(12, 24, 48, 0.04);
-}
-.plan-stat .label,
-.plan-mini-label,
-.plan-disclaimer,
 .site-footer,
 .rate-credit {
   color: var(--muted);
-}
-.plan-stat .label,
-.plan-mini-label {
-  font-size: 14px;
-  font-weight: 700;
-}
-.plan-stat .value {
-  font-size: 18px;
-  font-weight: 900;
-}
-.plan-feature {
-  padding: 18px;
-  border-radius: 22px;
-  background: #eef3fb;
-  border: 1px solid rgba(12, 24, 48, 0.04);
-}
-.plan-feature strong {
-  display: block;
-  margin-top: 8px;
-  font-size: clamp(28px, 3.1vw, 40px);
-  line-height: 1.02;
-  letter-spacing: -0.05em;
-}
-.plan-caption {
-  margin: 18px 0 16px;
-  font-size: 15px;
-}
-.plan-cta {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 56px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: var(--navy);
-  color: #fff;
-  font-weight: 900;
-  font-size: 18px;
-  line-height: 1;
-  text-decoration: none;
-  box-shadow: 0 14px 28px rgba(12, 24, 48, 0.12);
-  box-sizing: border-box;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.plan-card .plan-cta,
-.plan-card .plan-cta:visited,
-.plan-card .plan-cta:hover,
-.plan-card .plan-cta:focus,
-.plan-card .plan-cta:active {
-  color: #fff !important;
-  text-decoration: none !important;
-}
-
-.plan-card.recommended .plan-cta,
-.plan-card.recommended .plan-cta:visited,
-.plan-card.recommended .plan-cta:hover,
-.plan-card.recommended .plan-cta:focus,
-.plan-card.recommended .plan-cta:active {
-  color: var(--blue-strong) !important;
-  text-decoration: none !important;
-}
-.plan-card.recommended .plan-cta {
-  background: #fff;
-  color: var(--blue-strong);
-}
-.plan-disclaimer {
-  margin-top: 10px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.plan-mobile-summary {
-  display: none;
-}
-.plan-mobile-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.plan-mobile-line + .plan-mobile-line {
-  margin-top: 10px;
-}
-.plan-mobile-line em {
-  margin: 0;
-  font-style: normal;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 800;
-}
-.plan-mobile-line strong,
-.plan-mobile-line span {
-  color: var(--text);
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-.plan-mobile-line-main strong,
-.plan-mobile-line-main span {
-  font-size: 20px;
-}
-.plan-card.recommended .plan-mobile-line em {
-  color: rgba(255,255,255,0.78);
-}
-.plan-card.recommended .plan-mobile-line strong,
-.plan-card.recommended .plan-mobile-line span {
-  color: #fff;
 }
 
 
@@ -1611,10 +1397,8 @@ button { font: inherit; border: none; cursor: pointer; }
   .hero-stage {
     grid-template-columns: 1fr;
   }
-
-  .result-grid,
-  .plan-grid,
-  .scope-grid {
+.result-grid,
+.scope-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1686,10 +1470,8 @@ button { font: inherit; border: none; cursor: pointer; }
   .hero-benefit-row {
     margin-top: 22px;
   }
-
-  .result-grid,
-  .plan-grid,
-  .scope-grid {
+.result-grid,
+.scope-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1718,24 +1500,22 @@ button { font: inherit; border: none; cursor: pointer; }
   .future-points {
     grid-template-columns: 1fr;
   }
-
-  .proof-band,
-  .calculator-card,
-  .exchange-bar,
-  .scope-emphasis,
-  .guarantee-box,
-  .notice-box,
-  .centered-cta-wrap,
-  .plan-card,
-  .hero-proof-panel,
-  .contrast-card,
-  .journey-card,
-  .value-banner,
-  .value-card,
-  .future-band,
-  .point-story,
-  .subscribe-era,
-  .double-points-card {
+.proof-band,
+.calculator-card,
+.exchange-bar,
+.scope-emphasis,
+.guarantee-box,
+.notice-box,
+.centered-cta-wrap,
+.hero-proof-panel,
+.contrast-card,
+.journey-card,
+.value-banner,
+.value-card,
+.future-band,
+.point-story,
+.subscribe-era,
+.double-points-card {
     padding: 22px;
   }
 
@@ -1784,10 +1564,6 @@ button { font: inherit; border: none; cursor: pointer; }
   .scope-grid article {
     min-height: 74px;
     font-size: 20px;
-  }
-
-  .plan-card.recommended {
-    transform: none;
   }
 
   .floating-cta {
@@ -2057,18 +1833,6 @@ button { font: inherit; border: none; cursor: pointer; }
   }
 }
 
-.membership-section-head h2 {
-  font-size: clamp(24px, 3vw, 36px);
-  line-height: 1.22;
-}
-.membership-section-head p {
-  font-size: 18px;
-}
-.membership-section-head p strong {
-  color: var(--blue-strong);
-  font-weight: 900;
-}
-
 /* =========================================================
    2026-04-10 PATCH : hero / unified width / review flow / final cta
    ========================================================= */
@@ -2076,22 +1840,18 @@ button { font: inherit; border: none; cursor: pointer; }
   --content-width: 1180px;
   --section-title-size: clamp(34px, 4vw, 54px);
 }
-
 .container,
 .narrow,
-.narrow-wide,
-.plans-wrap {
+.narrow-wide {
   width: min(calc(100% - 40px), var(--content-width)) !important;
   margin-left: auto;
   margin-right: auto;
 }
-
 .section-head h2,
 .guarantee-box h2,
 .notice-box h2,
 .review-strip-head h2,
-.final-cta-panel h2,
-.membership-section-head h2 {
+.final-cta-panel h2 {
   font-size: var(--section-title-size) !important;
   line-height: 1.1 !important;
   letter-spacing: -0.055em !important;
@@ -2479,10 +2239,9 @@ button { font: inherit; border: none; cursor: pointer; }
 }
 
 @media (max-width: 767px) {
-  .container,
-  .narrow,
-  .narrow-wide,
-  .plans-wrap {
+.container,
+.narrow,
+.narrow-wide {
     width: min(calc(100% - 24px), var(--content-width)) !important;
   }
 
@@ -2588,11 +2347,9 @@ button { font: inherit; border: none; cursor: pointer; }
   --section-pad-y: 96px;
   --section-gap-x: 40px;
 }
-
 .container,
 .narrow,
 .narrow-wide,
-.plans-wrap,
 .review-flow-shell {
   width: min(calc(100% - var(--section-gap-x)), var(--content-width)) !important;
   max-width: var(--content-width) !important;
@@ -2677,11 +2434,9 @@ button { font: inherit; border: none; cursor: pointer; }
   margin-left: auto;
   margin-right: auto;
 }
-
 .section-head h2,
 .guarantee-box h2,
 .final-cta-panel h2,
-.membership-section-head h2,
 .review-strip-head h2,
 .notice-box h2 {
   font-size: clamp(34px, 4vw, 54px) !important;
@@ -2833,23 +2588,19 @@ button { font: inherit; border: none; cursor: pointer; }
   --content-width: 1180px;
   --section-title-size: clamp(34px, 4vw, 54px);
 }
-
 .container,
 .narrow,
 .narrow-wide,
-.plans-wrap,
 .review-flow-shell {
   width: min(calc(100% - 40px), var(--content-width)) !important;
   max-width: var(--content-width) !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
-
 .section-head h2,
 .review-strip-head h2,
 .subscribe-era h2,
 .double-points-card h2,
-.membership-section-head h2,
 .guarantee-box h2,
 .notice-box h2 {
   font-size: var(--section-title-size) !important;
@@ -3319,11 +3070,10 @@ button { font: inherit; border: none; cursor: pointer; }
 }
 
 @media (max-width: 767px) {
-  .container,
-  .narrow,
-  .narrow-wide,
-  .plans-wrap,
-  .review-flow-shell {
+.container,
+.narrow,
+.narrow-wide,
+.review-flow-shell {
     width: min(calc(100% - 24px), var(--content-width)) !important;
   }
 
@@ -4165,32 +3915,6 @@ br.mobile-break {
     transform: translateX(-50%) translateY(-3px) scale(1.02) !important;
   }
 
-  .plans-wrap {
-    overflow: visible !important;
-    padding: 0 !important;
-  }
-
-  .plan-grid {
-    display: flex !important;
-    gap: 14px !important;
-    overflow-x: auto !important;
-    overflow-y: visible !important;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 8px 2px 14px;
-    scrollbar-width: none;
-  }
-
-  .plan-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .plan-grid .plan-card {
-    flex: 0 0 calc(100% - 8px);
-    min-width: calc(100% - 8px);
-    scroll-snap-align: center;
-  }
-
   .result-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 12px !important;
@@ -4286,134 +4010,6 @@ br.mobile-break {
 }
 
 @media (max-width: 767px) {
-  .membership-section-head h2 {
-    max-width: 14ch !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .plan-grid {
-    gap: 12px !important;
-    padding: 8px 2px 12px !important;
-  }
-
-  .plan-grid .plan-card {
-    flex: 0 0 calc(100% - 10px) !important;
-    min-width: calc(100% - 10px) !important;
-    padding: 18px 16px 18px !important;
-    border-radius: 22px !important;
-    min-height: 0 !important;
-    justify-content: flex-start !important;
-  }
-
-  .plan-grid .plan-tag {
-    min-height: 34px;
-    padding: 0 12px;
-    font-size: 12px;
-  }
-
-  .plan-grid .plan-name {
-    display: block !important;
-  }
-
-  .plan-grid .plan-price-row {
-    display: flex !important;
-    align-items: flex-end !important;
-    margin-bottom: 14px !important;
-  }
-
-  .plan-grid .plan-top-stats {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-stat {
-    min-height: 48px !important;
-    padding: 12px 14px !important;
-    border-radius: 16px !important;
-  }
-
-  .plan-grid .plan-stat .label {
-    font-size: 13px !important;
-  }
-
-  .plan-grid .plan-stat .value {
-    font-size: 16px !important;
-    line-height: 1.2 !important;
-    text-align: right !important;
-  }
-
-  .plan-grid .plan-feature-group {
-    display: none !important;
-  }
-
-  .plan-grid .plan-mobile-summary {
-    display: grid !important;
-    gap: 10px !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-mobile-line-main {
-    display: none !important;
-  }
-
-  .plan-grid .plan-mobile-line {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 12px !important;
-    min-height: 48px !important;
-    padding: 0 14px !important;
-    border-radius: 16px !important;
-    background: rgba(15, 25, 49, 0.05) !important;
-  }
-
-  .plan-grid .plan-mobile-line em {
-    margin: 0 !important;
-    font-style: normal !important;
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    white-space: nowrap !important;
-  }
-
-  .plan-grid .plan-mobile-line strong,
-  .plan-grid .plan-mobile-line span {
-    font-size: 16px !important;
-    line-height: 1.2 !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.03em !important;
-    white-space: nowrap !important;
-  }
-
-  .plan-grid .plan-caption {
-    display: block !important;
-    margin: 0 0 14px !important;
-  }
-
-  .plan-grid .plan-disclaimer {
-    display: block !important;
-  }
-
-  .plan-grid .plan-cta {
-    min-height: 50px !important;
-    font-size: 16px !important;
-    margin-top: 0 !important;
-  }
-
-  .plan-card.recommended .plan-stat,
-  .plan-card.recommended .plan-mobile-line {
-    background: rgba(255,255,255,0.12) !important;
-    border-color: rgba(255,255,255,0.10) !important;
-  }
-
-  .plan-card.recommended .plan-mobile-line em,
-  .plan-card.recommended .plan-mobile-line strong,
-  .plan-card.recommended .plan-mobile-line span,
-  .plan-card.recommended .plan-stat .label,
-  .plan-card.recommended .plan-stat .value {
-    color: #fff !important;
-  }
 
   .floating-cta.is-hidden-by-plans {
     transform: translateX(-50%) translateY(14px) scale(0.98) !important;
@@ -4611,40 +4207,19 @@ main#top{background:#fff!important}
 .hero-nav-track>a span{font-size:12px!important;color:var(--m5-ink)!important;font-weight:850!important}
 .hero-nav-track>a:nth-child(n+7){display:none!important}
 
-/* SHARED STORY SYSTEM */
-:is(
-#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,#mx-direct-booking-intro,
-#same-cruise,#guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,
-#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#calculator,#mx-membership-optional,#mx-start-early,
-#plans,#membership-terms){box-sizing:border-box!important;width:100%!important;max-width:none!important;margin:0!important;padding:128px 0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important}
-
-:is(
-#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,#mx-direct-booking-intro,
-#same-cruise,#guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,
-#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#calculator,#mx-membership-optional,#mx-start-early,
-#plans,#membership-terms)
-:is(.mx-inner,.mxp-inner,.mx4-inner,.impact-inner,.mv2-inner,.mx11-inner,.mx12-inner,.mxg-inner,.mx13-inner,
-.mxp13-inner,.mx14-inner,.mx15-inner,.mx16-inner,.mx18-inner,.mx19-inner,.mx21-inner,.mx7-wide-inner,.container){box-sizing:border-box!important;width:min(var(--m5-wide),calc(100% - 64px))!important;max-width:var(--m5-wide)!important;margin-inline:auto!important;padding-inline:0!important}
-
 #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#membership-point,#mx-booking-proof,#mx-membership-optional{background:#fff!important;color:var(--m5-ink)!important}
 #mx-prepare-money,#mx-point-example,#mx-actual-cash,#mx-guide-assist,#mx-start-early{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
-#impact-med,#price-pain,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price,#calculator,#plans,#membership-terms{background:var(--m5-dark)!important;color:#fff!important}
-
-:is(
-#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#mx-direct-booking-intro,#same-cruise,
-#guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,#mx-actual-cash,
-#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early,#plans,#membership-terms) h2,
-#calculator .section-head h2{box-sizing:border-box!important;width:100%!important;max-width:940px!important;margin:18px auto 0!important;padding:0!important;font-size:var(--m5-title)!important;line-height:1.14!important;letter-spacing:-.045em!important;font-weight:950!important;word-break:keep-all!important;overflow-wrap:break-word!important;text-wrap:balance!important;text-align:center!important}
-
-:is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mx11-kicker,.mx12-kicker,.mxg-kicker,.mx13-kicker,
-.mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,
-#calculator .section-kicker,#plans .section-kicker,.mx7-overline,.mx8-overline){box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:36px!important;max-width:100%!important;padding:7px 13px!important;border-radius:999px!important;font-size:var(--m5-label)!important;line-height:1.25!important;font-weight:900!important;opacity:1!important;visibility:visible!important;transform:none!important;text-shadow:none!important}
+#impact-med,
+#price-pain,
+#mx-direct-booking-intro,
+#same-cruise,
+#mx-lowest-price,
+#calculator,
+#membership-terms {background:var(--m5-dark)!important;color:#fff!important}
+#calculator .section-head h2 {box-sizing:border-box!important;width:100%!important;max-width:940px!important;margin:18px auto 0!important;padding:0!important;font-size:var(--m5-title)!important;line-height:1.14!important;letter-spacing:-.045em!important;font-weight:950!important;word-break:keep-all!important;overflow-wrap:break-word!important;text-wrap:balance!important;text-align:center!important}
 
 :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early)
 :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.mx11-kicker,.mx12-kicker,.mx13-kicker,.mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker){color:#24549b!important;background:#e4edf9!important;border:1px solid #cbd9eb!important}
-
-:is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price,#calculator,#plans,#membership-terms)
-:is(.impact-label,.mx7-overline,.mx8-overline,.mxg-kicker,.section-kicker,.mx21-kicker){color:#e9f6ff!important;background:#132033!important;border:1px solid #2b3b52!important}
 
 :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
 :is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price,#membership-terms) h2 strong{color:var(--m5-sky)!important}
@@ -4849,28 +4424,6 @@ main#top{background:#fff!important}
 #mx-start-early .mx19-closing strong{color:var(--m5-blue)!important;font-size:36px!important}
 #mx-start-early .mx19-note{margin:14px auto 0!important;font-size:13px!important;color:#6b7d92!important}
 
-/* 20 PLANS */
-#plans{text-align:center!important}
-#plans .membership-section-head{margin-bottom:40px!important}
-#plans .membership-section-head h2{color:#fff!important}
-#plans .membership-section-head h2 strong{color:var(--m5-sky)!important}
-#plans .membership-section-head p{display:none!important}
-#plans #planCards{display:grid!important;grid-template-columns:repeat(2,1fr)!important;width:min(860px,calc(100% - 64px))!important;max-width:860px!important;margin:0 auto!important;gap:14px!important}
-#plans .plan-card{padding:26px 22px!important;border:1px solid #d3deeb!important;border-radius:14px!important;background:#fff!important;color:var(--m5-ink)!important;box-shadow:none!important;text-align:left!important}
-#plans .plan-card.recommended{border:2px solid #8eb4ff!important;background:#edf4ff!important}
-#plans .plan-card *{opacity:1!important}
-#plans .plan-tag,#plans .plan-fit,#plans .plan-top-stats,#plans .plan-mobile-summary{display:none!important}
-#plans .plan-name{font-size:25px!important;color:var(--m5-ink)!important}
-#plans .plan-price{font-size:52px!important;color:var(--m5-ink)!important}
-#plans .recommended .plan-price{color:var(--m5-blue)!important}
-#plans .plan-price-unit{font-size:15px!important;color:var(--m5-muted)!important}
-#plans .plan-feature{display:none!important}
-#plans .plan-feature.plan-feature-monthly{display:block!important;margin-top:18px!important;padding:16px 0!important;border-block:1px solid #d3deeb!important}
-#plans .plan-feature-monthly .plan-mini-label{display:block!important;font-size:14px!important;color:var(--m5-muted)!important}
-#plans .plan-feature-monthly strong{display:block!important;margin-top:7px!important;font-size:38px!important;color:var(--m5-blue)!important}
-#plans .plan-cta{display:flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;margin-top:18px!important;border-radius:10px!important;background:var(--m5-dark)!important;color:#fff!important;font-size:16px!important;font-weight:900!important}
-#plans .recommended .plan-cta{background:var(--m5-blue)!important}
-
 /* 21 TERMS */
 #membership-terms{text-align:center!important}
 #membership-terms .mx21-kicker{margin:0 auto!important}
@@ -4886,30 +4439,7 @@ main#top{background:#fff!important}
   .sticky-menu-bar{padding:4px 0!important}
   .sticky-menu-bar .container{padding:0 8px!important}
   .hero-nav-track>a{min-height:32px!important;padding:0 8px!important}
-
-  :is(
-  #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,#mx-direct-booking-intro,
-  #same-cruise,#guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,
-  #mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#calculator,#mx-membership-optional,#mx-start-early,
-  #plans,#membership-terms){padding:78px 0!important;min-height:0!important}
-
-  :is(
-  #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#price-pain,#mx-direct-booking-intro,
-  #same-cruise,#guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,
-  #mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#calculator,#mx-membership-optional,#mx-start-early,
-  #plans,#membership-terms)
-  :is(.mx-inner,.mxp-inner,.mx4-inner,.impact-inner,.mv2-inner,.mx11-inner,.mx12-inner,.mxg-inner,.mx13-inner,
-  .mxp13-inner,.mx14-inner,.mx15-inner,.mx16-inner,.mx18-inner,.mx19-inner,.mx21-inner,.mx7-wide-inner,.container){width:calc(100% - 34px)!important;max-width:none!important}
-
-  :is(
-  #mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#impact-med,#mx-direct-booking-intro,#same-cruise,
-  #guide-question,#mx-prepare-money,#mx-lowest-price,#membership-point,#mx-point-example,#mx-actual-cash,
-  #mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early,#plans,#membership-terms) h2,
-  #calculator .section-head h2{font-size:var(--m5-title-mobile)!important;line-height:1.21!important;letter-spacing:-.032em!important;margin-top:13px!important}
-
-  :is(.mx-eyebrow,.mxp-question,.mx4-eyebrow,.impact-label,.mx11-kicker,.mx12-kicker,.mxg-kicker,.mx13-kicker,
-  .mxp13-kicker,.mx14-kicker,.mx15-kicker,.mx16-kicker,.mx18-kicker,.mx19-kicker,.mx21-kicker,
-  #calculator .section-kicker,#plans .section-kicker,.mx7-overline,.mx8-overline){min-height:32px!important;padding:6px 10px!important;font-size:var(--m5-label-mobile)!important}
+#calculator .section-head h2 {font-size:var(--m5-title-mobile)!important;line-height:1.21!important;letter-spacing:-.032em!important;margin-top:13px!important}
 
   #mx-moving-hotel .mx-hotel-layout{margin-top:30px!important}
   #mx-moving-hotel .mx-hotel-visual,#mx-moving-hotel .mx-hotel-visual img{min-height:260px!important}
@@ -5017,13 +4547,6 @@ main#top{background:#fff!important}
   #mx-start-early .mx19-timeline strong{font-size:29px!important}
   #mx-start-early .mx19-closing{margin-top:30px!important;font-size:20px!important}
   #mx-start-early .mx19-closing strong{font-size:26px!important}
-
-  #plans .membership-section-head{margin-bottom:30px!important}
-  #plans #planCards{grid-template-columns:1fr!important;width:calc(100% - 34px)!important;gap:10px!important}
-  #plans .plan-card{padding:20px 16px!important;border-radius:12px!important}
-  #plans .plan-name{font-size:22px!important}
-  #plans .plan-price{font-size:43px!important}
-  #plans .plan-feature-monthly strong{font-size:34px!important}
 
   #membership-terms .mx21-terms{margin-top:30px!important}
   #membership-terms .mx21-terms summary{padding:17px 40px 17px 2px!important;font-size:17px!important}
@@ -5313,7 +4836,6 @@ html.mh-ready .hero-section.mh-settled .coin-c{animation:mhCoin 3.6s 1.05s ease-
   transition:transform .2s ease,box-shadow .2s ease,background .2s ease!important;
 }
 .sticky-menu-bar .membership-plan-cta:active{transform:scale(.985)!important}
-#plans{scroll-margin-top:76px!important}
 @media(hover:hover) and (pointer:fine){
   .sticky-menu-bar .membership-plan-cta:hover{
     transform:translateY(-1px)!important;
@@ -5418,7 +4940,6 @@ html.mh-ready .hero-section.mh-settled .coin-c{animation:mhCoin 3.6s 1.05s ease-
 @media(max-width:600px){
   .sticky-menu-bar{padding:7px 12px!important}
   .sticky-menu-bar .membership-plan-cta{min-height:44px!important;padding:9px 18px!important;font-size:15px!important}
-  #plans{scroll-margin-top:70px!important}
   .mx15-proof-gallery{width:100%;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 17px 22px;margin:40px -17px 0;box-sizing:content-box;scrollbar-width:none}
   .mx15-proof-gallery::-webkit-scrollbar{display:none}
   .mx15-proof-shot{flex:0 0 min(78vw,330px);scroll-snap-align:center;border-radius:20px}
@@ -5429,7 +4950,6 @@ html.mh-ready .hero-section.mh-settled .coin-c{animation:mhCoin 3.6s 1.05s ease-
 /* ===== fixed CTA ===== */
 html{scroll-behavior:smooth}
     body{padding-bottom:118px!important}
-    #plans{scroll-margin-top:24px!important}
 
     .membership-bottom-cta{
       position:fixed!important;
@@ -6190,168 +5710,10 @@ html{scroll-behavior:smooth}
           width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
         }
       }
-      #plans .plan-card{
-        min-height:0!important;padding:30px 28px!important;border-radius:24px!important;
-        overflow:hidden!important;
-      }
-      #plans .plan-main-line{margin:20px 0 0!important}
-      #plans .plan-name{
-        font-size:38px!important;line-height:1!important;font-weight:950!important;letter-spacing:-.055em!important;
-      }
-      #plans .mx-plan-recommend{
-        display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
-        margin:0 0 22px!important;padding:11px 14px!important;border-radius:999px!important;
-        background:#edf4ff!important;color:#17345d!important;
-      }
-      #plans .mx-plan-recommend b{
-        font-size:13px!important;color:#2468e8!important;font-weight:950!important;
-      }
-      #plans .mx-plan-recommend span{
-        font-size:12px!important;color:#607089!important;font-weight:850!important;
-      }
-      #plans .plan-price-row,#plans .plan-feature-monthly{display:none!important}
-
-      #plans .mx-plan-essentials{
-        display:block!important;
-        margin:24px 0 0!important;
-      }
-      #plans .mx-plan-phase{
-        padding:22px 22px 20px!important;
-        border-radius:20px!important;
-        border:1px solid #dce4ef!important;
-        background:#f7f9fc!important;
-      }
-      #plans .mx-plan-phase + .mx-plan-phase{
-        margin-top:12px!important;
-      }
-      #plans .mx-plan-phase.monthly{
-        background:linear-gradient(180deg,#eef5ff,#e6f0ff)!important;
-        border-color:#c3d7f8!important;
-      }
-      #plans .mx-plan-phase-head{
-        display:flex!important;
-        align-items:center!important;
-        justify-content:space-between!important;
-        gap:12px!important;
-        margin-bottom:18px!important;
-      }
-      #plans .mx-plan-phase-head strong{
-        color:#132238!important;
-        font-size:18px!important;
-        line-height:1!important;
-        font-weight:950!important;
-        letter-spacing:-.04em!important;
-      }
-      #plans .mx-plan-phase-head span{
-        color:#7d8da2!important;
-        font-size:11px!important;
-        line-height:1!important;
-        font-weight:900!important;
-      }
-      #plans .mx-plan-phase.monthly .mx-plan-phase-head span{
-        display:inline-flex!important;
-        align-items:center!important;
-        justify-content:center!important;
-        min-height:28px!important;
-        padding:0 10px!important;
-        border-radius:999px!important;
-        background:#2468e8!important;
-        color:#fff!important;
-      }
-      #plans .mx-plan-pair{
-        display:grid!important;
-        grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
-        align-items:center!important;
-        gap:14px!important;
-      }
-      #plans .mx-plan-pair-item{
-        min-width:0!important;
-        text-align:center!important;
-      }
-      #plans .mx-plan-pair-item small{
-        display:block!important;
-        color:#78899d!important;
-        font-size:11px!important;
-        line-height:1.1!important;
-        font-weight:900!important;
-      }
-      #plans .mx-plan-pair-item strong{
-        display:block!important;
-        margin-top:8px!important;
-        color:#0b1729!important;
-        font-size:42px!important;
-        line-height:.95!important;
-        letter-spacing:-.055em!important;
-        font-weight:950!important;
-        white-space:nowrap!important;
-      }
-      #plans .mx-plan-pair-item.points strong{
-        color:#2468e8!important;
-      }
-      #plans .mx-plan-arrow{
-        color:#6f91bf!important;
-        font-size:28px!important;
-        line-height:1!important;
-        font-weight:950!important;
-        transform:translateY(7px)!important;
-      }
-      #plans .mx-plan-phase-note{
-        margin:14px 0 0!important;
-        padding-top:13px!important;
-        border-top:1px solid #dce4ef!important;
-        color:#64778f!important;
-        font-size:11px!important;
-        line-height:1.35!important;
-        font-weight:850!important;
-        text-align:center!important;
-      }
-      #plans .mx-plan-phase.monthly .mx-plan-phase-note{
-        border-top-color:#c7d9f7!important;
-        color:#426ca8!important;
-      }
       @media(max-width:780px){
-        #plans .mx-plan-essentials{margin-top:18px!important}
-        #plans .mx-plan-phase{
-          padding:18px 14px 17px!important;
-          border-radius:16px!important;
-        }
-        #plans .mx-plan-phase + .mx-plan-phase{margin-top:10px!important}
-        #plans .mx-plan-phase-head{margin-bottom:15px!important}
-        #plans .mx-plan-phase-head strong{font-size:16px!important}
-        #plans .mx-plan-phase-head span{font-size:10px!important}
-        #plans .mx-plan-phase.monthly .mx-plan-phase-head span{
-          min-height:25px!important;
-          padding:0 9px!important;
-        }
-        #plans .mx-plan-pair{gap:8px!important}
-        #plans .mx-plan-pair-item small{font-size:10px!important}
-        #plans .mx-plan-pair-item strong{margin-top:7px!important;font-size:32px!important}
-        #plans .mx-plan-arrow{font-size:22px!important;transform:translateY(6px)!important}
-        #plans .mx-plan-phase-note{margin-top:12px!important;padding-top:11px!important;font-size:10px!important}
       }
-      #plans .plan-cta{
-        display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;
-        min-height:66px!important;margin-top:20px!important;padding:0 20px!important;border-radius:16px!important;
-        font-size:19px!important;font-weight:950!important;letter-spacing:-.04em!important;text-decoration:none!important;
-        transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
-      }
-      #plans .mx-plan-classic .plan-cta{
-        background:#07111f!important;color:#fff!important;box-shadow:0 12px 26px rgba(7,17,31,.18)!important;
-      }
-      #plans .mx-plan-premium .plan-cta{
-        background:linear-gradient(135deg,#2468e8,#347dff)!important;color:#fff!important;
-        box-shadow:0 14px 30px rgba(36,104,232,.30)!important;
-      }
-      #plans .plan-cta:hover{transform:translateY(-2px)!important;filter:brightness(1.03)!important}
-      #plans .plan-cta:active{transform:scale(.985)!important}
 
       @media(max-width:780px){
-        #plans .plan-card{padding:22px 18px!important;border-radius:18px!important}
-        #plans .plan-name{font-size:30px!important}
-        #plans .mx-plan-recommend{margin-bottom:16px!important;padding:9px 11px!important}
-        #plans .mx-plan-recommend b{font-size:12px!important}
-        #plans .mx-plan-recommend span{font-size:11px!important}
-        #plans .plan-cta{min-height:62px!important;margin-top:16px!important;font-size:17px!important;border-radius:14px!important}
       }
             @media(prefers-reduced-motion:reduce){
         #mx-member-booking-benefits .mx18-benefit-card,
@@ -6652,19 +6014,8 @@ html{scroll-behavior:smooth}
       #mx-point-example{padding-top:90px!important;padding-bottom:90px!important}
       #calculator{padding-top:104px!important;padding-bottom:104px!important}
 
-      #plans{
-        margin-top:0!important;
-        padding-top:46px!important;
-        border-top:0!important;
-        background:#07111f!important;
-      }
-      #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{
-        margin-top:52px!important;
-      }
-
       @media(max-width:780px){
         #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
-        #plans .plans-wrap>#mx-membership-freedom + .membership-section-head{margin-top:44px!important}
       }
 
 
@@ -6701,3 +6052,274 @@ html{scroll-behavior:smooth}
           #mx-travel-expansion .mxtf-card strong{margin-top:46px;font-size:clamp(29px,8vw,35px)}
         }
         @media(prefers-reduced-motion:reduce){#mx-travel-expansion .mxtf-card{animation:none}}
+
+
+/* ===== MEMBERSHIP PLAN CARDS — SINGLE STYLE OWNER (2026-11-11) =====
+   Only this block styles #plans and its pricing cards.
+   No inline styles, runtime repair loops or !important declarations. */
+#plans {
+  box-sizing: border-box;
+  min-height: 0;
+  margin: 0;
+  padding: 92px 0 104px;
+  color: #142035;
+  background: #f4f7fb;
+}
+#plans .plans-wrap {
+  box-sizing: border-box;
+  width: min(1040px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 0;
+}
+#plans #mx-membership-freedom {
+  margin-bottom: 52px;
+}
+#plans .membership-section-head {
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+#plans .membership-section-head h2 {
+  margin: 0;
+  color: #12213a;
+  font-size: clamp(34px, 4.6vw, 56px);
+  line-height: 1.12;
+  font-weight: 850;
+  letter-spacing: -.05em;
+  word-break: keep-all;
+}
+#plans .membership-section-head h2 strong {
+  color: #2468e8;
+  font-weight: inherit;
+}
+#plans #planCards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0;
+}
+#plans .plan-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100%;
+  padding: 30px;
+  border: 1px solid #d8e0eb;
+  border-radius: 22px;
+  background: #fff;
+  color: #142035;
+  box-shadow: 0 8px 24px rgba(21, 45, 77, .045);
+  transform: none;
+  word-break: keep-all;
+}
+#plans .plan-card.mx-plan-premium {
+  border: 2px solid #2468e8;
+  padding: 29px;
+  background: #f9fbff;
+}
+#plans .mx-plan-recommend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  color: #26354c;
+}
+#plans .mx-plan-recommend b {
+  color: #2468e8;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: .07em;
+}
+#plans .mx-plan-recommend span {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+}
+#plans .plan-main-line {
+  margin: 28px 0 24px;
+}
+#plans .plan-name {
+  margin: 0 0 12px;
+  color: #142035;
+  font-size: 30px;
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -.045em;
+}
+#plans .plan-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+}
+#plans .plan-price {
+  color: #142035;
+  font-size: clamp(48px, 5vw, 62px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -.065em;
+}
+#plans .plan-card.mx-plan-premium .plan-price {
+  color: #2468e8;
+}
+#plans .plan-price-unit {
+  color: #5d6e83;
+  font-size: 18px;
+  font-weight: 700;
+}
+#plans .mx-plan-essentials {
+  display: grid;
+  gap: 0;
+  margin-bottom: 26px;
+  border-top: 1px solid #dce4ee;
+}
+#plans .mx-plan-phase {
+  padding: 23px 0 20px;
+  border-bottom: 1px solid #dce4ee;
+}
+#plans .mx-plan-phase-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+#plans .mx-plan-phase-head strong {
+  color: #26354c;
+  font-size: 18px;
+  font-weight: 850;
+}
+#plans .mx-plan-phase-head span {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+}
+#plans .mx-plan-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+#plans .mx-plan-pair-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 5px;
+}
+#plans .mx-plan-pair-item small {
+  color: #62728a;
+  font-size: 14px;
+  font-weight: 650;
+}
+#plans .mx-plan-pair-item strong {
+  color: #17243b;
+  font-size: clamp(24px, 2.9vw, 33px);
+  font-weight: 850;
+  line-height: 1.15;
+  letter-spacing: -.05em;
+  white-space: nowrap;
+}
+#plans .mx-plan-pair-item.points strong {
+  color: #2468e8;
+}
+#plans .mx-plan-arrow {
+  color: #9aa8bb;
+  font-size: 23px;
+  font-weight: 600;
+  text-align: center;
+}
+#plans .plan-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: #152439;
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
+  box-shadow: none;
+  transform: none;
+  transition: background-color .15s ease;
+}
+#plans .plan-card.mx-plan-premium .plan-cta {
+  background: #2468e8;
+  color: #fff;
+}
+#plans .plan-cta:hover,
+#plans .plan-cta:focus-visible {
+  background: #294467;
+  color: #fff;
+}
+#plans .plan-card.mx-plan-premium .plan-cta:hover,
+#plans .plan-card.mx-plan-premium .plan-cta:focus-visible {
+  background: #1855c6;
+}
+#plans .plan-cta:focus-visible {
+  outline: 3px solid #8eb4ff;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  #plans {
+    padding: 68px 0 84px;
+  }
+  #plans .plans-wrap {
+    width: calc(100% - 32px);
+  }
+  #plans #mx-membership-freedom {
+    margin-bottom: 36px;
+  }
+  #plans .membership-section-head {
+    margin-bottom: 30px;
+  }
+  #plans .membership-section-head h2 {
+    font-size: clamp(34px, 9.4vw, 42px);
+  }
+  #plans #planCards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  #plans .plan-card,
+  #plans .plan-card.mx-plan-premium {
+    padding: 24px 21px;
+    border-radius: 18px;
+  }
+  #plans .plan-main-line {
+    margin: 22px 0;
+  }
+  #plans .plan-name {
+    font-size: 27px;
+  }
+  #plans .plan-price {
+    font-size: 54px;
+  }
+  #plans .mx-plan-phase {
+    padding: 19px 0 17px;
+  }
+  #plans .mx-plan-pair-item strong {
+    font-size: clamp(23px, 6.7vw, 30px);
+  }
+  #plans .plan-cta {
+    min-height: 58px;
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #plans .plan-cta {
+    transition: none;
+  }
+}
