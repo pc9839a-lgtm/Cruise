@@ -141,6 +141,16 @@ jobs:
                   return {width:innerWidth,result};
                 });
                 console.log('MEMBERSHIP_CENTER_AUDIT '+JSON.stringify(alignmentAudit));
+                const misaligned = alignmentAudit.result.filter(item =>
+                  Math.abs(item.wrapper?.delta || 0)>15 ||
+                  Math.abs(item.heading?.delta || 0)>15);
+                console.log('MEMBERSHIP_CENTER_VERDICT '+JSON.stringify({
+                  width,offCenter:misaligned.map(item=>({
+                    id:item.id,wrapperDelta:item.wrapper?.delta,headingDelta:item.heading?.delta
+                  }))
+                }));
+                if(misaligned.length)process.exitCode=1;
+
                 const controls = await page.evaluate(() => {
                   const input=document.getElementById('cruisePrice');
                   const standard=document.querySelector('.mode-btn[data-mode="general"]');

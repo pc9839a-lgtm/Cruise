@@ -4239,7 +4239,7 @@ main#top{background:#fff!important}
 
 /* 08 — POINT PROOF + BRIDGE */
 
-#same-cruise{text-align:center!important;display:flex!important;align-items:center!important}
+#same-cruise{text-align:center!important;display:flex!important;align-items:center!important;justify-content:center}
 
 #same-cruise .mx8-payment-stack{width:min(820px,100%)!important;border-block:1px solid #314259!important}
 #same-cruise .mx8-payment-line{display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:28px!important;padding:28px 4px!important;border-bottom:1px solid #2a3a4f!important;text-align:left!important}
@@ -4292,7 +4292,7 @@ main#top{background:#fff!important}
 
 /* 09 — CLUB IDENTITY REVEAL */
 
-#guide-question{display:flex!important;align-items:center!important;text-align:center!important}
+#guide-question{display:flex!important;align-items:center!important;justify-content:center;text-align:center!important}
 
 #guide-question .mx9-prefix{margin:0 auto!important;font-size:24px!important;line-height:1.4!important;color:var(--m5-muted)!important;font-weight:900!important}
 
