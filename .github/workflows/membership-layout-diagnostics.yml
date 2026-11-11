@@ -75,6 +75,59 @@ jobs:
                     refundParent:document.querySelector('#mx-membership-freedom')?.parentElement?.className??null,
                     stylesheetCount:[...document.styleSheets].filter(x=>x.href?.includes('membership')).length};
                 });
+                const extended = await page.evaluate(() => {
+                  const sections=[...document.querySelectorAll('main > section')].map((s,i)=>{
+                    const r=s.getBoundingClientRect(),h=s.querySelector('h1,h2');
+                    const hr=h?.getBoundingClientRect();
+                    return {i:i+1,id:s.id,h:Math.round(r.height),
+                      top:Math.round(r.top+scrollY),title:h?.innerText?.slice(0,60),
+                      titleSize:h?getComputedStyle(h).fontSize:null,
+                      titleOffscreen:!!hr&&(hr.x < -3 || hr.right>innerWidth+3)};
+                  });
+                  const textOverflow=[...document.querySelectorAll('main h1,main h2,main h3,main p,main strong')]
+                    .filter(e=>{const s=getComputedStyle(e);
+                      return s.display!=='none' && s.visibility!=='hidden' &&
+                        e.getBoundingClientRect().height>0 &&
+                        e.scrollWidth>e.clientWidth+4;})
+                    .slice(0,25).map(e=>({tag:e.tagName,text:e.innerText?.slice(0,42),
+                        cl:String(e.className).slice(0,60),scroll:e.scrollWidth,client:e.clientWidth}));
+                  const brokenImages=[...document.images].filter(e=>e.complete&&e.naturalWidth===0)
+                    .slice(0,12).map(e=>({src:e.getAttribute('src'),alt:e.alt}));
+                  const menu=[...document.querySelectorAll('.hero-nav-track>a')].map(e=>e.getAttribute('href'));
+                  const cardDims=selector=>[...document.querySelectorAll(selector)]
+                    .map(e=>{const r=e.getBoundingClientRect();
+                      return {w:Math.round(r.width),h:Math.round(r.height),opacity:getComputedStyle(e).opacity};});
+                  return {pageHeight:document.documentElement.scrollHeight,sections,
+                    textOverflow,brokenImages,menuLinks:menu.length,menuUnique:new Set(menu).size,
+                    prices:[...document.querySelectorAll('#price-pain .mx6-price-amount')].map(e=>e.textContent),
+                    plans:cardDims('#planCards .plan-card'),
+                    benefits:cardDims('#mx-member-booking-benefits .mx18-benefit-card'),
+                    refunds:cardDims('#mx-membership-freedom .mxf-card'),
+                    terms:cardDims('#membership-terms .mx21-term-card')};
+                });
+                const controls = await page.evaluate(() => {
+                  const input=document.getElementById('cruisePrice');
+                  const standard=document.querySelector('.mode-btn[data-mode="general"]');
+                  const advance=document.querySelector('.mode-btn[data-mode="early"]');
+                  const value=id=>document.getElementById(id)?.textContent.trim();
+                  if(!input||!standard||!advance)return {error:'calculator controls missing'};
+                  const before=input.value;
+                  input.value='4000';
+                  input.dispatchEvent(new Event('input',{bubbles:true}));
+                  standard.click();
+                  const regular={points:value('usablePoint'),card:value('cashUsd'),total:value('coverageRatio'),
+                    selected:standard.getAttribute('aria-pressed')};
+                  advance.click();
+                  const early={points:value('usablePoint'),card:value('cashUsd'),total:value('coverageRatio'),
+                    selected:advance.getAttribute('aria-pressed')};
+                  input.value=before;
+                  input.dispatchEvent(new Event('input',{bubbles:true}));
+                  standard.click();
+                  return {regular,early,
+                    regularOk:regular.points==='2,000P'&&regular.card==='$2,000'&&regular.total==='$3,000'&&regular.selected==='true',
+                    earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,000'&&early.selected==='true'};
+                });
+                console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls}));
                 const surveyScript = await page.locator('script[src*="membership-entry-survey-v2.js"]').first().getAttribute('src').catch(() => null);
                 const liveScriptText = await page.evaluate(async () => {
                   const script = document.querySelector('script[src*="membership-entry-survey-v2.js"]');
