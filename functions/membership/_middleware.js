@@ -45,7 +45,7 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20261111-mobile5"></script>' +
           '<script defer src="/membership/membership-section-order-fix-v1.js?v=20261111-mobile5"></script>' +
           '<script defer src="/membership/membership-refund-assurance-v1.js?v=20261111-cssunified1"></script>' +
-          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20261111-planowner2"></script>' +
+          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20261111-benefits6"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-mobile5"></script>' +
           '<script defer src="/membership/membership-cta-optimization-v1.js?v=20260905-cta69"></script>' +
           '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +

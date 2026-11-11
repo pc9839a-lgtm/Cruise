@@ -4050,7 +4050,7 @@ main#top{background:#fff!important}
 #same-cruise,
 #mx-lowest-price{background:var(--m5-dark)!important;color:#fff!important}
 
-#membership-terms{background:var(--m5-dark)!important;color:#fff!important}
+
 
 
 
@@ -4061,7 +4061,7 @@ main#top{background:#fff!important}
 :is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
 
 
-:is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price,#membership-terms) h2 strong{color:var(--m5-sky)!important}
+:is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price) h2 strong{color:var(--m5-sky)!important}
 
 
 /* 02 */
@@ -4311,15 +4311,15 @@ main#top{background:#fff!important}
 #mx-start-early .mx19-note{margin:14px auto 0!important;font-size:13px!important;color:#6b7d92!important}
 
 /* 21 TERMS */
-#membership-terms{text-align:center!important}
-#membership-terms .mx21-kicker{margin:0 auto!important}
-#membership-terms .mx21-terms{width:min(840px,100%)!important;margin:42px auto 0!important;border-top:1px solid var(--m5-dark-line)!important}
-#membership-terms .mx21-terms details{margin:0!important;padding:0!important;border-bottom:1px solid var(--m5-dark-line)!important;text-align:left!important}
-#membership-terms .mx21-terms summary{position:relative!important;list-style:none!important;cursor:pointer!important;padding:19px 44px 19px 4px!important;font-size:18px!important;font-weight:900!important;color:#fff!important}
-#membership-terms .mx21-terms summary::-webkit-details-marker{display:none!important}
-#membership-terms .mx21-terms summary::after{content:'+'!important;position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;font-size:24px!important;color:#7f94ad!important}
-#membership-terms .mx21-terms details[open] summary::after{content:'–'!important}
-#membership-terms .mx21-terms p{margin:0!important;padding:0 44px 20px 4px!important;font-size:15px!important;line-height:1.6!important;color:#b9c6d4!important}
+
+
+
+
+
+
+
+
+
 
 @media(max-width:780px){
   .sticky-menu-bar{padding:4px 0!important}
@@ -4439,9 +4439,9 @@ main#top{background:#fff!important}
   #mx-start-early .mx19-closing{margin-top:30px!important;font-size:20px!important}
   #mx-start-early .mx19-closing strong{font-size:26px!important}
 
-  #membership-terms .mx21-terms{margin-top:30px!important}
-  #membership-terms .mx21-terms summary{padding:17px 40px 17px 2px!important;font-size:17px!important}
-  #membership-terms .mx21-terms p{padding:0 38px 18px 2px!important;font-size:14px!important}
+  
+  
+  
 }
 
 @media(max-width:380px){
@@ -4777,79 +4777,19 @@ html.mh-ready .hero-section .hero-coin{opacity:1!important;translate:0 0!importa
 }
 
 @media(max-width:780px){
-  #mx-member-booking-benefits .mx18-benefit-title{
-    font-size:clamp(40px,11.5vw,52px)!important;
-    line-height:1.02!important;
-    letter-spacing:-.07em!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-cards{
-    gap:30px!important;
-    margin-top:44px!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card{
-    padding:23px 20px 24px!important;
-    border-radius:22px!important;
-    background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.045))!important;
-    border:1px solid rgba(143,211,255,.22)!important;
-    box-shadow:0 18px 42px rgba(2,14,34,.24)!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card:nth-child(3){
-    background:linear-gradient(145deg,rgba(50,145,255,.24),rgba(255,255,255,.055))!important;
-    border-color:rgba(131,215,255,.48)!important;
-  }
-  #mx-member-booking-benefits .mx18-step{
-    min-width:46px!important;
-    height:29px!important;
-    background:rgba(112,201,255,.16)!important;
-    border-color:rgba(131,215,255,.34)!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card>strong{
-    margin-top:16px!important;
-    font-size:clamp(28px,8vw,34px)!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card>p{
-    margin-top:8px!important;
-    font-size:15px!important;
-    line-height:1.35!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-conclusion{
-    width:100%!important;
-    margin-top:58px!important;
-    padding:30px 18px 32px!important;
-    border:1px solid rgba(123,204,255,.35)!important;
-    border-radius:26px!important;
-    background:
-      radial-gradient(circle at 50% 0%,rgba(80,180,255,.24),transparent 58%),
-      linear-gradient(145deg,rgba(35,115,221,.22),rgba(255,255,255,.055))!important;
-    box-shadow:0 22px 52px rgba(1,15,37,.28),inset 0 1px 0 rgba(255,255,255,.08)!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-conclusion>span{
-    font-size:15px!important;
-    color:#9cb8d3!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-conclusion>p{
-    margin-top:10px!important;
-    font-size:clamp(30px,8.5vw,37px)!important;
-    line-height:1.08!important;
-    letter-spacing:-.055em!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-conclusion strong{
-    display:block!important;
-    margin-top:8px!important;
-    color:#8bdcff!important;
-    font-size:clamp(34px,9.7vw,43px)!important;
-    line-height:1.06!important;
-  }
-  #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-conclusion strong{
-    animation:mx18-member-punch .72s cubic-bezier(.16,1,.3,1) .72s both!important;
-  }
-  #mx-member-booking-benefits .mx18-benefit-cta{
-    min-height:62px!important;
-    margin-top:22px!important;
-    border-radius:19px!important;
-    font-size:19px!important;
-    box-shadow:0 16px 38px rgba(36,118,255,.34)!important;
-  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 @media(max-width:600px){
@@ -4859,7 +4799,7 @@ html.mh-ready .hero-section .hero-coin{opacity:1!important;translate:0 0!importa
   .mx15-proof-gallery::-webkit-scrollbar{display:none}
   .mx15-proof-shot{flex:0 0 min(78vw,330px);scroll-snap-align:center;border-radius:20px}
 }
-@media(prefers-reduced-motion:reduce){.mx-live-counter-element{animation:none!important}.mx15-proof-shot{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.sticky-menu-bar .membership-plan-cta{transition:none!important}#mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-conclusion strong{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.mx-live-counter-element{animation:none!important}.mx15-proof-shot{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.sticky-menu-bar .membership-plan-cta{transition:none!important}}
 
 
 /* ===== fixed CTA: single restrained visual owner ===== */
@@ -5418,160 +5358,64 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 
 /* ===== membership-section19-20-plan-choice-v1.js ===== */
-#mx-member-booking-benefits{
-        position:relative!important;
-        box-sizing:border-box!important;
-        width:100%!important;
-        margin:0!important;
-        padding:112px 0 126px!important;
-        overflow:hidden!important;
-        background:
-          radial-gradient(circle at 50% 0%,rgba(71,154,255,.18),transparent 36%),
-          linear-gradient(180deg,#0c2443 0%,#102f57 56%,#0b2545 100%)!important;
-        color:#fff!important;
-        text-align:center!important;
-        font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-      }
-      #mx-member-booking-benefits::before{
-        content:'';position:absolute;left:50%;top:-180px;width:560px;height:560px;border-radius:50%;
-        transform:translateX(-50%);background:rgba(73,163,255,.08);filter:blur(90px);pointer-events:none;
-      }
-      #mx-member-booking-benefits .mx18-benefit-inner{
-        position:relative;z-index:1;box-sizing:border-box;width:min(1120px,calc(100% - 64px));margin:0 auto;
-      }
-      #mx-member-booking-benefits .mx18-benefit-title{
-        max-width:920px;margin:0 auto;font-size:clamp(54px,5.8vw,82px);line-height:1.06;letter-spacing:-.06em;
-        font-weight:950;word-break:keep-all;color:#fff;
-      }
-      #mx-member-booking-benefits .mx18-benefit-title strong{color:#83d7ff;font-weight:950}
-      #mx-member-booking-benefits .mx18-benefit-cards{
-        width:min(980px,100%);margin:64px auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
-      }
-      #mx-member-booking-benefits .mx18-benefit-card{
-        position:relative;min-height:230px;padding:30px 28px;border:1px solid rgba(157,211,255,.18);border-radius:28px;
-        background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.045));
-        box-shadow:0 24px 54px rgba(1,12,31,.18);text-align:left;overflow:visible;
-        opacity:0;transform:translateY(34px) scale(.965);filter:blur(4px);
-        transition:opacity .62s ease,transform .82s cubic-bezier(.16,1,.3,1),filter .62s ease,border-color .3s ease,background .3s ease;
-      }
-      #mx-member-booking-benefits .mx18-benefit-card:nth-child(2){transition-delay:110ms}
-      #mx-member-booking-benefits .mx18-benefit-card:nth-child(3){transition-delay:220ms}
-      #mx-member-booking-benefits .mx18-benefit-result{
-        grid-column:1/-1;min-height:210px;padding:40px 36px;text-align:center;
-        background:linear-gradient(135deg,rgba(43,123,255,.28),rgba(114,207,255,.13));
-        border-color:rgba(131,215,255,.48);box-shadow:0 24px 68px rgba(20,106,236,.20);
-        transform:translateY(34px) scale(.94);
-      }
-      #mx-member-booking-benefits .mx18-benefit-result .mx18-step{
-        background:#83d7ff;border-color:#83d7ff;color:#0b2746;
-      }
-      #mx-member-booking-benefits .mx18-benefit-result>strong{
-        margin-top:22px;font-size:clamp(38px,4.2vw,58px);line-height:1.04;text-align:center;color:#fff;
-      }
-      #mx-member-booking-benefits .mx18-benefit-result>p{
-        margin:16px auto 0;color:#aee3ff;font-size:clamp(19px,2vw,25px);font-weight:900;text-align:center;
-      }
-      #mx-member-booking-benefits .mx18-proof-strip{
-        grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
-        margin-top:2px;border:1px solid rgba(131,215,255,.24);border-radius:20px;overflow:hidden;background:rgba(4,20,42,.28);
-        opacity:0;transform:translateY(20px);transition:opacity .62s ease .34s,transform .76s cubic-bezier(.16,1,.3,1) .34s;
-      }
-      #mx-member-booking-benefits.mx18-conversion-active .mx18-proof-strip{opacity:1;transform:none}
-      #mx-member-booking-benefits .mx18-proof-strip>div{padding:20px 12px;text-align:center}
-      #mx-member-booking-benefits .mx18-proof-strip>div+div{border-left:1px solid rgba(131,215,255,.18)}
-      #mx-member-booking-benefits .mx18-proof-strip span{display:block;color:#91a8c0;font-size:13px;font-weight:850}
-      #mx-member-booking-benefits .mx18-proof-strip strong{display:block;margin-top:7px;color:#fff;font-size:clamp(24px,2.5vw,34px);line-height:1;font-weight:950}
-      #mx-member-booking-benefits .mx18-proof-strip .accent strong{color:#83d7ff}
-      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-card{opacity:1;transform:none;filter:none}
-      #mx-member-booking-benefits .mx18-step{
-        display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 11px;border-radius:999px;
-        background:rgba(131,215,255,.13);border:1px solid rgba(131,215,255,.22);color:#83d7ff;font-size:14px;font-weight:950;letter-spacing:.04em;
-      }
-      #mx-member-booking-benefits .mx18-benefit-card>strong{
-        display:block;margin-top:24px;color:#fff;font-size:clamp(27px,2.5vw,36px);line-height:1.1;letter-spacing:-.045em;font-weight:950;word-break:keep-all;
-      }
-      #mx-member-booking-benefits .mx18-benefit-card>p{
-        margin:14px 0 0;color:#b9c9dc;font-size:17px;line-height:1.45;font-weight:760;word-break:keep-all;
-      }
-      #mx-member-booking-benefits .mx18-benefit-conclusion{
-        width:min(900px,100%);margin:82px auto 0;padding:58px 24px 0;border-top:1px solid rgba(149,194,236,.22);
-        opacity:0;transform:translateY(24px);transition:opacity .65s ease .34s,transform .78s cubic-bezier(.16,1,.3,1) .34s;
-      }
-      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-conclusion{opacity:1;transform:none}
-      #mx-member-booking-benefits .mx18-benefit-conclusion>span{
-        display:block;color:#8fa9c5;font-size:18px;font-weight:900;letter-spacing:-.03em;
-      }
-      #mx-member-booking-benefits .mx18-benefit-conclusion>p{
-        margin:14px auto 0;color:#fff;font-size:clamp(36px,4vw,56px);line-height:1.12;letter-spacing:-.05em;font-weight:950;word-break:keep-all;
-      }
-      #mx-member-booking-benefits .mx18-benefit-conclusion strong{color:#83d7ff;font-weight:950}
-      #mx-member-booking-benefits .mx18-benefit-cta{
-        position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:12px;
-        width:min(440px,100%);min-height:64px;margin:46px auto 0;padding:0 28px;border-radius:19px;
-        background:linear-gradient(135deg,#2a67df,#3c8cff);color:#fff;text-decoration:none;font-size:20px;font-weight:950;letter-spacing:-.035em;
-        box-shadow:0 16px 40px rgba(22,109,236,.30);opacity:0;transform:translateY(18px) scale(.97);
-        transition:opacity .55s ease .5s,transform .72s cubic-bezier(.16,1,.3,1) .5s,box-shadow .2s ease;
-      }
-      #mx-member-booking-benefits.mx18-conversion-active .mx18-benefit-cta{opacity:1;transform:none}
-      #mx-member-booking-benefits .mx18-benefit-cta::before{
-        content:'';position:absolute;inset:0 auto 0 -36%;width:28%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.24),transparent);transform:skewX(-18deg);animation:mx18CtaShine 3.8s ease-in-out infinite;
-      }
-      #mx-member-booking-benefits .mx18-benefit-cta b{font-size:23px;line-height:1;animation:mx18Arrow 1.15s ease-in-out infinite}
-      #mx-member-booking-benefits .mx18-benefit-cta:active{transform:scale(.985)!important}
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       @keyframes mx18Arrow{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
       @keyframes mx18CtaShine{0%,60%{left:-36%;opacity:0}68%{opacity:1}84%,100%{left:122%;opacity:0}}
 
       @media(max-width:780px){
-        #mx-member-booking-benefits{
-          padding:76px 0 88px!important;
-          background:
-            radial-gradient(circle at 50% 0%,rgba(78,166,255,.22),transparent 29%),
-            linear-gradient(180deg,#0b2443 0%,#12365f 54%,#0d294b 100%)!important;
-        }
-        #mx-member-booking-benefits .mx18-benefit-inner{width:calc(100% - 34px)}
-        #mx-member-booking-benefits .mx18-benefit-title{
-          max-width:430px;font-size:clamp(42px,11.8vw,54px);line-height:1.045;letter-spacing:-.065em;
-        }
-        #mx-member-booking-benefits .mx18-benefit-cards{
-          margin-top:44px;grid-template-columns:1fr;gap:34px;
-        }
-        #mx-member-booking-benefits .mx18-benefit-card{
-          min-height:0;padding:25px 22px 27px;border-radius:24px;box-shadow:0 18px 38px rgba(1,12,31,.22);
-        }
-        #mx-member-booking-benefits .mx18-benefit-card:not(:last-child)::after{
-          content:'↓';position:absolute;left:50%;bottom:-29px;transform:translateX(-50%);color:#6f9dcc;font-size:22px;font-weight:900;
-        }
-        #mx-member-booking-benefits .mx18-step{height:28px;min-width:44px;font-size:13px}
-        #mx-member-booking-benefits .mx18-benefit-card>strong{
-          margin-top:20px;font-size:clamp(28px,7.5vw,34px);line-height:1.08;
-        }
-        #mx-member-booking-benefits .mx18-benefit-card>p{
-          margin-top:10px;font-size:16px;line-height:1.4;
-        }
-        #mx-member-booking-benefits .mx18-benefit-result{
-          grid-column:auto;min-height:210px;padding:30px 20px 32px;border-radius:26px;
-          box-shadow:0 22px 56px rgba(20,106,236,.24);
-        }
-        #mx-member-booking-benefits .mx18-benefit-result>strong{
-          margin-top:20px;font-size:clamp(34px,9.5vw,44px);line-height:1.05;
-        }
-        #mx-member-booking-benefits .mx18-benefit-result>p{
-          margin-top:14px;font-size:clamp(18px,5vw,22px);line-height:1.25;
-        }
-        #mx-member-booking-benefits .mx18-proof-strip{grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px}
-        #mx-member-booking-benefits .mx18-proof-strip>div{padding:15px 5px}
-        #mx-member-booking-benefits .mx18-proof-strip span{font-size:10px;line-height:1.25}
-        #mx-member-booking-benefits .mx18-proof-strip strong{margin-top:6px;font-size:clamp(19px,5.8vw,25px)}
-        #mx-member-booking-benefits .mx18-benefit-conclusion{
-          margin-top:66px;padding:46px 4px 0;
-        }
-        #mx-member-booking-benefits .mx18-benefit-conclusion>span{font-size:16px}
-        #mx-member-booking-benefits .mx18-benefit-conclusion>p{
-          margin-top:12px;font-size:clamp(34px,9.3vw,43px);line-height:1.1;
-        }
-        #mx-member-booking-benefits .mx18-benefit-cta{
-          width:100%;min-height:60px;margin-top:32px;border-radius:18px;font-size:19px;
-        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
       }
       @media(max-width:780px){
       }
@@ -5579,315 +5423,137 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
       @media(max-width:780px){
       }
             @media(prefers-reduced-motion:reduce){
-        #mx-member-booking-benefits .mx18-benefit-card,
-#mx-member-booking-benefits .mx18-benefit-conclusion,
-#mx-member-booking-benefits .mx18-benefit-cta{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
-        #mx-member-booking-benefits .mx18-benefit-cta::before,
-#mx-member-booking-benefits .mx18-benefit-cta b{animation:none!important}
+        
+        
       }
 
 
 /* ===== membership-travel-expansion-v1.js ===== */
-#mx-travel-expansion{position:relative;box-sizing:border-box;width:100%;margin:0;padding:104px 0 112px;overflow:hidden;background:linear-gradient(180deg,#f7f9fc 0%,#eef3f9 100%);color:#0b1730;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-align:center}
-      #mx-travel-expansion::before{content:'';position:absolute;left:50%;top:-180px;width:760px;height:420px;transform:translateX(-50%);background:radial-gradient(circle,rgba(49,111,239,.12),rgba(49,111,239,0) 68%);pointer-events:none}
-      #mx-travel-expansion .mxt-inner{position:relative;z-index:1;width:min(1120px,calc(100% - 64px));margin:0 auto}
-      #mx-travel-expansion .mxt-kicker{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 15px;border-radius:999px;background:#e7efff;color:#245fce;font-size:15px;font-weight:900;letter-spacing:-.025em}
-      #mx-travel-expansion h2{max-width:900px;margin:22px auto 0;font-size:clamp(50px,5.3vw,76px);line-height:1.06;letter-spacing:-.06em;font-weight:950;word-break:keep-all}
-      #mx-travel-expansion h2 strong{color:#2869df;font-weight:950}
-      #mx-travel-expansion .mxt-sub{max-width:690px;margin:22px auto 0;color:#687a94;font-size:18px;line-height:1.45;font-weight:760;word-break:keep-all}
-      #mx-travel-expansion .mxt-cards{width:100%;margin:48px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-      #mx-travel-expansion .mxt-card{position:relative;box-sizing:border-box;min-height:238px;padding:24px;border:1px solid rgba(22,61,115,.10);border-radius:30px;background:rgba(255,255,255,.90);box-shadow:0 24px 62px rgba(16,40,78,.10);text-align:left;overflow:hidden;opacity:0;transform:translateY(36px) scale(.965);filter:blur(4px);transition:opacity .62s ease,transform .85s cubic-bezier(.16,1,.3,1),filter .62s ease,box-shadow .28s ease}
-      #mx-travel-expansion .mxt-card:nth-child(2){transition-delay:100ms}
-      #mx-travel-expansion .mxt-card:nth-child(3){transition-delay:200ms}
-      #mx-travel-expansion.is-active .mxt-card{opacity:1;transform:none;filter:none}
-      #mx-travel-expansion .mxt-card::after{content:attr(data-ghost);position:absolute;right:18px;bottom:-12px;color:#eaf0f8;font-size:74px;line-height:1;font-weight:950;letter-spacing:-.06em;pointer-events:none}
-      #mx-travel-expansion .mxt-num{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:30px;padding:0 10px;border-radius:999px;background:#edf3ff;color:#2869df;font-size:13px;font-weight:950;letter-spacing:.04em}
-      #mx-travel-expansion .mxt-guarantee{display:inline-flex;align-items:center;justify-content:center;margin-left:7px;height:30px;padding:0 11px;border-radius:999px;background:#2869df;color:#fff;font-size:13px;font-weight:950;letter-spacing:-.025em;box-shadow:0 8px 20px rgba(40,105,223,.18)}
-      #mx-travel-expansion .mxt-card strong{position:relative;z-index:1;display:block;margin-top:42px;font-size:clamp(29px,2.7vw,38px);line-height:1.08;letter-spacing:-.05em;font-weight:950}
-      #mx-travel-expansion .mxt-card p{position:relative;z-index:1;margin:12px 0 0;color:#718199;font-size:16px;line-height:1.42;font-weight:760;word-break:keep-all}
-      #mx-travel-expansion .mxt-hotel-proof{display:none!important}
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
 
-      #mx-membership-freedom{position:relative;box-sizing:border-box;width:100%;margin:0;padding:112px 0 124px;overflow:hidden;background:#fff;color:#0b1730;text-align:center;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-      #mx-membership-freedom::before{content:'';position:absolute;left:50%;top:-180px;width:720px;height:400px;transform:translateX(-50%);background:radial-gradient(circle,rgba(45,110,244,.10),rgba(45,110,244,0) 70%);pointer-events:none}
-      #mx-membership-freedom .mxf-inner{position:relative;z-index:1;width:min(900px,calc(100% - 48px));margin:0 auto}
-      #mx-membership-freedom .mxf-kicker{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:0 14px;border-radius:999px;background:#edf3ff;color:#2869df;font-size:14px;font-weight:950}
-      #mx-membership-freedom h2{margin:20px auto 0;font-size:clamp(44px,5vw,68px);line-height:1.04;letter-spacing:-.065em;font-weight:950;word-break:keep-all}
-      #mx-membership-freedom h2 strong{color:#2869df}
-      #mx-membership-freedom .mxf-grid{margin:50px auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-      #mx-membership-freedom .mxf-card{box-sizing:border-box;min-height:184px;padding:32px 24px;border-radius:28px;border:1px solid #dbe5f3;background:linear-gradient(180deg,#fff,#f7faff);box-shadow:0 18px 46px rgba(20,51,93,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:translateY(28px) scale(.97);transition:opacity .55s ease,transform .75s cubic-bezier(.16,1,.3,1)}
-      #mx-membership-freedom .mxf-card:nth-child(2){transition-delay:110ms}
-      #mx-membership-freedom.is-active .mxf-card{opacity:1;transform:none}
-      #mx-membership-freedom .mxf-zero{color:#2869df;font-size:clamp(48px,5vw,64px);line-height:1;font-weight:950;letter-spacing:-.06em}
-      #mx-membership-freedom .mxf-card strong{display:block;margin-top:12px;font-size:clamp(27px,2.8vw,36px);line-height:1.08;letter-spacing:-.05em;font-weight:950}
-      #mx-membership-freedom .mxf-note{margin:24px auto 0;color:#8a98aa;font-size:12px;line-height:1.45;font-weight:700;word-break:keep-all}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
-      @media(hover:hover) and (pointer:fine){#mx-travel-expansion .mxt-card:hover{transform:translateY(-7px);box-shadow:0 30px 74px rgba(16,40,78,.15)}}
+      @media(hover:hover) and (pointer:fine){}
       @media(max-width:780px){
-        #mx-travel-expansion{padding:72px 0 82px}
-        #mx-travel-expansion .mxt-inner{width:100%}
-        #mx-travel-expansion .mxt-head{padding:0 18px}
-        #mx-travel-expansion .mxt-kicker{min-height:30px;padding:0 13px;font-size:13px}
-        #mx-travel-expansion h2{max-width:430px;margin-top:18px;font-size:clamp(41px,11.5vw,54px);line-height:1.04;letter-spacing:-.065em}
-        #mx-travel-expansion .mxt-sub{max-width:390px;margin-top:16px;font-size:16px;line-height:1.4}
-        #mx-travel-expansion .mxt-cards{display:flex;width:100%;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:4px 18px 26px;margin-top:36px;box-sizing:border-box;scrollbar-width:none}
-        #mx-travel-expansion .mxt-cards::-webkit-scrollbar{display:none}
-        #mx-travel-expansion .mxt-card{flex:0 0 min(82vw,330px);min-height:220px;padding:22px 20px;border-radius:25px;scroll-snap-align:center;box-shadow:0 18px 44px rgba(16,40,78,.11)}
-        #mx-travel-expansion .mxt-card::after{right:15px;bottom:-8px;font-size:62px}
-        #mx-travel-expansion .mxt-card strong{margin-top:38px;font-size:clamp(29px,8vw,35px)}
-        #mx-travel-expansion .mxt-card p{font-size:15px}
-        #mx-travel-expansion .mxt-hotel-proof{display:none!important}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
-        #mx-membership-freedom{padding:84px 0 98px}
-        #mx-membership-freedom .mxf-inner{width:calc(100% - 34px)}
-        #mx-membership-freedom .mxf-kicker{font-size:13px}
-        #mx-membership-freedom h2{max-width:430px;margin-top:17px;font-size:clamp(38px,10.5vw,48px)}
-        #mx-membership-freedom .mxf-grid{margin-top:38px;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-        #mx-membership-freedom .mxf-card{min-height:156px;padding:24px 10px;border-radius:22px}
-        #mx-membership-freedom .mxf-zero{font-size:clamp(44px,12vw,56px)}
-        #mx-membership-freedom .mxf-card strong{margin-top:10px;font-size:clamp(22px,6vw,28px)}
-        #mx-membership-freedom .mxf-note{margin-top:18px;font-size:11px}
+        
+        
+        
+        
+        
+        
+        
+        
+        
       }
-      @media(prefers-reduced-motion:reduce){#mx-travel-expansion .mxt-card,
-#mx-travel-expansion .mxt-hotel-proof,
-#mx-membership-freedom .mxf-card{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+      @media(prefers-reduced-motion:reduce){}
 
 
 /* ===== membership-section-order-fix-v1.js ===== */
 #mx-membership-optional{display:none!important}
 
-      #mx-travel-expansion{
-        border-top:6px solid #edf1f6!important;
-        border-bottom:6px solid #edf1f6!important;
-        background:linear-gradient(180deg,#ffffff 0%,#f7f9fc 100%)!important;
-      }
+      
 
-      #mx-membership-freedom{
-        position:relative!important;
-        box-sizing:border-box!important;
-        width:min(1160px,calc(100% - 64px))!important;
-        margin:0 auto 46px!important;
-        padding:108px 0 26px!important;
-        background:transparent!important;
-        color:#fff!important;
-        border:0!important;
-        overflow:visible!important;
-        isolation:isolate!important;
-      }
-      #mx-membership-freedom::before{
-        content:''!important;
-        display:block!important;
-        position:absolute!important;
-        left:50%!important;
-        top:18px!important;
-        width:min(980px,92vw)!important;
-        height:420px!important;
-        transform:translateX(-50%)!important;
-        background:radial-gradient(circle,rgba(59,143,255,.24) 0%,rgba(59,143,255,.11) 28%,rgba(59,143,255,0) 72%)!important;
-        filter:blur(10px)!important;
-        z-index:-1!important;
-        pointer-events:none!important;
-      }
-      #mx-membership-freedom .mxf-inner{
-        width:100%!important;
-        margin:0!important;
-      }
-      #mx-membership-freedom .mxf-title{
-        margin:0 auto!important;
-        padding:0!important;
-        max-width:960px!important;
-        color:#fff!important;
-        font-size:clamp(58px,5.7vw,82px)!important;
-        line-height:1.02!important;
-        letter-spacing:-.065em!important;
-        font-weight:950!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-        opacity:0!important;
-        transform:translateY(28px)!important;
-        transition:opacity .6s ease,transform .8s cubic-bezier(.16,1,.3,1)!important;
-      }
-      #mx-membership-freedom .mxf-title strong{
-        color:#83d7ff!important;
-        font-weight:950!important;
-      }
-      #mx-membership-freedom.is-active .mxf-title{
-        opacity:1!important;
-        transform:none!important;
-      }
-      #mx-membership-freedom .mxf-grid{
-        display:grid!important;
-        grid-template-columns:repeat(3,minmax(0,1fr))!important;
-        align-items:center!important;
-        gap:18px!important;
-        margin:62px 0 0!important;
-      }
-      #mx-membership-freedom .mxf-card{
-        position:relative!important;
-        min-height:184px!important;
-        padding:30px 20px!important;
-        border-radius:30px!important;
-        background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.05))!important;
-        border:1px solid rgba(255,255,255,.17)!important;
-        box-shadow:0 22px 56px rgba(0,12,32,.18)!important;
-        display:flex!important;
-        flex-direction:column!important;
-        align-items:center!important;
-        justify-content:center!important;
-        opacity:0!important;
-        transform:translateY(34px) scale(.96)!important;
-        transition:
-          opacity .58s ease,
-          transform .82s cubic-bezier(.16,1,.3,1),
-          border-color .25s ease,
-          box-shadow .25s ease!important;
-      }
-      #mx-membership-freedom .mxf-card:nth-child(1){transition-delay:.10s!important}
-      #mx-membership-freedom .mxf-card:nth-child(2){transition-delay:.22s!important}
-      #mx-membership-freedom .mxf-card:nth-child(3){transition-delay:.34s!important}
-      #mx-membership-freedom.is-active .mxf-card{
-        opacity:1!important;
-        transform:none!important;
-      }
-      #mx-membership-freedom .mxf-zero{
-        color:#83d7ff!important;
-        font-size:clamp(60px,6vw,82px)!important;
-        line-height:.94!important;
-        letter-spacing:-.06em!important;
-        font-weight:950!important;
-      }
-      #mx-membership-freedom .mxf-card strong{
-        margin-top:16px!important;
-        color:#fff!important;
-        font-size:23px!important;
-        line-height:1.12!important;
-        letter-spacing:-.035em!important;
-        font-weight:900!important;
-        white-space:nowrap!important;
-      }
-      #mx-membership-freedom .mx-refund-card{
-        min-height:222px!important;
-        transform:translateY(34px) scale(.92)!important;
-        border-color:rgba(131,215,255,.56)!important;
-        background:
-          radial-gradient(circle at 50% 0%,rgba(88,174,255,.25),transparent 58%),
-          linear-gradient(180deg,rgba(48,129,255,.25),rgba(255,255,255,.07))!important;
-        box-shadow:0 26px 76px rgba(34,115,255,.30)!important;
-      }
-      #mx-membership-freedom.is-active .mx-refund-card{
-        transform:scale(1.045)!important;
-        animation:mxfRefundPulse 2.8s ease-in-out 1.2s infinite!important;
-      }
-      #mx-membership-freedom .mx-refund-card .mxf-zero{
-        color:#fff!important;
-        font-size:clamp(70px,6.8vw,92px)!important;
-      }
-      #mx-membership-freedom .mx-refund-card strong{
-        color:#9cddff!important;
-        font-size:26px!important;
-      }
-      #mx-membership-freedom .mxf-note{
-        max-width:860px!important;
-        margin:28px auto 0!important;
-        color:#6f87a4!important;
-        font-size:11px!important;
-        line-height:1.5!important;
-        text-align:center!important;
-        opacity:0!important;
-        transform:translateY(12px)!important;
-        transition:opacity .5s ease .5s,transform .6s ease .5s!important;
-      }
-      #mx-membership-freedom.is-active .mxf-note{
-        opacity:1!important;
-        transform:none!important;
-      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       @keyframes mxfRefundPulse{
         0%,100%{box-shadow:0 26px 76px rgba(34,115,255,.28),0 0 0 0 rgba(88,174,255,.18)}
         50%{box-shadow:0 32px 90px rgba(34,115,255,.42),0 0 0 10px rgba(88,174,255,0)}
       }
 
       @media(max-width:780px){
-        #mx-membership-freedom{
-          width:calc(100% - 34px)!important;
-          margin-bottom:34px!important;
-          padding:78px 0 18px!important;
-        }
-        #mx-membership-freedom::before{
-          top:12px!important;
-          width:96vw!important;
-          height:360px!important;
-        }
-        #mx-membership-freedom .mxf-title{
-          max-width:430px!important;
-          font-size:clamp(42px,11.4vw,52px)!important;
-          line-height:1.02!important;
-        }
-        #mx-membership-freedom .mxf-grid{
-          grid-template-columns:repeat(2,minmax(0,1fr))!important;
-          gap:10px!important;
-          margin-top:40px!important;
-        }
-        #mx-membership-freedom .mxf-card{
-          min-height:132px!important;
-          padding:20px 6px!important;
-          border-radius:20px!important;
-        }
-        #mx-membership-freedom .mxf-penalty{grid-column:1!important;grid-row:2!important}
-        #mx-membership-freedom .mxf-contract{grid-column:2!important;grid-row:2!important}
-        #mx-membership-freedom .mx-refund-card{
-          grid-column:1/-1!important;
-          grid-row:1!important;
-          min-height:176px!important;
-          transform:translateY(28px) scale(.95)!important;
-        }
-        #mx-membership-freedom.is-active .mx-refund-card{
-          transform:none!important;
-        }
-        #mx-membership-freedom .mxf-zero{
-          font-size:clamp(40px,11vw,50px)!important;
-        }
-        #mx-membership-freedom .mxf-card strong{
-          margin-top:10px!important;
-          font-size:15px!important;
-        }
-        #mx-membership-freedom .mx-refund-card .mxf-zero{
-          font-size:clamp(58px,16vw,72px)!important;
-        }
-        #mx-membership-freedom .mx-refund-card strong{
-          margin-top:12px!important;
-          font-size:21px!important;
-        }
-        #mx-membership-freedom .mxf-note{
-          margin-top:16px!important;
-          font-size:9px!important;
-          line-height:1.45!important;
-        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
       }
 
       @media(prefers-reduced-motion:reduce){
-        #mx-membership-freedom .mxf-title,
-#mx-membership-freedom .mxf-card,
-#mx-membership-freedom .mxf-note{
-          opacity:1!important;
-          transform:none!important;
-          transition:none!important;
-          animation:none!important;
-        }
+        
       }
 
       #mx-point-example{}
       
 
       @media(max-width:780px){
-        #mx-travel-expansion{border-top-width:5px!important;border-bottom-width:5px!important}
+        
       }
 
 
 /* ===== membership-refund-assurance-v1.js ===== */
-#mx-membership-freedom .mx-refund-card{
-        border-color:rgba(131,215,255,.56)!important;
-      }
+
 
 
 /* ===== MEMBERSHIP PLAN CARDS — SINGLE STYLE OWNER (2026-11-11) =====
@@ -5907,9 +5573,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   margin: 0 auto;
   padding: 0;
 }
-#plans #mx-membership-freedom{
-  margin-bottom: 52px;
-}
+
 #plans .membership-section-head{
   max-width: 760px;
   margin: 0 auto 48px;
@@ -6116,9 +5780,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #plans .plans-wrap{
     width: calc(100% - 32px);
   }
-  #plans #mx-membership-freedom{
-    margin-bottom: 36px;
-  }
+  
   #plans .membership-section-head{
     margin-bottom: 30px;
   }
@@ -6686,4 +6348,296 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #price-pain .mv2-mega { font-size: clamp(55px, 15vw, 76px); }
   #mx-lowest-price .mxg-mega { font-size: clamp(54px, 14vw, 76px); }
   #guide-question .mx9-clia-proof { margin-top: 26px; }
+}
+
+
+/* ===== ONE OWNER: MEMBERSHIP BENEFITS, TRAVEL, TERMS / 2026-11-11 ===== */
+#mx-member-booking-benefits {
+  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
+  background:#10263f; color:#fff; text-align:center;
+}
+#mx-member-booking-benefits .mx18-benefit-inner {
+  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
+}
+#mx-member-booking-benefits .mx18-benefit-title {
+  max-width:830px; margin:0 auto; color:#fff;
+  font-size:clamp(34px,4.5vw,54px); line-height:1.16;
+  letter-spacing:-.045em; font-weight:850; word-break:keep-all;
+}
+#mx-member-booking-benefits .mx18-benefit-title strong { color:#9dc9ff; }
+#mx-member-booking-benefits .mx18-benefit-cards {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch; gap:16px; max-width:1020px; margin:38px auto 0;
+}
+#mx-member-booking-benefits .mx18-benefit-card {
+  box-sizing:border-box; display:flex; flex-direction:column; align-items:flex-start;
+  min-width:0; min-height:185px; margin:0; padding:25px 24px;
+  border:1px solid #365373; border-radius:18px; background:#173451;
+  color:#fff; text-align:left; box-shadow:none;
+  opacity:1; transform:none; filter:none; animation:none;
+}
+#mx-member-booking-benefits .mx18-benefit-card::after { content:none; }
+#mx-member-booking-benefits .mx18-benefit-result {
+  background:#1c4070; border-color:#648dce; grid-column:auto;
+}
+#mx-member-booking-benefits .mx18-step {
+  box-sizing:border-box; display:inline-flex; align-items:center;
+  justify-content:center; min-width:36px; min-height:26px; padding:4px 9px;
+  border:1px solid #517294; border-radius:7px;
+  color:#b7d5fb; font-size:12px; font-weight:850;
+}
+#mx-member-booking-benefits .mx18-benefit-card>strong {
+  display:block; margin:22px 0 0; color:#fff;
+  font-size:clamp(21px,2vw,27px); line-height:1.22; font-weight:850;
+  letter-spacing:-.04em; word-break:keep-all;
+}
+#mx-member-booking-benefits .mx18-benefit-card>p {
+  margin:9px 0 0; color:#c3d4e7; font-size:16px;
+  font-weight:500; line-height:1.5; word-break:keep-all;
+}
+#mx-member-booking-benefits .mx18-proof-strip {
+  box-sizing:border-box; grid-column:1/-1; display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr)); margin:4px 0 0;
+  border:1px solid #3e5b7a; border-radius:14px; background:#0b2036;
+  overflow:hidden; text-align:center;
+}
+#mx-member-booking-benefits .mx18-proof-strip>div {
+  min-width:0; padding:22px 12px; border-right:1px solid #3e5b7a;
+}
+#mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-right:0; }
+#mx-member-booking-benefits .mx18-proof-strip span {
+  display:block; color:#bfcede; font-size:14px; line-height:1.4; font-weight:650;
+}
+#mx-member-booking-benefits .mx18-proof-strip strong {
+  display:block; margin:8px 0 0; color:#fff;
+  font-size:clamp(22px,2.4vw,29px); font-weight:850;
+  line-height:1.15; letter-spacing:-.045em; white-space:nowrap;
+}
+#mx-member-booking-benefits .mx18-proof-strip .accent strong { color:#9dc9ff; }
+#mx-member-booking-benefits .mx18-benefit-cta {
+  box-sizing:border-box; display:flex; justify-content:center; align-items:center;
+  gap:12px; width:min(440px,100%); min-height:58px;
+  margin:30px auto 0; padding:13px 20px; border:1px solid #2468e8;
+  border-radius:12px; background:#2468e8; color:#fff;
+  font-size:17px; font-weight:800; line-height:1.3; text-decoration:none;
+  box-shadow:none; opacity:1; transform:none; animation:none;
+  transition:background-color .16s ease;
+}
+#mx-member-booking-benefits .mx18-benefit-cta::before { content:none; }
+#mx-member-booking-benefits .mx18-benefit-cta b {
+  font-size:19px; animation:none;
+}
+#mx-member-booking-benefits .mx18-benefit-cta:hover { background:#1857c4; }
+#mx-member-booking-benefits .mx18-benefit-cta:focus-visible {
+  outline:3px solid #b2d5ff; outline-offset:3px;
+}
+#mx-travel-expansion {
+  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
+  border:0; background:#f6f8fb; color:#142035;
+  text-align:center; overflow:hidden;
+}
+#mx-travel-expansion::before { content:none; }
+#mx-travel-expansion .mxt-inner {
+  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
+}
+#mx-travel-expansion .mxt-kicker {
+  display:inline-block; color:#2468e8; font-size:14px; font-weight:850;
+}
+#mx-travel-expansion h2 {
+  max-width:800px; margin:12px auto 0; color:#15243b;
+  font-size:clamp(34px,4.3vw,52px); font-weight:850;
+  letter-spacing:-.04em; line-height:1.16; word-break:keep-all;
+}
+#mx-travel-expansion h2 strong { color:#2468e8; }
+#mx-travel-expansion .mxt-cards {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch; gap:16px; width:100%;
+  margin:34px auto 0; padding:0; overflow:visible;
+}
+#mx-travel-expansion .mxt-card {
+  box-sizing:border-box; position:relative; display:flex; flex-direction:column;
+  align-items:flex-start; min-width:0; min-height:172px;
+  margin:0; padding:23px; border:1px solid #dce4ee;
+  border-radius:18px; background:#fff; color:#15243b;
+  text-align:left; box-shadow:none; opacity:1; transform:none;
+  filter:none; animation:none;
+}
+#mx-travel-expansion .mxt-card::after { content:none; }
+#mx-travel-expansion .mxt-num,
+#mx-travel-expansion .mxt-guarantee {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:25px; padding:5px 9px; border-radius:7px;
+  background:#e9f0fc; color:#2468e8; font-size:12px;
+  line-height:1.15; font-weight:800; box-shadow:none;
+}
+#mx-travel-expansion .mxt-guarantee { margin-left:8px; }
+#mx-travel-expansion .mxt-card strong {
+  display:block; margin:20px 0 0; color:#15243b;
+  font-size:26px; font-weight:850; letter-spacing:-.04em; line-height:1.2;
+}
+#mx-travel-expansion .mxt-card p {
+  margin:9px 0 0; color:#667990; font-size:15px;
+  line-height:1.5; word-break:keep-all;
+}
+/* Refund / cancellation / commitment facts are a compact part of the plans. */
+#plans #mx-membership-freedom {
+  box-sizing:border-box; width:100%; min-height:0;
+  margin:0 auto 52px; padding:0 0 28px;
+  background:transparent; color:#15243b;
+  border:0; overflow:visible; text-align:center;
+}
+#plans #mx-membership-freedom::before { content:none; }
+#plans #mx-membership-freedom .mxf-inner { width:100%; margin:0 auto; }
+#plans #mx-membership-freedom .mxf-title {
+  max-width:720px; margin:0 auto; padding:0;
+  color:#15243b; font-size:clamp(26px,3.2vw,38px);
+  line-height:1.18; letter-spacing:-.04em; font-weight:850;
+  word-break:keep-all; opacity:1; transform:none;
+}
+#plans #mx-membership-freedom .mxf-title strong { color:#2468e8; }
+#plans #mx-membership-freedom .mxf-grid {
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px; width:100%; margin:22px auto 0; padding:0;
+}
+#plans #mx-membership-freedom .mxf-card {
+  box-sizing:border-box; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; min-width:0; min-height:120px;
+  margin:0; padding:18px 12px; border:1px solid #d6e0ef;
+  border-radius:14px; background:#fff; color:#15243b;
+  text-align:center; box-shadow:none; opacity:1; transform:none;
+  filter:none; animation:none; transition:none;
+}
+#plans #mx-membership-freedom .mx-refund-card {
+  grid-column:auto; grid-row:auto; border-color:#8daef0; background:#f0f5ff;
+}
+#plans #mx-membership-freedom .mxf-zero,
+#plans #mx-membership-freedom .mx-refund-card .mxf-zero {
+  color:#2468e8; font-size:clamp(29px,3.4vw,42px);
+  font-weight:900; line-height:1.12; letter-spacing:-.045em;
+}
+#plans #mx-membership-freedom .mxf-card strong,
+#plans #mx-membership-freedom .mx-refund-card strong {
+  display:block; margin:9px 0 0; color:#243550;
+  font-size:16px; font-weight:750; line-height:1.35; white-space:normal;
+}
+#plans #mx-membership-freedom .mxf-note {
+  max-width:850px; margin:14px auto 0;
+  color:#536781; font-size:13px; line-height:1.55;
+  text-align:center; opacity:1; transform:none; word-break:keep-all;
+}
+/* Six conditions remain fully readable without opening an accordion. */
+#membership-terms {
+  box-sizing:border-box; width:100%; padding:84px 0 100px;
+  background:#0d1c30; color:#fff; text-align:center;
+}
+#membership-terms .mx21-inner { width:min(1040px,calc(100% - 48px)); margin:0 auto; }
+#membership-terms .mx21-kicker {
+  display:inline-block; margin:0 0 12px;
+  color:#abcdf6; font-size:14px; font-weight:800;
+}
+#membership-terms .mx21-title {
+  margin:0 auto; color:#fff; font-size:clamp(32px,4.3vw,52px);
+  line-height:1.17; letter-spacing:-.045em; font-weight:850;
+}
+#membership-terms .mx21-title strong { color:#a5ccff; }
+#membership-terms .mx21-terms {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch; gap:12px; width:100%;
+  margin:32px auto 0; padding:0; border:0;
+}
+#membership-terms .mx21-term-card {
+  box-sizing:border-box; display:flex; align-items:flex-start; gap:15px;
+  min-width:0; min-height:132px; margin:0; padding:22px;
+  border:1px solid #314761; border-radius:14px;
+  background:#152a42; text-align:left;
+}
+#membership-terms .mx21-term-num {
+  flex:0 0 29px; color:#93bbf6; font-size:14px;
+  font-weight:850; line-height:1.5;
+}
+#membership-terms .mx21-term-copy { min-width:0; }
+#membership-terms .mx21-term-copy h3 {
+  margin:0; color:#fff; font-size:19px; font-weight:850; line-height:1.35;
+}
+#membership-terms .mx21-term-copy p {
+  margin:9px 0 0; color:#c2d2e4; font-size:15px;
+  font-weight:500; line-height:1.55; word-break:keep-all;
+}
+@media (max-width:780px) {
+  #mx-member-booking-benefits { padding:66px 0 74px; }
+  #mx-member-booking-benefits .mx18-benefit-inner,
+  #mx-travel-expansion .mxt-inner,
+  #membership-terms .mx21-inner { width:calc(100% - 32px); }
+  #mx-member-booking-benefits .mx18-benefit-title,
+  #mx-travel-expansion h2 { font-size:clamp(31px,8.8vw,39px); }
+  #mx-member-booking-benefits .mx18-benefit-cards {
+    grid-template-columns:minmax(0,1fr); gap:10px; margin-top:28px;
+  }
+  #mx-member-booking-benefits .mx18-benefit-card,
+  #mx-member-booking-benefits .mx18-benefit-result {
+    min-height:0; padding:21px; border-radius:14px;
+  }
+  #mx-member-booking-benefits .mx18-benefit-card>strong {
+    margin-top:16px; font-size:24px;
+  }
+  #mx-member-booking-benefits .mx18-benefit-card>p { font-size:15px; }
+  #mx-member-booking-benefits .mx18-proof-strip {
+    grid-template-columns:minmax(0,1fr); margin-top:4px;
+  }
+  #mx-member-booking-benefits .mx18-proof-strip>div {
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px; padding:14px 16px; border-right:0;
+    border-bottom:1px solid #3e5b7a; text-align:left;
+  }
+  #mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-bottom:0; }
+  #mx-member-booking-benefits .mx18-proof-strip span { font-size:14px; }
+  #mx-member-booking-benefits .mx18-proof-strip strong {
+    margin:0; font-size:clamp(19px,5.5vw,24px); text-align:right;
+  }
+  #mx-member-booking-benefits .mx18-benefit-cta {
+    min-height:56px; margin-top:24px; font-size:16px;
+  }
+  #mx-travel-expansion { padding:66px 0 72px; }
+  #mx-travel-expansion .mxt-cards {
+    grid-template-columns:minmax(0,1fr); gap:10px; margin-top:27px;
+  }
+  #mx-travel-expansion .mxt-card {
+    min-height:0; padding:20px; border-radius:14px; scroll-snap-align:none;
+  }
+  #mx-travel-expansion .mxt-card strong { margin-top:15px; font-size:24px; }
+  #plans #mx-membership-freedom {
+    margin-bottom:32px; padding-bottom:14px;
+  }
+  #plans #mx-membership-freedom .mxf-title {
+    font-size:clamp(26px,7vw,32px);
+  }
+  #plans #mx-membership-freedom .mxf-grid { gap:7px; margin-top:18px; }
+  #plans #mx-membership-freedom .mxf-card {
+    min-height:100px; padding:13px 4px; border-radius:11px;
+  }
+  #plans #mx-membership-freedom .mxf-zero,
+  #plans #mx-membership-freedom .mx-refund-card .mxf-zero {
+    font-size:clamp(23px,6.6vw,31px);
+  }
+  #plans #mx-membership-freedom .mxf-card strong,
+  #plans #mx-membership-freedom .mx-refund-card strong {
+    margin-top:5px; font-size:clamp(11px,3.2vw,13px);
+  }
+  #plans #mx-membership-freedom .mxf-note {
+    margin-top:13px; text-align:left; font-size:12px;
+  }
+  #membership-terms { padding:66px 0 74px; }
+  #membership-terms .mx21-title { font-size:clamp(32px,8.5vw,40px); }
+  #membership-terms .mx21-terms {
+    grid-template-columns:minmax(0,1fr); gap:9px; margin-top:25px;
+  }
+  #membership-terms .mx21-term-card {
+    min-height:0; padding:18px 16px; gap:12px; border-radius:12px;
+  }
+  #membership-terms .mx21-term-num { flex-basis:24px; font-size:13px; }
+  #membership-terms .mx21-term-copy h3 { font-size:17px; }
+  #membership-terms .mx21-term-copy p { margin-top:6px; font-size:14px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #mx-member-booking-benefits .mx18-benefit-cta { transition:none; }
 }
