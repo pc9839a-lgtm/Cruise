@@ -107,6 +107,40 @@ jobs:
                     refunds:cardDims('#mx-membership-freedom .mxf-card'),
                     terms:cardDims('#membership-terms .mx21-term-card')};
                 });
+                const alignmentAudit = await page.evaluate(() => {
+                  const screenCenter=innerWidth/2;
+                  const rect = el => {
+                    if(!el)return null;
+                    const r=el.getBoundingClientRect(),st=getComputedStyle(el);
+                    return {x:Math.round(r.left),w:Math.round(r.width),center:Math.round((r.left+r.right)/2),
+                      delta:Math.round((r.left+r.right)/2-screenCenter),
+                      textAlign:st.textAlign,display:st.display,
+                      marginLeft:st.marginLeft,marginRight:st.marginRight,
+                      justify:st.justifyContent,align:st.alignItems,
+                      transform:st.transform,
+                      opacity:st.opacity,position:st.position,
+                      paddingLeft:st.paddingLeft,paddingRight:st.paddingRight};
+                  };
+                  const result=[...document.querySelectorAll('main > section')].map((sec,i)=>{
+                    const children=[...sec.children].filter(el=>getComputedStyle(el).display!=='none');
+                    const heading=sec.querySelector('h1,h2');
+                    const headingWrap=heading?.parentElement;
+                    const wrapper=children.find(el=>{
+                      const r=el.getBoundingClientRect();
+                      return r.width>75&&r.height>40&&!el.classList.contains('page-glow');
+                    })||children[0]||null;
+                    const blocks=[...sec.querySelectorAll('.mv2-inner,.container,.mx7-wide-inner,.mx11-inner,.mx12-inner,.mx13-inner,.mxg-inner,.mx10p-inner,.mxp-inner,.membership-v3-price-inner,.section-head,.mv2-pay,.mx8-payment-stack,.mx13-simple-list,.mx10p-price-grid,.result-grid,#planCards,.mx21-terms')]
+                      .filter(el=>{const r=el.getBoundingClientRect();return r.width>60&&r.height>10})
+                      .slice(0,6).map(el=>({cl:String(el.className).slice(0,85),...rect(el)}));
+                    return {i:i+1,id:sec.id||sec.className,section:rect(sec),
+                      wrapper:rect(wrapper),wrapperClass:wrapper?.className,
+                      heading:rect(heading),headingText:heading?.innerText?.slice(0,80),
+                      headingWrap:rect(headingWrap),headingWrapClass:String(headingWrap?.className||'').slice(0,100),
+                      blocks};
+                  });
+                  return {width:innerWidth,result};
+                });
+                console.log('MEMBERSHIP_CENTER_AUDIT '+JSON.stringify(alignmentAudit));
                 const controls = await page.evaluate(() => {
                   const input=document.getElementById('cruisePrice');
                   const standard=document.querySelector('.mode-btn[data-mode="general"]');
