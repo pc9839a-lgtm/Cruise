@@ -8,9 +8,6 @@ export async function onRequest(context) {
     .on('script[src*="membership-entry-survey-v2.js"]', {
       element(element) { element.setAttribute('src', '/membership/membership-entry-survey-v2.js?v=20261111-cssunified1'); }
     })
-    .on('script[src*="membership-calc-plans-v2.js"]', {
-      element(element) { element.setAttribute('src', '/membership/membership-calc-plans-v2.js?v=20260905-plan72'); }
-    })
     .on('script[src*="membership-page-v2.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-expansion-v1.js"]', { element(element) { element.remove(); } })
     .on('script[src*="membership-stage3-v1.js"]', { element(element) { element.remove(); } })
@@ -31,7 +28,7 @@ export async function onRequest(context) {
         element.append(
           '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 선택 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">내 멤버십 선택하기</a></div></div>' +
           '<script defer src="/membership/membership-scaffold-v1.js?v=20261111-cssunified1"></script>' +
-          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-planowner2"></script>' +
+          '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-calc3"></script>' +
           '<script defer src="/membership/membership-section3-port-v1.js?v=20261111-cssunified1"></script>' +
           '<script defer src="/membership/membership-section4-moving-hotel-v1.js?v=20261111-cssunified1"></script>' +
           '<script defer src="/membership/membership-impact-flow-v1.js?v=20260903-flow15"></script>' +
@@ -41,8 +38,8 @@ export async function onRequest(context) {
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20260903-flow30"></script>' +
           '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20261111-cssunified1"></script>' +
           '<script defer src="/membership/membership-section13-14-points-v1.js?v=20261111-cssunified1"></script>' +
-          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20261111-cssunified1"></script>' +
-          '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20260903-flow32"></script>' +
+          '<script defer src="/membership/membership-section15-16-point-payment-v1.js?v=20261111-calc3"></script>' +
+          '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20261111-calc3"></script>' +
           '<script defer src="/membership/membership-section19-20-plan-choice-v1.js?v=20261111-planowner2"></script>' +
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
           '<script defer src="/membership/membership-travel-expansion-v1.js?v=20261111-cssunified1"></script>' +

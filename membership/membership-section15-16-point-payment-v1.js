@@ -16,22 +16,6 @@
     /* Styles are served by membership-unified.css; do not inject style tags. */
   }
 
-  function applyCashSplitStyles() {
-    const total = document.getElementById('mx-actual-cash-total');
-    if (!total) return;
-    const mobile = window.matchMedia('(max-width: 780px)').matches;
-    const inner = total.querySelector('.mx14-total-inner');
-    const lead = total.querySelector('.mx14-total-lead');
-    const value = total.querySelector('.mx14-total-value');
-    const note = total.querySelector('.mx14-total-note');
-
-    total.style.setProperty('padding', mobile ? '96px 0 116px' : '150px 0 170px');
-    if (inner) inner.style.setProperty('width', mobile ? 'calc(100% - 34px)' : 'min(1180px,calc(100% - 64px))');
-    if (lead) lead.style.setProperty('font-size', mobile ? '21px' : 'clamp(24px,2.4vw,34px)');
-    if (value) value.style.setProperty('font-size', mobile ? 'clamp(56px,16vw,76px)' : 'clamp(88px,10vw,154px)');
-    if (note) note.style.setProperty('font-size', mobile ? '13px' : '16px');
-  }
-
   function buildSections14To16() {
     const pointExample = document.getElementById('mx-point-example');
     const calculator = document.getElementById('calculator');
@@ -48,7 +32,7 @@
       <div class="mx14-inner">
         <span class="mx14-kicker">실제 예약 결과</span>
         <h2>실제로 나간 돈을<br><strong>두 개로 나눠보면</strong></h2>
-        <div class="mx14-equation" aria-label="실제 현금 부담 구성" style="grid-template-columns:1fr auto 1fr!important;max-width:860px!important;">
+        <div class="mx14-equation" aria-label="실제 현금 부담 구성">
           <div><span>POINT를 만들기 위해 낸 금액</span><strong>$1,000</strong></div>
           <i>+</i>
           <div><span>예약 당시 카드 결제</span><strong>$2,020.88</strong></div>
@@ -57,12 +41,11 @@
 
     const cashTotal = ensureSection('mx-actual-cash-total', 'mx14-total-section');
     cashTotal.setAttribute('data-membership-section', '14.5');
-    cashTotal.setAttribute('style', 'box-sizing:border-box;width:100%;margin:0;padding:150px 0 170px;background:#07111f;color:#fff;text-align:center;overflow:hidden;font-family:Pretendard,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;');
     cashTotal.innerHTML = `
-      <div class="mx14-total-inner" style="box-sizing:border-box;width:min(1180px,calc(100% - 64px));margin:0 auto;">
-        <p class="mx14-total-lead" style="margin:0;font-size:clamp(24px,2.4vw,34px);line-height:1.35;font-weight:900;color:#c8d3df;">그래서 제가 실제로 부담한 금액은</p>
-        <div class="mx14-total-value" style="margin:28px auto 0;font-size:clamp(88px,10vw,154px);line-height:.94;letter-spacing:-.06em;font-weight:950;color:#86d4ff;">$3,020.88</div>
-        <p class="mx14-total-note" style="margin:30px auto 0;font-size:16px;line-height:1.5;font-weight:800;color:#8fa0b4;">처리 수수료 $60.63 별도</p>
+      <div class="mx14-total-inner">
+        <p class="mx14-total-lead">그래서 제가 실제로 부담한 금액은</p>
+        <div class="mx14-total-value">$3,020.88</div>
+        <p class="mx14-total-note">처리 수수료 $60.63 별도</p>
       </div>`;
 
     const proof = ensureSection('mx-booking-proof', 'mx15-proof-section');
@@ -100,11 +83,6 @@
     if (guide.nextElementSibling !== calculator) guide.insertAdjacentElement('afterend', calculator);
 
     installGuideMediaStyles();
-    applyCashSplitStyles();
-    if (cashTotal.dataset.splitResizeBound !== '1') {
-      cashTotal.dataset.splitResizeBound = '1';
-      window.addEventListener('resize', applyCashSplitStyles, { passive: true });
-    }
 
     return true;
   }
