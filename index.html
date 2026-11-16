@@ -90,7 +90,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="assets/css/styles.css?v=20261021-adsense-review-gallery" />
   <link rel="stylesheet" href="/assets/css/route-comparison.css">
-  <link rel="stylesheet" href="/assets/css/home-membership.css?v=20261116-1">
+  <link rel="stylesheet" href="/assets/css/membership-summary-inline-20261116.css">
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJCVD25N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -199,22 +199,22 @@
             <button type="button" class="review-nav next" data-review-nav="next" aria-label="다음 후기">›</button>
           </div>
           <div class="review-dots" id="reviewDots"></div>
-          <section class="home-membership" id="membershipHomeSection" aria-labelledby="membershipHomeTitle">
+          <section class="membership-summary-inline" id="membershipHomeSection" aria-labelledby="membershipHomeTitle">
             <div class="sheet-extra-head">
               <span class="sheet-extra-label">CRUISE MEMBERSHIP</span>
               <h2 class="sheet-extra-title" id="membershipHomeTitle">크루즈 멤버십</h2>
             </div>
-            <div class="home-membership__prices" aria-label="클래식 멤버십 적립 안내">
-              <div class="home-membership__price">
-                <span>CLASSIC · 첫 결제</span>
-                <strong>$200 <em aria-label="적립">→</em> 350P</strong>
-              </div>
-              <div class="home-membership__price">
-                <span>CLASSIC · 이후 매월</span>
-                <strong>$100 <em aria-label="적립">→</em> 200P</strong>
-              </div>
+            <div class="sheet-extra-grid membership-summary-grid" aria-label="클래식 멤버십 적립 금액">
+              <article class="sheet-extra-card membership-summary-card">
+                <span class="membership-summary-card-label">클래식 · 첫 결제</span>
+                <strong class="membership-summary-amount">$200 <span aria-hidden="true">→</span> 350P</strong>
+              </article>
+              <article class="sheet-extra-card membership-summary-card">
+                <span class="membership-summary-card-label">클래식 · 이후 매월</span>
+                <strong class="membership-summary-amount">$100 <span aria-hidden="true">→</span> 200P</strong>
+              </article>
             </div>
-            <div class="home-membership__action">
+            <div class="membership-summary-action">
               <a href="/membership/" class="btn" data-membership-link>멤버십 자세히 보기</a>
             </div>
           </section>
