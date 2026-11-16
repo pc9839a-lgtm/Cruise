@@ -190,7 +190,7 @@ class PartnerHeroInjector {
 class RemoveElement { element(element) { element.remove(); } }
 class HomepageContentInjector { element(element) { element.setInnerContent(HOMEPAGE_CONTENT_CARDS, { html: true }); } }
 class HomepageNavInjector { element(element) { element.append(HOMEPAGE_CAFE_NAV, { html: true }); } }
-class HomepageCafeSectionInjector { element(element) { element.append(HOMEPAGE_CAFE_SECTION, { html: true }); } }
+class HomepageCafeSectionInjector { element(element) { element.after(HOMEPAGE_CAFE_SECTION, { html: true }); } }
 class BlogNavInjector { element(element) { element.setInnerContent(BLOG_NAV, { html: true }); } }
 class BlogFooterInjector { element(element) { element.setInnerContent(BLOG_FOOTER, { html: true }); } }
 class BlogIndexTitleInjector { element(element) { element.setInnerContent(BLOG_INDEX_TITLE); } }
@@ -263,7 +263,7 @@ export async function onRequest(context) {
         .on('.sticky-inquiry-bar', new RemoveElement())
         .on('#mainNav', new HomepageNavInjector())
         .on('#contentGrid', new HomepageContentInjector())
-        .on('#reviews .review-wrap', new HomepageCafeSectionInjector());
+        .on('#reviews #reviewDots', new HomepageCafeSectionInjector());
     }
 
     if (isBlog) {
