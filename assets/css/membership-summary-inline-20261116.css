@@ -1,4 +1,4 @@
-/* 오케이크루즈 메인: 카페 아래 멤버십 · 공통 섹션/카드/버튼 스타일을 사용 */
+/* 오케이크루즈 메인: 카페 아래 멤버십 혜택 소개. 기존 섹션 UI 재사용 */
 .nav .nav-membership {
   color: var(--blue);
   font-weight: 800;
@@ -8,7 +8,6 @@
   text-decoration: underline;
   text-underline-offset: 5px;
 }
-
 #membershipHomeSection.membership-summary-inline {
   margin-top: 82px;
   padding: 78px 0 0;
@@ -17,52 +16,87 @@
   color: var(--text);
   text-align: center;
 }
-#membershipHomeSection .sheet-extra-head {
-  margin-bottom: 36px;
+#membershipHomeSection .membership-summary-head {
+  margin-bottom: 38px;
+  gap: 0;
 }
 #membershipHomeSection .sheet-extra-title {
   color: #071a42;
 }
+.membership-summary-discount {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 4px;
+  margin: 22px auto 0;
+  color: #071a42;
+  white-space: normal;
+}
+.membership-summary-discount-qualifier {
+  color: #40536c;
+  font-size: clamp(19px, 1.7vw, 24px);
+  font-weight: 800;
+}
+.membership-summary-discount strong {
+  color: #2563eb;
+  font-size: clamp(50px, 6vw, 82px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+.membership-summary-discount-separator {
+  color: #667b98;
+  font-size: clamp(30px, 3vw, 42px);
+  font-weight: 500;
+}
+.membership-summary-discount-word {
+  color: #071a42;
+  font-size: clamp(26px, 2.8vw, 40px);
+  font-weight: 900;
+  letter-spacing: -.04em;
+}
 #membershipHomeSection .membership-summary-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 26px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
 }
 #membershipHomeSection .membership-summary-card {
   min-width: 0;
-  min-height: 190px;
-  padding: 36px 24px;
+  min-height: 170px;
+  padding: 28px 18px;
   justify-content: center;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-align: center;
+  box-shadow: none;
+}
+.membership-summary-feature {
+  display: block;
+  color: #133e88;
+  font-size: clamp(35px, 4.1vw, 52px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.membership-summary-feature--travel {
+  font-size: clamp(30px, 3.2vw, 42px);
 }
 .membership-summary-card-label {
   display: block;
   color: #5f6b7c;
   font-size: 16px;
-  font-weight: 750;
-}
-.membership-summary-amount {
-  display: block;
-  color: #091a3b;
-  font-size: clamp(32px, 3.4vw, 46px);
-  font-weight: 900;
-  line-height: 1.25;
-  letter-spacing: -.04em;
-  white-space: nowrap;
-}
-.membership-summary-amount span {
-  color: var(--blue);
-  padding: 0 .12em;
-  font-size: .82em;
+  line-height: 1.45;
   font-weight: 700;
+  word-break: keep-all;
 }
 .membership-summary-action {
-  margin-top: 28px;
+  margin-top: 30px;
   text-align: center;
 }
 .membership-summary-action .btn {
-  min-width: 232px;
+  min-width: 250px;
 }
 @media (max-width: 768px) {
   .nav .nav-membership {
@@ -73,24 +107,42 @@
     margin-top: 64px;
     padding-top: 60px;
   }
-  #membershipHomeSection .sheet-extra-head {
+  #membershipHomeSection .membership-summary-head {
     margin-bottom: 28px;
+  }
+  .membership-summary-discount {
+    column-gap: 6px;
+    row-gap: 5px;
+    margin-top: 18px;
+  }
+  .membership-summary-discount-qualifier {
+    font-size: 15px;
+  }
+  .membership-summary-discount strong {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+  .membership-summary-discount-separator {
+    font-size: 23px;
+  }
+  .membership-summary-discount-word {
+    font-size: 23px;
   }
   #membershipHomeSection .membership-summary-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
   }
   #membershipHomeSection .membership-summary-card {
-    min-height: 144px;
-    padding: 26px 16px;
-    border-radius: 24px;
-    gap: 10px;
+    min-height: 122px;
+    padding: 20px 16px;
+    border-radius: 22px;
+    gap: 7px;
+  }
+  .membership-summary-feature,
+  .membership-summary-feature--travel {
+    font-size: 36px;
   }
   .membership-summary-card-label {
     font-size: 15px;
-  }
-  .membership-summary-amount {
-    font-size: clamp(30px, 8vw, 38px);
   }
   .membership-summary-action .btn {
     width: 100%;
