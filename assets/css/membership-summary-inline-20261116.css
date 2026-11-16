@@ -111,21 +111,21 @@
     margin-bottom: 28px;
   }
   .membership-summary-discount {
-    column-gap: 6px;
-    row-gap: 5px;
+    column-gap: 4px;
+    row-gap: 4px;
     margin-top: 18px;
   }
   .membership-summary-discount-qualifier {
-    font-size: 15px;
+    font-size: 14px;
   }
   .membership-summary-discount strong {
-    font-size: clamp(36px, 10vw, 52px);
+    font-size: clamp(29px, 8.3vw, 41px);
   }
   .membership-summary-discount-separator {
-    font-size: 23px;
+    font-size: 20px;
   }
   .membership-summary-discount-word {
-    font-size: 23px;
+    font-size: 20px;
   }
   #membershipHomeSection .membership-summary-grid {
     grid-template-columns: 1fr;
