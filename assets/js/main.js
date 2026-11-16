@@ -36,6 +36,7 @@
      --------------------------------------------------------- */
   const SECTION_SEQUENCE = [
     { order: 1, key: 'identitySection' },
+    { order: 1.5, key: 'membershipHomeSection' },
     { order: 2, key: 'contentSection' },
     { order: 3, key: 'basicInfoSection' },
     { order: 4, key: 'cabinsSection' },
@@ -125,7 +126,15 @@
 
   function bindStaticEvents() {
     if (mobileMenuToggle && mainNav) {
-      mobileMenuToggle.addEventListener('click', () => mainNav.classList.toggle('is-open'));
+      mobileMenuToggle.addEventListener('click', () => {
+        const isOpen = mainNav.classList.toggle('is-open');
+        mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      mainNav.addEventListener('click', event => {
+        if (!event.target.closest('a')) return;
+        mainNav.classList.remove('is-open');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+      });
     }
 
     document.addEventListener('click', (event) => {
@@ -1122,6 +1131,7 @@
   function getSectionNodeByKey(key) {
     const map = {
       identitySection: document.querySelector('.identity-section'),
+      membershipHomeSection: document.getElementById('membershipHomeSection'),
       scheduleSection: scheduleGrid ? scheduleGrid.closest('section') : document.querySelector('.schedule-section'),
       priceGuaranteeSection: document.querySelector('.price-guarantee-section'),
       reviewSection: reviewGrid ? reviewGrid.closest('section') : document.querySelector('.review-section'),
@@ -1442,18 +1452,18 @@
   }
 
   function setMembershipLink() {
-    const membershipLinkButton = document.getElementById('membershipLinkButton');
-    if (!membershipLinkButton) return;
+    // 메뉴·홈 섹션 CTA·기존 멤버십 링크에 동일한 추천인 코드를 유지한다.
+    const links = document.querySelectorAll('[data-membership-link], #membershipLinkButton, #stickyMembershipLink');
+    if (!links.length) return;
 
     const params = new URLSearchParams(window.location.search);
     const agentCode = String(params.get('agent') || '').trim();
-    const membershipUrl = new URL('https://cruiseplay-dyt.pages.dev/membership/');
+    const membershipUrl = new URL('/membership/', window.location.origin);
+    if (agentCode) membershipUrl.searchParams.set('agent', agentCode);
 
-    if (agentCode) {
-      membershipUrl.searchParams.set('agent', agentCode);
-    }
-
-    membershipLinkButton.href = membershipUrl.toString();
+    links.forEach(link => {
+      link.href = membershipUrl.pathname + membershipUrl.search;
+    });
   }
 
   function handleInitialInquiryNavigation() {
