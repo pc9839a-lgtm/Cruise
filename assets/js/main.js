@@ -36,7 +36,6 @@
      --------------------------------------------------------- */
   const SECTION_SEQUENCE = [
     { order: 1, key: 'identitySection' },
-    { order: 1.5, key: 'membershipHomeSection' },
     { order: 2, key: 'contentSection' },
     { order: 3, key: 'basicInfoSection' },
     { order: 4, key: 'cabinsSection' },
@@ -1131,7 +1130,6 @@
   function getSectionNodeByKey(key) {
     const map = {
       identitySection: document.querySelector('.identity-section'),
-      membershipHomeSection: document.getElementById('membershipHomeSection'),
       scheduleSection: scheduleGrid ? scheduleGrid.closest('section') : document.querySelector('.schedule-section'),
       priceGuaranteeSection: document.querySelector('.price-guarantee-section'),
       reviewSection: reviewGrid ? reviewGrid.closest('section') : document.querySelector('.review-section'),
