@@ -1,0 +1,99 @@
+/* 오케이크루즈 메인: 카페 아래 멤버십 · 공통 섹션/카드/버튼 스타일을 사용 */
+.nav .nav-membership {
+  color: var(--blue);
+  font-weight: 800;
+}
+.nav .nav-membership:hover,
+.nav .nav-membership:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+#membershipHomeSection.membership-summary-inline {
+  margin-top: 82px;
+  padding: 78px 0 0;
+  border-top: 1px solid #dfe6ef;
+  background: transparent;
+  color: var(--text);
+  text-align: center;
+}
+#membershipHomeSection .sheet-extra-head {
+  margin-bottom: 36px;
+}
+#membershipHomeSection .sheet-extra-title {
+  color: #071a42;
+}
+#membershipHomeSection .membership-summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+#membershipHomeSection .membership-summary-card {
+  min-width: 0;
+  min-height: 190px;
+  padding: 36px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.membership-summary-card-label {
+  display: block;
+  color: #5f6b7c;
+  font-size: 16px;
+  font-weight: 750;
+}
+.membership-summary-amount {
+  display: block;
+  color: #091a3b;
+  font-size: clamp(32px, 3.4vw, 46px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+.membership-summary-amount span {
+  color: var(--blue);
+  padding: 0 .12em;
+  font-size: .82em;
+  font-weight: 700;
+}
+.membership-summary-action {
+  margin-top: 28px;
+  text-align: center;
+}
+.membership-summary-action .btn {
+  min-width: 232px;
+}
+@media (max-width: 768px) {
+  .nav .nav-membership {
+    display: block;
+    width: 100%;
+  }
+  #membershipHomeSection.membership-summary-inline {
+    margin-top: 64px;
+    padding-top: 60px;
+  }
+  #membershipHomeSection .sheet-extra-head {
+    margin-bottom: 28px;
+  }
+  #membershipHomeSection .membership-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  #membershipHomeSection .membership-summary-card {
+    min-height: 144px;
+    padding: 26px 16px;
+    border-radius: 24px;
+    gap: 10px;
+  }
+  .membership-summary-card-label {
+    font-size: 15px;
+  }
+  .membership-summary-amount {
+    font-size: clamp(30px, 8vw, 38px);
+  }
+  .membership-summary-action .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
