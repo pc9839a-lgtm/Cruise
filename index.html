@@ -90,6 +90,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
   <link rel="stylesheet" href="assets/css/styles.css?v=20261021-adsense-review-gallery" />
   <link rel="stylesheet" href="/assets/css/route-comparison.css">
+  <link rel="stylesheet" href="/assets/css/home-membership.css?v=20261116-1">
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJCVD25N" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -101,12 +102,13 @@
           <span class="brand-dot"></span>
           <strong id="siteName">오케이크루즈</strong>
         </a>
-        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기" aria-controls="mainNav" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
         <nav class="nav" id="mainNav">
           <a href="#identity">브랜드 소개</a>
           <a href="#reviews">여행 후기</a>
+          <a href="/membership/" class="nav-membership" data-membership-link>크루즈 멤버십</a>
           <a href="/blog/">콘텐츠</a>
           <a href="#contact" class="nav-highlight">문의하기</a>
         </nav>
@@ -162,6 +164,36 @@
 
 
       
+
+      <!-- 홈 멤버십 소개: 상세 약관·플랜은 /membership/에서 확인 -->
+      <section class="home-membership" id="membershipHomeSection" aria-labelledby="membershipHomeTitle">
+        <div class="wrap home-membership__inner">
+          <span class="home-membership__eyebrow">CRUISE MEMBERSHIP</span>
+          <h2 class="home-membership__title" id="membershipHomeTitle">크루즈 여행,<br><strong>구독으로 준비하세요.</strong></h2>
+          <p class="home-membership__description">매달 여행 포인트를 적립하고, 원하는 크루즈를 예약할 때 사용하세요.<br>여행을 준비하는 또 하나의 방법입니다.</p>
+
+          <div class="home-membership__details" aria-label="클래식 멤버십 적립 예시">
+            <div class="home-membership__detail">
+              <span class="home-membership__detail-label">클래식 첫 결제</span>
+              <div class="home-membership__detail-value"><strong>$200</strong><span aria-hidden="true">→</span><strong>350P</strong></div>
+              <p>최초 가입 시 적립 예시</p>
+            </div>
+            <div class="home-membership__detail">
+              <span class="home-membership__detail-label">이후 매월</span>
+              <div class="home-membership__detail-value"><strong>$100</strong><span aria-hidden="true">→</span><strong>200P</strong></div>
+              <p>클래식 정기 납부 기준</p>
+            </div>
+            <div class="home-membership__detail">
+              <span class="home-membership__detail-label">적립 포인트 활용</span>
+              <div class="home-membership__detail-value home-membership__detail-value--text"><strong>크루즈 예약 시</strong></div>
+              <p>예약 유형별 사용 조건 적용</p>
+            </div>
+          </div>
+
+          <a class="home-membership__cta" href="/membership/" data-membership-link>멤버십 자세히 보기 <span aria-hidden="true">→</span></a>
+          <p class="home-membership__notice">포인트 사용 한도, 멤버십 유지 및 환불 조건은 상세 안내를 확인해주세요.</p>
+        </div>
+      </section>
 
 <section class="review-section" id="reviews">
         <div class="wrap review-wrap">
