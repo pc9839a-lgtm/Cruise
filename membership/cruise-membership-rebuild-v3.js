@@ -70,7 +70,7 @@ function renderPlans() {
     const englishName = premium ? 'PREMIUM' : 'CLASSIC';
     const cardType = premium ? 'mx-plan-premium' : 'mx-plan-classic';
     const tagline = premium ? '빠르게 적립' : '가볍게 시작';
-    const signupHref = state.membershipSignupUrl || '#';
+    const signupHref = state.membershipSignupUrl || '#membership-inquiry';
     const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
     return `
@@ -101,7 +101,7 @@ function renderPlans() {
             </div>
           </div>
         </div>
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${englishName} 시작하기</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '상담받기'}</a>
       </article>`;
   }).join('');
 
