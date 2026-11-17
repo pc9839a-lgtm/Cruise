@@ -48,25 +48,26 @@ for(const href of [
   '/blog/cruise-onboard-credit-obc-guide/',
   '/blog/cruise-deposit-final-payment-cancellation-guide/'
 ]) assert.ok(page.includes('href="'+href+'"'),'Related canonical internal link missing '+href);
-assert.equal(meta.length,70);
+assert.ok(meta.length>=70,'Previously published posts must remain present');
 const item=meta.filter(x=>x.slug===slug);
 assert.equal(item.length,1);
-assert.equal(meta[0].slug,slug,'New article must be top in canonical blog metadata');
+assert.ok(meta.findIndex(x=>x.slug===slug)<3,'MSC guide must remain near the top after newer posts');
 assert.equal(item[0].sort_order,-53);
-assert.equal((hub.match(/<article class="blog-card"/g)||[]).length,70);
-assert.ok(hub.includes('id="blogResultsCount">70</strong>'));
+assert.equal((hub.match(/<article class="blog-card"/g)||[]).length,meta.length);
+assert.ok(hub.includes('id="blogResultsCount">'+meta.length+'</strong>'));
 const hubCards=hub.slice(hub.indexOf('<article class="blog-card"'));
 assert.ok(hubCards.startsWith('<article class="blog-card"'));
-assert.ok(hubCards.slice(0,900).includes('/blog/'+slug+'/'),'Latest article should be first card');
+assert.ok(hubCards.indexOf('/blog/'+slug+'/')<hubCards.indexOf('/blog/cruise-family-4-guests-one-vs-two-cabins/'),
+  'MSC guide must remain above older family guide in blog cards');
 assert.equal((hub.match(new RegExp('/blog/'+slug+'/','g'))||[]).length,1);
 const sitemapUrls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x=>x[1]);
-assert.equal(sitemapUrls.length,78);
-assert.equal(new Set(sitemapUrls).size,78);
+assert.ok(sitemapUrls.length>=78,'Previously indexed editorial URLs must remain present');
+assert.equal(new Set(sitemapUrls).size,sitemapUrls.length);
 assert.ok(sitemapUrls.includes(url));
 assert.deepEqual(sitemapUrls,sitemapText,'XML/TXT sitemap ordering differs');
 for(const path of ['rss.xml','feed.xml']){
   const xml=read(path);
-  assert.equal((xml.match(/<item>/g)||[]).length,26);
+  assert.ok((xml.match(/<item>/g)||[]).length>=26,'Existing RSS items must remain present');
   assert.ok(xml.includes('<guid isPermaLink="true">'+url+'</guid>'));
   assert.ok(xml.includes('Wed, 04 Nov 2026'));
 }
@@ -79,4 +80,4 @@ for(const old of [
   assert.ok(sitemap.includes('<loc>'+site+'/blog/'+old+'/</loc><lastmod>2026-11-04</lastmod>'),
     'Backlink page lastmod missing '+old);
 }
-console.log('PASS: 1 new MSC experience guide, 70 blog articles, 78 sitemap URLs, 26 feeds, 5 official citations, 2 backlinks, all 11 sections');
+console.log('PASS: MSC experience guide preserved; '+meta.length+' blog articles, '+sitemapUrls.length+' sitemap URLs, 5 official citations, 2 backlinks, all 11 sections');

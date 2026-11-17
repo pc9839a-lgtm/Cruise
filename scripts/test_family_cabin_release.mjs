@@ -51,12 +51,26 @@ assert.ok(urls.length>=77,'Published sitemap must retain previous article URLs')
 assert.equal(new Set(urls).size,urls.length);
 assert.deepEqual(urls,textSitemap.trim().split(/\r?\n/));
 assert.ok(urls.includes(url));
+const feedGuids=[];
 for(const feed of ['rss.xml','feed.xml']){
  const xml=fs.readFileSync(feed,'utf8');
- assert.ok((xml.match(/<item>/g)||[]).length>=25);
- assert.ok(xml.includes('<guid isPermaLink="true">'+url+'</guid>'));
- assert.ok(xml.includes('<lastBuildDate>Wed, 04 Nov 2026'));
+ const items=(xml.match(/<item>/g)||[]).length;
+ const guids=[...xml.matchAll(/<guid isPermaLink="true">([^<]+)<\/guid>/g)].map(m=>m[1]);
+ const lastBuildText=xml.match(/<lastBuildDate>([^<]+)<\/lastBuildDate>/)?.[1];
+ const firstPubDateText=xml.match(/<item>[\s\S]*?<pubDate>([^<]+)<\/pubDate>/)?.[1];
+ const lastBuild=Date.parse(lastBuildText||'');
+ const newestPublished=Date.parse(firstPubDateText||'');
+ assert.ok(items>=25,'RSS item count unexpectedly low in '+feed);
+ assert.equal(guids.length,items,'RSS guid/item mismatch in '+feed);
+ assert.equal(new Set(guids).size,items,'Duplicate RSS guid in '+feed);
+ assert.ok(guids.includes(url),'Family cabin article missing from '+feed);
+ assert.ok(guids.includes('https://cruiseplay-dyt.pages.dev/blog/nagasaki-cruise-port-independent-shore-excursion-route/'),
+   'Latest published Nagasaki guide missing from '+feed);
+ assert.ok(Number.isFinite(lastBuild)&&Number.isFinite(newestPublished)&&lastBuild>=newestPublished,
+   'RSS lastBuildDate must be valid and not precede its newest article: '+feed);
+ feedGuids.push(guids);
 }
+assert.deepEqual(feedGuids[0],feedGuids[1],'Canonical RSS and alternate feed must list the same articles');
 for (const other of ['blog/cruise-with-kids-family-guide/index.html',
                      'blog/cruise-guarantee-stateroom-gty-guide/index.html']) {
   assert.ok(fs.readFileSync(other,'utf8').includes('href="/blog/'+slug+'/"'),other+' inbound link missing');
