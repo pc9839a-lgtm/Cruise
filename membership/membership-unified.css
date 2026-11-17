@@ -5746,41 +5746,6 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   outline: 3px solid #8eb4ff;
   outline-offset: 3px;
 }
-/* Compact reassurance follows the pricing cards, not a full section. */
-#plans .membership-plan-notice {
-  max-width:920px;
-  margin:25px auto 0;
-  padding:22px 20px;
-  border:1px solid #d9e3f0;
-  border-radius:14px;
-  background:#fff;
-  color:#31425d;
-  text-align:center;
-}
-#plans .membership-plan-notice p {
-  display:flex; justify-content:center; flex-wrap:wrap;
-  align-items:center; gap:8px;
-  margin:0; font-size:15px; line-height:1.5;
-}
-#plans .membership-plan-notice p strong {font-weight:800}
-#plans .membership-plan-notice p span {color:#92a1b7}
-#plans .membership-plan-notice small {
-  display:block; margin-top:8px;
-  color:#65758e; font-size:13px; line-height:1.55;
-  word-break:keep-all;
-}
-@media(max-width:760px){
-  #plans .membership-plan-notice {
-    margin-top:17px; padding:18px 15px; border-radius:12px;
-    text-align:left;
-  }
-  #plans .membership-plan-notice p {
-    justify-content:flex-start; gap:6px;
-    font-size:14px;
-  }
-  #plans .membership-plan-notice small {font-size:12px}
-}
-
 @media (max-width: 760px) {
   #plans{
   padding: 58px 0 70px;
@@ -6491,18 +6456,6 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 .member-comparison-note { margin:22px auto 0; max-width:690px; color:#e4ebf7; font-size:15px; line-height:1.65; }
 .member-inline-cta { margin:23px auto 0; }
 .member-calculator-disclosure { margin:20px 0 0; padding:0 6px; font-size:14px; line-height:1.7; color:#c0d0e2; word-break:keep-all; }
-.member-plan-consult {
-  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  gap:12px; margin:28px auto 14px; color:#52647c; font-size:15px;
-}
-.member-plan-consult a {
-  display:inline-flex; align-items:center; justify-content:center;
-  min-height:40px; padding:8px 16px; border:1px solid #9cbcf0;
-  border-radius:9px; background:#fff; color:#24519c; font-weight:800;
-  text-decoration:none;
-}
-.member-plan-consult a:hover { border-color:#2e66ff; background:#edf4ff; }
-.member-plan-consult a:focus-visible { outline:3px solid #86b8ff; outline-offset:3px; }
 .member-inquiry-section { background:#f4f7fc; padding:88px 24px 104px; scroll-margin-top:28px; }
 .member-inquiry-wrap { display:flex; flex-direction:column; align-items:center; gap:27px; width:min(100%,640px); margin:auto; }
 .member-inquiry-heading { min-width:0; text-align:center; }
