@@ -2471,17 +2471,17 @@ button{ font: inherit; border: none; cursor: pointer; }
 .hero-shell{
   position: relative;
   overflow: hidden;
-  min-height: 630px;
-  padding: 46px 38px 28px;
+  min-height: 520px;
+  padding: 44px 36px;
   border-radius: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   background:
     linear-gradient(180deg, rgba(7, 16, 40, 0.34) 0%, rgba(7, 16, 40, 0.72) 100%),
     radial-gradient(circle at 18% 20%, rgba(91, 144, 255, 0.22), transparent 28%),
-    radial-gradient(circle at 82% 26%, rgba(244, 201, 67, 0.14), transparent 24%),
     url('./img/KakaoTalk_20260405_150550057.jpg') center center / cover no-repeat !important;
   box-shadow: 0 34px 90px rgba(10, 20, 45, 0.24);
 }
@@ -6529,7 +6529,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 .member-sticky { display:none; }
 #calculator, #plans, #membership-inquiry { scroll-margin-top:30px; }
 @media (max-width:760px) {
-  .hero-section .hero-shell { min-height:0; padding:34px 16px 22px; }
+  .hero-section .hero-shell { min-height:370px; padding:32px 16px; }
   .member-hero-lead { font-size:15px; line-height:1.58; margin-top:16px; }
   .member-hero-actions { margin-top:20px; gap:11px; }
   .member-primary-cta { min-height:49px; font-size:16px; width:min(100%,300px); }
