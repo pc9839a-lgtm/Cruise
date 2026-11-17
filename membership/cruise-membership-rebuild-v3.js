@@ -124,13 +124,13 @@ function updateCalculator() {
 
   let requiredPoints = Math.floor(price * 0.5);
   let cash = price - requiredPoints;
-  let coverageText = '일반 예약 예시';
+  let coverageText = '멤버십 납부 누적 + 예약 카드 결제';
   let description = '일반 예약: 크루즈 금액의 최대 50%까지 POINT를 사용하고, 나머지는 카드로 결제하는 예시입니다.';
 
   if (isEarly) {
     requiredPoints = Math.floor(price * 1.5);
     cash = 0;
-    coverageText = '270일 이후 출발 예시';
+    coverageText = '270일 이후 출발 예시 · 멤버십 납부 누적';
     description = '출발까지 270일 이상 남은 예약: 사용 조건 충족 시 POINT로 크루즈 요금 전액을 결제하는 예시입니다.';
   }
 
@@ -148,7 +148,7 @@ function updateCalculator() {
 
   document.getElementById('pointLabel').textContent = '필요 POINT';
   document.getElementById('usablePoint').textContent = formatPoint(requiredPoints);
-  document.getElementById('pointKrw').textContent = `클래식 가입 적립 + 이후 ${monthlyPayments}회 월 적립 · 누적 납부 ${formatUsd(actualPaidToEarnPointsUsd)} (약 ${formatKrw(actualPaidToEarnPointsUsd * rate)})`;
+  document.getElementById('pointKrw').textContent = `클래식 최초 ${formatUsd(classic.startUsd)} + 월 ${formatUsd(classic.monthlyUsd)} × ${monthlyPayments}회 = 누적 ${formatUsd(actualPaidToEarnPointsUsd)}`;
 
   document.getElementById('cashLabel').textContent = '카드 결제';
   document.getElementById('cashUsd').textContent = formatUsd(cash);
