@@ -190,7 +190,17 @@ async function fetchExchangeRate() {
     state.exchangeRate = Number(data.rates.KRW);
     rateText.textContent = `USD 1 = ${formatKrw(state.exchangeRate)}`;
     statusText.textContent = '환율 자동 연동 완료';
-    updatedText.textContent = data.time_last_update_utc || '업데이트 시각 제공 안 됨';
+    const updatedAt = Date.parse(data.time_last_update_utc || '');
+    updatedText.textContent = Number.isFinite(updatedAt)
+      ? new Intl.DateTimeFormat('ko-KR', {
+          timeZone: 'Asia/Seoul',
+          month: 'numeric',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hourCycle: 'h23'
+        }).format(new Date(updatedAt)) + ' 기준'
+      : '업데이트 시각 확인 불가';
   } catch (error) {
     state.exchangeRate = DEFAULT_RATE;
     rateText.textContent = `USD 1 = ${formatKrw(state.exchangeRate)}`;
@@ -356,9 +366,10 @@ function initMembershipInquiry() {
   const sticky = document.getElementById('membershipStickyCta');
   if (!sticky) return;
 
-  // Plan signup buttons, terms and the inquiry form must never be covered by
+  // Calculator results, plan buttons, terms and the inquiry form must not be covered by
   // the floating consultation CTA. The partner landing uses the same principle.
   const protectedAreas = [
+    document.getElementById('calculator'),
     document.getElementById('plans'),
     document.getElementById('membership-terms'),
     document.getElementById('membership-inquiry'),
