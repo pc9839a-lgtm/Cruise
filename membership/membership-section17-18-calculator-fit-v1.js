@@ -36,13 +36,10 @@
     }
     const description = calculator.querySelector('#modeDescription');
     if (description) description.removeAttribute('aria-hidden');
-    for (const selector of ['.exchange-bar', '#cruiseKrw', '#pointKrw', '#cashKrw', '#coverageText', '#coverageSubtext']) {
-      calculator.querySelector(selector)?.setAttribute('aria-hidden', 'true');
-    }
 
     const totalBox = calculator.querySelector('#coverageRatio')?.closest('.result-box');
     const totalLabel = totalBox?.querySelector('span');
-    if (totalLabel) totalLabel.textContent = '총 결제 예시';
+    if (totalLabel) totalLabel.textContent = '총 누적 지출 예시';
     return true;
   }
 

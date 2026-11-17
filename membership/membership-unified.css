@@ -6033,15 +6033,46 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   color: #164eae;
 }
 #calculator #modeDescription { display:block; margin:14px 0 0; color:#d0deec; font-size:14px; font-weight:600; line-height:1.5; text-align:center; word-break:keep-all; }
-#calculator .exchange-bar,
 #calculator .calc-price-dup,
-#calculator #cruiseKrw,
-#calculator #pointKrw,
-#calculator #cashKrw,
-#calculator #coverageText,
-#calculator #coverageSubtext {
+#calculator #cruiseKrw {
   display: none;
 }
+#calculator .exchange-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  margin: 0 0 14px;
+  border: 1px solid #30435f;
+  border-radius: 12px;
+  background: #102a48;
+  color: #d7e8fa;
+  font-size: 13px;
+}
+#calculator .exchange-bar strong { color: #fff; font-size: 14px; }
+#calculator .exchange-meta { display: flex; gap: 5px; flex-wrap: wrap; color: #afc6de; font-size: 12px; }
+#calculator .result-box em {
+  display: block;
+  max-width: 100%;
+  margin: 2px 0 0;
+  color: #566981;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+#calculator .result-box small {
+  display: block;
+  color: #5a6d87;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+#calculator .result-box { gap: 8px; }
+#calculator .result-box strong { white-space: normal; overflow-wrap: anywhere; }
 @media (max-width: 720px) {
   #calculator{
     padding-block: 64px 72px;
@@ -6086,14 +6117,15 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   margin-top: 18px;
   }
   #calculator .result-box {
-  min-height: 72px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  gap: 12px;
-  padding: 14px 15px;
+    min-height: 98px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 16px;
     text-align: left;
   }
+  #calculator .exchange-bar { align-items: flex-start; flex-direction: column; gap: 6px; }
   #calculator .result-box span {
     font-size: 15px;
   }
@@ -6440,7 +6472,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 .member-hero-textlink { color:#fff; font-size:15px; font-weight:700; text-decoration:underline; text-underline-offset:4px; }
 .member-comparison-note { margin:22px auto 0; max-width:690px; color:#e4ebf7; font-size:15px; line-height:1.65; }
 .member-inline-cta { margin:23px auto 0; }
-.member-calculator-disclosure { margin:20px 0 0; padding:0 6px; font-size:14px; line-height:1.7; color:#52627b; word-break:keep-all; }
+.member-calculator-disclosure { margin:20px 0 0; padding:0 6px; font-size:14px; line-height:1.7; color:#c0d0e2; word-break:keep-all; }
 .member-inquiry-section { background:#f4f7fc; padding:88px 24px 104px; scroll-margin-top:28px; }
 .member-inquiry-wrap { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:58px; width:min(100%,1010px); margin:auto; }
 .member-inquiry-heading { min-width:0; }
