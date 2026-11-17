@@ -354,12 +354,33 @@ function initMembershipInquiry() {
   });
 
   const sticky = document.getElementById('membershipStickyCta');
-  const inquiry = document.getElementById('membership-inquiry');
-  if (!sticky || !inquiry || !('IntersectionObserver' in window)) return;
-  const observer = new IntersectionObserver((entries) => {
-    sticky.classList.toggle('is-hidden', Boolean(entries[0]?.isIntersecting));
-  }, { threshold: 0.08 });
-  observer.observe(inquiry);
+  if (!sticky) return;
+
+  // Plan signup buttons, terms and the inquiry form must never be covered by
+  // the floating consultation CTA. The partner landing uses the same principle.
+  const protectedAreas = [
+    document.getElementById('plans'),
+    document.getElementById('membership-terms'),
+    document.getElementById('membership-inquiry'),
+    document.querySelector('.site-footer')
+  ].filter(Boolean);
+  let frame = 0;
+  const update = () => {
+    frame = 0;
+    const viewportEnd = window.innerHeight - 24;
+    const covered = protectedAreas.some((area) => {
+      const box = area.getBoundingClientRect();
+      return box.top < viewportEnd && box.bottom > 60;
+    });
+    sticky.classList.toggle('is-hidden', covered);
+  };
+  const schedule = () => {
+    if (frame) return;
+    frame = requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  schedule();
 }
 
 function bindEvents() {
