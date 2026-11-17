@@ -6473,14 +6473,26 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 .member-comparison-note { margin:22px auto 0; max-width:690px; color:#e4ebf7; font-size:15px; line-height:1.65; }
 .member-inline-cta { margin:23px auto 0; }
 .member-calculator-disclosure { margin:20px 0 0; padding:0 6px; font-size:14px; line-height:1.7; color:#c0d0e2; word-break:keep-all; }
+.member-plan-consult {
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  gap:12px; margin:28px auto 14px; color:#52647c; font-size:15px;
+}
+.member-plan-consult a {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:40px; padding:8px 16px; border:1px solid #9cbcf0;
+  border-radius:9px; background:#fff; color:#24519c; font-weight:800;
+  text-decoration:none;
+}
+.member-plan-consult a:hover { border-color:#2e66ff; background:#edf4ff; }
+.member-plan-consult a:focus-visible { outline:3px solid #86b8ff; outline-offset:3px; }
 .member-inquiry-section { background:#f4f7fc; padding:88px 24px 104px; scroll-margin-top:28px; }
-.member-inquiry-wrap { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:58px; width:min(100%,1010px); margin:auto; }
-.member-inquiry-heading { min-width:0; }
+.member-inquiry-wrap { display:flex; flex-direction:column; align-items:center; gap:27px; width:min(100%,640px); margin:auto; }
+.member-inquiry-heading { min-width:0; text-align:center; }
 .member-inquiry-kicker { color:#24519c; font-size:13px; font-weight:800; letter-spacing:.12em; }
 .member-inquiry-heading h2 { margin:13px 0 17px; font-size:clamp(30px,3.6vw,48px); line-height:1.2; letter-spacing:-.04em; color:#0e1f3f; word-break:keep-all; }
 .member-inquiry-heading h2 strong { color:#24519c; }
-.member-inquiry-heading p { margin:0; max-width:420px; color:#53637b; line-height:1.7; font-size:17px; word-break:keep-all; }
-.member-inquiry-form { display:grid; gap:16px; padding:30px; border:1px solid #dce4ef; border-radius:20px; background:#fff; box-shadow:0 10px 28px rgba(16,43,90,.05); }
+.member-inquiry-heading p { margin:0 auto; max-width:480px; color:#53637b; line-height:1.7; font-size:17px; word-break:keep-all; }
+.member-inquiry-form { box-sizing:border-box; display:grid; width:100%; gap:16px; padding:30px; border:1px solid #dce4ef; border-radius:20px; background:#fff; box-shadow:0 10px 28px rgba(16,43,90,.05); }
 .member-field { display:grid; gap:7px; color:#152849; font-size:15px; font-weight:750; }
 .member-field small { font-size:13px; color:#75829a; font-weight:500; }
 .member-field :is(input,select) { box-sizing:border-box; display:block; width:100%; min-height:49px; border:1px solid #cbd6e5; background:#fff; border-radius:9px; padding:11px 13px; color:#17263d; font:500 16px 'Pretendard',sans-serif; }
@@ -6508,7 +6520,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   .member-comparison-note { padding:0 14px; font-size:13px; }
   .member-calculator-disclosure { font-size:13px; }
   .member-inquiry-section { padding:64px 16px 96px; }
-  .member-inquiry-wrap { grid-template-columns:minmax(0,1fr); gap:25px; }
+  .member-inquiry-wrap { gap:25px; }
   .member-inquiry-heading { text-align:center; }
   .member-inquiry-heading h2 { font-size:32px; }
   .member-inquiry-heading p { margin:0 auto; font-size:15px; }
