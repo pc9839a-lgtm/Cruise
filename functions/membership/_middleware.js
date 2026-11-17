@@ -25,12 +25,11 @@ export async function onRequest(context) {
     })
     .on('body', {
       element(element) {
+        // The HTML owns hero, price copy and consultation CTA; only extra sections are injected.
         element.append(
-          '<div class="membership-bottom-cta" role="navigation" aria-label="멤버십 선택 바로가기"><div class="membership-bottom-cta-inner"><a href="#plans">내 멤버십 선택하기</a></div></div>' +
           '<script defer src="/membership/membership-scaffold-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-mobile5"></script>' +
 
-          '<script defer src="/membership/membership-section6-price-barrier-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20261111-story4"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20261111-compact11"></script>' +
@@ -43,8 +42,6 @@ export async function onRequest(context) {
 
           '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20261111-benefits6"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>' +
-          '<script defer src="/membership/membership-cta-optimization-v1.js?v=20261111-screen8b"></script>' +
-          '<script defer src="/membership/membership-hero-restore-v1.js?v=20260902-subscription-restore"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20260902-2"></script>',
           { html: true }
         );
