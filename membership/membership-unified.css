@@ -2471,8 +2471,8 @@ button{ font: inherit; border: none; cursor: pointer; }
 .hero-shell{
   position: relative;
   overflow: hidden;
-  min-height: 710px;
-  padding: 56px 48px 34px;
+  min-height: 630px;
+  padding: 46px 38px 28px;
   border-radius: 44px;
   display: flex;
   flex-direction: column;
@@ -2524,15 +2524,15 @@ button{ font: inherit; border: none; cursor: pointer; }
   max-width: 900px !important;
   margin: 22px auto 0 !important;
   color: #fff !important;
-  font-size: clamp(54px, 7vw, 98px) !important;
-  line-height: 0.94 !important;
+  font-size: clamp(44px, 5.4vw, 76px) !important;
+  line-height: 1.08 !important;
   text-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 
 .hero-title strong{
   display: block;
   margin-top: 12px !important;
-  color: #f4c943 !important;
+  color: #b8dcff !important;
   font-weight: 900 !important;
 }
 
@@ -2577,8 +2577,8 @@ button{ font: inherit; border: none; cursor: pointer; }
 .hero-visual-stage{
   position: relative;
   width: min(100%, 760px);
-  height: 360px;
-  margin: 42px auto 0;
+  height: 300px;
+  margin: 26px auto 0;
 }
 
 .hero-ticket{
@@ -3055,11 +3055,12 @@ button{ font: inherit; border: none; cursor: pointer; }
   }
 
   .hero-title{
-    font-size: 38px !important;
+    font-size: clamp(32px, 9.2vw, 38px) !important;
+    line-height: 1.14 !important;
   }
 
   .hero-visual-stage{
-    height: 250px;
+    height: 225px;
   }
 
   .hero-ticket{
@@ -6466,7 +6467,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 .member-sticky { display:none; }
 #calculator, #plans, #membership-inquiry { scroll-margin-top:30px; }
 @media (max-width:760px) {
-  .hero-section .hero-shell { min-height:0; padding:38px 16px 24px; }
+  .hero-section .hero-shell { min-height:0; padding:34px 16px 22px; }
   .member-hero-lead { font-size:15px; line-height:1.58; margin-top:16px; }
   .member-hero-actions { margin-top:20px; gap:11px; }
   .member-primary-cta { min-height:49px; font-size:16px; width:min(100%,300px); }
