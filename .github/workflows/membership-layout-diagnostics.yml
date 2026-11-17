@@ -381,6 +381,15 @@ jobs:
                   const hasUnsupportedPrices=/400\s*→\s*240만원|160만원 차이/.test(surveyContent);
                   await page.locator('#cms-survey-v2 .cms2-primary').click();
                   await page.locator('#cms-survey-v2').waitFor({state:'detached',timeout:5000});
+                  await page.waitForTimeout(1100);
+                  const calculatorLanding = await page.locator('#calculator').evaluate(el =>
+                    Math.round(el.getBoundingClientRect().top)
+                  );
+                  const surveyReachedCalculator = calculatorLanding >= -25 && calculatorLanding <= 160;
+                  console.log('MEMBERSHIP_SURVEY_SCROLL_AUDIT '+JSON.stringify({
+                    width,calculatorLanding,surveyReachedCalculator
+                  }));
+                  if(!surveyReachedCalculator)process.exitCode=1;
                   await page.evaluate(() => { location.hash='#survey'; });
                   await page.locator('#cms-survey-v2 .cms2-close').waitFor({timeout:8000});
                   await page.locator('#cms-survey-v2 .cms2-close').click();
