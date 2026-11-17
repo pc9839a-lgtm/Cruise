@@ -232,6 +232,21 @@ jobs:
                   krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
                 }));
                 console.log('MEMBERSHIP_CONVERSION_AUDIT '+JSON.stringify({width,conversion}));
+                const gallery = await page.evaluate(() => {
+                  const cards=[...document.querySelectorAll('.review-flow-section .review-card')];
+                  const images=[...document.querySelectorAll('.review-flow-section img')];
+                  return {
+                    count:cards.length,
+                    duplicateHidden:cards.filter(x=>x.getAttribute('aria-hidden')==='true').length,
+                    lazyImages:images.filter(x=>x.getAttribute('loading')==='lazy').length,
+                    asyncDecoded:images.filter(x=>x.getAttribute('decoding')==='async').length,
+                    heading:document.querySelector('.review-strip-head .section-kicker')?.textContent?.trim()
+                  };
+                });
+                console.log('MEMBERSHIP_GALLERY_AUDIT '+JSON.stringify({width,gallery}));
+                if(gallery.count!==30 || gallery.duplicateHidden!==15 ||
+                    gallery.lazyImages!==30 || gallery.asyncDecoded!==30 ||
+                    gallery.heading!=='크루즈 선내생활 미리보기')process.exitCode=1;
                 if (!conversion.hero || !conversion.price || !conversion.inquiry ||
                     !conversion.privacy || !conversion.sticky || conversion.oldSticky ||
                     !conversion.formCentered || !conversion.pointCostVisible ||
