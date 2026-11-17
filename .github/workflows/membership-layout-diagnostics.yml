@@ -232,6 +232,21 @@ jobs:
                   krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
                 }));
                 console.log('MEMBERSHIP_CONVERSION_AUDIT '+JSON.stringify({width,conversion}));
+                const heroDetail=await page.evaluate(() => {
+                  const shell=document.querySelector('.hero-section .hero-shell');
+                  const box=shell?.getBoundingClientRect();
+                  const cta=document.querySelector('.hero-section .member-primary-cta');
+                  return {
+                    height:Math.round(box?.height||0),
+                    removedCollage:!document.querySelector('.hero-visual-stage,.hero-ticket,.hero-shot'),
+                    ctaTarget:cta?.getAttribute('href'),
+                    title:document.querySelector('.hero-section h1')?.textContent?.trim()||''
+                  };
+                });
+                console.log('MEMBERSHIP_HERO_DETAIL_AUDIT '+JSON.stringify({width,heroDetail}));
+                if(!heroDetail.removedCollage || heroDetail.ctaTarget!=='#calculator' ||
+                   heroDetail.height > (width < 720 ? 540 : 680) ||
+                   !heroDetail.title.includes('예약 전에 비교하세요'))process.exitCode=1;
                 const gallery = await page.evaluate(() => {
                   const cards=[...document.querySelectorAll('.review-flow-section .review-card')];
                   const images=[...document.querySelectorAll('.review-flow-section img')];
