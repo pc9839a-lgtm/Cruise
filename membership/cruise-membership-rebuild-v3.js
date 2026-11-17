@@ -52,6 +52,24 @@ function formatPoint(value) {
   return `${Number(value).toLocaleString('ko-KR')}P`;
 }
 
+// Signup URLs are supplied by an external agent directory. Accept secure web
+// destinations only, and never interpolate unchecked data into HTML attributes.
+function safeSignupUrl(raw) {
+  const source = String(raw || '').trim();
+  if (!source || source.length > 2048 || /[\u0000-\u001f\u007f<>"']/u.test(source)) return '';
+  try {
+    const url = new URL(source);
+    if (url.protocol !== 'https:' || !url.hostname || url.username || url.password) return '';
+    return url.toString();
+  } catch (_) {
+    return '';
+  }
+}
+
+function escapeHtmlAttribute(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+
 function updateRangeBackground(range) {
   const min = Number(range.min);
   const max = Number(range.max);
@@ -70,7 +88,7 @@ function renderPlans() {
     const englishName = premium ? 'PREMIUM' : 'CLASSIC';
     const cardType = premium ? 'mx-plan-premium' : 'mx-plan-classic';
     const tagline = premium ? '빠르게 적립' : '가볍게 시작';
-    const signupHref = state.membershipSignupUrl || '#membership-inquiry';
+    const signupHref = state.membershipSignupUrl ? escapeHtmlAttribute(state.membershipSignupUrl) : '#membership-inquiry';
     const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
     return `
@@ -297,7 +315,7 @@ async function loadMembershipSignupUrl() {
     });
 
     if (data && data.success && data.signup_url) {
-      state.membershipSignupUrl = String(data.signup_url).trim();
+      state.membershipSignupUrl = safeSignupUrl(data.signup_url);
     } else {
       state.membershipSignupUrl = '';
     }
@@ -308,7 +326,7 @@ async function loadMembershipSignupUrl() {
     state.membershipSignupUrl = '';
     renderPlans();
     bindPlanSignupLinks();
-    console.error('membership signup url load failed:', error);
+    console.warn('멤버십 가입 링크를 확인하지 못해 상담으로 연결합니다.');
   }
 }
 
