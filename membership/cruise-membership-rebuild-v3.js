@@ -134,7 +134,11 @@ function updateCalculator() {
     description = '출발까지 270일 이상 남은 예약: 사용 조건 충족 시 POINT로 크루즈 요금 전액을 결제하는 예시입니다.';
   }
 
-  const actualPaidToEarnPointsUsd = requiredPoints / 2;
+  // Classic: $200 initial payment earns 350P; each subsequent $100 payment earns 200P.
+  // Whole monthly installments and initial payment must both be counted.
+  const classic = plans[0];
+  const monthlyPayments = Math.max(0, Math.ceil((requiredPoints - classic.rewardPoint) / classic.monthlyPoint));
+  const actualPaidToEarnPointsUsd = classic.startUsd + monthlyPayments * classic.monthlyUsd;
   const actualTotalPaidUsd = actualPaidToEarnPointsUsd + cash;
   const actualTotalPaidKrw = actualTotalPaidUsd * rate;
 
@@ -144,7 +148,7 @@ function updateCalculator() {
 
   document.getElementById('pointLabel').textContent = '필요 POINT';
   document.getElementById('usablePoint').textContent = formatPoint(requiredPoints);
-  document.getElementById('pointKrw').textContent = `클래식 2배 적립 기준 ${formatUsd(actualPaidToEarnPointsUsd)} · 약 ${formatKrw(actualPaidToEarnPointsUsd * rate)} 결제`;
+  document.getElementById('pointKrw').textContent = `클래식 가입 적립 + 이후 ${monthlyPayments}회 월 적립 · 누적 납부 ${formatUsd(actualPaidToEarnPointsUsd)} (약 ${formatKrw(actualPaidToEarnPointsUsd * rate)})`;
 
   document.getElementById('cashLabel').textContent = '카드 결제';
   document.getElementById('cashUsd').textContent = formatUsd(cash);
@@ -333,6 +337,30 @@ function setupPlansFloatingCtaObserver() {
   observer.observe(plansSection);
 }
 
+function initMembershipInquiry() {
+  const params = new URLSearchParams(window.location.search);
+  const agent = String(params.get('agent') || '').trim();
+  const code = /^[A-Za-z0-9_-]{1,40}$/.test(agent) ? agent : '';
+  const fields = {
+    memberAgentCode: code,
+    memberUtmSource: String(params.get('utm_source') || '').slice(0,80),
+    memberUtmMedium: String(params.get('utm_medium') || '').slice(0,80),
+    memberUtmCampaign: String(params.get('utm_campaign') || '').slice(0,80)
+  };
+  Object.entries(fields).forEach(([id, value]) => {
+    const input = document.getElementById(id);
+    if (input) input.value = value;
+  });
+
+  const sticky = document.getElementById('membershipStickyCta');
+  const inquiry = document.getElementById('membership-inquiry');
+  if (!sticky || !inquiry || !('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    sticky.classList.toggle('is-hidden', Boolean(entries[0]?.isIntersecting));
+  }, { threshold: 0.08 });
+  observer.observe(inquiry);
+}
+
 function bindEvents() {
   const range = document.getElementById('cruisePrice');
   if (range) {
@@ -378,6 +406,7 @@ async function init() {
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
+  initMembershipInquiry();
   updateCalculator();
   observeReveals();
   setupPlansFloatingCtaObserver();
