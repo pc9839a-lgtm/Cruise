@@ -30,6 +30,10 @@ jobs:
         run: |
           node <<'EOF'
           const { chromium } = require('playwright');
+          const { readFileSync } = require('fs');
+          const expectedScript = readFileSync('membership/index.html', 'utf8')
+            .match(/cruise-membership-rebuild-v3\.js\?v=([^"]+)/)?.[1];
+          if (!expectedScript) throw new Error('Missing membership script version in source HTML');
           (async () => {
             const browser = await chromium.launch({ headless: true, args:['--no-sandbox'] });
             for (const width of [320, 375, 390, 1440]) {
@@ -39,8 +43,29 @@ jobs:
               page.on('pageerror', err => errors.push(err.message.slice(0,240)));
               page.on('console', msg => { if(msg.type()==='error')errors.push(msg.text().slice(0,240)); });
               try {
-                const response = await page.goto(process.env.SITE+'?audit='+process.env.GITHUB_SHA,{waitUntil:'domcontentloaded',timeout:55000});
+                // A GitHub push can finish before Cloudflare publishes that commit.
+                // Validate only the live release containing this commit's JS version.
+                let response;
+                let matchingRelease = false;
+                for (let attempt=0;attempt<20;attempt++) {
+                  response = await page.goto(
+                    process.env.SITE+'?audit='+process.env.GITHUB_SHA+'-'+attempt,
+                    {waitUntil:'domcontentloaded',timeout:55000}
+                  );
+                  const liveVersion = await page.evaluate(() =>
+                    document.querySelector('script[src*="cruise-membership-rebuild-v3.js"]')?.getAttribute('src') || ''
+                  );
+                  if (liveVersion.includes('v='+expectedScript)) {
+                    matchingRelease = true;
+                    break;
+                  }
+                  if (attempt < 19) await new Promise(resolve=>setTimeout(resolve,10000));
+                }
+                if(!matchingRelease) throw new Error('Expected membership release not found on live site: '+expectedScript);
                 await page.waitForTimeout(6500);
+                await page.locator('.hero-section').screenshot({
+                  path:'membership-'+width+'-hero.png',timeout:25000
+                });
                 const diagnostic = await page.evaluate(() => {
                   const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
                     '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
@@ -196,12 +221,31 @@ jobs:
                   inquiry:!!document.querySelector('#membershipInquiryForm'),
                   privacy:!!document.querySelector('#membershipPrivacyInput'),
                   sticky:!!document.querySelector('#membershipStickyCta'),
-                  oldSticky:!!document.querySelector('.membership-bottom-cta')
+                  oldSticky:!!document.querySelector('.membership-bottom-cta'),
+                  formCentered:getComputedStyle(document.querySelector('.member-inquiry-wrap')).flexDirection==='column',
+                  planLabels:[...document.querySelectorAll('#planCards .plan-cta')].map(el=>el.textContent.trim()),
+                  pointCostVisible:getComputedStyle(document.querySelector('#pointKrw')).display!=='none',
+                  krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
                 }));
                 console.log('MEMBERSHIP_CONVERSION_AUDIT '+JSON.stringify({width,conversion}));
                 if (!conversion.hero || !conversion.price || !conversion.inquiry ||
                     !conversion.privacy || !conversion.sticky || conversion.oldSticky ||
+                    !conversion.formCentered || !conversion.pointCostVisible ||
+                    !conversion.krwTotalVisible || conversion.planLabels.length!==2 ||
+                    conversion.planLabels.some(text=>!text.includes('상담받기')) ||
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
+
+                if (width < 720) {
+                  for (const protectedId of ['calculator', 'plans', 'membership-inquiry']) {
+                    await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
+                    await page.waitForTimeout(230);
+                    const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
+                      getComputedStyle(el).display==='none'
+                    );
+                    console.log('MEMBERSHIP_STICKY_AUDIT '+JSON.stringify({width,protectedId,stickyHidden}));
+                    if (!stickyHidden) process.exitCode=1;
+                  }
+                }
 
                 const surveyScript = await page.locator('script[src*="membership-entry-survey-v2.js"]').first().getAttribute('src').catch(() => null);
                 const liveScriptText = await page.evaluate(async () => {
