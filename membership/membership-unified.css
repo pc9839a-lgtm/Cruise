@@ -6452,6 +6452,24 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 }
 
 
+/* Optional two-step survey accessibility. Keep styles in the unified owner. */
+#cms-survey-v2 .cms2-top { flex-wrap:wrap; align-items:center; }
+#cms-survey-v2 .cms2-close {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:36px; margin-left:auto; padding:6px 12px;
+  border:1px solid #cbd7e7; border-radius:9px; background:#fff;
+  color:#344c70; font:700 13px/1.4 Pretendard,sans-serif;
+  cursor:pointer;
+}
+#cms-survey-v2 .cms2-close:hover { background:#eef4fd; }
+#cms-survey-v2 .cms2-close:focus-visible {
+  outline:3px solid #2e66ff; outline-offset:2px;
+}
+@media (max-width:359px) {
+  #cms-survey-v2 .cms2-top { gap:7px; }
+  #cms-survey-v2 .cms2-close { padding:5px 8px; font-size:12px; }
+}
+
 /* ===== Membership conversion components · 2026-11-17 =====
    Kept in this unified CSS owner. No additional override stylesheet. */
 .member-hero-lead {
