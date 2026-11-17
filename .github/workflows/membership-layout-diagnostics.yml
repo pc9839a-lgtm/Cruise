@@ -20,6 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Test membership contact throttling without sending leads
+        run: |
+          node --check functions/api/contact.js
+          node scripts/test_membership_contact_cooldown.mjs
       - name: Install headless browser
         run: |
           npm install --no-save playwright@1.57.0

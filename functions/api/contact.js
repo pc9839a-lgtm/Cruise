@@ -300,7 +300,12 @@ export async function onRequestPost(context) {
     );
   }
 
-  if (await consumeRateLimit(context, `phone:${phoneHash}`, PHONE_COOLDOWN_SECONDS)) {
+  // A membership consultation should not be rejected as a duplicate of
+  // a different inquiry. Keep existing main/partner keys and IP limits.
+  const phoneCooldownKey = scheduleId === 'membership_inquiry'
+    ? `phone:membership:${phoneHash}`
+    : `phone:${phoneHash}`;
+  if (await consumeRateLimit(context, phoneCooldownKey, PHONE_COOLDOWN_SECONDS)) {
     return jsonResponse(
       { success: false, message: '같은 연락처로 이미 문의가 접수되었습니다. 잠시 후 다시 시도해주세요.' },
       429,
