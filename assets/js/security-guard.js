@@ -22,6 +22,14 @@
       buttonSelector: '#partnerSubmitButton',
       idleLabel: '인플루언서 시작하기',
       busyLabel: '접수 중...'
+    },
+    {
+      selector: '#membershipInquiryForm',
+      type: 'main',
+      resultSelector: '#membershipFormResult',
+      buttonSelector: '#membershipSubmitButton',
+      idleLabel: '무료 상담 신청하기',
+      busyLabel: '접수 중...'
     }
   ];
 
@@ -96,6 +104,7 @@
   }
 
   function getPrivacyCheckbox(form, type) {
+    if (form.id === 'membershipInquiryForm') return form.querySelector('#membershipPrivacyInput');
     return type === 'partner'
       ? form.querySelector('#partnerPrivacyInput')
       : form.querySelector('#privacyAgreeInput');

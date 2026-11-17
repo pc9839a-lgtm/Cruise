@@ -2471,7 +2471,7 @@ button{ font: inherit; border: none; cursor: pointer; }
 .hero-shell{
   position: relative;
   overflow: hidden;
-  min-height: 900px;
+  min-height: 710px;
   padding: 56px 48px 34px;
   border-radius: 44px;
   display: flex;
@@ -6416,4 +6416,80 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion:reduce) {
   
+}
+
+
+/* ===== Membership conversion components · 2026-11-17 =====
+   Kept in this unified CSS owner. No additional override stylesheet. */
+.member-hero-lead {
+  max-width:580px; margin:22px auto 0; color:rgba(255,255,255,.9);
+  font-size:clamp(16px,2vw,21px); line-height:1.65; font-weight:600; word-break:keep-all;
+}
+.member-hero-actions { display:flex; flex-direction:column; align-items:center; gap:13px; margin:27px auto 0; }
+.member-primary-cta, .member-inline-cta, .member-submit-button {
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:13px; min-height:53px; padding:12px 26px;
+  background:#2e66ff; color:#fff; font-size:17px; font-weight:800;
+  text-align:center; text-decoration:none;
+}
+.member-primary-cta:hover, .member-inline-cta:hover, .member-submit-button:hover { background:#1e51d8; }
+.member-primary-cta:focus-visible, .member-inline-cta:focus-visible,
+.member-submit-button:focus-visible, .member-sticky a:focus-visible,
+.member-field :is(input,select):focus-visible { outline:3px solid #83baff; outline-offset:3px; }
+.member-hero-textlink { color:#fff; font-size:15px; font-weight:700; text-decoration:underline; text-underline-offset:4px; }
+.member-comparison-note { margin:22px auto 0; max-width:690px; color:#e4ebf7; font-size:15px; line-height:1.65; }
+.member-inline-cta { margin:23px auto 0; }
+.member-calculator-disclosure { margin:20px 0 0; padding:0 6px; font-size:14px; line-height:1.7; color:#52627b; word-break:keep-all; }
+.member-inquiry-section { background:#f4f7fc; padding:88px 24px 104px; scroll-margin-top:28px; }
+.member-inquiry-wrap { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:58px; width:min(100%,1010px); margin:auto; }
+.member-inquiry-heading { min-width:0; }
+.member-inquiry-kicker { color:#24519c; font-size:13px; font-weight:800; letter-spacing:.12em; }
+.member-inquiry-heading h2 { margin:13px 0 17px; font-size:clamp(30px,3.6vw,48px); line-height:1.2; letter-spacing:-.04em; color:#0e1f3f; word-break:keep-all; }
+.member-inquiry-heading h2 strong { color:#24519c; }
+.member-inquiry-heading p { margin:0; max-width:420px; color:#53637b; line-height:1.7; font-size:17px; word-break:keep-all; }
+.member-inquiry-form { display:grid; gap:16px; padding:30px; border:1px solid #dce4ef; border-radius:20px; background:#fff; box-shadow:0 10px 28px rgba(16,43,90,.05); }
+.member-field { display:grid; gap:7px; color:#152849; font-size:15px; font-weight:750; }
+.member-field small { font-size:13px; color:#75829a; font-weight:500; }
+.member-field :is(input,select) { box-sizing:border-box; display:block; width:100%; min-height:49px; border:1px solid #cbd6e5; background:#fff; border-radius:9px; padding:11px 13px; color:#17263d; font:500 16px 'Pretendard',sans-serif; }
+.member-field :is(input,select)::placeholder { color:#8b97a9; }
+.member-privacy { display:flex; align-items:flex-start; gap:9px; color:#5b6779; font-size:13px; line-height:1.6; }
+.member-privacy input { margin:4px 0 0; width:16px; height:16px; flex-shrink:0; accent-color:#24519c; }
+.member-privacy a { color:#24519c; text-decoration:underline; text-underline-offset:2px; }
+.member-submit-button { width:100%; cursor:pointer; }
+.member-submit-button:disabled { opacity:.65; cursor:progress; }
+.member-inquiry-form .form-result { min-height:0; margin:0; font-size:14px; line-height:1.5; font-weight:600; }
+.member-inquiry-form .form-result.is-error { color:#b42318; }
+.member-inquiry-form .form-result.is-success { color:#0d7756; }
+.member-consult-notice { display:block; color:#62718a; text-align:center; font-size:12px; line-height:1.6; }
+.footer-links-text { display:flex; flex-wrap:wrap; gap:10px 16px; }
+.footer-links-text a { color:inherit; text-decoration:underline; text-underline-offset:3px; }
+.member-sticky { display:none; }
+#calculator, #plans, #membership-inquiry { scroll-margin-top:30px; }
+@media (max-width:760px) {
+  .hero-section .hero-shell { min-height:0; padding:38px 16px 24px; }
+  .member-hero-lead { font-size:15px; line-height:1.58; margin-top:16px; }
+  .member-hero-actions { margin-top:20px; gap:11px; }
+  .member-primary-cta { min-height:49px; font-size:16px; width:min(100%,300px); }
+  .member-hero-textlink { font-size:14px; }
+  .member-inline-cta { width:100%; max-width:340px; font-size:15px; }
+  .member-comparison-note { padding:0 14px; font-size:13px; }
+  .member-calculator-disclosure { font-size:13px; }
+  .member-inquiry-section { padding:64px 16px 96px; }
+  .member-inquiry-wrap { grid-template-columns:minmax(0,1fr); gap:25px; }
+  .member-inquiry-heading { text-align:center; }
+  .member-inquiry-heading h2 { font-size:32px; }
+  .member-inquiry-heading p { margin:0 auto; font-size:15px; }
+  .member-inquiry-form { padding:21px 17px; gap:14px; border-radius:14px; }
+  .member-sticky { display:flex; position:fixed; z-index:130; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); align-items:center; justify-content:space-between; gap:12px; border:1px solid #254f9b; background:#102647; color:#fff; border-radius:12px; padding:10px 10px 10px 15px; box-shadow:0 9px 24px rgba(3,16,39,.19); }
+  .member-sticky strong { font-size:13px; line-height:1.3; }
+  .member-sticky a { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; padding:12px; min-height:42px; border-radius:8px; background:#2e66ff; color:#fff; font-size:13px; font-weight:800; }
+  .member-sticky.is-hidden { display:none; }
+  .site-footer { padding-bottom:130px; }
+}
+@media (max-width:370px) {
+  .member-sticky strong { font-size:12px; }
+  .member-sticky a { font-size:12px; padding:10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .member-primary-cta, .member-inline-cta, .member-submit-button, .member-sticky a { transition:none; }
 }
