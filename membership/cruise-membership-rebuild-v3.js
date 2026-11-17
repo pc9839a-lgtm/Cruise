@@ -214,13 +214,14 @@ function bindPlanSignupLinks() {
 
       event.preventDefault();
 
-      const goContact = window.confirm(
-        '담당자가 아직 배정되지 않았습니다. 문의하기로 이동하시겠습니까?'
-      );
-
-      if (goContact) {
-        window.location.href = 'https://cruiseplay-dyt.pages.dev/?openInquiry=1&inquiryType=membership';
-      }
+      // Without an assigned signup URL, keep visitors on this page and use the
+      // existing secure membership inquiry instead of a confirmation popup.
+      const inquiry = document.getElementById('membership-inquiry');
+      const planSelect = document.querySelector('#membershipInquiryForm select[name="message"]');
+      const card = link.closest('.plan-card');
+      if (planSelect && card?.classList.contains('mx-plan-premium')) planSelect.selectedIndex = 2;
+      else if (planSelect && card?.classList.contains('mx-plan-classic')) planSelect.selectedIndex = 1;
+      inquiry?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 }
