@@ -214,6 +214,11 @@
   }
 
   function getLastSuccessKey(config) {
+    // A membership consultation is distinct from the general contact form.
+    // Avoid blocking a valid second inquiry on the same device for 2 minutes.
+    if (config.selector === '#membershipInquiryForm') {
+      return 'cruiseplay_form_success_membership';
+    }
     return 'cruiseplay_form_success_' + config.type;
   }
 
