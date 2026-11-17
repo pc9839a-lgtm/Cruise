@@ -247,7 +247,26 @@ jobs:
                   }
                 }
 
+                const trust = await page.evaluate(() => {
+                  const form=document.querySelector('#membershipInquiryForm');
+                  const guard=document.querySelector('script[src*="security-guard.js"]');
+                  return {
+                    formHardened:form?.dataset.securityHardened==='true',
+                    honeypot:!!form?.querySelector('[data-security-honeypot]'),
+                    timestamp:!!form?.querySelector('[name="form_started_at"]')?.value,
+                    membershipGuardVersion:guard?.src?.includes('20261117-membership-trust1')||false,
+                    rejectsUnsafeLinks:typeof safeSignupUrl==='function' &&
+                      safeSignupUrl('javascript:alert(1)')==='' &&
+                      safeSignupUrl('data:text/html,hello')==='' &&
+                      safeSignupUrl('https://user:pass@example.com/')==='' &&
+                      safeSignupUrl('https://example.com/').startsWith('https://')
+                  };
+                });
+                console.log('MEMBERSHIP_TRUST_AUDIT '+JSON.stringify({width,trust}));
+                if(Object.values(trust).some(v=>v!==true))process.exitCode=1;
+
                 const surveyScript = await page.locator('script[src*="membership-entry-survey-v2.js"]').first().getAttribute('src').catch(() => null);
+                if(!surveyScript?.includes('20261117-trust1'))process.exitCode=1;
                 const liveScriptText = await page.evaluate(async () => {
                   const script = document.querySelector('script[src*="membership-entry-survey-v2.js"]');
                   if (!script) return '';
@@ -319,8 +338,26 @@ jobs:
                     }
                   }
                 }
+                if(width===390){
+                  await page.evaluate(() => { location.hash='#survey'; });
+                  await page.locator('#cms-survey-v2 .cms2-option').first().waitFor({timeout:8000});
+                  await page.locator('#cms-survey-v2 .cms2-option').first().click();
+                  await page.locator('#cms-survey-v2 .cms2-option').first().click();
+                  const surveyContent=await page.locator('#cms-survey-v2').innerText();
+                  const hasUnsupportedPrices=/400\s*→\s*240만원|160만원 차이/.test(surveyContent);
+                  await page.locator('#cms-survey-v2 .cms2-primary').click();
+                  await page.locator('#cms-survey-v2').waitFor({state:'detached',timeout:5000});
+                  await page.evaluate(() => { location.hash='#survey'; });
+                  await page.locator('#cms-survey-v2 .cms2-close').waitFor({timeout:8000});
+                  await page.locator('#cms-survey-v2 .cms2-close').click();
+                  await page.locator('#cms-survey-v2').waitFor({state:'detached',timeout:5000});
+                  console.log('MEMBERSHIP_SURVEY_AUDIT '+JSON.stringify({width,
+                    hasUnsupportedPrices,dismissible:true,completed:true}));
+                  if(hasUnsupportedPrices)process.exitCode=1;
+                }
               } catch(e) {
                 console.log('MEMBERSHIP_LAYOUT_ERROR '+JSON.stringify({width,error:String(e),errors}));
+                process.exitCode=1;
               }
               await context.close();
             }
