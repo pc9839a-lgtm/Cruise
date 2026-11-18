@@ -14,6 +14,7 @@ button { cursor:pointer; }
 button:disabled { cursor:wait; }
 img { display:block; max-width:100%; }
 .member-container { width:min(100% - 48px,1100px); margin-inline:auto; }
+.container { width:min(100% - 48px,1100px); margin-inline:auto; }
 .member-narrow { width:min(100% - 48px,740px); }
 .member-section { padding:90px 0 96px; scroll-margin-top:20px; }
 .member-section h2 { margin:12px 0 20px; font-size:clamp(32px,4.9vw,58px); font-weight:760; line-height:1.17; letter-spacing:-.052em; text-align:center; word-break:keep-all; }
@@ -169,6 +170,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible { 
 
 @media (max-width:760px) {
   .member-container,.member-narrow { width:calc(100% - 34px); }
+  .container { width:calc(100% - 34px); }
   .member-section { padding:66px 0 72px; }
   .member-section h2 { font-size:clamp(30px,8.4vw,40px); margin-bottom:16px; }
   .member-body { font-size:15px; margin-bottom:26px; }
