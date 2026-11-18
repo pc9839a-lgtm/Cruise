@@ -40,7 +40,6 @@ export async function onRequest(context) {
 
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
 
-          '<script defer src="/membership/membership-section21-22-terms-final-v1.js?v=20261111-benefits6"></script>' +
           '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>' +
           '<script defer src="/membership/membership-hero-motion-v1.js?v=20261117-survey-anchor1"></script>',
           { html: true }
