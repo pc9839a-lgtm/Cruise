@@ -23,6 +23,14 @@ const plans = [
   }
 ];
 
+const notices = [
+  '가입 후 14일이 지나면 환불은 어렵습니다.',
+  '월회비는 현금처럼 출금되지 않습니다.',
+  '본인 명의 카드로만 결제할 수 있습니다.',
+  '예약한 크루즈를 이용하려면 멤버십 유지가 필요합니다.',
+  '포인트 유효기간은 없지만, 해지하면 2배 적립분은 사라지고 원금만 남습니다.'
+];
+
 const state = {
   exchangeRate: DEFAULT_RATE,
   mode: 'general',
@@ -111,10 +119,17 @@ function renderPlans() {
             </div>
           </div>
         </div>
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '선택하기'}</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '상담받기'}</a>
       </article>`;
   }).join('');
 
+  observeReveals();
+}
+
+function renderNotices() {
+  const wrap = document.getElementById('noticeList');
+  if (!wrap) return;
+  wrap.innerHTML = notices.map((item) => `<li>${item}</li>`).join('');
 }
 
 function updateCalculator() {
@@ -160,8 +175,6 @@ function updateCalculator() {
   document.getElementById('coverageRatio').textContent = formatUsd(actualTotalPaidUsd);
   document.getElementById('coverageText').textContent = `약 ${formatKrw(actualTotalPaidKrw)}`;
   document.getElementById('coverageSubtext').textContent = coverageText;
-  const difference = document.getElementById('memberSavings');
-  if (difference) difference.textContent = formatUsd(price - actualTotalPaidUsd);
   document.getElementById('modeDescription').textContent = description;
 
   updateRangeBackground(range);
@@ -317,6 +330,42 @@ async function loadMembershipSignupUrl() {
   }
 }
 
+function setupPlansFloatingCtaObserver() {
+  const plansSection = document.getElementById('plans');
+  const floatingCta = document.querySelector('.floating-cta');
+
+  if (!plansSection || !floatingCta) return;
+
+  const toggleFloatingCta = (shouldHide) => {
+    floatingCta.classList.toggle('is-hidden-by-plans', Boolean(shouldHide));
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    const syncByScroll = () => {
+      const rect = plansSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+      const visible = rect.top < viewportHeight * 0.82 && rect.bottom > viewportHeight * 0.18;
+      toggleFloatingCta(visible);
+    };
+
+    window.addEventListener('scroll', syncByScroll, { passive: true });
+    window.addEventListener('resize', syncByScroll);
+    syncByScroll();
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      toggleFloatingCta(entry.isIntersecting);
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '-12% 0px -12% 0px'
+  });
+
+  observer.observe(plansSection);
+}
+
 function initMembershipInquiry() {
   const params = new URLSearchParams(window.location.search);
   const agent = String(params.get('agent') || '').trim();
@@ -340,6 +389,7 @@ function initMembershipInquiry() {
   const protectedAreas = [
     document.getElementById('calculator'),
     document.getElementById('plans'),
+    document.getElementById('membership-terms'),
     document.getElementById('membership-inquiry'),
     document.querySelector('.site-footer')
   ].filter(Boolean);
@@ -373,20 +423,44 @@ function bindEvents() {
     btn.addEventListener('click', () => setMode(btn.dataset.mode));
   });
 
+  document.querySelectorAll('.header-cta, .hero-main-cta, .floating-cta, .center-cta').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+}
 
+let revealObserver;
+
+function observeReveals() {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
+
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+  }
+
+  document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => revealObserver.observe(el));
 }
 
 async function init() {
-  // Legacy #survey deep links lead directly to the calculator without a popup.
-  if (window.location.hash === '#survey') {
-    history.replaceState(history.state, '', location.pathname + location.search + '#calculator');
-    window.setTimeout(() => document.getElementById('calculator')?.scrollIntoView({behavior:'auto'}), 0);
-  }
+  renderNotices();
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
   initMembershipInquiry();
   updateCalculator();
+  observeReveals();
+  setupPlansFloatingCtaObserver();
   await loadMembershipSignupUrl();
   fetchExchangeRate();
 }
