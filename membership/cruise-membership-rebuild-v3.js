@@ -119,7 +119,7 @@ function renderPlans() {
             </div>
           </div>
         </div>
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '상담받기'}</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '선택하기'}</a>
       </article>`;
   }).join('');
 
@@ -175,6 +175,8 @@ function updateCalculator() {
   document.getElementById('coverageRatio').textContent = formatUsd(actualTotalPaidUsd);
   document.getElementById('coverageText').textContent = `약 ${formatKrw(actualTotalPaidKrw)}`;
   document.getElementById('coverageSubtext').textContent = coverageText;
+  const difference = document.getElementById('memberSavings');
+  if (difference) difference.textContent = formatUsd(price - actualTotalPaidUsd);
   document.getElementById('modeDescription').textContent = description;
 
   updateRangeBackground(range);
@@ -389,7 +391,6 @@ function initMembershipInquiry() {
   const protectedAreas = [
     document.getElementById('calculator'),
     document.getElementById('plans'),
-    document.getElementById('membership-terms'),
     document.getElementById('membership-inquiry'),
     document.querySelector('.site-footer')
   ].filter(Boolean);
@@ -453,7 +454,11 @@ function observeReveals() {
 }
 
 async function init() {
-  renderNotices();
+  // Legacy #survey deep links lead directly to the calculator without a popup.
+  if (window.location.hash === '#survey') {
+    history.replaceState(history.state, '', location.pathname + location.search + '#calculator');
+    window.setTimeout(() => document.getElementById('calculator')?.scrollIntoView({behavior:'auto'}), 0);
+  }
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
