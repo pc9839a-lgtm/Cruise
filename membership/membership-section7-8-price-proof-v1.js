@@ -7,10 +7,10 @@
     const section8 = document.getElementById('same-cruise');
     if (!section6 || !section8) return false;
 
-    let receipt = document.getElementById('mx-direct-booking-intro');
+    let receipt = document.getElementById('member-story-cost');
     if (!receipt) {
       receipt = document.createElement('section');
-      receipt.id = 'mx-direct-booking-intro';
+      receipt.id = 'member-story-cost';
     }
 
     receipt.className = 'member-story-scene member-story-savings';
