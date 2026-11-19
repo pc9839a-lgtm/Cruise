@@ -401,6 +401,8 @@ function initMembershipInquiry() {
     '#member-story-points',
     '#calculator',
     '#plans',
+    '#member-before-join',
+    '#member-final-choice',
     '#membership-inquiry',
     '.site-footer'
   ];
