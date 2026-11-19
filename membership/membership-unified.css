@@ -6644,3 +6644,131 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 @media (prefers-reduced-motion:reduce) {
   .member-story-button { transition:none; }
 }
+
+/* ===== STORY PHASE 02: Real costs and evidence, November 19, 2026 ===== */
+.member-story-savings { background:#fff; }
+.member-story-savings h3 {
+  width:min(100%,870px);
+  margin:73px auto 0;
+  color:#0d1c32;
+  font-size:clamp(27px,4.3vw,43px);
+  font-weight:850;
+  line-height:1.25;
+  letter-spacing:-.052em;
+  text-align:center;
+}
+.member-story-cost-compare {
+  width:min(100%,880px);
+  margin:50px auto 0;
+  border-top:2px solid #152a46;
+  text-align:left;
+}
+.member-story-cost-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:24px 16px;
+  border-bottom:1px solid #dce6f3;
+  background:#fff;
+}
+.member-story-cost-row span {
+  color:#435773;
+  font-size:18px;
+  font-weight:680;
+}
+.member-story-cost-row strong {
+  flex-shrink:0;
+  color:#142841;
+  font-size:clamp(33px,5vw,53px);
+  font-weight:850;
+  line-height:1.1;
+  letter-spacing:-.045em;
+}
+.member-story-cost-benefit { padding:29px 16px; background:#ecf4ff; }
+.member-story-cost-benefit span,
+.member-story-cost-benefit strong { color:#205fd2; }
+.member-story-cost-difference {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  padding:22px 16px;
+  border-bottom:1px solid #dce6f3;
+}
+.member-story-cost-difference span { color:#2a415b; font-size:17px; font-weight:800; }
+.member-story-cost-difference strong { color:#205fd2; font-size:clamp(28px,4vw,38px); font-weight:900; }
+.member-story-cost-breakdown {
+  width:min(100%,880px);
+  margin:30px auto 0;
+  border-top:1px solid #d9e4f0;
+}
+.member-story-cost-breakdown>div {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:20px 8px;
+  border-bottom:1px solid #d9e4f0;
+  text-align:left;
+}
+.member-story-cost-breakdown span { color:#526780; font-size:17px; font-weight:650; }
+.member-story-cost-breakdown strong { flex-shrink:0; color:#152b49; font-size:22px; font-weight:850; }
+.member-story-cost-total {
+  width:min(100%,880px);
+  margin:20px auto 0;
+  padding:29px 18px;
+  border-radius:12px;
+  background:#0a1c34;
+  color:#fff;
+  text-align:center;
+}
+.member-story-cost-total span { display:block; color:#c6d8ee; font-size:16px; line-height:1.6; }
+.member-story-cost-total strong { display:block; margin-top:8px; color:#fff; font-size:clamp(32px,5vw,49px); font-weight:870; letter-spacing:-.05em; }
+.member-story-savings p.member-story-cost-note {
+  width:min(100%,840px);
+  margin-top:22px;
+  color:#64768a;
+  font-size:13px;
+  font-weight:500;
+  line-height:1.8;
+  text-align:left;
+}
+.member-story-savings p.member-story-cost-bridge {
+  margin-top:62px;
+  color:#225dc9;
+  font-size:clamp(25px,3.6vw,37px);
+  font-weight:850;
+  line-height:1.4;
+}
+.mx8-point-use-proof .mx8-real-total {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:9px;
+  margin:24px auto 31px;
+  padding:20px;
+  border-top:1px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.25);
+  text-align:center;
+}
+.mx8-point-use-proof .mx8-real-total span { color:#cbdcf3; font-size:15px; font-weight:650; }
+.mx8-point-use-proof .mx8-real-total strong { color:#fff; font-size:clamp(27px,4.2vw,40px); font-weight:850; }
+@media(max-width:700px) {
+  .member-story-cost-compare { margin-top:33px; }
+  .member-story-cost-row { padding:22px 12px; gap:9px; flex-direction:column; align-items:flex-start; }
+  .member-story-cost-row span { font-size:15px; }
+  .member-story-cost-row strong { font-size:37px; }
+  .member-story-cost-difference { padding:19px 12px; }
+  .member-story-cost-difference span { font-size:14px; }
+  .member-story-cost-difference strong { font-size:30px; }
+  .member-story-savings h3 { margin-top:56px; font-size:29px; }
+  .member-story-cost-breakdown>div { padding:17px 3px; gap:10px; }
+  .member-story-cost-breakdown span { font-size:14px; }
+  .member-story-cost-breakdown strong { font-size:17px; }
+  .member-story-cost-total { padding:22px 13px; }
+  .member-story-cost-total span { font-size:13px; }
+  .member-story-cost-total strong { font-size:32px; }
+  .member-story-savings p.member-story-cost-bridge { margin-top:45px; font-size:25px; }
+  .mx8-point-use-proof .mx8-real-total { margin-top:18px; padding:15px; }
+}
