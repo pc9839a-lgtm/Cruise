@@ -25,12 +25,11 @@ export async function onRequest(context) {
     })
     .on('body', {
       element(element) {
-        // The HTML owns hero, price copy and consultation CTA; only extra sections are injected.
+        // First four story chapters are static HTML; only later booking and plan examples are injected.
         element.append(
-          '<script defer src="/membership/membership-scaffold-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-mobile5"></script>' +
 
-          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261111-compact11"></script>' +
+          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261119-story-phase1"></script>' +
           '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20261111-story4"></script>' +
           '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20261111-cssunified1"></script>' +
@@ -40,8 +39,7 @@ export async function onRequest(context) {
 
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
 
-          '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>' +
-          '<script defer src="/membership/membership-hero-motion-v1.js?v=20261117-survey-anchor1"></script>',
+          '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>',
           { html: true }
         );
       }
