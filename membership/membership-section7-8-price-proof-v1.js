@@ -13,7 +13,7 @@
       receipt.id = 'mx-direct-booking-intro';
     }
 
-    receipt.className = 'member-story-savings';
+    receipt.className = 'member-story-scene member-story-savings';
     receipt.setAttribute('data-membership-section', '7');
     receipt.innerHTML = `
       <div class="member-story-frame member-story-storyline">
