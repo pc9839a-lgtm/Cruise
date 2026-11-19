@@ -6865,3 +6865,104 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   .member-story-points-details>div strong{font-size:clamp(16px,4.6vw,20px)}
   .member-story-points p.member-story-points-note{font-size:12px;margin-top:21px}
 }
+
+/* V3 phase 4: exactly two sections, 270-day options + price-match.
+   Independent section classes to avoid legacy #mx-lowest-price ID styles. */
+.member-story-early{background:#f3f7fd;color:#10223d}
+.member-story-early h2 strong{color:#2768de}
+.member-story-booking-choices{
+  display:grid;gap:15px;width:min(100%,900px);margin:46px auto 0;text-align:left;
+}
+.member-story-booking-choice{
+  border:1px solid #dbe5f1;border-radius:14px;background:#fff;padding:28px 32px;
+}
+.member-story-booking-label{
+  display:block;color:#506984;font-size:14px;font-weight:800;
+}
+.member-story-booking-choice h3{
+  margin:12px 0 0;color:#10223d;
+  font-size:clamp(25px,3.4vw,38px);line-height:1.28;font-weight:850;
+  letter-spacing:-.05em;
+}
+.member-story-booking-choice p{
+  margin:15px 0 0;text-align:left;font-size:16px;line-height:1.7;font-weight:560;color:#576c84;
+}
+.member-story-booking-choice-early{border-color:#0b2345;background:#0b2345}
+.member-story-booking-choice-early .member-story-booking-label{color:#a9caff}
+.member-story-booking-choice-early h3,
+.member-story-booking-choice-early h3 strong{color:#fff}
+.member-story-booking-choice-early h3 strong{color:#b5d5ff}
+.member-story-booking-choice-early p{color:#cfdded}
+.member-story-early p.member-story-early-summary{
+  margin:42px auto 0;font-size:clamp(22px,3.2vw,34px);
+  line-height:1.43;font-weight:800;color:#102944;
+}
+.member-story-early-summary strong{color:#2768de}
+.member-story-early p.member-story-early-disclosure{
+  max-width:820px;margin:28px auto 0;
+  font-size:13px;line-height:1.75;font-weight:520;color:#66788e;
+}
+.member-story-policy-link{
+  display:inline-block;margin-top:18px;
+  color:#2360cf;font-size:13px;font-weight:730;
+  text-decoration:underline;text-underline-offset:4px;
+}
+.member-story-policy-link:focus-visible{outline:2px solid #80aef9;outline-offset:4px}
+.member-story-price-match{background:#07111f;color:#fff}
+.member-story-price-match h2{color:#fff}
+.member-story-price-match h2 strong{color:#b8d5ff}
+.member-story-price-match>div>p{color:#d5e2ee}
+.member-story-match-process{
+  width:min(100%,910px);margin:48px auto 0;
+  border-top:1px solid #344a63;text-align:left;
+}
+.member-story-match-process>div{
+  display:grid;grid-template-columns:48px minmax(0,1fr);
+  align-items:center;gap:4px 18px;
+  padding:22px 5px;border-bottom:1px solid #344a63;
+}
+.member-story-match-process b{
+  grid-row:span 2;color:#9dc5ff;font-size:20px;font-weight:900;
+}
+.member-story-match-process strong{color:#fff;font-size:clamp(20px,2.35vw,28px);font-weight:850}
+.member-story-match-process span{color:#c4d4e8;font-size:15px;line-height:1.7}
+.member-story-match-rule{
+  width:min(100%,890px);margin:35px auto 0;
+  padding:29px 20px;border:1px solid #446a9a;border-radius:13px;
+  background:#132c4b;text-align:center;
+}
+.member-story-match-rule>span{display:block;font-size:14px;color:#b7cce4;font-weight:700}
+.member-story-match-rule>strong{
+  display:block;margin-top:10px;font-size:clamp(28px,4vw,44px);
+  font-weight:870;color:#fff;line-height:1.2;
+}
+.member-story-match-rule p{
+  margin:13px auto 0;color:#c5d8ee;font-size:15px;font-weight:540;line-height:1.65;
+}
+.member-story-price-match p.member-story-match-note{
+  max-width:840px;margin:25px auto 0;
+  color:#bccadc;font-size:13px;font-weight:520;line-height:1.75;
+}
+.member-story-price-match .member-story-policy-link{color:#b6d4ff}
+@media(max-width:700px){
+  .member-story-booking-choices{margin-top:33px;gap:12px}
+  .member-story-booking-choice{padding:24px 20px}
+  .member-story-booking-label{font-size:13px}
+  .member-story-booking-choice h3{font-size:26px}
+  .member-story-booking-choice p{font-size:14px;margin-top:12px}
+  .member-story-early p.member-story-early-summary{margin-top:32px;font-size:25px}
+  .member-story-early p.member-story-early-disclosure{font-size:12px;margin-top:22px}
+  .member-story-match-process{margin-top:32px}
+  .member-story-match-process>div{
+    grid-template-columns:32px minmax(0,1fr);
+    gap:5px 11px;padding:18px 4px;
+  }
+  .member-story-match-process b{font-size:16px}
+  .member-story-match-process strong{font-size:19px}
+  .member-story-match-process span{font-size:13px}
+  .member-story-match-rule{padding:24px 15px;margin-top:27px}
+  .member-story-match-rule>span{font-size:13px}
+  .member-story-match-rule>strong{font-size:27px}
+  .member-story-match-rule p{font-size:13px}
+  .member-story-price-match p.member-story-match-note{font-size:12px}
+}

@@ -23,7 +23,7 @@ jobs:
       - name: Test membership contact throttling without sending leads
         run: |
           node --check functions/api/contact.js
-          node --check membership/membership-section11-12-guide-transition-v1.js
+          node --check membership/cruise-membership-rebuild-v3.js
           node --check membership/membership-section17-18-calculator-fit-v1.js
           node --check functions/membership/_middleware.js
           node scripts/test_membership_contact_cooldown.mjs
@@ -210,7 +210,7 @@ jobs:
                   const ids=[...document.querySelectorAll('main > section')].map(el => el.id || 'unnamed');
                   const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
                     'member-story-cost','same-cruise','member-story-secret',
-                    'mx-cruise-price-examples','mx-lowest-price','member-story-points',
+                    'member-story-early','member-story-price-match','member-story-points',
                     'calculator','plans','membership-inquiry'];
                   const planSection=document.querySelector('#plans');
                   const removedCopy=[
@@ -240,6 +240,29 @@ jobs:
                     pointsText.includes('$200 → 350P') && pointsText.includes('$500 → 800P') &&
                     pointsText.includes('$250 → 500P') &&
                     secret.compareDocumentPosition(points)===4;
+                  const early=document.querySelector('#member-story-early');
+                  const match=document.querySelector('#member-story-price-match');
+                  const earlyText=early?.innerText||'';
+                  const matchText=match?.innerText||'';
+                  const earlyAndGuaranteeCorrect=!!early && !!match &&
+                    earlyText.includes('출항 270일 이상 전') &&
+                    earlyText.includes('포인트만으로') &&
+                    earlyText.includes('무료 여행이라는 의미는 아닙니다') &&
+                    matchText.includes('같은 크루즈를') &&
+                    matchText.includes('POINT + 카드 결제') &&
+                    matchText.includes('적용되지 않습니다') &&
+                    matchText.includes('예약 전 신청') &&
+                    secret.compareDocumentPosition(early)===4 &&
+                    early.compareDocumentPosition(match)===4 &&
+                    match.compareDocumentPosition(points)===4 &&
+                    early.querySelectorAll('.member-story-booking-choice').length===2 &&
+                    match.querySelectorAll('.member-story-match-process>div').length===3 &&
+                    early.querySelectorAll('a[href*="EN_WELCOME_TO_MEMBERSHIP_3X"]').length===1 &&
+                    match.querySelectorAll('a[href*="price_match_guarantee"]').length===1;
+                  const noOldPriceSections=!document.querySelector('#mx-cruise-price-examples,#mx-lowest-price') &&
+                    !document.querySelector('script[src*="membership-section11-12-guide-transition-v1.js"],script[src*="membership-cruise-example-images-v1.js"]');
+                  const earlyAndMatchContrast=getComputedStyle(early).backgroundColor==='rgb(243, 247, 253)' &&
+                    getComputedStyle(match).backgroundColor==='rgb(7, 17, 31)';
                   const oldMemberInjectors=document.querySelectorAll(
                     'script[src*="membership-section9-10-cost-use-v1.js"],script[src*="membership-section13-14-points-v1.js"]'
                   ).length;
@@ -262,6 +285,7 @@ jobs:
                     bookingTotalVerified:document.querySelector('#same-cruise .mx8-real-total')?.textContent?.includes('$3,887.35')||false,
                     storyOrderCorrect,storyWithoutSale,storyContrast,
                     memberMechanicsCorrect,oldMemberInjectors,
+                    earlyAndGuaranteeCorrect,noOldPriceSections,earlyAndMatchContrast,
                     planCopyRemoved:unwantedPlanCopy.length===0 &&
                       !document.querySelector('#plans .membership-plan-notice, #plans .member-plan-consult') &&
                       !redundantTerms && !injectedTermsScript,
@@ -272,7 +296,8 @@ jobs:
                     planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
                 });
                 console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
-                if(!compact.memberMechanicsCorrect || compact.oldMemberInjectors!==0 ||
+                if(!compact.earlyAndGuaranteeCorrect || !compact.noOldPriceSections || !compact.earlyAndMatchContrast ||
+                    !compact.memberMechanicsCorrect || compact.oldMemberInjectors!==0 ||
                     !compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
                     !compact.storyOrderCorrect || !compact.storyWithoutSale || !compact.storyContrast ||
                     !compact.planCopyRemoved || !compact.planChoicesFirst ||
@@ -334,7 +359,7 @@ jobs:
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
-                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-points', 'calculator', 'plans', 'membership-inquiry']) {
+                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-early', 'member-story-price-match', 'member-story-points', 'calculator', 'plans', 'membership-inquiry']) {
                     await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
                     await page.waitForTimeout(230);
                     const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
@@ -423,7 +448,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['early','#member-story-early'],['match','#member-story-price-match'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
