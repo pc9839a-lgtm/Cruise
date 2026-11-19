@@ -2,7 +2,7 @@
   'use strict';
 
   function buildSections10And11() {
-    const section9 = document.getElementById('guide-question');
+    const section9 = document.getElementById('member-story-secret');
     if (!section9) return false;
 
     document.getElementById('mx-prepare-money')?.remove();
