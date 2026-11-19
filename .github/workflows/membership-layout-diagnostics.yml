@@ -247,7 +247,7 @@ jobs:
                   const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
                     'member-story-cost','same-cruise','member-story-secret',
                     'member-story-early','member-story-price-match','member-story-points',
-                    'calculator','plans','membership-inquiry'];
+                    'calculator','plans','member-before-join','member-final-choice','membership-inquiry'];
                   const planSection=document.querySelector('#plans');
                   const removedCopy=[
                     '가입 전에 조건부터 확인하고 싶다면?',
@@ -262,6 +262,10 @@ jobs:
                   const redundantTerms=document.querySelector('#membership-terms');
                   const injectedTermsScript=document.querySelector('script[src*="membership-section21-22-terms-final-v1.js"]');
                   const plansRect=planSection?.getBoundingClientRect();
+                  const faqSection=document.querySelector('#member-before-join');
+                  const finalSection=document.querySelector('#member-final-choice');
+                  const faqRect=faqSection?.getBoundingClientRect();
+                  const finalRect=finalSection?.getBoundingClientRect();
                   const inquiryRect=document.querySelector('#membership-inquiry')?.getBoundingClientRect();
                   const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
                   const secret=document.querySelector('#member-story-secret');
@@ -328,7 +332,16 @@ jobs:
                     unwantedPlanCopy,
                     redundantTermsPresent:!!redundantTerms,
                     termsInjectorPresent:!!injectedTermsScript,
-                    planToInquiryGap:plansRect&&inquiryRect?Math.round(inquiryRect.top-plansRect.bottom):null,
+                    faqValid:faqSection?.querySelectorAll('details').length===4 &&
+                      faqSection.querySelectorAll('a[href^="https://"]').length===2 &&
+                      faqSection.textContent.includes('결제 후 14일 이내') &&
+                      faqSection.textContent.includes('30일 경과 시 비활성'),
+                    finalValid:finalSection?.textContent.includes('월 $100') &&
+                      finalSection.textContent.includes('월 $250') &&
+                      finalSection.querySelector('.member-final-primary')?.getAttribute('href')==='#plans' &&
+                      finalSection.querySelector('.member-final-secondary')?.getAttribute('href')==='#membership-inquiry',
+                    planToFaqGap:plansRect&&faqRect?Math.round(faqRect.top-plansRect.bottom):null,
+                    finalToInquiryGap:finalRect&&inquiryRect?Math.round(inquiryRect.top-finalRect.bottom):null,
                     planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
                 });
                 console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
@@ -336,8 +349,9 @@ jobs:
                     !compact.memberMechanicsCorrect || compact.oldMemberInjectors!==0 ||
                     !compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
                     !compact.storyOrderCorrect || !compact.storyWithoutSale || !compact.storyContrast ||
-                    !compact.planCopyRemoved || !compact.planChoicesFirst ||
-                    compact.planToInquiryGap===null || Math.abs(compact.planToInquiryGap)>4)
+                    !compact.planCopyRemoved || !compact.planChoicesFirst || !compact.faqValid || !compact.finalValid ||
+                    compact.planToFaqGap===null || Math.abs(compact.planToFaqGap)>4 ||
+                    compact.finalToInquiryGap===null || Math.abs(compact.finalToInquiryGap)>4)
                   process.exitCode=1;
                 const conversion = await page.evaluate(() => ({
                   hero:document.querySelector('#member-story-top h1')?.textContent?.includes('비싸서 포기하셨나요?') || false,
@@ -410,7 +424,7 @@ jobs:
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
-                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-early', 'member-story-price-match', 'member-story-points', 'calculator', 'plans', 'membership-inquiry']) {
+                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-early', 'member-story-price-match', 'member-story-points', 'calculator', 'plans', 'member-before-join', 'member-final-choice', 'membership-inquiry']) {
                     await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
                     await page.waitForTimeout(230);
                     const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
@@ -499,7 +513,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['early','#member-story-early'],['match','#member-story-price-match'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['early','#member-story-early'],['match','#member-story-price-match'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['faq','#member-before-join'],['final','#member-final-choice']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
