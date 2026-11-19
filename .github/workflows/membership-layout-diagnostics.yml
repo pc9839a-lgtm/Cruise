@@ -237,6 +237,9 @@ jobs:
                     extra:ids.filter(id=>!expected.includes(id)),
                     cashRecap:receipt?.textContent?.includes('$3,020.88')||false,
                     exampleComplete:['$2,000','$1,600','$400','350P','800P','1,150P','1,000P','$1,000'].every(v=>exampleText.includes(v)),
+                    independentStoryOwner:!!example && example.classList.contains('member-story-savings') &&
+                      getComputedStyle(example).backgroundColor==='rgb(255, 255, 255)' &&
+                      !document.querySelector('#mx-direct-booking-intro'),
                     exampleCostHonest:exampleText.includes('첫 결제·월 납부 누적 $600')&&exampleText.includes('모든 예약에서 $400을 할인받는다는 뜻이 아닙니다.'),
                     bookingTotalVerified:document.querySelector('#same-cruise .mx8-real-total')?.textContent?.includes('$3,887.35')||false,
                     storyOrderCorrect,storyWithoutSale,storyContrast,
@@ -250,7 +253,7 @@ jobs:
                     planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
                 });
                 console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
-                if(!compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
+                if(!compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
                     !compact.storyOrderCorrect || !compact.storyWithoutSale || !compact.storyContrast ||
                     !compact.planCopyRemoved || !compact.planChoicesFirst ||
                     compact.planToInquiryGap===null || Math.abs(compact.planToInquiryGap)>4)
