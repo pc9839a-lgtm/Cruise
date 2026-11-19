@@ -23,6 +23,9 @@ jobs:
       - name: Test membership contact throttling without sending leads
         run: |
           node --check functions/api/contact.js
+          node --check membership/membership-section11-12-guide-transition-v1.js
+          node --check membership/membership-section17-18-calculator-fit-v1.js
+          node --check functions/membership/_middleware.js
           node scripts/test_membership_contact_cooldown.mjs
       - name: Install headless browser
         run: |
@@ -206,8 +209,8 @@ jobs:
                 const compact = await page.evaluate(() => {
                   const ids=[...document.querySelectorAll('main > section')].map(el => el.id || 'unnamed');
                   const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
-                    'member-story-cost','same-cruise','guide-question',
-                    'mx-cruise-price-examples','mx-lowest-price','membership-point',
+                    'member-story-cost','same-cruise','member-story-secret',
+                    'mx-cruise-price-examples','mx-lowest-price','member-story-points',
                     'calculator','plans','membership-inquiry'];
                   const planSection=document.querySelector('#plans');
                   const removedCopy=[
@@ -225,6 +228,21 @@ jobs:
                   const plansRect=planSection?.getBoundingClientRect();
                   const inquiryRect=document.querySelector('#membership-inquiry')?.getBoundingClientRect();
                   const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
+                  const secret=document.querySelector('#member-story-secret');
+                  const points=document.querySelector('#member-story-points');
+                  const secretText=secret?.innerText||'';
+                  const pointsText=points?.innerText||'';
+                  const memberMechanicsCorrect=!!secret && !!points &&
+                    secretText.includes('여행비를 준비하는 방법입니다.') &&
+                    secretText.includes('이것이 크루즈 멤버십') &&
+                    secretText.includes('현금처럼 출금하는 돈이 아닙니다.') &&
+                    pointsText.includes('$100') && pointsText.includes('200P') &&
+                    pointsText.includes('$200 → 350P') && pointsText.includes('$500 → 800P') &&
+                    pointsText.includes('$250 → 500P') &&
+                    secret.compareDocumentPosition(points)===4;
+                  const oldMemberInjectors=document.querySelectorAll(
+                    'script[src*="membership-section9-10-cost-use-v1.js"],script[src*="membership-section13-14-points-v1.js"]'
+                  ).length;
                   const example=document.querySelector('#member-story-cost');
                   const exampleText=example?.innerText||'';
                   const storyIds=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference'];
@@ -243,6 +261,7 @@ jobs:
                     exampleCostHonest:exampleText.includes('첫 결제·월 납부 누적 $600')&&exampleText.includes('모든 예약에서 $400을 할인받는다는 뜻이 아닙니다.'),
                     bookingTotalVerified:document.querySelector('#same-cruise .mx8-real-total')?.textContent?.includes('$3,887.35')||false,
                     storyOrderCorrect,storyWithoutSale,storyContrast,
+                    memberMechanicsCorrect,oldMemberInjectors,
                     planCopyRemoved:unwantedPlanCopy.length===0 &&
                       !document.querySelector('#plans .membership-plan-notice, #plans .member-plan-consult') &&
                       !redundantTerms && !injectedTermsScript,
@@ -253,7 +272,8 @@ jobs:
                     planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
                 });
                 console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
-                if(!compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
+                if(!compact.memberMechanicsCorrect || compact.oldMemberInjectors!==0 ||
+                    !compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
                     !compact.storyOrderCorrect || !compact.storyWithoutSale || !compact.storyContrast ||
                     !compact.planCopyRemoved || !compact.planChoicesFirst ||
                     compact.planToInquiryGap===null || Math.abs(compact.planToInquiryGap)>4)
@@ -314,7 +334,7 @@ jobs:
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
-                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'calculator', 'plans', 'membership-inquiry']) {
+                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-points', 'calculator', 'plans', 'membership-inquiry']) {
                     await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
                     await page.waitForTimeout(230);
                     const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
@@ -403,7 +423,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
