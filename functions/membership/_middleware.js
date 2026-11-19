@@ -25,13 +25,11 @@ export async function onRequest(context) {
     })
     .on('body', {
       element(element) {
-        // Two membership explanatory chapters are authored in HTML; keep only later untouched booking/positioning helpers.
+        // The next two 270-day and price-match chapters are static HTML; retain only booking and layout helpers.
         element.append(
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-mobile5"></script>' +
 
           '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261119-story-phase2fix"></script>' +
-          '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20261119-twochapters1"></script>' +
-          '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20261111-cssunified1"></script>' +
 
           '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20261119-twochapters1"></script>' +
 
