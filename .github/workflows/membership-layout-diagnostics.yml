@@ -278,6 +278,10 @@ jobs:
                    heroDetail.height > (width < 720 ? 780 : 900) ||
                    heroDetail.height < 380 ||
                    !heroDetail.title.includes('비싸서 포기하셨나요?'))process.exitCode=1;
+                for(const img of await page.locator('#member-story-experience img, #mx-moving-hotel img').all()) {
+                  await img.scrollIntoViewIfNeeded({timeout:8000});
+                  await img.evaluate(el=>el.decode());
+                }
                 const gallery = await page.evaluate(() => {
                   const images=[...document.querySelectorAll('#member-story-experience img, #mx-moving-hotel img')];
                   return {
