@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="./membership-unified.css?v=20261119-phase5-calc-plans1" />
+  <link rel="stylesheet" href="./membership-unified.css?v=20261119-phase6-faq-final1" />
 </head>
 <body>
   <main id="top">
@@ -217,7 +217,61 @@
       </div>
     </section>
 
-    <!-- 11 -->
+    <!-- 10 · 가입 전 확인: 기존 삭제된 중복 조건 카드와 별개인 간결한 FAQ -->
+    <section id="member-before-join" class="member-before-join" aria-labelledby="memberBeforeJoinTitle">
+      <div class="member-before-inner">
+        <div class="member-before-heading">
+          <span class="member-before-eyebrow">가입 전 확인</span>
+          <h2 id="memberBeforeJoinTitle">가입하기 전에,<br /><strong>이 조건은 확인하세요.</strong></h2>
+        </div>
+        <div class="member-before-facts" aria-label="멤버십 주요 조건">
+          <div><span>멤버십 납부액 환불 요청</span><strong>결제 후 14일 이내</strong></div>
+          <div><span>납부 기한 초과</span><strong>30일 경과 시 비활성</strong></div>
+          <div><span>Reward Points</span><strong>현금 출금·양도 불가</strong></div>
+        </div>
+        <div class="member-before-faq" aria-labelledby="memberBeforeFaqTitle">
+          <h3 id="memberBeforeFaqTitle">자주 묻는 질문</h3>
+          <details>
+            <summary>매월 자동 결제를 중단할 수 있나요?</summary>
+            <p>계정의 결제 설정에서 정기 결제를 중단할 수 있습니다. 다만 정기 결제 중단이 곧 멤버십 해지는 아니며, 활성 상태를 유지하려면 정해진 기한 안에 납부해야 합니다.</p>
+          </details>
+          <details>
+            <summary>회비를 내지 않으면 POINT는 모두 사라지나요?</summary>
+            <p>납부 기한에서 30일이 지나 비활성화되면 정시 납부에 따른 추가 적립분 등은 소멸할 수 있습니다. 실제 납부액에 해당하는 POINT는 남지만, 사용 비율과 예약 조건이 달라집니다.</p>
+          </details>
+          <details>
+            <summary>멤버십 결제와 크루즈 예약의 환불 기준이 같나요?</summary>
+            <p>다릅니다. 멤버십 결제는 결제 후 14일 이내 환불을 신청할 수 있으나, 환불로 계정이 종료되면 POINT도 소멸합니다. 확정된 크루즈·호텔 예약은 원칙적으로 환불 및 명의 변경이 불가합니다.</p>
+          </details>
+          <details>
+            <summary>270일 전에 예약하면 POINT만으로 가능한가요?</summary>
+            <p>출항 270일 이상 전에는 활성 유료 회원이 필요한 POINT를 보유하고 해당 예약 조건을 충족할 경우 전액 POINT 예약이 가능합니다. 세금·수수료 등 별도 비용은 예약 화면에서 확인해야 합니다.</p>
+          </details>
+        </div>
+        <p class="member-before-policy">최신 약관과 지역별 적용 조건을 확인하세요.
+          <a href="https://membership.incruises.com/payment_terms" target="_blank" rel="noopener noreferrer">공식 결제·환불 약관</a>
+          <a href="https://files.incruises.com/files/en/106EN_3.2_MEMBER_AGREEMENT.pdf" target="_blank" rel="noopener noreferrer">공식 멤버십 계약</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- 11 · 마지막 선택: 요금제 비교 및 기존 가입·상담 경로만 사용 -->
+    <section id="member-final-choice" class="member-final-choice" aria-labelledby="memberFinalChoiceTitle">
+      <div class="member-final-inner">
+        <span class="member-final-eyebrow">CLASSIC OR PREMIUM</span>
+        <h2 id="memberFinalChoiceTitle">여행 계획에 맞는<br /><strong>요금제를 선택하세요.</strong></h2>
+        <div class="member-final-options" aria-label="멤버십 월 납부액과 적립 포인트">
+          <div><span>클래식</span><strong>월 $100</strong><b>매월 200P</b></div>
+          <div><span>프리미엄</span><strong>월 $250</strong><b>매월 500P</b></div>
+        </div>
+        <p class="member-final-first">첫 결제는 클래식 $200, 프리미엄 $500이며 첫 달 납부액이 포함됩니다.</p>
+        <a class="member-final-primary" href="#plans">요금제 선택하기</a>
+        <a class="member-final-secondary" href="#membership-inquiry">가입 전 무료 상담</a>
+        <p class="member-final-note">상담만 신청해도 가입이나 결제가 자동으로 진행되지 않습니다.</p>
+      </div>
+    </section>
+
+    <!-- 12 -->
     <section id="membership-inquiry" class="member-inquiry-section" aria-labelledby="memberInquiryTitle">
       <div class="member-inquiry-wrap">
         <div class="member-inquiry-heading">
@@ -267,6 +321,6 @@
   </footer>
 
   <script src="./membership-entry-survey-v2.js?v=20260831-2"></script>
-  <script src="./cruise-membership-rebuild-v3.js?v=20261119-phase5-calc-plans1"></script>
+  <script src="./cruise-membership-rebuild-v3.js?v=20261119-phase6-faq-final1"></script>
 </body>
 </html>
