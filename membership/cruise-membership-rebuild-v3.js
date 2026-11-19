@@ -392,6 +392,8 @@ function initMembershipInquiry() {
     '#member-story-top',
     '#member-story-cost',
     '#same-cruise',
+    '#member-story-secret',
+    '#member-story-points',
     '#calculator',
     '#plans',
     '#membership-inquiry',
