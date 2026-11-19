@@ -72,7 +72,7 @@ jobs:
                 });
                 const diagnostic = await page.evaluate(() => {
                   const selectors = ['#cms-survey-v2','#member-story-top','#member-story-experience','#mx-moving-hotel','#member-story-difference',
-                    '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
+                    '#mx-port-day','#member-story-cost','#mx-point-example','#mx-actual-cash',
                     '#calculator','#member-story-difference','#mx-member-booking-benefits','#mx-travel-expansion',
                     '#mx-membership-freedom','#plans','#planCards','#membership-terms',
                     '.membership-bottom-cta'];
@@ -206,7 +206,7 @@ jobs:
                 const compact = await page.evaluate(() => {
                   const ids=[...document.querySelectorAll('main > section')].map(el => el.id || 'unnamed');
                   const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
-                    'mx-direct-booking-intro','same-cruise','guide-question',
+                    'member-story-cost','same-cruise','guide-question',
                     'mx-cruise-price-examples','mx-lowest-price','membership-point',
                     'calculator','plans','membership-inquiry'];
                   const planSection=document.querySelector('#plans');
@@ -225,7 +225,7 @@ jobs:
                   const plansRect=planSection?.getBoundingClientRect();
                   const inquiryRect=document.querySelector('#membership-inquiry')?.getBoundingClientRect();
                   const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
-                  const example=document.querySelector('#mx-direct-booking-intro');
+                  const example=document.querySelector('#member-story-cost');
                   const exampleText=example?.innerText||'';
                   const storyIds=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference'];
                   const storyCopy=storyIds.map(id=>document.getElementById(id)?.innerText||'');
@@ -400,7 +400,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['savings','#mx-direct-booking-intro'],['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
