@@ -3,7 +3,7 @@
 
   // Only position and label the calculator. CSS owns sizing, spacing and visibility.
   function configureCalculator() {
-    const membership = document.getElementById('membership-point');
+    const membership = document.getElementById('member-story-points');
     const calculator = document.getElementById('calculator');
     if (!membership || !calculator) return false;
 
