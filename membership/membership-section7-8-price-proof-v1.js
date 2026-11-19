@@ -2,7 +2,7 @@
   'use strict';
 
   function buildSections7And8() {
-    const section6 = document.getElementById('price-pain');
+    const section6 = document.getElementById('member-story-difference');
     const section7 = document.getElementById('price-compare');
     const section8 = document.getElementById('same-cruise');
     if (!section6 || !section8) return false;
