@@ -386,18 +386,24 @@ function initMembershipInquiry() {
 
   // Calculator results, plan buttons, terms and the inquiry form must not be covered by
   // the floating consultation CTA. The partner landing uses the same principle.
-  const protectedAreas = [
-    document.getElementById('calculator'),
-    document.getElementById('plans'),
-    document.getElementById('membership-terms'),
-    document.getElementById('membership-inquiry'),
-    document.querySelector('.site-footer')
-  ].filter(Boolean);
+  // Never cover key narrative or interactive content with a floating CTA.
+  // Query on each scroll so injected booking examples are protected too.
+  const protectedAreaSelectors = [
+    '#member-story-top',
+    '#member-story-cost',
+    '#same-cruise',
+    '#calculator',
+    '#plans',
+    '#membership-inquiry',
+    '.site-footer'
+  ];
   let frame = 0;
   const update = () => {
     frame = 0;
     const viewportEnd = window.innerHeight - 24;
-    const covered = protectedAreas.some((area) => {
+    const covered = protectedAreaSelectors.some((selector) => {
+      const area = document.querySelector(selector);
+      if (!area) return false;
       const box = area.getBoundingClientRect();
       return box.top < viewportEnd && box.bottom > 60;
     });
