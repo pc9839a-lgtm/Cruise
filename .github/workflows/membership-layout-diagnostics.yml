@@ -25,6 +25,7 @@ jobs:
           node --check functions/api/contact.js
           node --check membership/cruise-membership-rebuild-v3.js
           node --check membership/membership-section17-18-calculator-fit-v1.js
+          node --check membership/membership-section17-18-calculator-fit-v1.js
           node --check functions/membership/_middleware.js
           node scripts/test_membership_contact_cooldown.mjs
       - name: Install headless browser
@@ -205,7 +206,42 @@ jobs:
                     regularOk:regular.points==='2,000P'&&regular.card==='$2,000'&&regular.total==='$3,100'&&regular.selected==='true',
                     earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,100'&&early.selected==='true'};
                 });
-                console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls}));
+                const presets = await page.evaluate(() => {
+                  const range=document.querySelector('#cruisePrice');
+                  const byAmount=n=>document.querySelector('#calculator [data-cruise-price="'+n+'"]');
+                  const value=id=>document.getElementById(id)?.textContent.trim();
+                  byAmount(3000)?.click();
+                  const first={
+                    value:range?.value,
+                    points:value('usablePoint'),
+                    cash:value('cashUsd'),
+                    total:value('coverageRatio'),
+                    pressed:byAmount(3000)?.getAttribute('aria-pressed')
+                  };
+                  byAmount(5000)?.click();
+                  const second={
+                    value:range?.value,points:value('usablePoint'),
+                    cash:value('cashUsd'),total:value('coverageRatio'),
+                    pressed:byAmount(5000)?.getAttribute('aria-pressed')
+                  };
+                  range.value='3500';range.dispatchEvent(new Event('input',{bubbles:true}));
+                  const manualNoPreset=[...document.querySelectorAll('#calculator [data-cruise-price]')].every(
+                    b=>b.getAttribute('aria-pressed')==='false');
+                  byAmount(2000)?.click();
+                  return {count:document.querySelectorAll('#calculator [data-cruise-price]').length,
+                    first,second,manualNoPreset,restored:range.value==='2000'&&byAmount(2000)?.getAttribute('aria-pressed')==='true',
+                    explanatory:document.querySelector('#calculator .member-calc-intro')?.textContent?.includes('포인트 적립을 위한 납부액'),
+                    questionLink:document.querySelector('#calculator .member-calc-inquiry-link')?.getAttribute('href'),
+                    totalLabel:document.querySelector('#coverageRatio')?.closest('.result-box')?.querySelector('span')?.textContent?.trim()};
+                });
+                console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls,presets}));
+                if(presets.count!==3||presets.first.value!=='3000'||presets.first.points!=='1,500P'||
+                  presets.first.cash!=='$1,500'||presets.first.total!=='$2,300'||presets.first.pressed!=='true'||
+                  presets.second.value!=='5000'||presets.second.points!=='2,500P'||
+                  presets.second.cash!=='$2,500'||presets.second.total!=='$3,800'||presets.second.pressed!=='true'||
+                  !presets.manualNoPreset||!presets.restored||!presets.explanatory||
+                  presets.questionLink!=='#membership-inquiry'||presets.totalLabel!=='멤버십 납부 + 예약 결제 합계')
+                  process.exitCode=1;
                 const compact = await page.evaluate(() => {
                   const ids=[...document.querySelectorAll('main > section')].map(el => el.id || 'unnamed');
                   const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
@@ -312,6 +348,15 @@ jobs:
                   oldSticky:!!document.querySelector('.membership-bottom-cta'),
                   formCentered:getComputedStyle(document.querySelector('.member-inquiry-wrap')).flexDirection==='column',
                   planLabels:[...document.querySelectorAll('#planCards .plan-cta')].map(el=>el.textContent.trim()),
+                  planPayments:[...document.querySelectorAll('#planCards .plan-card')].map(el=>({
+                    firstIncluded:el.textContent.includes('첫 달 납부 포함'),
+                    normalPayment:el.textContent.includes('정시 납부 기준'),
+                    amount:el.querySelector('.mx-plan-phase.first .mx-plan-pair-item strong')?.textContent,
+                    month:el.querySelector('.mx-plan-phase.monthly .mx-plan-pair-item strong')?.textContent,
+                    signup:el.querySelector('[data-plan-signup-link]')?.getAttribute('href')
+                  })),
+                  planIntro:document.querySelector('#plans .member-plans-intro')?.textContent,
+                  planFootnote:document.querySelector('#plans .member-plans-footnote')?.textContent,
                   pointCostVisible:getComputedStyle(document.querySelector('#pointKrw')).display!=='none',
                   krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
                 }));
@@ -356,6 +401,12 @@ jobs:
                     !conversion.formCentered || !conversion.pointCostVisible ||
                     !conversion.krwTotalVisible || conversion.planLabels.length!==2 ||
                     conversion.planLabels.some(text=>!text.includes('상담받기')) ||
+                    !conversion.planIntro?.includes('첫 달 납부액이 포함됩니다') ||
+                    !conversion.planFootnote?.includes('정시 납부 기준') ||
+                    conversion.planPayments.length!==2 ||
+                    conversion.planPayments.some(p=>!p.firstIncluded||!p.normalPayment||p.signup!=='#membership-inquiry') ||
+                    conversion.planPayments[0].amount!=='$200'||conversion.planPayments[0].month!=='$100'||
+                    conversion.planPayments[1].amount!=='$500'||conversion.planPayments[1].month!=='$250' ||
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
