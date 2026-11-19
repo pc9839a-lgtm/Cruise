@@ -19,15 +19,11 @@
       const element = calculator.querySelector(selector);
       if (element) element.textContent = value;
     };
-    setText('.section-kicker', 'USD · POINT');
-    setText('.calculator-head strong', '크루즈 금액');
-    setText('.mode-btn[data-mode="general"]', '일반 예약');
-    setText('.mode-btn[data-mode="early"]', '270일+');
-    setText('#pointLabel', '필요 POINT');
-    setText('#cashLabel', '카드 결제');
-
-    const title = calculator.querySelector('.section-head h2');
-    if (title) title.innerHTML = '그럼 내가 가려는 크루즈는?<br><strong>직접 계산해보세요</strong>';
+    setText('.calculator-head strong', '예상 크루즈 금액');
+    setText('.mode-btn[data-mode="general"]', '포인트 + 카드');
+    setText('.mode-btn[data-mode="early"]', '270일 이상 미리 예약');
+    setText('#pointLabel', '예약에 사용하는 POINT');
+    setText('#cashLabel', '예약 시 카드 결제');
 
     const cruiseBox = calculator.querySelector('#cruiseUsd')?.closest('.result-box');
     if (cruiseBox) {
@@ -39,7 +35,7 @@
 
     const totalBox = calculator.querySelector('#coverageRatio')?.closest('.result-box');
     const totalLabel = totalBox?.querySelector('span');
-    if (totalLabel) totalLabel.textContent = '총 누적 지출 예시';
+    if (totalLabel) totalLabel.textContent = '멤버십 납부 + 예약 결제 합계';
     return true;
   }
 
