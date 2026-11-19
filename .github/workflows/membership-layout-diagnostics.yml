@@ -257,7 +257,6 @@ jobs:
                     match.compareDocumentPosition(points)===4 &&
                     early.querySelectorAll('.member-story-booking-choice').length===2 &&
                     match.querySelectorAll('.member-story-match-process>div').length===3 &&
-                    early.querySelectorAll('a[href*="MEMBERSHIP_3X"]').length===0 &&
                     early.querySelectorAll('a[href*="EN_WELCOME_TO_MEMBERSHIP_3X"]').length===1 &&
                     match.querySelectorAll('a[href*="price_match_guarantee"]').length===1;
                   const noOldPriceSections=!document.querySelector('#mx-cruise-price-examples,#mx-lowest-price') &&
