@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="./membership-unified.css?v=20261119-phase4-early-price1" />
+  <link rel="stylesheet" href="./membership-unified.css?v=20261119-phase5-calc-plans1" />
 </head>
 <body>
   <main id="top">
@@ -173,8 +173,8 @@
     <section id="calculator" class="section mv2-calculator calc-clean-v2">
       <div class="container">
         <div class="section-head center reveal">
-          <span class="section-kicker">USD · POINT</span>
-          <h2>그럼 내가 가려는 크루즈는?<br><strong>직접 계산해보세요</strong></h2>
+          <h2>내가 가고 싶은 크루즈,<br><strong>총 얼마를 준비해야 할까요?</strong></h2>
+          <p class="member-calc-intro">여행비를 선택하면 포인트 적립을 위한 납부액과 예약할 때 내는 금액을 함께 계산합니다.</p>
         </div>
         <div class="exchange-bar reveal" role="status" aria-live="polite">
           <div><span class="exchange-label">현재 계산 기준 환율</span><strong id="exchangeRateText">불러오는 중...</strong></div>
@@ -182,19 +182,25 @@
         </div>
         <div class="calculator-card reveal">
           <div class="calculator-head"><strong>크루즈 금액</strong><span id="rangeValue">$2,000</span></div>
-          <input id="cruisePrice" class="price-range" type="range" min="1000" max="10000" step="100" value="2000" aria-label="크루즈 금액 조절" />
+          <input id="cruisePrice" class="price-range" type="range" min="1000" max="10000" step="100" value="2000" aria-label="예상 크루즈 금액 조절" />
+          <div class="member-calc-quick-picks" role="group" aria-label="예상 크루즈 금액 빠르게 선택">
+            <button type="button" data-cruise-price="2000" aria-pressed="true">$2,000</button>
+            <button type="button" data-cruise-price="3000" aria-pressed="false">$3,000</button>
+            <button type="button" data-cruise-price="5000" aria-pressed="false">$5,000</button>
+          </div>
           <div class="calculator-mode" role="group" aria-label="크루즈 예약 방식">
-            <button class="mode-btn active" data-mode="general" type="button" aria-pressed="true">일반 예약</button>
-            <button class="mode-btn" data-mode="early" type="button" aria-pressed="false">270일+</button>
+            <button class="mode-btn active" data-mode="general" type="button" aria-pressed="true">포인트 + 카드</button>
+            <button class="mode-btn" data-mode="early" type="button" aria-pressed="false">270일 이상 미리 예약</button>
           </div>
           <div class="calculator-note" id="modeDescription">일반 예약은 포인트를 절반까지 쓰고, 나머지 금액은 카드로 결제합니다.</div>
           <div class="result-grid">
             <article class="result-box calc-price-dup" aria-hidden="true"><span>크루즈 금액</span><strong id="cruiseUsd">$2,000</strong><em id="cruiseKrw">계산 중</em></article>
-            <article class="result-box"><span id="pointLabel">필요 POINT</span><strong id="usablePoint">1,000P</strong><em id="pointKrw">가입비 및 적립 기간 계산 중</em></article>
-            <article class="result-box"><span id="cashLabel">카드 결제</span><strong id="cashUsd">$1,000</strong><em id="cashKrw">계산 중</em></article>
-            <article class="result-box highlight total-pay-box"><span>총 누적 지출 예시</span><strong id="coverageRatio">계산 중</strong><em id="coverageText">계산 중</em><small id="coverageSubtext">일반 예약 예시</small></article>
+            <article class="result-box"><span id="pointLabel">예약에 사용하는 POINT</span><strong id="usablePoint">1,000P</strong><em id="pointKrw">가입비 및 적립 기간 계산 중</em></article>
+            <article class="result-box"><span id="cashLabel">예약 시 카드 결제</span><strong id="cashUsd">$1,000</strong><em id="cashKrw">계산 중</em></article>
+            <article class="result-box highlight total-pay-box"><span>멤버십 납부 + 예약 결제 합계</span><strong id="coverageRatio">계산 중</strong><em id="coverageText">계산 중</em><small id="coverageSubtext">일반 예약 예시</small></article>
           </div>
-          <p class="member-calculator-disclosure">클래식 신규 가입·기존 포인트 0P 기준의 적립 예시입니다. 최초 가입 결제와 이후 월 납부, 예약 시 카드 결제를 함께 계산합니다. 포인트 적립에는 기간이 필요하며, 항차·추가 요금·예약 가능 여부는 개별 조건에 따릅니다.</p>
+          <p class="member-calculator-disclosure">클래식 신규 가입, 보유 POINT 0P, 정시 월 납부를 가정한 계산 예시입니다. 실제 예약 가능 POINT와 항차별 가격·세금·수수료·추가 비용은 달라질 수 있습니다.</p>
+          <a class="member-calc-inquiry-link" href="#membership-inquiry">내 여행에도 적용되는지 문의하기</a>
         </div>
       </div>
     </section>
@@ -203,9 +209,11 @@
     <section id="plans" class="section mv2-plans">
       <div class="container plans-wrap">
         <div class="section-head center membership-section-head">
-          <h2>내 일정에 맞게<br /><strong>고르세요</strong></h2>
+          <h2>처음 결제할 금액부터<br /><strong>매월 납부액까지 비교하세요.</strong></h2>
+          <p class="member-plans-intro">클래식은 월 $100, 프리미엄은 월 $250. 두 요금제 모두 첫 결제액에는 첫 달 납부액이 포함됩니다.</p>
         </div>
         <div id="planCards" class="plan-grid"></div>
+        <p class="member-plans-footnote">POINT 적립은 정시 납부 기준이며, 실제 예약에 사용할 수 있는 POINT는 상품 조건에 따라 달라집니다.</p>
       </div>
     </section>
 
@@ -259,6 +267,6 @@
   </footer>
 
   <script src="./membership-entry-survey-v2.js?v=20260831-2"></script>
-  <script src="./cruise-membership-rebuild-v3.js?v=20261119-phase4-early-price1"></script>
+  <script src="./cruise-membership-rebuild-v3.js?v=20261119-phase5-calc-plans1"></script>
 </body>
 </html>
