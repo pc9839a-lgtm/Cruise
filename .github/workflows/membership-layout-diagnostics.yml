@@ -314,7 +314,7 @@ jobs:
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
-                  for (const protectedId of ['calculator', 'plans', 'membership-inquiry']) {
+                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'calculator', 'plans', 'membership-inquiry']) {
                     await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
                     await page.waitForTimeout(230);
                     const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
