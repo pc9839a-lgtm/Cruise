@@ -393,6 +393,8 @@ function initMembershipInquiry() {
     '#member-story-cost',
     '#same-cruise',
     '#member-story-secret',
+    '#member-story-early',
+    '#member-story-price-match',
     '#member-story-points',
     '#calculator',
     '#plans',
