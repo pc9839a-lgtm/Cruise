@@ -6772,3 +6772,96 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   .member-story-savings p.member-story-cost-bridge { margin-top:45px; font-size:25px; }
   .mx8-point-use-proof .mx8-real-total { margin-top:18px; padding:15px; }
 }
+
+/* Story V3 phase 3: exactly two chapters — reveal and point accrual.
+   Both use independent classes; old ID-specific styles do not apply. */
+.member-story-secret{background:#fff;color:#10223a}
+.member-story-secret h2 strong{color:#2464d8}
+.member-story-secret-steps{
+  display:grid;gap:0;
+  width:min(100%,900px);margin:48px auto 0;
+  border-top:2px solid #122d51;text-align:left;
+}
+.member-story-secret-steps>div{
+  display:grid;grid-template-columns:48px minmax(0,1fr);
+  column-gap:17px;row-gap:4px;
+  padding:23px 10px;border-bottom:1px solid #dbe5f1;
+}
+.member-story-secret-steps>div>span{
+  grid-row:span 2;align-self:center;
+  color:#2867da;font-size:21px;font-weight:900;
+}
+.member-story-secret-steps strong{
+  color:#10243f;font-size:clamp(19px,2.2vw,27px);
+  font-weight:850;letter-spacing:-.045em;
+}
+.member-story-secret-steps small{
+  color:#5e7086;font-size:16px;line-height:1.55;
+}
+.member-story-secret p.member-story-secret-note{
+  max-width:780px;margin:30px auto 0;
+  color:#68788d;font-size:14px;font-weight:520;line-height:1.8;
+}
+.member-story-points{background:#07111f;color:#fff}
+.member-story-points h2{color:#fff}
+.member-story-points h2 strong{color:#b7d6ff}
+.member-story-points p{color:#d6e2f0}
+.member-story-points-equation{
+  display:grid;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);
+  gap:16px;align-items:center;
+  width:min(100%,800px);margin:47px auto 37px;
+}
+.member-story-points-equation>div{
+  display:flex;flex-direction:column;align-items:center;gap:11px;
+}
+.member-story-points-equation>div>span{
+  color:#cedbef;font-size:16px;font-weight:700;
+}
+.member-story-points-equation>div>strong{
+  color:#fff;font-size:clamp(48px,7vw,83px);
+  font-weight:900;line-height:1.1;letter-spacing:-.055em;
+}
+.member-story-points-equation>div:last-child>strong{color:#b7d6ff}
+.member-story-points-arrow{color:#90a9c5;font-size:34px;font-weight:750}
+.member-story-points-details{
+  width:min(100%,810px);margin:0 auto;
+  border-top:1px solid #3c536d;
+  text-align:left;
+}
+.member-story-points-details>div{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:19px 5px;border-bottom:1px solid #3c536d;
+}
+.member-story-points-details>div span{
+  color:#cedbeb;font-size:16px;font-weight:650;
+}
+.member-story-points-details>div strong{
+  color:#fff;font-size:clamp(19px,2.5vw,26px);
+  font-weight:850;white-space:nowrap;
+}
+.member-story-points p.member-story-points-note{
+  max-width:800px;margin:26px auto 0;
+  color:#b9c9da;font-size:14px;font-weight:520;line-height:1.8;
+}
+@media(max-width:700px){
+  .member-story-secret-steps{margin-top:31px}
+  .member-story-secret-steps>div{
+    grid-template-columns:32px minmax(0,1fr);
+    column-gap:10px;padding:17px 3px;
+  }
+  .member-story-secret-steps>div>span{font-size:16px}
+  .member-story-secret-steps strong{font-size:18px}
+  .member-story-secret-steps small{font-size:14px}
+  .member-story-secret p.member-story-secret-note{margin-top:24px;font-size:12px}
+  .member-story-points-equation{
+    grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);
+    gap:5px;margin:33px auto 28px;
+  }
+  .member-story-points-equation>div>span{font-size:13px}
+  .member-story-points-equation>div>strong{font-size:clamp(34px,10vw,53px)}
+  .member-story-points-arrow{font-size:23px}
+  .member-story-points-details>div{padding:16px 2px;gap:9px}
+  .member-story-points-details>div span{font-size:13px}
+  .member-story-points-details>div strong{font-size:clamp(16px,4.6vw,20px)}
+  .member-story-points p.member-story-points-note{font-size:12px;margin-top:21px}
+}
