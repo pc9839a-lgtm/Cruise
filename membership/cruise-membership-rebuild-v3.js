@@ -87,7 +87,7 @@ function renderPlans() {
     const premium = index === 1;
     const englishName = premium ? 'PREMIUM' : 'CLASSIC';
     const cardType = premium ? 'mx-plan-premium' : 'mx-plan-classic';
-    const tagline = premium ? '매월 더 많이 적립' : '월 납부액을 낮춰 시작';
+    const tagline = premium ? '빠르게 적립' : '가볍게 시작';
     const signupHref = state.membershipSignupUrl ? escapeHtmlAttribute(state.membershipSignupUrl) : '#membership-inquiry';
     const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
@@ -103,19 +103,19 @@ function renderPlans() {
         </div>
         <div class="mx-plan-essentials">
           <div class="mx-plan-phase first">
-            <div class="mx-plan-phase-head"><strong>첫 결제</strong><span>첫 달 납부 포함</span></div>
+            <div class="mx-plan-phase-head"><strong>가입 시</strong><span>최초 1회</span></div>
             <div class="mx-plan-pair">
-              <div class="mx-plan-pair-item"><small>처음 내는 금액</small><strong>${formatUsd(plan.startUsd)}</strong></div>
+              <div class="mx-plan-pair-item"><small>결제</small><strong>${formatUsd(plan.startUsd)}</strong></div>
               <div class="mx-plan-arrow" aria-hidden="true">→</div>
               <div class="mx-plan-pair-item points"><small>POINT 적립</small><strong>${formatPoint(plan.rewardPoint)}</strong></div>
             </div>
           </div>
           <div class="mx-plan-phase monthly">
-            <div class="mx-plan-phase-head"><strong>이후 매월</strong><span>정시 납부 기준</span></div>
+            <div class="mx-plan-phase-head"><strong>이후 매월</strong><span>2배 적립</span></div>
             <div class="mx-plan-pair">
               <div class="mx-plan-pair-item"><small>월 결제</small><strong>${formatUsd(plan.monthlyUsd)}</strong></div>
               <div class="mx-plan-arrow" aria-hidden="true">→</div>
-              <div class="mx-plan-pair-item points"><small>정상 납부 시 POINT</small><strong>${formatPoint(plan.monthlyPoint)}</strong></div>
+              <div class="mx-plan-pair-item points"><small>매월 POINT</small><strong>${formatPoint(plan.monthlyPoint)}</strong></div>
             </div>
           </div>
         </div>
@@ -142,14 +142,14 @@ function updateCalculator() {
 
   let requiredPoints = Math.floor(price * 0.5);
   let cash = price - requiredPoints;
-  let coverageText = '첫 결제·월 납부 누적액 + 예약 시 카드 결제액';
-  let description = '포인트 + 카드 방식: 적용 가능한 크루즈에서 요금의 최대 50%를 POINT로 사용하고 나머지를 결제하는 예시입니다.';
+  let coverageText = '멤버십 납부 누적 + 예약 카드 결제';
+  let description = '일반 예약: 크루즈 금액의 최대 50%까지 POINT를 사용하고, 나머지는 카드로 결제하는 예시입니다.';
 
   if (isEarly) {
     requiredPoints = Math.floor(price * 1.5);
     cash = 0;
-    coverageText = '출항 270일 이상 전 예약 · 첫 결제·월 납부 누적액';
-    description = '270일 이상 미리 예약하는 경우: 필요한 POINT를 보유하고 조건을 충족하면 크루즈 기본요금을 POINT로 결제하는 예시입니다.';
+    coverageText = '270일 이후 출발 예시 · 멤버십 납부 누적';
+    description = '출발까지 270일 이상 남은 예약: 사용 조건 충족 시 POINT로 크루즈 요금 전액을 결제하는 예시입니다.';
   }
 
   // Classic: $200 initial payment earns 350P; each subsequent $100 payment earns 200P.
@@ -164,11 +164,11 @@ function updateCalculator() {
   document.getElementById('cruiseUsd').textContent = formatUsd(price);
   document.getElementById('cruiseKrw').textContent = `약 ${formatKrw(price * rate)}`;
 
-  document.getElementById('pointLabel').textContent = '예약에 사용하는 POINT';
+  document.getElementById('pointLabel').textContent = '필요 POINT';
   document.getElementById('usablePoint').textContent = formatPoint(requiredPoints);
-  document.getElementById('pointKrw').textContent = `클래식 첫 결제 ${formatUsd(classic.startUsd)}(첫 달 포함) + 이후 월 ${formatUsd(classic.monthlyUsd)} × ${monthlyPayments}회 = 납부 누적 ${formatUsd(actualPaidToEarnPointsUsd)}`;
+  document.getElementById('pointKrw').textContent = `클래식 최초 ${formatUsd(classic.startUsd)} + 월 ${formatUsd(classic.monthlyUsd)} × ${monthlyPayments}회 = 누적 ${formatUsd(actualPaidToEarnPointsUsd)}`;
 
-  document.getElementById('cashLabel').textContent = '예약 시 카드 결제';
+  document.getElementById('cashLabel').textContent = '카드 결제';
   document.getElementById('cashUsd').textContent = formatUsd(cash);
   document.getElementById('cashKrw').textContent = `약 ${formatKrw(cash * rate)}`;
 
@@ -178,9 +178,6 @@ function updateCalculator() {
   document.getElementById('modeDescription').textContent = description;
 
   updateRangeBackground(range);
-  document.querySelectorAll('#calculator [data-cruise-price]').forEach(btn => {
-    btn.setAttribute('aria-pressed', String(Number(btn.dataset.cruisePrice) === price));
-  });
 }
 
 function setMode(mode) {
@@ -389,30 +386,18 @@ function initMembershipInquiry() {
 
   // Calculator results, plan buttons, terms and the inquiry form must not be covered by
   // the floating consultation CTA. The partner landing uses the same principle.
-  // Never cover key narrative or interactive content with a floating CTA.
-  // Query on each scroll so injected booking examples are protected too.
-  const protectedAreaSelectors = [
-    '#member-story-top',
-    '#member-story-cost',
-    '#same-cruise',
-    '#member-story-secret',
-    '#member-story-early',
-    '#member-story-price-match',
-    '#member-story-points',
-    '#calculator',
-    '#plans',
-    '#member-before-join',
-    '#member-final-choice',
-    '#membership-inquiry',
-    '.site-footer'
-  ];
+  const protectedAreas = [
+    document.getElementById('calculator'),
+    document.getElementById('plans'),
+    document.getElementById('membership-terms'),
+    document.getElementById('membership-inquiry'),
+    document.querySelector('.site-footer')
+  ].filter(Boolean);
   let frame = 0;
   const update = () => {
     frame = 0;
     const viewportEnd = window.innerHeight - 24;
-    const covered = protectedAreaSelectors.some((selector) => {
-      const area = document.querySelector(selector);
-      if (!area) return false;
+    const covered = protectedAreas.some((area) => {
       const box = area.getBoundingClientRect();
       return box.top < viewportEnd && box.bottom > 60;
     });
@@ -432,14 +417,6 @@ function bindEvents() {
   if (range) {
     range.addEventListener('input', updateCalculator);
     updateRangeBackground(range);
-    document.querySelectorAll('#calculator [data-cruise-price]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const target=Number(button.dataset.cruisePrice);
-        if (!Number.isFinite(target) || target < Number(range.min) || target > Number(range.max)) return;
-        range.value=String(target);
-        range.dispatchEvent(new Event('input',{bubbles:true}));
-      });
-    });
   }
 
   document.querySelectorAll('.mode-btn').forEach((btn) => {

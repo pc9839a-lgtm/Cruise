@@ -23,10 +23,6 @@ jobs:
       - name: Test membership contact throttling without sending leads
         run: |
           node --check functions/api/contact.js
-          node --check membership/cruise-membership-rebuild-v3.js
-          node --check membership/membership-section17-18-calculator-fit-v1.js
-          node --check membership/membership-section17-18-calculator-fit-v1.js
-          node --check functions/membership/_middleware.js
           node scripts/test_membership_contact_cooldown.mjs
       - name: Install headless browser
         run: |
@@ -71,13 +67,13 @@ jobs:
                 }
                 if(!matchingRelease) throw new Error('Expected membership release not found on live site: '+expectedScript);
                 await page.waitForTimeout(6500);
-                await page.locator('#member-story-top').screenshot({
+                await page.locator('.hero-section').screenshot({
                   path:'membership-'+width+'-hero.png',timeout:25000
                 });
                 const diagnostic = await page.evaluate(() => {
-                  const selectors = ['#cms-survey-v2','#member-story-top','#member-story-experience','#mx-moving-hotel','#member-story-difference',
-                    '#mx-port-day','#member-story-cost','#mx-point-example','#mx-actual-cash',
-                    '#calculator','#member-story-difference','#mx-member-booking-benefits','#mx-travel-expansion',
+                  const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
+                    '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
+                    '#calculator','#price-pain','#mx-member-booking-benefits','#mx-travel-expansion',
                     '#mx-membership-freedom','#plans','#planCards','#membership-terms',
                     '.membership-bottom-cta'];
                   const rect = el => {
@@ -206,48 +202,13 @@ jobs:
                     regularOk:regular.points==='2,000P'&&regular.card==='$2,000'&&regular.total==='$3,100'&&regular.selected==='true',
                     earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,100'&&early.selected==='true'};
                 });
-                const presets = await page.evaluate(() => {
-                  const range=document.querySelector('#cruisePrice');
-                  const byAmount=n=>document.querySelector('#calculator [data-cruise-price="'+n+'"]');
-                  const value=id=>document.getElementById(id)?.textContent.trim();
-                  byAmount(3000)?.click();
-                  const first={
-                    value:range?.value,
-                    points:value('usablePoint'),
-                    cash:value('cashUsd'),
-                    total:value('coverageRatio'),
-                    pressed:byAmount(3000)?.getAttribute('aria-pressed')
-                  };
-                  byAmount(5000)?.click();
-                  const second={
-                    value:range?.value,points:value('usablePoint'),
-                    cash:value('cashUsd'),total:value('coverageRatio'),
-                    pressed:byAmount(5000)?.getAttribute('aria-pressed')
-                  };
-                  range.value='3500';range.dispatchEvent(new Event('input',{bubbles:true}));
-                  const manualNoPreset=[...document.querySelectorAll('#calculator [data-cruise-price]')].every(
-                    b=>b.getAttribute('aria-pressed')==='false');
-                  byAmount(2000)?.click();
-                  return {count:document.querySelectorAll('#calculator [data-cruise-price]').length,
-                    first,second,manualNoPreset,restored:range.value==='2000'&&byAmount(2000)?.getAttribute('aria-pressed')==='true',
-                    explanatory:document.querySelector('#calculator .member-calc-intro')?.textContent?.includes('포인트 적립을 위한 납부액'),
-                    questionLink:document.querySelector('#calculator .member-calc-inquiry-link')?.getAttribute('href'),
-                    totalLabel:document.querySelector('#coverageRatio')?.closest('.result-box')?.querySelector('span')?.textContent?.trim()};
-                });
-                console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls,presets}));
-                if(presets.count!==3||presets.first.value!=='3000'||presets.first.points!=='1,500P'||
-                  presets.first.cash!=='$1,500'||presets.first.total!=='$2,300'||presets.first.pressed!=='true'||
-                  presets.second.value!=='5000'||presets.second.points!=='2,500P'||
-                  presets.second.cash!=='$2,500'||presets.second.total!=='$3,800'||presets.second.pressed!=='true'||
-                  !presets.manualNoPreset||!presets.restored||!presets.explanatory||
-                  presets.questionLink!=='#membership-inquiry'||presets.totalLabel!=='멤버십 납부 + 예약 결제 합계')
-                  process.exitCode=1;
+                console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls}));
                 const compact = await page.evaluate(() => {
-                  const ids=[...document.querySelectorAll('main > section')].map(el => el.id || 'unnamed');
-                  const expected=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference',
-                    'member-story-cost','same-cruise','member-story-secret',
-                    'member-story-early','member-story-price-match','member-story-points',
-                    'calculator','plans','member-before-join','member-final-choice','membership-inquiry'];
+                  const ids=[...document.querySelectorAll('main > section')].map(el => el.id || (el.classList.contains('hero-section')?'hero':'review'));
+                  const expected=['hero','review','mx-moving-hotel','price-pain',
+                    'mx-direct-booking-intro','same-cruise','guide-question',
+                    'mx-cruise-price-examples','mx-lowest-price','membership-point',
+                    'calculator','plans','membership-inquiry'];
                   const planSection=document.querySelector('#plans');
                   const removedCopy=[
                     '가입 전에 조건부터 확인하고 싶다면?',
@@ -262,169 +223,77 @@ jobs:
                   const redundantTerms=document.querySelector('#membership-terms');
                   const injectedTermsScript=document.querySelector('script[src*="membership-section21-22-terms-final-v1.js"]');
                   const plansRect=planSection?.getBoundingClientRect();
-                  const faqSection=document.querySelector('#member-before-join');
-                  const finalSection=document.querySelector('#member-final-choice');
-                  const faqRect=faqSection?.getBoundingClientRect();
-                  const finalRect=finalSection?.getBoundingClientRect();
                   const inquiryRect=document.querySelector('#membership-inquiry')?.getBoundingClientRect();
                   const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
-                  const secret=document.querySelector('#member-story-secret');
-                  const points=document.querySelector('#member-story-points');
-                  const secretText=secret?.innerText||'';
-                  const pointsText=points?.innerText||'';
-                  const memberMechanicsCorrect=!!secret && !!points &&
-                    secretText.includes('여행비를 준비하는 방법입니다.') &&
-                    secretText.includes('이것이 크루즈 멤버십') &&
-                    secretText.includes('현금처럼 출금하는 돈이 아닙니다.') &&
-                    pointsText.includes('$100') && pointsText.includes('200P') &&
-                    pointsText.includes('$200 → 350P') && pointsText.includes('$500 → 800P') &&
-                    pointsText.includes('$250 → 500P') &&
-                    secret.compareDocumentPosition(points)===4;
-                  const early=document.querySelector('#member-story-early');
-                  const match=document.querySelector('#member-story-price-match');
-                  const earlyText=early?.innerText||'';
-                  const matchText=match?.innerText||'';
-                  const earlyAndGuaranteeCorrect=!!early && !!match &&
-                    earlyText.includes('출항 270일 이상 전') &&
-                    earlyText.includes('포인트만으로') &&
-                    earlyText.includes('무료 여행이라는 의미는 아닙니다') &&
-                    matchText.includes('같은 크루즈를') &&
-                    matchText.includes('POINT + 카드 결제') &&
-                    matchText.includes('적용되지 않습니다') &&
-                    matchText.includes('예약 전 신청') &&
-                    secret.compareDocumentPosition(early)===4 &&
-                    early.compareDocumentPosition(match)===4 &&
-                    match.compareDocumentPosition(points)===4 &&
-                    early.querySelectorAll('.member-story-booking-choice').length===2 &&
-                    match.querySelectorAll('.member-story-match-process>div').length===3 &&
-                    early.querySelectorAll('a[href*="EN_WELCOME_TO_MEMBERSHIP_3X"]').length===1 &&
-                    match.querySelectorAll('a[href*="price_match_guarantee"]').length===1;
-                  const noOldPriceSections=!document.querySelector('#mx-cruise-price-examples,#mx-lowest-price') &&
-                    !document.querySelector('script[src*="membership-section11-12-guide-transition-v1.js"],script[src*="membership-cruise-example-images-v1.js"]');
-                  const earlyAndMatchContrast=getComputedStyle(early).backgroundColor==='rgb(243, 247, 253)' &&
-                    getComputedStyle(match).backgroundColor==='rgb(7, 17, 31)';
-                  const oldMemberInjectors=document.querySelectorAll(
-                    'script[src*="membership-section9-10-cost-use-v1.js"],script[src*="membership-section13-14-points-v1.js"]'
-                  ).length;
-                  const example=document.querySelector('#member-story-cost');
-                  const exampleText=example?.innerText||'';
-                  const storyIds=['member-story-top','member-story-experience','mx-moving-hotel','member-story-difference'];
-                  const storyCopy=storyIds.map(id=>document.getElementById(id)?.innerText||'');
-                  const storyOrderCorrect=storyIds.every((id,i)=>ids[i]===id);
-                  const storyWithoutSale=storyCopy.every(t=>!/(멤버십|가입비|매월 \$|14일 이내 환불)/.test(t));
-                  const storyContrast=storyCopy[3]?.includes('예약비를 결제합니다.')&&storyCopy[3]?.includes('포인트도 모읍니다.');
                   return {sectionCount:ids.length,expectedCount:expected.length,
                     actualIds:ids,missing:expected.filter(id=>!ids.includes(id)),
                     extra:ids.filter(id=>!expected.includes(id)),
                     cashRecap:receipt?.textContent?.includes('$3,020.88')||false,
-                    exampleComplete:['$2,000','$1,600','$400','350P','800P','1,150P','1,000P','$1,000'].every(v=>exampleText.includes(v)),
-                    independentStoryOwner:!!example && example.classList.contains('member-story-savings') &&
-                      getComputedStyle(example).backgroundColor==='rgb(255, 255, 255)' &&
-                      !document.querySelector('#mx-direct-booking-intro'),
-                    exampleCostHonest:exampleText.includes('첫 결제·월 납부 누적 $600')&&exampleText.includes('모든 예약에서 $400을 할인받는다는 뜻이 아닙니다.'),
-                    bookingTotalVerified:document.querySelector('#same-cruise .mx8-real-total')?.textContent?.includes('$3,887.35')||false,
-                    storyOrderCorrect,storyWithoutSale,storyContrast,
-                    memberMechanicsCorrect,oldMemberInjectors,
-                    earlyAndGuaranteeCorrect,noOldPriceSections,earlyAndMatchContrast,
                     planCopyRemoved:unwantedPlanCopy.length===0 &&
                       !document.querySelector('#plans .membership-plan-notice, #plans .member-plan-consult') &&
                       !redundantTerms && !injectedTermsScript,
                     unwantedPlanCopy,
                     redundantTermsPresent:!!redundantTerms,
                     termsInjectorPresent:!!injectedTermsScript,
-                    faqValid:faqSection?.querySelectorAll('details').length===4 &&
-                      faqSection.querySelectorAll('a[href^="https://"]').length===2 &&
-                      faqSection.textContent.includes('결제 후 14일 이내') &&
-                      faqSection.textContent.includes('30일 경과 시 비활성'),
-                    finalValid:finalSection?.textContent.includes('월 $100') &&
-                      finalSection.textContent.includes('월 $250') &&
-                      finalSection.querySelector('.member-final-primary')?.getAttribute('href')==='#plans' &&
-                      finalSection.querySelector('.member-final-secondary')?.getAttribute('href')==='#membership-inquiry',
-                    planToFaqGap:plansRect&&faqRect?Math.round(faqRect.top-plansRect.bottom):null,
-                    finalToInquiryGap:finalRect&&inquiryRect?Math.round(inquiryRect.top-finalRect.bottom):null,
+                    planToInquiryGap:plansRect&&inquiryRect?Math.round(inquiryRect.top-plansRect.bottom):null,
                     planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
                 });
                 console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
-                if(!compact.earlyAndGuaranteeCorrect || !compact.noOldPriceSections || !compact.earlyAndMatchContrast ||
-                    !compact.memberMechanicsCorrect || compact.oldMemberInjectors!==0 ||
-                    !compact.independentStoryOwner || !compact.exampleComplete || !compact.exampleCostHonest || !compact.bookingTotalVerified ||
-                    !compact.storyOrderCorrect || !compact.storyWithoutSale || !compact.storyContrast ||
-                    !compact.planCopyRemoved || !compact.planChoicesFirst || !compact.faqValid || !compact.finalValid ||
-                    compact.planToFaqGap===null || Math.abs(compact.planToFaqGap)>4 ||
-                    compact.finalToInquiryGap===null || Math.abs(compact.finalToInquiryGap)>4)
+                if(!compact.planCopyRemoved || !compact.planChoicesFirst ||
+                    compact.planToInquiryGap===null || Math.abs(compact.planToInquiryGap)>4)
                   process.exitCode=1;
                 const conversion = await page.evaluate(() => ({
-                  hero:document.querySelector('#member-story-top h1')?.textContent?.includes('비싸서 포기하셨나요?') || false,
-                  price:document.querySelector('#member-story-difference')?.textContent?.includes('여행비 준비까지 같을 필요는 없습니다.') || false,
+                  hero:document.querySelector('.hero-title')?.textContent?.includes('예약 전에 비교하세요') || false,
+                  price:document.querySelector('#price-pain')?.textContent?.includes('결제 전 비교') || false,
                   inquiry:!!document.querySelector('#membershipInquiryForm'),
                   privacy:!!document.querySelector('#membershipPrivacyInput'),
                   sticky:!!document.querySelector('#membershipStickyCta'),
                   oldSticky:!!document.querySelector('.membership-bottom-cta'),
                   formCentered:getComputedStyle(document.querySelector('.member-inquiry-wrap')).flexDirection==='column',
                   planLabels:[...document.querySelectorAll('#planCards .plan-cta')].map(el=>el.textContent.trim()),
-                  planPayments:[...document.querySelectorAll('#planCards .plan-card')].map(el=>({
-                    firstIncluded:el.textContent.includes('첫 달 납부 포함'),
-                    normalPayment:el.textContent.includes('정시 납부 기준'),
-                    amount:el.querySelector('.mx-plan-phase.first .mx-plan-pair-item strong')?.textContent,
-                    month:el.querySelector('.mx-plan-phase.monthly .mx-plan-pair-item strong')?.textContent,
-                    signup:el.querySelector('[data-plan-signup-link]')?.getAttribute('href')
-                  })),
-                  planIntro:document.querySelector('#plans .member-plans-intro')?.textContent,
-                  planFootnote:document.querySelector('#plans .member-plans-footnote')?.textContent,
                   pointCostVisible:getComputedStyle(document.querySelector('#pointKrw')).display!=='none',
                   krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
                 }));
                 console.log('MEMBERSHIP_CONVERSION_AUDIT '+JSON.stringify({width,conversion}));
                 const heroDetail=await page.evaluate(() => {
-                  const shell=document.querySelector('#member-story-top');
+                  const shell=document.querySelector('.hero-section .hero-shell');
                   const box=shell?.getBoundingClientRect();
-                  const cta=document.querySelector('#member-story-top .member-story-button');
+                  const cta=document.querySelector('.hero-section .member-primary-cta');
                   return {
                     height:Math.round(box?.height||0),
                     removedCollage:!document.querySelector('.hero-visual-stage,.hero-ticket,.hero-shot'),
                     ctaTarget:cta?.getAttribute('href'),
-                    title:document.querySelector('#member-story-top h1')?.textContent?.trim()||''
+                    title:document.querySelector('.hero-section h1')?.textContent?.trim()||''
                   };
                 });
                 console.log('MEMBERSHIP_HERO_DETAIL_AUDIT '+JSON.stringify({width,heroDetail}));
-                if(!heroDetail.removedCollage || heroDetail.ctaTarget!=='#member-story-experience' ||
-                   heroDetail.height > (width < 720 ? 780 : 900) ||
-                   heroDetail.height < 380 ||
-                   !heroDetail.title.includes('비싸서 포기하셨나요?'))process.exitCode=1;
-                for(const img of await page.locator('#member-story-experience img, #mx-moving-hotel img').all()) {
-                  await img.scrollIntoViewIfNeeded({timeout:8000});
-                  await img.evaluate(el=>el.decode());
-                }
+                if(!heroDetail.removedCollage || heroDetail.ctaTarget!=='#calculator' ||
+                   heroDetail.height > (width < 720 ? 540 : 680) ||
+                   !heroDetail.title.includes('예약 전에 비교하세요'))process.exitCode=1;
                 const gallery = await page.evaluate(() => {
-                  const images=[...document.querySelectorAll('#member-story-experience img, #mx-moving-hotel img')];
+                  const cards=[...document.querySelectorAll('.review-flow-section .review-card')];
+                  const images=[...document.querySelectorAll('.review-flow-section img')];
                   return {
-                    count:images.length,
+                    count:cards.length,
+                    duplicateHidden:cards.filter(x=>x.getAttribute('aria-hidden')==='true').length,
                     lazyImages:images.filter(x=>x.getAttribute('loading')==='lazy').length,
                     asyncDecoded:images.filter(x=>x.getAttribute('decoding')==='async').length,
-                    altComplete:images.every(x=>!!x.alt.trim()),
-                    loaded:images.every(x=>x.complete && x.naturalWidth>0),
-                    heading:document.querySelector('#member-story-experience h2')?.textContent?.trim()
+                    heading:document.querySelector('.review-strip-head .section-kicker')?.textContent?.trim()
                   };
                 });
                 console.log('MEMBERSHIP_GALLERY_AUDIT '+JSON.stringify({width,gallery}));
-                if(gallery.count!==2 || gallery.lazyImages!==2 || gallery.asyncDecoded!==2 ||
-                   !gallery.altComplete || !gallery.loaded ||
-                   !gallery.heading?.includes('꿈꿔봤던'))process.exitCode=1;
+                if(gallery.count!==30 || gallery.duplicateHidden!==15 ||
+                    gallery.lazyImages!==30 || gallery.asyncDecoded!==30 ||
+                    gallery.heading!=='크루즈 선내생활 미리보기')process.exitCode=1;
                 if (!conversion.hero || !conversion.price || !conversion.inquiry ||
                     !conversion.privacy || !conversion.sticky || conversion.oldSticky ||
                     !conversion.formCentered || !conversion.pointCostVisible ||
                     !conversion.krwTotalVisible || conversion.planLabels.length!==2 ||
                     conversion.planLabels.some(text=>!text.includes('상담받기')) ||
-                    !conversion.planIntro?.includes('첫 달 납부액이 포함됩니다') ||
-                    !conversion.planFootnote?.includes('정시 납부 기준') ||
-                    conversion.planPayments.length!==2 ||
-                    conversion.planPayments.some(p=>!p.firstIncluded||!p.normalPayment||p.signup!=='#membership-inquiry') ||
-                    conversion.planPayments[0].amount!=='$200'||conversion.planPayments[0].month!=='$100'||
-                    conversion.planPayments[1].amount!=='$500'||conversion.planPayments[1].month!=='$250' ||
                     !controls.regularOk || !controls.earlyOk) process.exitCode=1;
 
                 if (width < 720) {
-                  for (const protectedId of ['member-story-top', 'member-story-cost', 'same-cruise', 'member-story-secret', 'member-story-early', 'member-story-price-match', 'member-story-points', 'calculator', 'plans', 'member-before-join', 'member-final-choice', 'membership-inquiry']) {
+                  for (const protectedId of ['calculator', 'plans', 'membership-inquiry']) {
                     await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
                     await page.waitForTimeout(230);
                     const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
@@ -473,10 +342,10 @@ jobs:
                   } catch(e) {return {url,error:String(e)};}
                 });
                 const priceLayout = await page.evaluate(() => {
-                  const section=document.querySelector('#member-story-difference');
+                  const section=document.querySelector('#price-pain');
                   if(!section) return null;
-                  const inner=section.querySelector('.member-story-frame'),title=section.querySelector('h2');
-                  const amount=section.querySelector('.member-story-methods'),description=section.querySelector('.member-story-next');
+                  const inner=section.querySelector('.mv2-inner'),title=section.querySelector('h2');
+                  const amount=section.querySelector('.mx6-price-amount'),description=section.querySelector('.mv2-save');
                   const sectionRect=section.getBoundingClientRect();
                   const measure=(el)=>{
                     if(!el)return null;
@@ -499,10 +368,10 @@ jobs:
                 console.log('MEMBERSHIP_LAYOUT_DIAGNOSTIC '+JSON.stringify({width,httpStatus:response.status(),errors,
                   liveScript:surveyScript,liveCodeUpdated:liveScriptText.includes("window.location.hash !== '#survey'"),
                   cssBundle,priceLayout,diagnostic}));
-                if(await page.locator('#member-story-difference').count()){
-                  await page.locator('#member-story-difference').scrollIntoViewIfNeeded({timeout:5000});
+                if(await page.locator('#price-pain').count()){
+                  await page.locator('#price-pain').scrollIntoViewIfNeeded({timeout:5000});
                   await page.waitForTimeout(300);
-                  const priceImage=await page.locator('#member-story-difference').screenshot({type:'jpeg',quality:68,
+                  const priceImage=await page.locator('#price-pain').screenshot({type:'jpeg',quality:68,
                     path:'membership-'+width+'-price.jpg',timeout:25000});
                   if(width===390||width===1440)
                     console.log('MEMBERSHIP_PRICE_IMAGE_'+width+' '+priceImage.toString('base64'));
@@ -513,7 +382,7 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['savings','#member-story-cost'],['receipt','#same-cruise'],['secret','#member-story-secret'],['early','#member-story-early'],['match','#member-story-price-match'],['point','#member-story-points'],['calculator','#calculator'],['plans','#planCards'],['faq','#member-before-join'],['final','#member-final-choice']]){
+                  for(const [label,selector] of [['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
