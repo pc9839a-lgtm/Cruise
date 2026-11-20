@@ -7141,7 +7141,16 @@ main > section:nth-of-type(n+3) :is(p,.mx7-receipt-note,.mxg-criteria,.mxg-copy)
   border:1px solid #dce5f1!important;
   box-shadow:none!important;
 }
-#calculator .calculator-card{background:#fff!important;color:#0b1524!important}
+#calculator .calculator-card{
+  background:#0e243d!important;
+  color:#fff!important;
+}
+#calculator .calculator-card.reveal,
+#calculator .section-head.reveal{
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+}
 #calculator .result-box{border-radius:13px!important}
 #calculator .result-box strong{font-variant-numeric:tabular-nums}
 #plans .plan-card{background:#fff!important;color:#0b1524!important}
