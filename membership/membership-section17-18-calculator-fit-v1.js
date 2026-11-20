@@ -7,7 +7,9 @@
     const calculator = document.getElementById('calculator');
     if (!membership || !calculator) return false;
 
-    const anchor = membership;
+    const anchor = document.getElementById('mx-guide-assist')
+      || document.getElementById('mx-point-example')
+      || membership;
 
     calculator.classList.add('calc-clean-v2');
     calculator.setAttribute('data-membership-section', '17');
@@ -36,10 +38,13 @@
     }
     const description = calculator.querySelector('#modeDescription');
     if (description) description.removeAttribute('aria-hidden');
+    for (const selector of ['.exchange-bar', '#cruiseKrw', '#pointKrw', '#cashKrw', '#coverageText', '#coverageSubtext']) {
+      calculator.querySelector(selector)?.setAttribute('aria-hidden', 'true');
+    }
 
     const totalBox = calculator.querySelector('#coverageRatio')?.closest('.result-box');
     const totalLabel = totalBox?.querySelector('span');
-    if (totalLabel) totalLabel.textContent = '총 누적 지출 예시';
+    if (totalLabel) totalLabel.textContent = '총 결제 예시';
     return true;
   }
 

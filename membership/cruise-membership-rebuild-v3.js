@@ -52,24 +52,6 @@ function formatPoint(value) {
   return `${Number(value).toLocaleString('ko-KR')}P`;
 }
 
-// Signup URLs are supplied by an external agent directory. Accept secure web
-// destinations only, and never interpolate unchecked data into HTML attributes.
-function safeSignupUrl(raw) {
-  const source = String(raw || '').trim();
-  if (!source || source.length > 2048 || /[\u0000-\u001f\u007f<>"']/u.test(source)) return '';
-  try {
-    const url = new URL(source);
-    if (url.protocol !== 'https:' || !url.hostname || url.username || url.password) return '';
-    return url.toString();
-  } catch (_) {
-    return '';
-  }
-}
-
-function escapeHtmlAttribute(value) {
-  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-}
-
 function updateRangeBackground(range) {
   const min = Number(range.min);
   const max = Number(range.max);
@@ -88,7 +70,7 @@ function renderPlans() {
     const englishName = premium ? 'PREMIUM' : 'CLASSIC';
     const cardType = premium ? 'mx-plan-premium' : 'mx-plan-classic';
     const tagline = premium ? '빠르게 적립' : '가볍게 시작';
-    const signupHref = state.membershipSignupUrl ? escapeHtmlAttribute(state.membershipSignupUrl) : '#membership-inquiry';
+    const signupHref = state.membershipSignupUrl || '#';
     const signupAttrs = state.membershipSignupUrl ? 'target="_blank" rel="noopener"' : '';
 
     return `
@@ -119,7 +101,7 @@ function renderPlans() {
             </div>
           </div>
         </div>
-        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${plan.name} ${state.membershipSignupUrl ? '가입하기' : '상담받기'}</a>
+        <a href="${signupHref}" class="plan-cta" data-plan-signup-link ${signupAttrs}>${englishName} 시작하기</a>
       </article>`;
   }).join('');
 
@@ -142,21 +124,17 @@ function updateCalculator() {
 
   let requiredPoints = Math.floor(price * 0.5);
   let cash = price - requiredPoints;
-  let coverageText = '멤버십 납부 누적 + 예약 카드 결제';
+  let coverageText = '일반 예약 예시';
   let description = '일반 예약: 크루즈 금액의 최대 50%까지 POINT를 사용하고, 나머지는 카드로 결제하는 예시입니다.';
 
   if (isEarly) {
     requiredPoints = Math.floor(price * 1.5);
     cash = 0;
-    coverageText = '270일 이후 출발 예시 · 멤버십 납부 누적';
+    coverageText = '270일 이후 출발 예시';
     description = '출발까지 270일 이상 남은 예약: 사용 조건 충족 시 POINT로 크루즈 요금 전액을 결제하는 예시입니다.';
   }
 
-  // Classic: $200 initial payment earns 350P; each subsequent $100 payment earns 200P.
-  // Whole monthly installments and initial payment must both be counted.
-  const classic = plans[0];
-  const monthlyPayments = Math.max(0, Math.ceil((requiredPoints - classic.rewardPoint) / classic.monthlyPoint));
-  const actualPaidToEarnPointsUsd = classic.startUsd + monthlyPayments * classic.monthlyUsd;
+  const actualPaidToEarnPointsUsd = requiredPoints / 2;
   const actualTotalPaidUsd = actualPaidToEarnPointsUsd + cash;
   const actualTotalPaidKrw = actualTotalPaidUsd * rate;
 
@@ -166,7 +144,7 @@ function updateCalculator() {
 
   document.getElementById('pointLabel').textContent = '필요 POINT';
   document.getElementById('usablePoint').textContent = formatPoint(requiredPoints);
-  document.getElementById('pointKrw').textContent = `클래식 최초 ${formatUsd(classic.startUsd)} + 월 ${formatUsd(classic.monthlyUsd)} × ${monthlyPayments}회 = 누적 ${formatUsd(actualPaidToEarnPointsUsd)}`;
+  document.getElementById('pointKrw').textContent = `클래식 2배 적립 기준 ${formatUsd(actualPaidToEarnPointsUsd)} · 약 ${formatKrw(actualPaidToEarnPointsUsd * rate)} 결제`;
 
   document.getElementById('cashLabel').textContent = '카드 결제';
   document.getElementById('cashUsd').textContent = formatUsd(cash);
@@ -208,17 +186,7 @@ async function fetchExchangeRate() {
     state.exchangeRate = Number(data.rates.KRW);
     rateText.textContent = `USD 1 = ${formatKrw(state.exchangeRate)}`;
     statusText.textContent = '환율 자동 연동 완료';
-    const updatedAt = Date.parse(data.time_last_update_utc || '');
-    updatedText.textContent = Number.isFinite(updatedAt)
-      ? new Intl.DateTimeFormat('ko-KR', {
-          timeZone: 'Asia/Seoul',
-          month: 'numeric',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hourCycle: 'h23'
-        }).format(new Date(updatedAt)) + ' 기준'
-      : '업데이트 시각 확인 불가';
+    updatedText.textContent = data.time_last_update_utc || '업데이트 시각 제공 안 됨';
   } catch (error) {
     state.exchangeRate = DEFAULT_RATE;
     rateText.textContent = `USD 1 = ${formatKrw(state.exchangeRate)}`;
@@ -242,14 +210,13 @@ function bindPlanSignupLinks() {
 
       event.preventDefault();
 
-      // Without an assigned signup URL, keep visitors on this page and use the
-      // existing secure membership inquiry instead of a confirmation popup.
-      const inquiry = document.getElementById('membership-inquiry');
-      const planSelect = document.querySelector('#membershipInquiryForm select[name="message"]');
-      const card = link.closest('.plan-card');
-      if (planSelect && card?.classList.contains('mx-plan-premium')) planSelect.selectedIndex = 2;
-      else if (planSelect && card?.classList.contains('mx-plan-classic')) planSelect.selectedIndex = 1;
-      inquiry?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const goContact = window.confirm(
+        '담당자가 아직 배정되지 않았습니다. 문의하기로 이동하시겠습니까?'
+      );
+
+      if (goContact) {
+        window.location.href = 'https://cruiseplay-dyt.pages.dev/?openInquiry=1&inquiryType=membership';
+      }
     });
   });
 }
@@ -315,7 +282,7 @@ async function loadMembershipSignupUrl() {
     });
 
     if (data && data.success && data.signup_url) {
-      state.membershipSignupUrl = safeSignupUrl(data.signup_url);
+      state.membershipSignupUrl = String(data.signup_url).trim();
     } else {
       state.membershipSignupUrl = '';
     }
@@ -326,7 +293,7 @@ async function loadMembershipSignupUrl() {
     state.membershipSignupUrl = '';
     renderPlans();
     bindPlanSignupLinks();
-    console.warn('멤버십 가입 링크를 확인하지 못해 상담으로 연결합니다.');
+    console.error('membership signup url load failed:', error);
   }
 }
 
@@ -364,52 +331,6 @@ function setupPlansFloatingCtaObserver() {
   });
 
   observer.observe(plansSection);
-}
-
-function initMembershipInquiry() {
-  const params = new URLSearchParams(window.location.search);
-  const agent = String(params.get('agent') || '').trim();
-  const code = /^[A-Za-z0-9_-]{1,40}$/.test(agent) ? agent : '';
-  const fields = {
-    memberAgentCode: code,
-    memberUtmSource: String(params.get('utm_source') || '').slice(0,80),
-    memberUtmMedium: String(params.get('utm_medium') || '').slice(0,80),
-    memberUtmCampaign: String(params.get('utm_campaign') || '').slice(0,80)
-  };
-  Object.entries(fields).forEach(([id, value]) => {
-    const input = document.getElementById(id);
-    if (input) input.value = value;
-  });
-
-  const sticky = document.getElementById('membershipStickyCta');
-  if (!sticky) return;
-
-  // Calculator results, plan buttons, terms and the inquiry form must not be covered by
-  // the floating consultation CTA. The partner landing uses the same principle.
-  const protectedAreas = [
-    document.getElementById('calculator'),
-    document.getElementById('plans'),
-    document.getElementById('membership-terms'),
-    document.getElementById('membership-inquiry'),
-    document.querySelector('.site-footer')
-  ].filter(Boolean);
-  let frame = 0;
-  const update = () => {
-    frame = 0;
-    const viewportEnd = window.innerHeight - 24;
-    const covered = protectedAreas.some((area) => {
-      const box = area.getBoundingClientRect();
-      return box.top < viewportEnd && box.bottom > 60;
-    });
-    sticky.classList.toggle('is-hidden', covered);
-  };
-  const schedule = () => {
-    if (frame) return;
-    frame = requestAnimationFrame(update);
-  };
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  schedule();
 }
 
 function bindEvents() {
@@ -457,7 +378,6 @@ async function init() {
   renderPlans();
   bindEvents();
   bindPlanSignupLinks();
-  initMembershipInquiry();
   updateCalculator();
   observeReveals();
   setupPlansFloatingCtaObserver();

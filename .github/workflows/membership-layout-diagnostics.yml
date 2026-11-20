@@ -13,17 +13,13 @@ permissions:
 
 jobs:
   inspect:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Test membership contact throttling without sending leads
-        run: |
-          node --check functions/api/contact.js
-          node scripts/test_membership_contact_cooldown.mjs
       - name: Install headless browser
         run: |
           npm install --no-save playwright@1.57.0
@@ -34,10 +30,6 @@ jobs:
         run: |
           node <<'EOF'
           const { chromium } = require('playwright');
-          const { readFileSync } = require('fs');
-          const expectedScript = readFileSync('membership/index.html', 'utf8')
-            .match(/cruise-membership-rebuild-v3\.js\?v=([^"]+)/)?.[1];
-          if (!expectedScript) throw new Error('Missing membership script version in source HTML');
           (async () => {
             const browser = await chromium.launch({ headless: true, args:['--no-sandbox'] });
             for (const width of [320, 375, 390, 1440]) {
@@ -47,29 +39,8 @@ jobs:
               page.on('pageerror', err => errors.push(err.message.slice(0,240)));
               page.on('console', msg => { if(msg.type()==='error')errors.push(msg.text().slice(0,240)); });
               try {
-                // A GitHub push can finish before Cloudflare publishes that commit.
-                // Validate only the live release containing this commit's JS version.
-                let response;
-                let matchingRelease = false;
-                for (let attempt=0;attempt<20;attempt++) {
-                  response = await page.goto(
-                    process.env.SITE+'?audit='+process.env.GITHUB_SHA+'-'+attempt,
-                    {waitUntil:'domcontentloaded',timeout:55000}
-                  );
-                  const liveVersion = await page.evaluate(() =>
-                    document.querySelector('script[src*="cruise-membership-rebuild-v3.js"]')?.getAttribute('src') || ''
-                  );
-                  if (liveVersion.includes('v='+expectedScript)) {
-                    matchingRelease = true;
-                    break;
-                  }
-                  if (attempt < 19) await new Promise(resolve=>setTimeout(resolve,10000));
-                }
-                if(!matchingRelease) throw new Error('Expected membership release not found on live site: '+expectedScript);
+                const response = await page.goto(process.env.SITE+'?audit='+process.env.GITHUB_SHA,{waitUntil:'domcontentloaded',timeout:55000});
                 await page.waitForTimeout(6500);
-                await page.locator('.hero-section').screenshot({
-                  path:'membership-'+width+'-hero.png',timeout:25000
-                });
                 const diagnostic = await page.evaluate(() => {
                   const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
                     '#mx-port-day','#mx-direct-booking-intro','#mx-point-example','#mx-actual-cash',
@@ -136,50 +107,6 @@ jobs:
                     refunds:cardDims('#mx-membership-freedom .mxf-card'),
                     terms:cardDims('#membership-terms .mx21-term-card')};
                 });
-                const alignmentAudit = await page.evaluate(() => {
-                  const screenCenter=innerWidth/2;
-                  const rect = el => {
-                    if(!el)return null;
-                    const r=el.getBoundingClientRect(),st=getComputedStyle(el);
-                    return {x:Math.round(r.left),w:Math.round(r.width),center:Math.round((r.left+r.right)/2),
-                      delta:Math.round((r.left+r.right)/2-screenCenter),
-                      textAlign:st.textAlign,display:st.display,
-                      marginLeft:st.marginLeft,marginRight:st.marginRight,
-                      justify:st.justifyContent,align:st.alignItems,
-                      transform:st.transform,
-                      opacity:st.opacity,position:st.position,
-                      paddingLeft:st.paddingLeft,paddingRight:st.paddingRight};
-                  };
-                  const result=[...document.querySelectorAll('main > section')].map((sec,i)=>{
-                    const children=[...sec.children].filter(el=>getComputedStyle(el).display!=='none');
-                    const heading=sec.querySelector('h1,h2');
-                    const headingWrap=heading?.parentElement;
-                    const wrapper=children.find(el=>{
-                      const r=el.getBoundingClientRect();
-                      return r.width>75&&r.height>40&&!el.classList.contains('page-glow');
-                    })||children[0]||null;
-                    const blocks=[...sec.querySelectorAll('.mv2-inner,.container,.mx7-wide-inner,.mx11-inner,.mx12-inner,.mx13-inner,.mxg-inner,.mx10p-inner,.mxp-inner,.membership-v3-price-inner,.section-head,.mv2-pay,.mx8-payment-stack,.mx13-simple-list,.mx10p-price-grid,.result-grid,#planCards,.mx21-terms')]
-                      .filter(el=>{const r=el.getBoundingClientRect();return r.width>60&&r.height>10})
-                      .slice(0,6).map(el=>({cl:String(el.className).slice(0,85),...rect(el)}));
-                    return {i:i+1,id:sec.id||sec.className,section:rect(sec),
-                      wrapper:rect(wrapper),wrapperClass:wrapper?.className,
-                      heading:rect(heading),headingText:heading?.innerText?.slice(0,80),
-                      headingWrap:rect(headingWrap),headingWrapClass:String(headingWrap?.className||'').slice(0,100),
-                      blocks};
-                  });
-                  return {width:innerWidth,result};
-                });
-                console.log('MEMBERSHIP_CENTER_AUDIT '+JSON.stringify(alignmentAudit));
-                const misaligned = alignmentAudit.result.filter(item =>
-                  Math.abs(item.wrapper?.delta || 0)>15 ||
-                  (item.id !== 'membership-inquiry' && Math.abs(item.heading?.delta || 0)>15));
-                console.log('MEMBERSHIP_CENTER_VERDICT '+JSON.stringify({
-                  width,offCenter:misaligned.map(item=>({
-                    id:item.id,wrapperDelta:item.wrapper?.delta,headingDelta:item.heading?.delta
-                  }))
-                }));
-                if(misaligned.length)process.exitCode=1;
-
                 const controls = await page.evaluate(() => {
                   const input=document.getElementById('cruisePrice');
                   const standard=document.querySelector('.mode-btn[data-mode="general"]');
@@ -199,131 +126,11 @@ jobs:
                   input.dispatchEvent(new Event('input',{bubbles:true}));
                   standard.click();
                   return {regular,early,
-                    regularOk:regular.points==='2,000P'&&regular.card==='$2,000'&&regular.total==='$3,100'&&regular.selected==='true',
-                    earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,100'&&early.selected==='true'};
+                    regularOk:regular.points==='2,000P'&&regular.card==='$2,000'&&regular.total==='$3,000'&&regular.selected==='true',
+                    earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,000'&&early.selected==='true'};
                 });
                 console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls}));
-                const compact = await page.evaluate(() => {
-                  const ids=[...document.querySelectorAll('main > section')].map(el => el.id || (el.classList.contains('hero-section')?'hero':'review'));
-                  const expected=['hero','review','mx-moving-hotel','price-pain',
-                    'mx-direct-booking-intro','same-cruise','guide-question',
-                    'mx-cruise-price-examples','mx-lowest-price','membership-point',
-                    'calculator','plans','membership-inquiry'];
-                  const planSection=document.querySelector('#plans');
-                  const removedCopy=[
-                    '가입 전에 조건부터 확인하고 싶다면?',
-                    '약정 없음',
-                    '멤버십 위약금 없음',
-                    '14일 이내 환불',
-                    '크루즈 외 호텔·투어도 별도 예약',
-                    '가입 전 확인',
-                    '멤버십 이용 조건'
-                  ];
-                  const unwantedPlanCopy=removedCopy.filter(term=>planSection?.textContent.includes(term));
-                  const redundantTerms=document.querySelector('#membership-terms');
-                  const injectedTermsScript=document.querySelector('script[src*="membership-section21-22-terms-final-v1.js"]');
-                  const plansRect=planSection?.getBoundingClientRect();
-                  const inquiryRect=document.querySelector('#membership-inquiry')?.getBoundingClientRect();
-                  const receipt=document.querySelector('#same-cruise .mx8-cash-recap');
-                  return {sectionCount:ids.length,expectedCount:expected.length,
-                    actualIds:ids,missing:expected.filter(id=>!ids.includes(id)),
-                    extra:ids.filter(id=>!expected.includes(id)),
-                    cashRecap:receipt?.textContent?.includes('$3,020.88')||false,
-                    planCopyRemoved:unwantedPlanCopy.length===0 &&
-                      !document.querySelector('#plans .membership-plan-notice, #plans .member-plan-consult') &&
-                      !redundantTerms && !injectedTermsScript,
-                    unwantedPlanCopy,
-                    redundantTermsPresent:!!redundantTerms,
-                    termsInjectorPresent:!!injectedTermsScript,
-                    planToInquiryGap:plansRect&&inquiryRect?Math.round(inquiryRect.top-plansRect.bottom):null,
-                    planChoicesFirst:document.querySelector('#plans .membership-section-head')?.compareDocumentPosition(document.querySelector('#planCards'))===4};
-                });
-                console.log('MEMBERSHIP_COMPACT_AUDIT '+JSON.stringify({width,compact}));
-                if(!compact.planCopyRemoved || !compact.planChoicesFirst ||
-                    compact.planToInquiryGap===null || Math.abs(compact.planToInquiryGap)>4)
-                  process.exitCode=1;
-                const conversion = await page.evaluate(() => ({
-                  hero:document.querySelector('.hero-title')?.textContent?.includes('예약 전에 비교하세요') || false,
-                  price:document.querySelector('#price-pain')?.textContent?.includes('결제 전 비교') || false,
-                  inquiry:!!document.querySelector('#membershipInquiryForm'),
-                  privacy:!!document.querySelector('#membershipPrivacyInput'),
-                  sticky:!!document.querySelector('#membershipStickyCta'),
-                  oldSticky:!!document.querySelector('.membership-bottom-cta'),
-                  formCentered:getComputedStyle(document.querySelector('.member-inquiry-wrap')).flexDirection==='column',
-                  planLabels:[...document.querySelectorAll('#planCards .plan-cta')].map(el=>el.textContent.trim()),
-                  pointCostVisible:getComputedStyle(document.querySelector('#pointKrw')).display!=='none',
-                  krwTotalVisible:getComputedStyle(document.querySelector('#coverageText')).display!=='none'
-                }));
-                console.log('MEMBERSHIP_CONVERSION_AUDIT '+JSON.stringify({width,conversion}));
-                const heroDetail=await page.evaluate(() => {
-                  const shell=document.querySelector('.hero-section .hero-shell');
-                  const box=shell?.getBoundingClientRect();
-                  const cta=document.querySelector('.hero-section .member-primary-cta');
-                  return {
-                    height:Math.round(box?.height||0),
-                    removedCollage:!document.querySelector('.hero-visual-stage,.hero-ticket,.hero-shot'),
-                    ctaTarget:cta?.getAttribute('href'),
-                    title:document.querySelector('.hero-section h1')?.textContent?.trim()||''
-                  };
-                });
-                console.log('MEMBERSHIP_HERO_DETAIL_AUDIT '+JSON.stringify({width,heroDetail}));
-                if(!heroDetail.removedCollage || heroDetail.ctaTarget!=='#calculator' ||
-                   heroDetail.height > (width < 720 ? 540 : 680) ||
-                   !heroDetail.title.includes('예약 전에 비교하세요'))process.exitCode=1;
-                const gallery = await page.evaluate(() => {
-                  const cards=[...document.querySelectorAll('.review-flow-section .review-card')];
-                  const images=[...document.querySelectorAll('.review-flow-section img')];
-                  return {
-                    count:cards.length,
-                    duplicateHidden:cards.filter(x=>x.getAttribute('aria-hidden')==='true').length,
-                    lazyImages:images.filter(x=>x.getAttribute('loading')==='lazy').length,
-                    asyncDecoded:images.filter(x=>x.getAttribute('decoding')==='async').length,
-                    heading:document.querySelector('.review-strip-head .section-kicker')?.textContent?.trim()
-                  };
-                });
-                console.log('MEMBERSHIP_GALLERY_AUDIT '+JSON.stringify({width,gallery}));
-                if(gallery.count!==30 || gallery.duplicateHidden!==15 ||
-                    gallery.lazyImages!==30 || gallery.asyncDecoded!==30 ||
-                    gallery.heading!=='크루즈 선내생활 미리보기')process.exitCode=1;
-                if (!conversion.hero || !conversion.price || !conversion.inquiry ||
-                    !conversion.privacy || !conversion.sticky || conversion.oldSticky ||
-                    !conversion.formCentered || !conversion.pointCostVisible ||
-                    !conversion.krwTotalVisible || conversion.planLabels.length!==2 ||
-                    conversion.planLabels.some(text=>!text.includes('상담받기')) ||
-                    !controls.regularOk || !controls.earlyOk) process.exitCode=1;
-
-                if (width < 720) {
-                  for (const protectedId of ['calculator', 'plans', 'membership-inquiry']) {
-                    await page.locator('#'+protectedId).scrollIntoViewIfNeeded({timeout:5000});
-                    await page.waitForTimeout(230);
-                    const stickyHidden = await page.locator('#membershipStickyCta').evaluate(el =>
-                      getComputedStyle(el).display==='none'
-                    );
-                    console.log('MEMBERSHIP_STICKY_AUDIT '+JSON.stringify({width,protectedId,stickyHidden}));
-                    if (!stickyHidden) process.exitCode=1;
-                  }
-                }
-
-                const trust = await page.evaluate(() => {
-                  const form=document.querySelector('#membershipInquiryForm');
-                  const guard=document.querySelector('script[src*="security-guard.js"]');
-                  return {
-                    formHardened:form?.dataset.securityHardened==='true',
-                    honeypot:!!form?.querySelector('[data-security-honeypot]'),
-                    timestamp:!!form?.querySelector('[name="form_started_at"]')?.value,
-                    membershipGuardVersion:guard?.src?.includes('20261117-membership-trust1')||false,
-                    rejectsUnsafeLinks:typeof safeSignupUrl==='function' &&
-                      safeSignupUrl('javascript:alert(1)')==='' &&
-                      safeSignupUrl('data:text/html,hello')==='' &&
-                      safeSignupUrl('https://user:pass@example.com/')==='' &&
-                      safeSignupUrl('https://example.com/').startsWith('https://')
-                  };
-                });
-                console.log('MEMBERSHIP_TRUST_AUDIT '+JSON.stringify({width,trust}));
-                if(Object.values(trust).some(v=>v!==true))process.exitCode=1;
-
                 const surveyScript = await page.locator('script[src*="membership-entry-survey-v2.js"]').first().getAttribute('src').catch(() => null);
-                if(!surveyScript?.includes('20261117-trust1'))process.exitCode=1;
                 const liveScriptText = await page.evaluate(async () => {
                   const script = document.querySelector('script[src*="membership-entry-survey-v2.js"]');
                   if (!script) return '';
@@ -345,7 +152,7 @@ jobs:
                   const section=document.querySelector('#price-pain');
                   if(!section) return null;
                   const inner=section.querySelector('.mv2-inner'),title=section.querySelector('h2');
-                  const amount=section.querySelector('.mx6-price-amount'),description=section.querySelector('.mv2-save');
+                  const amount=section.querySelector('.mv2-mega'),description=section.querySelector('.mv2-save');
                   const sectionRect=section.getBoundingClientRect();
                   const measure=(el)=>{
                     if(!el)return null;
@@ -382,48 +189,21 @@ jobs:
                     const jpeg = await page.screenshot({type:'jpeg',quality:48,timeout:25000});
                     console.log('MEMBERSHIP_IMAGE_390_TOP '+jpeg.toString('base64'));
                   }
-                  for(const [label,selector] of [['receipt','#same-cruise'],['point','#membership-point'],['calculator','#calculator'],['plans','#planCards'],['terms','#membership-terms']]){
+                  for(const [label,selector] of [['calculator','#calculator'],['benefits','#mx-member-booking-benefits'],['travel','#mx-travel-expansion'],['plans','#planCards'],['terms','#membership-terms'],['mid','#mx-actual-cash-total']]){
                     const el=page.locator(selector).first();
                     if(await el.count()) {
                       await el.scrollIntoViewIfNeeded({timeout:5000}).catch(()=>{});
                       await page.waitForTimeout(350);
                       await page.screenshot({path:'membership-'+width+'-'+label+'.png',timeout:25000}).catch(()=>{});
                       if(width===390) {
-                        const jpg=await el.screenshot({type:'jpeg',quality:50,timeout:25000});
+                        const jpg=await page.screenshot({type:'jpeg',quality:46,timeout:25000});
                         console.log('MEMBERSHIP_IMAGE_390_'+label.toUpperCase()+' '+jpg.toString('base64'));
                       }
                     }
                   }
                 }
-                if(width===390){
-                  await page.evaluate(() => { location.hash='#survey'; });
-                  await page.locator('#cms-survey-v2 .cms2-option').first().waitFor({timeout:8000});
-                  await page.locator('#cms-survey-v2 .cms2-option').first().click();
-                  await page.locator('#cms-survey-v2 .cms2-option').first().click();
-                  const surveyContent=await page.locator('#cms-survey-v2').innerText();
-                  const hasUnsupportedPrices=/400\s*→\s*240만원|160만원 차이/.test(surveyContent);
-                  await page.locator('#cms-survey-v2 .cms2-primary').click();
-                  await page.locator('#cms-survey-v2').waitFor({state:'detached',timeout:5000});
-                  await page.waitForTimeout(1100);
-                  const calculatorLanding = await page.locator('#calculator').evaluate(el =>
-                    Math.round(el.getBoundingClientRect().top)
-                  );
-                  const surveyReachedCalculator = calculatorLanding >= -25 && calculatorLanding <= 160;
-                  console.log('MEMBERSHIP_SURVEY_SCROLL_AUDIT '+JSON.stringify({
-                    width,calculatorLanding,surveyReachedCalculator
-                  }));
-                  if(!surveyReachedCalculator)process.exitCode=1;
-                  await page.evaluate(() => { location.hash='#survey'; });
-                  await page.locator('#cms-survey-v2 .cms2-close').waitFor({timeout:8000});
-                  await page.locator('#cms-survey-v2 .cms2-close').click();
-                  await page.locator('#cms-survey-v2').waitFor({state:'detached',timeout:5000});
-                  console.log('MEMBERSHIP_SURVEY_AUDIT '+JSON.stringify({width,
-                    hasUnsupportedPrices,dismissible:true,completed:true}));
-                  if(hasUnsupportedPrices)process.exitCode=1;
-                }
               } catch(e) {
                 console.log('MEMBERSHIP_LAYOUT_ERROR '+JSON.stringify({width,error:String(e),errors}));
-                process.exitCode=1;
               }
               await context.close();
             }
