@@ -25,17 +25,23 @@ export async function onRequest(context) {
     })
     .on('body', {
       element(element) {
-        // The next two 270-day and price-match chapters are static HTML; retain only booking and layout helpers.
+        // The HTML owns hero, price copy and consultation CTA; only extra sections are injected.
         element.append(
+          '<script defer src="/membership/membership-scaffold-v1.js?v=20261111-compact11"></script>' +
           '<script defer src="/membership/membership-canonical-stage-v1.js?v=20261111-mobile5"></script>' +
 
-          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261119-story-phase2fix"></script>' +
+          '<script defer src="/membership/membership-section7-8-price-proof-v1.js?v=20261111-compact11"></script>' +
+          '<script defer src="/membership/membership-section9-10-cost-use-v1.js?v=20261111-story4"></script>' +
+          '<script defer src="/membership/membership-section11-12-guide-transition-v1.js?v=20261111-compact11"></script>' +
+          '<script defer src="/membership/membership-cruise-example-images-v1.js?v=20261111-cssunified1"></script>' +
+          '<script defer src="/membership/membership-section13-14-points-v1.js?v=20261111-compact11"></script>' +
 
-          '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20261119-twochapters1"></script>' +
+          '<script defer src="/membership/membership-section17-18-calculator-fit-v1.js?v=20261111-compact11b"></script>' +
 
           '<script defer src="/membership/membership-remove-optional-v1.js?v=20260903-remove53"></script>' +
 
-          '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>',
+          '<script defer src="/membership/membership-live-motion-v1.js?v=20261111-price9a"></script>' +
+          '<script defer src="/membership/membership-hero-motion-v1.js?v=20261117-survey-anchor1"></script>',
           { html: true }
         );
       }
