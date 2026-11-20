@@ -9,6 +9,13 @@
     return document.querySelector('.hero-section');
   }
 
+  function hardTop() {
+    try { history.scrollRestoration = 'manual'; } catch (_) {}
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+
   function resetHero() {
     const section = hero();
     if (!section) return false;
@@ -34,11 +41,16 @@
     });
   }
 
-  function replayHeroWithoutJumping() {
-    // Returning from #survey must preserve the user's requested destination.
-    // In particular, the "가격 비교 보기" action scrolls to #calculator.
+  function playFromTop() {
     resetHero();
-    requestAnimationFrame(playHero);
+    hardTop();
+    requestAnimationFrame(() => {
+      hardTop();
+      requestAnimationFrame(() => {
+        hardTop();
+        playHero();
+      });
+    });
   }
 
   function watchSurvey() {
@@ -63,8 +75,9 @@
       }
       if (!surveyWasPresent) return;
       surveyWasPresent = false;
-      // Preserve the survey's navigation: never change scroll position here.
-      replayHeroWithoutJumping();
+      /* The survey's legacy close handler scrolls to price first.
+         MutationObserver fires after that DOM mutation callback, so this wins last. */
+      playFromTop();
     });
 
     if (document.body) observer.observe(document.body, { childList: true });
