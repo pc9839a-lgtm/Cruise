@@ -3125,6 +3125,11 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   transform: translateY(110%);
   pointer-events: none;
 }
+.membership-bottom-cta-inner {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  pointer-events: auto;
+}
 .membership-bottom-cta a {
   box-sizing: border-box;
   display: flex;
