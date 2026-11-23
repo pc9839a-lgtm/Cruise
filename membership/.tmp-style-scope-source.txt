@@ -1522,3 +1522,1062 @@ document.addEventListener('DOMContentLoaded', init);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
   else init();
 })();
+
+
+/* FILE: membership-section13-14-points-v1.js */
+
+(() => {
+  'use strict';
+
+
+  function installPointDoubleStyles() {
+    if (document.getElementById('mx13-double-style')) return;
+    /* Styles are served by membership-unified.css; do not inject style tags. */
+  }
+
+  function buildSections12And13() {
+    const section11 = document.getElementById('mx-lowest-price');
+    const section12 = document.getElementById('membership-point');
+    if (!section11 || !section12) return false;
+
+    section12.className = 'mx13-membership-section';
+    section12.setAttribute('data-membership-section', '12');
+    section12.innerHTML = `
+      <div class="mx13-inner">
+        <span class="mx13-kicker">MONTHLY POINT</span>
+        <h2 class="mx13-title">매월 결제액의<br><strong>2배 POINT 적립</strong></h2>
+
+        <div class="mx13-double" aria-label="포인트 2배 적립">
+          <span>POINT</span>
+          <strong>2X</strong>
+        </div>
+
+        <div class="mx13-simple-list" aria-label="멤버십 월 적립">
+          <div class="mx13-simple-row">
+            <span>CLASSIC</span>
+            <strong>$100 → 200P</strong>
+          </div>
+          <div class="mx13-simple-row premium">
+            <span>PREMIUM</span>
+            <strong>$250 → 500P</strong>
+          </div>
+        </div>
+      </div>`;
+
+    let section13 = document.getElementById('mx-point-example');
+    if (!section13) {
+      section13 = document.createElement('section');
+      section13.id = 'mx-point-example';
+    }
+
+    section13.className = 'mx13-point-proof';
+    section13.setAttribute('data-membership-section', '13');
+    section13.innerHTML = `
+      <div class="mxp13-inner">
+        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
+        <h2>$1,000 납부 후<br><strong>1,950P 적립</strong></h2>
+
+        <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">
+          <div class="total"><span>실제 납부</span><strong>$1,000</strong></div>
+          <div class="total"><span>총 적립</span><strong>1,950P</strong></div>
+          <div><span>예약에 사용</span><strong>1,805.84P</strong></div>
+        </div>
+      </div>`;
+
+    const oldTimeline = document.getElementById('points-by-time');
+    if (oldTimeline) oldTimeline.remove();
+
+    if (section11.nextElementSibling !== section12) section11.insertAdjacentElement('afterend', section12);
+    if (section12.nextElementSibling !== section13) section12.insertAdjacentElement('afterend', section13);
+    return true;
+  }
+
+  function init() {
+    installPointDoubleStyles();
+    if (buildSections12And13()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (buildSections12And13() || tries >= 45) window.clearInterval(timer);
+    }, 160);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
+
+
+/* FILE: membership-section15-16-point-payment-v1.js */
+
+(() => {
+  'use strict';
+
+  function ensureSection(id, className) {
+    let section = document.getElementById(id);
+    if (!section) {
+      section = document.createElement('section');
+      section.id = id;
+    }
+    section.className = className;
+    return section;
+  }
+
+  function installGuideMediaStyles() {
+    if (document.getElementById('mx16-media-style')) return;
+    /* Styles are served by membership-unified.css; do not inject style tags. */
+  }
+
+  function buildSections14To16() {
+    const pointExample = document.getElementById('mx-point-example');
+    const calculator = document.getElementById('calculator');
+    if (!pointExample || !calculator) return false;
+
+    ['real-cost', 'mx-use-rules', 'mx-point-use'].forEach((id) => {
+      const duplicate = document.getElementById(id);
+      if (duplicate) duplicate.remove();
+    });
+
+    const cash = ensureSection('mx-actual-cash', 'mx14-cash-section');
+    cash.setAttribute('data-membership-section', '14');
+    cash.innerHTML = `
+      <div class="mx14-inner">
+        <span class="mx14-kicker">실제 예약 결과</span>
+        <h2>실제로 나간 돈을<br><strong>두 개로 나눠보면</strong></h2>
+        <div class="mx14-equation" aria-label="실제 현금 부담 구성">
+          <div><span>POINT를 만들기 위해 낸 금액</span><strong>$1,000</strong></div>
+          <i>+</i>
+          <div><span>예약 당시 카드 결제</span><strong>$2,020.88</strong></div>
+        </div>
+      </div>`;
+
+    const cashTotal = ensureSection('mx-actual-cash-total', 'mx14-total-section');
+    cashTotal.setAttribute('data-membership-section', '14.5');
+    cashTotal.innerHTML = `
+      <div class="mx14-total-inner">
+        <p class="mx14-total-lead">그래서 제가 실제로 부담한 금액은</p>
+        <div class="mx14-total-value">$3,020.88</div>
+        <p class="mx14-total-note">처리 수수료 $60.63 별도</p>
+      </div>`;
+
+    const proof = ensureSection('mx-booking-proof', 'mx15-proof-section');
+    proof.setAttribute('data-membership-section', '15');
+    proof.innerHTML = `
+      <div class="mx15-inner">
+        <h2 class="mx15-question">혹시<br><strong>싼 배를 고른 거 아닐까?</strong></h2>
+        <div class="mx15-answer">아닙니다</div>
+        <div class="mx15-proof-gallery" aria-label="실제 예약 증빙 이미지">
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/fvmk2pzl5lazua8vnuef.png" alt="실제 예약 증빙 이미지 1"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/j4ippct6ag07tqpifkbj.png" alt="실제 예약 증빙 이미지 2"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/pevn5zoo2fsnxzmqxmh9.png" alt="실제 예약 증빙 이미지 3"></figure>
+          <figure class="mx15-proof-shot"><img loading="lazy" decoding="async" width="1122" height="1402" src="https://res.cloudinary.com/dwz5e6lsq/image/upload/v1788413591/jhtcfifjkiuvkinguj64.png" alt="실제 예약 증빙 이미지 4"></figure>
+        </div>
+      </div>`;
+
+    const guide = ensureSection('mx-guide-assist', 'mx16-guide-section mx-bridge-section');
+    guide.setAttribute('data-membership-section', '16');
+    guide.innerHTML = `
+      <div class="mx16-inner">
+        <h2 class="mx16-bridge-question">크루즈 처음인데<br><strong>혼자 갈 수 있을까?</strong></h2>
+        <div class="mx16-answer">함께 출발할 수도 있습니다</div>
+        <div class="mx16-media-slider" aria-label="함께 출발하는 크루즈 이미지 슬라이드">
+          <figure class="mx16-media-card" data-image-slot="departure"><div class="mx16-media-slot" aria-hidden="true"></div><figcaption>함께 출발</figcaption></figure>
+          <figure class="mx16-media-card" data-image-slot="boarding"><div class="mx16-media-slot" aria-hidden="true"></div><figcaption>승선</figcaption></figure>
+          <figure class="mx16-media-card" data-image-slot="port"><div class="mx16-media-slot" aria-hidden="true"></div><figcaption>기항지</figcaption></figure>
+          <figure class="mx16-media-card" data-image-slot="travel"><div class="mx16-media-slot" aria-hidden="true"></div><figcaption>같이 여행</figcaption></figure>
+        </div>
+      </div>`;
+
+    if (pointExample.nextElementSibling !== cash) pointExample.insertAdjacentElement('afterend', cash);
+    if (cash.nextElementSibling !== cashTotal) cash.insertAdjacentElement('afterend', cashTotal);
+    if (cashTotal.nextElementSibling !== proof) cashTotal.insertAdjacentElement('afterend', proof);
+    if (proof.nextElementSibling !== guide) proof.insertAdjacentElement('afterend', guide);
+    if (guide.nextElementSibling !== calculator) guide.insertAdjacentElement('afterend', calculator);
+
+    installGuideMediaStyles();
+
+    return true;
+  }
+
+  function init() {
+    installGuideMediaStyles();
+    if (buildSections14To16()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (buildSections14To16() || tries >= 45) window.clearInterval(timer);
+    }, 160);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
+
+
+/* FILE: membership-section17-18-calculator-fit-v1.js */
+
+(() => {
+  'use strict';
+
+  // Only position and label the calculator. CSS owns sizing, spacing and visibility.
+  function configureCalculator() {
+    const membership = document.getElementById('membership-point');
+    const calculator = document.getElementById('calculator');
+    if (!membership || !calculator) return false;
+
+    const anchor = document.getElementById('mx-guide-assist')
+      || document.getElementById('mx-point-example')
+      || membership;
+
+    calculator.classList.add('calc-clean-v2');
+    calculator.setAttribute('data-membership-section', '17');
+    if (anchor.nextElementSibling !== calculator) {
+      anchor.insertAdjacentElement('afterend', calculator);
+    }
+
+    const setText = (selector, value) => {
+      const element = calculator.querySelector(selector);
+      if (element) element.textContent = value;
+    };
+    setText('.section-kicker', 'USD · POINT');
+    setText('.calculator-head strong', '크루즈 금액');
+    setText('.mode-btn[data-mode="general"]', '일반 예약');
+    setText('.mode-btn[data-mode="early"]', '270일+');
+    setText('#pointLabel', '필요 POINT');
+    setText('#cashLabel', '카드 결제');
+
+    const title = calculator.querySelector('.section-head h2');
+    if (title) title.innerHTML = '그럼 내가 가려는 크루즈는?<br><strong>직접 계산해보세요</strong>';
+
+    const cruiseBox = calculator.querySelector('#cruiseUsd')?.closest('.result-box');
+    if (cruiseBox) {
+      cruiseBox.classList.add('calc-price-dup');
+      cruiseBox.setAttribute('aria-hidden', 'true');
+    }
+    const description = calculator.querySelector('#modeDescription');
+    if (description) description.removeAttribute('aria-hidden');
+    for (const selector of ['.exchange-bar', '#cruiseKrw', '#pointKrw', '#cashKrw', '#coverageText', '#coverageSubtext']) {
+      calculator.querySelector(selector)?.setAttribute('aria-hidden', 'true');
+    }
+
+    const totalBox = calculator.querySelector('#coverageRatio')?.closest('.result-box');
+    const totalLabel = totalBox?.querySelector('span');
+    if (totalLabel) totalLabel.textContent = '총 결제 예시';
+    return true;
+  }
+
+  function init() {
+    if (configureCalculator()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (configureCalculator() || tries >= 40) window.clearInterval(timer);
+    }, 160);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
+
+
+/* FILE: membership-section19-20-plan-choice-v1.js */
+
+(() => {
+  'use strict';
+
+  function ensureSection(id, className) {
+    let section = document.getElementById(id);
+    if (!section) {
+      section = document.createElement('section');
+      section.id = id;
+    }
+    section.className = className;
+    return section;
+  }
+
+  function bindBenefitMotion() {
+    const benefit = document.getElementById('mx-member-booking-benefits');
+    if (!benefit || benefit.dataset.mx18MotionBound === '1') return;
+    benefit.dataset.mx18MotionBound = '1';
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches) {
+      benefit.classList.add('mx18-conversion-active');
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        benefit.classList.add('mx18-conversion-active');
+        observer.disconnect();
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    observer.observe(benefit);
+  }
+
+  function buildSections18To20() {
+    const calculator = document.getElementById('calculator');
+    const plans = document.getElementById('plans');
+    if (!calculator || !plans) return false;
+
+    ['mx-plan-guide','m3-selector','mx-fit-check'].forEach((id) => document.getElementById(id)?.remove());
+
+    document.getElementById('mx-membership-optional')?.remove();
+
+    const memberBenefits = ensureSection('mx-member-booking-benefits','mx18-benefit-section');
+    memberBenefits.setAttribute('data-membership-section','18.5');
+    memberBenefits.innerHTML = `
+      <div class="mx18-benefit-inner">
+        <h2 class="mx18-benefit-title">같은 크루즈<br><strong>회원이 더 적게 냅니다</strong></h2>
+
+        <div class="mx18-benefit-cards" aria-label="회원 혜택 흐름">
+          <article class="mx18-benefit-card">
+            <span class="mx18-step">01</span>
+            <strong>낸 금액이 쌓이고</strong>
+            <p>여행에 쓸 POINT가 됩니다</p>
+          </article>
+          <article class="mx18-benefit-card">
+            <span class="mx18-step">02</span>
+            <strong>회원 혜택가로 예약하고</strong>
+            <p>쌓아둔 POINT를 함께 씁니다</p>
+          </article>
+          <article class="mx18-benefit-card mx18-benefit-result">
+            <span class="mx18-step">RESULT</span>
+            <strong>현금 부담이 줄어듭니다</strong>
+            <p>같은 크루즈도 회원이 더 적게 냅니다</p>
+          </article>
+          <div class="mx18-proof-strip" aria-label="실제 예약 숫자">
+            <div><span>예약 총액</span><strong>$3,887.35</strong></div>
+            <div><span>사용 POINT</span><strong>1,805.84P</strong></div>
+            <div class="accent"><span>실제 카드 결제</span><strong>$2,020.88</strong></div>
+          </div>
+        </div>
+
+        <a class="mx18-benefit-cta" href="#plans">CLASSIC · PREMIUM 비교하기 <b>→</b></a>
+      </div>`;
+
+    document.getElementById('mx-start-early')?.remove();
+    document.getElementById('mx-start-early-proof')?.remove();
+
+    plans.setAttribute('data-membership-section','20');
+
+    if (calculator.nextElementSibling !== memberBenefits) calculator.insertAdjacentElement('afterend', memberBenefits);
+    if (memberBenefits.nextElementSibling !== plans) memberBenefits.insertAdjacentElement('afterend', plans);
+
+    bindBenefitMotion();
+    return true;
+  }
+
+  function init() {
+
+    if (buildSections18To20()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (buildSections18To20() || tries >= 45) window.clearInterval(timer);
+    },160);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once:true });
+  else init();
+})();
+
+
+/* FILE: membership-remove-optional-v1.js */
+
+(() => {
+  'use strict';
+
+  const TARGET_ID = 'mx-membership-optional';
+
+  function removeOptionalSection() {
+    const section = document.getElementById(TARGET_ID);
+    if (!section) return false;
+    section.remove();
+    return true;
+  }
+
+  function init() {
+    removeOptionalSection();
+
+    const observer = new MutationObserver(() => {
+      removeOptionalSection();
+    });
+
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    window.setTimeout(() => {
+      removeOptionalSection();
+      observer.disconnect();
+    }, 5000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
+
+
+/* FILE: membership-travel-expansion-v1.js */
+
+(() => {
+  'use strict';
+
+  const SECTION_ID = 'mx-travel-expansion';
+  const FREEDOM_ID = 'mx-membership-freedom';
+
+  function installStyles() {
+    if (document.getElementById('mx-travel-expansion-style')) return;
+    /* Styles are served by membership-unified.css; do not inject style tags. */
+  }
+
+  function activate(section) {
+    if (!section) return;
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches) {
+      section.classList.add('is-active');
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        section.classList.add('is-active');
+        observer.disconnect();
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -7% 0px' });
+    observer.observe(section);
+  }
+
+  function buildTravel() {
+    if (document.getElementById(SECTION_ID)) return true;
+    const benefit = document.getElementById('mx-member-booking-benefits');
+    const plans = document.getElementById('plans');
+    const anchor = plans || benefit;
+    if (!anchor || !anchor.parentNode) return false;
+
+    const section = document.createElement('section');
+    section.id = SECTION_ID;
+    section.setAttribute('data-membership-section', '18.7');
+    section.innerHTML = `
+      <div class="mxt-inner">
+        <div class="mxt-head">
+          <span class="mxt-kicker">크루즈만이 아닙니다</span>
+          <h2>호텔·투어도<br><strong>회원 혜택으로 예약합니다</strong></h2>
+        </div>
+        <div class="mxt-cards" aria-label="추가 예약 가능 상품">
+          <article class="mxt-card" data-ghost="HOTEL">
+            <div><span class="mxt-num">01</span><span class="mxt-guarantee">최저가 보장</span></div>
+            <strong>전세계 호텔</strong>
+            <p>호텔도 최저가 보장</p>
+          </article>
+          <article class="mxt-card" data-ghost="TOUR">
+            <span class="mxt-num">02</span>
+            <strong>현지 투어</strong>
+            <p>기항지·여행지 투어 예약</p>
+          </article>
+          <article class="mxt-card" data-ghost="KOREA">
+            <span class="mxt-num">03</span>
+            <strong>국내 호텔</strong>
+            <p>출국 전·귀국 후 숙박</p>
+          </article>
+        </div>
+      </div>`;
+    anchor.parentNode.insertBefore(section, anchor);
+    activate(section);
+    return true;
+  }
+
+  function buildFreedom() {
+    if (document.getElementById(FREEDOM_ID)) return true;
+    const plans = document.getElementById('plans');
+    if (!plans || !plans.parentNode) return false;
+
+    const section = document.createElement('div');
+    section.id = FREEDOM_ID;
+    section.setAttribute('data-membership-section', '19.8');
+    section.innerHTML = `
+      <div class="mxf-inner">
+        <h2 class="mxf-title">가입 전에<br><strong>이것만 확인하세요</strong></h2>
+        <div class="mxf-grid" aria-label="가입 전 핵심 조건">
+          <div class="mxf-card mxf-penalty"><span class="mxf-zero">0원</span><strong>위약금 없음</strong></div>
+          <div class="mxf-card mx-refund-card"><span class="mxf-zero">14일</span><strong>100% 환불*</strong></div>
+          <div class="mxf-card mxf-contract"><span class="mxf-zero">0개월</span><strong>약정 없음</strong></div>
+        </div>
+        <p class="mxf-note">* 멤버십 결제 기준이며, 예약 상품 취소 규정은 각 상품 조건에 따릅니다.</p>
+      </div>`;
+    plans.parentNode.insertBefore(section, plans);
+    activate(section);
+    return true;
+  }
+
+  function init() {
+    installStyles();
+    let tries = 0;
+    const run = () => {
+      const travelReady = buildTravel();
+      const freedomReady = buildFreedom();
+      tries += 1;
+      return (travelReady && freedomReady) || tries >= 80;
+    };
+    if (run()) return;
+    const timer = window.setInterval(() => { if (run()) window.clearInterval(timer); }, 120);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
+
+/* FILE: membership-section-order-fix-v1.js */
+
+(() => {
+  'use strict';
+
+  function moveSections() {
+    document.getElementById('mx-membership-optional')?.remove();
+    document.getElementById('mx-start-early')?.remove();
+    document.getElementById('mx-start-early-proof')?.remove();
+
+    const benefit = document.getElementById('mx-member-booking-benefits');
+    const travel = document.getElementById('mx-travel-expansion');
+    const calculator = document.getElementById('calculator');
+    const freedom = document.getElementById('mx-membership-freedom');
+    const plans = document.getElementById('plans');
+
+    // 최종 전환 순서: 회원 절감 근거 -> 호텔/투어 혜택 -> 플랜.
+    if (benefit && travel && benefit.parentNode) {
+      if (benefit.nextElementSibling !== travel) benefit.after(travel);
+    }
+    if (travel && plans && travel.parentNode === plans.parentNode && travel.nextElementSibling !== plans) {
+      travel.after(plans);
+    }
+
+    // A selection CTA should land on the plan choices, not on preliminary notices.
+    // Keep the existing reassurance section, but display it after both plan cards.
+    if (freedom && plans) {
+      const plansWrap = plans.querySelector('.plans-wrap') || plans;
+      const planCards = plansWrap.querySelector('#planCards');
+      if (planCards) {
+        if (freedom.parentElement !== plansWrap || planCards.nextElementSibling !== freedom) {
+          planCards.after(freedom);
+        }
+      } else if (freedom.parentElement !== plansWrap) {
+        plansWrap.append(freedom);
+      }
+    } else if (freedom && calculator && calculator.parentNode) {
+      calculator.after(freedom);
+    }
+
+    return !!(benefit && travel && freedom && plans);
+  }
+
+  function init() {
+    // Arrange sections once as each dynamic section becomes available.
+    // Repeated delayed moves caused visible jumps while users were scrolling.
+    if (moveSections()) return;
+
+    let queued = false;
+    const observer = new MutationObserver((changes) => {
+      if (queued || !changes.some((change) => change.type === 'childList' &&
+        (change.addedNodes.length || change.removedNodes.length))) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        if (moveSections()) observer.disconnect();
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // If a third-party script never loads, do not watch the page forever.
+    window.setTimeout(() => {
+      observer.disconnect();
+      moveSections();
+    }, 7000);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once:true });
+  else init();
+})();
+
+
+/* FILE: membership-refund-assurance-v1.js */
+
+(() => {
+  'use strict';
+
+  const STYLE_ID = 'mx-refund-assurance-style';
+
+  function installStyles() {
+    if (document.getElementById(STYLE_ID)) return;
+    /* Styles are served by membership-unified.css; do not inject style tags. */
+  }
+
+  function patchFreedom() {
+    const section = document.getElementById('mx-membership-freedom');
+    if (!section) return false;
+    const grid = section.querySelector('.mxf-grid');
+    if (!grid) return false;
+
+    let card = grid.querySelector('.mx-refund-card');
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'mxf-card mx-refund-card';
+      card.innerHTML = '<span class="mxf-zero">14일</span><strong>100% 환불*</strong>';
+      const first = grid.querySelector('.mxf-card');
+      if (first?.nextSibling) grid.insertBefore(card, first.nextSibling);
+      else grid.appendChild(card);
+    }
+
+    const note = section.querySelector('.mxf-note');
+    if (note) {
+      note.innerHTML = '* 멤버십 결제 기준이며, 예약 상품 취소 규정은 각 상품 조건에 따릅니다.';
+    }
+    return true;
+  }
+
+  function init() {
+    installStyles();
+    let tries = 0;
+    const run = () => {
+      tries += 1;
+      if (patchFreedom() || tries >= 80) return;
+      window.setTimeout(run, 120);
+    };
+    run();
+    window.setTimeout(patchFreedom, 1200);
+    window.setTimeout(patchFreedom, 2600);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once:true });
+  else init();
+})();
+
+
+/* FILE: membership-section21-22-terms-final-v1.js */
+
+(() => {
+  'use strict';
+
+  function buildFinalFlow() {
+    const plans = document.getElementById('plans');
+    const section21 = document.getElementById('membership-terms');
+    if (!plans || !section21) return false;
+
+    ['mx-faq-section','mx-recap','price-match','mx-final-choice','points-by-time','mx-use-rules','real-cost'].forEach((id) => document.getElementById(id)?.remove());
+
+    plans.setAttribute('data-membership-section','20');
+
+    section21.className = 'mx21-terms-section';
+    section21.setAttribute('data-membership-section','21');
+    section21.innerHTML = `
+      <div class="mx21-inner">
+        <span class="mx21-kicker">가입 전 확인</span>
+        <h2 class="mx21-title">멤버십<br><strong>이용 조건</strong></h2>
+        <div class="mx21-terms" aria-label="멤버십 가입 조건">
+          <article class="mx21-term-card"><span class="mx21-term-num">01</span><div class="mx21-term-copy"><h3>환불</h3><p>가입 후 14일이 지나면 환불이 어렵습니다.</p></div></article>
+          <article class="mx21-term-card"><span class="mx21-term-num">02</span><div class="mx21-term-copy"><h3>POINT</h3><p>예약 조건과 출발 시점에 따라 사용할 수 있는 POINT 범위가 달라질 수 있습니다.</p></div></article>
+          <article class="mx21-term-card"><span class="mx21-term-num">03</span><div class="mx21-term-copy"><h3>해지</h3><p>해지 시 보너스 적립분 등 POINT 조건이 달라질 수 있습니다.</p></div></article>
+          <article class="mx21-term-card"><span class="mx21-term-num">04</span><div class="mx21-term-copy"><h3>결제</h3><p>본인 명의 결제수단 등 예약 조건을 확인해야 합니다.</p></div></article>
+          <article class="mx21-term-card"><span class="mx21-term-num">05</span><div class="mx21-term-copy"><h3>예약 유지</h3><p>예약에 필요한 멤버십 조건을 출발 전까지 유지해야 하는 경우가 있습니다.</p></div></article>
+          <article class="mx21-term-card"><span class="mx21-term-num">06</span><div class="mx21-term-copy"><h3>최저가 보장</h3><p>동일 크루즈·출발일·객실 등 비교 조건과 신청 기준은 최저가 보장 약관에 따라 적용됩니다.</p></div></article>
+        </div>
+      </div>`;
+
+    if (plans.nextElementSibling !== section21) plans.insertAdjacentElement('afterend',section21);
+    return true;
+  }
+
+  function init() {
+    if (buildFinalFlow()) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      tries += 1;
+      if (buildFinalFlow() || tries >= 50) window.clearInterval(timer);
+    }, 160);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',init,{ once:true });
+  else init();
+})();
+
+
+/* FILE: membership-live-motion-v1.js */
+
+(() => {
+  'use strict';
+
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const reducedMotion = window.matchMedia && (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 780px)').matches);
+  const counterMeta = new WeakMap();
+
+  const numberSelectors = [
+    '.hero-ticket-front strong',
+    '.hero-ticket-front em',
+    '#mx-direct-booking-intro .mx7-total-proof strong',
+    '#same-cruise .mx8-payment-line .mx8-value',
+    '#guide-question .mx9-member-count',
+    '#mx-cruise-price-examples .mx10p-price-value',
+    '#mx-lowest-price .mxg-mega',
+    '#membership-point .mx13-simple-row strong',
+    '#membership-point .mx13-start-note b',
+    '#mx-point-example .mxp13-ledger strong',
+    '#mx-actual-cash .mx14-equation strong',
+    '#mx-actual-cash-total .mx14-total-value'
+  ];
+
+  function formatValue(value, decimals, grouped) {
+    if (decimals > 0) {
+      return value.toLocaleString('en-US', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+        useGrouping: grouped
+      });
+    }
+    return Math.round(value).toLocaleString('en-US', { useGrouping: grouped });
+  }
+
+  function parseCounterText(original) {
+    const regex = /([$₩]?)(\d[\d,]*(?:\.\d+)?)(P?)/g;
+    const matches = [...original.matchAll(regex)];
+    if (!matches.length) return null;
+
+    const pieces = [];
+    let cursor = 0;
+    matches.forEach((match) => {
+      const start = match.index || 0;
+      if (start > cursor) pieces.push({ type: 'text', value: original.slice(cursor, start) });
+
+      const rawNumber = match[2] || '0';
+      pieces.push({
+        type: 'number',
+        prefix: match[1] || '',
+        suffix: match[3] || '',
+        target: Number(rawNumber.replace(/,/g, '')),
+        decimals: rawNumber.includes('.') ? rawNumber.split('.')[1].length : 0,
+        grouped: rawNumber.includes(',')
+      });
+      cursor = start + match[0].length;
+    });
+
+    if (cursor < original.length) pieces.push({ type: 'text', value: original.slice(cursor) });
+    return pieces;
+  }
+
+  function renderCounter(el, progress) {
+    const meta = counterMeta.get(el);
+    if (!meta) return;
+    el.textContent = meta.pieces.map((piece) => {
+      if (piece.type === 'text') return piece.value;
+      const value = piece.target * progress;
+      return `${piece.prefix}${formatValue(value, piece.decimals, piece.grouped)}${piece.suffix}`;
+    }).join('');
+  }
+
+  function prepareCounter(el) {
+    if (!el || el.dataset.mxCounterPrepared === '1') return false;
+    const original = (el.textContent || '').trim();
+    const pieces = parseCounterText(original);
+    if (!pieces) return false;
+
+    counterMeta.set(el, { original, pieces });
+    el.dataset.mxCounterPrepared = '1';
+    el.classList.add('mx-live-counter-element');
+    el.setAttribute('aria-label', original);
+
+    if (!reducedMotion) renderCounter(el, 0);
+    return true;
+  }
+
+  function animateCounter(el) {
+    if (!el || el.dataset.mxCounterDone === '1') return;
+    const meta = counterMeta.get(el);
+    if (!meta) return;
+    el.dataset.mxCounterDone = '1';
+
+    if (reducedMotion) {
+      el.textContent = meta.original;
+      return;
+    }
+
+    const maxTarget = Math.max(...meta.pieces.filter((piece) => piece.type === 'number').map((piece) => piece.target));
+    const duration = maxTarget >= 1000 ? 1250 : 1050;
+    const startedAt = performance.now();
+    el.classList.add('is-counting');
+
+    function tick(now) {
+      const p = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      renderCounter(el, eased);
+
+      if (p < 1) {
+        requestAnimationFrame(tick);
+        return;
+      }
+
+      el.textContent = meta.original;
+      el.classList.remove('is-counting');
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  const counterObserver = 'IntersectionObserver' in window && !reducedMotion
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.32, rootMargin: '0px 0px -7% 0px' })
+    : null;
+
+  const imageObserver = 'IntersectionObserver' in window && !reducedMotion
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          imageObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' })
+    : null;
+
+  function refreshMemberCopy() {
+    const section = document.getElementById('mx-member-booking-benefits');
+    if (!section) return;
+    const cardList = section.querySelector('.mx18-benefit-cards');
+    if (cardList && cardList.getAttribute('aria-label') !== '회원 혜택 흐름') {
+      cardList.setAttribute('aria-label', '회원 혜택 흐름');
+    }
+  }
+
+  function scan() {
+    refreshMemberCopy();
+
+    numberSelectors.forEach((selector) => {
+      $$(selector).forEach((el) => {
+        if (!counterMeta.has(el)) prepareCounter(el);
+        if (!counterMeta.has(el) || el.dataset.mxCounterObserved === '1') return;
+        el.dataset.mxCounterObserved = '1';
+        if (counterObserver) counterObserver.observe(el);
+        else animateCounter(el);
+      });
+    });
+
+    $$('.mx15-proof-shot').forEach((shot) => {
+      if (shot.dataset.mxShotObserved === '1') return;
+      shot.dataset.mxShotObserved = '1';
+      if (imageObserver) imageObserver.observe(shot);
+      else shot.classList.add('is-visible');
+    });
+  }
+
+  function init() {
+    scan();
+    [200, 750, 1800, 3500].forEach((delay) => window.setTimeout(scan, delay));
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
+
+
+/* FILE: membership-cta-optimization-v1.js */
+
+(() => {
+  'use strict';
+
+  function init() {
+    const bar = document.querySelector('.membership-bottom-cta');
+    const link = bar?.querySelector('a');
+    const plans = document.getElementById('plans');
+    const terms = document.getElementById('membership-terms');
+    const benefitAction = document.querySelector('#mx-member-booking-benefits .mx18-benefit-cta');
+    const footer = document.querySelector('.site-footer');
+    if (!bar || !link || !plans) return;
+
+    const intersectsReadingArea = (element) => {
+      if (!element || getComputedStyle(element).display === 'none') return false;
+      const bounds = element.getBoundingClientRect();
+      return bounds.top < window.innerHeight - 66 && bounds.bottom > 66;
+    };
+
+    let rafPending = false;
+    const update = () => {
+      rafPending = false;
+      const hide = [plans, terms, footer, benefitAction].some(intersectsReadingArea);
+      const previous = bar.classList.contains('is-hidden-by-plans');
+      if (previous !== hide) {
+        bar.classList.toggle('is-hidden-by-plans', hide);
+        bar.setAttribute('aria-hidden', String(hide));
+        link.tabIndex = hide ? -1 : 0;
+      }
+      const pastPlans = plans.getBoundingClientRect().bottom < 0;
+      const label = pastPlans ? '멤버십 다시 보기' : '내 멤버십 선택하기';
+      if (link.textContent !== label) link.textContent = label;
+    };
+
+    const schedule = () => {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
+
+/* FILE: membership-hero-restore-v1.js */
+
+(() => {
+  'use strict';
+
+  function restoreHero() {
+    const shell = document.querySelector('.hero-section .hero-shell');
+    if (!shell) return;
+
+    shell.innerHTML = `
+      <div class="hero-overlay"></div>
+      <div class="hero-copy-wrap">
+        <h1 class="hero-title reveal reveal-rise">
+          이제는 여행도<br />
+          <strong>구독 서비스로 갑니다</strong>
+        </h1>
+      </div>
+      <div class="hero-visual-stage reveal reveal-pop" aria-hidden="true">
+        <span class="hero-coin coin-a">P</span>
+        <span class="hero-coin coin-b">P</span>
+        <span class="hero-coin coin-c">P</span>
+        <div class="hero-ticket hero-ticket-back">
+          <span>전세계 호텔 + 크루즈</span>
+          <strong>여행 패스</strong>
+        </div>
+        <div class="hero-ticket hero-ticket-front">
+          <span>크루즈 여행구독</span>
+          <strong>$100</strong>
+          <em>클래식 기준 200P 적립</em>
+        </div>
+        <img class="hero-shot hero-shot-a" src="./img/KakaoTalk_20260405_150550057_03.jpg" alt="오션뷰 라운지 사진" />
+        <img class="hero-shot hero-shot-b" src="./img/음식및엔터24.png" alt="크루즈 공연 사진" />
+      </div>
+    `;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreHero, { once:true });
+  } else {
+    restoreHero();
+  }
+})();
+
+
+/* FILE: membership-hero-motion-v1.js */
+
+(() => {
+  'use strict';
+
+  const root = document.documentElement;
+  let settleTimer = null;
+  let surveyWasPresent = false;
+
+  function hero() {
+    return document.querySelector('.hero-section');
+  }
+
+  function hardTop() {
+    try { history.scrollRestoration = 'manual'; } catch (_) {}
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+
+  function resetHero() {
+    const section = hero();
+    if (!section) return false;
+    root.classList.add('mh-ready');
+    section.classList.remove('mh-active', 'mh-settled');
+    if (settleTimer) {
+      window.clearTimeout(settleTimer);
+      settleTimer = null;
+    }
+    void section.offsetWidth;
+    return true;
+  }
+
+  function playHero() {
+    const section = hero();
+    if (!section) return;
+    root.classList.add('mh-ready');
+    requestAnimationFrame(() => {
+      section.classList.add('mh-active');
+      settleTimer = window.setTimeout(() => {
+        section.classList.add('mh-settled');
+      }, 2050);
+    });
+  }
+
+  function playFromTop() {
+    resetHero();
+    hardTop();
+    requestAnimationFrame(() => {
+      hardTop();
+      requestAnimationFrame(() => {
+        hardTop();
+        playHero();
+      });
+    });
+  }
+
+  function watchSurvey() {
+    const existing = document.getElementById('cms-survey-v2');
+    if (existing) {
+      surveyWasPresent = true;
+      resetHero();
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('#cms-survey-v2 .cms2-primary')) return;
+      surveyWasPresent = true;
+      resetHero();
+    }, true);
+
+    const observer = new MutationObserver(() => {
+      const survey = document.getElementById('cms-survey-v2');
+      if (survey) {
+        surveyWasPresent = true;
+        resetHero();
+        return;
+      }
+      if (!surveyWasPresent) return;
+      surveyWasPresent = false;
+      /* The survey's legacy close handler scrolls to price first.
+         MutationObserver fires after that DOM mutation callback, so this wins last. */
+      playFromTop();
+    });
+
+    if (document.body) observer.observe(document.body, { childList: true });
+  }
+
+  function init() {
+    if (!hero()) return;
+    root.classList.add('mh-ready');
+    watchSurvey();
+
+    if (!document.getElementById('cms-survey-v2')) {
+      resetHero();
+      window.setTimeout(playHero, 90);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+})();
