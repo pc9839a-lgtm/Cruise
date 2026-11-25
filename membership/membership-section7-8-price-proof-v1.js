@@ -17,7 +17,6 @@
     receipt.setAttribute('data-membership-section', '7');
     receipt.innerHTML = `
       <div class="mx7-wide-inner">
-        <span class="mx7-overline">실제 예약 예시</span>
         <h2>MSC World Asia<br><strong>2인 실제 예약</strong></h2>
 
         <div class="mx7-receipt-proof" aria-label="MSC World Asia 실제 예약 정보">
@@ -34,9 +33,6 @@
             </div>
           </div>
 
-          <p class="mx7-receipt-note mx7-bridge">
-            그런데 이 금액을<br><strong>전부 카드로 낸 게 아닙니다</strong>
-          </p>
         </div>
       </div>`;
 
@@ -48,7 +44,6 @@
     section8.setAttribute('data-membership-section', '8');
     section8.innerHTML = `
       <div class="mv2-inner">
-        <span class="mx8-overline">실제 결제</span>
         <h2 class="mx8-story-title">실제로는<br><strong>POINT와 CARD로 나눠 예약했습니다</strong></h2>
 
         <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제">

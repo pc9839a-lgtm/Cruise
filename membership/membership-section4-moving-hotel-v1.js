@@ -19,7 +19,6 @@
       <section id="mx-moving-hotel-4" class="mx4-section membership-v3-compare-criteria" data-membership-section="06" aria-labelledby="mx4-title">
         <div class="mx4-inner">
           <div class="mx4-head">
-            <span class="mx4-eyebrow">판매가보다 총비용</span>
             <h2 id="mx4-title">비교할 건<br><strong>딱 4가지입니다</strong></h2>
           </div>
 
@@ -30,7 +29,6 @@
             <article class="membership-v3-criterion"><strong>이용 조건</strong></article>
           </div>
 
-          <p class="membership-v3-section06-next">이제 실제 예약 한 건으로 확인합니다.</p>
         </div>
       </section>`);
 

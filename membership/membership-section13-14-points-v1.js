@@ -16,7 +16,6 @@
     section12.setAttribute('data-membership-section', '12');
     section12.innerHTML = `
       <div class="mx13-inner">
-        <span class="mx13-kicker">MONTHLY POINT</span>
         <h2 class="mx13-title">매월 결제액의<br><strong>2배 POINT 적립</strong></h2>
 
         <div class="mx13-double" aria-label="포인트 2배 적립">
@@ -46,7 +45,6 @@
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
       <div class="mxp13-inner">
-        <span class="mxp13-kicker">실제 CLASSIC 적립</span>
         <h2>$1,000 납부 후<br><strong>1,950P 적립</strong></h2>
 
         <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">

@@ -30,7 +30,6 @@
     cash.setAttribute('data-membership-section', '14');
     cash.innerHTML = `
       <div class="mx14-inner">
-        <span class="mx14-kicker">실제 예약 결과</span>
         <h2>실제로 나간 돈을<br><strong>두 개로 나눠보면</strong></h2>
         <div class="mx14-equation" aria-label="실제 현금 부담 구성">
           <div><span>POINT를 만들기 위해 낸 금액</span><strong>$1,000</strong></div>
