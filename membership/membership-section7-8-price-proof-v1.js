@@ -13,10 +13,10 @@
       receipt.id = 'mx-direct-booking-intro';
     }
 
-    receipt.className = 'mx7-intro-section';
+    receipt.className = 'mx7-intro-section membership-story impact-section impact-dark';
     receipt.setAttribute('data-membership-section', '7');
     receipt.innerHTML = `
-      <div class="mx7-wide-inner">
+      <div class="mx7-wide-inner partner-container impact-content">
         <h2>MSC World Asia<br><strong>2인 실제 예약</strong></h2>
 
         <div class="mx7-receipt-proof" aria-label="MSC World Asia 실제 예약 정보">
@@ -40,10 +40,10 @@
     const saving = document.getElementById('mx-direct-booking-saving');
     if (saving) saving.remove();
 
-    section8.className = 'mx8-point-use-proof';
+    section8.className = 'mx8-point-use-proof membership-story impact-section impact-light';
     section8.setAttribute('data-membership-section', '8');
     section8.innerHTML = `
-      <div class="mv2-inner">
+      <div class="mv2-inner partner-container impact-content">
         <h2 class="mx8-story-title">실제로는<br><strong>POINT와 CARD로 나눠 예약했습니다</strong></h2>
 
         <div class="mx8-payment-stack" aria-label="실제 POINT 사용과 카드 결제">
@@ -57,7 +57,6 @@
           </div>
         </div>
 
-        <h2 class="mx8-bridge-question">1,805.84P는<br><strong>어디서 생겼을까요?</strong></h2>
       </div>`;
 
     if (section6.nextElementSibling !== receipt) section6.insertAdjacentElement('afterend', receipt);

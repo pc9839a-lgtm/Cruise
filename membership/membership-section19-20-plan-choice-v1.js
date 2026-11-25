@@ -38,10 +38,10 @@
 
     document.getElementById('mx-membership-optional')?.remove();
 
-    const memberBenefits = ensureSection('mx-member-booking-benefits','mx18-benefit-section');
+    const memberBenefits = ensureSection('mx-member-booking-benefits','mx18-benefit-section membership-story impact-section impact-blue');
     memberBenefits.setAttribute('data-membership-section','18.5');
     memberBenefits.innerHTML = `
-      <div class="mx18-benefit-inner">
+      <div class="mx18-benefit-inner partner-container impact-content">
         <h2 class="mx18-benefit-title">같은 크루즈<br><strong>회원이 더 적게 냅니다</strong></h2>
 
         <div class="mx18-benefit-cards" aria-label="회원 혜택 흐름">

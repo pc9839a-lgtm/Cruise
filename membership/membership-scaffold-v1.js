@@ -27,8 +27,8 @@
 
     if (!$('#mx-moving-hotel')) {
       after(reviewFlow, `
-        <section id="mx-moving-hotel" class="membership-v3-price-question" data-membership-section="04" aria-labelledby="membership-v3-price-title">
-          <div class="membership-v3-price-inner">
+        <section id="mx-moving-hotel" class="membership-v3-price-question membership-story impact-section impact-paper" data-membership-section="04" aria-labelledby="membership-v3-price-title">
+          <div class="membership-v3-price-inner partner-container impact-content">
             <h2 id="membership-v3-price-title" class="membership-v3-price-title">둘이 크루즈 가면<br><strong>얼마 정도 들까요?</strong></h2>
             <div class="membership-v3-price-facts" aria-label="가격 질문 기준 여행 조건">
               <span>MSC World Asia</span><i>·</i><span>발코니</span><i>·</i><span>2명</span><i>·</i><span>7박 8일</span>

@@ -6,10 +6,10 @@
     const section10 = document.getElementById('mx-prepare-money');
     if (!section9 || !section10) return false;
 
-    section10.className = 'mx10-membership-reason';
+    section10.className = 'mx10-membership-reason membership-story impact-section impact-blue';
     section10.setAttribute('data-membership-section', '10');
     section10.innerHTML = `
-      <div class="mx12-inner">
+      <div class="mx12-inner partner-container impact-content">
         <h2 class="mx12-title">회원이 되면<br><strong>예약 방법이 달라집니다</strong></h2>
         <p class="mx10-short-copy">POINT로 결제하고<br><strong>최저가 보장까지</strong></p>
       </div>`;
@@ -20,10 +20,10 @@
       priceExamples.id = 'mx-cruise-price-examples';
     }
 
-    priceExamples.className = 'mx10p-price-examples';
+    priceExamples.className = 'mx10p-price-examples membership-story impact-section impact-light';
     priceExamples.setAttribute('data-membership-section', '10.5');
     priceExamples.innerHTML = `
-      <div class="mx10p-inner">
+      <div class="mx10p-inner partner-container impact-content">
         <h2>그럼 실제 크루즈는<br><strong>얼마부터 볼 수 있을까요?</strong></h2>
 
         <div class="mx10p-price-grid" aria-label="크루즈 1인 가격 예시">
@@ -53,10 +53,10 @@
       section11.id = 'mx-lowest-price';
     }
 
-    section11.className = 'mx11-lowest-price';
+    section11.className = 'mx11-lowest-price membership-story impact-section impact-dark';
     section11.setAttribute('data-membership-section', '11');
     section11.innerHTML = `
-      <div class="mxg-inner">
+      <div class="mxg-inner partner-container impact-content">
         <h2>다른 곳이 더 싸다면?<br><strong>전세계 최저가 보장</strong></h2>
         <div class="mxg-mega">$100+</div>
         <p class="mxg-criteria">동일 크루즈 · 동일 출발일 · 동일 객실 조건</p>

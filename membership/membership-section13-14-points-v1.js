@@ -12,14 +12,13 @@
     const section12 = document.getElementById('membership-point');
     if (!section11 || !section12) return false;
 
-    section12.className = 'mx13-membership-section';
+    section12.className = 'mx13-membership-section membership-story impact-section impact-blue';
     section12.setAttribute('data-membership-section', '12');
     section12.innerHTML = `
-      <div class="mx13-inner">
+      <div class="mx13-inner partner-container impact-content">
         <h2 class="mx13-title">매월 결제액의<br><strong>2배 POINT 적립</strong></h2>
 
         <div class="mx13-double" aria-label="포인트 2배 적립">
-          <span>POINT</span>
           <strong>2X</strong>
         </div>
 
@@ -41,10 +40,10 @@
       section13.id = 'mx-point-example';
     }
 
-    section13.className = 'mx13-point-proof';
+    section13.className = 'mx13-point-proof membership-story impact-section impact-light';
     section13.setAttribute('data-membership-section', '13');
     section13.innerHTML = `
-      <div class="mxp13-inner">
+      <div class="mxp13-inner partner-container impact-content">
         <h2>$1,000 납부 후<br><strong>1,950P 적립</strong></h2>
 
         <div class="mxp13-ledger" aria-label="CLASSIC 실제 적립 결과">
