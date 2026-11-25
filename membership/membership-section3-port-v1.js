@@ -19,7 +19,6 @@
       <section id="mx-port-day" class="mx-port-section membership-v3-booking-methods" data-membership-section="05" aria-labelledby="mx-port-title">
         <div class="mxp-inner">
           <div class="mxp-head">
-            <span class="mxp-question">같은 여행, 다른 예약 방법</span>
             <h2 id="mx-port-title">크루즈 예약은<br><strong>이렇게 나뉩니다</strong></h2>
           </div>
 
@@ -31,7 +30,6 @@
             <article class="mxp-step membership-v3-ingroup"><strong>인그룹</strong></article>
           </div>
 
-          <p class="membership-v3-section05-next">판매가보다 총비용을 봅니다.</p>
         </div>
       </section>`);
 

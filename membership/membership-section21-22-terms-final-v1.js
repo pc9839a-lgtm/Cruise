@@ -14,7 +14,6 @@
     section21.setAttribute('data-membership-section','21');
     section21.innerHTML = `
       <div class="mx21-inner">
-        <span class="mx21-kicker">가입 전 확인</span>
         <h2 class="mx21-title">멤버십<br><strong>이용 조건</strong></h2>
         <div class="mx21-terms" aria-label="멤버십 가입 조건">
           <article class="mx21-term-card"><span class="mx21-term-num">01</span><div class="mx21-term-copy"><h3>환불</h3><p>가입 후 14일이 지나면 환불이 어렵습니다.</p></div></article>

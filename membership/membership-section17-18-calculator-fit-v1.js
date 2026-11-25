@@ -21,7 +21,6 @@
       const element = calculator.querySelector(selector);
       if (element) element.textContent = value;
     };
-    setText('.section-kicker', 'USD · POINT');
     setText('.calculator-head strong', '크루즈 금액');
     setText('.mode-btn[data-mode="general"]', '일반 예약');
     setText('.mode-btn[data-mode="early"]', '270일+');

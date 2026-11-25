@@ -25,7 +25,6 @@
     section.innerHTML = `
       <div class="impact-med-glow" aria-hidden="true"></div>
       <div class="impact-inner">
-        <div class="impact-label dark">그래서 실제 일정은</div>
         <h2 class="impact-title light">7박 동안<br><strong>이렇게 도시를 옮겨갑니다</strong></h2>
 
         <div class="impact-med-cycle" aria-label="크루즈 여행 방식">

@@ -46,19 +46,15 @@
 
         <div class="mx18-benefit-cards" aria-label="회원 혜택 흐름">
           <article class="mx18-benefit-card">
-            <span class="mx18-step">01</span>
             <strong>낸 금액이 쌓이고</strong>
             <p>여행에 쓸 POINT가 됩니다</p>
           </article>
           <article class="mx18-benefit-card">
-            <span class="mx18-step">02</span>
             <strong>회원 혜택가로 예약하고</strong>
             <p>쌓아둔 POINT를 함께 씁니다</p>
           </article>
           <article class="mx18-benefit-card mx18-benefit-result">
-            <span class="mx18-step">RESULT</span>
             <strong>현금 부담이 줄어듭니다</strong>
-            <p>같은 크루즈도 회원이 더 적게 냅니다</p>
           </article>
           <div class="mx18-proof-strip" aria-label="실제 예약 숫자">
             <div><span>예약 총액</span><strong>$3,887.35</strong></div>

@@ -38,14 +38,12 @@
     section.innerHTML = `
       <div class="mxt-inner">
         <div class="mxt-head">
-          <span class="mxt-kicker">크루즈만이 아닙니다</span>
           <h2>호텔·투어도<br><strong>회원 혜택으로 예약합니다</strong></h2>
         </div>
         <div class="mxt-cards" aria-label="추가 예약 가능 상품">
           <article class="mxt-card" data-ghost="HOTEL">
             <div><span class="mxt-num">01</span><span class="mxt-guarantee">최저가 보장</span></div>
             <strong>전세계 호텔</strong>
-            <p>호텔도 최저가 보장</p>
           </article>
           <article class="mxt-card" data-ghost="TOUR">
             <span class="mxt-num">02</span>
