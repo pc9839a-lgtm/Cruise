@@ -34,24 +34,25 @@
 
     const section = document.createElement('section');
     section.id = SECTION_ID;
+    section.className = 'membership-story impact-section impact-light';
     section.setAttribute('data-membership-section', '18.7');
     section.innerHTML = `
-      <div class="mxt-inner">
+      <div class="mxt-inner partner-container impact-content">
         <div class="mxt-head">
           <h2>호텔·투어도<br><strong>회원 혜택으로 예약합니다</strong></h2>
         </div>
         <div class="mxt-cards" aria-label="추가 예약 가능 상품">
-          <article class="mxt-card" data-ghost="HOTEL">
-            <div><span class="mxt-num">01</span><span class="mxt-guarantee">최저가 보장</span></div>
+          <article class="mxt-card">
+            <div><span class="mxt-guarantee">최저가 보장</span></div>
             <strong>전세계 호텔</strong>
           </article>
-          <article class="mxt-card" data-ghost="TOUR">
-            <span class="mxt-num">02</span>
+          <article class="mxt-card">
+            
             <strong>현지 투어</strong>
             <p>기항지·여행지 투어 예약</p>
           </article>
-          <article class="mxt-card" data-ghost="KOREA">
-            <span class="mxt-num">03</span>
+          <article class="mxt-card">
+            
             <strong>국내 호텔</strong>
             <p>출국 전·귀국 후 숙박</p>
           </article>

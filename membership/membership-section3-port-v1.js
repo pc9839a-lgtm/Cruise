@@ -16,8 +16,8 @@
     installSection5Styles();
 
     section2.insertAdjacentHTML('afterend', `
-      <section id="mx-port-day" class="mx-port-section membership-v3-booking-methods" data-membership-section="05" aria-labelledby="mx-port-title">
-        <div class="mxp-inner">
+      <section id="mx-port-day" class="mx-port-section membership-v3-booking-methods membership-story impact-section impact-light" data-membership-section="05" aria-labelledby="mx-port-title">
+        <div class="mxp-inner partner-container impact-content">
           <div class="mxp-head">
             <h2 id="mx-port-title">크루즈 예약은<br><strong>이렇게 나뉩니다</strong></h2>
           </div>

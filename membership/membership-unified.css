@@ -2327,9 +2327,8 @@ main#top{background:#fff!important}
 #mx-final-choice,
 #real-cost{display:none!important}
 .page-glow,
-.impact-med-glow,
 .m-motion-orbit,
-.m-motion-rail{display:none!important}
+.m-motion-rail {display:none!important}
 
 /* NAV */
 .sticky-menu-bar{padding:6px 0!important;background:#fff!important;border-bottom:1px solid #e3e9f1!important;box-shadow:none!important;backdrop-filter:none!important}
@@ -2343,276 +2342,173 @@ main#top{background:#fff!important}
 .hero-nav-track>a:nth-child(n+7){display:none!important}
 
 
-#mx-moving-hotel,
-#mx-port-day,
-#mx-moving-hotel-4,
-#guide-question,
-#membership-point{background:#fff!important;color:var(--m5-ink)!important}
-
-#mx-booking-proof,
-#mx-membership-optional{background:#fff!important;color:var(--m5-ink)!important}
 
 
-#mx-prepare-money{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
-
-#mx-point-example,
-#mx-actual-cash,
-#mx-guide-assist,
-#mx-start-early{background:var(--m5-soft)!important;color:var(--m5-ink)!important}
+#mx-membership-optional {background:#fff!important;color:var(--m5-ink)!important}
 
 
-#impact-med,
-#mx-direct-booking-intro,
-#same-cruise,
-#mx-lowest-price{background:var(--m5-dark)!important;color:#fff!important}
 
 
-:is(#mx-moving-hotel,#mx-port-day,#mx-moving-hotel-4,#guide-question,#mx-prepare-money,#membership-point,#mx-point-example,#mx-actual-cash,#mx-booking-proof,#mx-guide-assist,#mx-membership-optional,#mx-start-early) h2 strong{color:var(--m5-blue)!important}
+#mx-start-early {background:var(--m5-soft)!important;color:var(--m5-ink)!important}
 
 
-:is(#impact-med,#mx-direct-booking-intro,#same-cruise,#mx-lowest-price) h2 strong{color:var(--m5-sky)!important}
+
+
+
+
+
+
+
 
 
 /* 02 */
 
-#mx-moving-hotel{text-align:center!important}
+
 
 /* 03 */
 
-#mx-port-day{text-align:center!important}
 
-#mx-port-day .mxp-flow{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:min(1000px,100%)!important;margin:44px auto 0!important;border-block:1px solid var(--m5-line)!important}
-#mx-port-day .mxp-step{min-height:110px!important;padding:16px 10px!important;border:0!important;border-left:1px solid var(--m5-line)!important;background:transparent!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
-#mx-port-day .mxp-step:first-child{border-left:0!important}
-#mx-port-day .mxp-step b{display:none!important}
-#mx-port-day .mxp-step strong{font-size:24px!important;line-height:1.25!important}
+
+
+
+
+
+
 
 /* 04 */
 
-#mx-moving-hotel-4{text-align:center!important}
-#mx-moving-hotel-4 .mx4-route{display:grid!important;grid-template-columns:1fr auto 1fr auto 1fr!important;align-items:center!important;width:min(1000px,100%)!important;margin:44px auto 0!important}
+
+
 
 /* 05 */
 
-#impact-med{text-align:center!important}
 
-#impact-med .impact-med-cycle{display:flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;margin-top:38px!important;font-size:21px!important}
-#impact-med .impact-med-cycle i{color:#8195ad!important;font-style:normal!important}
-#impact-med .impact-med-route{width:min(960px,100%)!important;margin:40px auto 0!important}
-#impact-med .impact-med-line{display:none!important}
-#impact-med .impact-med-stop{display:grid!important;grid-template-columns:88px 1fr 170px!important;align-items:center!important;gap:14px!important;padding:16px 4px!important;border-bottom:1px solid var(--m5-dark-line)!important;text-align:left!important}
-#impact-med .impact-med-stop b{font-size:13px!important;color:var(--m5-sky)!important}
-#impact-med .impact-med-stop strong{font-size:23px!important;color:#fff!important}
-#impact-med .impact-med-stop span{font-size:15px!important;color:#b5c2d1!important;text-align:right!important}
 
-/* 06 — PRICE BRIDGE: canonical responsive styles, no runtime overrides */
-#price-pain {
-  box-sizing:border-box;
-  position:relative;
-  display:block;
-  width:100%;
-  max-width:none;
-  min-height:0;
-  height:auto;
-  margin:0;
-  padding:clamp(76px,7vw,104px) 0 clamp(78px,7vw,108px);
-  background:var(--m5-dark,#07111f);
-  color:#fff;
-  text-align:center;
-  overflow:hidden;
-}
-#price-pain .mv2-inner {
-  box-sizing:border-box;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  width:min(920px,calc(100% - 48px));
-  max-width:920px;
-  min-width:0;
-  margin:0 auto;
-  padding:0;
-  text-align:center;
-}
-#price-pain .mx6-bridge-question {
-  box-sizing:border-box;
-  width:100%;
-  max-width:920px;
-  margin:0;
-  padding:0;
-  color:#fff;
-  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:clamp(42px,4.1vw,60px);
-  font-weight:850;
-  line-height:1.18;
-  letter-spacing:-.045em;
-  text-align:center;
-  word-break:keep-all;
-  overflow-wrap:break-word;
-}
-#price-pain .mx6-bridge-question strong {
-  color:var(--m5-sky,#86d4ff);
-  font-weight:900;
-}
-#price-pain .mx6-context {
-  margin:26px 0 0;
-  color:#c0d0e1;
-  font-size:17px;
-  font-weight:700;
-  line-height:1.45;
-  text-align:center;
-  word-break:keep-all;
-}
-#price-pain .mx6-price-amount {
-  box-sizing:border-box;
-  display:block;
-  width:100%;
-  max-width:920px;
-  margin:20px 0 0;
-  padding:0;
-  color:var(--m5-sky,#86d4ff);
-  font-size:clamp(62px,6vw,90px);
-  font-weight:900;
-  line-height:1.12;
-  letter-spacing:-.065em;
-  font-variant-numeric:tabular-nums;
-  text-align:center;
-  white-space:nowrap;
-  text-shadow:none;
-  transform:none;
-}
-#price-pain .mv2-save {
-  display:block;
-  max-width:760px;
-  margin:28px auto 0;
-  padding:0;
-  border:0;
-  background:transparent;
-  color:#c7d6e5;
-  font-size:clamp(17px,1.5vw,21px);
-  font-weight:500;
-  line-height:1.5;
-  text-align:center;
-  word-break:keep-all;
-}
-#price-pain .mv2-save strong { color:#fff; font-weight:800; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width:780px) {
-  #price-pain { min-height:0; margin:0; padding:62px 0 70px; }
-  #price-pain .mv2-inner { width:calc(100% - 32px); }
-  #price-pain .mx6-bridge-question {
-    font-size:clamp(26px,7.1vw,35px);
-    line-height:1.21;
-    letter-spacing:-.04em;
-  }
-  #price-pain .mx6-context { margin-top:20px; font-size:15px; }
-  #price-pain .mx6-price-amount {
-    margin-top:16px;
-    font-size:clamp(39px,10vw,54px);
-    line-height:1.15;
-    letter-spacing:-.055em;
-  }
-  #price-pain .mv2-save { margin-top:22px; font-size:15px; line-height:1.55; }
+  
+  
+  
+  
+  
+  
 }
 @media (max-width:359px) {
-  #price-pain .mx6-bridge-question { font-size:26px; }
-  #price-pain .mx6-price-amount { font-size:39px; }
+  
+  
 }
 
 /* 07 — RECEIPT PROOF */
 
-#mx-direct-booking-intro{text-align:center!important}
 
-#mx-direct-booking-intro .mx7-overline{margin:0 auto!important}
-#mx-direct-booking-intro .mx7-receipt-proof{width:min(820px,100%)!important;margin:44px auto 0!important;border-top:1px solid #314259!important;border-bottom:1px solid #314259!important;text-align:left!important}
-#mx-direct-booking-intro .mx7-receipt-top,
-#mx-direct-booking-intro .mx7-receipt-route{padding:18px 4px!important;border-bottom:1px solid #2a3a4f!important}
-#mx-direct-booking-intro .mx7-receipt-top strong{display:block!important;color:#fff!important}
-#mx-direct-booking-intro .mx7-receipt-top span,
-#mx-direct-booking-intro .mx7-receipt-route span{display:block!important;margin-top:5px!important;color:#c4cfdb!important}
-#mx-direct-booking-intro .mx7-receipt-breakdown{}
-#mx-direct-booking-intro .mx7-receipt-breakdown>div{border-right:1px solid #2a3a4f!important}
-#mx-direct-booking-intro .mx7-receipt-breakdown>div:last-child{border-right:0!important}
-#mx-direct-booking-intro .mx7-receipt-breakdown span{display:block!important;color:#b9c6d4!important}
-#mx-direct-booking-intro .mx7-receipt-breakdown strong{display:block!important;color:#fff!important}
-#mx-direct-booking-intro .mx7-receipt-breakdown .total strong{color:var(--m5-sky)!important}
 
-#mx-direct-booking-intro .mx7-receipt-note{border-top:1px solid #2a3a4f!important;color:#c5d0dc!important;text-align:center!important;font-weight:850!important}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* 08 — POINT PROOF + BRIDGE */
 
-#same-cruise{text-align:center!important;display:flex!important;align-items:center!important}
 
-#same-cruise .mx8-payment-stack{width:min(820px,100%)!important;border-block:1px solid #314259!important}
-#same-cruise .mx8-payment-line{display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:28px!important;padding:28px 4px!important;border-bottom:1px solid #2a3a4f!important;text-align:left!important}
-#same-cruise .mx8-payment-line:last-child{border-bottom:0!important}
-#same-cruise .mx8-payment-line span{font-size:18px!important;line-height:1.4!important;color:#b9c6d4!important;font-weight:850!important}
-#same-cruise .mx8-value{font-size:clamp(50px,5vw,74px)!important;line-height:1!important;letter-spacing:-.045em!important;color:var(--m5-sky)!important;font-weight:950!important;text-align:right!important}
 
-#same-cruise .mx8-bridge-question{max-width:980px!important;color:#fff!important}
 
-#same-cruise .mx8-bridge-question strong{color:var(--m5-sky)!important}
+
+
+
+
+
+
+
+
 
 /* 09 — CLUB IDENTITY REVEAL */
 
-#guide-question{display:flex!important;align-items:center!important;text-align:center!important}
-
-#guide-question .mx9-prefix{margin:0 auto!important;font-size:24px!important;line-height:1.4!important;color:var(--m5-muted)!important;font-weight:900!important}
-
-#guide-question .mx9-member-count{margin:10px auto 0!important;color:var(--m5-blue)!important;font-weight:950!important}
 
 
 
-#guide-question .mx9-copy{margin:42px auto 0!important;color:var(--m5-muted)!important;font-weight:800!important;word-break:keep-all!important}
 
-#guide-question .mx9-copy strong{color:var(--m5-blue)!important}
+
+
+
+
+
+
+
 
 /* 10 */
 
-#mx-prepare-money{text-align:center!important}
 
-#mx-prepare-money .mx12-kicker{margin:0 auto!important}
+
+
 
 /* 11 */
 
-#mx-lowest-price{text-align:center!important}
-
-#mx-lowest-price .mxg-kicker{margin:0 auto!important}
-
-#mx-lowest-price .mxg-mega{margin:42px auto 0!important;color:var(--m5-sky)!important;font-weight:950!important}
 
 
-#mx-lowest-price .mxg-criteria{margin:34px auto 0!important;color:#d8e4f0!important;font-weight:850!important}
 
 
-#mx-lowest-price .mxg-copy{margin:22px auto 0!important;color:#c2cfdd!important}
 
 
-#mx-lowest-price .mxg-note{margin:20px auto 0!important;color:#8fa0b4!important}
+
+
+
+
+
+
+
+
 
 
 /* 12 */
 
-#membership-point{text-align:center!important}
 
-#membership-point .mx13-kicker{margin:0 auto!important}
-#membership-point .mx13-simple-list{width:min(780px,100%)!important;margin:42px auto 0!important;border-top:1px solid #cbd6e3!important}
-#membership-point .mx13-simple-row{display:grid!important;grid-template-columns:180px 1fr!important;align-items:center!important;gap:22px!important;padding:24px 4px!important;border-bottom:1px solid #cbd6e3!important;text-align:left!important}
-#membership-point .mx13-simple-row>span{font-size:21px!important;font-weight:950!important}
-#membership-point .mx13-simple-row>strong{font-size:48px!important;color:var(--m5-blue)!important;text-align:right!important}
-#membership-point .mx13-start-note{width:min(780px,100%)!important;margin:22px auto 0!important;font-size:16px!important;color:var(--m5-muted)!important}
+
+
+
+
+
+
+
 
 /* 13 */
-#mx-point-example{text-align:center!important}
-#mx-point-example .mxp13-kicker{margin:0 auto!important}
-#mx-point-example .mxp13-ledger{width:min(820px,100%)!important;margin:42px auto 0!important;border-top:1px solid #cbd6e3!important}
-#mx-point-example .mxp13-ledger>div{display:grid!important;grid-template-columns:1fr auto!important;gap:20px!important;padding:19px 4px!important;border-bottom:1px solid #cbd6e3!important;text-align:left!important}
-#mx-point-example .mxp13-ledger span{font-size:17px!important;color:var(--m5-muted)!important}
-#mx-point-example .mxp13-ledger strong{font-size:30px!important}
-#mx-point-example .mxp13-ledger .total strong{color:var(--m5-blue)!important;font-size:36px!important}
+
+
+
+
+
+
+
 
 /* 14 */
-#mx-actual-cash{text-align:center!important}
-#mx-actual-cash .mx14-kicker{margin:0 auto!important}
+
+
 
 
 
@@ -2621,15 +2517,15 @@ main#top{background:#fff!important}
 
 
 /* 15 */
-#mx-booking-proof{text-align:center!important}
-#mx-booking-proof .mx15-question{margin-top:0!important}
-#mx-booking-proof .mx15-answer{margin:38px auto 0!important;font-size:clamp(72px,7vw,104px)!important;line-height:1!important;letter-spacing:-.055em!important;font-weight:950!important;color:var(--m5-blue)!important}
+
+
+
 
 /* 16 — CORE BRIDGE */
-#mx-guide-assist{display:flex!important;align-items:center!important;text-align:center!important;background:#10284a!important;color:#fff!important}
-#mx-guide-assist .mx16-bridge-question{max-width:980px!important;margin:0 auto!important;font-size:var(--m5-bridge)!important;line-height:1.03!important;letter-spacing:-.055em!important;font-weight:950!important;color:#fff!important;word-break:keep-all!important}
-#mx-guide-assist .mx16-bridge-question strong{color:var(--m5-sky)!important}
-#mx-guide-assist .mx16-answer{margin:50px auto 0!important;font-size:clamp(46px,4.8vw,68px)!important;line-height:1.08!important;letter-spacing:-.045em!important;font-weight:950!important;color:#fff!important}
+
+
+
+
 
 /* 17 CALCULATOR */
 
@@ -2677,49 +2573,11 @@ main#top{background:#fff!important}
   .sticky-menu-bar .container{padding:0 8px!important}
   .hero-nav-track>a{min-height:32px!important;padding:0 8px!important}
 
-  #mx-port-day .mxp-flow{grid-template-columns:1fr!important;margin-top:30px!important;border-bottom:0!important}
-  #mx-port-day .mxp-step{min-height:62px!important;border-left:0!important;border-bottom:1px solid var(--m5-line)!important}
-  #mx-port-day .mxp-step strong{font-size:19px!important}
-
-  #mx-moving-hotel-4 .mx4-route{grid-template-columns:1fr!important;margin-top:30px!important}
-
-  #impact-med .impact-med-cycle{margin-top:28px!important;font-size:17px!important;flex-wrap:wrap!important}
-  #impact-med .impact-med-route{margin-top:28px!important}
-  #impact-med .impact-med-stop{grid-template-columns:58px 1fr!important;padding:12px 2px!important}
-  #impact-med .impact-med-stop strong{font-size:19px!important}
-  #impact-med .impact-med-stop span{display:none!important}
-
   
   
   
 
-
-  #mx-direct-booking-intro .mx7-receipt-proof{margin-top:30px!important}
-  #mx-direct-booking-intro .mx7-receipt-breakdown{}
-  #mx-direct-booking-intro .mx7-receipt-breakdown>div{border-right:0!important;border-bottom:1px solid #2a3a4f!important}
-  #mx-direct-booking-intro .mx7-receipt-breakdown strong{}
   
-
-  
-  #same-cruise .mx8-payment-line{grid-template-columns:1fr!important;gap:8px!important;padding:22px 0!important;text-align:center!important}
-  #same-cruise .mx8-payment-line span{font-size:16px!important}
-  #same-cruise .mx8-value{font-size:clamp(46px,13vw,62px)!important;text-align:center!important}
-  
-
-  
-  #guide-question .mx9-prefix{font-size:18px!important}
-  
-#mx-lowest-price .mxg-mega{margin-top:30px!important}
-
-  
-
-  #membership-point .mx13-simple-list{margin-top:30px!important}
-  #membership-point .mx13-simple-row{grid-template-columns:1fr!important;gap:6px!important;padding:18px 0!important;text-align:center!important}
-  #membership-point .mx13-simple-row>strong{font-size:32px!important;text-align:center!important}
-
-  #mx-point-example .mxp13-ledger{margin-top:30px!important}
-  #mx-point-example .mxp13-ledger>div{gap:12px!important;padding:15px 0!important}
-  #mx-point-example .mxp13-ledger strong{font-size:22px!important}
 
   
   
@@ -2727,11 +2585,49 @@ main#top{background:#fff!important}
   
   
 
-  #mx-booking-proof .mx15-answer{margin-top:28px!important;font-size:clamp(58px,17vw,78px)!important}
+  
+  
+  
 
-  #mx-guide-assist{}
-  #mx-guide-assist .mx16-bridge-question{font-size:var(--m5-bridge-mobile)!important;line-height:1.06!important;letter-spacing:-.045em!important}
-  #mx-guide-assist .mx16-answer{margin-top:38px!important;font-size:clamp(34px,9vw,44px)!important}
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  
+  
 
   
   
@@ -2752,44 +2648,43 @@ main#top{background:#fff!important}
 }
 
 @media(max-width:380px){
-  #mx-point-example .mxp13-ledger>div,
-#mx-booking-proof .mx15-proof-list>div{grid-template-columns:1fr!important;text-align:center!important}
+  
 }
 
 /* 10.5 — SEPARATED CRUISE PRICE EXAMPLES */
 
-#mx-cruise-price-examples{box-sizing:border-box!important;width:100%!important;max-width:none!important;margin:0!important;background:#fff!important;color:var(--m5-ink)!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;text-align:center!important;font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important}
-
-#mx-cruise-price-examples .mx10p-inner{box-sizing:border-box!important;width:min(var(--m5-wide),calc(100% - 64px))!important;max-width:var(--m5-wide)!important;margin-inline:auto!important;padding-inline:0!important}
-#mx-cruise-price-examples .mx10p-kicker{box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:36px!important;max-width:100%!important;padding:7px 13px!important;border:1px solid #cbd9eb!important;border-radius:999px!important;background:#e4edf9!important;color:#24549b!important;font-size:var(--m5-label)!important;line-height:1.25!important;font-weight:900!important;opacity:1!important;visibility:visible!important}
-
-#mx-cruise-price-examples h2{box-sizing:border-box!important;width:100%!important;max-width:940px!important;margin:18px auto 0!important;padding:0!important;word-break:keep-all!important;text-wrap:balance!important;text-align:center!important}
 
 
-#mx-cruise-price-examples h2 strong{color:var(--m5-blue)!important}
-#mx-cruise-price-examples .mx10p-price-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;width:min(1040px,100%)!important;margin:44px auto 0!important;border-block:1px solid var(--m5-line)!important}
-#mx-cruise-price-examples .mx10p-price-item{min-height:170px!important;padding:28px 18px!important;border-right:1px solid var(--m5-line)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}
-#mx-cruise-price-examples .mx10p-price-item:last-child{border-right:0!important}
-#mx-cruise-price-examples .mx10p-price-item>span{font-size:19px!important;line-height:1.35!important;color:var(--m5-ink)!important;font-weight:950!important}
-#mx-cruise-price-examples .mx10p-price-item>strong{display:flex!important;align-items:baseline!important;justify-content:center!important;gap:8px!important;margin-top:14px!important}
-#mx-cruise-price-examples .mx10p-price-item small{font-size:14px!important;color:var(--m5-muted)!important;font-weight:850!important}
-#mx-cruise-price-examples .mx10p-price-value{font-size:clamp(34px,3.4vw,48px)!important;line-height:1!important;letter-spacing:-.045em!important;color:var(--m5-blue)!important;font-weight:950!important}
 
-#mx-cruise-price-examples .mx10p-note{margin:18px auto 0!important;color:#73849a!important}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @media(max-width:780px){
   
-  #mx-cruise-price-examples .mx10p-inner{width:calc(100% - 34px)!important;max-width:none!important}
-  #mx-cruise-price-examples .mx10p-kicker{min-height:32px!important;padding:6px 10px!important;font-size:var(--m5-label-mobile)!important}
-  #mx-cruise-price-examples .mx10p-price-grid{grid-template-columns:1fr 1fr!important;margin-top:30px!important}
-  #mx-cruise-price-examples .mx10p-price-item{min-height:132px!important;padding:20px 8px!important;border-bottom:1px solid var(--m5-line)!important}
-  #mx-cruise-price-examples .mx10p-price-item:nth-child(2){border-right:0!important}
-  #mx-cruise-price-examples .mx10p-price-item:nth-child(n+3){border-bottom:0!important}
-  #mx-cruise-price-examples .mx10p-price-item>span{font-size:16px!important}
-  #mx-cruise-price-examples .mx10p-price-item>strong{gap:5px!important;margin-top:11px!important;flex-direction:column!important;align-items:center!important}
-  #mx-cruise-price-examples .mx10p-price-item small{font-size:12px!important}
-  #mx-cruise-price-examples .mx10p-price-value{font-size:clamp(28px,8.7vw,36px)!important}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 }
 
@@ -2843,15 +2738,15 @@ html.membership-motion-enabled .m-motion-section.section-active .m-motion-media{
 html.membership-motion-enabled .m-motion-section:not(.section-active) .m-motion-number{opacity:0!important;transform:translateY(26px) scale(.92)!important;filter:blur(2px)!important;transform-origin:50% 70%}
 html.membership-motion-enabled .m-motion-section.section-active .m-motion-number{opacity:1!important;transform:none!important;filter:none!important;transition:opacity .55s ease,transform .9s cubic-bezier(.17,.89,.32,1.18),filter .55s ease!important;transition-delay:.13s!important}
 
-html.membership-motion-enabled #same-cruise.section-active .mx8-payment-stack.m-motion-visual{transition-delay:.08s!important}
-
-html.membership-motion-enabled #same-cruise.section-active .mx8-bridge-question.m-motion-heading{transition-delay:.46s!important}
 
 
-html.membership-motion-enabled #guide-question.section-active .mx9-member-count.m-motion-number{transition-delay:.16s!important}
 
 
-html.membership-motion-enabled #guide-question.section-active .mx9-title.m-motion-heading{transition-delay:.34s!important}
+
+
+
+
+
 
 html.membership-motion-enabled #mx-membership-optional.section-active .mx18-answer.m-motion-visual{transition-delay:.30s!important}
 html.membership-motion-enabled #mx-start-early.section-active .mx19-answer.m-motion-visual{transition-delay:.32s!important}
@@ -2863,8 +2758,7 @@ html.membership-motion-enabled #mx-start-early-proof.section-active .mx19-closin
 
 .m-motion-orbit,
 .m-motion-rail,
-.page-glow,
-.impact-med-glow{display:none!important}
+.page-glow {display:none!important}
 html.membership-motion-enabled .m-motion-section::before,
 html.membership-motion-enabled .m-motion-section::after{content:none!important;display:none!important}
 html.membership-motion-enabled .m-motion-section *{text-shadow:none!important}
@@ -3060,16 +2954,16 @@ html.mh-ready .hero-section .hero-coin{opacity:1!important;translate:0 0!importa
   }
 }
 
-.mx15-proof-gallery{width:min(1180px,100%);margin:58px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:start}
-.mx15-proof-shot{position:relative;margin:0;overflow:hidden;border-radius:24px;background:#fff;border:1px solid rgba(13,31,55,.11);box-shadow:0 22px 60px rgba(8,24,47,.12);opacity:0;transform:translateY(46px) scale(.94) rotate(var(--mx-shot-rotate,0deg));filter:blur(7px);transition:opacity .72s ease,transform .92s cubic-bezier(.16,1,.3,1),filter .72s ease,box-shadow .35s ease;transition-delay:var(--mx-shot-delay,0ms);will-change:opacity,transform,filter}
-.mx15-proof-shot:nth-child(1){--mx-shot-rotate:-1.35deg;--mx-shot-delay:0ms}
-.mx15-proof-shot:nth-child(2){--mx-shot-rotate:.75deg;--mx-shot-delay:90ms}
-.mx15-proof-shot:nth-child(3){--mx-shot-rotate:-.65deg;--mx-shot-delay:180ms}
-.mx15-proof-shot:nth-child(4){--mx-shot-rotate:1.2deg;--mx-shot-delay:270ms}
-.mx15-proof-shot.is-visible{opacity:1;transform:translateY(0) scale(1) rotate(0);filter:blur(0)}
-.mx15-proof-shot img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:cover;background:#eef2f6}
-@media(hover:hover){.mx15-proof-shot.is-visible:hover{transform:translateY(-8px) scale(1.012);box-shadow:0 30px 80px rgba(8,24,47,.18)}}
-@media(max-width:900px){.mx15-proof-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:46px}}
+
+
+
+
+
+
+
+
+@media(hover:hover){}
+@media(max-width:900px){}
 
 @keyframes mx18-member-punch{
   0%{transform:scale(.9);filter:blur(3px);opacity:.65}
@@ -3096,11 +2990,11 @@ html.mh-ready .hero-section .hero-coin{opacity:1!important;translate:0 0!importa
 @media(max-width:600px){
   .sticky-menu-bar{padding:7px 12px!important}
   .sticky-menu-bar .membership-plan-cta{min-height:44px!important;padding:9px 18px!important;font-size:15px!important}
-  .mx15-proof-gallery{width:100%;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 17px 22px;margin:40px -17px 0;box-sizing:content-box;scrollbar-width:none}
-  .mx15-proof-gallery::-webkit-scrollbar{display:none}
-  .mx15-proof-shot{flex:0 0 min(78vw,330px);scroll-snap-align:center;border-radius:20px}
+  
+  
+  
 }
-@media(prefers-reduced-motion:reduce){.mx-live-counter-element{animation:none!important}.mx15-proof-shot{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}.sticky-menu-bar .membership-plan-cta{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.mx-live-counter-element{animation:none!important}.sticky-menu-bar .membership-plan-cta{transition:none!important}}
 
 
 /* ===== fixed CTA: single restrained visual owner ===== */
@@ -3250,409 +3144,140 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 /* ===== membership-scaffold-v1.js ===== */
 
-#mx-moving-hotel.membership-v3-price-question{
-          position:relative!important;
-          width:100%!important;
-          margin:0!important;
-          overflow:hidden!important;
-          background:
-            radial-gradient(circle at 50% 10%,rgba(65,132,255,.17),transparent 38%),
-            linear-gradient(180deg,#07111f 0%,#0b1d34 100%)!important;
-          color:#fff!important;
-          text-align:center!important;
-          font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
-        }
 
-        #mx-moving-hotel.membership-v3-price-question::after{
-          content:'';position:absolute;left:50%;bottom:0;width:min(900px,82vw);height:1px;transform:translateX(-50%);
-          background:linear-gradient(90deg,transparent,rgba(142,190,255,.32),transparent);
-        }
-        #mx-moving-hotel .membership-v3-price-inner{
-          position:relative;z-index:1;width:min(980px,calc(100% - 48px));margin:0 auto;
-        }
-        #mx-moving-hotel .membership-v3-price-kicker{
-          display:inline-block;margin:0 0 26px;color:#8fc2ff;font-size:16px;font-weight:900;letter-spacing:.08em;
-        }
-        
-#mx-moving-hotel .membership-v3-price-title{
-          margin:0 auto;color:#fff;word-break:keep-all;
-        }
 
-        #mx-moving-hotel .membership-v3-price-title strong{color:#8ec7ff;font-weight:950}
-        #mx-moving-hotel .membership-v3-price-facts{
-          display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 16px;
-          margin:48px auto 0;color:#fff;font-size:clamp(22px,2.5vw,30px);font-weight:900;letter-spacing:-.04em;
-        }
-        #mx-moving-hotel .membership-v3-price-facts i{color:#587494;font-style:normal;font-weight:700}
         
-#mx-moving-hotel .membership-v3-price-next{
-          margin:34px auto 0!important;color:#aebed2!important;font-weight:760!important;word-break:keep-all;
-        }
+        
+        
+        
+
+
+        
+        
+        
+        
+
 
         @media(max-width:780px){
           
-          #mx-moving-hotel .membership-v3-price-inner{width:calc(100% - 32px)}
-          #mx-moving-hotel .membership-v3-price-kicker{margin-bottom:20px;font-size:13px}
           
-#mx-moving-hotel .membership-v3-price-title{
-            max-width:430px;
-          }
+          
+          
 
-          #mx-moving-hotel .membership-v3-price-facts{
-            max-width:390px;margin-top:36px;gap:8px 10px;font-size:clamp(19px,5.5vw,24px);
-          }
+
           
-#mx-moving-hotel .membership-v3-price-next{
-            max-width:360px;
-          }
+          
+
 
         }
         @media(prefers-reduced-motion:reduce){
-          #mx-moving-hotel.membership-v3-price-question *{transition:none!important;animation:none!important}
+          
         }
 
 
 /* ===== membership-section3-port-v1.js ===== */
-#mx-port-day.membership-v3-booking-methods .mxp-flow{
-        grid-template-columns:repeat(5,minmax(0,1fr))!important;
-        width:min(1080px,100%)!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .mxp-step{
-        min-height:116px!important;
-        padding:18px 10px!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .mxp-step strong{
-        font-size:clamp(21px,2.1vw,27px)!important;
-        letter-spacing:-.045em!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup{
-        background:#eef5ff!important;
-        border-color:#2f6fed!important;
-        box-shadow:0 14px 32px rgba(47,111,237,.12)!important;
-      }
-      #mx-port-day.membership-v3-booking-methods .membership-v3-ingroup strong{
-        color:#2f6fed!important;
-      }
+
       
-#mx-port-day.membership-v3-booking-methods .membership-v3-section05-next{
-        color:#53657c!important;
-        font-weight:820!important;
-        letter-spacing:-.025em!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-      }
+      
+      
+      
+      
+
 
       @media(max-width:780px){
-        #mx-port-day.membership-v3-booking-methods .mxp-flow{
-          grid-template-columns:1fr!important;
-          width:100%!important;
-        }
-        #mx-port-day.membership-v3-booking-methods .mxp-step{
-          min-height:64px!important;
-          padding:16px 8px!important;
-        }
-        #mx-port-day.membership-v3-booking-methods .mxp-step strong{
-          font-size:23px!important;
-        }
         
-#mx-port-day.membership-v3-booking-methods .membership-v3-section05-next{
-          max-width:350px!important;
-        }
+        
+        
+        
+
 
       }
 
 
 /* ===== membership-section4-moving-hotel-v1.js ===== */
 
-#mx-moving-hotel-4.membership-v3-compare-criteria{
-        text-align:center!important;
-      }
 
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:14px!important;
-        width:min(1040px,100%)!important;
-        margin:46px auto 0!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-        display:flex!important;
-        min-height:180px!important;
-        padding:24px 18px!important;
-        border:1px solid #d7e1ed!important;
-        border-radius:24px!important;
-        background:#fff!important;
-        align-items:center!important;
-        justify-content:center!important;
-        box-shadow:0 16px 40px rgba(20,48,88,.06)!important;
-      }
-      #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-        color:#0b1729!important;
-        font-size:clamp(25px,2.7vw,34px)!important;
-        line-height:1.15!important;
-        letter-spacing:-.05em!important;
-        font-weight:950!important;
-        word-break:keep-all!important;
-      }
+
       
-#mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-        color:#53657c!important;
-        font-weight:820!important;
-        letter-spacing:-.025em!important;
-        text-align:center!important;
-        word-break:keep-all!important;
-      }
+      
+      
+      
+
 
       @media(max-width:780px){
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criteria-grid{
-          grid-template-columns:1fr 1fr!important;
-          gap:10px!important;
-          margin-top:34px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion{
-          min-height:132px!important;
-          padding:18px 12px!important;
-          border-radius:20px!important;
-        }
-        #mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-criterion strong{
-          font-size:clamp(22px,6.5vw,28px)!important;
-        }
         
-#mx-moving-hotel-4.membership-v3-compare-criteria .membership-v3-section06-next{
-          max-width:350px!important;
-        }
+        
+        
+        
+
 
       }
 
 
 /* ===== membership-cruise-example-images-v1.js ===== */
-#mx-cruise-price-examples .mx10p-price-grid{
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:18px!important;
-        width:min(1180px,100%)!important;
-        margin:44px auto 0!important;
-        border:0!important;
-        align-items:stretch!important;
-      }
-      #mx-cruise-price-examples .mx10p-price-item{
-        display:block!important;
-        min-height:0!important;
-        padding:0!important;
-        border:0!important;
-        background:transparent!important;
-        overflow:visible!important;
-      }
-      #mx-cruise-price-examples .mx10p-photo{
-        position:relative!important;
-        width:100%!important;
-        aspect-ratio:1122 / 1402!important;
-        margin:0!important;
-        border-radius:24px!important;
-        overflow:hidden!important;
-        background:#e9eff6!important;
-        box-shadow:0 18px 48px rgba(11,23,41,.13)!important;
-        transform-origin:50% 70%!important;
-        isolation:isolate!important;
-        scroll-snap-align:center!important;
-      }
-      #mx-cruise-price-examples .mx10p-photo::after{
-        content:""!important;
-        position:absolute!important;
-        inset:0!important;
-        pointer-events:none!important;
-        border:1px solid rgba(255,255,255,.4)!important;
-        border-radius:inherit!important;
-        z-index:2!important;
-      }
-      #mx-cruise-price-examples .mx10p-photo img{
-        display:block!important;
-        width:100%!important;
-        height:100%!important;
-        object-fit:cover!important;
-        object-position:center!important;
-        transform:scale(1.02)!important;
-        transition:transform .9s cubic-bezier(.16,1,.3,1),filter .7s ease!important;
-        will-change:transform,filter!important;
-      }
-      html.membership-motion-enabled #mx-cruise-price-examples.m-motion-section:not(.section-active) .mx10p-photo{
-        opacity:0!important;
-        transform:translateY(34px) scale(.94)!important;
-        filter:blur(5px)!important;
-      }
-      html.membership-motion-enabled #mx-cruise-price-examples.m-motion-section.section-active .mx10p-photo{
-        opacity:1!important;
-        transform:none!important;
-        filter:none!important;
-        transition:opacity .68s ease,transform 1s cubic-bezier(.16,1,.3,1),filter .68s ease!important;
-        transition-delay:var(--mx-photo-delay,160ms)!important;
-      }
-      html.membership-motion-enabled #mx-cruise-price-examples.m-motion-section:not(.section-active) .mx10p-photo img{
-        transform:scale(1.11)!important;
-        filter:saturate(.84) brightness(.91)!important;
-      }
-      html.membership-motion-enabled #mx-cruise-price-examples.m-motion-section.section-active .mx10p-photo img{
-        transform:scale(1)!important;
-        filter:none!important;
-        transition:transform 1.5s cubic-bezier(.16,1,.3,1),filter .9s ease!important;
-        transition-delay:calc(var(--mx-photo-delay,160ms) + 60ms)!important;
-      }
+
+      
+      
+      
+      
+      
+      
+      
+      
       @media(hover:hover) and (pointer:fine){
-        #mx-cruise-price-examples .mx10p-price-item:hover .mx10p-photo img{transform:scale(1.035)!important}
+        
       }
       @media(max-width:780px){
         
-#mx-cruise-price-examples{overflow:hidden!important}
 
-        #mx-cruise-price-examples .mx10p-price-grid{
-          display:flex!important;
-          width:auto!important;
-          gap:14px!important;
-          margin:34px -18px 0!important;
-          padding:4px 18px 24px!important;
-          overflow-x:auto!important;
-          scroll-snap-type:x mandatory!important;
-          scroll-padding-inline:18px!important;
-          -webkit-overflow-scrolling:touch!important;
-          scrollbar-width:none!important;
-        }
-        #mx-cruise-price-examples .mx10p-price-grid::-webkit-scrollbar{display:none!important}
-        #mx-cruise-price-examples .mx10p-price-item{
-          flex:0 0 min(78vw,350px)!important;
-          width:min(78vw,350px)!important;
-          scroll-snap-align:center!important;
-        }
-        #mx-cruise-price-examples .mx10p-photo{
-          border-radius:20px!important;
-          box-shadow:0 14px 34px rgba(11,23,41,.12)!important;
-        }
+
+        
+        
+        
+        
       }
       @media(prefers-reduced-motion:reduce){
-        #mx-cruise-price-examples .mx10p-photo,
-#mx-cruise-price-examples .mx10p-photo img{
-          opacity:1!important;transform:none!important;filter:none!important;transition:none!important
-        }
+        
       }
 
 
 /* ===== membership-section13-14-points-v1.js ===== */
-#membership-point .mx13-double{
-        width:min(780px,100%);margin:48px auto 0;padding:34px 24px 30px;border-radius:28px;
-        background:linear-gradient(135deg,#0e55d8,#2b7cff);color:#fff;box-shadow:0 22px 54px rgba(36,104,232,.24);
-        text-align:center;
-      }
-      #membership-point .mx13-double span{display:block;font-size:14px;font-weight:900;letter-spacing:.16em;opacity:.82}
-      #membership-point .mx13-double strong{display:block;margin-top:8px;font-size:clamp(76px,8vw,112px);line-height:.9;letter-spacing:-.06em;font-weight:950}
-      #membership-point .mx13-simple-list{margin-top:28px!important}
+
+      
+      
+      
       @media(max-width:780px){
-        #membership-point .mx13-double{width:calc(100% - 34px);margin-top:36px;padding:28px 18px 24px;border-radius:24px}
-        #membership-point .mx13-double strong{font-size:clamp(68px,21vw,92px)}
-        #membership-point .mx13-simple-list{width:calc(100% - 34px)!important;margin-top:24px!important}
+        
+        
+        
       }
 
 
 /* ===== membership-section15-16-point-payment-v1.js ===== */
-#mx-guide-assist .mx16-inner{width:min(1180px,calc(100% - 48px))!important;margin:0 auto!important;text-align:center!important}
-      #mx-guide-assist .mx16-answer{margin-top:34px!important;font-size:clamp(28px,3.2vw,44px)!important;line-height:1.15!important;font-weight:950!important;color:#7fd1ff!important}
-      #mx-guide-assist .mx16-media-slider{
-        width:min(1120px,100%)!important;
-        margin:58px auto 0!important;
-        display:grid!important;
-        grid-template-columns:repeat(4,minmax(0,1fr))!important;
-        gap:16px!important;
-      }
-      #mx-guide-assist .mx16-media-card{
-        position:relative!important;
-        min-width:0!important;
-        aspect-ratio:4/5!important;
-        margin:0!important;
-        border-radius:24px!important;
-        overflow:hidden!important;
-        background:linear-gradient(145deg,#1a3b64,#0d2748)!important;
-        border:1px solid rgba(255,255,255,.15)!important;
-        box-shadow:0 18px 46px rgba(0,0,0,.2)!important;
-        scroll-snap-align:center!important;
-      }
-      #mx-guide-assist .mx16-media-slot{
-        position:absolute!important;
-        inset:0!important;
-        display:flex!important;
-        align-items:center!important;
-        justify-content:center!important;
-        background:
-          radial-gradient(circle at 50% 38%,rgba(127,209,255,.14),transparent 42%),
-          linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,0))!important;
-      }
-      #mx-guide-assist .mx16-media-slot::before{
-        content:'+'!important;
-        display:grid!important;
-        place-items:center!important;
-        width:54px!important;
-        height:54px!important;
-        border-radius:50%!important;
-        border:1px solid rgba(255,255,255,.32)!important;
-        color:rgba(255,255,255,.7)!important;
-        font-size:30px!important;
-        font-weight:300!important;
-      }
-      #mx-guide-assist .mx16-media-card figcaption{
-        position:absolute!important;
-        left:16px!important;
-        right:16px!important;
-        bottom:16px!important;
-        z-index:2!important;
-        padding:10px 12px!important;
-        border-radius:12px!important;
-        background:rgba(5,20,40,.62)!important;
-        backdrop-filter:blur(8px)!important;
-        -webkit-backdrop-filter:blur(8px)!important;
-        color:#fff!important;
-        font-size:16px!important;
-        line-height:1.1!important;
-        font-weight:900!important;
-        text-align:center!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section:not(.section-active) .mx16-media-card{
-        opacity:0!important;
-        transform:translateY(36px) scale(.95)!important;
-        filter:blur(4px)!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card{
-        opacity:1!important;
-        transform:none!important;
-        filter:none!important;
-        transition:opacity .65s ease,transform .95s cubic-bezier(.16,1,.3,1),filter .65s ease!important;
-      }
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(1){transition-delay:.16s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(2){transition-delay:.25s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(3){transition-delay:.34s!important}
-      html.membership-motion-enabled #mx-guide-assist.m-motion-section.section-active .mx16-media-card:nth-child(4){transition-delay:.43s!important}
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       @media(max-width:780px){
-        #mx-guide-assist .mx16-inner{width:100%!important}
-        #mx-guide-assist .mx16-bridge-question{padding:0 20px!important}
-        #mx-guide-assist .mx16-answer{padding:0 20px!important;margin-top:24px!important;font-size:29px!important}
-        #mx-guide-assist .mx16-media-slider{
-          display:flex!important;
-          width:auto!important;
-          gap:14px!important;
-          margin:42px 0 0!important;
-          padding:4px 18px 28px!important;
-          overflow-x:auto!important;
-          scroll-snap-type:x mandatory!important;
-          scroll-padding-inline:18px!important;
-          -webkit-overflow-scrolling:touch!important;
-          scrollbar-width:none!important;
-        }
-        #mx-guide-assist .mx16-media-slider::-webkit-scrollbar{display:none!important}
-        #mx-guide-assist .mx16-media-card{
-          flex:0 0 min(78vw,330px)!important;
-          width:min(78vw,330px)!important;
-          border-radius:20px!important;
-        }
-        #mx-guide-assist .mx16-media-card figcaption{left:13px!important;right:13px!important;bottom:13px!important;font-size:15px!important}
+        
+        
+        
+        
+        
+        
+        
       }
       @media(prefers-reduced-motion:reduce){
-        #mx-guide-assist .mx16-media-card{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+        
       }
 
 
@@ -3843,7 +3468,7 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
         
       }
 
-      #mx-point-example{}
+      
       
 
       @media(max-width:780px){
@@ -4135,89 +3760,23 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 
 /* ===== Calculator & mid-page rhythm — authoritative styles =====
    No layout-related !important overrides or JS-written dimensions. */
-#mx-point-example,
-#mx-actual-cash,
-#mx-actual-cash-total,
-#mx-booking-proof,
-#mx-guide-assist,
 #calculator {
   box-sizing: border-box;
   min-height: 0;
   padding-block: clamp(64px, 7vw, 96px);
 }
-#mx-guide-assist {
-  display: flex;
-  align-items: center;
-}
-#mx-point-example .mxp13-ledger {
-  margin-top: 30px;
-}
-#mx-actual-cash .mx14-equation {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-  width: min(860px, 100%);
-  max-width: 860px;
-  margin: 34px auto 0;
-}
-#mx-actual-cash .mx14-equation > div {
-  min-width: 0;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  text-align: center;}
-#mx-actual-cash .mx14-equation > div span { display:block; color:#43546a; font-size:16px; line-height:1.45; word-break:keep-all; }
-#mx-actual-cash .mx14-equation i {
-  font-size: 30px;
-  font-style: normal;
-  transform: none;
-}
-#mx-actual-cash .mx14-equation strong {
-  font-size: clamp(28px,3.4vw,40px);
-  overflow-wrap: anywhere;
 
-  display: block;
-  color: #14253e;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.14;}
-#mx-actual-cash-total {
-  width: 100%;
-  margin: 0;
-  background: #07111f;
-  color: #fff;
-  text-align: center;
-  overflow: hidden;
-}
-#mx-actual-cash-total .mx14-total-inner {
-  width: min(1000px, calc(100% - 48px));
-  margin: 0 auto;
-}
-#mx-actual-cash-total .mx14-total-lead {
-  margin: 0;
-  color: #c8d3df;
-  font-size: clamp(20px, 2.3vw, 28px);
-  font-weight: 750;
-  line-height: 1.4;
-}
-#mx-actual-cash-total .mx14-total-value {
-  margin: 20px 0 0;
-  color: #86d4ff;
-  font-size: clamp(56px, 8vw, 98px);
-  font-weight: 900;
-  line-height: 1.08;
-  letter-spacing: -.055em;
-  overflow-wrap: anywhere;
-}
-#mx-actual-cash-total .mx14-total-note {
-  margin: 20px 0 0;
-  color: #a2b2c6;
-  font-size: 16px;
-  line-height: 1.5;
-}
+
+
+
+
+
+
+
+
+
+
 #calculator {
   background: #08172a;
   color: #fff;
@@ -4401,31 +3960,14 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   display: none;
 }
 @media (max-width: 720px) {
-  #mx-point-example,
-  #mx-actual-cash,
-  #mx-actual-cash-total,
-  #mx-booking-proof,
-  #mx-guide-assist,
   #calculator {
     padding-block: 64px 72px;
   }
-  #mx-actual-cash .mx14-equation {
-    grid-template-columns: minmax(0, 1fr);
-  gap: 9px;
-  margin-top: 23px;
-  }
-  #mx-actual-cash .mx14-equation i {
-    transform: none;
-    font-size: 23px;
-    text-align: center;
-  }
-  #mx-actual-cash-total { padding-block:50px 54px; }
-  #mx-actual-cash-total .mx14-total-inner {
-    width: calc(100% - 32px);
-  }
-  #mx-actual-cash-total .mx14-total-value {
-  font-size: clamp(44px,11.2vw,64px);
-  }
+  
+  
+  
+  
+  
   #calculator { padding-block:54px 60px; }
   #calculator #modeDescription { font-size:14px; margin-top:12px; }
   #calculator .container {
@@ -4479,323 +4021,90 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
 }
 
 
-/* ===== STORY LAYOUT & TYPE — ONE OWNER, 2026-11-11 =====
-   Hero, review, calculator, plans and terms are intentionally outside this scope. */
-:root {
-  --mx-story-space: clamp(76px, 7.2vw, 112px);
-  --mx-story-title: clamp(34px, 4.1vw, 54px);
-  --mx-story-bridge: clamp(42px, 5.5vw, 66px);
-  --mx-story-copy: clamp(16px, 1.6vw, 19px);
-}
-#mx-moving-hotel,
-#mx-port-day,
-#mx-moving-hotel-4,
-#impact-med,
-#mx-direct-booking-intro,
-#same-cruise,
-#guide-question,
-#mx-prepare-money,
-#mx-cruise-price-examples,
-#mx-lowest-price,
-#membership-point {
-  box-sizing: border-box;
-  min-height: 0;
-  padding-top: var(--mx-story-space);
-  padding-bottom: var(--mx-story-space);
-}
-#mx-moving-hotel h2,
-#mx-port-day h2,
-#mx-moving-hotel-4 h2,
-#impact-med h2,
-#mx-direct-booking-intro h2,
-#same-cruise h2,
-#guide-question h2,
-#mx-prepare-money h2,
-#mx-cruise-price-examples h2,
-#mx-lowest-price h2,
-#membership-point h2 {
-  box-sizing: border-box;
-  max-width: 960px;
-  margin: 0 auto 28px;
-  padding: 0;
-  font-size: var(--mx-story-title);
-  line-height: 1.16;
-  letter-spacing: -.045em;
-  font-weight: 850;
-  text-align: center;
-  word-break: keep-all;
-}
-#mx-moving-hotel h2 strong,
-#mx-port-day h2 strong,
-#mx-moving-hotel-4 h2 strong,
-#impact-med h2 strong,
-#mx-direct-booking-intro h2 strong,
-#same-cruise h2 strong,
-#guide-question h2 strong,
-#mx-prepare-money h2 strong,
-#mx-cruise-price-examples h2 strong,
-#mx-lowest-price h2 strong,
-#membership-point h2 strong { font-weight: 900; }
-#mx-moving-hotel .membership-v3-price-title,
-#same-cruise .mx8-bridge-question {
-  font-size: var(--mx-story-bridge);
-  line-height: 1.12;
-}
-#mx-moving-hotel .membership-v3-price-title { margin-bottom: 24px; }
-#same-cruise .mx8-bridge-question { margin-top: 54px; margin-bottom: 0; }
-#mx-moving-hotel .membership-v3-price-next,
-#mx-port-day .membership-v3-section05-next,
-#mx-moving-hotel-4 .membership-v3-section06-next,
-#mx-direct-booking-intro .mx7-receipt-note,
-#guide-question .mx9-copy,
-#mx-prepare-money .mx10-short-copy,
-#mx-cruise-price-examples .mx10p-note,
-#mx-lowest-price .mxg-criteria,
-#mx-lowest-price .mxg-copy,
-#mx-lowest-price .mxg-note {
-  font-size: var(--mx-story-copy);
-  line-height: 1.55;
-  letter-spacing: -.025em;
-  word-break: keep-all;
-}
-#mx-moving-hotel .membership-v3-price-next,
-#mx-port-day .membership-v3-section05-next,
-#mx-moving-hotel-4 .membership-v3-section06-next {
-  max-width: 640px;
-  margin: 28px auto 0;
-  text-align: center;
-}
-#guide-question .mx9-copy,
-#mx-prepare-money .mx10-short-copy { margin: 28px auto 0; font-size: clamp(20px, 2.4vw, 27px); }
-#guide-question .mx9-member-count { font-size: clamp(68px, 8.4vw, 112px); line-height: 1.06; }
-#mx-lowest-price .mxg-mega { font-size: clamp(64px, 8vw, 98px); line-height: 1.08; }
-#mx-direct-booking-intro .mx7-receipt-proof,
-#mx-direct-booking-intro .mx7-receipt-top { text-align: center; }
-#mx-direct-booking-intro .mx7-receipt-top strong { font-size: clamp(24px, 2.6vw, 34px); }
-#mx-direct-booking-intro .mx7-receipt-top span { font-size: 16px; }
-#mx-direct-booking-intro .mx7-receipt-breakdown { display: block; }
-#mx-direct-booking-intro .mx7-total-proof {
-  margin: 0;
-  padding: 32px 8px;
-  border: 0;
-  text-align: center;
-}
-#mx-direct-booking-intro .mx7-total-proof > span { font-size: 16px; }
-#mx-direct-booking-intro .mx7-total-proof > strong {
-  display: block;
-  margin-top: 12px;
-  font-size: clamp(60px, 7vw, 96px);
-  line-height: 1.05;
-  letter-spacing: -.055em;
-}
-#mx-direct-booking-intro .mx7-total-proof > small {
-  display: block;
-  margin-top: 12px;
-  color: #c5d0dc;
-  font-size: 16px;
-  font-weight: 750;
-}
-#mx-direct-booking-intro .mx7-receipt-note {
-  margin-top: 22px;
-  padding: 28px 8px 0;
-  border-top: 1px solid #2a3a4f;
-  color: #fff;
-  font-size: clamp(21px, 2.5vw, 29px);
-  line-height: 1.35;
-  font-weight: 850;
-}
-#mx-direct-booking-intro .mx7-receipt-note strong { color: #86d4ff; }
-#same-cruise .mx8-payment-stack { margin-top: 40px; }
-#guide-question .mx9-clia-proof {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  width: min(760px, 100%);
-  margin: 32px auto 0;
-  padding: 20px 0;
-  border-block: 1px solid #d4deea;
-}
-#guide-question .mx9-clia-proof strong {
-  color: #2468e8;
-  font-size: clamp(29px, 3.5vw, 44px);
-  font-weight: 850;
-  line-height: 1;
-}
-#guide-question .mx9-clia-proof span { color: #0b1729; font-size: 20px; font-weight: 800; }
-#guide-question .mx9-clia-proof em { color: #53657c; font-size: 15px; font-style: normal; font-weight: 700; }
-#mx-prepare-money .mx10-short-copy { color: #53657c; }
-#mx-prepare-money .mx10-short-copy strong { color: #2468e8; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 780px) {
   :root {
     --mx-story-space: 66px;
     --mx-story-title: clamp(30px, 8.7vw, 38px);
     --mx-story-bridge: clamp(38px, 10vw, 46px);
   }
-  #mx-moving-hotel,
-  #mx-port-day,
-  #mx-moving-hotel-4,
-  #impact-med,
-  #mx-direct-booking-intro,
-  #same-cruise,
-  #guide-question,
-  #mx-prepare-money,
-  #mx-cruise-price-examples,
-  #mx-lowest-price,
-  #membership-point { min-height: 0; padding-top: var(--mx-story-space); padding-bottom: var(--mx-story-space); }
-  #mx-moving-hotel h2,
-  #mx-port-day h2,
-  #mx-moving-hotel-4 h2,
-  #impact-med h2,
-  #mx-direct-booking-intro h2,
-  #same-cruise h2,
-  #guide-question h2,
-  #mx-prepare-money h2,
-  #mx-cruise-price-examples h2,
-  #mx-lowest-price h2,
-  #membership-point h2 { margin-bottom: 22px; line-height: 1.18; }
-  #same-cruise .mx8-bridge-question { margin-top: 40px; }
-  #mx-moving-hotel .membership-v3-price-next,
-  #mx-port-day .membership-v3-section05-next,
-  #mx-moving-hotel-4 .membership-v3-section06-next { margin-top: 22px; }
-  #mx-direct-booking-intro .mx7-total-proof > strong { font-size: clamp(48px, 12vw, 66px); }
-  #mx-direct-booking-intro .mx7-receipt-note { padding-top: 22px; font-size: clamp(20px, 5.5vw, 25px); }
-  #same-cruise .mx8-payment-stack { margin-top: 30px; }
-  #guide-question .mx9-member-count { font-size: clamp(58px, 17vw, 82px); }
-  #mx-lowest-price .mxg-mega { font-size: clamp(54px, 14vw, 76px); }
-  #guide-question .mx9-clia-proof { margin-top: 26px; }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 
 /* ===== ONE OWNER: MEMBERSHIP BENEFITS, TRAVEL, TERMS / 2026-11-11 ===== */
-#mx-member-booking-benefits {
-  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
-  background:#10263f; color:#fff; text-align:center;
-}
-#mx-member-booking-benefits .mx18-benefit-inner {
-  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
-}
-#mx-member-booking-benefits .mx18-benefit-title {
-  max-width:830px; margin:0 auto; color:#fff;
-  font-size:clamp(34px,4.5vw,54px); line-height:1.16;
-  letter-spacing:-.045em; font-weight:850; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-benefit-title strong { color:#9dc9ff; }
-#mx-member-booking-benefits .mx18-benefit-cards {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:stretch; gap:16px; max-width:1020px; margin:38px auto 0;
-}
-#mx-member-booking-benefits .mx18-benefit-card {
-  box-sizing:border-box; display:flex; flex-direction:column; align-items:flex-start;
-  min-width:0; min-height:185px; margin:0; padding:25px 24px;
-  border:1px solid #365373; border-radius:18px; background:#173451;
-  color:#fff; text-align:left; box-shadow:none;
-  opacity:1; transform:none; filter:none; animation:none;
-}
-#mx-member-booking-benefits .mx18-benefit-card::after { content:none; }
-#mx-member-booking-benefits .mx18-benefit-result {
-  background:#1c4070; border-color:#648dce; grid-column:auto;
-}
-#mx-member-booking-benefits .mx18-step {
-  box-sizing:border-box; display:inline-flex; align-items:center;
-  justify-content:center; min-width:36px; min-height:26px; padding:4px 9px;
-  border:1px solid #517294; border-radius:7px;
-  color:#b7d5fb; font-size:12px; font-weight:850;
-}
-#mx-member-booking-benefits .mx18-benefit-card>strong {
-  display:block; margin:22px 0 0; color:#fff;
-  font-size:clamp(21px,2vw,27px); line-height:1.22; font-weight:850;
-  letter-spacing:-.04em; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-benefit-card>p {
-  margin:9px 0 0; color:#c3d4e7; font-size:16px;
-  font-weight:500; line-height:1.5; word-break:keep-all;
-}
-#mx-member-booking-benefits .mx18-proof-strip {
-  box-sizing:border-box; grid-column:1/-1; display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr)); margin:4px 0 0;
-  border:1px solid #3e5b7a; border-radius:14px; background:#0b2036;
-  overflow:hidden; text-align:center;
-}
-#mx-member-booking-benefits .mx18-proof-strip>div {
-  min-width:0; padding:22px 12px; border-right:1px solid #3e5b7a;
-}
-#mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-right:0; }
-#mx-member-booking-benefits .mx18-proof-strip span {
-  display:block; color:#bfcede; font-size:14px; line-height:1.4; font-weight:650;
-}
-#mx-member-booking-benefits .mx18-proof-strip strong {
-  display:block; margin:8px 0 0; color:#fff;
-  font-size:clamp(22px,2.4vw,29px); font-weight:850;
-  line-height:1.15; letter-spacing:-.045em; white-space:nowrap;
-}
-#mx-member-booking-benefits .mx18-proof-strip .accent strong { color:#9dc9ff; }
-#mx-member-booking-benefits .mx18-benefit-cta {
-  box-sizing:border-box; display:flex; justify-content:center; align-items:center;
-  gap:12px; width:min(440px,100%); min-height:58px;
-  margin:30px auto 0; padding:13px 20px; border:1px solid #2468e8;
-  border-radius:12px; background:#2468e8; color:#fff;
-  font-size:17px; font-weight:800; line-height:1.3; text-decoration:none;
-  box-shadow:none; opacity:1; transform:none; animation:none;
-  transition:background-color .16s ease;
-}
-#mx-member-booking-benefits .mx18-benefit-cta::before { content:none; }
-#mx-member-booking-benefits .mx18-benefit-cta b {
-  font-size:19px; animation:none;
-}
-#mx-member-booking-benefits .mx18-benefit-cta:hover { background:#1857c4; }
-#mx-member-booking-benefits .mx18-benefit-cta:focus-visible {
-  outline:3px solid #b2d5ff; outline-offset:3px;
-}
-#mx-travel-expansion {
-  box-sizing:border-box; width:100%; margin:0; padding:86px 0 94px;
-  border:0; background:#f6f8fb; color:#142035;
-  text-align:center; overflow:hidden;
-}
-#mx-travel-expansion::before { content:none; }
-#mx-travel-expansion .mxt-inner {
-  box-sizing:border-box; width:min(1080px,calc(100% - 48px)); margin:0 auto;
-}
-#mx-travel-expansion .mxt-kicker {
-  display:inline-block; color:#2468e8; font-size:14px; font-weight:850;
-}
-#mx-travel-expansion h2 {
-  max-width:800px; margin:12px auto 0; color:#15243b;
-  font-size:clamp(34px,4.3vw,52px); font-weight:850;
-  letter-spacing:-.04em; line-height:1.16; word-break:keep-all;
-}
-#mx-travel-expansion h2 strong { color:#2468e8; }
-#mx-travel-expansion .mxt-cards {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:stretch; gap:16px; width:100%;
-  margin:34px auto 0; padding:0; overflow:visible;
-}
-#mx-travel-expansion .mxt-card {
-  box-sizing:border-box; position:relative; display:flex; flex-direction:column;
-  align-items:flex-start; min-width:0; min-height:172px;
-  margin:0; padding:23px; border:1px solid #dce4ee;
-  border-radius:18px; background:#fff; color:#15243b;
-  text-align:left; box-shadow:none; opacity:1; transform:none;
-  filter:none; animation:none;
-}
-#mx-travel-expansion .mxt-card::after { content:none; }
-#mx-travel-expansion .mxt-num,
-#mx-travel-expansion .mxt-guarantee {
-  display:inline-flex; align-items:center; justify-content:center;
-  min-height:25px; padding:5px 9px; border-radius:7px;
-  background:#e9f0fc; color:#2468e8; font-size:12px;
-  line-height:1.15; font-weight:800; box-shadow:none;
-}
-#mx-travel-expansion .mxt-guarantee { margin-left:8px; }
-#mx-travel-expansion .mxt-card strong {
-  display:block; margin:20px 0 0; color:#15243b;
-  font-size:26px; font-weight:850; letter-spacing:-.04em; line-height:1.2;
-}
-#mx-travel-expansion .mxt-card p {
-  margin:9px 0 0; color:#667990; font-size:15px;
-  line-height:1.5; word-break:keep-all;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Refund / cancellation / commitment facts are a compact part of the plans. */
 #plans #mx-membership-freedom {
   box-sizing:border-box; width:100%; min-height:0;
@@ -4844,139 +4153,37 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   text-align:center; opacity:1; transform:none; word-break:keep-all;
 }
 /* Six conditions remain fully readable without opening an accordion. */
-#membership-terms {
-  box-sizing:border-box; width:100%; padding:84px 0 100px;
-  scroll-margin-top:82px;
-  background:#0d1c30; color:#fff; text-align:center;
-}
-#membership-terms .mx21-inner { width:min(1040px,calc(100% - 48px)); margin:0 auto; }
-#membership-terms .mx21-kicker {
-  display:inline-block; margin:0 0 12px;
-  color:#abcdf6; font-size:14px; font-weight:800;
-}
-#membership-terms .mx21-title {
-  margin:0 auto; color:#fff; font-size:clamp(32px,4.3vw,52px);
-  line-height:1.17; letter-spacing:-.045em; font-weight:850;
-}
-#membership-terms .mx21-title strong { color:#a5ccff; }
-#membership-terms .mx21-terms {
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  align-items:stretch; gap:12px; width:100%;
-  margin:32px auto 0; padding:0; border:0;
-}
-#membership-terms .mx21-term-card {
-  box-sizing:border-box; display:flex; align-items:flex-start; gap:15px;
-  min-width:0; min-height:132px; margin:0; padding:22px;
-  border:1px solid #314761; border-radius:14px;
-  background:#152a42; text-align:left;
-}
-#membership-terms .mx21-term-num {
-  flex:0 0 29px; color:#93bbf6; font-size:14px;
-  font-weight:850; line-height:1.5;
-}
-#membership-terms .mx21-term-copy { min-width:0; }
-#membership-terms .mx21-term-copy h3 {
-  margin:0; color:#fff; font-size:19px; font-weight:850; line-height:1.35;
-}
-#membership-terms .mx21-term-copy p {
-  margin:9px 0 0; color:#c2d2e4; font-size:15px;
-  font-weight:500; line-height:1.55; word-break:keep-all;
-}
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width:780px) {
-  #mx-member-booking-benefits {
-  padding:54px 0 60px; }
-  #mx-member-booking-benefits .mx18-benefit-inner,
-  #mx-travel-expansion .mxt-inner,
-  #membership-terms .mx21-inner { width:calc(100% - 32px); }
-  #mx-member-booking-benefits .mx18-benefit-title,
-  #mx-travel-expansion h2 {
-  font-size:clamp(29px,7.9vw,36px); 
-  line-height:1.2;}
-  #mx-member-booking-benefits .mx18-benefit-cards {
-    grid-template-columns:minmax(0,1fr);
-  gap:8px;
-  margin-top:24px;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card,
-  #mx-member-booking-benefits .mx18-benefit-result {
-  min-height:100px;
-  padding:16px 15px;
-  border-radius:13px;
   
-  display:grid;
-  grid-template-columns:52px minmax(0,1fr);
-  grid-template-rows:auto auto;
-  align-content:center;
-  align-items:center;
-  column-gap:11px;
-  row-gap:4px;}
-  #mx-member-booking-benefits .mx18-step {
-    grid-column:1;
-    grid-row:1/3;
-    justify-self:start;
-    align-self:center;
-    min-width:42px;
-    padding:5px 6px;
-    font-size:11px;
-  }
-  #mx-member-booking-benefits .mx18-benefit-card>strong {
-    margin-top:16px;
-  font-size:20px;
   
-  grid-column:2;
-  grid-row:1;
-  margin:0;
-  line-height:1.25;}
-  #mx-member-booking-benefits .mx18-benefit-card>p {
-  font-size:14px; 
-  grid-column:2;
-  grid-row:2;
-  margin:0;
-  line-height:1.45;}
-  #mx-member-booking-benefits .mx18-proof-strip {
-    grid-template-columns:minmax(0,1fr); margin-top:4px;
-  }
-  #mx-member-booking-benefits .mx18-proof-strip>div {
-    display:flex; align-items:center; justify-content:space-between;
-    min-width:0;
-  gap:10px;
-  padding:12px 14px; border-right:0;
-    border-bottom:1px solid #3e5b7a; text-align:left;
-  }
-  #mx-member-booking-benefits .mx18-proof-strip>div:last-child { border-bottom:0; }
-  #mx-member-booking-benefits .mx18-proof-strip span { font-size:14px; }
-  #mx-member-booking-benefits .mx18-proof-strip strong {
-    min-width:0; margin:0;
-    font-size:clamp(18px,5.3vw,23px);
-    letter-spacing:-.035em;
-    font-variant-numeric:tabular-nums;
-    text-align:right;
-  }
-  #mx-member-booking-benefits .mx18-benefit-cta {
-    min-height:56px; margin-top:24px; font-size:16px;
-  }
-  #mx-travel-expansion {
-  padding:54px 0 60px; }
-  #mx-travel-expansion .mxt-cards {
-    grid-template-columns:minmax(0,1fr);
-  gap:8px;
-  margin-top:23px;
-  }
-  #mx-travel-expansion .mxt-card {
-  min-height:0;
-  padding:16px 18px;
-  border-radius:13px; scroll-snap-align:none;
-  }
-  #mx-travel-expansion .mxt-card strong {
-  margin-top:12px;
-  font-size:21px;
-  line-height:1.3;
-  }
-  #mx-travel-expansion .mxt-card p {
-    margin-top:6px;
-    font-size:14px;
-    line-height:1.5;
-  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #plans #mx-membership-freedom {
     margin-top:30px; margin-bottom:0;
     padding-top:24px; padding-bottom:0;
@@ -5008,32 +4215,13 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
     margin-top:14px; text-align:left;
     font-size:14px; line-height:1.6;
   }
-  #membership-terms {
-  padding:54px 0 62px; }
-  #membership-terms .mx21-title {
-  font-size:clamp(30px,7.8vw,37px); }
-  #membership-terms .mx21-terms {
-    grid-template-columns:minmax(0,1fr);
-  gap:8px;
-  margin-top:20px;
-  }
-  #membership-terms .mx21-term-card {
-  min-height:0;
-  padding:14px 15px;
-  gap:11px;
-  border-radius:11px;
-  }
-  #membership-terms .mx21-term-num {
-    flex-basis:24px; font-size:14px; line-height:1.35;
-  }
-  #membership-terms .mx21-term-copy h3 {
-    font-size:18px; line-height:1.35;
-  }
-  #membership-terms .mx21-term-copy p {
-  margin-top:5px;
-  font-size:14px;
-  line-height:1.5;
-  }
+  
+  
+  
+  
+  
+  
+  
 }
 @media (max-width:359px) {
   #plans .plan-card,
@@ -5042,11 +4230,303 @@ body { padding-bottom: calc(94px + env(safe-area-inset-bottom)); }
   #plans .mx-plan-pair-item strong { font-size:19px; }
   #plans .mx-plan-arrow { font-size:18px; }
   #calculator .result-box strong { font-size:22px; }
-  #mx-member-booking-benefits .mx18-proof-strip strong { font-size:18px; }
+  
 }
 @media (prefers-reduced-motion:reduce) {
-  #mx-member-booking-benefits .mx18-benefit-cta { transition:none; 
-  min-height:52px;
-  margin-top:22px;
-  font-size:15px;}
+  
 }
+
+
+/* ===== MEMBERSHIP STORY — PARTNER SCENE OWNER =====
+   Common HTML: membership-story impact-section impact-{tone} > partner-container impact-content.
+   Partner v8/v9/v10: 82svh, 108px, 1180px container, 88px / mobile 34–50px title.
+   Calculator, plan cards, reassurance, hero and review remain separate owners. */
+.membership-story{
+  --scene-ink:#0b1524;
+  --scene-muted:#4f6178;
+  --scene-accent:#2f73ff;
+  --scene-line:rgba(11,21,36,.16);
+  --scene-title:clamp(44px,6.2vw,88px);
+  --scene-copy:clamp(18px,2vw,24px);
+  box-sizing:border-box;
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:82svh;
+  margin:0;
+  padding:108px 0;
+  border:0;
+  border-radius:0;
+  color:var(--scene-ink);
+  text-align:center;
+  overflow-x:clip;
+}
+.membership-story.impact-light{background:linear-gradient(180deg,#fff 0%,#f4f8ff 100%)}
+.membership-story.impact-paper{background:linear-gradient(135deg,#edf4ff 0%,#f8f4ff 100%)}
+.membership-story.impact-dark{
+  --scene-ink:#fff;--scene-muted:rgba(255,255,255,.82);--scene-accent:#85d2ff;
+  --scene-line:rgba(255,255,255,.23);
+  background:linear-gradient(145deg,#07111f 0%,#13274d 58%,#251b50 100%);
+}
+.membership-story.impact-blue{
+  --scene-ink:#fff;--scene-muted:rgba(255,255,255,.86);--scene-accent:#fff;
+  --scene-line:rgba(255,255,255,.35);
+  background:linear-gradient(135deg,#245fe8 0%,#654fe9 100%);
+}
+.membership-story>.impact-content{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:min(calc(100% - 40px),1180px);
+  max-width:1180px;
+  min-width:0;
+  margin:0 auto;
+  padding:0;
+  text-align:center;
+}
+.membership-story :is(.mxp-head,.mx4-head,.mxt-head){width:100%;margin:0;padding:0}
+.membership-story h2{
+  box-sizing:border-box;
+  width:100%;
+  max-width:1040px;
+  margin:0 auto;
+  padding:0;
+  color:var(--scene-ink);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:var(--scene-title);
+  line-height:1.08;
+  letter-spacing:-.058em;
+  font-weight:950;
+  text-align:center;
+  text-wrap:balance;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+.membership-story h2 strong{
+  display:inline;
+  color:var(--scene-accent);
+  font-size:inherit;
+  font-weight:inherit;
+  letter-spacing:inherit;
+}
+.membership-story.impact-light h2 strong,.membership-story.impact-paper h2 strong{
+  background:linear-gradient(90deg,#2f73ff 0%,#705cff 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.membership-story.impact-dark h2 strong{
+  background:linear-gradient(90deg,#85d2ff 0%,#c2adff 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.membership-story p{
+  max-width:760px;
+  margin:22px auto 0;
+  color:var(--scene-muted);
+  font-size:var(--scene-copy);
+  line-height:1.65;
+  font-weight:760;
+  word-break:keep-all;
+}
+.membership-story :is(.mx6-context,.mx10p-note,.mxg-note,.mx14-total-note){
+  font-size:15px;font-weight:650;line-height:1.5;
+}
+.membership-story :is(.membership-v3-price-facts,.mxp-flow,.membership-v3-criteria-grid,.impact-med-cycle,.mx16-media-slider){
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:12px 18px;width:min(1040px,100%);margin:38px auto 0;
+  color:var(--scene-ink);
+  font-size:clamp(18px,2.2vw,28px);font-weight:850;line-height:1.4;
+}
+.membership-story .membership-v3-price-facts i,.membership-story .impact-med-cycle i{font-style:normal;opacity:.55}
+.membership-story :is(.mxp-step,.membership-v3-criterion,.mx16-media-slider>span){
+  display:flex;align-items:center;justify-content:center;
+  min-width:0;margin:0;padding:12px 17px;
+  background:transparent;border:0;border-radius:0;box-shadow:none;
+  color:var(--scene-ink);
+}
+.membership-story :is(.mxp-step,.membership-v3-criterion)>strong{font-size:inherit;font-weight:900;line-height:1.3;word-break:keep-all}
+.membership-story .mxp-step+.mxp-step{border-left:1px solid var(--scene-line)}
+.membership-story .membership-v3-ingroup strong{color:var(--scene-accent)}
+.membership-story .membership-v3-criteria-grid{gap:8px 20px;border-block:1px solid var(--scene-line);padding:18px 0}
+.membership-story .impact-med-route{
+  width:min(900px,100%);margin:34px auto 0;border-top:1px solid var(--scene-line);
+}
+.membership-story .impact-med-stop{
+  display:grid;grid-template-columns:92px minmax(0,1fr) minmax(100px,1fr);
+  align-items:center;gap:14px;padding:15px 4px;
+  border-bottom:1px solid var(--scene-line);text-align:left;
+}
+.membership-story .impact-med-stop b{font-size:14px;color:var(--scene-accent)}
+.membership-story .impact-med-stop strong{font-size:clamp(18px,2vw,25px);font-weight:850;word-break:keep-all}
+.membership-story .impact-med-stop span{font-size:15px;color:var(--scene-muted);text-align:right}
+.membership-story :is(.impact-med-line,.impact-med-glow){display:none}
+.membership-story :is(.mx6-price-amount,.mx9-member-count,.mxg-mega,.mx14-total-value){
+  display:block;width:100%;margin:32px auto 0;color:var(--scene-accent);
+  font-size:clamp(64px,9vw,120px);font-weight:950;line-height:1.06;
+  letter-spacing:-.07em;font-variant-numeric:tabular-nums;overflow-wrap:break-word;
+}
+.membership-story .mx9-prefix{margin:0;font-size:clamp(18px,2vw,24px)}
+.membership-story .mx9-member-count{margin:10px auto 12px}
+.membership-story .mx7-receipt-proof{
+  width:min(840px,100%);margin:40px auto 0;border-block:1px solid var(--scene-line);
+}
+.membership-story .mx7-receipt-top{padding:22px 8px;border-bottom:1px solid var(--scene-line)}
+.membership-story .mx7-receipt-top strong{display:block;font-size:clamp(22px,2.5vw,32px);font-weight:900}
+.membership-story .mx7-receipt-top span,.membership-story .mx7-total-proof :is(span,small){
+  display:block;margin-top:8px;color:var(--scene-muted);font-size:16px;line-height:1.5;word-break:keep-all;
+}
+.membership-story .mx7-total-proof{padding:24px 6px}
+.membership-story .mx7-total-proof strong{
+  display:block;color:var(--scene-accent);font-size:clamp(56px,8vw,100px);
+  line-height:1.1;font-weight:950;letter-spacing:-.06em;font-variant-numeric:tabular-nums;
+}
+.membership-story :is(.mx8-payment-stack,.mx13-simple-list,.mxp13-ledger){
+  display:grid;width:min(840px,100%);margin:38px auto 0;border-top:1px solid var(--scene-line);
+}
+.membership-story :is(.mx8-payment-line,.mx13-simple-row,.mxp13-ledger>div){
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;gap:16px;padding:22px 6px;border-bottom:1px solid var(--scene-line);text-align:left;
+}
+.membership-story :is(.mx8-payment-line,.mx13-simple-row,.mxp13-ledger>div)>span{
+  color:var(--scene-muted);font-size:clamp(16px,1.8vw,22px);font-weight:750;word-break:keep-all;
+}
+.membership-story :is(.mx8-payment-line,.mx13-simple-row,.mxp13-ledger>div)>strong{
+  color:var(--scene-accent);font-size:clamp(28px,4vw,54px);font-weight:950;
+  line-height:1.1;letter-spacing:-.05em;font-variant-numeric:tabular-nums;
+}
+.membership-story .mx9-clia-proof{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 18px;
+  width:min(760px,100%);padding:18px 4px;margin:36px auto 0;border-block:1px solid var(--scene-line);
+}
+.membership-story .mx9-clia-proof strong{color:var(--scene-accent);font-size:clamp(29px,3.5vw,44px);font-weight:950}
+.membership-story .mx9-clia-proof span{font-size:20px;font-weight:850}
+.membership-story .mx9-clia-proof em{font-size:15px;color:var(--scene-muted);font-style:normal}
+.membership-story .mx10-short-copy strong{color:var(--scene-ink)}
+.membership-story :is(.mx10p-price-grid,.mx15-proof-gallery){
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:start;
+  gap:18px;width:100%;margin:40px auto 0;padding:0;
+}
+.membership-story :is(.mx10p-price-item,.mx15-proof-shot){
+  min-width:0;margin:0;padding:0;background:transparent;border:0;box-shadow:none;
+  opacity:1;transform:none;filter:none;
+}
+.membership-story :is(.mx10p-photo,.mx15-proof-shot){
+  display:block;overflow:hidden;border-radius:18px;background:rgba(11,21,36,.04);
+}
+.membership-story :is(.mx10p-photo,.mx15-proof-shot) img{
+  display:block;width:100%;height:auto;max-width:100%;object-fit:contain;
+}
+.membership-story .mx10p-price-item>strong{display:block;color:var(--scene-accent);font-size:24px}
+.membership-story .mxg-mega{margin-top:35px}
+.membership-story .mxg-criteria{font-weight:850;color:var(--scene-ink)}
+.membership-story .mxg-copy strong{color:var(--scene-accent)}
+.membership-story .mx13-double{margin:26px auto 0;padding:0;background:transparent}
+.membership-story .mx13-double strong{
+  display:block;color:var(--scene-accent);
+  font-size:clamp(108px,18vw,220px);font-weight:950;line-height:1;letter-spacing:-.075em;
+}
+.membership-story .mx14-equation{
+  display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);align-items:center;gap:16px;
+  width:min(1000px,100%);margin:40px auto 0;border-block:1px solid var(--scene-line);padding:28px 0;
+}
+.membership-story .mx14-equation>div{min-width:0;display:grid;gap:12px}
+.membership-story .mx14-equation span{color:var(--scene-muted);font-size:clamp(15px,1.7vw,20px);font-weight:750}
+.membership-story .mx14-equation strong{color:var(--scene-accent);font-size:clamp(30px,4.4vw,60px);font-weight:950;line-height:1.1;letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+.membership-story .mx14-equation i{color:var(--scene-accent);font-size:34px;font-style:normal;font-weight:850}
+.membership-story :is(.mx15-answer,.mx16-answer){
+  margin:25px auto 0;color:var(--scene-accent);
+  font-size:clamp(28px,3.3vw,46px);line-height:1.2;font-weight:950;word-break:keep-all;
+}
+.membership-story .mx16-media-slider{border-block:1px solid var(--scene-line);padding:16px 0}
+.membership-story .mx16-media-slider>span+span{border-left:1px solid var(--scene-line)}
+.membership-story :is(.mx18-benefit-cards,.mxt-cards){
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  width:min(1040px,100%);margin:42px auto 0;
+}
+.membership-story :is(.mx18-benefit-card,.mxt-card){
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;
+  min-width:0;margin:0;padding:22px 15px;border:0;border-radius:0;background:transparent;
+  box-shadow:none;opacity:1;transform:none;filter:none;text-align:center;
+}
+.membership-story :is(.mx18-benefit-card,.mxt-card)+:is(.mx18-benefit-card,.mxt-card){border-left:1px solid var(--scene-line)}
+.membership-story :is(.mx18-benefit-card,.mxt-card)>strong{
+  color:var(--scene-ink);font-size:clamp(21px,2.35vw,32px);font-weight:950;line-height:1.25;word-break:keep-all;
+}
+.membership-story :is(.mx18-benefit-card,.mxt-card)>p{margin:0;color:var(--scene-muted);font-size:16px;line-height:1.5;font-weight:650}
+.membership-story .mx18-proof-strip{
+  grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;
+  margin:26px 0 0;border-block:1px solid var(--scene-line);
+}
+.membership-story .mx18-proof-strip>div{padding:18px 8px;min-width:0}
+.membership-story .mx18-proof-strip>div+div{border-left:1px solid var(--scene-line)}
+.membership-story .mx18-proof-strip span{display:block;color:var(--scene-muted);font-size:15px;font-weight:750}
+.membership-story .mx18-proof-strip strong{display:block;margin-top:7px;color:var(--scene-ink);font-size:clamp(22px,2.6vw,36px);font-weight:950;line-height:1.15;letter-spacing:-.04em;white-space:nowrap}
+.membership-story .mx18-benefit-cta{
+  display:inline-flex;justify-content:center;align-items:center;gap:12px;
+  min-height:60px;max-width:100%;margin:38px auto 0;padding:0 28px;border-radius:999px;
+  background:#fff;color:#07111f;box-shadow:0 18px 50px rgba(4,12,28,.22);
+  font-size:16px;font-weight:950;text-decoration:none;transition:transform .25s;
+}
+.membership-story .mx18-benefit-cta:hover{transform:translateY(-3px)}
+.membership-story .mxt-guarantee{font-size:15px;font-weight:850;color:var(--scene-accent)}
+.membership-story .mx21-terms{
+  display:grid;width:min(900px,100%);margin:42px auto 0;border-top:1px solid var(--scene-line);
+}
+.membership-story .mx21-term-card{
+  display:flex;align-items:flex-start;gap:20px;padding:22px 4px;
+  border:0;border-bottom:1px solid var(--scene-line);border-radius:0;background:transparent;text-align:left;
+}
+.membership-story .mx21-term-num{flex:0 0 30px;padding-top:3px;color:var(--scene-accent);font-size:17px;font-weight:900}
+.membership-story .mx21-term-copy{min-width:0}
+.membership-story .mx21-term-copy h3{margin:0;color:var(--scene-ink);font-size:clamp(19px,2vw,24px);font-weight:900;line-height:1.3}
+.membership-story .mx21-term-copy p{margin:7px 0 0;color:var(--scene-muted);font-size:16px;font-weight:650;line-height:1.55}
+.membership-story a:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:960px){
+  .membership-story h2{max-width:820px}
+  .membership-story{min-height:auto;padding:88px 0}
+}
+@media(max-width:700px){
+  .membership-story{--scene-title:clamp(34px,10.7vw,50px);--scene-copy:17px;min-height:auto;padding:88px 0}
+  .membership-story>.impact-content{width:calc(100% - 30px)}
+  .membership-story h2{line-height:1.12;letter-spacing:-.05em}
+  .membership-story p{line-height:1.58}
+  .membership-story :is(.membership-v3-price-facts,.mxp-flow,.membership-v3-criteria-grid,.impact-med-cycle,.mx16-media-slider){gap:8px 12px;margin-top:30px;font-size:18px}
+  .membership-story :is(.mxp-step,.membership-v3-criterion,.mx16-media-slider>span){padding:10px 8px}
+  .membership-story .mxp-step+.mxp-step,.membership-story .mx16-media-slider>span+span{border-left:0}
+  .membership-story .membership-v3-criteria-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:12px 0;gap:4px}
+  .membership-story .impact-med-route{margin-top:28px}
+  .membership-story .impact-med-stop{grid-template-columns:60px minmax(0,1fr);gap:5px 12px;padding:12px 2px}
+  .membership-story .impact-med-stop span{grid-column:2;text-align:left;font-size:13px}
+  .membership-story :is(.mx6-price-amount,.mx9-member-count,.mxg-mega,.mx14-total-value){font-size:clamp(48px,13.8vw,72px);margin-top:26px;letter-spacing:-.06em}
+  .membership-story .mx9-member-count{margin:8px auto 10px}
+  .membership-story .mx7-receipt-proof{margin-top:28px}
+  .membership-story .mx7-total-proof strong{font-size:clamp(42px,12vw,68px)}
+  .membership-story :is(.mx8-payment-stack,.mx13-simple-list,.mxp13-ledger){margin-top:30px}
+  .membership-story :is(.mx8-payment-line,.mx13-simple-row,.mxp13-ledger>div){grid-template-columns:minmax(0,1fr);gap:8px;text-align:center;padding:18px 0}
+  .membership-story :is(.mx8-payment-line,.mx13-simple-row,.mxp13-ledger>div)>strong{font-size:clamp(32px,9.4vw,44px)}
+  .membership-story :is(.mx10p-price-grid,.mx15-proof-gallery){
+    display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(76vw,320px);
+    gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;
+    width:100%;min-width:0;margin-top:32px;padding:0 0 12px;
+  }
+  .membership-story :is(.mx10p-price-item,.mx15-proof-shot){scroll-snap-align:start}
+  .membership-story :is(.mx10p-photo,.mx15-proof-shot){border-radius:16px}
+  .membership-story .mx13-double strong{font-size:clamp(92px,30vw,150px)}
+  .membership-story .mx14-equation{grid-template-columns:1fr;gap:14px;padding:20px 0;margin-top:30px}
+  .membership-story .mx14-equation strong{font-size:clamp(35px,10vw,48px)}
+  .membership-story :is(.mx18-benefit-cards,.mxt-cards){grid-template-columns:minmax(0,1fr);margin-top:28px}
+  .membership-story :is(.mx18-benefit-card,.mxt-card){padding:17px 6px;gap:6px}
+  .membership-story :is(.mx18-benefit-card,.mxt-card)+:is(.mx18-benefit-card,.mxt-card){border-left:0;border-top:1px solid var(--scene-line)}
+  .membership-story .mx18-proof-strip{grid-template-columns:1fr;margin-top:17px}
+  .membership-story .mx18-proof-strip>div{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 5px;text-align:left}
+  .membership-story .mx18-proof-strip>div+div{border-left:0;border-top:1px solid var(--scene-line)}
+  .membership-story .mx18-proof-strip strong{margin:0;font-size:clamp(18px,5.8vw,25px)}
+  .membership-story .mx18-proof-strip span{font-size:14px}
+  .membership-story .mx21-terms{margin-top:28px}
+  .membership-story .mx21-term-card{gap:11px;padding:18px 0}
+  .membership-story .mx21-term-copy p{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.membership-story .mx18-benefit-cta{transition:none}}

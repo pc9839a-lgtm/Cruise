@@ -19,12 +19,12 @@
     if (!section) {
       section = document.createElement('section');
       section.id = 'impact-med';
-      section.className = 'impact-section impact-med';
+      section.className = 'impact-section impact-med membership-story impact-dark';
     }
 
     section.innerHTML = `
       <div class="impact-med-glow" aria-hidden="true"></div>
-      <div class="impact-inner">
+      <div class="impact-inner partner-container impact-content">
         <h2 class="impact-title light">7박 동안<br><strong>이렇게 도시를 옮겨갑니다</strong></h2>
 
         <div class="impact-med-cycle" aria-label="크루즈 여행 방식">

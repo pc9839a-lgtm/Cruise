@@ -16,8 +16,8 @@
     installSection6Styles();
 
     section3.insertAdjacentHTML('afterend', `
-      <section id="mx-moving-hotel-4" class="mx4-section membership-v3-compare-criteria" data-membership-section="06" aria-labelledby="mx4-title">
-        <div class="mx4-inner">
+      <section id="mx-moving-hotel-4" class="mx4-section membership-v3-compare-criteria membership-story impact-section impact-blue" data-membership-section="06" aria-labelledby="mx4-title">
+        <div class="mx4-inner partner-container impact-content">
           <div class="mx4-head">
             <h2 id="mx4-title">비교할 건<br><strong>딱 4가지입니다</strong></h2>
           </div>

@@ -11,10 +11,10 @@
     if (cost) cost.remove();
     if (savings) savings.remove();
 
-    section9.className = 'mx9-club-section';
+    section9.className = 'mx9-club-section membership-story impact-section impact-paper';
     section9.setAttribute('data-membership-section', '9');
     section9.innerHTML = `
-      <div class="mx11-inner">
+      <div class="mx11-inner partner-container impact-content">
         <p class="mx9-prefix">전 세계 약</p>
         <div class="mx9-member-count">350만 명</div>
         <h2 class="mx9-title">이 이용하는<br><strong>회원제 크루즈클럽</strong></h2>
