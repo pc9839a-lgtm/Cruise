@@ -32,6 +32,7 @@ jobs:
           const { chromium } = require('playwright');
           (async () => {
             const browser = await chromium.launch({ headless: true, args:['--no-sandbox'] });
+            let failed = false;
             for (const width of [320, 375, 390, 1440]) {
               const context = await browser.newContext({viewport:{width,height:850},deviceScaleFactor:1});
               const page = await context.newPage();
@@ -39,7 +40,13 @@ jobs:
               page.on('pageerror', err => errors.push(err.message.slice(0,240)));
               page.on('console', msg => { if(msg.type()==='error')errors.push(msg.text().slice(0,240)); });
               try {
-                const response = await page.goto(process.env.SITE+'?audit='+process.env.GITHUB_SHA,{waitUntil:'domcontentloaded',timeout:55000});
+                let response;
+                for (let attempt=0;attempt<20;attempt++) {
+                  response=await page.goto(process.env.SITE+'?audit='+process.env.GITHUB_SHA+'&attempt='+attempt,{waitUntil:'domcontentloaded',timeout:55000});
+                  if(await page.locator('link[href*="membership-unified.css?v=20261125-partner-scenes-v1"]').count())break;
+                  if(attempt===19)throw new Error('Production still has a different CSS version');
+                  await page.waitForTimeout(4000);
+                }
                 await page.waitForTimeout(6500);
                 const diagnostic = await page.evaluate(() => {
                   const selectors = ['#cms-survey-v2','.hero-section','.review-flow-section',
@@ -130,6 +137,52 @@ jobs:
                     earlyOk:early.points==='6,000P'&&early.card==='$0'&&early.total==='$3,000'&&early.selected==='true'};
                 });
                 console.log('MEMBERSHIP_DEEP_AUDIT '+JSON.stringify({width,extended,controls}));
+                const partner=await context.newPage();
+                try {
+                  await partner.goto('https://cruiseplay-dyt.pages.dev/partner/',{waitUntil:'domcontentloaded',timeout:55000});
+                  await partner.evaluate(()=>document.fonts.ready);
+                  const reference=await partner.evaluate(()=>{
+                    const s=document.querySelector('.impact-section:not(.impact-full)');
+                    const h=s?.querySelector('.impact-content h2');
+                    if(!s||!h)throw new Error('Partner reference section missing');
+                    const a=getComputedStyle(s),b=getComputedStyle(h);
+                    return {font:b.fontSize,line:b.lineHeight,weight:b.fontWeight,padding:a.paddingTop,minHeight:a.minHeight};
+                  });
+                  const comparison=await page.evaluate(()=>{
+                    const scenes=[...document.querySelectorAll('main > section.membership-story')];
+                    const forbidden=['같은 여행, 다른 예약 방법','판매가보다 총비용을 봅니다.','이제 실제 예약 한 건으로 확인합니다.','MONTHLY POINT'];
+                    const expected=['mx-moving-hotel','mx-port-day','mx-moving-hotel-4','impact-med','price-pain','mx-direct-booking-intro','same-cruise','guide-question','mx-prepare-money','mx-cruise-price-examples','mx-lowest-price','membership-point','mx-point-example','mx-actual-cash','mx-actual-cash-total','mx-booking-proof','mx-guide-assist','mx-member-booking-benefits','mx-travel-expansion','membership-terms'];
+                    return {
+                      count:scenes.length,expected:expected.every(id=>scenes.some(s=>s.id===id)),
+                      firstTwoProtected:!document.querySelector('.hero-section.membership-story,.review-flow-section.membership-story'),
+                      firstTwo:[...document.querySelectorAll('main > section')].slice(0,2).map(s=>Math.round(s.getBoundingClientRect().height)),
+                      captions:scenes.filter(s=>s.querySelector('[class*="kicker"],[class*="eyebrow"],[class*="overline"],.impact-label')).map(s=>s.id),
+                      forbidden:forbidden.filter(t=>scenes.some(s=>s.innerText.includes(t))),
+                      metrics:scenes.map(s=>{
+                        const h=s.querySelector('h2'),a=getComputedStyle(s),b=h&&getComputedStyle(h);
+                        return {id:s.id,commonInner:!!s.querySelector(':scope > .partner-container.impact-content'),
+                          font:b?.fontSize,line:b?.lineHeight,weight:b?.fontWeight,padding:a.paddingTop,minHeight:a.minHeight,
+                          headingOverflow:!!h&&h.scrollWidth>h.clientWidth+4};
+                      })
+                    };
+                  });
+                  const near=(a,b)=>Math.abs(parseFloat(a)-parseFloat(b))<1;
+                  const match=comparison.metrics.every(s=>s.commonInner&&near(s.font,reference.font)&&near(s.line,reference.line)&&s.weight===reference.weight&&near(s.padding,reference.padding)&&!s.headingOverflow);
+                  const ok=comparison.count===20&&comparison.expected&&comparison.firstTwoProtected&&!comparison.captions.length&&!comparison.forbidden.length&&match&&controls.regularOk&&controls.earlyOk&&!diagnostic.horizontalOverflow&&diagnostic.membershipCards===2&&errors.length===0;
+                  console.log('MEMBERSHIP_PARTNER_PARITY '+JSON.stringify({width,reference,comparison,match,ok}));
+                  if(!ok)failed=true;
+                  if(width===390||width===1440){
+                    const s=partner.locator('.impact-section:not(.impact-full)').first();
+                    await s.scrollIntoViewIfNeeded();
+                    await partner.waitForTimeout(1100);
+                    await partner.screenshot({path:'membership-'+width+'-partner-reference.png',timeout:25000});
+                    for(const [label,sel] of [['intro','#mx-moving-hotel'],['methods','#mx-port-day'],['criteria','#mx-moving-hotel-4'],['points','#membership-point']]){
+                      await page.locator(sel).scrollIntoViewIfNeeded();
+                      await page.waitForTimeout(500);
+                      await page.screenshot({path:'membership-'+width+'-'+label+'.png',timeout:25000});
+                    }
+                  }
+                } finally { await partner.close(); }
                 const surveyScript = await page.locator('script[src*="membership-entry-survey-v2.js"]').first().getAttribute('src').catch(() => null);
                 const liveScriptText = await page.evaluate(async () => {
                   const script = document.querySelector('script[src*="membership-entry-survey-v2.js"]');
@@ -144,7 +197,7 @@ jobs:
                     const resp=await fetch(url,{cache:'no-store'});
                     const code=await resp.text();
                     return {url,status:resp.status,length:code.length,
-                      canonicalOwnerPresent:code.includes('06 — PRICE BRIDGE: canonical responsive styles'),
+                      canonicalOwnerPresent:code.includes('MEMBERSHIP STORY — PARTNER SCENE OWNER'),
                       previousOwnerPresent:code.includes('06 — PRICE BRIDGE */')};
                   } catch(e) {return {url,error:String(e)};}
                 });
@@ -203,11 +256,13 @@ jobs:
                   }
                 }
               } catch(e) {
+                failed=true;
                 console.log('MEMBERSHIP_LAYOUT_ERROR '+JSON.stringify({width,error:String(e),errors}));
               }
               await context.close();
             }
             await browser.close();
+            if(failed)process.exitCode=1;
           })().catch(err => {console.error(err);process.exitCode=1});
           EOF
       - uses: actions/upload-artifact@v4
